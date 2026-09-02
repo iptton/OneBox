@@ -61,7 +61,10 @@ class IChingInterpretationService @Inject constructor(
         }.joinToString("；")
         val changedText = result.changed?.let {
             val changed = textLibrary.hexagram(it.number)
-            "变卦:第${it.number}卦 ${changed.name}"
+            buildString {
+                append("变卦:第${it.number}卦 ${changed.name}")
+                if (changed.judgment.isNotBlank()) append("(卦辞:${changed.judgment})")
+            }
         } ?: "无动爻,以本卦卦辞为准"
         return buildString {
             appendLine("所问:${result.question.ifBlank { "未指定具体事项" }}")
@@ -82,7 +85,10 @@ class IChingInterpretationService @Inject constructor(
         }.joinToString("; ")
         val changedText = result.changed?.let {
             val changed = textLibrary.hexagram(it.number)
-            "Changed hexagram: #${it.number} ${changed.name}"
+            buildString {
+                append("Changed hexagram: #${it.number} ${changed.name}")
+                if (changed.judgment.isNotBlank()) append(" (judgment: ${changed.judgment})")
+            }
         } ?: "No changing lines; read the judgment of the primary hexagram"
         return buildString {
             appendLine("Question: ${result.question.ifBlank { "Not specified" }}")

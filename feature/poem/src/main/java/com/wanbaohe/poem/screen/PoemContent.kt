@@ -18,25 +18,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.halilibo.richtext.commonmark.CommonMarkdownParseOptions
-import com.halilibo.richtext.markdown.BasicMarkdown
-import com.halilibo.richtext.markwon.MarkdownAstNodeParser
-import com.halilibo.richtext.ui.material3.RichText
-import com.shifenmiao.model.node.AstNode
+import com.shifenmiao.base.ui.StreamingMarkdownContent
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAutoStories
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFavorite
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMagic
@@ -49,8 +42,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.ReasoningCollapseSection
 import com.wanbaohe.poem.R
 import com.wanbaohe.poem.model.Poem
 import com.wanbaohe.poem.model.parsePinyinLines
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /** 诗词卡片:标题 / 朝代 · 作者 / 逐字拼音田字格 */
 @Composable
@@ -332,7 +323,7 @@ internal fun PoemAiSection(
                 }
 
                 !content.isNullOrBlank() -> {
-                    PoemMarkdownText(content = content, color = contentColor)
+                    StreamingMarkdownContent(content = content, contentColor = contentColor)
                     if (error != null) {
                         Text(
                             text = error,
@@ -377,34 +368,6 @@ internal fun PoemAiSection(
                 }
             }
         }
-    }
-}
-
-/** Markdown 渲染(诗意解读/现代翻译):解析挂默认调度器,解析中/失败回落纯文本(绝不留白) */
-@Composable
-private fun PoemMarkdownText(content: String, color: Color) {
-    val context = LocalContext.current
-    val parser = remember { MarkdownAstNodeParser(context, CommonMarkdownParseOptions.Default) }
-    val ast by produceState<AstNode?>(initialValue = null, parser, content) {
-        value = withContext(Dispatchers.Default) {
-            runCatching { parser.parse(content) }.getOrNull()
-        }
-    }
-    val node = ast
-    if (node != null) {
-        RichText(
-            contentColor = color,
-            textStyle = MaterialTheme.typography.bodyMedium,
-        ) {
-            BasicMarkdown(astNode = node)
-        }
-    } else {
-        Text(
-            text = content,
-            style = MaterialTheme.typography.bodyMedium,
-            lineHeight = 24.sp,
-            color = color,
-        )
     }
 }
 
