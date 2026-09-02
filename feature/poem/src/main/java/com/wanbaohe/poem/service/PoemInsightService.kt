@@ -15,7 +15,7 @@ import javax.inject.Singleton
  * 诗词 AI 解读服务。
  *
  * 编排逻辑(对齐 MilestoneInsightService):
- * 1. 调用 [AIPromptExecutor] 一次性生成赏析
+ * 1. 调用 [AIPromptExecutor] 流式生成赏析,[onDelta] 逐段回调累计全文供 UI 流式展示
  * 2. 成功后写入 [PoemRepository] 并记录行为日志
  * 3. 失败/引擎未配置时只返回失败原因,不落库
  */
@@ -26,10 +26,14 @@ class PoemInsightService @Inject constructor(
     private val activityLogRecorder: ActivityLogRecorder,
 ) {
 
-    suspend fun generateInsight(poem: Poem): GenerationResult {
-        val result = aiExecutor.execute(
+    suspend fun generateInsight(
+        poem: Poem,
+        onDelta: (String) -> Unit = {},
+    ): GenerationResult {
+        val result = aiExecutor.executeStreaming(
             input = buildInput(poem),
             systemPrompt = SYSTEM_PROMPT,
+            onDelta = onDelta,
         )
         if (!result.isSuccess) {
             return GenerationResult.Failed(result.errorMessage.orEmpty())

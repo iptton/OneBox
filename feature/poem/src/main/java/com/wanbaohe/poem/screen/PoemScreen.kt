@@ -326,7 +326,8 @@ private fun PoemDetailPage(
         PoemAiSection(
             title = stringResource(R.string.poem_insight_title),
             icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBook,
-            content = poem.aiInsight,
+            // 流式生成中优先展示累计快照(仅当前页),结束后回落到持久化内容
+            content = if (isCurrent) uiState.streamingInsight ?: poem.aiInsight else poem.aiInsight,
             isGenerating = isCurrent && uiState.isGeneratingInsight,
             generatingText = stringResource(R.string.poem_generating_insight),
             error = if (isCurrent) uiState.insightError else null,

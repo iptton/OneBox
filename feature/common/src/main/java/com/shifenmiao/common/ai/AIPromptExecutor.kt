@@ -13,6 +13,8 @@ import com.shifenmiao.network.api.OpenAICompatibleService
 import com.shifenmiao.network.api.OwnProxyAIService
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.logger.makeLog
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -180,6 +182,162 @@ class AIPromptExecutor @Inject constructor(
             )
         } catch (t: Throwable) {
             makeLog { "AIPromptExecutor: Request failed: ${t.message}" }
+            AIPromptResult(
+                content = "",
+                isSuccess = false,
+                errorMessage = t.message ?: t.toString(),
+                engineName = engine.name,
+                modelName = engine.model.name,
+            )
+        }
+    }
+
+    /**
+     * 流式变体：与 [execute] 参数一致，SSE 逐 chunk 回调 [onDelta]（参数为累计全文快照，
+     * UI 直接整体替换即可），流结束后仍返回完整结果（成功时 content 为全文）。
+     */
+    suspend fun executeStreaming(
+        input: String,
+        systemPrompt: String = "",
+        engineMode: EngineMode = EngineMode.DEFAULT,
+        onDelta: (String) -> Unit = {},
+    ): AIPromptResult {
+        val engine = resolveEngine(engineMode)
+
+        if (engine.name.isBlank()) {
+            return AIPromptResult(
+                content = "",
+                isSuccess = false,
+                errorMessage = "AI engine not configured",
+            )
+        }
+
+        // 与 execute 一致:本地引擎当前没有走 HTTP 链路的能力,直接拦截
+        if (engine.requestProtocol == AiRequestProtocol.LOCAL_ON_DEVICE) {
+            return AIPromptResult(
+                content = "",
+                isSuccess = false,
+                errorMessage = "Local on-device engine is not yet supported by AIPromptExecutor (Phase 2)",
+                engineName = engine.name,
+                modelName = engine.model.name,
+            )
+        }
+
+        val messages = buildList {
+            if (systemPrompt.isNotBlank()) {
+                add(
+                    RequestMessage.createTextMessage(
+                        role = RoleType.SYSTEM.value,
+                        text = systemPrompt
+                    )
+                )
+            }
+            add(
+                RequestMessage.createTextMessage(
+                    role = RoleType.USER.value,
+                    text = input
+                )
+            )
+        }
+
+        val request = ChatCompletionRequest(
+            model = engine.model.name,
+            messages = messages,
+            stream = true,
+        )
+
+        return try {
+            val isProxyRoute = AiRequestUrlResolver.shouldUseProxyRequest(engine)
+            withContext(ioDispatcher) {
+                val url = AiRequestUrlResolver.resolveRequestUrl(engine)
+                val call = if (AiRequestUrlResolver.shouldUseDirectRequest(engine)) {
+                    val authorization = AiRequestUrlResolver.resolveAuthorizationHeader(engine)
+                    openAICompatibleService.chatWithStreaming(
+                        url = url,
+                        authorization = authorization,
+                        chatCompletionRequest = request
+                    )
+                } else {
+                    ownProxyAIService.chatWithStreaming(
+                        url = url,
+                        chatCompletionRequest = request
+                    )
+                }
+
+                val content = StringBuilder()
+                var totalTokens = 0
+                var errorMessage: String? = null
+                try {
+                    val response = call.execute()
+                    if (!response.isSuccessful) {
+                        val errorBody = response.errorBody()?.string().orEmpty()
+                        makeLog { "AIPromptExecutor: stream HTTP ${response.code()} - $errorBody" }
+                        errorMessage = "HTTP ${response.code()}: ${errorBody.take(200)}"
+                    } else {
+                        val body = response.body()
+                        if (body == null) {
+                            errorMessage = "Empty response body"
+                        } else {
+                            body.byteStream().bufferedReader().use { reader ->
+                                while (true) {
+                                    currentCoroutineContext().ensureActive()
+                                    val line = reader.readLine() ?: break
+                                    val trimmed = line.trim().trimStart('\uFEFF')
+                                    if (!trimmed.startsWith("data:")) continue
+                                    val payload = trimmed.substring("data:".length).trim()
+                                    if (payload.isEmpty()) continue
+                                    if (payload.equals("[DONE]", ignoreCase = true)) break
+                                    val chunk = try {
+                                        gson.fromJson(payload, ChatCompletionChunk::class.java)
+                                    } catch (e: Exception) {
+                                        // 单行解析失败属厂商兼容问题,丢弃该行即可
+                                        makeLog { "AIPromptExecutor: drop malformed SSE line: ${e.message}" }
+                                        continue
+                                    }
+                                    if (chunk.errorCode != 0 || chunk.errorMsg.isNotBlank()) {
+                                        errorMessage =
+                                            chunk.errorMsg.ifBlank { "API error code: ${chunk.errorCode}" }
+                                        break
+                                    }
+                                    chunk.usage?.takeIf { it.totalTokens > 0 }
+                                        ?.let { totalTokens = it.totalTokens }
+                                    val choice = chunk.choices.firstOrNull()
+                                    val delta = choice?.delta?.content?.takeIf { it.isNotEmpty() }
+                                        ?: choice?.message?.content
+                                            ?.takeIf { choice.delta == null && it.isNotEmpty() }
+                                    if (!delta.isNullOrEmpty()) {
+                                        content.append(delta)
+                                        onDelta(content.toString())
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } finally {
+                    runCatching { call.cancel() }
+                }
+
+                if (errorMessage != null) {
+                    AIPromptResult(
+                        content = "",
+                        isSuccess = false,
+                        errorMessage = errorMessage,
+                        engineName = engine.name,
+                        modelName = engine.model.name,
+                    )
+                } else {
+                    AIPromptResult(
+                        content = content.toString(),
+                        isSuccess = true,
+                        engineName = engine.name,
+                        modelName = engine.model.name,
+                        totalTokens = totalTokens,
+                        isProxyRoute = isProxyRoute,
+                    )
+                }
+            }
+        } catch (t: Throwable) {
+            makeLog { "AIPromptExecutor: Stream request failed: ${t.message}" }
             AIPromptResult(
                 content = "",
                 isSuccess = false,

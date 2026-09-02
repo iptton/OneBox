@@ -80,7 +80,7 @@ class PoemComponent @AssistedInject internal constructor(
     fun refresh() {
         if (uiState.value.isLoading) return
         componentScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null, insightError = null) }
+            _uiState.update { it.copy(isLoading = true, error = null, insightError = null, streamingInsight = null) }
             poemService.fetchRandomPoem()
                 .onSuccess { poem ->
                     userDrivenSelection = true
@@ -96,7 +96,7 @@ class PoemComponent @AssistedInject internal constructor(
     /** 历史点选:回填到卡片 */
     fun selectPoem(id: Long) {
         userDrivenSelection = true
-        _uiState.update { it.copy(error = null, insightError = null, translationError = null) }
+        _uiState.update { it.copy(error = null, insightError = null, translationError = null, streamingInsight = null) }
         currentPoemId.value = id
     }
 
@@ -105,20 +105,33 @@ class PoemComponent @AssistedInject internal constructor(
         if (uiState.value.isGeneratingInsight) return
         withAiGate(source = "poem_insight", poem = poem) {
             componentScope.launch {
-                _uiState.update { it.copy(isGeneratingInsight = true, insightError = null) }
-                when (val result = insightService.generateInsight(poem)) {
+                _uiState.update {
+                    it.copy(isGeneratingInsight = true, insightError = null, streamingInsight = "")
+                }
+                val result = insightService.generateInsight(poem, onDelta = { partial ->
+                    // 流式进行中切换了诗词则丢弃增量,避免串页
+                    _uiState.update { state ->
+                        if (state.poem?.id == poem.id) state.copy(streamingInsight = partial) else state
+                    }
+                })
+                when (result) {
                     is PoemInsightService.GenerationResult.Success -> {
                         _uiState.update {
                             it.copy(
                                 poem = it.poem?.copy(aiInsight = result.content),
                                 isGeneratingInsight = false,
+                                streamingInsight = null,
                             )
                         }
                     }
 
                     is PoemInsightService.GenerationResult.Failed -> {
                         _uiState.update {
-                            it.copy(isGeneratingInsight = false, insightError = result.reason)
+                            it.copy(
+                                isGeneratingInsight = false,
+                                insightError = result.reason,
+                                streamingInsight = null,
+                            )
                         }
                     }
                 }

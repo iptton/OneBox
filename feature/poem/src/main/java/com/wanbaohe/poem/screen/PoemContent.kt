@@ -297,7 +297,8 @@ internal fun PoemAiSection(
             }
 
             when {
-                isGenerating -> {
+                // 流式生成中已有内容时直接展示累计文本,否则显示加载中
+                isGenerating && content.isNullOrBlank() -> {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
