@@ -33,6 +33,8 @@ import com.shifenmiao.model.ai.unified.LlmBuiltinTool
 import com.shifenmiao.model.ai.unified.LlmMessage
 import com.shifenmiao.model.ai.unified.LlmTurnRequest
 import com.shifenmiao.model.ai.unified.toLlmMessage
+import com.shifenmiao.model.event.AppEventBus
+import com.shifenmiao.model.user.event.VerifyContactEvent
 import com.shifenmiao.ai.context.ContextWindowManager
 import com.shifenmiao.network.AiRequestUrlResolver
 import com.shifenmiao.storage.RemoteConfigStorage
@@ -628,6 +630,15 @@ object AiUtils {
             val requestUrl = response.raw().request.url
             val requestMethod = response.raw().request.method
             val errorBodyString = response.errorBody()?.string().orEmpty()
+
+            // 服务端联系方式验证门控(二期)预埋: 未验证被拒时弹验证引导, 不渲染原始错误
+            if (errorBodyString.contains("ContactVerificationRequired")) {
+                AppEventBus.emit(VerifyContactEvent(source = "AiUtils"))
+                return ChatCompletionChunk(
+                    errorCode = statusCode,
+                    errorMsg = AppContext.getString(R.string.verify_contact_ai_desc)
+                )
+            }
 
             // 尝试从 JSON 响应体中解析可读错误描述
             val errorDetail = parseErrorBody(errorBodyString)

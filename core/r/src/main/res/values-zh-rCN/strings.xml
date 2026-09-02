@@ -561,6 +561,8 @@
     <string name="button_bind">绑定</string>
     <string name="login_bind_phone">手机号绑定</string>
     <string name="identity_verification">身份真实性核验</string>
+    <string name="verify_contact_ai_desc">使用 AI 功能前，请先完成邮箱或手机号验证</string>
+    <string name="verify_contact_by_phone">手机号验证</string>
     <string name="input_phone_number">请输入手机号</string>
     <string name="input_code_number">验证码</string>
     <string name="get_code">发送验证码</string>

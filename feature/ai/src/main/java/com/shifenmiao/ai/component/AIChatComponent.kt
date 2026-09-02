@@ -55,8 +55,10 @@ import com.shifenmiao.model.ai.tool.ChatWorkingMode
 import com.shifenmiao.model.ai.unified.LlmStreamEvent
 import com.shifenmiao.model.event.AppEventBus
 import com.shifenmiao.model.state.PageState
+import com.shifenmiao.model.user.event.VerifyContactEvent
 import com.shifenmiao.storage.AIChatStorage
 import com.shifenmiao.storage.AppSharedStorage
+import com.shifenmiao.storage.TokenStorage
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.logger.makeLog
@@ -600,6 +602,12 @@ open class AIChatComponent @AssistedInject internal constructor(
     }
 
     private fun validateUserCanChat(questionMessageEntityList: List<MessageEntity>): Boolean {
+        // 自有代理引擎要求先完成联系方式验证(邮箱/手机), 未验证弹引导, 由服务端二期兜底
+        if (AiUtils.canProxy(_conversation.value) && TokenStorage.isLogin() && !TokenStorage.isVerified()) {
+            ActionUtils.showToast(R.string.verify_contact_ai_desc)
+            AppEventBus.emit(VerifyContactEvent(source = "AIChatComponent"))
+            return false
+        }
         if (!AiUtils.canChat(_conversation.value, questionMessageEntityList)) {
             ActionUtils.showToast(R.string.no_points)
             AppEventBus.emit(

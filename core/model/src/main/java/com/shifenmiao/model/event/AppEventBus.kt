@@ -6,6 +6,7 @@ import com.shifenmiao.model.login.LoginEvent
 import com.shifenmiao.model.points.ConsumePointsEvent
 import com.shifenmiao.model.points.RewardPointsEvent
 import com.shifenmiao.model.user.event.BindPhoneEvent
+import com.shifenmiao.model.user.event.VerifyContactEvent
 import com.shifenmiao.model.wechat.event.WechatEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -69,6 +70,10 @@ object AppEventBus {
     private val _bindPhoneEvents = MutableSharedFlow<BindPhoneEvent>(extraBufferCapacity = 4)
     val bindPhoneEvents = _bindPhoneEvents.asSharedFlow()
     fun emit(event: BindPhoneEvent) = _bindPhoneEvents.tryEmit(event)
+
+    private val _verifyContactEvents = MutableSharedFlow<VerifyContactEvent>(extraBufferCapacity = 4)
+    val verifyContactEvents = _verifyContactEvents.asSharedFlow()
+    fun emit(event: VerifyContactEvent) = _verifyContactEvents.tryEmit(event)
 
     private val _editorResultEvents = MutableSharedFlow<EditorResultEvent>(extraBufferCapacity = 4)
     val editorResultEvents = _editorResultEvents.asSharedFlow()

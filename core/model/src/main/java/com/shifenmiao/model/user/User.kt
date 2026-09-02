@@ -22,6 +22,8 @@ data class User(
     val totalRechargeAmount: Double? = 0.0,
     /** 邮箱是否已验证:邮箱注册为 false,Google/微信登录为 true;旧缓存缺省按未验证处理 */
     val confirmed: Boolean = false,
+    /** 账号创建时间(服务端 RFC3339);旧缓存没有该字段,按老用户豁免处理,见 TokenStorage.isVerified */
+    val createdAt: String? = null,
 ) : Parcelable
 
 @Parcelize

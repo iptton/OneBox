@@ -31,9 +31,11 @@ import com.shifenmiao.core.R
 import com.shifenmiao.interfaces.singleton.AppContext
 import com.shifenmiao.login.BindPhoneSheet
 import com.shifenmiao.login.ModalBottomSheetLogin
+import com.shifenmiao.model.event.AppEventBus
 import com.shifenmiao.model.login.LoginChannelConfig
 import com.shifenmiao.model.login.LoginState
 import com.shifenmiao.model.state.UIState
+import com.shifenmiao.model.user.event.VerifyContactEvent
 import com.shifenmiao.model.webview.WebViewParams
 import com.shifenmiao.storage.RemoteConfigStorage
 import com.shifenmiao.webview.mermaid.ProvideMermaidRenderer
@@ -52,6 +54,7 @@ import com.wanbaohe.app.screen.ScreenSelector
 import com.wanbaohe.app.ui.GlobalAIHost
 import com.wanbaohe.app.ui.StartupTraceOverlay
 import com.wanbaohe.app.ui.GlobalToolInteractionHost
+import com.wanbaohe.app.ui.VerifyContactSheet
 import com.wanbaohe.app.ui.WebViewModalBottomSheet
 import com.wanbaohe.profile.screen.BuyCoffeeDialogModalSheet
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -275,6 +278,24 @@ private fun AppOverlayHost(
             BindPhoneSheet(
                 rootComponent.loginComponent,
                 appComponent
+            )
+        }
+    }
+
+    // AI 功能联系方式验证引导: 由 AppEventBus.verifyContactEvents 触发
+    var verifyContactEvent by remember { mutableStateOf<VerifyContactEvent?>(null) }
+    LaunchedEffect(Unit) {
+        AppEventBus.verifyContactEvents.collect { verifyContactEvent = it }
+    }
+    verifyContactEvent?.let { event ->
+        LoginStateCompositionLocals(loginState = loginState) {
+            VerifyContactSheet(
+                loginComponent = rootComponent.loginComponent,
+                onVerified = {
+                    event.onSuccess()
+                    verifyContactEvent = null
+                },
+                onDismiss = { verifyContactEvent = null }
             )
         }
     }

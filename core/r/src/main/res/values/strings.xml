@@ -534,6 +534,8 @@
     <string name="button_bind">Bind</string>
     <string name="login_bind_phone">Bind Phone Number</string>
     <string name="identity_verification">Identity Verification</string>
+    <string name="verify_contact_ai_desc">To use AI features, please verify your email or phone number first.</string>
+    <string name="verify_contact_by_phone">Verify by Phone</string>
     <string name="input_phone_number">Enter phone number</string>
     <string name="input_code_number">Verification Code</string>
     <string name="get_code">Send Code</string>
