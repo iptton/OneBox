@@ -21,6 +21,7 @@ class IChingInterpretationService @Inject constructor(
     suspend fun interpret(
         result: DivinationResult,
         onDelta: (String) -> Unit = {},
+        onReasoningDelta: (String) -> Unit = {},
     ): Result<String> = try {
         Result.success(
             run {
@@ -29,6 +30,7 @@ class IChingInterpretationService @Inject constructor(
                     systemPrompt = systemPrompt(),
                     input = input,
                     onDelta = onDelta,
+                    onReasoningDelta = onReasoningDelta,
                 )
                 check(response.isSuccess && response.content.isNotBlank()) {
                     response.errorMessage?.takeIf(String::isNotBlank) ?: "AI 解读生成失败"

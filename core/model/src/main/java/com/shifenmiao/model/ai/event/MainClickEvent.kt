@@ -18,4 +18,6 @@ enum class MainClickEventFrom(val value: String) {
     AI_ACTION_MENU("AIActionMenu"),
     AI_START_CHAT("AIStartChat"),
     OCR_TASK_LIST("OcrTaskList"),
+    POEM("Poem"),
+    ICHING("IChing"),
 }

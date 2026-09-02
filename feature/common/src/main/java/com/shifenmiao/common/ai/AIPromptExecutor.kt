@@ -195,12 +195,14 @@ class AIPromptExecutor @Inject constructor(
     /**
      * 流式变体：与 [execute] 参数一致，SSE 逐 chunk 回调 [onDelta]（参数为累计全文快照，
      * UI 直接整体替换即可），流结束后仍返回完整结果（成功时 content 为全文）。
+     * [onReasoningDelta] 为深度思考内容( reasoning_content )的累计快照回调,仅作展示,不计入 content。
      */
     suspend fun executeStreaming(
         input: String,
         systemPrompt: String = "",
         engineMode: EngineMode = EngineMode.DEFAULT,
         onDelta: (String) -> Unit = {},
+        onReasoningDelta: (String) -> Unit = {},
     ): AIPromptResult {
         val engine = resolveEngine(engineMode)
 
@@ -265,6 +267,7 @@ class AIPromptExecutor @Inject constructor(
                 }
 
                 val content = StringBuilder()
+                val reasoning = StringBuilder()
                 var totalTokens = 0
                 var errorMessage: String? = null
                 try {
@@ -302,6 +305,13 @@ class AIPromptExecutor @Inject constructor(
                                     chunk.usage?.takeIf { it.totalTokens > 0 }
                                         ?.let { totalTokens = it.totalTokens }
                                     val choice = chunk.choices.firstOrNull()
+                                    val reasoningDelta = choice?.delta?.reasoningContent?.takeIf { it.isNotEmpty() }
+                                        ?: choice?.message?.reasoningContent
+                                            ?.takeIf { choice.delta == null && it.isNotEmpty() }
+                                    if (!reasoningDelta.isNullOrEmpty()) {
+                                        reasoning.append(reasoningDelta)
+                                        onReasoningDelta(reasoning.toString())
+                                    }
                                     val delta = choice?.delta?.content?.takeIf { it.isNotEmpty() }
                                         ?: choice?.message?.content
                                             ?.takeIf { choice.delta == null && it.isNotEmpty() }

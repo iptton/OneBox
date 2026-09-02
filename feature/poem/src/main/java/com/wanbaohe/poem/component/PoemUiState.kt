@@ -10,6 +10,8 @@ data class PoemUiState(
     val insightError: String? = null,
     /** 诗意解读流式生成中的累计内容快照(仅当前诗词有效,生成结束/切换诗词后清空) */
     val streamingInsight: String? = null,
+    /** 深度思考内容快照(仅展示不落库;成功后保留至切换诗词/重新生成) */
+    val streamingReasoning: String? = null,
     val isGeneratingTranslation: Boolean = false,
     val translationError: String? = null,
     /** 拼音生成中(静默后台任务,用于底部灰色状态提示) */

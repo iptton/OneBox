@@ -12,6 +12,10 @@ import com.arkivanov.essenty.lifecycle.doOnStop
 import com.shifenmiao.base.utils.ActionUtils
 import com.shifenmiao.base.utils.StringUtils
 import com.shifenmiao.common.utils.BaseUtils
+import com.shifenmiao.model.ai.event.MainClickEvent
+import com.shifenmiao.model.ai.event.MainClickEventFrom
+import com.shifenmiao.model.ai.event.MainShowType
+import com.shifenmiao.model.event.AppEventBus
 import com.shifenmiao.storage.TokenStorage
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -65,6 +69,8 @@ data class IChingUiState(
     val lines: List<HexagramLine> = emptyList(),
     val result: DivinationResult? = null,
     val aiContent: String = "",
+    /** 深度思考内容快照(仅展示不落库;成功后保留至重新起卦/重新生成) */
+    val aiReasoning: String = "",
     val isGeneratingAI: Boolean = false,
     val aiError: String? = null,
     val currentRecordId: String? = null,
@@ -156,7 +162,7 @@ class IChingDivinationComponent @AssistedInject internal constructor(
         castingJob = componentScope.launch {
             try {
                 _uiState.update {
-                    it.copy(stage = CastingStage.Tossing(it.lines.size), aiContent = "", aiError = null)
+                    it.copy(stage = CastingStage.Tossing(it.lines.size), aiContent = "", aiReasoning = "", aiError = null)
                 }
                 delay(TOSS_DURATION_MS)
                 val lines = _uiState.value.lines + generator.tossLine()
@@ -184,7 +190,7 @@ class IChingDivinationComponent @AssistedInject internal constructor(
 
     /**
      * AI 解读入口:先过登录+积分预估闸门(规范见 onebox-doc/AGENTS.md「AI 功能登录与积分」),
-     * 未登录弹公共登录页,登录成功后自动续跑;积分不足自动提示。
+     * 未登录弹公共登录页,登录成功后自动续跑;积分不足弹打赏浮动层(与 OCR 等模块一致)。
      */
     fun generateAIInterpretation() {
         val result = _uiState.value.result ?: return
@@ -200,7 +206,18 @@ class IChingDivinationComponent @AssistedInject internal constructor(
         val estimatedPoints = BaseUtils.tokenToPoints(
             StringUtils.calculateTokens(interpretationService.buildInput(result))
         ) * POINTS_ESTIMATE_MARGIN
-        ActionUtils.checkPointsAndDo(point = estimatedPoints, onSuccess = action)
+        ActionUtils.checkPointsAndDo(
+            point = estimatedPoints,
+            onFailure = {
+                AppEventBus.emit(
+                    MainClickEvent(
+                        from = MainClickEventFrom.ICHING,
+                        type = MainShowType.BUY_COFFEE,
+                    )
+                )
+            },
+            onSuccess = action,
+        )
     }
 
     private fun doGenerateAIInterpretation(result: DivinationResult) {
@@ -208,13 +225,23 @@ class IChingDivinationComponent @AssistedInject internal constructor(
         val previousContent = _uiState.value.aiContent
         aiJob?.cancel()
         aiJob = componentScope.launch {
-            _uiState.update { it.copy(isGeneratingAI = true, aiError = null, aiContent = "") }
-            interpretationService.interpret(result, onDelta = { partial ->
-                // 流式进行中切换了卦象则丢弃增量,避免串页
-                if (isCurrentResult(recordId, result)) {
-                    _uiState.update { it.copy(aiContent = partial) }
-                }
-            }).fold(
+            _uiState.update {
+                it.copy(isGeneratingAI = true, aiError = null, aiContent = "", aiReasoning = "")
+            }
+            interpretationService.interpret(
+                result = result,
+                onDelta = { partial ->
+                    // 流式进行中切换了卦象则丢弃增量,避免串页
+                    if (isCurrentResult(recordId, result)) {
+                        _uiState.update { it.copy(aiContent = partial) }
+                    }
+                },
+                onReasoningDelta = { partial ->
+                    if (isCurrentResult(recordId, result)) {
+                        _uiState.update { it.copy(aiReasoning = partial) }
+                    }
+                },
+            ).fold(
                 onSuccess = { content ->
                     if (!isCurrentResult(recordId, result)) return@fold
                     if (recordId != null) runCatching {
@@ -232,6 +259,7 @@ class IChingDivinationComponent @AssistedInject internal constructor(
                             isGeneratingAI = false,
                             aiError = error.message ?: "AI 解读生成失败",
                             aiContent = previousContent,
+                            aiReasoning = "",
                         )
                     }
                 },
@@ -252,6 +280,7 @@ class IChingDivinationComponent @AssistedInject internal constructor(
                 lines = emptyList(),
                 result = null,
                 aiContent = "",
+                aiReasoning = "",
                 isGeneratingAI = false,
                 aiError = null,
                 currentRecordId = null,

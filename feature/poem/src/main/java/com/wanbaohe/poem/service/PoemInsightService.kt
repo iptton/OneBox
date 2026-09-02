@@ -29,11 +29,13 @@ class PoemInsightService @Inject constructor(
     suspend fun generateInsight(
         poem: Poem,
         onDelta: (String) -> Unit = {},
+        onReasoningDelta: (String) -> Unit = {},
     ): GenerationResult {
         val result = aiExecutor.executeStreaming(
             input = buildInput(poem),
             systemPrompt = SYSTEM_PROMPT,
             onDelta = onDelta,
+            onReasoningDelta = onReasoningDelta,
         )
         if (!result.isSuccess) {
             return GenerationResult.Failed(result.errorMessage.orEmpty())

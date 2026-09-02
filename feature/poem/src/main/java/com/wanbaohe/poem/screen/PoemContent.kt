@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedButton
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
 import com.t8rin.imagetoolbox.core.ui.widget.glass.tintedGlassContentColor
+import com.t8rin.imagetoolbox.core.ui.widget.text.ReasoningCollapseSection
 import com.wanbaohe.poem.R
 import com.wanbaohe.poem.model.Poem
 import com.wanbaohe.poem.model.parsePinyinLines
@@ -243,6 +244,7 @@ internal fun PoemAiSection(
     emptyHint: String,
     onGenerate: () -> Unit,
     modifier: Modifier = Modifier,
+    reasoning: String? = null,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     contentColor: Color = tintedGlassContentColor(containerColor),
 ) {
@@ -294,6 +296,16 @@ internal fun PoemAiSection(
                         }
                     }
                 }
+            }
+
+            // 深度思考内容:折叠区展示(不落库),展开状态与 AI 助手全局一致;
+            // 还在思考(正文未开始)时折叠态预览滚动提示
+            if (!reasoning.isNullOrBlank()) {
+                ReasoningCollapseSection(
+                    reasoning = reasoning,
+                    isStreaming = isGenerating && content.isNullOrBlank(),
+                    contentColor = contentColor,
+                )
             }
 
             when {

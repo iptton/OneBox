@@ -5,6 +5,10 @@ import com.shifenmiao.base.audio.NetworkAudioPlayer
 import com.shifenmiao.base.utils.ActionUtils
 import com.shifenmiao.base.utils.StringUtils
 import com.shifenmiao.common.utils.BaseUtils
+import com.shifenmiao.model.ai.event.MainClickEvent
+import com.shifenmiao.model.ai.event.MainClickEventFrom
+import com.shifenmiao.model.ai.event.MainShowType
+import com.shifenmiao.model.event.AppEventBus
 import com.shifenmiao.storage.TokenStorage
 import com.shifenmiao.tts.service.TTSService
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -80,7 +84,7 @@ class PoemComponent @AssistedInject internal constructor(
     fun refresh() {
         if (uiState.value.isLoading) return
         componentScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null, insightError = null, streamingInsight = null) }
+            _uiState.update { it.copy(isLoading = true, error = null, insightError = null, streamingInsight = null, streamingReasoning = null) }
             poemService.fetchRandomPoem()
                 .onSuccess { poem ->
                     userDrivenSelection = true
@@ -96,7 +100,7 @@ class PoemComponent @AssistedInject internal constructor(
     /** 历史点选:回填到卡片 */
     fun selectPoem(id: Long) {
         userDrivenSelection = true
-        _uiState.update { it.copy(error = null, insightError = null, translationError = null, streamingInsight = null) }
+        _uiState.update { it.copy(error = null, insightError = null, translationError = null, streamingInsight = null, streamingReasoning = null) }
         currentPoemId.value = id
     }
 
@@ -106,14 +110,27 @@ class PoemComponent @AssistedInject internal constructor(
         withAiGate(source = "poem_insight", poem = poem) {
             componentScope.launch {
                 _uiState.update {
-                    it.copy(isGeneratingInsight = true, insightError = null, streamingInsight = "")
+                    it.copy(
+                        isGeneratingInsight = true,
+                        insightError = null,
+                        streamingInsight = "",
+                        streamingReasoning = null,
+                    )
                 }
-                val result = insightService.generateInsight(poem, onDelta = { partial ->
-                    // 流式进行中切换了诗词则丢弃增量,避免串页
-                    _uiState.update { state ->
-                        if (state.poem?.id == poem.id) state.copy(streamingInsight = partial) else state
-                    }
-                })
+                val result = insightService.generateInsight(
+                    poem = poem,
+                    onDelta = { partial ->
+                        // 流式进行中切换了诗词则丢弃增量,避免串页
+                        _uiState.update { state ->
+                            if (state.poem?.id == poem.id) state.copy(streamingInsight = partial) else state
+                        }
+                    },
+                    onReasoningDelta = { partial ->
+                        _uiState.update { state ->
+                            if (state.poem?.id == poem.id) state.copy(streamingReasoning = partial) else state
+                        }
+                    },
+                )
                 when (result) {
                     is PoemInsightService.GenerationResult.Success -> {
                         _uiState.update {
@@ -131,6 +148,7 @@ class PoemComponent @AssistedInject internal constructor(
                                 isGeneratingInsight = false,
                                 insightError = result.reason,
                                 streamingInsight = null,
+                                streamingReasoning = null,
                             )
                         }
                     }
@@ -258,7 +276,8 @@ class PoemComponent @AssistedInject internal constructor(
 
     /**
      * AI 功能统一门槛(规范见 onebox-doc/AGENTS.md「AI 功能登录与积分」):
-     * 未登录 → 公共登录弹窗,登录成功后继续;已登录 → 按内容预估积分闸门,不足提示。
+     * 未登录 → 公共登录弹窗,登录成功后继续;已登录 → 按内容预估积分闸门,
+     * 不足弹打赏浮动层(与 OCR 等模块一致)。
      */
     private fun withAiGate(source: String, poem: Poem, action: () -> Unit) {
         if (!TokenStorage.isLogin()) {
@@ -268,7 +287,18 @@ class PoemComponent @AssistedInject internal constructor(
         val estimatedPoints = BaseUtils.tokenToPoints(
             StringUtils.calculateTokens(poem.content.joinToString(""))
         ) * POINTS_ESTIMATE_MARGIN
-        ActionUtils.checkPointsAndDo(point = estimatedPoints, onSuccess = action)
+        ActionUtils.checkPointsAndDo(
+            point = estimatedPoints,
+            onFailure = {
+                AppEventBus.emit(
+                    MainClickEvent(
+                        from = MainClickEventFrom.POEM,
+                        type = MainShowType.BUY_COFFEE,
+                    )
+                )
+            },
+            onSuccess = action,
+        )
     }
 
     /**

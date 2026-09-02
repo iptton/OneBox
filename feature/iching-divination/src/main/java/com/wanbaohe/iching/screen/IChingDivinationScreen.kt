@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStyle
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSurface
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
+import com.t8rin.imagetoolbox.core.ui.widget.text.ReasoningCollapseSection
 import com.wanbaohe.iching.R
 import com.wanbaohe.iching.component.CastingStage
 import com.wanbaohe.iching.component.IChingDivinationComponent
@@ -510,6 +511,15 @@ private fun AIInterpretationSection(state: IChingUiState, onGenerate: () -> Unit
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.fillMaxWidth(),
             )
+            // 深度思考内容:折叠区展示(不落库),展开状态与 AI 助手全局一致;
+            // 还在思考(正文未开始)时折叠态预览滚动提示
+            if (state.aiReasoning.isNotBlank()) {
+                ReasoningCollapseSection(
+                    reasoning = state.aiReasoning,
+                    isStreaming = state.isGeneratingAI && state.aiContent.isBlank(),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
             when {
                 // 流式生成中已有内容时直接落到下方 Markdown 展示,否则显示加载中
                 state.isGeneratingAI && state.aiContent.isBlank() -> {
