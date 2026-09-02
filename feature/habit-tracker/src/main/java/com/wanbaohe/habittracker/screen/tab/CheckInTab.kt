@@ -258,7 +258,11 @@ private fun HabitListItem(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .clickable(enabled = isEditMode, onClick = onEdit)
+            // 整行可点:编辑模式进编辑页,普通模式直接打卡(未来日期只读除外)
+            .clickable(
+                enabled = isEditMode || !isReadOnly,
+                onClick = if (isEditMode) onEdit else onToggle,
+            )
             .padding(horizontal = 4.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -309,7 +313,7 @@ private fun HabitListItem(
                 )
             }
         } else {
-            // 圆形勾选钮:已打卡 = 实心对勾
+            // 圆形勾选钮:已打卡 = 实心对勾(点击事件由整行统一处理)
             Box(
                 modifier = Modifier
                     .size(30.dp)
@@ -320,8 +324,7 @@ private fun HabitListItem(
                         color = if (item.isChecked) habitColor
                         else MaterialTheme.colorScheme.outlineVariant,
                         shape = CircleShape,
-                    )
-                    .clickable(enabled = !isReadOnly, onClick = onToggle),
+                    ),
                 contentAlignment = Alignment.Center,
             ) {
                 if (item.isChecked) {
