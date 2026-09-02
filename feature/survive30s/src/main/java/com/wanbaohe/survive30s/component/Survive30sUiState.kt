@@ -44,6 +44,8 @@ enum class GameState {
     IDLE,
     /** 游戏进行中 */
     PLAYING,
+    /** 已暂停（退后台自动触发），进度保留，可继续 */
+    PAUSED,
     /** 被撞，游戏失败 */
     GAME_OVER,
     /** 成功存活30秒 */

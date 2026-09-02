@@ -42,6 +42,12 @@ class Survive30sComponent @AssistedInject internal constructor(
         private const val INVINCIBLE_AFTER_SHIELD_SEC = 1.1f
         private const val NEAR_MISS_PER_SHIELD = 3
         private const val MAX_SHIELDS = 2
+
+        /**
+         * 单帧最大可信耗时（秒）。超过视为进程被冻结/切后台，
+         * 丢弃该帧增量——否则一次 30 秒的大帧会直接判胜。
+         */
+        private const val MAX_FRAME_DELTA_SEC = 0.25f
     }
 
     // ─── MMKV 持久化（必须在 _uiState 之前声明，因为 _uiState 初始化时需要访问 mkv） ──
@@ -53,6 +59,20 @@ class Survive30sComponent @AssistedInject internal constructor(
 
     /** 游戏主循环 Job */
     private var gameLoopJob: Job? = null
+
+    /**
+     * 暂停请求标记（与 [Survive30sUiState.gameState] 解耦）。
+     *
+     * 退后台时 lifecycle observer 跟主循环在同一线程上，会有竞态：
+     * 主循环先把 state 翻成 GAME_OVER / WIN，observer 紧接着才跑，
+     * 这时 [pauseGame] 看到 state 不是 PLAYING 就直接 return，结果 UI 显示的是结算页而不是 PAUSED 覆盖层。
+     *
+     * 用一个独立的 atomic flag 在 [pauseGame] / [onGameOver] / [onWin] 入口处优先检查，
+     * 把"应该暂停"的状态判断跟"游戏结果"的状态判断解耦——任何时候只要调用过 [pauseGame]，
+     * 这一轮就不该被判定为死亡或胜利。
+     */
+    @Volatile
+    private var pauseRequested: Boolean = false
 
     /** 障碍物生成帧计数器 */
     private var spawnCounter = 0
@@ -69,23 +89,27 @@ class Survive30sComponent @AssistedInject internal constructor(
 
     // ─── 公开交互接口 ─────────────────────────────────────────────────────────
 
-    /** 设定画布尺寸并初始化玩家位置 */
-    fun initCanvas(width: Float, height: Float) {
-        if (_uiState.value.canvasWidth > 0f) return
+    /**
+     * 同步画布尺寸（首次布局、屏幕旋转、分屏都会回调）
+     *
+     * 画布铺满整屏，所以这里同时充当"初始化玩家位置"与"边界变化后把玩家夹回可视区"两个职责。
+     */
+    fun updateCanvasSize(width: Float, height: Float) {
+        if (width <= 0f || height <= 0f) return
+        val state = _uiState.value
+        if (state.canvasWidth == width && state.canvasHeight == height) return
+
         val playerRadius = width * Survive30sEngine.PLAYER_RADIUS_RATIO
-        val initialX = width / 2f
-        val initialY = height * 0.85f
-        targetPlayerX = initialX
-        targetPlayerY = initialY
+        val isFirstLayout = state.canvasWidth <= 0f || state.player.radius <= 0f
+        val x = if (isFirstLayout) width / 2f else clampX(state.player.x, width, playerRadius)
+        val y = if (isFirstLayout) height * 0.85f else clampY(state.player.y, height, playerRadius)
+        targetPlayerX = x
+        targetPlayerY = y
         _uiState.update {
             it.copy(
                 canvasWidth = width,
                 canvasHeight = height,
-                player = Player(
-                    x = initialX,
-                    y = initialY,
-                    radius = playerRadius
-                )
+                player = it.player.copy(x = x, y = y, radius = playerRadius),
             )
         }
     }
@@ -121,6 +145,32 @@ class Survive30sComponent @AssistedInject internal constructor(
         startGameLoop()
     }
 
+    /**
+     * 暂停游戏（退后台时由 UI 层生命周期回调触发）。
+     *
+     * 进度（剩余时间 / 障碍物 / 护盾 / 充能）全部保留，主循环立即停止，
+     * 避免后台计时继续累积导致"回来就判胜"。
+     *
+     * 注意：必须先设 [pauseRequested] 再检查 state——避免与主循环在
+     * "碰撞检测→onGameOver→state=GAME_OVER→break" 的执行序列里 race，
+     * 那样 observer 来的时候 state 已经是 GAME_OVER，pauseGame 早退，UI 看到的是结算页。
+     */
+    fun pauseGame() {
+        pauseRequested = true
+        if (_uiState.value.gameState != GameState.PLAYING) return
+        gameLoopJob?.cancel()
+        gameLoopJob = null
+        _uiState.update { it.copy(gameState = GameState.PAUSED) }
+    }
+
+    /** 从暂停中继续：清除请求标记，重开主循环，计时基准重置，不会吞掉后台时长 */
+    fun resumeGame() {
+        pauseRequested = false
+        if (_uiState.value.gameState != GameState.PAUSED) return
+        _uiState.update { it.copy(gameState = GameState.PLAYING) }
+        startGameLoop()
+    }
+
     /** 拖动更新玩家位置（支持上下左右全方向移动）
      *
      * @param x 目标 X 坐标
@@ -129,13 +179,17 @@ class Survive30sComponent @AssistedInject internal constructor(
     fun movePlayerTo(x: Float, y: Float? = null) {
         val state = _uiState.value
         if (state.gameState != GameState.PLAYING) return
-        targetPlayerX = x.coerceIn(state.player.radius, state.canvasWidth - state.player.radius)
-        // 放开垂直移动范围：允许在全画布上下移动，仅约束在画布边缘内
-        targetPlayerY = (y ?: state.player.y).coerceIn(
-            state.player.radius,
-            state.canvasHeight - state.player.radius
-        )
+        if (state.canvasWidth <= 0f || state.canvasHeight <= 0f) return
+        // 拖动范围 = 整块画布（已铺满全屏），只在边缘处收住，避免小球跑出屏幕
+        targetPlayerX = clampX(x, state.canvasWidth, state.player.radius)
+        targetPlayerY = clampY(y ?: state.player.y, state.canvasHeight, state.player.radius)
     }
+
+    private fun clampX(x: Float, canvasWidth: Float, radius: Float): Float =
+        x.coerceIn(radius, (canvasWidth - radius).coerceAtLeast(radius))
+
+    private fun clampY(y: Float, canvasHeight: Float, radius: Float): Float =
+        y.coerceIn(radius, (canvasHeight - radius).coerceAtLeast(radius))
 
     // ─── 游戏主循环 ────────────────────────────────────────────────────────────
 
@@ -144,6 +198,8 @@ class Survive30sComponent @AssistedInject internal constructor(
         gameLoopJob = componentScope.launch {
             var lastTime = System.nanoTime()
             while (true) {
+                // 暂停请求先于 state 检查，避开与 onGameOver 的 race
+                if (pauseRequested) break
                 delay(FRAME_INTERVAL_MS)
                 val now = System.nanoTime()
                 val deltaSec = (now - lastTime) / 1_000_000_000f
@@ -151,6 +207,9 @@ class Survive30sComponent @AssistedInject internal constructor(
 
                 val state = _uiState.value
                 if (state.gameState != GameState.PLAYING) break
+
+                // 异常大帧（进程被冻结 / 极端卡顿）：丢弃增量，防止一次跳变直接判胜
+                if (deltaSec > MAX_FRAME_DELTA_SEC) continue
 
                 val newElapsed = state.elapsedSec + deltaSec
                 val updatedPlayer = smoothPlayer(state, deltaSec)
@@ -264,6 +323,8 @@ class Survive30sComponent @AssistedInject internal constructor(
     }
 
     private fun onGameOver(elapsed: Float) {
+        // 暂停请求已下达：这一帧不应该算"死亡"。状态留给 lifecycle observer 翻成 PAUSED。
+        if (pauseRequested) return
         gameLoopJob?.cancel()
         val best = if (elapsed > _uiState.value.bestTime) {
             saveBestTime(elapsed)
@@ -283,6 +344,8 @@ class Survive30sComponent @AssistedInject internal constructor(
     }
 
     private fun onWin(elapsed: Float) {
+        // 同样的 race 保护：暂停请求优先于胜利判定
+        if (pauseRequested) return
         gameLoopJob?.cancel()
         val best = if (elapsed > _uiState.value.bestTime) {
             saveBestTime(elapsed)

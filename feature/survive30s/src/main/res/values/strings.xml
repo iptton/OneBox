@@ -24,4 +24,8 @@
     <string name="survive_30s_danger_low">Stable for now. Keep your space.</string>
     <string name="survive_30s_danger_medium">Pressure is building. Be ready to cut across.</string>
     <string name="survive_30s_danger_high">Danger! Farm charge with close dodges or break out immediately.</string>
+    <string name="survive_30s_back">Back</string>
+    <string name="survive_30s_paused">Paused</string>
+    <string name="survive_30s_pause_desc">Auto-paused in background. Your progress is safe.</string>
+    <string name="survive_30s_resume">Resume</string>
 </resources>
