@@ -438,9 +438,12 @@ private fun GameStage(
     onCanvasSizeChanged: (Float, Float) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val scrimColor = MaterialTheme.colorScheme.background
+    val scrimColor = MaterialTheme.colorScheme.surface
 
-    Box(modifier = modifier.background(MaterialTheme.colorScheme.background)) {
+    // 不铺实色底：全局的 MeshGradientBackground(自定义背景图 / mesh 渐变 / surface 色)
+    // 在 BaseScreen 底下本来就有，这里再画一层不透明 background 色会把它整个盖掉，
+    // 导致用户设置了背景图或渐变主题时游戏页完全不生效。画布直接透明叠在上面。
+    Box(modifier = modifier) {
         GameCanvas(
             state = state,
             onCanvasSizeChanged = onCanvasSizeChanged,
@@ -773,7 +776,7 @@ private fun Modifier.overlayScrim(): Modifier = this
     .fillMaxSize()
     .statusBarsPadding()
     .padding(top = TOP_BAR_RESERVED_HEIGHT)
-    .background(MaterialTheme.colorScheme.background.copy(alpha = 0.82f))
+    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.82f))
 
 /** 等待开始覆盖层（点击任意处即可开始） */
 @Composable
