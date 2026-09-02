@@ -511,7 +511,8 @@ private fun AIInterpretationSection(state: IChingUiState, onGenerate: () -> Unit
                 modifier = Modifier.fillMaxWidth(),
             )
             when {
-                state.isGeneratingAI -> {
+                // 流式生成中已有内容时直接落到下方 Markdown 展示,否则显示加载中
+                state.isGeneratingAI && state.aiContent.isBlank() -> {
                     GlassCircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
                     Text(
                         text = stringResource(R.string.iching_ai_loading),

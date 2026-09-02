@@ -14,13 +14,21 @@ class IChingInterpretationService @Inject constructor(
     private val executor: AIPromptExecutor,
     private val promptDao: PromptDao,
 ) {
-    suspend fun interpret(result: DivinationResult): Result<String> = try {
+    /**
+     * 流式生成 AI 解读:[onDelta] 逐段回调累计全文快照供 UI 流式展示,
+     * 结束后返回完整内容(成功时)。
+     */
+    suspend fun interpret(
+        result: DivinationResult,
+        onDelta: (String) -> Unit = {},
+    ): Result<String> = try {
         Result.success(
             run {
                 val input = buildInput(result)
-                val response = executor.execute(
+                val response = executor.executeStreaming(
                     systemPrompt = systemPrompt(),
                     input = input,
+                    onDelta = onDelta,
                 )
                 check(response.isSuccess && response.content.isNotBlank()) {
                     response.errorMessage?.takeIf(String::isNotBlank) ?: "AI 解读生成失败"

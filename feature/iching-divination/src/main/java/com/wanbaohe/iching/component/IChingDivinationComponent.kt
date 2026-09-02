@@ -205,10 +205,16 @@ class IChingDivinationComponent @AssistedInject internal constructor(
 
     private fun doGenerateAIInterpretation(result: DivinationResult) {
         val recordId = _uiState.value.currentRecordId
+        val previousContent = _uiState.value.aiContent
         aiJob?.cancel()
         aiJob = componentScope.launch {
-            _uiState.update { it.copy(isGeneratingAI = true, aiError = null) }
-            interpretationService.interpret(result).fold(
+            _uiState.update { it.copy(isGeneratingAI = true, aiError = null, aiContent = "") }
+            interpretationService.interpret(result, onDelta = { partial ->
+                // 流式进行中切换了卦象则丢弃增量,避免串页
+                if (isCurrentResult(recordId, result)) {
+                    _uiState.update { it.copy(aiContent = partial) }
+                }
+            }).fold(
                 onSuccess = { content ->
                     if (!isCurrentResult(recordId, result)) return@fold
                     if (recordId != null) runCatching {
@@ -222,7 +228,11 @@ class IChingDivinationComponent @AssistedInject internal constructor(
                     if (error is CancellationException) throw error
                     if (!isCurrentResult(recordId, result)) return@fold
                     _uiState.update {
-                        it.copy(isGeneratingAI = false, aiError = error.message ?: "AI 解读生成失败")
+                        it.copy(
+                            isGeneratingAI = false,
+                            aiError = error.message ?: "AI 解读生成失败",
+                            aiContent = previousContent,
+                        )
                     }
                 },
             )
