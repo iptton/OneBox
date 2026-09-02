@@ -2,6 +2,7 @@ package com.wanbaohe.survive30s.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
+import com.shifenmiao.base.audio.NetworkAudioPlayer
 import com.tencent.mmkv.MMKV
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -13,6 +14,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,6 +37,7 @@ class Survive30sComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
     dispatchersHolder: DispatchersHolder,
+    private val audioPlayer: NetworkAudioPlayer,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     companion object {
@@ -48,6 +52,26 @@ class Survive30sComponent @AssistedInject internal constructor(
          * 丢弃该帧增量——否则一次 30 秒的大帧会直接判胜。
          */
         private const val MAX_FRAME_DELTA_SEC = 0.25f
+
+        /**
+         * 游戏音效托管在 R2(bucket onebox-images 的 audio/survive30s/ 路径),
+         * 国内海外同地址。合成脚本与源文件见 onebox-doc/audio/survive30s/。
+         */
+        private const val SOUND_BASE = "https://images.oneboxable.com/audio/survive30s"
+        private const val SOUND_BGM = "$SOUND_BASE/bgm.ogg"
+        private const val SOUND_GAME_OVER = "$SOUND_BASE/game_over.ogg"
+        private const val SOUND_SHIELD_BLOCK = "$SOUND_BASE/shield_block.ogg"
+        private const val SOUND_NEAR_MISS = "$SOUND_BASE/near_miss.ogg"
+        private const val SOUND_SHIELD_GAIN = "$SOUND_BASE/shield_gain.ogg"
+        private const val SOUND_PHASE_CHANGE = "$SOUND_BASE/phase_change.ogg"
+        private const val SOUND_WIN = "$SOUND_BASE/win.ogg"
+        private val ALL_SOUNDS = listOf(
+            SOUND_BGM, SOUND_GAME_OVER, SOUND_SHIELD_BLOCK, SOUND_NEAR_MISS,
+            SOUND_SHIELD_GAIN, SOUND_PHASE_CHANGE, SOUND_WIN,
+        )
+
+        /** 擦身音效最小间隔(纳秒) = 150ms */
+        private const val NEAR_MISS_SOUND_MIN_GAP_NS = 150_000_000L
     }
 
     // ─── MMKV 持久化（必须在 _uiState 之前声明，因为 _uiState 初始化时需要访问 mkv） ──
@@ -77,13 +101,22 @@ class Survive30sComponent @AssistedInject internal constructor(
     /** 障碍物生成帧计数器 */
     private var spawnCounter = 0
 
+    /** 上次擦身音效触发时刻(纳秒), 用于节流 */
+    private var lastNearMissSoundNs = 0L
+
     /** 玩家目标位置，由触摸输入直接更新，在主循环中平滑跟随 */
     private var targetPlayerX = Float.NaN
     private var targetPlayerY = Float.NaN
 
     init {
+        // 后台预热音效(下载到本地缓存), 用户点"开始挑战"时基本已就绪, 首次播放无网络延迟
+        componentScope.launch {
+            ALL_SOUNDS.map { url -> async { audioPlayer.warmUp(url) } }.awaitAll()
+        }
         componentContext.lifecycle.doOnDestroy {
             gameLoopJob?.cancel()
+            audioPlayer.stopBackground()
+            audioPlayer.stopEffect()
         }
     }
 
@@ -143,6 +176,7 @@ class Survive30sComponent @AssistedInject internal constructor(
             )
         }
         startGameLoop()
+        playSound(SOUND_BGM, isBackground = true)
     }
 
     /**
@@ -160,6 +194,7 @@ class Survive30sComponent @AssistedInject internal constructor(
         if (_uiState.value.gameState != GameState.PLAYING) return
         gameLoopJob?.cancel()
         gameLoopJob = null
+        audioPlayer.stopBackground()
         _uiState.update { it.copy(gameState = GameState.PAUSED) }
     }
 
@@ -169,6 +204,7 @@ class Survive30sComponent @AssistedInject internal constructor(
         if (_uiState.value.gameState != GameState.PAUSED) return
         _uiState.update { it.copy(gameState = GameState.PLAYING) }
         startGameLoop()
+        playSound(SOUND_BGM, isBackground = true)
     }
 
     /** 拖动更新玩家位置（支持上下左右全方向移动）
@@ -246,15 +282,24 @@ class Survive30sComponent @AssistedInject internal constructor(
                     obstacles = obstacles,
                 )
                 obstacles = nearMissedObstacles
+                // 节流: 擦身音效最快 150ms 一次, 钻障碍群时不会机枪连发
+                if (nearMissDelta > 0 && now - lastNearMissSoundNs > NEAR_MISS_SOUND_MIN_GAP_NS) {
+                    lastNearMissSoundNs = now
+                    playSound(SOUND_NEAR_MISS)
+                }
 
                 val totalCharge = state.nearMissCharge + nearMissDelta
                 val earnedShield = totalCharge / NEAR_MISS_PER_SHIELD
                 val shieldCount = (state.shieldCount + earnedShield).coerceAtMost(MAX_SHIELDS)
+                if (shieldCount > state.shieldCount) playSound(SOUND_SHIELD_GAIN)
                 val newCharge = if (shieldCount >= MAX_SHIELDS) {
                     0
                 } else {
                     totalCharge % NEAR_MISS_PER_SHIELD
                 }
+
+                val newPhase = phaseFor(newElapsed)
+                if (newPhase != state.phase) playSound(SOUND_PHASE_CHANGE)
 
                 var invincibleSec = (state.invincibleSec - deltaSec).coerceAtLeast(0f)
                 val dangerLevel = Survive30sEngine.dangerLevel(updatedPlayer, obstacles)
@@ -271,6 +316,7 @@ class Survive30sComponent @AssistedInject internal constructor(
 
                 val resolvedObstacles = if (hit && invincibleSec <= 0f && shieldCount > 0) {
                     invincibleSec = INVINCIBLE_AFTER_SHIELD_SEC
+                    playSound(SOUND_SHIELD_BLOCK)
                     Survive30sEngine.clearNearbyObstacles(updatedPlayer, obstacles)
                 } else {
                     obstacles
@@ -288,7 +334,7 @@ class Survive30sComponent @AssistedInject internal constructor(
                         nearMissCharge = newCharge,
                         dangerLevel = dangerLevel,
                         invincibleSec = invincibleSec,
-                        phase = phaseFor(newElapsed),
+                        phase = newPhase,
                     )
                 }
             }
@@ -326,6 +372,8 @@ class Survive30sComponent @AssistedInject internal constructor(
         // 暂停请求已下达：这一帧不应该算"死亡"。状态留给 lifecycle observer 翻成 PAUSED。
         if (pauseRequested) return
         gameLoopJob?.cancel()
+        audioPlayer.stopBackground()
+        playSound(SOUND_GAME_OVER)
         val best = if (elapsed > _uiState.value.bestTime) {
             saveBestTime(elapsed)
             elapsed
@@ -347,6 +395,8 @@ class Survive30sComponent @AssistedInject internal constructor(
         // 同样的 race 保护：暂停请求优先于胜利判定
         if (pauseRequested) return
         gameLoopJob?.cancel()
+        audioPlayer.stopBackground()
+        playSound(SOUND_WIN)
         val best = if (elapsed > _uiState.value.bestTime) {
             saveBestTime(elapsed)
             elapsed
@@ -371,6 +421,21 @@ class Survive30sComponent @AssistedInject internal constructor(
             bizId = "",
             showToast = true
         )
+    }
+
+    // ─── 音效 ────────────────────────────────────────────────────────────────
+
+    /**
+     * 播放音效。短音效用 [NetworkAudioPlayer.playEffect]（同 URL 已缓存，秒开）；
+     * BGM 用 [NetworkAudioPlayer.playBackground]（循环，同 URL 播放中不重启）。
+     * 播放失败静默吞掉（网络问题不该影响游戏本身）。
+     */
+    private fun playSound(url: String, isBackground: Boolean = false) {
+        componentScope.launch {
+            runCatching {
+                if (isBackground) audioPlayer.playBackground(url) else audioPlayer.playEffect(url)
+            }
+        }
     }
 
     // ─── MMKV 辅助方法 ─────────────────────────────────────────────────────────
