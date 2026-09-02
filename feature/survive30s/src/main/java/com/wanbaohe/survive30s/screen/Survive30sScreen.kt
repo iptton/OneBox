@@ -34,8 +34,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -62,6 +60,9 @@ import java.util.Locale
 import com.shifenmiao.common.ui.BaseScreen
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassButton
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassLinearProgressIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.glass.glassMedium
+import com.t8rin.imagetoolbox.core.ui.widget.glass.glassThin
 import com.wanbaohe.survive30s.R
 import com.wanbaohe.survive30s.component.GameState
 import com.wanbaohe.survive30s.component.Survive30sComponent
@@ -246,11 +247,11 @@ private fun GameTitle() {
 // ─── 顶部状态面板（标题栏下方） ────────────────────────────────────────────────
 
 /**
- * 游戏进行中的状态面板：剩余秒数 + 倒计时进度条 + 各项状态，收在一张半透明卡片里。
+ * 游戏进行中的状态面板：剩余秒数 + 倒计时进度条 + 各项状态，收在一张玻璃卡片里。
  *
  * 挂在 content 层、紧贴标题栏下沿，所以：
  * - 屏幕下半部整块留给操作，手指拖动时不会挡住数字
- * - 面板自己带底色，不依赖背景层那层渐变遮罩就能读清
+ * - 玻璃底透出底下的游戏画面，跟随系统主题色自动适配
  */
 @Composable
 private fun GameStatusPanel(
@@ -263,8 +264,7 @@ private fun GameStatusPanel(
 
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(20.dp))
-            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.62f))
+            .glassMedium(shape = RoundedCornerShape(20.dp))
             .padding(horizontal = 14.dp, vertical = 10.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
@@ -340,13 +340,21 @@ private fun GameStatusPanel(
     }
 }
 
-private fun dangerColorFor(dangerLevel: Float): Color = when {
-    dangerLevel > 0.8f -> Color(0xFFEF5350)
-    dangerLevel > 0.45f -> Color(0xFFFFA726)
-    else -> Color(0xFF66BB6A)
+/**
+ * 危险度文字颜色：安全/警戒/危险三档，全部取自主题色（primary/tertiary/error），
+ * 主题切换自动适配，不锁死具体色值。
+ */
+@Composable
+private fun dangerColorFor(dangerLevel: Float): Color {
+    val colorScheme = MaterialTheme.colorScheme
+    return when {
+        dangerLevel > 0.8f -> colorScheme.error
+        dangerLevel > 0.45f -> colorScheme.tertiary
+        else -> colorScheme.primary
+    }
 }
 
-/** 倒计时进度条：从满到空，颜色绿（安全）→ 橙 → 红（危险） */
+/** 倒计时进度条：玻璃质感，从满到空，颜色 primary（安全）→ tertiary（警戒）→ error（危险） */
 @Composable
 private fun TimerProgressBar(
     progress: Float,
@@ -358,25 +366,24 @@ private fun TimerProgressBar(
         animationSpec = tween(durationMillis = 100),
         label = "timer_progress"
     )
-    val trackColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.22f)
 
-    Canvas(modifier = modifier.height(6.dp)) {
-        drawRoundRect(
-            color = trackColor,
-            cornerRadius = CornerRadius(3.dp.toPx()),
-        )
-        drawRoundRect(
-            color = color,
-            cornerRadius = CornerRadius(3.dp.toPx()),
-            size = Size(size.width * (1f - animatedProgress), size.height),
-        )
-    }
+    GlassLinearProgressIndicator(
+        progress = { 1f - animatedProgress },
+        modifier = modifier.height(8.dp),
+        color = color,
+        trackColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.22f),
+    )
 }
 
-private fun timerColorFor(progress: Float): Color = when {
-    progress < 0.33f -> Color(0xFF66BB6A)
-    progress < 0.66f -> Color(0xFFFFA726)
-    else -> Color(0xFFEF5350)
+/** 倒计时颜色三档语义色，取自当前主题，主题切换自动适配 */
+@Composable
+private fun timerColorFor(progress: Float): Color {
+    val colorScheme = MaterialTheme.colorScheme
+    return when {
+        progress < 0.33f -> colorScheme.primary
+        progress < 0.66f -> colorScheme.tertiary
+        else -> colorScheme.error
+    }
 }
 
 // ─── 状态胶囊 ────────────────────────────────────────────────────────────────
@@ -388,7 +395,9 @@ private fun StatusPill(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .glassThin(shape = RoundedCornerShape(12.dp))
+            .padding(vertical = 6.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
@@ -466,6 +475,7 @@ private fun GameCanvas(
     modifier: Modifier = Modifier,
 ) {
     val playerPalette = rememberPlayerPalette()
+    val dangerColor = MaterialTheme.colorScheme.error
 
     Canvas(
         modifier = modifier
@@ -477,7 +487,11 @@ private fun GameCanvas(
 
         // ── 绘制背景网格（轻微视觉参考线） ──
         drawGrid(size)
-        drawDangerOverlay(size = size, dangerLevel = state.dangerLevel)
+        drawDangerOverlay(
+            size = size,
+            dangerLevel = state.dangerLevel,
+            color = dangerColor,
+        )
 
         // ── 绘制障碍物 ──
         state.obstacles.forEach { obs ->
@@ -731,6 +745,7 @@ private fun DrawScope.drawPlayer(
 private fun DrawScope.drawDangerOverlay(
     size: Size,
     dangerLevel: Float,
+    color: Color,
 ) {
     if (dangerLevel <= 0f) return
 
@@ -738,7 +753,7 @@ private fun DrawScope.drawDangerOverlay(
         brush = Brush.verticalGradient(
             colors = listOf(
                 Color.Transparent,
-                Color(0xFFEF5350).copy(alpha = 0.08f * dangerLevel),
+                color.copy(alpha = 0.08f * dangerLevel),
             )
         ),
         size = size,
@@ -966,7 +981,7 @@ private fun GameOverOverlay(
                     text = stringResource(R.string.survive_30s_new_record),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFFA726),
+                    color = MaterialTheme.colorScheme.tertiary,
                 )
             }
             Text(
@@ -1004,7 +1019,7 @@ private fun WinOverlay(
                 text = stringResource(R.string.survive_30s_win),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF66BB6A),
+                color = MaterialTheme.colorScheme.primary,
             )
             Text(
                 text = stringResource(R.string.survive_30s_win_desc),
@@ -1021,8 +1036,8 @@ private fun WinOverlay(
             ResultActions(
                 onBack = onBack,
                 onRestart = onRestart,
-                restartContainerColor = Color(0xFF66BB6A).copy(alpha = 0.15f),
-                restartContentColor = Color(0xFF66BB6A),
+                restartContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                restartContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
     }
