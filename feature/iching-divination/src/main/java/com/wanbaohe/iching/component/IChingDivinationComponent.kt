@@ -24,6 +24,7 @@ import com.wanbaohe.iching.data.IChingHistoryRecord
 import com.wanbaohe.iching.data.IChingHistoryRepository
 import com.wanbaohe.iching.domain.HexagramGenerator
 import com.wanbaohe.iching.domain.IChingInterpretationService
+import com.wanbaohe.iching.domain.IChingTextLibrary
 import com.wanbaohe.iching.model.DivinationResult
 import com.wanbaohe.iching.model.HexagramLine
 import dagger.assisted.Assisted
@@ -74,6 +75,8 @@ data class IChingUiState(
     val isGeneratingAI: Boolean = false,
     val aiError: String? = null,
     val currentRecordId: String? = null,
+    /** AI 解读积分预估(与积分闸门口径一致),供按钮旁展示成本 */
+    val aiPointsEstimate: Int = 0,
 )
 
 class IChingDivinationComponent @AssistedInject internal constructor(
@@ -85,6 +88,7 @@ class IChingDivinationComponent @AssistedInject internal constructor(
     private val generator: HexagramGenerator,
     private val interpretationService: IChingInterpretationService,
     private val historyRepository: IChingHistoryRepository,
+    private val textLibrary: IChingTextLibrary,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -101,6 +105,7 @@ class IChingDivinationComponent @AssistedInject internal constructor(
                 result = result,
                 aiContent = initialRecord?.aiContent.orEmpty(),
                 currentRecordId = initialRecord?.id,
+                aiPointsEstimate = estimatePoints(result),
             )
         } ?: IChingUiState()
     )
@@ -177,6 +182,7 @@ class IChingDivinationComponent @AssistedInject internal constructor(
                             stage = CastingStage.Success(result),
                             result = result,
                             currentRecordId = record.id,
+                            aiPointsEstimate = estimatePoints(result),
                         )
                     }
                 }
@@ -203,11 +209,8 @@ class IChingDivinationComponent @AssistedInject internal constructor(
             ActionUtils.showLogin(source = AI_INTERPRET_SOURCE) { withAiGate(result, action) }
             return
         }
-        val estimatedPoints = BaseUtils.tokenToPoints(
-            StringUtils.calculateTokens(interpretationService.buildInput(result))
-        ) * POINTS_ESTIMATE_MARGIN
         ActionUtils.checkPointsAndDo(
-            point = estimatedPoints,
+            point = estimatePoints(result),
             onFailure = {
                 AppEventBus.emit(
                     MainClickEvent(
@@ -219,6 +222,17 @@ class IChingDivinationComponent @AssistedInject internal constructor(
             onSuccess = action,
         )
     }
+
+    /** 积分预估:按输入 token 折算再乘余量,与 canConsumePoints 口径一致 */
+    private fun estimatePoints(result: DivinationResult): Int =
+        BaseUtils.tokenToPoints(
+            StringUtils.calculateTokens(interpretationService.buildInput(result))
+        ) * POINTS_ESTIMATE_MARGIN
+
+    /** 卦名/卦辞/爻辞按当前 locale 从文本库解析,供界面展示 */
+    fun hexagramText(number: Int) = textLibrary.hexagram(number)
+
+    fun trigramName(code: Int) = textLibrary.trigramName(code)
 
     private fun doGenerateAIInterpretation(result: DivinationResult) {
         val recordId = _uiState.value.currentRecordId

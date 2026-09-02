@@ -5,6 +5,7 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.wanbaohe.iching.data.IChingHistoryRecord
 import com.wanbaohe.iching.data.IChingHistoryRepository
+import com.wanbaohe.iching.domain.IChingTextLibrary
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -22,6 +23,7 @@ class IChingHistoryComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted private val onOpenRecord: (String) -> Unit,
     private val historyRepository: IChingHistoryRepository,
+    private val textLibrary: IChingTextLibrary,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -39,6 +41,9 @@ class IChingHistoryComponent @AssistedInject internal constructor(
     }
 
     fun openRecord(id: String) = onOpenRecord(id)
+
+    /** 卦名/卦辞/爻辞按当前 locale 从文本库解析(历史记录只存卦号) */
+    fun hexagramText(number: Int) = textLibrary.hexagram(number)
 
     fun deleteRecord(id: String) = historyRepository.remove(id)
 

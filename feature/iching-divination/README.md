@@ -6,12 +6,12 @@ Independent Compose/Decompose feature implementing the casting flow shown in the
 
 1. Enter an optional question (up to 100 characters).
 2. Tap the action or shake the device to cast six lines with the three-coin method.
-3. Open the result directly and review the primary hexagram, changing lines, and changed hexagram.
-4. Request a reference interpretation through the app's configured AI engine.
+3. Open the result directly and review the primary hexagram, changing lines (marked with ○/×), the built-in judgment and changing-line texts, and the changed hexagram diagram.
+4. Request a reference interpretation through the app's configured AI engine; the estimated points cost is shown next to the entry button.
 
-The feature uses the shared Glass components for inputs, controls, cards, history, and hexagram surfaces. Every completed cast is stored in MMKV (newest first, up to 100 records), including the question, bottom-to-top line values, primary/changed hexagram summary, timestamp, and generated AI interpretation. Records can be restored, removed individually, or cleared together.
+The feature uses the shared Glass components for inputs, controls, cards, history, and hexagram surfaces. Every completed cast is stored in MMKV (newest first, up to 100 records), including the question, bottom-to-top line values, primary/changed hexagram numbers, timestamp, and generated AI interpretation. Hexagram names, judgments, and line texts are not persisted — they are resolved at display time from `res/raw/iching_texts.json` (English) / `res/raw-zh-rCN/iching_texts.json` (Chinese) via `IChingTextLibrary`, so both the UI and the AI prompt follow the current locale. Records can be restored, removed individually, or cleared together.
 
-Lines use values 6–9 and are stored bottom-to-top. AI text is explicitly presented as cultural reference rather than deterministic advice.
+Lines use values 6–9 and are stored bottom-to-top. AI text is explicitly presented as cultural reference rather than deterministic advice. During streaming the AI section renders plain text (parsing Markdown per delta is O(n²)); Markdown rendering kicks in once generation finishes.
 
 ## Verification
 
@@ -19,4 +19,8 @@ Lines use values 6–9 and are stored bottom-to-top. AI text is explicitly prese
 ./gradlew :feature:iching-divination:testOneboxUniversalDebugUnitTest
 ./gradlew :feature:app:compileOneboxUniversalDebugKotlin
 ```
+
+## Data source
+
+`res/raw*/iching_texts.json` — the classical Chinese judgment/line texts are public domain; the structured source was cross-checked against the MIT-licensed [freizl/yijing](https://github.com/freizl/yijing) dataset. English texts are original faithful translations.
 

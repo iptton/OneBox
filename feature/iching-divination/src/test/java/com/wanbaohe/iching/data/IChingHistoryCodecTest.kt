@@ -39,7 +39,6 @@ class IChingHistoryCodecTest {
 			question = "",
 			lineValues = List(6) { 7 },
 			primaryNumber = 1,
-			primaryName = "乾为天",
 		)
 		val invalid = valid.copy(id = "invalid", lineValues = listOf(7, 7, 10))
 
@@ -87,7 +86,6 @@ class IChingHistoryCodecTest {
 		question = "question-$index",
 		lineValues = List(6) { 7 },
 		primaryNumber = 1,
-		primaryName = "乾为天",
 		createdAt = index.toLong(),
 	)
 }

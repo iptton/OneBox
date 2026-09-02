@@ -57,5 +57,9 @@
     <string name="iching_history_clear_confirm">Delete all casting records? This cannot be undone.</string>
     <string name="iching_confirm">Delete</string>
     <string name="iching_cancel">Cancel</string>
+    <string name="iching_judgment_title">Judgment &amp; line texts</string>
+    <string name="iching_ai_points_estimate">Estimated cost: ~%1$d points</string>
+    <string name="iching_marker_changing_yang">○</string>
+    <string name="iching_marker_changing_yin">×</string>
 </resources>
 

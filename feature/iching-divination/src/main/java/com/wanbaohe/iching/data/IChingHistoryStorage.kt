@@ -15,9 +15,7 @@ data class IChingHistoryRecord(
     /** Six line values in bottom-to-top order. */
     val lineValues: List<Int>,
     val primaryNumber: Int,
-    val primaryName: String,
     val changedNumber: Int? = null,
-    val changedName: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
     val aiContent: String = "",
 ) {
@@ -28,13 +26,12 @@ data class IChingHistoryRecord(
         generator.create(question, lineValues.map(::HexagramLine))
 
     companion object {
+        /** 卦名不落库,展示时由 IChingTextLibrary 按 number 按当前 locale 解析 */
         fun from(result: DivinationResult): IChingHistoryRecord = IChingHistoryRecord(
             question = result.question,
             lineValues = result.lines.map(HexagramLine::value),
             primaryNumber = result.primary.number,
-            primaryName = result.primary.name,
             changedNumber = result.changed?.number,
-            changedName = result.changed?.name,
         )
     }
 }

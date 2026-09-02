@@ -71,6 +71,7 @@ import com.wanbaohe.iching.component.CastingStage
 import com.wanbaohe.iching.component.IChingDivinationComponent
 import com.wanbaohe.iching.component.IChingPage
 import com.wanbaohe.iching.component.IChingUiState
+import com.wanbaohe.iching.domain.HexagramText
 import com.wanbaohe.iching.model.DivinationResult
 import com.wanbaohe.iching.model.HexagramInfo
 import com.wanbaohe.iching.model.HexagramLine
@@ -122,6 +123,8 @@ fun IChingDivinationScreen(component: IChingDivinationComponent) {
                     ResultContent(
                         state = state,
                         result = it,
+                        hexagramText = component::hexagramText,
+                        trigramName = component::trigramName,
                         onGenerateAI = component::generateAIInterpretation,
                         onReset = component::reset,
                     )
@@ -435,23 +438,39 @@ private fun ErrorContent(message: String, onRetry: () -> Unit) {
 private fun ResultContent(
     state: IChingUiState,
     result: DivinationResult,
+    hexagramText: (Int) -> HexagramText,
+    trigramName: (Int) -> String,
     onGenerateAI: () -> Unit,
     onReset: () -> Unit,
 ) {
+    val primaryText = remember(result.primary.number) { hexagramText(result.primary.number) }
     Column(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).navigationBarsPadding().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         QuestionCard(result.question)
-        HexagramCard(result.primary, result.lines)
+        HexagramCard(
+            label = stringResource(R.string.iching_hexagram_number, result.primary.number),
+            info = result.primary,
+            lines = result.lines,
+            name = primaryText.name,
+            trigramName = trigramName,
+        )
+        JudgmentCard(primaryText = primaryText, changingLineNumbers = result.changingLineNumbers)
         result.changed?.let { changed ->
             Text(
                 text = stringResource(R.string.iching_changing_lines, result.changingLineNumbers.joinToString("、")),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
             )
-            HexagramSummary(title = stringResource(R.string.iching_changed_hexagram), info = changed)
+            HexagramCard(
+                label = stringResource(R.string.iching_changed_hexagram),
+                info = changed,
+                lines = result.changedLines,
+                name = remember(changed.number) { hexagramText(changed.number) }.name,
+                trigramName = trigramName,
+            )
         } ?: Text(
             stringResource(R.string.iching_no_changing_lines),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -466,6 +485,51 @@ private fun ResultContent(
         }
     }
 }
+
+/** 卦辞 + 动爻爻辞卡片:内置原文,离线可看;无动爻时只有卦辞 */
+@Composable
+private fun JudgmentCard(primaryText: HexagramText, changingLineNumbers: List<Int>) {
+    if (primaryText.judgment.isBlank()) return
+    GlassCard(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+        containerAlpha = 0.16f,
+        borderWidth = 0.7.dp,
+    ) {
+        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                text = stringResource(R.string.iching_judgment_title),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.primary,
+            )
+            Text(text = primaryText.judgment, style = MaterialTheme.typography.bodyMedium)
+            changingLineNumbers.forEach { position ->
+                val lineText = primaryText.lines.getOrNull(position - 1)
+                if (!lineText.isNullOrBlank()) {
+                    Text(
+                        text = "${linePositionName(position)} · $lineText",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+        }
+    }
+}
+
+/** 爻位名(初爻…上爻),卦辞卡片与摇卦解释卡片共用 */
+@Composable
+private fun linePositionName(position: Int): String = stringResource(
+    when (position) {
+        1 -> R.string.iching_line_pos_1
+        2 -> R.string.iching_line_pos_2
+        3 -> R.string.iching_line_pos_3
+        4 -> R.string.iching_line_pos_4
+        5 -> R.string.iching_line_pos_5
+        else -> R.string.iching_line_pos_6
+    }
+)
 
 @Composable
 private fun QuestionCard(question: String) {
@@ -549,6 +613,24 @@ private fun AIInterpretationSection(state: IChingUiState, onGenerate: () -> Unit
                     GlassButton(onClick = onGenerate) {
                         Text(stringResource(R.string.iching_view_ai))
                     }
+                    if (state.aiPointsEstimate > 0) {
+                        Text(
+                            text = stringResource(R.string.iching_ai_points_estimate, state.aiPointsEstimate),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+                state.isGeneratingAI -> {
+                    // 流式进行中直接渲染纯文本,避免每个 delta 都重解析整段 Markdown AST(长文 O(n²))
+                    Text(
+                        text = state.aiContent,
+                        style = MaterialTheme.typography.bodyMedium,
+                        lineHeight = 24.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
                 }
                 else -> IChingMarkdownText(
                     content = state.aiContent,
@@ -595,7 +677,13 @@ private fun IChingMarkdownText(content: String, color: Color) {
 }
 
 @Composable
-private fun HexagramCard(info: HexagramInfo, lines: List<HexagramLine>) {
+private fun HexagramCard(
+    label: String,
+    info: HexagramInfo,
+    lines: List<HexagramLine>,
+    name: String,
+    trigramName: (Int) -> String,
+) {
     GlassCard(
         shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
@@ -608,27 +696,11 @@ private fun HexagramCard(info: HexagramInfo, lines: List<HexagramLine>) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Text(stringResource(R.string.iching_hexagram_number, info.number), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(label, color = MaterialTheme.colorScheme.onSurfaceVariant)
             HexagramLines(lines)
-            Text(info.name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold)
-            Text(stringResource(R.string.iching_upper_trigram, info.upperTrigram))
-            Text(stringResource(R.string.iching_lower_trigram, info.lowerTrigram))
-        }
-    }
-}
-
-@Composable
-private fun HexagramSummary(title: String, info: HexagramInfo) {
-    GlassCard(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        containerAlpha = 0.16f,
-        borderWidth = 0.7.dp,
-    ) {
-        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text(title, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
-            Text(info.name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
-            Text("${info.upperTrigram} · ${info.lowerTrigram}", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold)
+            Text(stringResource(R.string.iching_upper_trigram, trigramName(info.upperTrigramCode)))
+            Text(stringResource(R.string.iching_lower_trigram, trigramName(info.lowerTrigramCode)))
         }
     }
 }
@@ -651,17 +723,31 @@ private fun HexagramLines(lines: List<HexagramLine>) {
     }
 }
 
+/** 单爻:阳爻整段/阴爻断段;动爻(老阳/老阴)在右侧加 ○/× 传统标记,不只依赖颜色区分 */
 @Composable
 private fun HexagramLineView(line: HexagramLine) {
     val color = if (line.isChanging) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-    Row(modifier = Modifier.width(150.dp), horizontalArrangement = Arrangement.Center) {
-        if (line.isYang) {
-            GlassLineSegment(Modifier.fillMaxWidth(), color)
-        } else {
-            GlassLineSegment(Modifier.weight(1f), color)
-            Spacer(Modifier.width(18.dp))
-            GlassLineSegment(Modifier.weight(1f), color)
+    Row(modifier = Modifier.width(174.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier.width(150.dp), horizontalArrangement = Arrangement.Center) {
+            if (line.isYang) {
+                GlassLineSegment(Modifier.fillMaxWidth(), color)
+            } else {
+                GlassLineSegment(Modifier.weight(1f), color)
+                Spacer(Modifier.width(18.dp))
+                GlassLineSegment(Modifier.weight(1f), color)
+            }
         }
+        Text(
+            text = when {
+                line.isChanging && line.isYang -> stringResource(R.string.iching_marker_changing_yang)
+                line.isChanging -> stringResource(R.string.iching_marker_changing_yin)
+                else -> ""
+            },
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.labelMedium,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.width(24.dp),
+        )
     }
 }
 

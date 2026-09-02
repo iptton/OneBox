@@ -57,5 +57,9 @@
     <string name="iching_history_clear_confirm">确定删除全部起卦记录吗？该操作无法撤销。</string>
     <string name="iching_confirm">删除</string>
     <string name="iching_cancel">取消</string>
+    <string name="iching_judgment_title">卦辞 · 爻辞</string>
+    <string name="iching_ai_points_estimate">预估消耗约 %1$d 积分</string>
+    <string name="iching_marker_changing_yang">○</string>
+    <string name="iching_marker_changing_yin">×</string>
 </resources>
 

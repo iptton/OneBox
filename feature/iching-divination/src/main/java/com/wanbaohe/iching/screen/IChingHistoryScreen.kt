@@ -90,6 +90,8 @@ fun IChingHistoryScreen(component: IChingHistoryComponent) {
                 items(state.records, key = IChingHistoryRecord::id) { record ->
                     HistoryRecordCard(
                         record = record,
+                        primaryName = component.hexagramText(record.primaryNumber).name,
+                        changedName = record.changedNumber?.let { component.hexagramText(it).name },
                         onClick = { component.openRecord(record.id) },
                         onDelete = { component.deleteRecord(record.id) },
                     )
@@ -123,6 +125,8 @@ fun IChingHistoryScreen(component: IChingHistoryComponent) {
 @Composable
 private fun HistoryRecordCard(
     record: IChingHistoryRecord,
+    primaryName: String,
+    changedName: String?,
     onClick: () -> Unit,
     onDelete: () -> Unit,
 ) {
@@ -142,7 +146,7 @@ private fun HistoryRecordCard(
             HistoryHexagram(record.lineValues)
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
                 Text(
-                    text = record.primaryName,
+                    text = primaryName,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                 )
@@ -155,7 +159,7 @@ private fun HistoryRecordCard(
                 Text(
                     text = buildString {
                         append(formatHistoryTime(record.createdAt))
-                        record.changedName?.let { append(" · ").append(it) }
+                        changedName?.let { append(" · ").append(it) }
                         if (record.aiContent.isNotBlank()) append(" · AI")
                     },
                     style = MaterialTheme.typography.labelSmall,

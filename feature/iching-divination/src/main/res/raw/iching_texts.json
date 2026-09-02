@@ -1,0 +1,846 @@
+{
+ "trigrams": {
+  "7": "Qian (Heaven)",
+  "0": "Kun (Earth)",
+  "2": "Kan (Water)",
+  "5": "Li (Fire)",
+  "4": "Zhen (Thunder)",
+  "1": "Gen (Mountain)",
+  "3": "Xun (Wind)",
+  "6": "Dui (Lake)"
+ },
+ "hexagrams": [
+  {
+   "number": 1,
+   "name": "The Creative (Qian)",
+   "judgment": "Supreme success; perseverance is beneficial.",
+   "lines": [
+    "The dragon lies hidden; it is not the time to act.",
+    "The dragon appears in the field; it is beneficial to see a great person.",
+    "The noble person is diligent all day and stays watchful at night; there is danger, but no blame.",
+    "It may leap up from the depths; no blame.",
+    "The dragon flies in the sky; it is beneficial to see a great person.",
+    "An overreaching dragon will have cause for regret."
+   ]
+  },
+  {
+   "number": 2,
+   "name": "The Receptive (Kun)",
+   "judgment": "Supreme success; the perseverance of a mare is beneficial. The noble person setting out first loses the way, then finds guidance. It is beneficial to gain friends in the southwest and lose them in the northeast. Quiet perseverance brings good fortune.",
+   "lines": [
+    "Treading on frost, solid ice will soon arrive.",
+    "Straight, square, and great; even without practice, everything is beneficial.",
+    "Holding hidden splendor, one may persevere. If serving the king, claim no achievement, but bring matters to completion.",
+    "A sack tied shut; no blame, no praise.",
+    "A yellow lower garment: supreme good fortune.",
+    "Dragons fight in the wild; their blood is dark and yellow."
+   ]
+  },
+  {
+   "number": 3,
+   "name": "Difficulty at the Beginning (Zhun)",
+   "judgment": "Supreme success; perseverance is beneficial. Do not undertake a journey; it is beneficial to appoint helpers.",
+   "lines": [
+    "Hesitating to advance; beneficial to dwell in perseverance and to appoint helpers.",
+    "Stalled and struggling, the horse team halts. He is no robber but a suitor; the woman stays firm and will not wed until ten years have passed.",
+    "Chasing deer without a guide only leads into the forest; the noble person, sensing the danger, would rather give up. Pressing on brings regret.",
+    "The horse team halts; go and seek the marriage. Advancing brings good fortune; everything is beneficial.",
+    "Hoarding one's bounty: perseverance in small things brings good fortune, in great things misfortune.",
+    "The horse team halts; tears of blood flow on and on."
+   ]
+  },
+  {
+   "number": 4,
+   "name": "Youthful Folly (Meng)",
+   "judgment": "Success. It is not I who seek the young and ignorant; they seek me. The first consultation I answer; repeated ones are disrespectful, and to disrespect I give no answer. Perseverance is beneficial.",
+   "lines": [
+    "Opening up the ignorant: it is useful to discipline them and to loosen their shackles; going beyond that brings regret.",
+    "Embracing the ignorant brings good fortune; taking a wife brings good fortune; the son can manage the household.",
+    "Do not marry such a woman: at the sight of a wealthy man she loses herself. Nothing is beneficial.",
+    "Stuck in ignorance: regret.",
+    "Childlike openness: good fortune.",
+    "Striking at ignorance: it is wrong to play the aggressor, but right to defend against aggression."
+   ]
+  },
+  {
+   "number": 5,
+   "name": "Waiting (Xu)",
+   "judgment": "With sincerity comes brilliant success; perseverance brings good fortune. It is beneficial to cross the great river.",
+   "lines": [
+    "Waiting in the outskirts; beneficial to hold steady: no blame.",
+    "Waiting on the sand; there is some gossip, but the end is fortunate.",
+    "Waiting in the mud invites robbers to arrive.",
+    "Waiting in blood; climb out of the pit.",
+    "Waiting amid wine and food; perseverance brings good fortune.",
+    "Falling into the pit, three uninvited guests arrive; honor them, and the end will be fortunate."
+   ]
+  },
+  {
+   "number": 6,
+   "name": "Conflict (Song)",
+   "judgment": "Sincerity meets obstruction. Stopping cautiously halfway brings good fortune; pressing to the end brings misfortune. It is beneficial to see a great person, not beneficial to cross the great river.",
+   "lines": [
+    "Do not prolong the dispute; though there is some talk, the end is fortunate.",
+    "Unable to win the suit, he returns and hides; the three hundred households of his town escape harm.",
+    "Living on old merit: perseverance amid danger ends in good fortune. If serving the king, claim nothing as your own achievement.",
+    "Unable to win the suit, he turns back, submits to the decree, and changes course; peaceful perseverance brings good fortune.",
+    "Litigating justly: supreme good fortune.",
+    "A leather belt may be conferred on him, yet by morning's end it is stripped away three times."
+   ]
+  },
+  {
+   "number": 7,
+   "name": "The Army (Shi)",
+   "judgment": "Perseverance under a seasoned leader brings good fortune; no blame.",
+   "lines": [
+    "The army must march out under discipline; if discipline fails, misfortune.",
+    "In the midst of the army: good fortune, no blame; the king confers honors three times.",
+    "The army may end up hauling corpses: misfortune.",
+    "The army withdraws and encamps: no blame.",
+    "There is game in the field; it is right to call for its capture: no blame. The elder son leads the army while younger men haul corpses; even with perseverance, misfortune.",
+    "The great ruler issues his mandate, founding states and granting houses; petty men must not be employed."
+   ]
+  },
+  {
+   "number": 8,
+   "name": "Holding Together (Bi)",
+   "judgment": "Good fortune. Consult the oracle once more: if you are great, enduring, and steadfast, there is no blame. The unsettled come from every side; those who arrive late meet misfortune.",
+   "lines": [
+    "With sincerity, join him: no blame. Sincerity brimming like a full jar brings unexpected good fortune in the end.",
+    "Joining from within: perseverance brings good fortune.",
+    "Joining with people who are not your kind.",
+    "Joining outwardly as well: perseverance brings good fortune.",
+    "Open union: the king hunts with beaters on three sides only and lets the game in front escape; the townsfolk need no warning. Good fortune.",
+    "Union without a head: misfortune."
+   ]
+  },
+  {
+   "number": 9,
+   "name": "The Taming Power of the Small (Xiao Chu)",
+   "judgment": "Success. Dense clouds but no rain, from our western outskirts.",
+   "lines": [
+    "Returning by your own road — what blame could there be? Good fortune.",
+    "Letting oneself be drawn back: good fortune.",
+    "The wagon loses its wheel-spokes; husband and wife glare at each other.",
+    "With sincerity, bloodshed departs and fear passes: no blame.",
+    "Sincerity bound fast; he shares his wealth with his neighbor.",
+    "The rain has fallen and rest has come; honor the virtue that carried this through. The woman's perseverance meets danger. The moon is nearly full; if the noble person marches on, misfortune."
+   ]
+  },
+  {
+   "number": 10,
+   "name": "Treading (Lü)",
+   "judgment": "Stepping on the tiger's tail, yet it does not bite: success.",
+   "lines": [
+    "Walking plainly and simply: go forward without blame.",
+    "Walking a smooth and level road; the perseverance of a quiet recluse brings good fortune.",
+    "A one-eyed man fancies he can see, a lame man fancies he can walk; stepping on the tiger's tail, it bites: misfortune. Thus a mere warrior presumes to act for a great ruler.",
+    "Stepping on the tiger's tail with fear and trembling ends in good fortune.",
+    "Treading resolutely: perseverance is dangerous.",
+    "Review your steps and weigh the signs; turning back with all in order brings supreme good fortune."
+   ]
+  },
+  {
+   "number": 11,
+   "name": "Peace (Tai)",
+   "judgment": "The small departs and the great arrives: good fortune and success.",
+   "lines": [
+    "Pull up couch grass and its roots come with it, each with its kind; advancing brings good fortune.",
+    "Bear with the uncultured, dare to wade the river, do not abandon the distant, and let go of cliques: then you are fit to walk the middle way.",
+    "No plain without a slope, no going without a return. Persevere through hardship: no blame. Do not fret over this truth; at your table there is blessing.",
+    "Fluttering down, not wealthy, along with his neighbors, trusting one another without formal pledge.",
+    "Di Yi gives his daughter in marriage; this brings blessing and supreme good fortune.",
+    "The city wall falls back into the moat; do not call up the army. Issue orders within your own town; even perseverance brings regret."
+   ]
+  },
+  {
+   "number": 12,
+   "name": "Standstill (Pi)",
+   "judgment": "Standstill brought on by the wrong sort of people; it does not serve the noble person's perseverance. The great departs and the small arrives.",
+   "lines": [
+    "Pull up couch grass with its roots, each with its kind: perseverance brings good fortune and success.",
+    "Bearing and accepting: good fortune for the petty man; the great person endures the standstill and thereby prevails.",
+    "Bearing disgrace.",
+    "Acting on higher command: no blame; his companions share the blessing.",
+    "Easing the standstill: good fortune for the great person. 'It may fail, it may fail!' — so he ties it to a thick clump of mulberry.",
+    "Overturning the standstill: first standstill, then joy."
+   ]
+  },
+  {
+   "number": 13,
+   "name": "Fellowship with Men (Tong Ren)",
+   "judgment": "Fellowship in the open field: success. It is beneficial to cross the great river; the noble person's perseverance is beneficial.",
+   "lines": [
+    "Fellowship at the gate: no blame.",
+    "Fellowship only within the clan: regret.",
+    "Hiding troops in the thicket and climbing the high hill, for three years he cannot rise.",
+    "Mounting the city wall but unable to attack: good fortune.",
+    "Those in fellowship first wail and weep, then laugh; great armies manage to meet.",
+    "Fellowship in the outskirts: no regret."
+   ]
+  },
+  {
+   "number": 14,
+   "name": "Possession in Great Measure (Da You)",
+   "judgment": "Supreme success.",
+   "lines": [
+    "No dealings with what is harmful: that in itself is no fault. Keeping hardship in mind, there is no blame.",
+    "A great wagon for carrying loads; having somewhere to go: no blame.",
+    "A duke makes offering to the Son of Heaven; a petty man cannot do this.",
+    "He keeps his own greatness in check: no blame.",
+    "His sincerity is open yet dignified: good fortune.",
+    "Blessed by heaven: good fortune; nothing is not beneficial."
+   ]
+  },
+  {
+   "number": 15,
+   "name": "Modesty (Qian)",
+   "judgment": "Success; the noble person carries things through to the end.",
+   "lines": [
+    "The most modest of modest noble persons may cross the great river: good fortune.",
+    "Modesty that resounds: perseverance brings good fortune.",
+    "Modest despite his labors, the noble person has a good conclusion: good fortune.",
+    "Nothing unfavorable; modesty put into action.",
+    "Not enriched by his neighbor; beneficial to march and subdue: nothing unfavorable.",
+    "Modesty that resounds; beneficial to mobilize the army to chastise a city or state."
+   ]
+  },
+  {
+   "number": 16,
+   "name": "Enthusiasm (Yu)",
+   "judgment": "Beneficial to appoint helpers and set the army marching.",
+   "lines": [
+    "Proclaiming one's pleasure: misfortune.",
+    "Firm as rock, not even for a whole day: perseverance brings good fortune.",
+    "Looking upward for pleasure brings regret; hesitation brings regret.",
+    "The wellspring of joy brings great gain. Do not doubt; friends gather around you like hair around a clasp.",
+    "Chronically ill, yet never dying.",
+    "Deluded pleasure; but if, once formed, it changes, there is no blame."
+   ]
+  },
+  {
+   "number": 17,
+   "name": "Following (Sui)",
+   "judgment": "Supreme success; perseverance is beneficial; no blame.",
+   "lines": [
+    "The standard is changing: perseverance brings good fortune. Going out the door to mix with others brings achievement.",
+    "Clinging to the small boy, one loses the grown man.",
+    "Clinging to the grown man, one loses the small boy. Following gains what is sought; beneficial to remain steadfast.",
+    "Following leads to capture; even perseverance turns unfortunate. Sincerity on the way, made plain — what blame is there?",
+    "Sincerity toward excellence: good fortune.",
+    "Bound and held fast, then tied again; the king makes offering on the Western Mountain."
+   ]
+  },
+  {
+   "number": 18,
+   "name": "Work on What Has Been Spoiled (Gu)",
+   "judgment": "Supreme success; beneficial to cross the great river. Three days before the new beginning, three days after.",
+   "lines": [
+    "Setting right what the father spoiled: with such a son, the departed father bears no blame. Danger, but good fortune in the end.",
+    "Setting right what the mother spoiled: one must not be too rigid.",
+    "Setting right what the father spoiled: slight regret, no great blame.",
+    "Indulging what the father spoiled: going on brings regret.",
+    "Setting right what the father spoiled earns praise.",
+    "Serving neither king nor lord, he sets his own affairs on high."
+   ]
+  },
+  {
+   "number": 19,
+   "name": "Approach (Lin)",
+   "judgment": "Supreme success; perseverance is beneficial. By the eighth month there will be misfortune.",
+   "lines": [
+    "Approaching in accord: perseverance brings good fortune.",
+    "Approaching in accord: good fortune; everything is beneficial.",
+    "A glib, easygoing approach: nothing beneficial. Having worried over it, no blame.",
+    "Approaching with one's whole self: no blame.",
+    "Approaching with wisdom, as befits a great ruler: good fortune.",
+    "Approaching with honest earnestness: good fortune, no blame."
+   ]
+  },
+  {
+   "number": 20,
+   "name": "Contemplation (Guan)",
+   "judgment": "The hands are washed but the offering not yet presented; full of sincerity, all look upward in reverence.",
+   "lines": [
+    "A childish view: no blame for the petty man, regret for the noble person.",
+    "Peeping out through the door: beneficial for a woman's perseverance.",
+    "Surveying my own life to decide between advance and retreat.",
+    "Surveying the glory of the kingdom: beneficial to be received as the king's guest.",
+    "Surveying my own life: the noble person is without blame.",
+    "Surveying the lives of others: the noble person is without blame."
+   ]
+  },
+  {
+   "number": 21,
+   "name": "Biting Through (Shi He)",
+   "judgment": "Success; beneficial to let justice be enforced.",
+   "lines": [
+    "Feet locked in stocks until the toes vanish: no blame.",
+    "Biting through soft flesh until the nose vanishes: no blame.",
+    "Biting old dried meat and hitting something poisonous: slight regret, no blame.",
+    "Biting bony dried meat and finding a metal arrowhead: beneficial to persevere through hardship; good fortune.",
+    "Biting dried meat and finding yellow gold: perseverance with danger in mind, no blame.",
+    "Neck locked in a cangue until the ears vanish: misfortune."
+   ]
+  },
+  {
+   "number": 22,
+   "name": "Grace (Bi)",
+   "judgment": "Success; in small matters it is beneficial to have somewhere to go.",
+   "lines": [
+    "Adorning his toes, he leaves the carriage and walks.",
+    "Adorning his beard.",
+    "Adorned and glistening: lasting perseverance brings good fortune.",
+    "Adorned in plain white, on a white horse with winged hooves: not a robber but a suitor.",
+    "Adorning hills and gardens with a meager roll of silk: regret, but good fortune in the end.",
+    "Plain white adornment: no blame."
+   ]
+  },
+  {
+   "number": 23,
+   "name": "Splitting Apart (Bo)",
+   "judgment": "Not beneficial to have anywhere to go.",
+   "lines": [
+    "The bed splits at its legs; overthrowing what is right: misfortune.",
+    "The bed splits at its frame; overthrowing what is right: misfortune.",
+    "He breaks away from them: no blame.",
+    "The bed splits up to the skin: misfortune.",
+    "A string of fishes; favored like the palace ladies: everything is beneficial.",
+    "A large fruit left uneaten: the noble person gains a carriage, the petty man loses his hut."
+   ]
+  },
+  {
+   "number": 24,
+   "name": "Return (Fu)",
+   "judgment": "Success. Going out and coming in without harm; friends arrive without blame. The way goes out and returns; on the seventh day it comes back. Beneficial to have somewhere to go.",
+   "lines": [
+    "Returning before going far: no deep regret; supreme good fortune.",
+    "A restful return: good fortune.",
+    "Returning again and again: danger, but no blame.",
+    "Walking among others, he returns alone.",
+    "An earnest, wholehearted return: no regret.",
+    "Losing the way back: misfortune and calamity. Marching an army thus ends in utter defeat, disaster for the ruler; for ten years he cannot campaign again."
+   ]
+  },
+  {
+   "number": 25,
+   "name": "Innocence (Wu Wang)",
+   "judgment": "Supreme success; perseverance is beneficial. What is not upright meets calamity; it is not beneficial to have anywhere to go.",
+   "lines": [
+    "Free of falsehood, going forward brings good fortune.",
+    "Not counting on harvest while plowing, nor on cleared fields while clearing: then it is beneficial to have somewhere to go.",
+    "Undeserved calamity: a tethered ox becomes the passerby's gain and the villager's loss.",
+    "Able to remain steadfast: no blame.",
+    "An illness not of one's own making: take no medicine, and there will be joy.",
+    "Free of falsehood, yet acting brings calamity: nothing is beneficial."
+   ]
+  },
+  {
+   "number": 26,
+   "name": "The Taming Power of the Great (Da Chu)",
+   "judgment": "Perseverance is beneficial; not eating at home brings good fortune; beneficial to cross the great river.",
+   "lines": [
+    "Danger is at hand; beneficial to stop.",
+    "The wagon's axle-strap is taken off.",
+    "Fine horses in pursuit: beneficial to persevere through hardship. Drill daily in chariot and defense; beneficial to have somewhere to go.",
+    "The horn-board on a young bull: supreme good fortune.",
+    "The tusks of a gelded boar: good fortune.",
+    "Taking on the highway of heaven: success."
+   ]
+  },
+  {
+   "number": 27,
+   "name": "The Corners of the Mouth (Yi)",
+   "judgment": "Perseverance brings good fortune. Watch the jaws, and how a person seeks to fill his own mouth.",
+   "lines": [
+    "Abandoning your magic tortoise to watch my jaws droop: misfortune.",
+    "An upturned jaw, against the norm, seeking nourishment on the hill: advancing brings misfortune.",
+    "Going against nourishment: perseverance brings misfortune. Do not act for ten years; nothing is beneficial.",
+    "An upturned jaw: good fortune. Glaring like a tiger, craving without end: no blame.",
+    "Going against the norm; staying steadfast brings good fortune. Do not cross the great river.",
+    "The source of nourishment: danger, then good fortune; beneficial to cross the great river."
+   ]
+  },
+  {
+   "number": 28,
+   "name": "Preponderance of the Great (Da Guo)",
+   "judgment": "The ridgepole sags; beneficial to have somewhere to go; success.",
+   "lines": [
+    "Spreading white rushes underneath: no blame.",
+    "A withered poplar sprouts fresh shoots; an old man takes a young wife: everything is beneficial.",
+    "The ridgepole sags: misfortune.",
+    "The ridgepole arches upward: good fortune; but other entanglements bring regret.",
+    "A withered poplar puts out blossoms; an old woman takes a young husband: no blame, no praise.",
+    "Wading too deep, the water closes over the head: misfortune, yet no blame."
+   ]
+  },
+  {
+   "number": 29,
+   "name": "The Abysmal (Kan)",
+   "judgment": "Depth upon depth; with sincerity, hold the heart firm and it will succeed; acting earns honor.",
+   "lines": [
+    "Depth upon depth, falling into a pit within the pit: misfortune.",
+    "The pit holds danger; seek only small gains.",
+    "Coming and going, pit after pit, steep and treacherous; fallen into the pit's hollow — do not act.",
+    "A jar of wine and two bowls of grain in plain earthenware, passed in through the window: no blame in the end.",
+    "The pit is not overflowing, only filled to the rim: no blame.",
+    "Bound with thick cords and thrown among thorny walls, unable to escape for three years: misfortune."
+   ]
+  },
+  {
+   "number": 30,
+   "name": "The Clinging (Li)",
+   "judgment": "Perseverance is beneficial; success. Keeping cows brings good fortune.",
+   "lines": [
+    "Footsteps in disorder; treat them with care and there is no blame.",
+    "Yellow radiance: supreme good fortune.",
+    "In the glow of the setting sun, one should beat the pot and sing, or else come the laments of great old age: misfortune.",
+    "It arrives all at once — blazing up, dying down, cast aside.",
+    "Tears streaming, grieving and sighing: good fortune.",
+    "The king sends him out to campaign; praised for cutting off the head and sparing the followers: no blame."
+   ]
+  },
+  {
+   "number": 31,
+   "name": "Influence (Xian)",
+   "judgment": "Success; perseverance is beneficial; taking a wife brings good fortune.",
+   "lines": [
+    "The influence shows in the big toe.",
+    "The influence shows in the calves: misfortune; staying put brings good fortune.",
+    "The influence shows in the thighs; clinging to what he follows, going on brings regret.",
+    "Perseverance brings good fortune; regret vanishes. Restlessly coming and going, friends follow your thoughts.",
+    "The influence shows in the muscles of the back: no regret.",
+    "The influence shows in the jaws, cheeks, and tongue."
+   ]
+  },
+  {
+   "number": 32,
+   "name": "Duration (Heng)",
+   "judgment": "Success; no blame; perseverance is beneficial; beneficial to have somewhere to go.",
+   "lines": [
+    "Digging too deep for constancy: perseverance brings misfortune; nothing is beneficial.",
+    "Regret vanishes.",
+    "Inconstant in virtue, one may incur disgrace: lasting regret.",
+    "No game in the field.",
+    "Constant in virtue through perseverance: good fortune for a wife, misfortune for a husband.",
+    "Restlessness made constant: misfortune."
+   ]
+  },
+  {
+   "number": 33,
+   "name": "Retreat (Dun)",
+   "judgment": "Success; in small matters perseverance is beneficial.",
+   "lines": [
+    "Retreating at the very tail: danger; do not undertake anything.",
+    "Held fast with yellow oxhide; no one can tear him loose.",
+    "A tied-down retreat: sickness and danger; keeping servants brings good fortune.",
+    "A willing retreat: good fortune for the noble person, not for the petty.",
+    "An admirable retreat: perseverance brings good fortune.",
+    "A rich, unburdened retreat: everything is beneficial."
+   ]
+  },
+  {
+   "number": 34,
+   "name": "The Power of the Great (Da Zhuang)",
+   "judgment": "Perseverance is beneficial.",
+   "lines": [
+    "Strength in the toes: advancing brings misfortune — this much is certain.",
+    "Perseverance brings good fortune.",
+    "The petty man uses force while the noble person refrains; perseverance is dangerous. A ram butts the hedge and tangles its horns.",
+    "Perseverance brings good fortune; regret vanishes. The hedge gives way and nothing tangles; strength rests in a great wagon's axle.",
+    "Losing the ram without a struggle: no regret.",
+    "The ram butts the hedge, able neither to retreat nor to advance: nothing beneficial; hardship, then good fortune."
+   ]
+  },
+  {
+   "number": 35,
+   "name": "Progress (Jin)",
+   "judgment": "The noble lord is granted horses in great numbers and received in audience three times in a single day.",
+   "lines": [
+    "Advancing, then thrust back: perseverance brings good fortune. Not yet trusted, remain at ease: no blame.",
+    "Advancing in sorrow: perseverance brings good fortune. Receiving this great blessing from the royal grandmother.",
+    "All place their trust in him: regret vanishes.",
+    "Advancing like a marmot: perseverance brings danger.",
+    "Regret vanishes; take neither gain nor loss to heart; advancing brings good fortune, everything is beneficial.",
+    "Advancing with the horns, fit only for punishing one's own city: danger, then good fortune, no blame — yet perseverance brings regret."
+   ]
+  },
+  {
+   "number": 36,
+   "name": "Darkening of the Light (Ming Yi)",
+   "judgment": "Beneficial to persevere through hardship.",
+   "lines": [
+    "Darkened light in flight with drooping wings. The noble person travels three days without food; where he goes, the host has complaints.",
+    "Darkened light, wounded in the left thigh; rescued by a powerful horse: good fortune.",
+    "Darkened light on a southern hunt captures the great chief; do not force quick constancy.",
+    "Entering the left side of the belly, grasping the very heart of the darkened light, then leaving by gate and courtyard.",
+    "The darkened light of Jizi: perseverance is beneficial.",
+    "No light, only darkness: first rising up to heaven, then plunging into the earth."
+   ]
+  },
+  {
+   "number": 37,
+   "name": "The Family (Jia Ren)",
+   "judgment": "The woman's perseverance is beneficial.",
+   "lines": [
+    "Firm order within the family: regret vanishes.",
+    "Nothing to pursue on her own; attending to the food within: perseverance brings good fortune.",
+    "When the household runs stern, there is regret and severity, yet good fortune; when wife and children dally and giggle, it ends in regret.",
+    "Enriching the family: great good fortune.",
+    "The king draws near to his family: do not worry; good fortune.",
+    "With sincerity and with dignity: good fortune in the end."
+   ]
+  },
+  {
+   "number": 38,
+   "name": "Opposition (Kui)",
+   "judgment": "Good fortune in small matters.",
+   "lines": [
+    "Regret vanishes. A lost horse — do not chase it; it returns by itself. Meeting bad people: no blame.",
+    "Meeting one's lord in a narrow lane: no blame.",
+    "Seeing the wagon dragged back, the oxen held fast, the man's hair and nose cut off: a bad beginning, a good end.",
+    "Estranged and alone, he meets a kindred man and they join in sincerity: danger, but no blame.",
+    "Regret vanishes; his kinsman bites through the soft flesh — going to him, what blame is there?",
+    "Estranged and alone: seeing a pig caked in mud, a whole wagon of ghosts. First he draws the bow, then sets it down: not a robber but a suitor. Going on and meeting rain brings good fortune."
+   ]
+  },
+  {
+   "number": 39,
+   "name": "Obstruction (Jian)",
+   "judgment": "Beneficial to the southwest, not to the northeast; beneficial to see a great person; perseverance brings good fortune.",
+   "lines": [
+    "Going meets obstruction; coming back earns praise.",
+    "The king's servant faces obstruction upon obstruction, through no fault of his own.",
+    "Going meets obstruction; so he turns back.",
+    "Going meets obstruction; coming back brings connection.",
+    "In the greatest obstruction, friends arrive.",
+    "Going meets obstruction; coming back brings great results: good fortune; beneficial to see a great person."
+   ]
+  },
+  {
+   "number": 40,
+   "name": "Deliverance (Jie)",
+   "judgment": "Beneficial to the southwest. With nothing left to pursue, returning brings good fortune; with something still to pursue, acting early brings good fortune.",
+   "lines": [
+    "No blame.",
+    "Catching three foxes in the field and finding a yellow arrow: perseverance brings good fortune.",
+    "Carrying a load on one's back while riding in a carriage invites robbers: perseverance leads to regret.",
+    "Free yourself from the big toe; then a friend arrives, and trust with him.",
+    "The noble person alone can loosen this: good fortune; thereby he proves his sincerity to petty men.",
+    "The duke shoots a hawk atop a high wall and takes it: everything is beneficial."
+   ]
+  },
+  {
+   "number": 41,
+   "name": "Decrease (Sun)",
+   "judgment": "With sincerity: supreme good fortune, no blame; one may persevere; beneficial to have somewhere to go. What should be used? Even two small bowls suffice for the offering.",
+   "lines": [
+    "Finishing one's own tasks and hurrying off to help: no blame, but weigh how much you give.",
+    "Perseverance is beneficial; advancing brings misfortune. Without decreasing himself, he increases another.",
+    "Three traveling together lose one of their number; one traveling alone finds a friend.",
+    "Reducing one's ailment brings swift joy: no blame.",
+    "Someone enriches him; ten pairs of tortoise shells cannot gainsay it: supreme good fortune.",
+    "Not decreasing but increasing others: no blame; perseverance brings good fortune; beneficial to have somewhere to go. He gains servants and no longer keeps a household of his own."
+   ]
+  },
+  {
+   "number": 42,
+   "name": "Increase (Yi)",
+   "judgment": "Beneficial to have somewhere to go; beneficial to cross the great river.",
+   "lines": [
+    "Fit for accomplishing great works: supreme good fortune, no blame.",
+    "Someone enriches him; ten pairs of tortoise shells cannot gainsay it: lasting perseverance brings good fortune. The king makes offering to the Lord on High: good fortune.",
+    "Enriched through grim affairs: no blame. With sincerity, walking the middle way, reporting to the duke with jade tablet in hand.",
+    "Walking the middle way, reporting to the duke, who follows his counsel: fit to be relied upon in moving the capital.",
+    "With a sincere and kindly heart, do not ask: supreme good fortune. Sincerity will repay my virtue.",
+    "No one enriches him; someone even strikes him. A heart without constancy: misfortune."
+   ]
+  },
+  {
+   "number": 43,
+   "name": "Breakthrough (Guai)",
+   "judgment": "Declared at the royal court with a sincere outcry: danger. Notify your own city; taking up arms is not beneficial; having somewhere to go is beneficial.",
+   "lines": [
+    "Strong in the forward-striding toes: going when unequal to the task brings blame.",
+    "Alarm and outcry; armed men in the night — do not fear.",
+    "Strength in the cheekbones: misfortune. The noble person is doubly resolute, walks alone, meets rain and gets soaked; people grumble: no blame.",
+    "No skin left on his seat, walking with difficulty. Led along like a sheep, regret would vanish; hearing these words, he does not believe them.",
+    "Amaranth on the hill, cut away doubly resolutely; walking the middle way: no blame.",
+    "No outcry at all: misfortune in the end."
+   ]
+  },
+  {
+   "number": 44,
+   "name": "Coming to Meet (Gou)",
+   "judgment": "The woman is powerful; do not marry such a woman.",
+   "lines": [
+    "Check it with a bronze brake: perseverance brings good fortune. Let it wander anywhere and misfortune appears; even a lean pig will kick and struggle.",
+    "A fish in the basket: no blame; not good for guests.",
+    "No skin left on his seat, walking with difficulty: danger, but no great blame.",
+    "No fish in the basket: this stirs up misfortune.",
+    "A melon wrapped in willow leaves, holding hidden splendor: something falls from heaven.",
+    "Meeting it with his horns: regret, but no blame."
+   ]
+  },
+  {
+   "number": 45,
+   "name": "Gathering Together (Cui)",
+   "judgment": "Success. The king approaches the temple; beneficial to see a great person; success; perseverance is beneficial. Offering a great sacrifice brings good fortune; beneficial to have somewhere to go.",
+   "lines": [
+    "Sincerity that does not last brings disorder to the gathering; a cry, then a handshake turns it to laughter. Do not worry; going brings no blame.",
+    "Letting oneself be drawn brings good fortune and no blame; with sincerity, even a small offering will do.",
+    "Gathering amid sighs: nothing beneficial. Going brings no blame, only slight regret.",
+    "Great good fortune, no blame.",
+    "Gathering while holding position: no blame. If some do not yet trust, great and lasting perseverance is needed; then regret vanishes.",
+    "Sighing and lamenting, tears and a running nose: no blame."
+   ]
+  },
+  {
+   "number": 46,
+   "name": "Pushing Upward (Sheng)",
+   "judgment": "Supreme success; one should see a great person; do not worry; campaigning toward the south brings good fortune.",
+   "lines": [
+    "Rising in trust: great good fortune.",
+    "With sincerity, even a small offering will do: no blame.",
+    "Rising into an empty city.",
+    "The king makes offering on Mount Qi: good fortune, no blame.",
+    "Perseverance brings good fortune; rising step by step.",
+    "Rising in the dark: beneficial to persevere without ceasing."
+   ]
+  },
+  {
+   "number": 47,
+   "name": "Oppression (Kun)",
+   "judgment": "Success; perseverance; the great person has good fortune; no blame. What one says is not believed.",
+   "lines": [
+    "Oppressed, sitting against a bare tree; entering a gloomy valley, seeing no one for three years.",
+    "Oppressed amid wine and food; the scarlet-sashed lord is on his way; fit for offering sacrifice. Advancing brings misfortune, yet no blame.",
+    "Oppressed by stone, leaning on thorns and thistles; entering his house, he does not see his wife: misfortune.",
+    "Arriving ever so slowly, oppressed in a metal carriage: regret, but an end is reached.",
+    "Nose and feet cut off, oppressed by the red-sashed one; slowly relief comes; fit for offering sacrifice.",
+    "Oppressed by creeping vines, in peril and unrest, saying 'every move brings regret.' Feeling that regret and then moving brings good fortune."
+   ]
+  },
+  {
+   "number": 48,
+   "name": "The Well (Jing)",
+   "judgment": "The town may be moved, but the well cannot; it neither loses nor gains; people come and go drawing from it. Nearly reaching the water with a rope too short, or breaking the jug: misfortune.",
+   "lines": [
+    "A muddy well no one drinks from; an old well that draws no game.",
+    "Shooting at the little fish in the well's depths; the jar is cracked and leaking.",
+    "The well is cleaned, yet no one drinks — this grieves my heart; its water could be drawn. If the king were clear-minded, all would share the blessing.",
+    "The well is being relined: no blame.",
+    "The well runs clear, a cold spring one can drink.",
+    "The well is drawn and left uncovered; with sincerity: supreme good fortune."
+   ]
+  },
+  {
+   "number": 49,
+   "name": "Revolution (Ge)",
+   "judgment": "Only on the appointed day is he believed: supreme success; perseverance is beneficial; regret vanishes.",
+   "lines": [
+    "Bound fast in the hide of a yellow cow.",
+    "On the appointed day, carry out the change: advancing brings good fortune, no blame.",
+    "Advancing brings misfortune; perseverance is dangerous. When the talk of change has gone round three times, there will be trust.",
+    "Regret vanishes; with trust, altering the mandate: good fortune.",
+    "The great person changes like a tiger; believed even before the oracle is consulted.",
+    "The noble person changes like a leopard; the petty man changes only his face. Advancing brings misfortune; staying steadfast brings good fortune."
+   ]
+  },
+  {
+   "number": 50,
+   "name": "The Cauldron (Ding)",
+   "judgment": "Supreme good fortune; success.",
+   "lines": [
+    "A cauldron tipped onto its legs: good for pouring out the spoiled; taking a concubine for the sake of her son: no blame.",
+    "The cauldron has food in it; my rivals are stricken and cannot get at me: good fortune.",
+    "The cauldron's ears are altered and its use blocked; the fat of the pheasant goes uneaten. Once the rain comes, regret is spent: good fortune in the end.",
+    "The cauldron's legs snap, the duke's stew spills and soaks him: misfortune.",
+    "The cauldron has yellow ears and a metal carrying-bar: perseverance is beneficial.",
+    "The cauldron has a jade carrying-bar: great good fortune; everything is beneficial."
+   ]
+  },
+  {
+   "number": 51,
+   "name": "The Arousing (Zhen)",
+   "judgment": "Success. Thunder arrives with fright, then laughing talk. The shock terrifies for a hundred li around, yet he does not drop the sacrificial ladle of wine.",
+   "lines": [
+    "Thunder arrives with fright; afterward, laughing talk: good fortune.",
+    "Thunder arrives with danger; countless treasures lost, climbing the nine hills. Do not chase them; in seven days they are regained.",
+    "Thunder arrives with dismay; acting on amid thunder, there is no harm.",
+    "Thunder sinks into the mud.",
+    "Thunder comes and goes with danger; countless losses, yet affairs still get managed.",
+    "Thunder brings cringing and darting glances; advancing brings misfortune. The thunder strikes not him but his neighbor: no blame; in marriage there is talk."
+   ]
+  },
+  {
+   "number": 52,
+   "name": "Keeping Still (Gen)",
+   "judgment": "Keeping the back so still that the body goes unfelt; walking the courtyard without seeing the people: no blame.",
+   "lines": [
+    "Keeping the toes still: no blame; lasting perseverance is beneficial.",
+    "Keeping the calves still; unable to rescue the one he follows, his heart is not glad.",
+    "Keeping the waist still, stiffening the spine: danger; the heart is scorched.",
+    "Keeping the whole body still: no blame.",
+    "Keeping the jaws still, speech in due order: regret vanishes.",
+    "Wholehearted stillness: good fortune."
+   ]
+  },
+  {
+   "number": 53,
+   "name": "Development (Jian)",
+   "judgment": "The maiden's marriage brings good fortune; perseverance is beneficial.",
+   "lines": [
+    "The wild goose draws near the shore; the young son in danger, with gossip: no blame.",
+    "The wild goose draws near the rock, eating and drinking in contentment: good fortune.",
+    "The wild goose draws near the plateau; the husband campaigns and does not return, the wife conceives but cannot give birth: misfortune; beneficial to resist robbers.",
+    "The wild goose draws near the tree and may find a level branch: no blame.",
+    "The wild goose draws near the hilltop; the wife barren for three years, yet in the end nothing prevails against her: good fortune.",
+    "The wild goose draws near the high plateau; its feathers may serve in the ceremonial dance: good fortune."
+   ]
+  },
+  {
+   "number": 54,
+   "name": "The Marrying Maiden (Gui Mei)",
+   "judgment": "Advancing brings misfortune; nothing is beneficial.",
+   "lines": [
+    "The marrying maiden goes as a junior wife; lame yet able to walk: advancing brings good fortune.",
+    "One-eyed yet able to see: beneficial for a recluse's perseverance.",
+    "The marrying maiden is held back and returns as a junior wife.",
+    "The marrying maiden lets the set date pass; a late marriage comes in its own time.",
+    "Di Yi marries off his daughter; the princess's sleeves are less fine than her attendant's; the moon nearly full: good fortune.",
+    "The woman holds up the basket but it is empty; the man stabs the sheep but no blood flows: nothing is beneficial."
+   ]
+  },
+  {
+   "number": 55,
+   "name": "Abundance (Feng)",
+   "judgment": "Success; the king attains it. Do not grieve; be like the sun at midday.",
+   "lines": [
+    "Meeting his matched lord; even ten days together is no fault; going earns honor.",
+    "The screen is so thick that the Dipper shows at noon; going earns suspicion and sickness; sincerity breaking through: good fortune.",
+    "The thicket is so dense that small stars show at noon; he breaks his right arm: no blame.",
+    "The screen is so thick that the Dipper shows at noon; meeting his equal lord: good fortune.",
+    "Brilliance arrives; celebration and praise: good fortune.",
+    "His house at peak abundance, screening off his own family; peering through the gate, all is silent and empty; unseen for three years: misfortune."
+   ]
+  },
+  {
+   "number": 56,
+   "name": "The Wanderer (Lü)",
+   "judgment": "Small success; the wanderer's perseverance brings good fortune.",
+   "lines": [
+    "A wanderer fussing over trifles brings disaster on himself.",
+    "The wanderer reaches an inn, keeps his means, and gains a loyal young servant.",
+    "The wanderer's inn burns down; he loses his loyal young servant: perseverance is dangerous.",
+    "The wanderer rests in a lodging and recovers his means and axe, yet his heart is not glad.",
+    "Shooting a pheasant, one arrow lost; in the end come praise and appointment.",
+    "A bird's nest burns up; the wanderer laughs at first, then must weep; losing the ox through carelessness: misfortune."
+   ]
+  },
+  {
+   "number": 57,
+   "name": "The Gentle (Xun)",
+   "judgment": "Small success; beneficial to have somewhere to go; beneficial to see a great person.",
+   "lines": [
+    "Now advancing, now retreating: beneficial for a warrior's perseverance.",
+    "Kneeling beneath the bed, calling in priests and shamans in throngs: good fortune, no blame.",
+    "Yielding again and again: regret.",
+    "Regret vanishes; the hunt takes three kinds of game.",
+    "Perseverance brings good fortune; regret vanishes; everything is beneficial. No beginning, yet an end; three days before the geng day and three days after: good fortune.",
+    "Kneeling beneath the bed, losing his means and axe: perseverance brings misfortune."
+   ]
+  },
+  {
+   "number": 58,
+   "name": "The Joyous (Dui)",
+   "judgment": "Success; perseverance is beneficial.",
+   "lines": [
+    "Harmonious joy: good fortune.",
+    "Sincere joy: good fortune; regret vanishes.",
+    "Joy that comes running: misfortune.",
+    "Weighing one's joy, not yet at peace; warding off illness brings gladness.",
+    "Trusting in what erodes: danger.",
+    "Seductive joy."
+   ]
+  },
+  {
+   "number": 59,
+   "name": "Dispersion (Huan)",
+   "judgment": "Success. The king approaches the temple; beneficial to cross the great river; perseverance is beneficial.",
+   "lines": [
+    "Rescued by a powerful horse: good fortune.",
+    "In dispersion, rushing toward a support: regret vanishes.",
+    "Dispersing his own self: no regret.",
+    "Dispersing his own group: supreme good fortune. Dispersion that gathers into a mound lies beyond ordinary imagining.",
+    "Dissolving like sweat, the great proclamation; dispersing the king's stores: no blame.",
+    "Dispersing the blood; going out and far away: no blame."
+   ]
+  },
+  {
+   "number": 60,
+   "name": "Limitation (Jie)",
+   "judgment": "Success. Bitter restraint must not be persevered in.",
+   "lines": [
+    "Not stepping outside the inner courtyard: no blame.",
+    "Not stepping outside the gate: misfortune.",
+    "One who knows no restraint will have cause to sigh: no blame.",
+    "Contented restraint: success.",
+    "Sweet restraint: good fortune; going earns honor.",
+    "Bitter restraint: perseverance brings misfortune; regret vanishes."
+   ]
+  },
+  {
+   "number": 61,
+   "name": "Inner Truth (Zhong Fu)",
+   "judgment": "Sincerity reaching even pigs and fishes: good fortune; beneficial to cross the great river; perseverance is beneficial.",
+   "lines": [
+    "Staying watchful brings good fortune; other distractions bring no peace.",
+    "A crane calls in the shade and its young answer; I have a fine cup and will share it with you.",
+    "Meeting a matched foe: now drumming, now halting; now weeping, now singing.",
+    "The moon nearly full, the paired horse gone astray: no blame.",
+    "Sincerity holding fast: no blame.",
+    "A rooster's crow rising to the sky: perseverance brings misfortune."
+   ]
+  },
+  {
+   "number": 62,
+   "name": "Preponderance of the Small (Xiao Guo)",
+   "judgment": "Success; perseverance is beneficial. Small things may be done, great things may not. The flying bird leaves its cry behind: not fit to aim high, fit to stay low — great good fortune.",
+   "lines": [
+    "The flying bird meets misfortune.",
+    "Passing by the grandfather to meet the grandmother; not reaching the lord but meeting the minister: no blame.",
+    "Failing to guard against excess, one may be struck down from behind: misfortune.",
+    "No blame; meeting it without overshooting. Going is dangerous — be warned; do not persist forever.",
+    "Dense clouds, no rain, from our western outskirts; the duke shoots and takes the one hiding in the cave.",
+    "Not meeting it but overshooting; the flying bird is caught: misfortune — this is calamity."
+   ]
+  },
+  {
+   "number": 63,
+   "name": "After Completion (Ji Ji)",
+   "judgment": "Success in small matters; perseverance is beneficial; good fortune at the start, disorder at the end.",
+   "lines": [
+    "Dragging the wheels, wetting the tail: no blame.",
+    "The woman loses her carriage curtain; do not chase it — it is regained in seven days.",
+    "King Wuding attacked the Gui tribes and conquered them in three years; petty men must not be employed.",
+    "Fine clothes turn to rags: stay on guard all day long.",
+    "The eastern neighbor slaughtering an ox gains less true blessing than the western neighbor's modest sacrifice.",
+    "Wetting the head: danger."
+   ]
+  },
+  {
+   "number": 64,
+   "name": "Before Completion (Wei Ji)",
+   "judgment": "Success. But the little fox, nearly across, wets its tail: nothing is beneficial.",
+   "lines": [
+    "Wetting the tail: regret.",
+    "Dragging the wheels: perseverance brings good fortune.",
+    "Not yet across; advancing brings misfortune; beneficial to cross the great river.",
+    "Perseverance brings good fortune; regret vanishes. With shock, attacking the Gui tribes, in three years rewarded by a great state.",
+    "Perseverance brings good fortune; no regret; the noble person's light, with sincerity: good fortune.",
+    "Sincerely at ease in drinking wine: no blame; but wetting the head, even sincerity loses what is right."
+   ]
+  }
+ ]
+}
