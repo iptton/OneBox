@@ -38,8 +38,10 @@ interface ElementTransform {
  * @param scale 手势整体缩放(绕内容中心)
  * @param rotation 手势旋转(度,绕内容中心)
  * @param alpha 元素级不透明度(0..1),与颜色自身 alpha 叠乘
- * @param styleSpans 块内局部样式区间(字符下标,后加覆盖先加;字段 null = 继承块级样式),
- * 由就地编辑器的选区样式工具栏产生;编辑中文字增删由 Compose TrackedRange 跟随迁移
+ * @param styleSpans 块内局部样式区间(字符下标;字段 null = 继承块级样式),
+ * 由文字设置面板的选区作用域产生;编辑中文字增删由 Compose TrackedRange 跟随迁移。
+ * 不变量:同属性区间互斥(写入侧 applySpanStyle 保证)——em 字号在 Android 端
+ * 转 RelativeSizeSpan,重叠区间会相乘而非覆盖,互斥是防止字号爆炸的前提
  */
 data class TextBlock(
     val id: String = UUID.randomUUID().toString(),
@@ -68,8 +70,8 @@ data class TextBlock(
 /**
  * 块内局部样式区间(富文本):[start, end) 为 content 字符下标;
  * 四个字段均为可空覆盖,null = 继承块级(块粗体时 bold=false 表示该段反粗)。
- * [sizeScale] 为相对块级字号的倍率(0.5..2,编辑器/预览经 em 单位实现,导出经 RelativeSizeSpan)。
- * 列表顺序即叠加顺序,后加的覆盖先加的(与工具栏"追加式 addStyle"一致)。
+ * [sizeScale] 为相对块级字号的倍率(0.5..4,编辑器/预览经 em 单位实现,导出经 RelativeSizeSpan)。
+ * 同属性区间互斥(见 [TextBlock.styleSpans] 说明);异属性区间重叠时后加的生效。
  */
 data class TextStyleSpan(
     val start: Int,
