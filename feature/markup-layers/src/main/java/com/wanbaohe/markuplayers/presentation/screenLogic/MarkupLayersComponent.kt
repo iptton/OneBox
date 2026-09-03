@@ -1291,7 +1291,11 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                     // 「最近打开」记录:仅在图片确实加载成功后记
                     recordRecentAccess(uri)
                 },
-                onFailure = onFailure
+                onFailure = { throwable ->
+                    // 失败路径也要复位全屏 Loading,否则 LoadingDialog 永久卡住
+                    _isImageLoading.value = false
+                    onFailure(throwable)
+                }
             )
         }
     }

@@ -21,7 +21,8 @@ fun MarkupLayersContent(
         onCancelLoading = {
             component.cancelSaving()
             component.cancelAiProcessing()
+            component.cancelImageLoading()
         },
-        canCancel = component.isSaving || component.isAiProcessing
+        canCancel = component.isSaving || component.isImageLoading || component.isAiProcessing
     )
 }

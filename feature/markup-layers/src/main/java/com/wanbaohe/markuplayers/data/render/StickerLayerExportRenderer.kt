@@ -54,11 +54,22 @@ class StickerLayerExportRenderer @Inject constructor(
             )
         } ?: return
 
+        // 保持贴纸宽高比(与预览侧 ContentScale.Fit 一致):长边对齐 baseSize,中心不变
         val half = baseSize / 2
+        val aspect = bitmap.width.toFloat() / bitmap.height
+        val halfW: Float
+        val halfH: Float
+        if (aspect >= 1f) {
+            halfW = half
+            halfH = half / aspect
+        } else {
+            halfH = half
+            halfW = half * aspect
+        }
         canvas.drawBitmap(
             bitmap,
             null,
-            RectF(-half, -half, half, half),
+            RectF(-halfW, -halfH, halfW, halfH),
             Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
         )
     }

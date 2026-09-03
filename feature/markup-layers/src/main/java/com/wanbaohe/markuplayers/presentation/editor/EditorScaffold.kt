@@ -131,6 +131,7 @@ import com.wanbaohe.markuplayers.presentation.tools.filter.FilterPanel
 import com.wanbaohe.markuplayers.presentation.tools.shape.ShapeToolSheet
 import com.t8rin.imagetoolbox.core.ui.widget.editor.StickerSource
 import com.t8rin.imagetoolbox.core.ui.widget.editor.StickerToolSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -169,6 +170,8 @@ fun EditorScaffold(
     // 图像修复框选模式:true 时画布叠加框选层(矩形相对底图归一化),底部换成取消/确认操作条
     var aiRectSelect by rememberSaveable { mutableStateOf(false) }
     var aiRect by remember { mutableStateOf(DEFAULT_AI_RECT) }
+    // 直出类 AI 能力(非框选)待确认项:处理会替换底图且不可撤销,先弹确认对话框
+    var pendingAiOp by remember { mutableStateOf<AiImageOp?>(null) }
     // 底部 Tab 单一工作态:任一时刻至多一个 Tab 高亮(高亮即「当前工作态」)。
     // basic=左侧工具栏、layers=浮动图层面板、filter=滤镜横滚面板、adjust/ai=对应 Sheet;
     // 再点当前 Tab 或 Sheet dismiss 即清除(同时收起对应面板/Sheet)
@@ -439,21 +442,51 @@ fun EditorScaffold(
         onDismiss = { if (activeBottomTab == EditorTools.ID_AI) activeBottomTab = null },
         pointsCost = aiImageProcessPointsCost(),
         onOpClick = { op ->
-            // 面板收起后先做登录+积分预检;需框选的能力(图像修复)预检通过
-            // 才进框选模式,避免白框选;积分在处理成功后由组件扣除,失败不扣
+            // 面板收起后分流:需框选的能力(图像修复)先做登录+积分预检,通过才进框选模式,
+            // 避免白框选;直出类能力会替换底图且不可撤销,先弹确认对话框,
+            // 确认后才做预检与处理;积分在处理成功后由组件扣除,失败不扣
             activeBottomTab = null
-            val cost = aiImageProcessPointsCost()
-            ActionUtils.ensureLoginAndCheckPoints(
-                source = AI_POINTS_SOURCE,
-                point = cost
-            ) {
-                if (op.needsRect) {
+            if (op.needsRect) {
+                ActionUtils.ensureLoginAndCheckPoints(
+                    source = AI_POINTS_SOURCE,
+                    point = aiImageProcessPointsCost()
+                ) {
                     aiRect = DEFAULT_AI_RECT
                     aiRectSelect = true
-                } else {
-                    component.processAiImage(op, pointsCost = cost)
                 }
+            } else {
+                pendingAiOp = op
             }
+        }
+    )
+
+    // 直出类 AI 处理二次确认:原图将被替换且不可撤销
+    EnhancedAlertDialog(
+        visible = pendingAiOp != null,
+        onDismissRequest = { pendingAiOp = null },
+        title = { Text(stringResource(R.string.markup_ai_replace_title)) },
+        text = { Text(stringResource(R.string.markup_ai_replace_message)) },
+        dismissButton = {
+            CancelButton(
+                text = stringResource(R.string.markup_cancel),
+                onClick = { pendingAiOp = null }
+            )
+        },
+        confirmButton = {
+            ConfirmButton(
+                text = stringResource(R.string.markup_confirm),
+                onClick = {
+                    val op = pendingAiOp ?: return@ConfirmButton
+                    pendingAiOp = null
+                    val cost = aiImageProcessPointsCost()
+                    ActionUtils.ensureLoginAndCheckPoints(
+                        source = AI_POINTS_SOURCE,
+                        point = cost
+                    ) {
+                        component.processAiImage(op, pointsCost = cost)
+                    }
+                }
+            )
         }
     )
 
@@ -556,6 +589,8 @@ private fun EditorTopBarActions(
     onOpenCanvasBackground: () -> Unit,
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
+    // 「清空图层」二次确认:删除全部图层(可撤销),先弹确认对话框
+    var showClearLayersDialog by remember { mutableStateOf(false) }
     EnhancedIconButton(
         onClick = component::undo,
         enabled = component.canUndo
@@ -632,7 +667,7 @@ private fun EditorTopBarActions(
                 },
                 onClick = {
                     menuExpanded = false
-                    component.clearLayers()
+                    showClearLayersDialog = true
                 }
             )
             DropdownMenuItem(
@@ -660,6 +695,29 @@ private fun EditorTopBarActions(
             )
         }
     }
+
+    // 清空图层二次确认(确认后执行,仍可通过撤销恢复)
+    EnhancedAlertDialog(
+        visible = showClearLayersDialog,
+        onDismissRequest = { showClearLayersDialog = false },
+        title = { Text(stringResource(R.string.markup_clear_layers_title)) },
+        text = { Text(stringResource(R.string.markup_clear_layers_message)) },
+        dismissButton = {
+            CancelButton(
+                text = stringResource(R.string.markup_cancel),
+                onClick = { showClearLayersDialog = false }
+            )
+        },
+        confirmButton = {
+            ConfirmButton(
+                text = stringResource(R.string.markup_confirm),
+                onClick = {
+                    showClearLayersDialog = false
+                    component.clearLayers()
+                }
+            )
+        }
+    )
 }
 
 @Composable
@@ -706,6 +764,7 @@ private fun EditorCanvas(
             }
     ) {
         val containerHeightPx = constraints.maxHeight.toFloat()
+        val containerWidthPx = constraints.maxWidth.toFloat()
 
         Box(
             modifier = Modifier
@@ -896,6 +955,8 @@ private fun EditorCanvas(
         // 缩放胶囊:仅缩放比例 ≠100% 且画布手势未被选中图层接管时显示,绘制/框选/沉浸模式下不显示
         ZoomCapsule(
             zoomState = zoomState,
+            // 缩放焦点 = 可视区中心,避免 +/− 时画面向左上角跳动
+            focalPoint = Offset(containerWidthPx / 2f, containerHeightPx / 2f),
             enabled = !drawMode && !aiRectSelect && !immersiveModeState.isImmersive && !transformSelection,
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -1074,13 +1135,14 @@ private fun VerticalDraggable(
 @Composable
 private fun ZoomCapsule(
     zoomState: ZoomState,
+    focalPoint: Offset,
     enabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val scale = zoomState.scale
     val scope = rememberCoroutineScope()
     val step: (Float) -> Unit = { target ->
-        scope.launch { zoomState.changeScale(target, Offset.Zero) }
+        scope.launch { zoomState.changeScale(target, focalPoint) }
     }
     AnimatedVisibility(
         visible = enabled && abs(scale - 1f) > 0.001f,

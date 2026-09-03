@@ -221,4 +221,12 @@
     <string name="markup_ai_edit_current">当前</string>
     <string name="markup_ai_edit_history">历史版本</string>
     <string name="markup_rail_ai">AI</string>
+
+    <!-- 破坏性操作二次确认 -->
+    <string name="markup_clear_layers_title">清空图层</string>
+    <string name="markup_clear_layers_message">此操作将删除所有图层。</string>
+    <string name="markup_ai_replace_title">替换原图?</string>
+    <string name="markup_ai_replace_message">处理后原图将被替换且不可撤销,是否继续?</string>
+    <string name="markup_crop_bake_title">将图层合并进图片?</string>
+    <string name="markup_crop_bake_message">旋转后将把所有图层合并进图片,图层不可再单独编辑,是否继续?</string>
 </resources>

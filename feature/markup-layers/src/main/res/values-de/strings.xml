@@ -222,4 +222,12 @@
     <string name="markup_ai_edit_current">Aktuell</string>
     <string name="markup_ai_edit_history">Verlauf</string>
     <string name="markup_rail_ai">AI</string>
+
+    <!-- 破坏性操作二次确认 -->
+    <string name="markup_clear_layers_title">Ebenen löschen</string>
+    <string name="markup_clear_layers_message">Dadurch werden alle Ebenen gelöscht.</string>
+    <string name="markup_ai_replace_title">Originalbild ersetzen?</string>
+    <string name="markup_ai_replace_message">Das Originalbild wird nach der Verarbeitung ersetzt und kann nicht rückgängig gemacht werden. Fortfahren?</string>
+    <string name="markup_crop_bake_title">Ebenen ins Bild einbetten?</string>
+    <string name="markup_crop_bake_message">Beim Drehen werden alle Ebenen ins Bild eingebettet und können nicht mehr einzeln bearbeitet werden. Fortfahren?</string>
 </resources>

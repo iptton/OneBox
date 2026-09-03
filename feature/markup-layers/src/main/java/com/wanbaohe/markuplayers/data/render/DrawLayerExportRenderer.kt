@@ -59,15 +59,20 @@ class DrawLayerExportRenderer @Inject constructor() : LayerExportRenderer {
         val points = stroke.points
         if (points.isEmpty()) return
         val widthPx = (stroke.widthRatio * imageWidth).coerceAtLeast(1f)
-        val paint = strokePaint(stroke, widthPx)
 
         fun StrokePoint.toX() = x * imageWidth
         fun StrokePoint.toY() = y * imageHeight
 
         if (points.size == 1) {
-            canvas.drawCircle(points.first().toX(), points.first().toY(), widthPx / 2, paint)
+            // 单点笔画为实心圆:若沿用 STROKE,描边会向内外各扩一半,导出直径翻倍
+            canvas.drawCircle(
+                points.first().toX(), points.first().toY(), widthPx / 2,
+                strokePaint(stroke, widthPx).apply { style = Paint.Style.FILL }
+            )
             return
         }
+
+        val paint = strokePaint(stroke, widthPx)
 
         if (stroke.brush == BrushType.Brush) {
             // 毛笔近似:与预览侧同一 taper 曲线,逐段变宽
