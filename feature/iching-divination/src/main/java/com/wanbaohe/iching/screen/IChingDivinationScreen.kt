@@ -12,6 +12,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -159,12 +160,11 @@ private fun CastForm(question: String, onQuestionChange: (String) -> Unit, onCas
         modifier = Modifier.fillMaxSize().imePadding().navigationBarsPadding().padding(24.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(top = 56.dp),
-            horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterHorizontally),
-        ) {
-            CoinFronts.forEach { CoinImage(it, size = 112.dp) }
-        }
+        CoinTripleRow(
+            modifier = Modifier.padding(top = 56.dp),
+            coinSize = 112.dp,
+            spacing = 24.dp,
+        )
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(
                 text = stringResource(R.string.iching_question_label),
@@ -206,41 +206,42 @@ private fun TossingContent(completed: Int) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterHorizontally),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                // 三枚铜钱共用一个动画时钟:任意时刻姿态完全一致,不会因错相位显得大小不一
-                val transition = rememberInfiniteTransition(label = "coin_toss")
-                val rotation by transition.animateFloat(
-                    initialValue = -28f,
-                    targetValue = 28f,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(360, easing = LinearEasing),
-                        repeatMode = RepeatMode.Reverse,
-                    ),
-                    label = "coin_rotation",
-                )
-                val offsetY by transition.animateFloat(
-                    initialValue = -34f,
-                    targetValue = 8f,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(300, easing = LinearEasing),
-                        repeatMode = RepeatMode.Reverse,
-                    ),
-                    label = "coin_offset",
-                )
-                val flip by transition.animateFloat(
-                    initialValue = 1f,
-                    targetValue = 0.5f,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(180, easing = LinearEasing),
-                        repeatMode = RepeatMode.Reverse,
-                    ),
-                    label = "coin_flip",
-                )
-                CoinFronts.forEach { TossingCoin(icon = it, rotation = rotation, offsetY = offsetY, flip = flip) }
-            }
+            // 三枚铜钱共用一个动画时钟:任意时刻姿态完全一致,不会因错相位显得大小不一
+            val transition = rememberInfiniteTransition(label = "coin_toss")
+            val rotation by transition.animateFloat(
+                initialValue = -28f,
+                targetValue = 28f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(360, easing = LinearEasing),
+                    repeatMode = RepeatMode.Reverse,
+                ),
+                label = "coin_rotation",
+            )
+            val offsetY by transition.animateFloat(
+                initialValue = -34f,
+                targetValue = 8f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(300, easing = LinearEasing),
+                    repeatMode = RepeatMode.Reverse,
+                ),
+                label = "coin_offset",
+            )
+            val flip by transition.animateFloat(
+                initialValue = 1f,
+                targetValue = 0.5f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(180, easing = LinearEasing),
+                    repeatMode = RepeatMode.Reverse,
+                ),
+                label = "coin_flip",
+            )
+            CoinTripleRow(
+                coinSize = 96.dp,
+                spacing = 20.dp,
+                rotation = rotation,
+                offsetY = offsetY,
+                flip = flip,
+            )
             Box(
                 modifier = Modifier
                     .width(220.dp)
@@ -269,18 +270,35 @@ private fun TossingContent(completed: Int) {
     }
 }
 
-/** 单枚空中铜钱:旋转 + 上下位移 + 纵向缩放模拟翻转(动画值由调用方统一提供,保证三枚同步) */
+/**
+ * 三枚铜钱一排:窄屏按比例等比缩小,保证任何宽度下三枚等大且不溢出。
+ * [rotation]/[offsetY]/[flip] 为摇卦动画值,静止展示时用默认值即可。
+ */
 @Composable
-private fun TossingCoin(icon: ImageVector, rotation: Float, offsetY: Float, flip: Float) {
-    CoinImage(
-        icon = icon,
-        size = 96.dp,
-        modifier = Modifier.graphicsLayer {
-            rotationZ = rotation
-            translationY = offsetY.dp.toPx()
-            scaleY = flip
-        },
-    )
+private fun CoinTripleRow(
+    coinSize: Dp,
+    spacing: Dp,
+    modifier: Modifier = Modifier,
+    rotation: Float = 0f,
+    offsetY: Float = 0f,
+    flip: Float = 1f,
+) {
+    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+        val fittedSize = ((maxWidth - spacing * 2) / 3).coerceAtMost(coinSize)
+        Row(horizontalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterHorizontally)) {
+            CoinFronts.forEach {
+                CoinImage(
+                    icon = it,
+                    size = fittedSize,
+                    modifier = Modifier.graphicsLayer {
+                        rotationZ = rotation
+                        translationY = offsetY.dp.toPx()
+                        scaleY = flip
+                    },
+                )
+            }
+        }
+    }
 }
 
 /** 铜钱落地:三角落定(字/背面与爻值对应),下方自下而上累积已出爻 */
