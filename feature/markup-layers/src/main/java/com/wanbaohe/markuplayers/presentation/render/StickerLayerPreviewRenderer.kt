@@ -1,5 +1,6 @@
 package com.wanbaohe.markuplayers.presentation.render
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,7 +17,7 @@ import kotlin.reflect.KClass
 /** 贴纸基础尺寸:预览画布宽度的 25%(导出侧同比例 × 原图宽) */
 internal const val STICKER_BASE_WIDTH_RATIO = 0.25f
 
-/** 贴纸图层预览:emoji 走 core emoji 表(assets SVG),Asset 读 assets 素材,Generated 读本地文件 */
+/** 贴纸图层预览:emoji 走 core emoji 表(assets SVG),Asset 读 assets 素材,Generated 读本地文件;带滤镜时渲染过滤后位图 */
 object StickerLayerPreviewRenderer : LayerPreviewRenderer {
 
     override val supportedType: KClass<out LayerType> = LayerType.Sticker::class
@@ -26,12 +27,13 @@ object StickerLayerPreviewRenderer : LayerPreviewRenderer {
         layer: MarkupLayer,
         canvasWidthPx: Float,
         canvasHeightPx: Float,
+        filteredBitmap: Bitmap?,
     ) {
         val type = layer.type as? LayerType.Sticker ?: return
         val baseSize = with(LocalDensity.current) {
             (canvasWidthPx * STICKER_BASE_WIDTH_RATIO).toDp()
         }
-        val model: Any = when (val source = type.source) {
+        val model: Any = filteredBitmap ?: when (val source = type.source) {
             is StickerSource.Emoji -> Emoji.allIcons().getOrNull(source.emojiIndex) ?: return
             is StickerSource.Asset -> "file:///android_asset/${source.path}"
             is StickerSource.Generated -> File(source.path)

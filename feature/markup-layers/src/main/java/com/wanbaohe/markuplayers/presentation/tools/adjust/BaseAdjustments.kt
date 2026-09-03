@@ -4,7 +4,9 @@ import android.graphics.ColorMatrix
 
 /**
  * 基础调节参数(亮度/对比度/饱和度),各通道 -100..+100,0 为原图。
- * 不进图层 undo 历史;预览经 colorFilter,导出时烘焙进位图。
+ * 作用目标 = 当前选中图层(存 [com.wanbaohe.markuplayers.domain.model.MarkupLayer.adjustments],
+ * 随图层进 undo 历史);未选中图层时作用于背景图(组件级状态,不进 undo)。
+ * 预览经 colorFilter,导出时按目标烘焙进位图。
  */
 data class BaseAdjustments(
     val brightness: Int = 0,

@@ -230,4 +230,11 @@
     <string name="markup_ai_replace_message">A imagem original será substituída após o processamento e não poderá ser desfeito. Continuar?</string>
     <string name="markup_crop_bake_title">Mesclar camadas na imagem?</string>
     <string name="markup_crop_bake_message">Ao girar, todas as camadas serão mescladas na imagem e não poderão mais ser editadas separadamente. Continuar?</string>
+
+    <!-- 滤镜/调节作用目标与光栅化确认 -->
+    <string name="markup_target_current_layer">Camada atual: %1$s</string>
+    <string name="markup_target_background">Imagem de fundo</string>
+    <string name="markup_rasterize_title">Converter em imagem?</string>
+    <string name="markup_rasterize_message">Camadas de texto e forma precisam ser convertidas em imagem antes de usar filtros. Após a conversão, as configurações de texto/forma não poderão mais ser editadas, mas podem ser restauradas com Desfazer.</string>
+    <string name="markup_rasterize_failed">Falha ao converter a camada</string>
 </resources>

@@ -214,4 +214,11 @@
     <string name="markup_ai_replace_message">İşlemden sonra orijinal resim değiştirilecek ve geri alınamayacak. Devam edilsin mi?</string>
     <string name="markup_crop_bake_title">Katmanlar resme birleştirilsin mi?</string>
     <string name="markup_crop_bake_message">Döndürme işlemi tüm katmanları resme birleştirecek ve katmanlar artık ayrı ayrı düzenlenemeyecek. Devam edilsin mi?</string>
+
+    <!-- 滤镜/调节作用目标与光栅化确认 -->
+    <string name="markup_target_current_layer">Geçerli katman: %1$s</string>
+    <string name="markup_target_background">Arka plan resmi</string>
+    <string name="markup_rasterize_title">Resme dönüştürülsün mü?</string>
+    <string name="markup_rasterize_message">Metin ve şekil katmanları, filtreleri kullanmadan önce resme dönüştürülmelidir. Dönüştürme sonrasında metin/şekil ayarları artık düzenlenemez, ancak Geri Al ile geri yüklenebilir.</string>
+    <string name="markup_rasterize_failed">Katman dönüştürme başarısız</string>
 </resources>

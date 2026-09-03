@@ -214,4 +214,11 @@
     <string name="markup_ai_replace_message">La imagen original se reemplazará tras el procesamiento y no se podrá deshacer. ¿Continuar?</string>
     <string name="markup_crop_bake_title">¿Combinar capas en la imagen?</string>
     <string name="markup_crop_bake_message">Al girar, todas las capas se combinarán en la imagen y ya no se podrán editar por separado. ¿Continuar?</string>
+
+    <!-- 滤镜/调节作用目标与光栅化确认 -->
+    <string name="markup_target_current_layer">Capa actual: %1$s</string>
+    <string name="markup_target_background">Imagen de fondo</string>
+    <string name="markup_rasterize_title">¿Convertir en imagen?</string>
+    <string name="markup_rasterize_message">Las capas de texto y forma deben convertirse en una imagen antes de usar filtros. Tras la conversión, los ajustes de texto/forma ya no se podrán editar, pero puedes restaurarlos con Deshacer.</string>
+    <string name="markup_rasterize_failed">Error al convertir la capa</string>
 </resources>

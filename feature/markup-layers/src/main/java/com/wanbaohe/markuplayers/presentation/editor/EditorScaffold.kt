@@ -36,7 +36,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableFloatStateOf
@@ -72,6 +71,7 @@ import com.shifenmiao.base.utils.ActionUtils
 import com.shifenmiao.common.ui.BaseScreen
 import com.shifenmiao.common.ui.ImmersiveModeState
 import com.shifenmiao.common.ui.rememberImmersiveModeState
+import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
@@ -172,6 +172,8 @@ fun EditorScaffold(
     var aiRect by remember { mutableStateOf(DEFAULT_AI_RECT) }
     // 直出类 AI 能力(非框选)待确认项:处理会替换底图且不可撤销,先弹确认对话框
     var pendingAiOp by remember { mutableStateOf<AiImageOp?>(null) }
+    // 文字/形状图层选滤镜的待确认项:图层 id + 待应用滤镜,确认后光栅化为图片图层再应用
+    var pendingRasterize by remember { mutableStateOf<Pair<String, UiFilter<*>>?>(null) }
     // 底部 Tab 单一工作态:任一时刻至多一个 Tab 高亮(高亮即「当前工作态」)。
     // basic=左侧工具栏、layers=浮动图层面板、filter=滤镜横滚面板、adjust/ai=对应 Sheet;
     // 再点当前 Tab 或 Sheet dismiss 即清除(同时收起对应面板/Sheet)
@@ -251,11 +253,6 @@ fun EditorScaffold(
         }
     }
 
-    // 滤镜横滚面板开关同步给组件:面板打开或已选滤镜期间,画布显示合成滤镜预览
-    LaunchedEffect(filterPanelVisible) {
-        component.setFilterSheetOpen(filterPanelVisible)
-    }
-
     BaseScreen(
         title = stringResource(R.string.markup_editor_title),
         onGoBack = onBack,
@@ -315,6 +312,9 @@ fun EditorScaffold(
                 onAddImageLayer = { imageLayerPicker.pickImage() },
                 onExpandLayers = { showLayersSheet = true },
                 onOpenFullFilterCatalog = { showFullFilterSheet = true },
+                onRequestRasterize = { layerId, filter ->
+                    pendingRasterize = layerId to filter
+                },
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
@@ -426,12 +426,23 @@ fun EditorScaffold(
         onDismiss = { showFullFilterSheet = false },
         previewBitmap = component.displayBitmap,
         onFilterPicked = { filter ->
-            component.selectFilter(filter)
+            // 选中文字/形状图层时先走光栅化确认,确认后才应用滤镜
+            val vector = component.rasterizeRequiredLayer
+            if (vector != null) {
+                pendingRasterize = vector.id to filter
+            } else {
+                component.selectFilter(filter)
+            }
             showFullFilterSheet = false
         },
         onFilterPickedWithParams = { filter ->
             // TODO: 带参数滤镜暂未做参数编辑页,本期按默认参数直接应用
-            component.selectFilter(filter)
+            val vector = component.rasterizeRequiredLayer
+            if (vector != null) {
+                pendingRasterize = vector.id to filter
+            } else {
+                component.selectFilter(filter)
+            }
             showFullFilterSheet = false
         },
         canAddTemplates = false
@@ -484,6 +495,32 @@ fun EditorScaffold(
                         point = cost
                     ) {
                         component.processAiImage(op, pointsCost = cost)
+                    }
+                }
+            )
+        }
+    )
+
+    // 文字/形状图层选滤镜的光栅化确认:确定 = 光栅化为图片图层(可撤销)并应用滤镜;取消 = 零副作用
+    EnhancedAlertDialog(
+        visible = pendingRasterize != null,
+        onDismissRequest = { pendingRasterize = null },
+        title = { Text(stringResource(R.string.markup_rasterize_title)) },
+        text = { Text(stringResource(R.string.markup_rasterize_message)) },
+        dismissButton = {
+            CancelButton(
+                text = stringResource(R.string.markup_cancel),
+                onClick = { pendingRasterize = null }
+            )
+        },
+        confirmButton = {
+            ConfirmButton(
+                text = stringResource(R.string.markup_confirm),
+                onClick = {
+                    val (layerId, filter) = pendingRasterize ?: return@ConfirmButton
+                    pendingRasterize = null
+                    component.rasterizeLayer(layerId) {
+                        component.selectFilter(filter)
                     }
                 }
             )
@@ -675,7 +712,8 @@ private fun EditorTopBarActions(
                 leadingIcon = {
                     Icon(Icons.Outlined.LineFilters, contentDescription = null)
                 },
-                enabled = component.selectedFilter != null,
+                // 清除当前目标的滤镜:选中图层 → 清图层滤镜(入 undo);无选中 → 清背景图
+                enabled = component.targetFilter != null,
                 onClick = {
                     menuExpanded = false
                     component.selectFilter(null)
@@ -737,12 +775,12 @@ private fun EditorCanvas(
     onAddImageLayer: () -> Unit,
     onExpandLayers: () -> Unit,
     onOpenFullFilterCatalog: () -> Unit,
+    onRequestRasterize: (layerId: String, filter: UiFilter<*>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val zoomState = rememberZoomState(maxScale = 10f)
     val drawMode = drawSession != null
     // 有选中(非锁定)图层时:画布手势作用于选中图层本身,画布缩放/平移让位
-    // (滤镜合成预览下选中图层不在合成图内,仍走 live 渲染与直接操纵)
     val gestureLayer = component.layers
         .firstOrNull { it.id == component.selectedLayerId }
         ?.takeIf {
@@ -781,15 +819,14 @@ private fun EditorCanvas(
         ) {
             val bitmap = component.bitmap
             if (bitmap != null) {
-                // 滤镜激活(选中滤镜或滤镜面板打开)时展示合成预览(底图+图层烘焙后过滤镜),
-                // 仅选中图层仍 live 渲染在最上层;无滤镜时底图滤镜预览(displayBitmap)+ 全量图层实时渲染
-                val filterComposite = component.filterCompositeBitmap
-                val display = filterComposite ?: component.displayBitmap ?: bitmap
+                // 底图(带背景滤镜预览)+ 全量图层 live 渲染;背景调节只作用于底图 Picture,
+                // 各图层自身的滤镜(过滤后位图)/调节(colorFilter)在图层渲染处应用
+                val display = component.displayBitmap ?: bitmap
                 val imageBitmap = remember(display) { display.asImageBitmap() }
-                val adjustments = component.baseAdjustments
-                val baseColorFilter = remember(adjustments) {
-                    if (adjustments.isNeutral) null
-                    else ColorFilter.colorMatrix(ColorMatrix(adjustments.toColorMatrixValues()))
+                val baseAdjustments = component.baseAdjustments
+                val baseColorFilter = remember(baseAdjustments) {
+                    if (baseAdjustments.isNeutral) null
+                    else ColorFilter.colorMatrix(ColorMatrix(baseAdjustments.toColorMatrixValues()))
                 }
                 BoxWithConstraints(
                     modifier = Modifier
@@ -819,15 +856,6 @@ private fun EditorCanvas(
                                 width = with(density) { canvasSize.width.toDp() },
                                 height = with(density) { canvasSize.height.toDp() }
                             )
-                            // 调色作用于「底图+图层」整个画布:离屏合成后整体过 colorFilter,与导出一致
-                            .then(
-                                if (baseColorFilter != null) {
-                                    Modifier.graphicsLayer {
-                                        compositingStrategy = CompositingStrategy.Offscreen
-                                        colorFilter = baseColorFilter
-                                    }
-                                } else Modifier
-                            )
                     ) {
                         // 透明棋盘格内缩 1dp:与图片同 bounds 时,缩放/平移带来的亚像素
                         // 边缘抗锯齿会让棋盘格在图片下缘/右缘露出细条;内缩后只有图片
@@ -845,6 +873,15 @@ private fun EditorCanvas(
                             modifier = Modifier
                                 .matchParentSize()
                                 .clipToBounds()
+                                // 背景调节只作用于底图:离屏合成后过 colorFilter,与导出烘焙一致
+                                .then(
+                                    if (baseColorFilter != null) {
+                                        Modifier.graphicsLayer {
+                                            compositingStrategy = CompositingStrategy.Offscreen
+                                            colorFilter = baseColorFilter
+                                        }
+                                    } else Modifier
+                                )
                         )
                         // 选中图层的画布级手势层:置于图层之下,手指不在图层上也能变换选中图层
                         if (gestureLayer != null) {
@@ -859,13 +896,9 @@ private fun EditorCanvas(
                                 }
                             )
                         }
-                        // 滤镜合成预览激活时仅选中图层保持 live 渲染(未过滤镜,作为「正在编辑」
-                        // 的视觉反馈,其余图层已烘焙进合成图);无滤镜时全部图层实时渲染
-                        val liveLayers = if (filterComposite == null) {
-                            component.layers
-                        } else {
-                            component.layers.filter { it.id == component.selectedLayerId }
-                        }
+                        // 全部图层实时渲染;每个图层应用自身的滤镜(组件预算的过滤后位图)
+                        // 与调节(离屏 colorFilter),与导出侧逐图层烘焙一致
+                        val liveLayers = component.layers
                         if (liveLayers.isNotEmpty()) {
                             BoxWithConstraints(
                                 modifier = Modifier.matchParentSize()
@@ -921,11 +954,32 @@ private fun EditorCanvas(
                                                 )
                                             }
                                         ) {
-                                            LayerPreviewRenderers.Content(
-                                                layer = layer,
-                                                canvasWidthPx = layerCanvasWidth,
-                                                canvasHeightPx = layerCanvasHeight
-                                            )
+                                            // 图层调节:离屏合成后过 colorFilter,只作用于本图层内容
+                                            val layerColorFilter = remember(layer.adjustments) {
+                                                if (layer.adjustments.isNeutral) null
+                                                else ColorFilter.colorMatrix(
+                                                    ColorMatrix(layer.adjustments.toColorMatrixValues())
+                                                )
+                                            }
+                                            Box(
+                                                modifier = Modifier.then(
+                                                    if (layerColorFilter != null) {
+                                                        Modifier.graphicsLayer {
+                                                            compositingStrategy =
+                                                                CompositingStrategy.Offscreen
+                                                            colorFilter = layerColorFilter
+                                                        }
+                                                    } else Modifier
+                                                )
+                                            ) {
+                                                LayerPreviewRenderers.Content(
+                                                    layer = layer,
+                                                    canvasWidthPx = layerCanvasWidth,
+                                                    canvasHeightPx = layerCanvasHeight,
+                                                    filteredBitmap = component
+                                                        .layerFilteredBitmap(layer)
+                                                )
+                                            }
                                         }
                                     }
                                 }
@@ -982,6 +1036,7 @@ private fun EditorCanvas(
             FilterPanel(
                 component = component,
                 onOpenFullCatalog = onOpenFullFilterCatalog,
+                onRequestRasterize = onRequestRasterize,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
         }

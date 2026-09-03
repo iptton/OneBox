@@ -11,6 +11,7 @@ import android.net.Uri
 import android.util.Base64
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.IntSize
 import androidx.core.net.toUri
@@ -49,6 +50,9 @@ import com.t8rin.imagetoolbox.core.utils.fileProviderAuthority
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.logger.makeLog
 import com.wanbaohe.markuplayers.R
+import com.wanbaohe.markuplayers.data.render.DrawLayerExportRenderer
+import com.wanbaohe.markuplayers.data.render.STICKER_EXPORT_BASE_RATIO
+import com.wanbaohe.markuplayers.data.render.StickerLayerExportRenderer
 import com.wanbaohe.markuplayers.domain.MarkupLayersApplier
 import com.wanbaohe.markuplayers.domain.history.LayerHistory
 import com.shifenmiao.base.utils.aiImageProcessPointsCost
@@ -60,6 +64,7 @@ import com.wanbaohe.markuplayers.domain.model.LayerType
 import com.wanbaohe.markuplayers.domain.model.MarkupLayer
 import com.wanbaohe.markuplayers.domain.model.NormalizedRect
 import com.wanbaohe.markuplayers.domain.model.ShapeSpec
+import com.wanbaohe.markuplayers.domain.model.isBitmapFilterable
 import com.wanbaohe.markuplayers.domain.model.toImageProcessRect
 import com.wanbaohe.markuplayers.presentation.export.ExportSettings
 import com.wanbaohe.markuplayers.presentation.export.toExportFormat
@@ -99,6 +104,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val markupLayersApplier: MarkupLayersApplier<Bitmap>,
+    private val drawLayerExportRenderer: DrawLayerExportRenderer,
+    private val stickerLayerExportRenderer: StickerLayerExportRenderer,
     private val imageProcessRepository: BaiduImageProcessRepository,
     private val imageGenerationLoader: ImageGenerationLoader,
     private val filterProvider: FilterProvider<Bitmap>,
@@ -191,61 +198,135 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     // ---------------- 基础调节(亮度/对比度/饱和度) ----------------
 
     /**
-     * 基础调节参数,不进图层 undo 历史;预览经画布容器 colorFilter 实时生效
-     * (作用于底图+图层的整体),导出时在图层合成之后烘焙进全分辨率位图。
+     * 调节/滤镜的作用目标:当前选中图层;未选中任何图层时 = 背景图。
+     * 调节(亮度/对比度/饱和度)所有图层类型与背景图都支持,实时生效;
+     * 滤镜仅位图类图层([isBitmapFilterable])与背景图支持,文字/形状需先光栅化。
+     */
+    val selectedLayer: MarkupLayer?
+        get() = _layers.value.firstOrNull { it.id == _selectedLayerId.value }
+
+    /** 当前目标的调节参数(选中图层 → 图层自身;否则背景图) */
+    val targetAdjustments: BaseAdjustments
+        get() = selectedLayer?.adjustments ?: _baseAdjustments.value
+
+    /** 当前目标的滤镜(选中图层 → 图层自身;否则背景图) */
+    val targetFilter: UiFilter<*>?
+        get() = selectedLayer?.filter ?: _selectedFilter.value
+
+    /** 当前选中且需先光栅化才能用滤镜的图层(文字/形状);无或其他类型为 null */
+    val rasterizeRequiredLayer: MarkupLayer?
+        get() = selectedLayer?.takeIf { !it.type.isBitmapFilterable }
+
+    /**
+     * 背景图的调节参数,不进 undo 历史;预览经底图 Picture 的 colorFilter
+     * 实时生效(仅底图),导出时烘焙进全分辨率底图。选中图层时调节走图层字段
+     * (见 [updateBaseAdjustments] 分流),本状态保持不变。
      */
     private val _baseAdjustments: MutableState<BaseAdjustments> = mutableStateOf(BaseAdjustments())
     val baseAdjustments: BaseAdjustments by _baseAdjustments
 
+    /**
+     * 更新调节参数,按目标分流:选中图层 → 写入图层 adjustments(transient,
+     * 拖动开始的快照由 [beginAdjustmentsChange] 记录,整段拖动 = 一步 undo);
+     * 无选中 → 写背景图状态(不进 undo)。
+     */
     fun updateBaseAdjustments(adjustments: BaseAdjustments) {
+        val target = selectedLayer
+        if (target != null) {
+            updateLayerAdjustmentsTransient(target.id, adjustments)
+            return
+        }
         if (adjustments == _baseAdjustments.value) return
         _baseAdjustments.value = adjustments
         registerChanges()
     }
 
-    fun resetBaseAdjustments() = updateBaseAdjustments(BaseAdjustments())
+    /**
+     * 调节拖动开始:目标是图层时记一次历史快照(配合 [updateBaseAdjustments]
+     * 的 transient 写入,整段滑杆拖动 = 一步 undo);背景图不进 undo,无需快照。
+     */
+    fun beginAdjustmentsChange() {
+        if (selectedLayer == null) return
+        history.snapshot(_layers.value)
+        onLayersChanged()
+    }
 
-    // ---------------- 滤镜(作用于合成结果,顺序:底图+图层合成 → 滤镜 → 调节) ----------------
+    /** 图层调节拖动中:直接改值不入历史(快照已在 [beginAdjustmentsChange] 记录) */
+    private fun updateLayerAdjustmentsTransient(
+        id: String,
+        adjustments: BaseAdjustments
+    ) {
+        if (_layers.value.none { it.id == id }) return
+        _layers.update { list ->
+            list.map { if (it.id == id) it.copy(adjustments = adjustments) else it }
+        }
+        registerChanges()
+    }
 
-    /** 当前选中滤镜;与基础调节同级,不进图层 undo 历史 */
+    /** 重置当前目标的调节:图层走正常 updateLayer(入历史),背景图直接清零 */
+    fun resetBaseAdjustments() {
+        val target = selectedLayer
+        if (target != null) {
+            if (target.adjustments.isNeutral) return
+            updateLayer(target.id) { it.copy(adjustments = BaseAdjustments()) }
+        } else {
+            updateBaseAdjustments(BaseAdjustments())
+        }
+    }
+
+    // ---------------- 滤镜(目标分流:选中位图类图层 → 图层;无选中 → 背景图) ----------------
+
+    /** 背景图的滤镜,不进 undo 历史;选中图层时滤镜走图层字段,本状态保持不变 */
     private val _selectedFilter: MutableState<UiFilter<*>?> = mutableStateOf(null)
     val selectedFilter: UiFilter<*>? by _selectedFilter
 
-    // 滤镜预览缓存(仅底图):对展示底图应用滤镜后的结果,随底图/滤镜变化异步重算
+    // 背景滤镜预览缓存(仅底图):对展示底图应用滤镜后的结果,随底图/滤镜变化异步重算
     private val _filterPreviewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val filterPreviewBitmap: Bitmap? by _filterPreviewBitmap
 
     private var filterPreviewJob: Job? by smartJob()
 
     /**
-     * 合成滤镜预览(预览尺寸底图 + 可见图层,排除当前选中图层,再过滤镜)。
-     * 常驻机制:选中滤镜期间始终维护,画布以它替换底图显示,与导出(全局生效)一致;
-     * 选中图层不在合成图内,仍走画布 live 渲染。滤镜面板打开且无选中滤镜时同样维护
-     * (滤镜步退化为原样合成)。无滤镜且面板关闭时为 null,回到全量实时编辑。
-     * 调色不烘焙进该位图,始终由画布容器 colorFilter 叠加,避免双重生效。
+     * 图层滤镜位图缓存:layerId → 过滤后的图层内容位图(按底图全分辨率预算,
+     * 预览缩放显示、导出直接复用,保证所见即所得且不重复过滤大图)。
+     * 有效性按「内容(type)+ 滤镜」判定,任一变化即失效重算(见 [syncLayerFilterCache])。
      */
-    private val _filterCompositeBitmap: MutableState<Bitmap?> = mutableStateOf(null)
-    val filterCompositeBitmap: Bitmap? by _filterCompositeBitmap
+    private class LayerFilterCacheEntry(
+        val type: LayerType,
+        val filter: UiFilter<*>,
+        val bitmap: Bitmap,
+    )
 
-    private val _filterSheetOpen: MutableState<Boolean> = mutableStateOf(false)
+    private val layerFilterCache = mutableStateMapOf<String, LayerFilterCacheEntry>()
 
-    private var filterCompositeJob: Job? by smartJob()
+    private var layerFilterJob: Job? by smartJob()
 
-    /** 合成预览是否激活:滤镜面板打开,或已选中滤镜(常驻) */
-    private val compositePreviewActive: Boolean
-        get() = _filterSheetOpen.value || _selectedFilter.value != null
-
-    /** 画布展示用底图(仅底图,不含图层):滤镜预览优先,调节经画布容器 colorFilter 叠加 */
+    /** 画布展示用底图(仅底图,不含图层):背景滤镜预览优先,背景调节经底图 colorFilter 叠加 */
     val displayBitmap: Bitmap? get() = _filterPreviewBitmap.value ?: _bitmap.value
 
+    /**
+     * 选择滤镜,按目标分流:选中位图类图层 → 写入图层 filter(经 [updateLayer] 入 undo
+     * 历史);选中文字/形状图层时不直接赋值(应由 UI 先走光栅化确认,见
+     * [rasterizeRequiredLayer]/[rasterizeLayer]),但清除滤镜(filter = null)仍然允许;
+     * 无选中 → 写背景图滤镜状态(不进 undo,与历史行为一致)。
+     */
     fun selectFilter(filter: UiFilter<*>?) {
+        val target = selectedLayer
+        if (target != null) {
+            if (filter != null && !target.type.isBitmapFilterable) return
+            if (filter === target.filter) return
+            if (filter != null && target.filter != null &&
+                filter::class == target.filter::class
+            ) return
+            updateLayer(target.id) { it.copy(filter = filter) }
+            return
+        }
         val current = _selectedFilter.value
         if (filter === current) return
         if (filter != null && current != null && filter::class == current::class) return
         _selectedFilter.value = filter
         registerChanges()
         updateFilterPreview()
-        updateFilterCompositePreview()
     }
 
     /** 滤镜 → 变换(供缩略图 coil transformation 与导出烘焙复用同一入口) */
@@ -269,7 +350,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
-    /** 把选中滤镜烘焙进位图;无滤镜或变换失败时返回原位图 */
+    /** 把背景滤镜烘焙进位图;无滤镜或变换失败时返回原位图 */
     private suspend fun Bitmap.withSelectedFilter(): Bitmap {
         val filter = _selectedFilter.value ?: return this
         return runCatching {
@@ -280,54 +361,115 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }.getOrNull() ?: this
     }
 
-    /** 滤镜面板开关:打开即算合成预览;关闭时若仍选中滤镜则保留(常驻机制),否则取消并清空 */
-    fun setFilterSheetOpen(open: Boolean) {
-        if (_filterSheetOpen.value == open) return
-        _filterSheetOpen.value = open
-        if (open) {
-            updateFilterCompositePreview()
-        } else if (_selectedFilter.value == null) {
-            filterCompositeJob = null
-            _filterCompositeBitmap.value = null
+    /**
+     * 取图层过滤后的内容位图(命中缓存且「内容+滤镜」均未变时返回),供预览渲染器使用;
+     * 未命中返回 null,由 [syncLayerFilterCache] 异步补齐后触发重组。
+     */
+    fun layerFilteredBitmap(layer: MarkupLayer): Bitmap? {
+        val filter = layer.filter ?: return null
+        val entry = layerFilterCache[layer.id] ?: return null
+        return entry
+            .takeIf { it.filter::class == filter::class && it.type == layer.type }
+            ?.bitmap
+    }
+
+    /**
+     * 同步图层滤镜缓存:剔除失效条目(图层删除/内容变更/滤镜变更),
+     * 串行(smartJob)补齐缺失条目。图层提交级变更([onLayersChanged])统一走这里,
+     * 按条目有效性精确失效,undo/redo 后旧值不匹配同样会按需重算。
+     */
+    private fun syncLayerFilterCache() {
+        val layers = _layers.value
+        val byId = layers.associateBy { it.id }
+        layerFilterCache.keys.toList().forEach { id ->
+            val layer = byId[id]
+            val entry = layerFilterCache[id]
+            val valid = layer != null && entry != null && layer.filter != null &&
+                entry.filter::class == layer.filter::class &&
+                entry.type == layer.type
+            if (!valid) layerFilterCache.remove(id)
+        }
+        val pending = layers.filter { layer ->
+            layer.filter != null && layer.type.isBitmapFilterable &&
+                layerFilteredBitmap(layer) == null
+        }
+        if (pending.isEmpty()) return
+        layerFilterJob = componentScope.launch {
+            pending.forEach { layer ->
+                val bitmap = computeFilteredLayerBitmap(layer)
+                // 计算期间图层可能已变(undo/编辑),回写前再校验一次内容与滤镜
+                val current = _layers.value.firstOrNull { it.id == layer.id }
+                val stillValid = current != null && current.type == layer.type &&
+                    current.filter?.let { it::class } == layer.filter?.let { it::class }
+                if (bitmap != null && isActive && stillValid) {
+                    layerFilterCache[layer.id] = LayerFilterCacheEntry(
+                        type = layer.type,
+                        filter = layer.filter!!,
+                        bitmap = bitmap
+                    )
+                }
+            }
         }
     }
 
     /**
-     * 合成预览重算:预览尺寸底图 + 可见图层(排除当前选中图层) → 滤镜;
-     * smartJob 取消上一次未完成计算。未激活(无滤镜且面板关闭)或无底图时清空。
-     * 触发时机:图层提交级变更([onLayersChanged])、选中变化([selectLayer])、
-     * 滤镜切换([selectFilter])、底图更换([updateBitmap])、面板开关。
+     * 预算图层「内容过滤镜后」位图(底图全分辨率,导出同尺寸复用):
+     * 图片 = 解码源图过滤镜;贴纸 = 按导出基础尺寸解码过滤镜;涂鸦 = 笔画位图过滤镜。
      */
-    private fun updateFilterCompositePreview() {
-        val base = _bitmap.value
-        if (!compositePreviewActive || base == null) {
-            filterCompositeJob = null
-            _filterCompositeBitmap.value = null
-            return
-        }
-        val visibleLayers = _layers.value.filter {
-            it.transform.visible && it.id != _selectedLayerId.value
-        }
-        val filter = _selectedFilter.value
-        filterCompositeJob = componentScope.launch {
-            val composited = runCatching {
-                withContext(defaultDispatcher) {
-                    markupLayersApplier.applyToImage(
-                        image = base,
-                        layers = visibleLayers
+    private suspend fun computeFilteredLayerBitmap(layer: MarkupLayer): Bitmap? {
+        val filter = layer.filter ?: return null
+        val size = _sourceSize.value
+            ?: _bitmap.value?.let { IntSize(it.width, it.height) }
+            ?: return null
+        if (size.width <= 0 || size.height <= 0) return null
+        val decoded: Bitmap = when (val type = layer.type) {
+            is LayerType.Image -> runCatching {
+                imageGetter.getImage(data = type.imageData)
+            }.getOrNull()
+
+            is LayerType.Sticker -> runCatching {
+                stickerLayerExportRenderer.decodeBitmap(
+                    type = type,
+                    baseSizePx = size.width * STICKER_EXPORT_BASE_RATIO
+                )
+            }.getOrNull()
+
+            is LayerType.Draw -> drawLayerExportRenderer.renderStrokesBitmap(
+                strokes = type.strokes,
+                imageWidth = size.width,
+                imageHeight = size.height
+            ).takeIf { type.strokes.isNotEmpty() }
+
+            else -> null
+        } ?: return null
+        // HARDWARE 配置位图无法参与像素级滤镜变换,统一转软件位图兜底(同 loadBaseBitmap)
+        val content = decoded.takeIf { it.config == Bitmap.Config.HARDWARE }
+            ?.copy(Bitmap.Config.ARGB_8888, false) ?: decoded
+        return runCatching {
+            withContext(defaultDispatcher) {
+                filterTransformation(filter)
+                    .transform(content, IntegerSize(content.width, content.height))
+            }
+        }.getOrNull()
+    }
+
+    /** 预算一组图层的过滤后位图(layerId → 位图),优先复用缓存,缺失即算并回写 */
+    private suspend fun filteredBitmapsFor(layers: List<MarkupLayer>): Map<String, Bitmap> {
+        val result = mutableMapOf<String, Bitmap>()
+        layers.forEach { layer ->
+            val filter = layer.filter
+            if (filter == null || !layer.type.isBitmapFilterable) return@forEach
+            val bitmap = layerFilteredBitmap(layer) ?: computeFilteredLayerBitmap(layer)
+                ?.also { filtered ->
+                    layerFilterCache[layer.id] = LayerFilterCacheEntry(
+                        type = layer.type,
+                        filter = filter,
+                        bitmap = filtered
                     )
                 }
-            }.getOrNull() ?: return@launch
-            val result = runCatching {
-                filter?.let {
-                    withContext(defaultDispatcher) {
-                        filterTransformation(it)
-                            .transform(composited, IntegerSize(composited.width, composited.height))
-                    }
-                } ?: composited
-            }.getOrNull() ?: return@launch
-            if (isActive) _filterCompositeBitmap.value = result
+            if (bitmap != null) result[layer.id] = bitmap
         }
+        return result
     }
 
     // ---------------- 画布背景(操作台显示,会话级不持久化) ----------------
@@ -362,6 +504,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             _baseAdjustments.value = BaseAdjustments()
             _selectedFilter.value = null
             _filterPreviewBitmap.value = null
+            layerFilterJob = null
+            layerFilterCache.clear()
             history.clear()
             _canUndo.value = false
             _canRedo.value = false
@@ -428,12 +572,14 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 withContext(defaultDispatcher) {
                     var source = loadBaseBitmap()
                         ?: error("source image is null (uri=${_uri.value != null}, blank=${_blankBaseBitmap.value != null})")
-                    // 自由旋转下精确重映射图层成本高:先烘焙可见图层,确认后清空
+                    // 自由旋转下精确重映射图层成本高:先烘焙可见图层(含各图层自身滤镜/调节),确认后清空
                     val bakeLayers = freeRotation != 0f && _layers.value.isNotEmpty()
                     if (bakeLayers) {
+                        val visibleLayers = _layers.value.filter { it.transform.visible }
                         source = markupLayersApplier.applyToImage(
                             image = source,
-                            layers = _layers.value.filter { it.transform.visible }
+                            layers = visibleLayers,
+                            filteredLayers = filteredBitmapsFor(visibleLayers)
                         )
                     }
                     val transformed = source.transformed(
@@ -967,6 +1113,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
      * PNG,缓存后以图片图层替换原两个图层。烘焙图像素已含位置信息,故新图层
      * transform 保持居中;scale 取 1/[IMAGE_LAYER_BASE_WIDTH_RATIO] 抵消图片图层
      * 的基础宽度比例,使烘焙图恰好铺满画布。下方没有可合并图层时 toast 提示。
+     * 各图层自身的滤镜/调节随合并烘焙进结果位图,合并后图层不再携带。
      */
     fun mergeLayerDown(id: String) {
         val list = _layers.value
@@ -993,9 +1140,12 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                     size.height,
                     Bitmap.Config.ARGB_8888
                 )
+                // 走同一图层渲染路径:各图层自身的滤镜/调节一并烘焙进合并结果
+                val merging = listOf(lowerLayer, layer)
                 val baked = markupLayersApplier.applyToImage(
                     image = base,
-                    layers = listOf(lowerLayer, layer)
+                    layers = merging,
+                    filteredLayers = filteredBitmapsFor(merging)
                 )
                 shareProvider.cacheImage(
                     image = baked,
@@ -1035,6 +1185,82 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
+    private var rasterizeJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
+
+    /**
+     * 光栅化图层:把该图层(文字/形状等矢量图层)按底图全分辨率画到等底图尺寸的
+     * 透明位图(带其位置/缩放/旋转;alpha 不烘焙、由新图层 transform 沿用,避免双重
+     * 生效;调节保留在图层字段上不烘焙),缓存后以图片图层原位替换,替换前记一次
+     * 历史快照(可撤销)。与 [mergeLayerDown] 同理,scale 取
+     * 1/[IMAGE_LAYER_BASE_WIDTH_RATIO] 抵消图片图层基础宽度比例,使烘焙图铺满画布。
+     * 图层 id 保持不变,选中态/编辑会话引用不受影响。
+     * 完成后回调 [onRasterized](如滤镜流程:光栅化后再应用滤镜);失败 toast 提示。
+     */
+    fun rasterizeLayer(
+        layerId: String,
+        onRasterized: () -> Unit = {}
+    ) {
+        val layer = _layers.value.find { it.id == layerId } ?: return
+        // 位图类图层无需光栅化(该入口面向文字/形状),涂鸦虽可光栅化但无必要
+        if (layer.type.isBitmapFilterable) return
+        if (layer.transform.locked) return
+        val size = _sourceSize.value
+            ?: _bitmap.value?.let { IntSize(it.width, it.height) }
+        if (size == null || size.width <= 0 || size.height <= 0) return
+
+        rasterizeJob = componentScope.launch {
+            _isSaving.value = true
+            val cachedUri = runCatching {
+                val base = Bitmap.createBitmap(
+                    size.width,
+                    size.height,
+                    Bitmap.Config.ARGB_8888
+                )
+                // alpha 不烘焙(新图层 transform 沿用);调节不烘焙(保留在图层字段,
+                // 光栅化后仍可实时调节),避免双重生效
+                val bakeLayer = layer.copy(
+                    transform = layer.transform.copy(alpha = 1f),
+                    adjustments = BaseAdjustments()
+                )
+                val baked = markupLayersApplier.applyToImage(
+                    image = base,
+                    layers = listOf(bakeLayer)
+                )
+                shareProvider.cacheImage(
+                    image = baked,
+                    imageInfo = ImageInfo(
+                        width = baked.width,
+                        height = baked.height,
+                        imageFormat = ImageFormat.Png.Lossless
+                    )
+                )
+            }.getOrNull()
+            if (cachedUri == null) {
+                AppToastHost.showFailureToast(R.string.markup_rasterize_failed)
+                _isSaving.value = false
+                return@launch
+            }
+            history.snapshot(_layers.value)
+            val imageLayer = layer.copy(
+                type = LayerType.Image(imageData = cachedUri.toUri()),
+                transform = layer.transform.copy(
+                    centerX = 0.5f,
+                    centerY = 0.5f,
+                    scale = 1f / IMAGE_LAYER_BASE_WIDTH_RATIO,
+                    rotation = 0f
+                )
+            )
+            _layers.update { list ->
+                list.map { if (it.id == layerId) imageLayer else it }
+            }
+            onLayersChanged()
+            _isSaving.value = false
+            onRasterized()
+        }
+    }
+
     fun reorderLayers(layers: List<MarkupLayer>) {
         if (layers == _layers.value) return
         history.snapshot(_layers.value)
@@ -1053,8 +1279,6 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun selectLayer(id: String?) {
         if (_selectedLayerId.value == id) return
         _selectedLayerId.value = id
-        // 选中图层被排除在滤镜合成图外,选中变化需重算合成预览
-        if (compositePreviewActive) updateFilterCompositePreview()
     }
 
     fun setActiveTool(id: String?) {
@@ -1201,8 +1425,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         _canUndo.value = history.canUndo
         _canRedo.value = history.canRedo
         registerChanges()
-        // 提交级图层变更(增/删/改/排序/手势结束提交/undo/redo)联动滤镜合成预览
-        if (compositePreviewActive) updateFilterCompositePreview()
+        // 提交级图层变更(增/删/改/排序/手势结束提交/undo/redo)联动图层滤镜缓存:
+        // 按「内容+滤镜」精确失效,缺失条目异步补齐
+        syncLayerFilterCache()
     }
 
     // ---------------- 首页「最近项目」(最近打开的图片文件) ----------------
@@ -1272,6 +1497,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             _selectedFilter.value = null
             _filterPreviewBitmap.value = null
             _blankBaseBitmap.value = null
+            layerFilterJob = null
+            layerFilterCache.clear()
             history.clear()
             _canUndo.value = false
             _canRedo.value = false
@@ -1305,9 +1532,12 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             _isImageLoading.value = true
             _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             _isImageLoading.value = false
-            // 底图更换后滤镜预览缓存失效,按当前滤镜重算
+            // 底图更换后背景滤镜预览缓存失效,按当前滤镜重算
             if (_selectedFilter.value != null) updateFilterPreview()
-            updateFilterCompositePreview()
+            // 底图(尺寸)变化后图层滤镜位图分辨率失效:保守全清,按需重算
+            layerFilterJob = null
+            layerFilterCache.clear()
+            syncLayerFilterCache()
         }
     }
 
@@ -1323,9 +1553,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         _baseAdjustments.value = BaseAdjustments()
         _selectedFilter.value = null
         _filterPreviewBitmap.value = null
-        filterCompositeJob = null
-        _filterCompositeBitmap.value = null
-        _filterSheetOpen.value = false
+        layerFilterJob = null
+        layerFilterCache.clear()
+        rasterizeJob = null
         _canvasBackground.value = CanvasBackground.Default
         endLayerEditSession()
         history.clear()
@@ -1338,13 +1568,17 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
     private suspend fun renderResultBitmap(): Bitmap? {
         val source = loadBaseBitmap() ?: return null
-        // 顺序:全分辨率底图 → 合成全部可见图层 → 滤镜 → 调色烘焙,
-        // 滤镜/调色作用于「底图+图层」的合成结果,与画布预览一致
-        return markupLayersApplier.applyToImage(
-            image = source,
-            layers = _layers.value.filter { it.transform.visible }
-        ).withSelectedFilter()
+        // 顺序:全分辨率底图 → 背景滤镜 → 背景调节 → 逐图层合成
+        // (每个图层先应用自身滤镜(预算过滤后位图)/调节(调度器 colorFilter)),
+        // 与画布预览「底图(带背景滤镜/调节)+ 全量图层 live 渲染」一致
+        val preparedBase = source.withSelectedFilter()
             .withBaseAdjustments(_baseAdjustments.value)
+        val visibleLayers = _layers.value.filter { it.transform.visible }
+        return markupLayersApplier.applyToImage(
+            image = preparedBase,
+            layers = visibleLayers,
+            filteredLayers = filteredBitmapsFor(visibleLayers)
+        )
     }
 
     private fun resultImageInfo(bitmap: Bitmap): ImageInfo =

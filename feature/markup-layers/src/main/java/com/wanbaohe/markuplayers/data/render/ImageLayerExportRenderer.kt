@@ -27,10 +27,12 @@ class ImageLayerExportRenderer @Inject constructor(
         layer: MarkupLayer,
         imageWidth: Int,
         imageHeight: Int,
+        filtered: Bitmap?,
     ) {
         val type = layer.type as? LayerType.Image ?: return
-        // draw 非挂起函数,解码走 runBlocking;调用方(applier)已在 IO 线程
-        val bitmap = runBlocking { imageGetter.getImage(data = type.imageData) } ?: return
+        // 带滤镜时直接使用调用方预算的过滤后位图(与源图同尺寸);
+        // 否则 draw 非挂起函数,解码走 runBlocking(调用方 applier 已在 IO 线程)
+        val bitmap = filtered ?: runBlocking { imageGetter.getImage(data = type.imageData) } ?: return
 
         val baseWidth = imageWidth * 0.4f
         val scale = baseWidth / bitmap.width

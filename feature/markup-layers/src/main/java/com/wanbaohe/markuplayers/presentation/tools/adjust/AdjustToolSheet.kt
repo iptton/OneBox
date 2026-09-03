@@ -15,6 +15,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -29,13 +33,15 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineWaterDrop
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.wanbaohe.markuplayers.R
+import com.wanbaohe.markuplayers.presentation.components.layerDisplayName
 import com.wanbaohe.markuplayers.presentation.screenLogic.MarkupLayersComponent
 import kotlin.math.roundToInt
 
 /**
- * 「调色」底部 Tab 的独立面板:内容复用 [AdjustPanelContent],
- * 与「基础工具」面板里的调节滑杆读写同一份 component.baseAdjustments 状态,
- * 预览经 colorFilter 实时生效,导出时统一烘焙。
+ * 「调色」底部 Tab 的独立面板:内容复用 [AdjustPanelContent]。
+ * 作用目标 = 当前选中图层(写入图层 adjustments,进 undo 历史);
+ * 未选中图层时作用于背景图(组件级状态,不进 undo),顶部目标指示行标明。
+ * 预览经 colorFilter 实时生效,导出时按目标烘焙。
  */
 @Composable
 fun AdjustToolSheet(
@@ -58,6 +64,22 @@ fun AdjustToolSheet(
                     text = stringResource(R.string.markup_tool_adjust),
                     style = MaterialTheme.typography.titleMedium
                 )
+                // 目标指示:选中图层 →「当前图层:<图层名>」,未选中 →「背景图」
+                val targetLayer = component.selectedLayer
+                Text(
+                    text = if (targetLayer != null) {
+                        stringResource(
+                            R.string.markup_target_current_layer,
+                            layerDisplayName(targetLayer, component.layers)
+                        )
+                    } else {
+                        stringResource(R.string.markup_target_background)
+                    },
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
                 Spacer(Modifier.height(4.dp))
                 AdjustPanelContent(component = component)
             }
@@ -67,15 +89,17 @@ fun AdjustToolSheet(
 
 /**
  * 基础调节面板内容(亮度/对比度/饱和度三条滑杆 + 重置),
- * 供「基础工具」Sheet 等容器组装复用。改动实时写入 component,
- * 预览经 colorFilter 即时生效;不进图层 undo 历史,重置走这里。
+ * 供「基础工具」Sheet 等容器组装复用。读写当前目标的调节状态
+ * (选中图层 → 图层字段,无选中 → 背景图);图层目标的拖动开始经
+ * [MarkupLayersComponent.beginAdjustmentsChange] 记一次 undo 快照,
+ * 拖动中的连续变更走 transient(整段拖动 = 一步 undo)。
  */
 @Composable
 fun AdjustPanelContent(
     component: MarkupLayersComponent,
     modifier: Modifier = Modifier,
 ) {
-    val adjustments = component.baseAdjustments
+    val adjustments = component.targetAdjustments
     Column(
         verticalArrangement = Arrangement.spacedBy(2.dp),
         modifier = modifier.fillMaxWidth()
@@ -84,6 +108,7 @@ fun AdjustPanelContent(
             icon = Icons.Outlined.LineSunny,
             label = stringResource(R.string.markup_adjust_brightness),
             value = adjustments.brightness,
+            onDragStart = component::beginAdjustmentsChange,
             onValueChange = {
                 component.updateBaseAdjustments(adjustments.copy(brightness = it))
             }
@@ -92,6 +117,7 @@ fun AdjustPanelContent(
             icon = Icons.Outlined.LineContrast,
             label = stringResource(R.string.markup_adjust_contrast),
             value = adjustments.contrast,
+            onDragStart = component::beginAdjustmentsChange,
             onValueChange = {
                 component.updateBaseAdjustments(adjustments.copy(contrast = it))
             }
@@ -100,6 +126,7 @@ fun AdjustPanelContent(
             icon = Icons.Outlined.LineWaterDrop,
             label = stringResource(R.string.markup_adjust_saturation),
             value = adjustments.saturation,
+            onDragStart = component::beginAdjustmentsChange,
             onValueChange = {
                 component.updateBaseAdjustments(adjustments.copy(saturation = it))
             }
@@ -121,8 +148,11 @@ private fun AdjustSliderRow(
     icon: ImageVector,
     label: String,
     value: Int,
+    onDragStart: () -> Unit,
     onValueChange: (Int) -> Unit,
 ) {
+    // 拖动会话跟踪:首次变更记快照(beginAdjustmentsChange),抬起复位
+    var dragging by remember { mutableStateOf(false) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
@@ -143,7 +173,14 @@ private fun AdjustSliderRow(
         )
         EnhancedSlider(
             value = value.toFloat(),
-            onValueChange = { onValueChange(it.roundToInt()) },
+            onValueChange = {
+                if (!dragging) {
+                    dragging = true
+                    onDragStart()
+                }
+                onValueChange(it.roundToInt())
+            },
+            onValueChangeFinished = { dragging = false },
             valueRange = -100f..100f,
             drawContainer = false,
             modifier = Modifier.weight(1f)

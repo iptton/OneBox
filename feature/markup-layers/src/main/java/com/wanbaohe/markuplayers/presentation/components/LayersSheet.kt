@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -47,8 +48,10 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
+import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.wanbaohe.markuplayers.R
 import com.wanbaohe.markuplayers.domain.model.LayerBlendMode
@@ -115,6 +118,8 @@ internal fun LayersSheet(
             } else {
                 LayerReorderList(component = component)
             }
+            // 背景层行:点击 = 取消图层选中(滤镜/调节目标回到背景图),无选中时高亮
+            BackgroundTargetRow(component = component)
             LayerActionBar(
                 component = component,
                 onAddText = onAddText,
@@ -123,6 +128,45 @@ internal fun LayersSheet(
             )
         }
     )
+}
+
+/** 背景层行:底图缩略图;可点 = 取消图层选中(滤镜/调节目标回到背景图),无选中时高亮 */
+@Composable
+private fun BackgroundTargetRow(component: MarkupLayersComponent) {
+    val isTarget = component.selectedLayerId == null
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .container(
+                shape = ShapeDefaults.large,
+                color = if (isTarget) {
+                    MaterialTheme.colorScheme.primaryContainer
+                } else MaterialTheme.colorScheme.surfaceContainer,
+                resultPadding = 0.dp
+            )
+            .clickable { component.selectLayer(null) }
+            .padding(horizontal = 8.dp, vertical = 6.dp)
+    ) {
+        Picture(
+            model = component.displayBitmap,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(40.dp)
+                .clip(ShapeDefaults.small)
+                .transparencyChecker()
+        )
+        Text(
+            text = stringResource(R.string.markup_layer_background),
+            style = MaterialTheme.typography.bodyMedium,
+            color = if (isTarget) {
+                MaterialTheme.colorScheme.onSurface
+            } else MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
+    }
 }
 
 /** 可拖拽排序的图层列表,显示倒序(顶层在上),松手时一次性提交新 z 序 */

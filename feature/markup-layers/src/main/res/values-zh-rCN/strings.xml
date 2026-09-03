@@ -229,4 +229,11 @@
     <string name="markup_ai_replace_message">处理后原图将被替换且不可撤销,是否继续?</string>
     <string name="markup_crop_bake_title">将图层合并进图片?</string>
     <string name="markup_crop_bake_message">旋转后将把所有图层合并进图片,图层不可再单独编辑,是否继续?</string>
+
+    <!-- 滤镜/调节作用目标与光栅化确认 -->
+    <string name="markup_target_current_layer">当前图层:%1$s</string>
+    <string name="markup_target_background">背景图</string>
+    <string name="markup_rasterize_title">转换为图片?</string>
+    <string name="markup_rasterize_message">文字/形状图层需先转换为图片才能使用滤镜。转换后不可再编辑文字/形状参数,可通过撤销恢复。</string>
+    <string name="markup_rasterize_failed">图层转换失败</string>
 </resources>

@@ -69,3 +69,10 @@ sealed interface LayerType {
         val imageData: Any,
     ) : LayerType
 }
+
+/**
+ * 是否可直接应用位图滤镜(UiFilter)。位图类图层(图片/贴纸/涂鸦)直接支持;
+ * 文字/形状为矢量图层,需先光栅化为图片图层才能用滤镜(调节不受限,均支持)。
+ */
+val LayerType.isBitmapFilterable: Boolean
+    get() = this is LayerType.Image || this is LayerType.Sticker || this is LayerType.Draw

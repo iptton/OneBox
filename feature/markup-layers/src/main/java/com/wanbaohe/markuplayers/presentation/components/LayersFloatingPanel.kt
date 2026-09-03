@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -57,8 +58,8 @@ import androidx.compose.material.icons.rounded.Lock
 
 /**
  * 画布右侧浮动图层小面板(设计稿「图片创作」主界面):
- * 紧凑图层列表(长按拖拽排序)+ 背景层行(当前底图缩略图 + 锁,装饰不可操作)
- * + 底部操作行(删除/复制选中图层)。
+ * 紧凑图层列表(长按拖拽排序)+ 背景层行(底图缩略图,可点 = 取消图层选中,
+ * 滤镜/调节目标回到背景图)+ 底部操作行(删除/复制选中图层)。
  * 面板始终可打开:零图层时列表区显示空提示,背景层行保留。
  * 选中图层的不透明度滑杆在玻璃容器外(面板下方独立一行,无背景)。
  * 点标题区/展开按钮打开完整 [LayersSheet]。
@@ -260,13 +261,23 @@ private fun CompactLayerRow(
     }
 }
 
-/** 背景层行:当前底图缩略图 + 锁图标,装饰用,不可选中/删除;始终在列表底部 */
+/** 背景层行:当前底图缩略图 + 锁图标;可点 = 取消图层选中(滤镜/调节目标回到背景图),
+ * 无选中图层时高亮表示当前目标就是背景图;始终在列表底部 */
 @Composable
 private fun BackgroundRow(component: MarkupLayersComponent) {
+    val isTarget = component.selectedLayerId == null
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
+            .container(
+                shape = ShapeDefaults.small,
+                color = if (isTarget) {
+                    MaterialTheme.colorScheme.primaryContainer
+                } else Color.Transparent,
+                resultPadding = 0.dp
+            )
+            .clickable { component.selectLayer(null) }
             .padding(horizontal = 4.dp, vertical = 2.dp)
     ) {
         Picture(
@@ -281,7 +292,9 @@ private fun BackgroundRow(component: MarkupLayersComponent) {
         Text(
             text = stringResource(R.string.markup_layer_background),
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = if (isTarget) {
+                MaterialTheme.colorScheme.onSurface
+            } else MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 6.dp)

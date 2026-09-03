@@ -230,4 +230,11 @@
     <string name="markup_ai_replace_message">Mapapalitan ang orihinal na imahe pagkatapos ng pagproseso at hindi na maibabalik. Magpatuloy?</string>
     <string name="markup_crop_bake_title">Pagsamahin ang mga layer sa imahe?</string>
     <string name="markup_crop_bake_message">Kapag pinaikot, pagsasamahin ang lahat ng layer sa imahe at hindi na sila maa-edit nang paisa-isa. Magpatuloy?</string>
+
+    <!-- 滤镜/调节作用目标与光栅化确认 -->
+    <string name="markup_target_current_layer">Kasalukuyang layer: %1$s</string>
+    <string name="markup_target_background">Larawan ng background</string>
+    <string name="markup_rasterize_title">I-convert sa larawan?</string>
+    <string name="markup_rasterize_message">Kailangang i-convert muna sa larawan ang mga text/shape layer bago gumamit ng filter. Pagkatapos ng conversion, hindi na mae-edit ang mga setting ng text/shape, pero maibabalik mo sila gamit ang Undo.</string>
+    <string name="markup_rasterize_failed">Nabigo ang conversion ng layer</string>
 </resources>

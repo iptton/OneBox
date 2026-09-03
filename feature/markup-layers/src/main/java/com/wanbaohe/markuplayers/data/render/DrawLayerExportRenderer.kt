@@ -32,15 +32,13 @@ class DrawLayerExportRenderer @Inject constructor() : LayerExportRenderer {
         layer: MarkupLayer,
         imageWidth: Int,
         imageHeight: Int,
+        filtered: Bitmap?,
     ) {
         val type = layer.type as? LayerType.Draw ?: return
         if (type.strokes.isEmpty() || imageWidth <= 0 || imageHeight <= 0) return
 
-        val layerBitmap = Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
-        val layerCanvas = Canvas(layerBitmap)
-        type.strokes.forEach { stroke ->
-            drawStroke(layerCanvas, stroke, imageWidth, imageHeight)
-        }
+        // 带滤镜时直接使用调用方预算的过滤后笔画位图(与笔画位图同尺寸)
+        val layerBitmap = filtered ?: renderStrokesBitmap(type.strokes, imageWidth, imageHeight)
 
         canvas.drawBitmap(
             layerBitmap,
@@ -48,6 +46,23 @@ class DrawLayerExportRenderer @Inject constructor() : LayerExportRenderer {
             -imageHeight / 2f,
             Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
         )
+    }
+
+    /**
+     * 把笔画集合绘制到该图层独立 Bitmap(基础尺寸 = 整张原图,透明底)。
+     * 导出渲染与图层滤镜内容提取(组件侧)共用,保证同源。
+     */
+    fun renderStrokesBitmap(
+        strokes: List<DrawStroke>,
+        imageWidth: Int,
+        imageHeight: Int,
+    ): Bitmap {
+        val layerBitmap = Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
+        val layerCanvas = Canvas(layerBitmap)
+        strokes.forEach { stroke ->
+            drawStroke(layerCanvas, stroke, imageWidth, imageHeight)
+        }
+        return layerBitmap
     }
 
     private fun drawStroke(

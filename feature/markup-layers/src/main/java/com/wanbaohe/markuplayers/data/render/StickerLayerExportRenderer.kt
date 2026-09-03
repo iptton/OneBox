@@ -33,28 +33,45 @@ class StickerLayerExportRenderer @Inject constructor(
         layer: MarkupLayer,
         imageWidth: Int,
         imageHeight: Int,
+        filtered: Bitmap?,
     ) {
         val type = layer.type as? LayerType.Sticker ?: return
-        // emoji/素材贴纸走 assets;AI 生成贴纸读本地文件
+        val baseSize = imageWidth * STICKER_EXPORT_BASE_RATIO
+        // 带滤镜时直接使用调用方预算的过滤后位图(与解码结果同尺寸);
+        // 否则 draw 非挂起函数,解码走 runBlocking(调用方 applier 已在 IO 线程)
+        val bitmap = filtered ?: runBlocking { decodeBitmap(type, baseSize) } ?: return
+
+        // 保持贴纸宽高比(与预览侧 ContentScale.Fit 一致):长边对齐 baseSize,中心不变
+        drawCentered(canvas, bitmap, baseSize)
+    }
+
+    /**
+     * 解码贴纸内容位图(emoji/素材贴纸走 assets,AI 生成贴纸读本地文件),
+     * 长边对齐 [baseSizePx]。导出渲染与图层滤镜内容提取(组件侧)共用,保证同源。
+     */
+    suspend fun decodeBitmap(
+        type: LayerType.Sticker,
+        baseSizePx: Float,
+    ): Bitmap? {
         val data: Any = when (val source = type.source) {
             is StickerSource.Emoji -> EmojiAssets.pathAt(source.emojiIndex, context)
                 ?.let { "file:///android_asset/$it" }
-                ?: return
+                ?: return null
 
             is StickerSource.Asset -> "file:///android_asset/${source.path}"
             is StickerSource.Generated -> File(source.path)
         }
+        return imageGetter.getImage(
+            data = data,
+            size = baseSizePx.toInt().coerceAtLeast(1)
+        )
+    }
 
-        val baseSize = imageWidth * STICKER_EXPORT_BASE_RATIO
-        // draw 非挂起函数,解码走 runBlocking;调用方(applier)已在 IO 线程
-        val bitmap = runBlocking {
-            imageGetter.getImage(
-                data = data,
-                size = baseSize.toInt().coerceAtLeast(1)
-            )
-        } ?: return
-
-        // 保持贴纸宽高比(与预览侧 ContentScale.Fit 一致):长边对齐 baseSize,中心不变
+    private fun drawCentered(
+        canvas: Canvas,
+        bitmap: Bitmap,
+        baseSize: Float,
+    ) {
         val half = baseSize / 2
         val aspect = bitmap.width.toFloat() / bitmap.height
         val halfW: Float
@@ -75,7 +92,8 @@ class StickerLayerExportRenderer @Inject constructor(
     }
 }
 
-private const val STICKER_EXPORT_BASE_RATIO = 0.25f
+/** 贴纸导出基础尺寸:原图宽 × 该比例(与预览侧 0.25 × 画布宽一致) */
+internal const val STICKER_EXPORT_BASE_RATIO = 0.25f
 
 /**
  * emoji 下标 → assets 路径。

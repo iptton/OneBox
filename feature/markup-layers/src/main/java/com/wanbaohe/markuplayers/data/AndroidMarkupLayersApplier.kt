@@ -20,11 +20,18 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     override suspend fun applyToImage(
         image: Bitmap,
         layers: List<MarkupLayer>,
+        filteredLayers: Map<String, Bitmap>,
     ): Bitmap = withContext(defaultDispatcher) {
         val result = image.copy(Bitmap.Config.ARGB_8888, true)
         val canvas = Canvas(result)
         layers.forEach { layer ->
-            dispatcher.draw(canvas, layer, result.width, result.height)
+            dispatcher.draw(
+                canvas = canvas,
+                layer = layer,
+                imageWidth = result.width,
+                imageHeight = result.height,
+                filteredLayers = filteredLayers
+            )
         }
         result
     }

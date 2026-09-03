@@ -1,6 +1,7 @@
 package com.wanbaohe.markuplayers.data.render
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
@@ -32,6 +33,7 @@ class TextLayerExportRenderer @Inject constructor(
         layer: MarkupLayer,
         imageWidth: Int,
         imageHeight: Int,
+        filtered: Bitmap?,
     ) {
         val type = layer.type as? LayerType.Text ?: return
         if (type.text.isBlank()) return

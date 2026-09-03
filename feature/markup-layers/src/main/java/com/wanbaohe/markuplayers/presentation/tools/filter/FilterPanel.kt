@@ -44,20 +44,23 @@ import com.t8rin.imagetoolbox.core.ui.widget.glass.glassDense
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.wanbaohe.markuplayers.R
+import com.wanbaohe.markuplayers.presentation.components.layerDisplayName
 import com.wanbaohe.markuplayers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.imagetoolbox.core.resources.R as CoreR
 
 /**
  * 滤镜横滚面板(半浮动层):玻璃卡片浮在画布底部、底部 Tab 栏上方,不遮挡画布主体。
- * 首项「原图」= 清除滤镜;中间为「简单效果」分组([UiFilter.sortedGroupedEntries] 首组)
- * 的滤镜缩略图(与 AddFiltersSheet 目录同源的默认静态预览图 + coil transformation,
- * 面板打开一次渲染、不随画布变化,选中项高亮描边);末尾「更多」
- * 打开完整 AddFiltersSheet 目录(选中滤镜经 onFilterPicked 回填后关闭)。
+ * 顶部目标指示行显示当前作用目标(选中图层名 / 背景图);首项「原图」= 清除当前目标
+ * 滤镜;中间为「简单效果」分组([UiFilter.sortedGroupedEntries] 首组)的滤镜缩略图
+ * (与 AddFiltersSheet 目录同源的默认静态预览图 + coil transformation,面板打开一次渲染、
+ * 不随画布变化,选中项高亮描边);末尾「更多」打开完整 AddFiltersSheet 目录。
+ * 选中文字/形状图层时点滤镜不直接应用,经 [onRequestRasterize] 由宿主弹光栅化确认。
  */
 @Composable
 fun FilterPanel(
     component: MarkupLayersComponent,
     onOpenFullCatalog: () -> Unit,
+    onRequestRasterize: (layerId: String, filter: UiFilter<*>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     // 默认展示「简单效果」分组,避免全量 400+ 滤镜都渲染缩略图
@@ -66,10 +69,12 @@ fun FilterPanel(
     // 与「更多」目录里的缩略图观感一致;静态图源 + 稳定 cacheKey,coil 只渲染一次
     val previewData = LocalFilterPreviewModelProvider.current.preview.data
     val sourceHash = previewData.hashCode()
+    // 当前作用目标:选中图层 → 该图层;未选中 → 背景图
+    val targetLayer = component.selectedLayer
+    val targetFilter = component.targetFilter
+    val vectorTarget = component.rasterizeRequiredLayer
 
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 12.dp),
+    Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp)
@@ -78,33 +83,62 @@ fun FilterPanel(
             .pointerInput(Unit) { detectTapGestures { } }
             .padding(vertical = 10.dp)
     ) {
-        item(key = "original") {
-            FilterThumbnail(
-                source = previewData,
-                transformation = null,
-                cacheKey = "original@$sourceHash",
-                label = stringResource(R.string.markup_filter_original),
-                selected = component.selectedFilter == null,
-                onClick = { component.selectFilter(null) }
-            )
-        }
-        items(
-            items = filters,
-            key = { it::class.simpleName ?: it.title.toString() }
-        ) { filter ->
-            FilterThumbnail(
-                source = previewData,
-                transformation = remember(filter) {
-                    component.filterTransformation(filter).toCoil()
-                },
-                cacheKey = "${filter::class.simpleName}@$sourceHash",
-                label = stringResource(filter.title),
-                selected = component.selectedFilter?.let { it::class == filter::class } == true,
-                onClick = { component.selectFilter(filter) }
-            )
-        }
-        item(key = "more") {
-            MoreFiltersItem(onClick = onOpenFullCatalog)
+        Text(
+            text = if (targetLayer != null) {
+                stringResource(
+                    R.string.markup_target_current_layer,
+                    layerDisplayName(targetLayer, component.layers)
+                )
+            } else {
+                stringResource(R.string.markup_target_background)
+            },
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(horizontal = 12.dp)
+        )
+        Spacer(Modifier.height(6.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 12.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            item(key = "original") {
+                FilterThumbnail(
+                    source = previewData,
+                    transformation = null,
+                    cacheKey = "original@$sourceHash",
+                    label = stringResource(R.string.markup_filter_original),
+                    selected = targetFilter == null,
+                    onClick = { component.selectFilter(null) }
+                )
+            }
+            items(
+                items = filters,
+                key = { it::class.simpleName ?: it.title.toString() }
+            ) { filter ->
+                FilterThumbnail(
+                    source = previewData,
+                    transformation = remember(filter) {
+                        component.filterTransformation(filter).toCoil()
+                    },
+                    cacheKey = "${filter::class.simpleName}@$sourceHash",
+                    label = stringResource(filter.title),
+                    selected = targetFilter?.let { it::class == filter::class } == true,
+                    onClick = {
+                        val vector = vectorTarget
+                        if (vector != null) {
+                            onRequestRasterize(vector.id, filter)
+                        } else {
+                            component.selectFilter(filter)
+                        }
+                    }
+                )
+            }
+            item(key = "more") {
+                MoreFiltersItem(onClick = onOpenFullCatalog)
+            }
         }
     }
 }

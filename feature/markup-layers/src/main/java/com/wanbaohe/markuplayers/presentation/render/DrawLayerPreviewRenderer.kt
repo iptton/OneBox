@@ -1,5 +1,6 @@
 package com.wanbaohe.markuplayers.presentation.render
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -8,25 +9,30 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import com.wanbaohe.markuplayers.domain.model.BrushType
 import com.wanbaohe.markuplayers.domain.model.DrawStroke
 import com.wanbaohe.markuplayers.domain.model.DrawStrokeGeometry
 import com.wanbaohe.markuplayers.domain.model.LayerType
 import com.wanbaohe.markuplayers.domain.model.MarkupLayer
 import com.wanbaohe.markuplayers.domain.model.StrokePoint
+import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 
 /**
  * 画笔图层预览:内容铺满整个画布(基础尺寸 = 底图),笔画宽 = widthRatio × 画布宽。
  * 经 Offscreen 合成隔离,Eraser 笔画以 [BlendMode.Clear] 绘制只清本图层,
- * 不伤底图与其他图层。
+ * 不伤底图与其他图层。带滤镜时直接绘制过滤后的笔画位图(铺满画布)。
  */
 object DrawLayerPreviewRenderer : LayerPreviewRenderer {
 
@@ -37,6 +43,7 @@ object DrawLayerPreviewRenderer : LayerPreviewRenderer {
         layer: MarkupLayer,
         canvasWidthPx: Float,
         canvasHeightPx: Float,
+        filteredBitmap: Bitmap?,
     ) {
         val type = layer.type as? LayerType.Draw ?: return
         if (type.strokes.isEmpty()) return
@@ -50,8 +57,20 @@ object DrawLayerPreviewRenderer : LayerPreviewRenderer {
                 )
                 .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
         ) {
-            type.strokes.forEach { stroke ->
-                drawStroke(stroke, size.width, size.height)
+            if (filteredBitmap != null) {
+                // 过滤后笔画位图与底图同宽高比,直接铺满画布
+                drawImage(
+                    image = filteredBitmap.asImageBitmap(),
+                    srcOffset = IntOffset.Zero,
+                    srcSize = IntSize(filteredBitmap.width, filteredBitmap.height),
+                    dstOffset = IntOffset.Zero,
+                    dstSize = IntSize(size.width.roundToInt(), size.height.roundToInt()),
+                    filterQuality = FilterQuality.Medium
+                )
+            } else {
+                type.strokes.forEach { stroke ->
+                    drawStroke(stroke, size.width, size.height)
+                }
             }
         }
     }

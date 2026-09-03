@@ -1,5 +1,6 @@
 package com.wanbaohe.markuplayers.presentation.render
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -35,6 +36,7 @@ object TextLayerPreviewRenderer : LayerPreviewRenderer {
         layer: MarkupLayer,
         canvasWidthPx: Float,
         canvasHeightPx: Float,
+        filteredBitmap: Bitmap?,
     ) {
         val type = layer.type as? LayerType.Text ?: return
         // 与导出侧(isBlank 跳过)一致:纯空白字符不渲染,避免预览/导出不一致

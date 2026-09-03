@@ -1,5 +1,6 @@
 package com.wanbaohe.markuplayers.data.render
 
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
@@ -27,6 +28,7 @@ class ShapeLayerExportRenderer @Inject constructor() : LayerExportRenderer {
         layer: MarkupLayer,
         imageWidth: Int,
         imageHeight: Int,
+        filtered: Bitmap?,
     ) {
         val spec = (layer.type as? LayerType.Shape)?.spec ?: return
         if (imageWidth <= 0 || imageHeight <= 0) return

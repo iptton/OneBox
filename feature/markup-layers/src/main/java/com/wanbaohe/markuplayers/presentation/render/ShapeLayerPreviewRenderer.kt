@@ -1,5 +1,6 @@
 package com.wanbaohe.markuplayers.presentation.render
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -37,6 +38,7 @@ object ShapeLayerPreviewRenderer : LayerPreviewRenderer {
         layer: MarkupLayer,
         canvasWidthPx: Float,
         canvasHeightPx: Float,
+        filteredBitmap: Bitmap?,
     ) {
         val spec = (layer.type as? LayerType.Shape)?.spec ?: return
         val density = LocalDensity.current
