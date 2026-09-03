@@ -450,22 +450,25 @@ private fun GameStage(
             modifier = Modifier.fillMaxSize(),
         )
         // 顶部渐变遮罩：保证标题栏上的倒计时在杂乱画面上依然可读。
+        // 只在游戏进行时铺——准备好了页面不压背景，暂停/结算页有自己的整屏遮罩。
         // 这里只有 background，没有 pointerInput，不拦截任何触摸。
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .fillMaxWidth()
-                .height(TOP_SCRIM_HEIGHT)
-                .background(
-                    Brush.verticalGradient(
-                        listOf(
-                            scrimColor.copy(alpha = 0.7f),
-                            scrimColor.copy(alpha = 0.45f),
-                            Color.Transparent,
+        if (state.gameState == GameState.PLAYING) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxWidth()
+                    .height(TOP_SCRIM_HEIGHT)
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                scrimColor.copy(alpha = 0.7f),
+                                scrimColor.copy(alpha = 0.45f),
+                                Color.Transparent,
+                            )
                         )
-                    )
-                ),
-        )
+                    ),
+            )
+        }
     }
 }
 
@@ -766,19 +769,18 @@ private fun DrawScope.drawDangerOverlay(
 // ─── 覆盖层组件 ────────────────────────────────────────────────────────────────
 
 /**
- * 覆盖层通用半透明底，保证文字在游戏画面上依然清晰。
- *
- * 只铺到标题栏下方（状态栏 + [TOP_BAR_RESERVED_HEIGHT]），
+ * 覆盖层通用布局：只铺到标题栏下方（状态栏 + [TOP_BAR_RESERVED_HEIGHT]），
  * 这样标题栏和返回键始终露在外面、随时可点。
+ *
+ * 不铺任何底色，全局 MeshGradientBackground 直接透出来。
  */
 @Composable
 private fun Modifier.overlayScrim(): Modifier = this
     .fillMaxSize()
     .statusBarsPadding()
     .padding(top = TOP_BAR_RESERVED_HEIGHT)
-    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.82f))
 
-/** 等待开始覆盖层（点击任意处即可开始） */
+/** 等待开始覆盖层（点击任意处即可开始）；不铺底色，透出全局背景 */
 @Composable
 private fun IdleOverlay(onStart: () -> Unit) {
     Box(
