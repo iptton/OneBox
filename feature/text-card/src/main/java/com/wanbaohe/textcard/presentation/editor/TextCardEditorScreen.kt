@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.wanbaohe.textcard.presentation.editor
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -20,6 +23,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
@@ -28,6 +33,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -37,7 +43,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.unit.dp
 import com.shifenmiao.base.ui.button.CancelButton
 import com.shifenmiao.base.ui.button.ConfirmButton
@@ -66,6 +74,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.glass.glassDense
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.wanbaohe.textcard.R
+import com.wanbaohe.textcard.domain.model.TextBlock
+import com.wanbaohe.textcard.domain.model.toTextStyleSpan
 import kotlin.math.roundToInt
 import com.wanbaohe.textcard.presentation.editor.panels.BackgroundPanel
 import com.wanbaohe.textcard.presentation.editor.panels.LayersPanel
@@ -87,7 +97,9 @@ import androidx.compose.material.icons.outlined.Tune
  * 结构对齐图片创作 EditorBottomBar:玻璃容器 + Tab 区窄屏横滑 + 保存固定右端)。
  * Tab 点击后以 [EnhancedModalBottomSheet] 弹出对应面板(标题栏 + 关闭按钮,
  * 模式参考 DemoScreen);文字块就地编辑:点选 → 再点进入编辑态(自动弹键盘),
- * 点空白/返回键/完成键提交退出;元素选中后支持拖动/缩放/旋转(手势在
+ * 点空白/返回键/完成键提交退出;「文字设置」面板统一承担文字样式:
+ * 默认作用于整块,编辑中长按选中块内局部文字时自动切换为选区作用域
+ * (同一套控件,只改作用域);元素选中后支持拖动/缩放/旋转(手势在
  * [CardCanvasPreview] 内)。
  */
 @Composable
@@ -105,6 +117,29 @@ fun TextCardEditorScreen(
             showExitDialog = true
         } else {
             component.backToSelection()
+        }
+    }
+
+    // 就地编辑的 TextFieldState 按块创建(keyed,切换编辑块即重建),
+    // 画布内编辑器与文字设置面板(选区作用域)共享同一实例;内容/局部样式经 syncEditing 回写模型
+    val editingBlockId = component.editingTextBlockId
+    val editingBlock = component.textBlocks.firstOrNull { it.id == editingBlockId }
+    val editingTextFieldState = editingBlock?.let { block ->
+        key(block.id) {
+            rememberTextFieldState(block.content, TextRange(block.content.length))
+        }
+    }
+    val syncEditing: () -> Unit = {
+        val state = editingTextFieldState
+        val id = editingBlockId
+        if (state != null && id != null) {
+            component.syncEditingTextBlock(
+                id = id,
+                content = state.text.toString(),
+                spans = state.textStyles
+                    .getSpanStyles(TextRange(0, state.text.length))
+                    .mapNotNull { it.toTextStyleSpan() }
+            )
         }
     }
 
@@ -159,9 +194,8 @@ fun TextCardEditorScreen(
                         onElementTransform = component::setElementTransform,
                         onElementDelete = component::removeElement,
                         onTextBoxResize = component::setTextBlockBounds,
-                        onTextChange = { id, text ->
-                            component.updateTextBlock(id) { it.copy(content = text) }
-                        },
+                        editingTextFieldState = editingTextFieldState,
+                        onEditingSync = syncEditing,
                         onTextEditCommit = component::endTextEdit,
                         onCanvasTap = {
                             // 编辑中点空白 = 提交并退出编辑态
@@ -208,7 +242,8 @@ fun TextCardEditorScreen(
                 }
             }
 
-            // 绘制模式:底部 Tab 栏换成取消/完成操作条(对齐图片创作)
+            // 绘制模式:底部 Tab 栏换成取消/完成操作条(对齐图片创作);
+            // 就地编辑态底部仍是常驻 Tab 栏(文字设置面板在选区存在时自动切换为选区作用域)
             if (component.isDrawing) {
                 DrawModeActionBar(
                     component = component,
@@ -224,7 +259,12 @@ fun TextCardEditorScreen(
         }
     )
 
-    EditorPanelSheet(component = component)
+    EditorPanelSheet(
+        component = component,
+        editingState = editingTextFieldState,
+        editingBlock = editingBlock,
+        onEditingSync = syncEditing
+    )
 
     // 贴纸共享弹层(与图片创作同款):emoji + assets/stickers 素材,确认落装饰元素;
     // AI 生成贴纸 tab 由宿主注入(登录+积分预检通过后组件生成,成功落装饰元素并关弹层)
@@ -275,10 +315,14 @@ fun TextCardEditorScreen(
 }
 
 /** 面板底部弹层:标题栏(居中标题 + 关闭按钮) + 对应面板内容。
- * 「基础」Tab 不走弹层(左侧浮动工具竖栏,见编辑页画布区)。 */
+ * 「基础」Tab 不走弹层(左侧浮动工具竖栏,见编辑页画布区)。
+ * 文字设置面板在就地编辑且有活选区时切换为选区作用域(共享 [editingState])。 */
 @Composable
 private fun EditorPanelSheet(
     component: TextCardComponent,
+    editingState: TextFieldState?,
+    editingBlock: TextBlock?,
+    onEditingSync: () -> Unit,
 ) {
     val activePanel = component.activePanel
     EnhancedModalBottomSheet(
@@ -318,7 +362,12 @@ private fun EditorPanelSheet(
             ) {
                 when (activePanel) {
                     EditorPanel.Background -> BackgroundPanel(component)
-                    EditorPanel.TextStyle -> TextStylePanel(component)
+                    EditorPanel.TextStyle -> TextStylePanel(
+                        component = component,
+                        editingState = editingState,
+                        editingBlock = editingBlock,
+                        onEditingSync = onEditingSync
+                    )
                     EditorPanel.Layers -> LayersPanel(component = component)
 
                     // Basic 走左侧浮动工具竖栏,不进弹层
@@ -350,12 +399,17 @@ private fun EditorBottomBar(
             val tabs = EditorPanel.entries
             // 每项规定最小宽度:放得下就均分填满,放不下收窄到最小宽度并可横滑
             val itemWidth = maxOf(TAB_ITEM_MIN_WIDTH, maxWidth / tabs.size)
+            val keyboardController = LocalSoftwareKeyboardController.current
             Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 tabs.forEach { panel ->
                     BottomTab(
                         panel = panel,
                         active = component.activePanel == panel,
-                        onClick = { component.togglePanel(panel) },
+                        onClick = {
+                            // 就地编辑中打开面板先收键盘(文字选区存在 TextFieldState 里,不随焦点丢失)
+                            if (component.editingTextBlockId != null) keyboardController?.hide()
+                            component.togglePanel(panel)
+                        },
                         modifier = Modifier.width(itemWidth)
                     )
                 }

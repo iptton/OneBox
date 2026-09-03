@@ -1,5 +1,14 @@
 package com.wanbaohe.textcard.domain.model
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.em
 import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 import com.wanbaohe.textcard.domain.render.CardLayout
 import java.util.UUID
@@ -29,6 +38,8 @@ interface ElementTransform {
  * @param scale 手势整体缩放(绕内容中心)
  * @param rotation 手势旋转(度,绕内容中心)
  * @param alpha 元素级不透明度(0..1),与颜色自身 alpha 叠乘
+ * @param styleSpans 块内局部样式区间(字符下标,后加覆盖先加;字段 null = 继承块级样式),
+ * 由就地编辑器的选区样式工具栏产生;编辑中文字增删由 Compose TrackedRange 跟随迁移
  */
 data class TextBlock(
     val id: String = UUID.randomUUID().toString(),
@@ -47,11 +58,123 @@ data class TextBlock(
     val isItalic: Boolean = false,
     val color: Long = 0xFF1A1A1A,
     val alpha: Float = 1f,
+    val styleSpans: List<TextStyleSpan> = emptyList(),
     override val offsetX: Float = 0f,
     override val offsetY: Float = 0f,
     override val scale: Float = 1f,
     override val rotation: Float = 0f,
 ) : ElementTransform
+
+/**
+ * 块内局部样式区间(富文本):[start, end) 为 content 字符下标;
+ * 四个字段均为可空覆盖,null = 继承块级(块粗体时 bold=false 表示该段反粗)。
+ * [sizeScale] 为相对块级字号的倍率(0.5..2,编辑器/预览经 em 单位实现,导出经 RelativeSizeSpan)。
+ * 列表顺序即叠加顺序,后加的覆盖先加的(与工具栏"追加式 addStyle"一致)。
+ */
+data class TextStyleSpan(
+    val start: Int,
+    val end: Int,
+    val color: Long? = null,
+    val bold: Boolean? = null,
+    val italic: Boolean? = null,
+    val sizeScale: Float? = null,
+) {
+    /** 钳制到 [length] 内;退化为空区间返回 null(调用方过滤) */
+    fun clamped(length: Int): TextStyleSpan? {
+        val s = start.coerceIn(0, length)
+        val e = end.coerceIn(0, length)
+        return if (s < e) copy(start = s, end = e) else null
+    }
+
+    /** 转 Compose SpanStyle(仅设置非空字段;字号倍率用 em,相对块级 textStyle 字号) */
+    fun toSpanStyle(): SpanStyle = SpanStyle(
+        color = color?.let(::Color) ?: Color.Unspecified,
+        fontSize = sizeScale?.em ?: TextUnit.Unspecified,
+        fontWeight = bold?.let { if (it) FontWeight.Bold else FontWeight.Normal },
+        fontStyle = italic?.let { if (it) FontStyle.Italic else FontStyle.Normal }
+    )
+}
+
+/** 编辑器样式层读回(getSpanStyles)→ 模型 span;四字段全空(未设置)或空区间返回 null */
+fun AnnotatedString.Range<SpanStyle>.toTextStyleSpan(): TextStyleSpan? {
+    if (start >= end) return null
+    val spanColor = item.color
+        .takeIf { it != Color.Unspecified }
+        ?.let { it.toArgb().toLong() and 0xFFFF_FFFFL }
+    val spanSize = item.fontSize.takeIf { it.isEm }?.value
+    val spanBold = when (item.fontWeight) {
+        FontWeight.Bold -> true
+        FontWeight.Normal -> false
+        else -> null
+    }
+    val spanItalic = when (item.fontStyle) {
+        FontStyle.Italic -> true
+        FontStyle.Normal -> false
+        else -> null
+    }
+    if (spanColor == null && spanSize == null && spanBold == null && spanItalic == null) return null
+    return TextStyleSpan(
+        start = start,
+        end = end,
+        color = spanColor,
+        bold = spanBold,
+        italic = spanItalic,
+        sizeScale = spanSize
+    )
+}
+
+/** 预览渲染用:content + 局部样式叠加成 AnnotatedString(块级粗斜由 textStyle 承担,这里只叠加区间覆盖) */
+fun TextBlock.buildAnnotatedContent(): AnnotatedString = buildAnnotatedString {
+    append(content)
+    styleSpans.forEach { span ->
+        span.clamped(content.length)?.let { clamped ->
+            addStyle(clamped.toSpanStyle(), clamped.start, clamped.end)
+        }
+    }
+}
+
+/**
+ * endTextEdit trim 时同步调整局部样式区间:平移前导空白,钳制到新长度,丢弃空区间;
+ * 内容被替换成占位文案(trimmed 与原内容无关联)时直接清空。
+ */
+fun List<TextStyleSpan>.adjustForTrim(original: String, trimmed: String): List<TextStyleSpan> {
+    if (isEmpty()) return this
+    if (trimmed.isEmpty() || !original.contains(trimmed)) return emptyList()
+    val lead = original.indexOf(trimmed)
+    return mapNotNull { span ->
+        span.copy(start = span.start - lead, end = span.end - lead).clamped(trimmed.length)
+    }
+}
+
+/** 选区当前有效加粗态(块级为底,区间覆盖):工具栏 B 切换判定。选区非法/塌陷时回退块级 */
+fun TextBlock.isRangeEffectivelyBold(start: Int, end: Int): Boolean =
+    isRangeEffectivelyStyled(start, end, blockLevel = isBold) { it.bold }
+
+/** 选区当前有效斜体态,同 [isRangeEffectivelyBold] */
+fun TextBlock.isRangeEffectivelyItalic(start: Int, end: Int): Boolean =
+    isRangeEffectivelyStyled(start, end, blockLevel = isItalic) { it.italic }
+
+/** 选区当前有效颜色(最后一个覆盖选区且带颜色的 span,否则块级颜色):工具栏色板当前值 */
+fun TextBlock.effectiveColorAt(start: Int, end: Int): Long =
+    styleSpans.lastOrNull { it.color != null && it.start < end && it.end > start }?.color ?: color
+
+/** 选区当前有效字号倍率(最后一个覆盖选区且带倍率的 span,否则 1):工具栏字号步进基准 */
+fun TextBlock.effectiveSizeScaleAt(start: Int, end: Int): Float =
+    styleSpans.lastOrNull { it.sizeScale != null && it.start < end && it.end > start }
+        ?.sizeScale ?: 1f
+
+/** 有效样式判定:以覆盖选区的最后一个 span 为准(追加式语义,后加覆盖先加) */
+private fun TextBlock.isRangeEffectivelyStyled(
+    start: Int,
+    end: Int,
+    blockLevel: Boolean,
+    field: (TextStyleSpan) -> Boolean?,
+): Boolean {
+    if (start >= end) return blockLevel
+    val lastCovering = styleSpans.lastOrNull { it.start <= start && it.end >= end }
+        ?: styleSpans.lastOrNull { it.start < end && it.end > start }
+    return lastCovering?.let(field) ?: blockLevel
+}
 
 enum class CardTextAlignment {
     Left, Center, Right, Justify

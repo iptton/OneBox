@@ -7,8 +7,13 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Typeface
 import android.text.Layout
+import android.text.SpannableString
+import android.text.Spanned
 import android.text.StaticLayout
 import android.text.TextPaint
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -184,6 +189,7 @@ class AndroidTextCardExportRenderer @Inject internal constructor(
      * 绘制单个文字块:基准位置(baseTopRatio)+ 归一化偏移,再绕内容中心
      * 套 scale/rotation(translate→rotate→scale,同 LayerExportDispatcher 顺序)。
      * StaticLayout 用法照搬 markup-layers。
+     * 块内局部样式(styleSpans)以 SpannableString span 叠加在块级 paint 之上。
      */
     private fun drawTextBlock(
         canvas: Canvas,
@@ -193,6 +199,7 @@ class AndroidTextCardExportRenderer @Inject internal constructor(
     ) {
         if (block.content.isBlank()) return
 
+        val text = block.exportText()
         val padding = width * CardLayout.CONTENT_PADDING_RATIO
         // 框宽上限 = widthRatio·画布宽(文字在框内折行),与预览侧 CardTextElement 一致
         val maxContentWidth = (width * block.widthRatio).toInt().coerceAtLeast(1)
@@ -210,7 +217,7 @@ class AndroidTextCardExportRenderer @Inject internal constructor(
             letterSpacing = block.letterSpacingEm
         }
         fun buildLayout(layoutWidth: Int): StaticLayout = StaticLayout.Builder
-            .obtain(block.content, 0, block.content.length, paint, layoutWidth)
+            .obtain(text, 0, text.length, paint, layoutWidth)
             .setAlignment(block.alignment.toLayoutAlignment())
             .setLineSpacing(0f, block.lineSpacingMultiplier)
             .setIncludePad(false)
@@ -261,6 +268,49 @@ class AndroidTextCardExportRenderer @Inject internal constructor(
         val style = (if (block.isBold) Typeface.BOLD else 0) or
             (if (block.isItalic) Typeface.ITALIC else 0)
         return if (style != 0) Typeface.create(base, style) else base
+    }
+
+    /**
+     * 局部样式区间 → SpannableString(无局部样式直接返回原文):
+     * 颜色用 ForegroundColorSpan;字号倍率用 RelativeSizeSpan;粗斜合成一个 StyleSpan
+     * (未设置的字段继承块级,故块粗体下 bold=false 的区间经 StyleSpan(NORMAL) 反粗),
+     * 区间钳制到内容长度。
+     */
+    private fun TextBlock.exportText(): CharSequence {
+        if (styleSpans.isEmpty()) return content
+        val spannable = SpannableString(content)
+        styleSpans.forEach { span ->
+            val clamped = span.clamped(content.length) ?: return@forEach
+            span.color?.let { color ->
+                spannable.setSpan(
+                    ForegroundColorSpan(color.toInt()),
+                    clamped.start,
+                    clamped.end,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            span.sizeScale?.let { scale ->
+                spannable.setSpan(
+                    RelativeSizeSpan(scale),
+                    clamped.start,
+                    clamped.end,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            if (span.bold != null || span.italic != null) {
+                val effectiveBold = span.bold ?: isBold
+                val effectiveItalic = span.italic ?: isItalic
+                val style = (if (effectiveBold) Typeface.BOLD else 0) or
+                    (if (effectiveItalic) Typeface.ITALIC else 0)
+                spannable.setSpan(
+                    StyleSpan(style),
+                    clamped.start,
+                    clamped.end,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
+        return spannable
     }
 
     private fun CardTextAlignment.toLayoutAlignment(): Layout.Alignment = when (this) {

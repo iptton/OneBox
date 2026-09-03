@@ -1,23 +1,23 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.wanbaohe.textcard.presentation.editor.panels
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.StringRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,11 +34,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineKeyboardArrowDown
@@ -52,8 +54,6 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsM
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRow
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PickFontFamilySheet
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
-import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassFilterChip
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSegmentedButtonRow
 import com.t8rin.imagetoolbox.core.ui.widget.glass.glassDense
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -61,6 +61,10 @@ import com.t8rin.logger.makeLog
 import com.wanbaohe.textcard.R
 import com.wanbaohe.textcard.domain.model.CardTextAlignment
 import com.wanbaohe.textcard.domain.model.TextBlock
+import com.wanbaohe.textcard.domain.model.effectiveColorAt
+import com.wanbaohe.textcard.domain.model.effectiveSizeScaleAt
+import com.wanbaohe.textcard.domain.model.isRangeEffectivelyBold
+import com.wanbaohe.textcard.domain.model.isRangeEffectivelyItalic
 import com.wanbaohe.textcard.presentation.screenLogic.TextCardComponent
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.launch
@@ -83,13 +87,30 @@ private fun TextBlock.displayLabel(): String {
 }
 
 /**
- * 文字设置面板(设计稿 04):作用于当前选中文本块(任意多块,按 id)。
+ * 文字设置面板(设计稿 04):一套控件,作用目标随选中状态切换——
+ * 默认作用于当前选中文字块(任意多块,按 id);就地编辑中长按选中块内
+ * 局部文字时,字号/加粗/斜体/颜色改作用于选区(局部样式,叠加在块级之上),
+ * 行间距/字间距/对齐为行级属性,置灰不可调,面板顶部提示「正在调整:选中的文字」
+ * 并提供「清除样式」(移除选区全部局部样式)。取消选中即回到整块模式。
  * 紧凑布局(对齐图片创作 TextEditDialog):标签在左的扁平设置行,
  * 滑杆/色板/分段均不带 container 包裹,行间距 8dp。
  * 顺序按常用优先:文本块切换 → 字体 → 字号 → 行距 → 字间距 → 不透明度 → 对齐 → B/I → 文字颜色
  */
 @Composable
-fun TextStylePanel(component: TextCardComponent) {
+fun TextStylePanel(
+    component: TextCardComponent,
+    editingState: TextFieldState? = null,
+    editingBlock: TextBlock? = null,
+    onEditingSync: () -> Unit = {},
+) {
+    // 有活选区(就地编辑中选中了块内局部文字)时,面板控件切换到选区作用域;
+    // 选区写在 TextFieldState 里,snapshot 感知,选中变化即重组
+    val selectionCtx = editingState?.let { state ->
+        editingBlock?.let { blk ->
+            state.selection.takeUnless { it.collapsed }?.let { Triple(state, blk, it) }
+        }
+    }
+
     val blocks = component.textBlocks
     val block = component.selectedTextBlock() ?: return
     val blockId = block.id
@@ -97,6 +118,30 @@ fun TextStylePanel(component: TextCardComponent) {
     PanelTitle(R.string.textcard_text_settings)
 
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        // 选区激活提示:告诉用户现在调的是选中的局部文字;「清除样式」移除选区全部局部样式
+        if (selectionCtx != null) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(R.string.textcard_editing_selection),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = stringResource(R.string.textcard_clear_selection_style),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .clip(ShapeDefaults.default)
+                        .clickable { clearSelectionStyles(selectionCtx.first, onEditingSync) }
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                )
+            }
+        }
+
         // 文本块切换:固定宽小卡单行横滑,卡内文字最多两行(增删走「基础」面板与图层面板)
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -142,34 +187,53 @@ fun TextStylePanel(component: TextCardComponent) {
             block = block
         )
 
+        // 字号:选区激活时为相对块级的倍率(em 写入样式层,100% = 块级字号),否则整块字号
         PanelSliderRow(
             label = stringResource(R.string.textcard_text_size),
-            value = block.sizeScale,
-            valueRange = 0.5f..2f,
-            valueText = "${(block.sizeScale * 36).roundToInt()}",
+            value = selectionCtx?.let { (_, blk, sel) ->
+                blk.effectiveSizeScaleAt(sel.min, sel.max)
+            } ?: block.sizeScale,
+            valueRange = if (selectionCtx != null) {
+                MIN_SELECTION_SIZE_SCALE..MAX_SELECTION_SIZE_SCALE
+            } else 0.5f..4f,
+            valueText = selectionCtx?.let { (_, blk, sel) ->
+                "${(blk.effectiveSizeScaleAt(sel.min, sel.max) * 100).roundToInt()}%"
+            } ?: "${(block.sizeScale * 36).roundToInt()}",
             onValueChange = { value ->
-                component.updateTextBlock(blockId) { it.copy(sizeScale = value) }
+                val ctx = selectionCtx
+                if (ctx != null) {
+                    applySpanStyle(
+                        state = ctx.first,
+                        style = SpanStyle(fontSize = value.em),
+                        onChanged = onEditingSync
+                    )
+                } else {
+                    component.updateTextBlock(blockId) { it.copy(sizeScale = value) }
+                }
             }
         )
+        // 行间距/字间距是行级属性,对局部选区无意义:选区激活时置灰
         PanelSliderRow(
             label = stringResource(R.string.textcard_line_spacing),
             value = block.lineSpacingMultiplier,
-            valueRange = 1f..2f,
+            valueRange = 1f..3f,
             valueText = formatDecimal((block.lineSpacingMultiplier * 10).roundToInt() / 10f),
             onValueChange = { value ->
                 component.updateTextBlock(blockId) { it.copy(lineSpacingMultiplier = value) }
-            }
+            },
+            enabled = selectionCtx == null
         )
         PanelSliderRow(
             label = stringResource(R.string.textcard_letter_spacing),
             value = block.letterSpacingEm,
-            valueRange = 0f..0.2f,
+            valueRange = 0f..1f,
             valueText = formatDecimal((block.letterSpacingEm * 100).roundToInt() / 100f),
             onValueChange = { value ->
                 component.updateTextBlock(blockId) { it.copy(letterSpacingEm = value) }
-            }
+            },
+            enabled = selectionCtx == null
         )
-        // 元素级不透明度:每个文字块独立(背景透明度在「纸张背景」面板)
+        // 元素级不透明度:每个文字块独立(背景透明度在「纸张背景」面板);整体属性,选区激活时仍可用
         PanelSliderRow(
             label = stringResource(R.string.textcard_opacity),
             value = block.alpha,
@@ -180,40 +244,65 @@ fun TextStylePanel(component: TextCardComponent) {
             }
         )
 
-        // 对齐分段(左/居中/右/两端四个图标按钮)
+        // 对齐分段(左/居中/右/两端四个图标按钮):行级属性,选区激活时置灰
         PanelSettingRow(label = stringResource(R.string.textcard_alignment)) {
-            GlassSegmentedButtonRow(
-                options = CardTextAlignment.entries,
-                selectedOption = block.alignment,
-                onOptionSelected = { alignment ->
-                    component.updateTextBlock(blockId) { it.copy(alignment = alignment) }
-                },
-                label = { alignment ->
-                    Icon(
-                        imageVector = when (alignment) {
-                            CardTextAlignment.Left -> MaterialIcons.AutoMirrored.Outlined.FormatAlignLeft
-                            CardTextAlignment.Center -> MaterialIcons.Outlined.FormatAlignCenter
-                            CardTextAlignment.Right -> MaterialIcons.AutoMirrored.Outlined.FormatAlignRight
-                            CardTextAlignment.Justify -> MaterialIcons.Outlined.FormatAlignJustify
-                        },
-                        contentDescription = null
-                    )
-                },
+            PanelDisabledWrapper(
+                enabled = selectionCtx == null,
                 modifier = Modifier.weight(1f)
-            )
+            ) {
+                GlassSegmentedButtonRow(
+                    options = CardTextAlignment.entries,
+                    selectedOption = block.alignment,
+                    onOptionSelected = { alignment ->
+                        component.updateTextBlock(blockId) { it.copy(alignment = alignment) }
+                    },
+                    label = { alignment ->
+                        Icon(
+                            imageVector = when (alignment) {
+                                CardTextAlignment.Left -> MaterialIcons.AutoMirrored.Outlined.FormatAlignLeft
+                                CardTextAlignment.Center -> MaterialIcons.Outlined.FormatAlignCenter
+                                CardTextAlignment.Right -> MaterialIcons.AutoMirrored.Outlined.FormatAlignRight
+                                CardTextAlignment.Justify -> MaterialIcons.Outlined.FormatAlignJustify
+                            },
+                            contentDescription = null
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
 
-        // 字体样式:B 加粗 / I 斜体切换 chip(同图片创作 DecorationRow)
+        // 字体样式:B 加粗 / I 斜体切换 chip;选区激活时切换选区(叠加/反转块级),否则整块
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
+            val selBold = selectionCtx?.let { (_, blk, sel) ->
+                blk.isRangeEffectivelyBold(sel.min, sel.max)
+            }
+            val selItalic = selectionCtx?.let { (_, blk, sel) ->
+                blk.isRangeEffectivelyItalic(sel.min, sel.max)
+            }
             StyleChip(
                 glyph = "B",
                 labelRes = R.string.textcard_bold,
-                selected = block.isBold,
+                selected = selBold ?: block.isBold,
                 onClick = {
-                    component.updateTextBlock(blockId) { it.copy(isBold = !it.isBold) }
+                    val ctx = selectionCtx
+                    if (ctx != null) {
+                        val (_, blk, sel) = ctx
+                        applySpanStyle(
+                            state = ctx.first,
+                            style = SpanStyle(
+                                fontWeight = if (blk.isRangeEffectivelyBold(sel.min, sel.max)) {
+                                    FontWeight.Normal
+                                } else FontWeight.Bold
+                            ),
+                            onChanged = onEditingSync
+                        )
+                    } else {
+                        component.updateTextBlock(blockId) { it.copy(isBold = !it.isBold) }
+                    }
                 },
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
@@ -221,22 +310,48 @@ fun TextStylePanel(component: TextCardComponent) {
             StyleChip(
                 glyph = "I",
                 labelRes = R.string.textcard_italic,
-                selected = block.isItalic,
+                selected = selItalic ?: block.isItalic,
                 onClick = {
-                    component.updateTextBlock(blockId) { it.copy(isItalic = !it.isItalic) }
+                    val ctx = selectionCtx
+                    if (ctx != null) {
+                        val (_, blk, sel) = ctx
+                        applySpanStyle(
+                            state = ctx.first,
+                            style = SpanStyle(
+                                fontStyle = if (blk.isRangeEffectivelyItalic(sel.min, sel.max)) {
+                                    FontStyle.Normal
+                                } else FontStyle.Italic
+                            ),
+                            onChanged = onEditingSync
+                        )
+                    } else {
+                        component.updateTextBlock(blockId) { it.copy(isItalic = !it.isItalic) }
+                    }
                 },
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier.weight(1f)
             )
         }
 
-        // 文字颜色:与图片创作一致的横向滚动色板(首项支持自定义取色)
+        // 文字颜色:与图片创作一致的横向滚动色板(首项支持自定义取色);
+        // 选区激活时给选中文字上色(恢复跟随整块用顶部「清除样式」)
         PanelSettingRow(label = stringResource(R.string.textcard_text_color)) {
             ColorSelectionRow(
-                value = Color(block.color),
+                value = selectionCtx?.let { (_, blk, sel) ->
+                    Color(blk.effectiveColorAt(sel.min, sel.max))
+                } ?: Color(block.color),
                 onValueChange = { color ->
-                    component.updateTextBlock(blockId) {
-                        it.copy(color = color.toArgb().toLong() and 0xFFFF_FFFFL)
+                    val ctx = selectionCtx
+                    if (ctx != null) {
+                        applySpanStyle(
+                            state = ctx.first,
+                            style = SpanStyle(color = color),
+                            onChanged = onEditingSync
+                        )
+                    } else {
+                        component.updateTextBlock(blockId) {
+                            it.copy(color = color.toArgb().toLong() and 0xFFFF_FFFFL)
+                        }
                     }
                 },
                 allowAlpha = false,
@@ -244,103 +359,6 @@ fun TextStylePanel(component: TextCardComponent) {
             )
         }
     }
-}
-
-/** 标签在左的设置行(同图片创作 SettingRow) */
-@Composable
-private fun PanelSettingRow(
-    label: String,
-    control: @Composable RowScope.() -> Unit,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodyMedium,
-            maxLines = 1,
-            modifier = Modifier.widthIn(min = 52.dp)
-        )
-        Spacer(Modifier.width(8.dp))
-        control()
-    }
-}
-
-/** 紧凑滑杆行:标签 + 无容器滑杆 + 数值(同图片创作 TextSliderRow) */
-@Composable
-private fun PanelSliderRow(
-    label: String,
-    value: Float,
-    valueRange: ClosedFloatingPointRange<Float>,
-    valueText: String,
-    onValueChange: (Float) -> Unit,
-) {
-    PanelSettingRow(label = label) {
-        EnhancedSlider(
-            value = value,
-            onValueChange = onValueChange,
-            valueRange = valueRange,
-            // 滑杆不带背景容器,直接排布
-            drawContainer = false,
-            modifier = Modifier.weight(1f)
-        )
-        Text(
-            text = valueText,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.End,
-            maxLines = 1,
-            modifier = Modifier.widthIn(min = 40.dp)
-        )
-    }
-}
-
-/** 样式切换 chip:字形 + 文案;选中态玻璃背景区分(玻璃关闭回退 M3 FilterChip),不做描边 */
-@Composable
-private fun StyleChip(
-    glyph: String,
-    @StringRes labelRes: Int,
-    selected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    fontWeight: FontWeight? = null,
-    fontStyle: FontStyle? = null,
-) {
-    GlassFilterChip(
-        selected = selected,
-        onClick = onClick,
-        modifier = modifier,
-        shape = ShapeDefaults.default,
-        // 不用 Outline:主色系背景区分选中
-        border = null,
-        colors = FilterChipDefaults.filterChipColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            labelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
-        ),
-        glassContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-        glassSelectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-        label = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = glyph,
-                    style = MaterialTheme.typography.titleSmall.copy(
-                        fontWeight = fontWeight,
-                        fontStyle = fontStyle
-                    ),
-                    maxLines = 1
-                )
-                Spacer(Modifier.width(4.dp))
-                Text(
-                    text = stringResource(labelRes),
-                    style = MaterialTheme.typography.labelMedium,
-                    maxLines = 1
-                )
-            }
-        }
-    )
 }
 
 /**
@@ -458,5 +476,3 @@ private fun FontPickerRow(
     )
 }
 
-/** 小数展示:去掉尾随的 ".0"(0.0 → "0",1.2 → "1.2") */
-private fun formatDecimal(value: Float): String = value.toString().removeSuffix(".0")

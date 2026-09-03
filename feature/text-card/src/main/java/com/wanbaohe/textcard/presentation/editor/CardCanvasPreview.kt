@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.wanbaohe.textcard.presentation.editor
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,8 +27,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -37,6 +40,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,8 +71,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -107,6 +109,7 @@ import com.wanbaohe.textcard.domain.model.ImageElementStatus
 import com.wanbaohe.textcard.domain.model.ShapeElementSpec
 import com.wanbaohe.textcard.domain.model.TextBlock
 import com.wanbaohe.textcard.domain.model.TextCardRenderState
+import com.wanbaohe.textcard.domain.model.buildAnnotatedContent
 import com.wanbaohe.textcard.domain.model.contentBounds
 import com.wanbaohe.textcard.domain.render.CardLayout
 import com.wanbaohe.textcard.domain.render.CardShapeGeometry
@@ -118,6 +121,7 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.math.sin
+import kotlinx.coroutines.flow.drop
 
 /**
  * 卡片画布预览(Compose):与导出渲染器共用 [CardLayout] 几何/颜色常量。
@@ -127,6 +131,9 @@ import kotlin.math.sin
  * 选中后单指拖动 + 双指缩放/旋转(detectTransformGestures,
  * pan 乘缩放并按当前旋转角转回画布坐标系后归一化,fit 缩放天然抵消);
  * [onElementTransform] 回调绝对值(offsetX/offsetY/scale/rotation)。
+ * 文字块就地编辑:state 版 BasicTextField([editingTextFieldState] 由页面层按块创建,
+ * 与选区样式工具栏共享同一实例);块内局部样式(styleSpans)经 addStyle 样式层呈现,
+ * 内容/样式变化统一经 [onEditingSync] 回写组件(本预览不回读模型,无同步循环)。
  */
 @Composable
 fun CardCanvasPreview(
@@ -139,7 +146,8 @@ fun CardCanvasPreview(
     onTextBoxResize: (String, Float, Float, Float, Float) -> Unit = { _, _, _, _, _ -> },
     selectedElementId: String? = null,
     editingTextBlockId: String? = null,
-    onTextChange: (String, String) -> Unit = { _, _ -> },
+    editingTextFieldState: TextFieldState? = null,
+    onEditingSync: () -> Unit = {},
     onTextEditCommit: () -> Unit = {},
     onCanvasTap: () -> Unit = {},
     onBackgroundDrag: (Float, Float) -> Unit = { _, _ -> },
@@ -185,7 +193,8 @@ fun CardCanvasPreview(
                             onElementTransform = onElementTransform,
                             onElementDelete = onElementDelete,
                             onTextBoxResize = onTextBoxResize,
-                            onTextChange = onTextChange,
+                            editingTextFieldState = editingTextFieldState,
+                            onEditingSync = onEditingSync,
                             onTextEditCommit = onTextEditCommit
                         )
                     }
@@ -539,7 +548,8 @@ private fun CardTextElement(
     onElementTransform: (String, Float, Float, Float, Float) -> Unit,
     onElementDelete: (String) -> Unit,
     onTextBoxResize: (String, Float, Float, Float, Float) -> Unit,
-    onTextChange: (String, String) -> Unit,
+    editingTextFieldState: TextFieldState?,
+    onEditingSync: () -> Unit,
     onTextEditCommit: () -> Unit,
 ) {
     // 编辑态空内容也保留输入框:否则退格删空的瞬间整个元素被移出组合,焦点/键盘/选中态全丢
@@ -592,11 +602,12 @@ private fun CardTextElement(
         } else {
             Modifier.defaultMinSize(minWidth = 32.dp)
         }
-        if (isEditing) {
+        if (isEditing && editingTextFieldState != null) {
             InPlaceTextEditor(
                 block = block,
                 baseSizePx = canvasWidthPx * block.baseSizeRatio,
-                onTextChange = { onTextChange(block.id, it) },
+                state = editingTextFieldState,
+                onSync = onEditingSync,
                 onCommit = onTextEditCommit,
                 modifier = contentModifier
             )
@@ -611,36 +622,41 @@ private fun CardTextElement(
 }
 
 /**
- * 就地文字编辑:原位同样式 BasicTextField(背景透明无装饰线),
- * 进入时自动聚焦弹键盘、光标落末尾;内容实时经 [onTextChange] 写回组件。
+ * 就地文字编辑:原位同样式 state 版 BasicTextField(背景透明无装饰线),
+ * 进入时自动聚焦弹键盘、光标落末尾;[state] 由页面层按块创建(选区样式工具栏共享),
+ * 块内局部样式经 Compose 1.12 addStyle 样式层呈现(增删文字由 TrackedRange 自动跟随),
+ * 内容/样式变化统一经 [onSync] 回写组件(state 为唯一事实源,模型只是镜像)。
  */
 @Composable
 private fun InPlaceTextEditor(
     block: TextBlock,
     baseSizePx: Float,
-    onTextChange: (String) -> Unit,
+    state: TextFieldState,
+    onSync: () -> Unit,
     onCommit: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
-    var fieldValue by remember(block.id) {
-        mutableStateOf(TextFieldValue(block.content, TextRange(block.content.length)))
-    }
-    LaunchedEffect(block.id) {
+    LaunchedEffect(state) {
+        // 灌回模型已有的局部样式(钳制到当前内容长度,防御脏区间)
+        block.styleSpans.forEach { span ->
+            span.clamped(block.content.length)?.let { clamped ->
+                state.edit { addStyle(clamped.toSpanStyle(), clamped.start, clamped.end) }
+            }
+        }
         focusRequester.requestFocus()
         keyboardController?.show()
+        // 内容变化(键入/删除/粘贴)时回写;样式变化由工具栏应用后显式调 onSync。
+        // drop(1) 跳过初始值:仅进入编辑态不应标记未保存变更
+        snapshotFlow { state.text.toString() }.drop(1).collect { onSync() }
     }
     BasicTextField(
-        value = fieldValue,
-        onValueChange = { value ->
-            fieldValue = value
-            onTextChange(value.text)
-        },
+        state = state,
         textStyle = cardTextStyle(block, baseSizePx),
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = { onCommit() }),
+        onKeyboardAction = { onCommit() },
         modifier = modifier
             .graphicsLayer { alpha = block.alpha.coerceIn(0f, 1f) }
             // 编辑态输入框内留白,避免文字贴着虚线框
@@ -791,7 +807,8 @@ private fun Offset.rotateBy(degrees: Float): Offset {
     )
 }
 
-/** 单个文字块预览:字号 px→sp 等比缩放,letterSpacing(em)/行距倍率/对齐/粗斜与导出侧一致 */
+/** 单个文字块预览:字号 px→sp 等比缩放,letterSpacing(em)/行距倍率/对齐/粗斜与导出侧一致;
+ * 块内局部样式(styleSpans)以 AnnotatedString 区间叠加在块级样式之上 */
 @Composable
 private fun CardText(
     block: TextBlock,
@@ -800,7 +817,7 @@ private fun CardText(
 ) {
     if (block.content.isBlank()) return
     Text(
-        text = block.content,
+        text = block.buildAnnotatedContent(),
         style = cardTextStyle(block, baseSizePx),
         modifier = modifier.graphicsLayer { alpha = block.alpha.coerceIn(0f, 1f) }
     )

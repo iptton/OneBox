@@ -51,6 +51,8 @@ import com.wanbaohe.textcard.domain.model.RemotePaper
 import com.wanbaohe.textcard.domain.model.ShapeElementSpec
 import com.wanbaohe.textcard.domain.model.TextBlock
 import com.wanbaohe.textcard.domain.model.TextCardRenderState
+import com.wanbaohe.textcard.domain.model.TextStyleSpan
+import com.wanbaohe.textcard.domain.model.adjustForTrim
 import com.wanbaohe.textcard.domain.render.CardLayout
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -326,7 +328,19 @@ class TextCardComponent @AssistedInject internal constructor(
     }
 
     /**
-     * 提交并退出就地编辑:trim 内容,空内容置占位提示文案(不删块)。
+     * 就地编辑器实时回写(内容 + 块内局部样式区间):编辑态唯一写入口,
+     * 编辑器内 TextFieldState 是唯一事实源,这里只做镜像。
+     * 与当前块完全一致时跳过——仅进入编辑态(初始同步)不应标记未保存变更。
+     */
+    fun syncEditingTextBlock(id: String, content: String, spans: List<TextStyleSpan>) {
+        val current = _textBlocks.value.find { it.id == id } ?: return
+        if (current.content == content && current.styleSpans == spans) return
+        updateTextBlock(id) { it.copy(content = content, styleSpans = spans) }
+    }
+
+    /**
+     * 提交并退出就地编辑:trim 内容(局部样式区间同步平移/钳制),
+     * 空内容置占位提示文案并清空局部样式(不删块)。
      * 编辑中内容实时写回,这里只做收尾。
      */
     fun endTextEdit() {
@@ -334,9 +348,15 @@ class TextCardComponent @AssistedInject internal constructor(
         updateTextBlock(id) { block ->
             val trimmed = block.content.trim()
             if (trimmed.isEmpty()) {
-                block.copy(content = appContext.getString(R.string.textcard_empty_text_hint))
+                block.copy(
+                    content = appContext.getString(R.string.textcard_empty_text_hint),
+                    styleSpans = emptyList()
+                )
             } else {
-                block.copy(content = trimmed)
+                block.copy(
+                    content = trimmed,
+                    styleSpans = block.styleSpans.adjustForTrim(block.content, trimmed)
+                )
             }
         }
         _editingTextBlockId.value = null
