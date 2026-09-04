@@ -79,6 +79,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineDeleteExif
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDemo
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDiceRoller
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDocumentScanner
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineDoorFront
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDraw
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineEditExif
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFileBrowser
@@ -343,6 +344,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is Screen.Minesweeper -> "Minesweeper"
     is Screen.Survive30s -> "Survive30s"
     is Screen.DisplaySettings -> "DisplaySettings"
+    is Screen.StartEntrySettings -> "StartEntrySettings"
     is Screen.ThemeSettings -> "ThemeSettings"
     is Screen.AIFeatureSettings -> "AIFeatureSettings"
     is Screen.AuthCodeSettings -> "AuthCodeSettings"
@@ -474,6 +476,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.WebBrowser -> com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Language
     is Screen.CodeEditor -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCodeEditor
     is Screen.AIFeatureSettings -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.RobotHappy
+    is Screen.StartEntrySettings -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDoorFront
     is Screen.AuthCodeSettings -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLock
     is Screen.CloudStorage -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCloudStorage
     is Screen.Compass -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCompass
@@ -532,11 +535,6 @@ internal interface ScreenConstants {
      */
     val tabEntries: List<Screen>
 
-    /**
-     * app screen start
-     */
-    val startEntries: List<Screen>
-
     val FEATURES_COUNT: Int
 }
 
@@ -548,15 +546,6 @@ internal object ScreenConstantsImpl : ScreenConstants {
     override val tabEntries by lazy {
         listOf(
             NewApp(), AITabChatScreen(), Online(), Profile()
-        )
-    }
-
-    /**
-     * Default portrait start-entry choices.
-     */
-    override val startEntries by lazy {
-        listOf(
-            NewApp(), AITabChatScreen(), Online()
         )
     }
 

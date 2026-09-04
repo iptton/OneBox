@@ -28,12 +28,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -153,20 +151,24 @@ fun DisplaySettingsScreen(component: DisplaySettingsComponent) {
     }
 }
 
-@Composable
-fun StartEntrySettingItem() {
-    val options = Navigation.rememberStartEntryOptions()
-    var selectedIndex by remember {
-        mutableIntStateOf(0)
-    }
+private sealed interface StartEntryOption {
+    data class Tab(val screen: Screen) : StartEntryOption
+    data object More : StartEntryOption
+}
 
-    LaunchedEffect(options) {
-        val preferredScreenId = AppSharedStorage.loadStartEntryScreenId()
-        val legacyIndex = AppSharedStorage.loadStartEntryIndex()
-        selectedIndex = options.indexOfFirst { it.id == preferredScreenId }
-            .takeIf { it >= 0 }
-            ?: legacyIndex.coerceIn(options.indices)
+@Composable
+fun StartEntrySettingItem(onBeforeNavigate: (() -> Unit)? = null) {
+    val onNavigate = LocalOnNavigate.current
+    val quickScreens = Navigation.rememberStartEntryOptions()
+    val options = remember(quickScreens) {
+        quickScreens.map { StartEntryOption.Tab(it) } + StartEntryOption.More
     }
+    // 选中态由持久化的 Screen.id 派生:命中快捷项高亮对应 tab,
+    // 其他启动页(含「更多」页里选的工具页)高亮「更多」,未设置时高亮首页(与默认启动一致)
+    val selectedScreenId by AppSharedStorage.startEntryScreenId.collectAsState()
+    val selectedOption = options.firstOrNull {
+        it is StartEntryOption.Tab && it.screen.id == selectedScreenId
+    } ?: if (selectedScreenId == null) options.first() else StartEntryOption.More
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -190,20 +192,29 @@ fun StartEntrySettingItem() {
         }
         GlassSegmentedButtonRow(
             options = options,
-            selectedOption = options[selectedIndex],
-            onOptionSelected = { screen ->
-                val index = options.indexOf(screen)
-                if (index != selectedIndex) {
-                    selectedIndex = index
-                    AppSharedStorage.saveStartEntry(index = index, screenId = screen.id)
+            selectedOption = selectedOption,
+            onOptionSelected = { option ->
+                when (option) {
+                    is StartEntryOption.Tab -> {
+                        if (option.screen.id != selectedScreenId) {
+                            AppSharedStorage.saveStartEntryScreenId(option.screen.id)
+                        }
+                    }
+                    StartEntryOption.More -> {
+                        onBeforeNavigate?.invoke()
+                        onNavigate(Screen.StartEntrySettings)
+                    }
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            label = { screen ->
+            label = { option ->
                 Text(
                     softWrap = false,
                     overflow = TextOverflow.Ellipsis,
-                    text = stringResource(screen.title),
+                    text = when (option) {
+                        is StartEntryOption.Tab -> stringResource(option.screen.title)
+                        StartEntryOption.More -> stringResource(R.string.see_all)
+                    },
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.padding(end = 2.dp)
                 )

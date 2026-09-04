@@ -920,6 +920,7 @@
     <string name="webview_go_back">返回</string>
     <string name="webview_go_forward">前进</string>
     <string name="profile_start_entry">启动入口</string>
+    <string name="start_entry_main_entries">主入口</string>
     <string name="marquee_text_size">字体大小</string>
     <string name="network_search">联网搜索</string>
     <string name="ai_image">图像理解</string>

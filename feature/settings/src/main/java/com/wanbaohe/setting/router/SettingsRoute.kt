@@ -10,6 +10,7 @@ sealed class SettingsRoute {
     data object SystemPromptManagement : SettingsRoute()
     data class SystemPromptDetail(val promptId: Int) : SettingsRoute()
     data object DisplaySettings : SettingsRoute()
+    data object StartEntrySettings : SettingsRoute()
     data object EasterEgg : SettingsRoute()
     data object TTSSettings : SettingsRoute()
     data object ImageGenerationSettings : SettingsRoute()

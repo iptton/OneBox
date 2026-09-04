@@ -147,7 +147,7 @@ fun DrawerMenu(
             }
         }
         item {
-            StartEntrySettingItem()
+            StartEntrySettingItem(onBeforeNavigate = { onCloseDrawer() })
         }
         item {
             QuickSettingItem(appComponent, isMe = true)

@@ -234,6 +234,16 @@ class ChildProvider @Inject constructor(
             )
         )
 
+        Screen.StartEntrySettings -> NavigationChild.SettingsRouter(
+            lifeFactories.get().settingRouterComponentFactory(
+                componentContext = componentContext,
+                route = SettingsRoute.StartEntrySettings,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo,
+                appComponent = null,
+            )
+        )
+
         is Screen.ApngTools -> ApngTools(
             imageFactories.get().apngToolsComponentFactory(
                 componentContext = componentContext,

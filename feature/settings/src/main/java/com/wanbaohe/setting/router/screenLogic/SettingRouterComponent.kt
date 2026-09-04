@@ -146,6 +146,10 @@ class SettingRouterComponent @AssistedInject internal constructor(
                 onGoBack = onGoBack,
             )
         )
+
+        is SettingsRoute.StartEntrySettings -> SettingChild.StartEntrySettings(
+            onGoBack = onGoBack,
+        )
     }
 
     sealed interface SettingChild {
@@ -169,6 +173,7 @@ class SettingRouterComponent @AssistedInject internal constructor(
             val onGoBack: () -> Unit,
         ) : SettingChild
         class AuthCodeSettings(val component: AuthCodeSettingsComponent) : SettingChild
+        class StartEntrySettings(val onGoBack: () -> Unit) : SettingChild
     }
 
     @AssistedFactory

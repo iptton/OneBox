@@ -1784,6 +1784,14 @@ sealed class Screen(
     )
 
     @Serializable
+    @SerialName("StartEntrySettings")
+    data object StartEntrySettings : Screen(
+        id = -28,
+        title = com.shifenmiao.core.R.string.profile_start_entry,
+        subtitle = 0
+    )
+
+    @Serializable
     @SerialName("ThemeSettings")
     data object ThemeSettings : Screen(
         id = -18,

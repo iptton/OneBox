@@ -60,7 +60,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.content.ContentRouter
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.handleDeeplinks
-import com.t8rin.imagetoolbox.core.ui.utils.helper.isShellPortraitOrientation
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
 import com.t8rin.imagetoolbox.core.ui.utils.loadStartupSettingsSnapshot
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -179,7 +178,7 @@ class RootComponent @AssistedInject internal constructor(
     val childStack: Value<ChildStack<Screen, NavigationChild>> by lazy {
         childStack(
             source = navController,
-            initialConfiguration = startEntry(),
+            initialStack = ::startEntryStack,
             serializer = Screen.serializer(),
             handleBackButton = true,
             childFactory = { screen, context ->
@@ -218,19 +217,29 @@ class RootComponent @AssistedInject internal constructor(
     }
 
     /**
-     * Resolves the initial top-level destination from the same adaptive tab model used by the
-     * app shell.
-     *
-     * A preferred screen id is stored alongside the legacy index so startup remains stable even
-     * when portrait and landscape expose different tab sets.
+     * Resolves the initial destination from the persisted start-entry Screen id,
+     * falling back to the home tab when unset or no longer available.
      */
     fun startEntry(): Screen {
-        val context = AppContext.getContext()
         return Navigation.resolveStartEntry(
             preferredScreenId = AppSharedStorage.loadStartEntryScreenId(),
-            legacyIndex = AppSharedStorage.loadStartEntryIndex(),
-            isPortrait = context.isShellPortraitOrientation(),
         )
+    }
+
+    /**
+     * 启动栈:自定义工具页作为启动页时栈底垫首页,返回键先回首页再退出。
+     */
+    fun startEntryStack(): List<Screen> {
+        return Navigation.startEntryStack(
+            preferredScreenId = AppSharedStorage.loadStartEntryScreenId(),
+        )
+    }
+
+    /**
+     * 当前页是否为启动栈栈底(栈底页走"再按一次退出",其余页返回上一页)。
+     */
+    fun isStackBottom(screen: Screen): Boolean {
+        return childStack.items.firstOrNull()?.configuration == screen
     }
 
     fun hideSelectDialog() {

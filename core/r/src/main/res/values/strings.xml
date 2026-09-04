@@ -874,6 +874,7 @@
     <string name="webview_go_back">Back</string>
     <string name="webview_go_forward">Forward</string>
     <string name="profile_start_entry">Launch Entry</string>
+    <string name="start_entry_main_entries">Main Entries</string>
     <string name="marquee_text_size">Font Size</string>
     <string name="network_search">Web Search</string>
     <string name="ai_image">Image Understanding</string>

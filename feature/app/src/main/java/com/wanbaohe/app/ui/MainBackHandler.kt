@@ -36,7 +36,7 @@ fun MainBackHandler(
             }
             return@BackHandler
         }
-        if (rootComponent.startEntry() == currentScreen) {
+        if (rootComponent.isStackBottom(currentScreen)) {
             if (backPressedOnce) {
                 activity?.finishAffinity()
             } else {

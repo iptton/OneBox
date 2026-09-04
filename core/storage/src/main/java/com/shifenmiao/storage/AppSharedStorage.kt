@@ -37,7 +37,6 @@ object AppSharedStorage {
     private const val IS_EXPANDED_TOOL_CALL = "is_expanded_tool_call"
     private const val IS_DISABLE_ROBOT = "disable_robot"
     private const val STARTUP_TRACE_OVERLAY_ENABLED = "startup_trace_overlay_enabled"
-    private const val START_ENTRY_INDEX = "start_entry_index"  // 新增启动入口索引键
     private const val START_ENTRY_SCREEN_ID = "start_entry_screen_id"
     private const val REMOTE_CONFIG_LAST_CHECK_TIME = "remote_config_last_check_time"
     private const val TOOL_CATALOG_SNAPSHOT_VERSION = "tool_catalog_snapshot_version"
@@ -94,8 +93,8 @@ object AppSharedStorage {
     private val _isStartupTraceOverlayEnabled = MutableStateFlow(loadStartupTraceOverlayEnabled())
     val isStartupTraceOverlayEnabled: StateFlow<Boolean> get() = _isStartupTraceOverlayEnabled
 
-    private val _startEntryIndex = MutableStateFlow(loadStartEntryIndex())
-    val startEntryIndex: StateFlow<Int> get() = _startEntryIndex
+    private val _startEntryScreenId = MutableStateFlow(loadStartEntryScreenId())
+    val startEntryScreenId: StateFlow<Int?> get() = _startEntryScreenId
 
     fun saveIsDisableRobot(isDisableRobot: Boolean) {
         save(IS_DISABLE_ROBOT, isDisableRobot)
@@ -303,18 +302,9 @@ object AppSharedStorage {
         return count >= 2
     }
 
-    fun saveStartEntryIndex(index: Int) {
-        save(START_ENTRY_INDEX, index)
-        _startEntryIndex.value = index
-    }
-
-    fun saveStartEntry(index: Int, screenId: Int) {
-        saveStartEntryIndex(index)
+    fun saveStartEntryScreenId(screenId: Int) {
         save(START_ENTRY_SCREEN_ID, screenId)
-    }
-
-    fun loadStartEntryIndex(): Int {
-        return load(START_ENTRY_INDEX, 0) ?: 0
+        _startEntryScreenId.value = screenId
     }
 
     fun loadStartEntryScreenId(): Int? {

@@ -8,6 +8,7 @@ import com.wanbaohe.setting.ai.screen.AIFeatureSettingsScreen
 import com.wanbaohe.setting.ai.screen.AIWorkingModelSettingsScreen
 import com.wanbaohe.setting.authcode.screen.AuthCodeSettingsScreen
 import com.wanbaohe.setting.display.screen.DisplaySettingsScreen
+import com.wanbaohe.setting.display.screen.StartEntrySettingsScreen
 import com.wanbaohe.setting.easter.screen.EasterEggScreen
 import com.wanbaohe.setting.image.screen.ImageGenerationSettingsScreen
 import com.wanbaohe.setting.prompt.screen.SystemPromptDetailScreen
@@ -39,5 +40,8 @@ fun SettingRouterScreen(component: SettingRouterComponent) {
             onGoBack = child.onGoBack,
         )
         is SettingRouterComponent.SettingChild.AuthCodeSettings -> AuthCodeSettingsScreen(child.component)
+        is SettingRouterComponent.SettingChild.StartEntrySettings -> StartEntrySettingsScreen(
+            onGoBack = child.onGoBack,
+        )
     }
 }
