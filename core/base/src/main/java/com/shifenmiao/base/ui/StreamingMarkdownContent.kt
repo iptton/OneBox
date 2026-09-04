@@ -1,5 +1,6 @@
 package com.shifenmiao.base.ui
 
+import android.os.SystemClock
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,7 +35,7 @@ import com.shifenmiao.model.node.AstJLatexNodeMath
 import com.shifenmiao.model.node.AstNode
 import com.shifenmiao.model.node.AstText
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 /**
@@ -43,8 +44,10 @@ import kotlinx.coroutines.withContext
  * 直接渲染 Markdown,流式期间也不退化为纯文本。性能方案与 AI 助手聊天页一致
  * (见 feature/ai 的 BlockReuseCache + StreamContentProcessor):
  *
- * 1. 解析在 [Dispatchers.Default],经 `snapshotFlow + collectLatest` 背压——
- *    内容快速更新时只解析最新版本,在途旧解析直接丢弃;
+ * 1. 解析在 [Dispatchers.Default],渲染按内容长度分级节流(48~180ms,与
+ *    feature/ai 的 StreamContentProcessor 分段一致)——delta 密集到达时中间版本
+ *    自然合并,UI 以稳定帧率推进;打字机的节奏感正来自这个稳定刷新节奏,
+ *    而不是逐字 delay(feature/ai 注释:逐字 delay 会串行卡住整条 SSE 流);
  * 2. 整段解析后拆成顶层 block,按"块内容签名"与上一版对齐比对,未变的块
  *    **复用旧 AstNode 引用**。下游 `BasicMarkdown`/`RichText` 内部的
  *    `remember(astNode)` 因此真正命中,逐 delta 增长时只有最后一个块重组,
@@ -71,10 +74,22 @@ fun StreamingMarkdownContent(
     val currentContent by rememberUpdatedState(content)
 
     LaunchedEffect(parser) {
-        snapshotFlow { currentContent }.collectLatest { text ->
+        var lastRendered: String? = null
+        var lastRenderAt = 0L
+        // 渲染节流:不逐 delta 解析,按固定节奏取"最新快照"渲染。collect 挂起期间
+        // snapshotFlow 的中间版本自然合并,唤醒后读到的就是最新内容
+        snapshotFlow { currentContent }.collect {
+            val interval = renderIntervalMs(currentContent.length)
+            val elapsed = SystemClock.uptimeMillis() - lastRenderAt
+            if (elapsed < interval) delay(interval - elapsed)
+            val text = currentContent
+            if (text == lastRendered) return@collect
+            lastRenderAt = SystemClock.uptimeMillis()
             if (text.isBlank()) {
+                reuseCache.clear()
+                lastRendered = text
                 blocks = emptyList()
-                return@collectLatest
+                return@collect
             }
             val parsed = withContext(Dispatchers.Default) {
                 runCatching {
@@ -87,7 +102,12 @@ fun StreamingMarkdownContent(
                     }
                     topLevel
                 }.getOrNull()
-            } ?: return@collectLatest
+            }
+            if (parsed == null) {
+                lastRendered = null
+                return@collect
+            }
+            lastRendered = text
 
             // 按 index 对齐做签名复用;新版本块数更少时截断旧缓存
             val reused = parsed.mapIndexed { index, node ->
@@ -126,6 +146,14 @@ fun StreamingMarkdownContent(
 
 private fun MutableList<Pair<String, AstNode>>.setOrAdd(index: Int, slot: Pair<String, AstNode>) {
     if (index < size) this[index] = slot else add(slot)
+}
+
+/** 内容越长渲染间隔越大,分段与 feature/ai 的 StreamContentProcessor 一致 */
+private fun renderIntervalMs(length: Int): Long = when {
+    length < 1_000 -> 48L
+    length < 3_000 -> 84L
+    length < 8_000 -> 120L
+    else -> 180L
 }
 
 /**

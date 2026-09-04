@@ -283,7 +283,8 @@ private fun CoinTripleRow(
     offsetY: Float = 0f,
     flip: Float = 1f,
 ) {
-    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+    // Row 包裹内容宽度,Box 默认 TopStart 会让整排靠左,必须显式居中
+    BoxWithConstraints(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         val fittedSize = ((maxWidth - spacing * 2) / 3).coerceAtMost(coinSize)
         Row(horizontalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterHorizontally)) {
             CoinFronts.forEach {
