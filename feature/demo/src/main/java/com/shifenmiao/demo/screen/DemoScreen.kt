@@ -14,9 +14,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -44,6 +41,35 @@ import com.shifenmiao.demo.screenLogic.DemoComponent
 import com.shifenmiao.model.ai.AIGCInfo
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.model.plus
+import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
+import com.t8rin.imagetoolbox.core.resources.icons.Close
+import com.t8rin.imagetoolbox.core.resources.icons.Compass
+import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
+import com.t8rin.imagetoolbox.core.resources.icons.DshWhale
+import com.t8rin.imagetoolbox.core.resources.icons.TaijiBagua
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAccountBalance
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAltitude
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineBook
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineBookkeeping
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalculate
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineCasino
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineCheckCircleOutline
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineCloudStorage
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineDashboardCustomize
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineFileOpen
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineGrid4x4
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineImportExport
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLink
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineMagic
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineNote
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineShield
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineSpeedTest
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineSquareFoot
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineTeleprompter
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineTextCard
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineTheme
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineTravelExplore
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FileType
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -55,36 +81,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import com.shifenmiao.demo.R as DemoR
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineTheme
-import com.t8rin.imagetoolbox.core.resources.icons.Close
-import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineCloudStorage
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalculate
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineCasino
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineFileOpen
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineLink
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineMagic
-import com.t8rin.imagetoolbox.core.resources.icons.TaijiBagua
-import com.t8rin.imagetoolbox.core.resources.icons.Compass
-import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineAccountBalance
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineDashboardCustomize
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineNote
-import com.t8rin.imagetoolbox.core.resources.icons.DshWhale
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineRobot
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineShield
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineSpeedTest
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineTravelExplore
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineAltitude
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineBook
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineBookkeeping
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineCheckCircleOutline
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineTeleprompter
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineGrid4x4
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineImportExport
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineSquareFoot
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineTextCard
 
 @Composable
 fun DemoScreen(
@@ -95,6 +91,7 @@ fun DemoScreen(
     var showDeeplinkHelp by remember { mutableStateOf(false) }
     var showGlassShowcase by remember { mutableStateOf(false) }
     var showA2uiGallery by remember { mutableStateOf(false) }
+    var showNativeMarkdownEditorDemo by remember { mutableStateOf(false) }
     EnhancedModalBottomSheet(
         visible = showDeeplinkHelp,
         dragHandle = {
@@ -188,6 +185,16 @@ fun DemoScreen(
         }
     )
 
+    EnhancedModalBottomSheet(
+        visible = showNativeMarkdownEditorDemo,
+        onDismiss = { showNativeMarkdownEditorDemo = false },
+        sheetContent = {
+            NativeMarkdownEditorDemoScreen(
+                onDismiss = { showNativeMarkdownEditorDemo = false },
+            )
+        }
+    )
+
     val filePicker = rememberFilePicker(
         type = FileType.Single,
         mimeType = MimeType.Pdf + MimeType.Png + MimeType.Html,
@@ -210,6 +217,14 @@ fun DemoScreen(
             userScrollEnabled = true
         ) {
             demoNavigationItems(entries = demoEntries, onNavigate = onNavigate)
+            item {
+                DemoActionButton(
+                    title = "原生 Markdown 编辑器实验",
+                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineNote,
+                    emphasized = true,
+                    onClick = { showNativeMarkdownEditorDemo = true },
+                )
+            }
             item {
                 DemoActionButton(
                     title = "A2UI 组件画廊",
