@@ -42,7 +42,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.PushPin
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineLock
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineUnlock
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineRemove
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineFavorite
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineFavoriteFilled
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAddToHome
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineVerticalAlignTop
 
@@ -144,7 +144,7 @@ fun VerticalStaggeredCard(
         buildList {
             add(
                 CardAction(
-                    icon = if (isFavorited) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite else Icons.Outlined.FavoriteBorder,
+                    icon = if (isFavorited) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavoriteFilled else Icons.Outlined.FavoriteBorder,
                     contentDescription = favoriteLabel,
                     onClick = {
                         itemListComponent.setFavorite(item)

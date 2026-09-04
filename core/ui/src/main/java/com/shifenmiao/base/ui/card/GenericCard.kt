@@ -5,14 +5,17 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.MarqueeSpacing
+import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +30,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -47,6 +51,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -55,97 +60,173 @@ import androidx.compose.ui.unit.dp
 import com.shifenmiao.base.ui.icon.IconAvatar
 import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStyle
 import com.t8rin.imagetoolbox.core.ui.widget.glass.glassBackground
 import com.t8rin.imagetoolbox.core.ui.widget.glass.glassThin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.t8rin.imagetoolbox.core.resources.icons.Add
+import com.t8rin.imagetoolbox.core.resources.icons.Close
 
 data class CardAction(
     val icon: ImageVector,
     val contentDescription: String,
     val onClick: () -> Unit,
-    val autoHideAfterClick: Boolean = true // 点击后自动隐藏 ActionBar
+    val autoHideAfterClick: Boolean = true // 点击后自动隐藏动作面板
 )
 
 
+// 动作面板每行列数
+private const val ACTION_GRID_COLUMNS = 3
+
+/**
+ * 铺满整张卡片的动作面板:动作按网格排列(图标 + 文字),右上角为关闭按钮,
+ * 点击空白区域也可收起。遮罩随卡片底色取色,玻璃质感半透明。
+ */
 @Composable
-private fun ActionBar(
+private fun ActionGridOverlay(
     actions: List<CardAction>,
     visible: Boolean,
     onHide: () -> Unit,
+    shape: Shape,
     modifier: Modifier = Modifier,
-    actionContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
-    actionContentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    buttonContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    buttonContentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
 ) {
     var clickedActionIndex by remember { mutableStateOf<Int?>(null) }
     val scope = rememberCoroutineScope()
 
     AnimatedVisibility(
         visible = visible,
-        enter = fadeIn(animationSpec = tween(300)) + slideInVertically(
-            initialOffsetY = { -it },
-            animationSpec = tween(300)
+        enter = fadeIn(animationSpec = tween(200)) + scaleIn(
+            initialScale = 0.92f,
+            animationSpec = tween(200)
         ),
-        exit = fadeOut(animationSpec = tween(300)) + slideOutVertically(
-            targetOffsetY = { -it },
-            animationSpec = tween(300)
+        exit = fadeOut(animationSpec = tween(200)) + scaleOut(
+            targetScale = 0.92f,
+            animationSpec = tween(200)
         ),
         modifier = modifier
     ) {
-        Row(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.End,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            actions.forEachIndexed { index, action ->
-                val isClicked = clickedActionIndex == index
-                val scale by animateFloatAsState(
-                    targetValue = if (isClicked) 0.85f else 1f,
-                    animationSpec = tween(150),
-                    label = "actionScale"
+                .fillMaxSize()
+                .clip(shape)
+                // 遮罩跟随卡片底色, 稍透明实底 + 一条细描边营造玻璃边缘
+                .background(containerColor.copy(alpha = 0.85f))
+                .border(
+                    width = 1.dp,
+                    color = contentColor.copy(alpha = 0.08f),
+                    shape = shape
                 )
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onHide
+                )
+        ) {
+            val handleActionClick: (Int, CardAction) -> Unit = { index, action ->
+                clickedActionIndex = index
+                action.onClick()
+                scope.launch {
+                    delay(200) // 给用户一点视觉反馈时间
+                    if (action.autoHideAfterClick) {
+                        onHide()
+                        delay(100)
+                    }
+                    clickedActionIndex = null
+                }
+            }
 
-                GlassTonalIconButton(
-                    onClick = {
-                        clickedActionIndex = index
-                        action.onClick()
-                        // 如果需要自动隐藏，延迟后隐藏
-                        if (action.autoHideAfterClick) {
-                            scope.launch {
-                                delay(200) // 给用户一点视觉反馈时间
-                                onHide()
-                                delay(100)
-                                clickedActionIndex = null
+            // 滚动放在外层 Box 上:内容不足一屏时居中,超出时从顶部完整滚动;
+            // 不能在可滚动 Column 上用 Arrangement.Center, 会裁掉首尾内容
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = AppTheme.dimens.paddingNormal,
+                            end = AppTheme.dimens.paddingNormal,
+                            // 顶部给右上角关闭按钮留位
+                            top = 40.dp,
+                            bottom = AppTheme.dimens.paddingNormal
+                        ),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    actions.chunked(ACTION_GRID_COLUMNS).forEachIndexed { rowIndex, rowActions ->
+                        if (rowIndex > 0) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            rowActions.forEachIndexed { columnIndex, action ->
+                                val index = rowIndex * ACTION_GRID_COLUMNS + columnIndex
+                                val isClicked = clickedActionIndex == index
+                                val scale by animateFloatAsState(
+                                    targetValue = if (isClicked) 0.85f else 1f,
+                                    animationSpec = tween(150),
+                                    label = "actionScale"
+                                )
+
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .scale(scale)
+                                ) {
+                                    FilledTonalIconButton(
+                                        onClick = { handleActionClick(index, action) },
+                                        modifier = Modifier.size(40.dp),
+                                        colors = IconButtonDefaults.filledTonalIconButtonColors(
+                                            containerColor = buttonContainerColor,
+                                            contentColor = buttonContentColor
+                                        ),
+                                    ) {
+                                        Icon(
+                                            imageVector = action.icon,
+                                            contentDescription = action.contentDescription,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(
+                                        text = action.contentDescription,
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = contentColor,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
                             }
-                        } else {
-                            scope.launch {
-                                delay(200)
-                                clickedActionIndex = null
+                            // 末行不足整行时用空白占位,保持网格对齐
+                            repeat(ACTION_GRID_COLUMNS - rowActions.size) {
+                                Spacer(modifier = Modifier.weight(1f))
                             }
                         }
-                    },
-                    modifier = Modifier
-                        .size(36.dp)
-                        .scale(scale),
-                    colors = IconButtonDefaults.filledTonalIconButtonColors(
-                        containerColor = actionContainerColor,
-                        contentColor = actionContentColor
-                    ),
-                ) {
-                    Icon(
-                        imageVector = action.icon,
-                        contentDescription = action.contentDescription,
-                        modifier = Modifier.size(18.dp)
-                    )
+                    }
                 }
-                if (action != actions.last()) {
-                    Spacer(modifier = Modifier.size(4.dp))
-                }
+            }
+
+            IconButton(
+                onClick = onHide,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(4.dp)
+                    .size(32.dp)
+            ) {
+                Icon(
+                    imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
+                    contentDescription = stringResource(com.shifenmiao.core.R.string.close),
+                    tint = contentColor,
+                    modifier = Modifier.size(16.dp)
+                )
             }
         }
     }
@@ -241,7 +322,7 @@ fun GenericTonalCard(
                 .heightIn(min = 188.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Top section: icon at left, action bar overlaid on long-press
+            // Top section: icon at left, arrow toggles the full-card action panel
             Box(
                 modifier = Modifier.fillMaxWidth().height(50.dp),
                 contentAlignment = Alignment.CenterStart
@@ -286,16 +367,6 @@ fun GenericTonalCard(
                             }
                         }
                     }
-                }
-                if (actions.isNotEmpty()) {
-                    ActionBar(
-                        actions = actions,
-                        visible = showActions,
-                        onHide = { showActions = false },
-                        modifier = Modifier.fillMaxWidth(),
-                        actionContainerColor = resolvedPalette.actionContainerColor,
-                        actionContentColor = resolvedPalette.actionContentColor,
-                    )
                 }
             }
 
@@ -346,6 +417,23 @@ fun GenericTonalCard(
             } else {
                 Spacer(modifier = Modifier.height(8.dp))
             }
+        }
+
+        // 长按 / 点击箭头后动作面板铺满整张卡片, 右上角为关闭按钮
+        if (actions.isNotEmpty()) {
+            ActionGridOverlay(
+                actions = actions,
+                visible = showActions,
+                onHide = { showActions = false },
+                shape = shape,
+                // 卡片位于 LazyVerticalStaggeredGrid 中, 高度约束为无限,
+                // 必须用 matchParentSize 跟随卡片实际高度, 否则内部滚动容器会崩溃
+                modifier = Modifier.matchParentSize(),
+                containerColor = resolvedPalette.containerColor,
+                contentColor = resolvedPalette.titleColor,
+                buttonContainerColor = resolvedPalette.iconContainerColor,
+                buttonContentColor = resolvedPalette.iconContentColor,
+            )
         }
     }
 }

@@ -745,7 +745,7 @@
     <string name="item_locked_unlock">解锁查看</string>
     <string name="item_locked_preview">内容已加锁</string>
     <string name="item_action_lock">加锁</string>
-    <string name="item_action_unlock">解除加锁</string>
+    <string name="item_action_unlock">解锁</string>
     <string name="see_all">更多</string>
     <string name="local_tips">无需联网即可免费使用</string>
     <string name="local_title">本地</string>
@@ -1049,8 +1049,8 @@
     <string name="new_add">新建</string>
     <string name="delete_category_message">即将删除分类 %s</string>
     <string name="pin">置顶</string>
-    <string name="unpin">取消置顶</string>
-    <string name="bring_to_top">再提前</string>
+    <string name="unpin">取顶</string>
+    <string name="bring_to_top">到顶</string>
     <string name="delete">删除</string>
     <string name="cannot_edit">暂不支持编辑此类型内容</string>
     <!-- 条目跳转失败提示（ItemScreenResolver） -->
@@ -1157,7 +1157,7 @@
     <string name="save_as">另存为</string>
     <string name="save_as_pdf">保存为PDF</string>
     <string name="home_qr_code">二维码</string>
-    <string name="add_to_home_screen">创建快捷方式</string>
+    <string name="add_to_home_screen">桌面</string>
     <string name="cannot_create_shortcut">不支持创建快捷方式</string>
     <string name="pdf_export_prepare">正在准备PDF导出...</string>
     <string name="pdf_export_failure">PDF导出失败: %s</string>
