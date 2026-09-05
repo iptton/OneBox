@@ -791,6 +791,11 @@
     <string name="network_search">Веб-поиск</string>
     <string name="ai_image">Понимание изображений</string>
     <string name="ai_input_voice">Голос</string>
+    <string name="ai_input_voice_prompt">Говорите</string>
+    <string name="ai_input_voice_unavailable">Голосовой ввод недоступен на этом устройстве</string>
+    <string name="ai_voice_listening">Слушаю…</string>
+    <string name="ai_voice_tap_to_finish">Нажмите, чтобы завершить</string>
+    <string name="ai_voice_error">Распознавание не удалось, повторите попытку</string>
     <string name="ai_input_image">Изображение</string>
     <string name="ai_input_take_photo">Сделать фото</string>
     <string name="ai_input_image_compression">Сжатие изображений</string>

@@ -791,6 +791,11 @@
     <string name="network_search">웹 검색</string>
     <string name="ai_image">이미지 이해</string>
     <string name="ai_input_voice">음성</string>
+    <string name="ai_input_voice_prompt">지금 말씀해 주세요</string>
+    <string name="ai_input_voice_unavailable">이 기기에서는 음성 입력을 사용할 수 없습니다</string>
+    <string name="ai_voice_listening">듣는 중…</string>
+    <string name="ai_voice_tap_to_finish">탭하여 완료</string>
+    <string name="ai_voice_error">인식에 실패했습니다. 다시 시도해 주세요</string>
     <string name="ai_input_image">이미지</string>
     <string name="ai_input_take_photo">사진 촬영</string>
     <string name="ai_input_image_compression">이미지 압축</string>

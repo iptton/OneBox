@@ -791,6 +791,11 @@
     <string name="network_search">Paghahanap sa Web</string>
     <string name="ai_image">Pag-unawa sa Larawan</string>
     <string name="ai_input_voice">Boses</string>
+    <string name="ai_input_voice_prompt">Magsalita na</string>
+    <string name="ai_input_voice_unavailable">Hindi available ang voice input sa device na ito</string>
+    <string name="ai_voice_listening">Nakikinig…</string>
+    <string name="ai_voice_tap_to_finish">I-tap para matapos</string>
+    <string name="ai_voice_error">Nabigo ang pagkilala, subukang muli</string>
     <string name="ai_input_image">Larawan</string>
     <string name="ai_input_take_photo">Kumuha ng Larawan</string>
     <string name="ai_input_image_compression">Pag-compress ng Larawan</string>

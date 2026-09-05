@@ -19,7 +19,8 @@ object RemoteConfigStorage {
     // v2: 新增 aiImageProcessPoints（旧缓存解码会让该字段读到错位垃圾值）
     // v3: 新增 poemApiUrl 字段
     // v4: 新增 agentToolTimeoutSeconds 字段
-    private const val KEY_REMOTE_CONFIG = "one_remote_config_v4"
+    // v5: 新增 voiceInput 字段
+    private const val KEY_REMOTE_CONFIG = "one_remote_config_v5"
 
     /**
      * 远程配置写入事件。replay=1 让新订阅者立刻收到"最近一次"事件以兜底

@@ -253,7 +253,15 @@ data class RemoteConfig(
      * `null`、空列表或缺少对应 type 的条目时，消费端回退到本地兜底文案。
      * 字段说明与 JSON 示例见 [BlessingWallTabText]。
      */
-    val blessingWallTabTexts: List<BlessingWallTabText>? = null
+    val blessingWallTabTexts: List<BlessingWallTabText>? = null,
+
+    /**
+     * 语音输入配置，远程下发。
+     *
+     * 与 [adminVipLevel] 同款意图：默认 `null` 表示服务端未下发，
+     * 消费端回退到系统语音识别；`provider = "iflytek"` 时走讯飞大模型识别。
+     */
+    val voiceInput: VoiceInputConfig? = null
 ) : Parcelable {
 
     /**
@@ -320,7 +328,8 @@ data class RemoteConfig(
         canSetAiToken = mergeField(net.canSetAiToken, canSetAiToken),
         aigcSubjectUscc = mergeField(net.aigcSubjectUscc, aigcSubjectUscc) { !it.isNullOrBlank() },
         survive30sWinPoints = mergeField(net.survive30sWinPoints, survive30sWinPoints),
-        blessingWallTabTexts = mergeField(net.blessingWallTabTexts, blessingWallTabTexts)
+        blessingWallTabTexts = mergeField(net.blessingWallTabTexts, blessingWallTabTexts),
+        voiceInput = mergeField(net.voiceInput, voiceInput)
     )
 
     /**
@@ -377,7 +386,8 @@ data class RemoteConfig(
                 canSetAiToken == other.canSetAiToken &&
                 aigcSubjectUscc == other.aigcSubjectUscc &&
                 survive30sWinPoints == other.survive30sWinPoints &&
-                blessingWallTabTexts == other.blessingWallTabTexts
+                blessingWallTabTexts == other.blessingWallTabTexts &&
+                voiceInput == other.voiceInput
     }
 
     override fun hashCode(): Int {
@@ -420,10 +430,26 @@ data class RemoteConfig(
             canSetAiToken,
             aigcSubjectUscc,
             survive30sWinPoints,
-            blessingWallTabTexts
+            blessingWallTabTexts,
+            voiceInput
         )
     }
 }
+
+@Parcelize
+@Serializable
+data class VoiceInputConfig(
+    /** 语音输入提供方:"iflytek" 走讯飞大模型识别;null/"system" 走系统语音识别 */
+    val provider: String? = null,
+
+    /**
+     * 讯飞凭据(联调期临时方案):三项齐全时 App 本地签名直连讯飞,不调网关代签。
+     * 量大后应从 RemoteConfig 移除这三项(回到网关代签)并在讯飞控制台重置 APIKey/APISecret。
+     */
+    val appId: String? = null,
+    val apiKey: String? = null,
+    val apiSecret: String? = null,
+) : Parcelable
 
 @Parcelize
 @Serializable

@@ -791,6 +791,11 @@
     <string name="network_search">वेब खोज</string>
     <string name="ai_image">छवि समझ</string>
     <string name="ai_input_voice">आवाज़</string>
+    <string name="ai_input_voice_prompt">अब बोलिए</string>
+    <string name="ai_input_voice_unavailable">इस डिवाइस पर वॉइस इनपुट उपलब्ध नहीं है</string>
+    <string name="ai_voice_listening">सुन रहा है…</string>
+    <string name="ai_voice_tap_to_finish">समाप्त करने के लिए टैप करें</string>
+    <string name="ai_voice_error">पहचान विफल, कृपया पुनः प्रयास करें</string>
     <string name="ai_input_image">छवि</string>
     <string name="ai_input_take_photo">फ़ोटो लें</string>
     <string name="ai_input_image_compression">छवि संपीड़न</string>

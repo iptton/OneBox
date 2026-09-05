@@ -36,6 +36,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -49,6 +50,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -57,6 +59,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.shifenmiao.ai.chat.NewTextInputField
 import com.shifenmiao.ai.component.AIChatComponent
+import com.shifenmiao.ai.di.VoiceRecognizerEntryPoint
 import com.shifenmiao.ai.logic.ChatInputComponent
 import com.shifenmiao.base.utils.ActionUtils
 import com.shifenmiao.common.logic.AppComponent
@@ -69,17 +72,20 @@ import com.shifenmiao.model.channel.FlavorType
 import com.shifenmiao.model.state.ChatUIState
 import com.shifenmiao.model.state.PageState
 import com.shifenmiao.storage.AIChatStorage
+import com.shifenmiao.storage.RemoteConfigStorage
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStyle
 import com.t8rin.imagetoolbox.core.ui.widget.glass.glassBackground
 import com.t8rin.imagetoolbox.core.ui.widget.system.OnePrimaryButton
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneSecondaryButton
+import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.launch
 import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowUpward
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Fullscreen
 import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
+import com.t8rin.imagetoolbox.core.resources.icons.Mic
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineStopCircle
 
 
@@ -273,6 +279,40 @@ private fun StandardInputSection(
         derivedStateOf { chatInputComponent.areAttachmentsReady() }
     }
     val sendDisabled = (textEmpty && !hasAttachments) || (hasAttachments && !attachmentsReady)
+    // 语音按钮开关:海外渠道(google/foss)始终启用(系统语音识别);
+    // 国内渠道由远程配置控制,未下发 voiceInput(provider=iflytek)时不显示麦克风,保持置灰发送按钮。
+    // 订阅 rulesChanged,远程配置拉到后即时生效,无需重进页面。
+    var remoteConfig by remember { mutableStateOf(RemoteConfigStorage.getRemoteConfig()) }
+    LaunchedEffect(Unit) {
+        RemoteConfigStorage.rulesChanged.collect {
+            remoteConfig = RemoteConfigStorage.getRemoteConfig()
+        }
+    }
+    val voiceInputEnabled = FlavorType.fromName().isOverseas ||
+        remoteConfig.voiceInput?.provider == "iflytek"
+    val showVoice = textEmpty && !hasAttachments && voiceInputEnabled
+    // 文本为空且无附件时,发送按钮切换为语音输入;识别结果回填输入框(已有文本则追加)
+    val backfillRecognizedText: (String) -> Unit = remember(chatInputComponent) {
+        { recognized ->
+            val current = chatInputComponent.chatInputState.value.inputText
+            chatInputComponent.onInputTextChange(
+                if (current.isBlank()) recognized else "$current $recognized"
+            )
+        }
+    }
+    // 语音按钮仅在 voiceInputEnabled 时可见;海外走系统语音识别,国内 provider=iflytek 走讯飞大模型识别面板
+    var showVoiceSheet by remember { mutableStateOf(false) }
+    val startVoiceInput = rememberVoiceInputLauncher(
+        onResult = backfillRecognizedText,
+        onShowIflytekSheet = { showVoiceSheet = true }
+    )
+    val context = LocalContext.current
+    val voiceRecognizer = remember {
+        EntryPointAccessors.fromApplication(
+            context,
+            VoiceRecognizerEntryPoint::class.java
+        ).voiceRecognizer()
+    }
     NewTextInputField(
         inputState = inputState,
         conversation = conversation,
@@ -320,13 +360,15 @@ private fun StandardInputSection(
                 }
             }
         },
-        // 单行：仅显示发送按钮
+        // 单行：仅显示发送/语音按钮
         singleLineTrailing = {
             ActionButton(
                 isLoading = isLoading,
-                textEmpty = sendDisabled,
+                showVoice = showVoice,
+                sendDisabled = sendDisabled,
                 onSend = eventHandler.sendMessage,
                 onCancel = eventHandler.cancelFetch,
+                onVoiceInput = startVoiceInput,
             )
         },
         // 多行：底部 action bar — (清空) | 全屏 | 发送
@@ -351,12 +393,22 @@ private fun StandardInputSection(
                 )
                 ActionButton(
                     isLoading = isLoading,
-                    textEmpty = sendDisabled,
+                    showVoice = showVoice,
+                    sendDisabled = sendDisabled,
                     onSend = eventHandler.sendMessage,
                     onCancel = eventHandler.cancelFetch,
+                    onVoiceInput = startVoiceInput,
                 )
             }
         }
+    )
+
+    // 讯飞大模型识别录音面板(provider=iflytek 时由语音按钮触发)
+    VoiceInputSheet(
+        visible = showVoiceSheet,
+        recognizer = voiceRecognizer,
+        onResult = backfillRecognizedText,
+        onDismiss = { showVoiceSheet = false }
     )
 }
 
@@ -656,9 +708,11 @@ private fun getStateColor(state: AttachmentProcessingState): Color {
 private fun ActionButton(
     modifier: Modifier = Modifier,
     isLoading: Boolean,
-    textEmpty: Boolean,
+    showVoice: Boolean,
+    sendDisabled: Boolean,
     onSend: () -> Unit,
     onCancel: () -> Unit,
+    onVoiceInput: () -> Unit,
 ) {
     val size = 40.dp
     val iconSize = 24.dp
@@ -685,6 +739,28 @@ private fun ActionButton(
                 modifier = Modifier.size(iconSize)
             )
         }
+    } else if (showVoice) {
+        // 无输入内容:按钮切换为语音输入,点击唤起系统语音识别
+        Box(
+            modifier = modifier
+                .size(size)
+                .clip(CircleShape)
+                .glassBackground(
+                    style = GlassStyle.Dense,
+                    color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    shape = CircleShape,
+                    borderWidth = 0.dp
+                )
+                .clickable(onClick = onVoiceInput),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Mic,
+                contentDescription = stringResource(R.string.ai_input_voice),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(iconSize)
+            )
+        }
     } else {
         Box(
             modifier = modifier
@@ -692,18 +768,18 @@ private fun ActionButton(
                 .clip(CircleShape)
                 .glassBackground(
                     style = GlassStyle.Dense,
-                    color = if (textEmpty) MaterialTheme.colorScheme.surfaceContainerHighest
+                    color = if (sendDisabled) MaterialTheme.colorScheme.surfaceContainerHighest
                     else activeContainerColor,
                     shape = CircleShape,
                     borderWidth = 0.dp
                 )
-                .clickable(enabled = !textEmpty, onClick = onSend),
+                .clickable(enabled = !sendDisabled, onClick = onSend),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.ArrowUpward,
                 contentDescription = stringResource(R.string.ai_chat_send),
-                tint = if (textEmpty) MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                tint = if (sendDisabled) MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
                 else MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(iconSize)
             )

@@ -791,6 +791,11 @@
     <string name="network_search">Web Arama</string>
     <string name="ai_image">Görsel Anlama</string>
     <string name="ai_input_voice">Ses</string>
+    <string name="ai_input_voice_prompt">Şimdi konuşun</string>
+    <string name="ai_input_voice_unavailable">Sesli giriş bu cihazda kullanılamıyor</string>
+    <string name="ai_voice_listening">Dinleniyor…</string>
+    <string name="ai_voice_tap_to_finish">Bitirmek için dokunun</string>
+    <string name="ai_voice_error">Tanıma başarısız, lütfen tekrar deneyin</string>
     <string name="ai_input_image">Görsel</string>
     <string name="ai_input_take_photo">Fotoğraf Çek</string>
     <string name="ai_input_image_compression">Görsel Sıkıştırma</string>

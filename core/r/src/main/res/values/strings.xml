@@ -879,6 +879,11 @@
     <string name="network_search">Web Search</string>
     <string name="ai_image">Image Understanding</string>
     <string name="ai_input_voice">Voice</string>
+    <string name="ai_input_voice_prompt">Speak now</string>
+    <string name="ai_input_voice_unavailable">Voice input is not available on this device</string>
+    <string name="ai_voice_listening">Listening…</string>
+    <string name="ai_voice_tap_to_finish">Tap to finish</string>
+    <string name="ai_voice_error">Recognition failed, please try again</string>
     <string name="ai_input_image">Image</string>
     <string name="ai_input_take_photo">Take Photo</string>
     <string name="ai_input_image_compression">Image Compression</string>

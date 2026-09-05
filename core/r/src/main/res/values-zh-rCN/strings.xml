@@ -925,6 +925,11 @@
     <string name="network_search">联网搜索</string>
     <string name="ai_image">图像理解</string>
     <string name="ai_input_voice">语音</string>
+    <string name="ai_input_voice_prompt">请开始说话</string>
+    <string name="ai_input_voice_unavailable">当前设备不支持语音输入</string>
+    <string name="ai_voice_listening">正在聆听…</string>
+    <string name="ai_voice_tap_to_finish">点击完成</string>
+    <string name="ai_voice_error">识别失败，请重试</string>
     <string name="ai_input_image">图片</string>
     <string name="ai_input_take_photo">拍照</string>
     <string name="ai_input_image_compression">图片压缩</string>

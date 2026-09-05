@@ -791,6 +791,11 @@
     <string name="network_search">Búsqueda web</string>
     <string name="ai_image">Comprensión de imágenes</string>
     <string name="ai_input_voice">Voz</string>
+    <string name="ai_input_voice_prompt">Hable ahora</string>
+    <string name="ai_input_voice_unavailable">La entrada de voz no está disponible en este dispositivo</string>
+    <string name="ai_voice_listening">Escuchando…</string>
+    <string name="ai_voice_tap_to_finish">Toca para finalizar</string>
+    <string name="ai_voice_error">Error de reconocimiento, inténtalo de nuevo</string>
     <string name="ai_input_image">Imagen</string>
     <string name="ai_input_take_photo">Tomar foto</string>
     <string name="ai_input_image_compression">Compresión de imagen</string>

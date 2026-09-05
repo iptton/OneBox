@@ -791,6 +791,11 @@
     <string name="network_search">Pencarian Web</string>
     <string name="ai_image">Pemahaman Gambar</string>
     <string name="ai_input_voice">Suara</string>
+    <string name="ai_input_voice_prompt">Bicaralah sekarang</string>
+    <string name="ai_input_voice_unavailable">Input suara tidak tersedia di perangkat ini</string>
+    <string name="ai_voice_listening">Mendengarkan…</string>
+    <string name="ai_voice_tap_to_finish">Ketuk untuk selesai</string>
+    <string name="ai_voice_error">Pengenalan gagal, coba lagi</string>
     <string name="ai_input_image">Gambar</string>
     <string name="ai_input_take_photo">Ambil Foto</string>
     <string name="ai_input_image_compression">Kompresi Gambar</string>

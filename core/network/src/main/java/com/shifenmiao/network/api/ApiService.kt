@@ -44,6 +44,7 @@ import com.shifenmiao.model.user.UserInviteRequest
 import com.shifenmiao.model.user.GoogleLoginRequest
 import com.shifenmiao.model.user.VerifyCodeRequest
 import com.shifenmiao.model.user.WechatLoginRequest
+import com.shifenmiao.model.voice.VoiceAsrWsAuthResponse
 import com.shifenmiao.model.user.ForgotPasswordRequest
 import com.shifenmiao.model.user.ResetPasswordRequest
 import com.shifenmiao.model.user.UpdateNicknameRequest
@@ -239,6 +240,13 @@ interface ApiService {
         @Query("versionCode") versionCode: Int = BuildConfig.VersionCode.toInt(),
         @Query("channel") channel: String = BuildConfig.FLAVOR
     ): Response<RemoteConfigListResponse>
+
+    /**
+     * 语音输入(讯飞大模型识别)WebSocket 鉴权:
+     * 服务端用讯飞密钥签名后下发一次性 wss URL,App 直连讯飞,密钥不出服务端。
+     */
+    @GET("api/voice/asr/ws-auth")
+    suspend fun getVoiceAsrWsAuth(): Response<VoiceAsrWsAuthResponse>
 
     @POST("api/content/check-sensitive")
     suspend fun checkSensitiveWords(
