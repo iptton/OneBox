@@ -14,4 +14,5 @@ dependencies {
     api(projects.core.database)
     api(projects.feature.common)
     implementation(projects.core.network)
+    implementation(projects.feature.ai)
 }

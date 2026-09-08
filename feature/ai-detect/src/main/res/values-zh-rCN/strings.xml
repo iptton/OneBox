@@ -34,4 +34,15 @@
     <string name="ai_detect_error_image_too_small">图片尺寸需大于 300×300</string>
     <string name="ai_detect_error_image_unreadable">无法读取该图片</string>
     <string name="ai_detect_error_network">检测失败，请稍后重试</string>
+
+    <!-- AI Agent 工具 -->
+    <string name="agent_tool_detect_ai_text_title">AI 文本检测</string>
+    <string name="agent_tool_detect_ai_text_summary">检测一段文本是否疑似 AI 生成，返回疑似 AI 占比、判定结论与分段标签</string>
+    <string name="agent_tool_detect_ai_text_param_text">待检测的纯文本内容</string>
+    <string name="agent_tool_detect_ai_text_error_args">参数错误：text 必须是非空字符串</string>
+
+    <string name="agent_tool_detect_ai_image_title">AI 图片检测</string>
+    <string name="agent_tool_detect_ai_image_summary">检测一张图片是否疑似 AI 生成，返回 AI 生成置信度与判定结论</string>
+    <string name="agent_tool_detect_ai_image_param_image_uri">待检测图片的 URI，支持 content:// 与 file://，可从对话附件或 browse_files 工具结果中获取</string>
+    <string name="agent_tool_detect_ai_image_error_args">参数错误：image_uri 必须是非空字符串</string>
 </resources>

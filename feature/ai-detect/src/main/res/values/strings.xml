@@ -34,4 +34,15 @@
     <string name="ai_detect_error_image_too_small">Image must be larger than 300×300</string>
     <string name="ai_detect_error_image_unreadable">Unable to read the image</string>
     <string name="ai_detect_error_network">Detection failed, please try again later</string>
+
+    <!-- AI Agent Tools -->
+    <string name="agent_tool_detect_ai_text_title">AI Text Detection</string>
+    <string name="agent_tool_detect_ai_text_summary">Detect whether a piece of text is likely AI-generated, returning the AI probability, verdict, and per-segment labels</string>
+    <string name="agent_tool_detect_ai_text_param_text">The plain text content to detect</string>
+    <string name="agent_tool_detect_ai_text_error_args">Invalid parameters: text must be a non-empty string</string>
+
+    <string name="agent_tool_detect_ai_image_title">AI Image Detection</string>
+    <string name="agent_tool_detect_ai_image_summary">Detect whether an image is likely AI-generated, returning the AI-generation confidence and verdict</string>
+    <string name="agent_tool_detect_ai_image_param_image_uri">Image URI to detect; supports content:// and file://, obtainable from conversation attachments or the browse_files tool</string>
+    <string name="agent_tool_detect_ai_image_error_args">Invalid parameters: image_uri must be a non-empty string</string>
 </resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- detect_ai_text 工具 -->
+    <string-array name="agent_tool_detect_ai_text_keywords">
+        <item>AI 检测</item>
+        <item>AIGC 检测</item>
+        <item>AI 味</item>
+        <item>是否 AI 生成</item>
+        <item>文本检测</item>
+        <item>鉴别文章</item>
+        <item>AI 写作</item>
+    </string-array>
+
+    <string-array name="agent_tool_detect_ai_text_examples">
+        <item>检测一下这段文字是不是 AI 写的</item>
+        <item>帮我看看这篇文章 AI 味重不重</item>
+        <item>判断这段文案是否由 AI 生成</item>
+    </string-array>
+
+    <!-- detect_ai_image 工具 -->
+    <string-array name="agent_tool_detect_ai_image_keywords">
+        <item>AI 检测</item>
+        <item>AIGC 检测</item>
+        <item>AI 生成图片</item>
+        <item>图片检测</item>
+        <item>鉴别图片</item>
+        <item>AI 绘画</item>
+    </string-array>
+
+    <string-array name="agent_tool_detect_ai_image_examples">
+        <item>检测这张图是不是 AI 生成的</item>
+        <item>帮我鉴别一下这张图片的真伪</item>
+        <item>判断这张照片有没有 AI 痕迹</item>
+    </string-array>
+
+</resources>
