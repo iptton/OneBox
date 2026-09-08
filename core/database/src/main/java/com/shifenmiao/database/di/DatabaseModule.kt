@@ -6,6 +6,8 @@ import com.shifenmiao.database.ClearDatabaseHelper
 import com.shifenmiao.database.FeatureDatabase
 import com.shifenmiao.database.activity.ActivityLogRecorder
 import com.shifenmiao.database.activity.dao.ActivityLogDao
+import com.shifenmiao.database.aidetect.dao.AiDetectRecordDao
+import com.shifenmiao.database.aidetect.repo.AiDetectRecordRepository
 import com.shifenmiao.database.authcode.dao.AuthCodeDao
 import com.shifenmiao.database.authcode.repo.AuthCodeRepository
 import com.shifenmiao.database.agent.dao.ItemAgentDao
@@ -282,6 +284,18 @@ object DatabaseModule {
     @Provides
     fun provideSpeedTestConfigDao(database: FeatureDatabase): com.shifenmiao.database.speedtest.dao.SpeedTestConfigDao {
         return database.speedTestConfigDao()
+    }
+
+    // AiDetect feature
+    @Provides
+    fun provideAiDetectRecordDao(database: FeatureDatabase): AiDetectRecordDao {
+        return database.aiDetectRecordDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAiDetectRecordRepository(dao: AiDetectRecordDao): AiDetectRecordRepository {
+        return AiDetectRecordRepository(dao = dao)
     }
 
     @Provides

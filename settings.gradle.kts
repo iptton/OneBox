@@ -120,6 +120,7 @@ include(":feature:wallpapers-export")
 include(":feature:ascii-art")
 
 //include(":feature:root")
+include(":feature:ai-detect")
 include(":feature:ai-image")
 include(":feature:ai")
 include(":feature:profile")

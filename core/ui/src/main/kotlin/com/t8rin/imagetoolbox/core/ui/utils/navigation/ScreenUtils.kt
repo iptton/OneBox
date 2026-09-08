@@ -125,6 +125,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineSpeedTest
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSurvive30s
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSvgMaker
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTeleprompter
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineManageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineUnitConverter
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineWallpapersExport
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineWatermarking
@@ -339,6 +340,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is Screen.IChingDivination -> "IChingDivination"
     is Screen.IChingHistory -> "IChingHistory"
     is Screen.Teleprompter -> "Teleprompter"
+    is Screen.AiDetect -> "AiDetect"
     is Screen.CreateAIAgent -> "CreateAIAgent"
     is Screen.CreateAIChatPrompt -> "CreateAIChatPrompt"
     is Screen.Minesweeper -> "Minesweeper"
@@ -457,6 +459,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.Bookkeeping -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBookkeeping
     is Screen.HabitTracker -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCheckCircleOutline
     is Screen.Teleprompter -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTeleprompter
+    is Screen.AiDetect -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineManageSearch
     is Screen.CreateAIAgent -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAgent
     is Screen.CreateAIChatPrompt -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.ChatPlus
     is Screen.TokenUsage -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineInsights
@@ -706,6 +709,7 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     Screen.DocConvertDocument(),
                     Screen.AIDuelChatScreen(),
                     Screen.Teleprompter(),
+                    Screen.AiDetect(),
                     RecognizeText(),
                     AIGCImage(),
                     Screen.Prompt(),
@@ -744,5 +748,5 @@ internal object ScreenConstantsImpl : ScreenConstants {
         typedEntries.flatMap { it.entries }.sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 80
+    override val FEATURES_COUNT = 81
 }

@@ -102,6 +102,7 @@ dependencies {
     implementation(projects.feature.game2048)
     implementation(projects.feature.xiangqi)
     implementation(projects.feature.teleprompter)
+    implementation(projects.feature.aiDetect)
     implementation(projects.feature.survive30s)
     implementation(projects.feature.visualAutomation)
     implementation(projects.feature.passwordVault)

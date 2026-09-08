@@ -1310,6 +1310,10 @@
     <string name="teleprompter_title">提词器</string>
     <string name="teleprompter_description">专业提词器，文稿管理与平滑滚动播放</string>
 
+    <!-- AI Detect -->
+    <string name="ai_detect_title">AI 检测助手</string>
+    <string name="ai_detect_description">检测文本或图片是否由 AI 生成</string>
+
     <!-- Glass / Background -->
     <string name="glass_alpha_effect">玻璃透明</string>
     <string name="liquid_glass_effect">液态玻璃</string>

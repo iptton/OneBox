@@ -1249,6 +1249,10 @@ Hint: If you choose "Hide Forever", you can bring me back later in Settings > Di
     <string name="teleprompter_title">Teleprompter</string>
     <string name="teleprompter_description">Professional teleprompter with script management and smooth scrolling.</string>
 
+    <!-- AI Detect -->
+    <string name="ai_detect_title">AI Detector</string>
+    <string name="ai_detect_description">Detect whether text or images are AI-generated.</string>
+
     <!-- Glass / Background -->
     <string name="glass_alpha_effect">Glass Effect</string>
     <string name="liquid_glass_effect">Liquid Glass Effect</string>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_detect_text_tab">文本检测</string>
+    <string name="ai_detect_image_tab">图片检测</string>
+    <string name="ai_detect_text_hint">粘贴或输入需要检测的文本…</string>
+    <string name="ai_detect_button">开始检测</string>
+    <string name="ai_detect_detecting">检测中…</string>
+    <string name="ai_detect_upload_hint">点击上传或粘贴图片…</string>
+    <string name="ai_detect_upload_format">支持 JPG / PNG / WebP，尺寸大于 300×300，不超过 10MB</string>
+    <string name="ai_detect_change_image">更换图片</string>
+    <string name="ai_detect_probability_label">AI 生成概率</string>
+    <string name="ai_detect_verdict_likely_ai">疑似 AI 生成</string>
+    <string name="ai_detect_verdict_maybe_ai">可能为 AI 生成</string>
+    <string name="ai_detect_verdict_likely_human">疑似人类创作</string>
+    <string name="ai_detect_recheck">重新检测</string>
+    <string name="ai_detect_view_detail">查看详情</string>
+    <string name="ai_detect_collapse_detail">收起详情</string>
+    <string name="ai_detect_segment_human">人类</string>
+    <string name="ai_detect_segment_ai">AI</string>
+    <string name="ai_detect_segment_suspected">疑似 AI</string>
+    <string name="ai_detect_labels_ratio_title">标签占比</string>
+    <string name="ai_detect_image_confidence_detail">模型给出的该图片 AI 生成置信度为 %1$d%%，数值越高越可能是 AI 生成。</string>
+    <string name="ai_detect_history">检测历史</string>
+    <string name="ai_detect_history_empty">暂无检测记录</string>
+    <string name="ai_detect_clear_all">清空</string>
+    <string name="ai_detect_clear_confirm">确认清空全部检测记录？</string>
+    <string name="ai_detect_confirm">确认</string>
+    <string name="ai_detect_cancel">取消</string>
+    <string name="ai_detect_delete">删除</string>
+    <string name="ai_detect_type_text">文本</string>
+    <string name="ai_detect_type_image">图片</string>
+    <string name="ai_detect_detail_title">检测详情</string>
+    <string name="ai_detect_error_image_too_large">图片大小不能超过 10MB</string>
+    <string name="ai_detect_error_image_too_small">图片尺寸需大于 300×300</string>
+    <string name="ai_detect_error_image_unreadable">无法读取该图片</string>
+    <string name="ai_detect_error_network">检测失败，请稍后重试</string>
+</resources>

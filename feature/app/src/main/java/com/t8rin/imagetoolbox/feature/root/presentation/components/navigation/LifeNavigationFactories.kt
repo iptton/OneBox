@@ -41,6 +41,7 @@ import com.wanbaohe.dsh.component.DshRootComponent
 import com.wanbaohe.speedtest.component.SpeedTestComponent
 import com.wanbaohe.survive30s.component.Survive30sComponent
 import com.wanbaohe.teleprompter.component.TeleprompterComponent
+import com.wanbaohe.aidetect.component.AiDetectComponent
 import com.wanbaohe.unitconverter.component.UnitConverterComponent
 
 /**
@@ -78,6 +79,7 @@ class LifeNavigationFactories @Inject constructor(
     val dshRootComponentFactory: DshRootComponent.Factory,
     val measurementComponentFactory: MeasurementComponent.Factory,
     val teleprompterComponentFactory: TeleprompterComponent.Factory,
+    val aiDetectComponentFactory: AiDetectComponent.Factory,
     val cloudStorageComponentFactory: CloudStorageComponent.Factory,
     val cameraWatermarkComponentFactory: CameraWatermarkComponent.Factory,
     val idPhotoComponentFactory: IdPhotoComponent.Factory,

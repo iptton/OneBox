@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineGrid4x4
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineImportExport
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineLink
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMagic
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineManageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineNote
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineShield
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSpeedTest
@@ -792,6 +793,7 @@ private fun demoNavigationEntries(): List<DemoNavigationEntry> = listOf(
         icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCasino,
     ) { Screen.XiangqiRouter() },
     DemoNavigationEntry("提词器", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTeleprompter) { Screen.Teleprompter() },
+    DemoNavigationEntry(getString(R.string.ai_detect_title), com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineManageSearch) { Screen.AiDetect() },
     DemoNavigationEntry("创建智能体", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic) { Screen.CreateAIAgent() },
     DemoNavigationEntry("创建提示词", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineNote) { Screen.CreateAIChatPrompt() },
     DemoNavigationEntry("创建代办", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic) { Screen.MarkTodoRouter(Screen.MarkTodoRouter.MarkTodoType.AddTodo()) },

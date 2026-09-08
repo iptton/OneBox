@@ -1704,6 +1704,28 @@ sealed class Screen(
     }
 
     @Serializable
+    @SerialName("AiDetect")
+    data class AiDetect(
+        val type: Type? = null
+    ) : Screen(
+        id = 1100,
+        title = com.shifenmiao.core.R.string.ai_detect_title,
+        subtitle = com.shifenmiao.core.R.string.ai_detect_description,
+    ) {
+        @Serializable
+        sealed class Type {
+
+            @Serializable
+            @SerialName("AiDetectText")
+            data object TextDetect : Type()
+
+            @Serializable
+            @SerialName("AiDetectImage")
+            data object ImageDetect : Type()
+        }
+    }
+
+    @Serializable
     @SerialName("CreateAIAgent")
     data class CreateAIAgent(
         val editDraftId: Long? = null,

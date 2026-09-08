@@ -263,6 +263,8 @@ import com.wanbaohe.setting.router.SettingRouterScreen
 import com.wanbaohe.setting.router.screenLogic.SettingRouterComponent
 import com.wanbaohe.teleprompter.component.TeleprompterComponent
 import com.wanbaohe.teleprompter.screen.TeleprompterScreen
+import com.wanbaohe.aidetect.component.AiDetectComponent
+import com.wanbaohe.aidetect.screen.AiDetectScreen
 import com.wanbaohe.unitconverter.component.UnitConverterComponent
 import com.wanbaohe.unitconverter.screen.UnitConverterScreen
 
@@ -1330,6 +1332,15 @@ sealed interface NavigationChild {
         @Composable
         override fun Content() {
             TeleprompterScreen(component = teleprompterComponent)
+        }
+    }
+
+    class AiDetect(
+        val component: AiDetectComponent
+    ) : NavigationChild {
+        @Composable
+        override fun Content() {
+            AiDetectScreen(component = component)
         }
     }
 

@@ -18,6 +18,10 @@ import com.shifenmiao.network.model.comment.CommentEnvelope
 import com.shifenmiao.network.model.comment.CommentListResponse
 import com.shifenmiao.network.model.comment.CreateCommentRequest
 import com.shifenmiao.network.model.comment.UpdateCommentRequest
+import com.shifenmiao.model.aidetect.AiDetectImageRequest
+import com.shifenmiao.model.aidetect.AiDetectImageResponse
+import com.shifenmiao.model.aidetect.AiDetectTextRequest
+import com.shifenmiao.model.aidetect.AiDetectTextResponse
 import com.shifenmiao.model.common.AnnouncementItem
 import com.shifenmiao.model.common.DataList
 import com.shifenmiao.network.model.textcard.TextCardPaperListResponse
@@ -252,6 +256,20 @@ interface ApiService {
     suspend fun checkSensitiveWords(
         @Body request: SensitiveWordCheckRequest
     ): Response<SensitiveWordCheckResponse>
+
+    // ─────────────── 朱雀 AIGC 检测(go-proxy 代理) ───────────────
+
+    /** 文本 AI 检测:ratio_confidence 为疑似 AI 占比(0-1,越高越可能是 AI) */
+    @POST("ai-detect/text")
+    suspend fun detectAiText(
+        @Body request: AiDetectTextRequest
+    ): Response<AiDetectTextResponse>
+
+    /** 图片 AI 检测:data.confidence 为 AI 生成置信度(0-1,越高越可能是 AI 生成) */
+    @POST("ai-detect/image")
+    suspend fun detectAiImage(
+        @Body request: AiDetectImageRequest
+    ): Response<AiDetectImageResponse>
 
     /**
      * 使用@Body注解将一个Item对象作为请求参数。

@@ -8,6 +8,8 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.shifenmiao.database.altitude.dao.AltitudeRecordDao
 import com.shifenmiao.database.altitude.entity.AltitudeRecordEntity
+import com.shifenmiao.database.aidetect.dao.AiDetectRecordDao
+import com.shifenmiao.database.aidetect.entity.AiDetectRecordEntity
 import com.shifenmiao.database.bookkeeping.dao.BookkeepingCategoryDao
 import com.shifenmiao.database.bookkeeping.dao.BookkeepingRecordDao
 import com.shifenmiao.database.bookkeeping.entity.BookkeepingCategoryEntity
@@ -124,8 +126,9 @@ import java.io.InputStreamReader
         HabitEntity::class,
         HabitCheckInEntity::class,
         PoemEntity::class,
+        AiDetectRecordEntity::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = true
 )
 @TypeConverters(MarkTodoTypeConverters::class)
@@ -195,6 +198,8 @@ abstract class FeatureDatabase : RoomDatabase() {
     abstract fun habitDao(): HabitDao
 
     abstract fun habitCheckInDao(): HabitCheckInDao
+
+    abstract fun aiDetectRecordDao(): AiDetectRecordDao
 
     companion object {
         private val MIGRATION_1_2 = object : androidx.room.migration.Migration(1, 2) {
@@ -307,6 +312,26 @@ abstract class FeatureDatabase : RoomDatabase() {
             }
         }
 
+        // AI 检测助手:检测历史表
+        private val MIGRATION_4_5 = object : androidx.room.migration.Migration(4, 5) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS `ai_detect_record` (
+                        `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                        `type` TEXT NOT NULL,
+                        `inputSummary` TEXT NOT NULL,
+                        `probability` REAL NOT NULL,
+                        `verdict` TEXT NOT NULL,
+                        `detailJson` TEXT NOT NULL DEFAULT '',
+                        `createdAt` INTEGER NOT NULL
+                    )
+                    """.trimIndent()
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_ai_detect_record_createdAt` ON `ai_detect_record` (`createdAt`)")
+            }
+        }
+
         const val DB_NAME_PREFIX: String = "feature"
 
         // 语言切换后进程会冷重启（见 LocaleSwitchWatcher），Hilt @Singleton 注入的库实例
@@ -356,7 +381,7 @@ abstract class FeatureDatabase : RoomDatabase() {
                     FeatureDatabase::class.java,
                     currentDbName
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                     .fallbackToDestructiveMigration(true)
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {

@@ -1211,6 +1211,15 @@ class ChildProvider @Inject constructor(
             )
         )
 
+        is Screen.AiDetect -> NavigationChild.AiDetect(
+            component = lifeFactories.get().aiDetectComponentFactory(
+                componentContext = componentContext,
+                initialType = config.type,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo,
+            )
+        )
+
         is Screen.CreateAIAgent -> NavigationChild.CreateAIAgent(
             createAIAgentComponent = aiFactories.get().createAIAgentComponentFactory(
                 componentContext,

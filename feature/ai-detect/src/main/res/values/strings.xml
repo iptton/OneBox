@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_detect_text_tab">Text Detection</string>
+    <string name="ai_detect_image_tab">Image Detection</string>
+    <string name="ai_detect_text_hint">Paste or type the text to detect…</string>
+    <string name="ai_detect_button">Detect</string>
+    <string name="ai_detect_detecting">Detecting…</string>
+    <string name="ai_detect_upload_hint">Tap to upload or paste an image…</string>
+    <string name="ai_detect_upload_format">Supports JPG / PNG / WebP, larger than 300×300, up to 10MB</string>
+    <string name="ai_detect_change_image">Change Image</string>
+    <string name="ai_detect_probability_label">AI Probability</string>
+    <string name="ai_detect_verdict_likely_ai">Likely AI-generated</string>
+    <string name="ai_detect_verdict_maybe_ai">Possibly AI-generated</string>
+    <string name="ai_detect_verdict_likely_human">Likely human-created</string>
+    <string name="ai_detect_recheck">Re-detect</string>
+    <string name="ai_detect_view_detail">View Details</string>
+    <string name="ai_detect_collapse_detail">Hide Details</string>
+    <string name="ai_detect_segment_human">Human</string>
+    <string name="ai_detect_segment_ai">AI</string>
+    <string name="ai_detect_segment_suspected">Suspected AI</string>
+    <string name="ai_detect_labels_ratio_title">Label Ratios</string>
+    <string name="ai_detect_image_confidence_detail">The model gives this image an AI-generation confidence of %1$d%%. The higher the value, the more likely it is AI-generated.</string>
+    <string name="ai_detect_history">Detection History</string>
+    <string name="ai_detect_history_empty">No detection records yet</string>
+    <string name="ai_detect_clear_all">Clear All</string>
+    <string name="ai_detect_clear_confirm">Clear all detection records?</string>
+    <string name="ai_detect_confirm">Confirm</string>
+    <string name="ai_detect_cancel">Cancel</string>
+    <string name="ai_detect_delete">Delete</string>
+    <string name="ai_detect_type_text">Text</string>
+    <string name="ai_detect_type_image">Image</string>
+    <string name="ai_detect_detail_title">Detection Details</string>
+    <string name="ai_detect_error_image_too_large">Image must be smaller than 10MB</string>
+    <string name="ai_detect_error_image_too_small">Image must be larger than 300×300</string>
+    <string name="ai_detect_error_image_unreadable">Unable to read the image</string>
+    <string name="ai_detect_error_network">Detection failed, please try again later</string>
+</resources>
