@@ -81,6 +81,7 @@ dependencies {
     implementation(projects.feature.marktodo)
     implementation(projects.feature.minesweeper)
     implementation(projects.feature.bookkeeping)
+    implementation(projects.feature.recordCenter)
     implementation(projects.feature.habitTracker)
     implementation(projects.feature.loanCalculator)
     implementation(projects.feature.lifetime)

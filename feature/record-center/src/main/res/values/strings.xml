@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 模块 -->
+    <string name="record_center_title">Record Center</string>
+
+    <!-- 类型:标题与描述 -->
+    <string name="record_center_type_heart_rate_title">Heart Rate</string>
+    <string name="record_center_type_heart_rate_desc">Record and manage heart rate data to monitor heart health</string>
+    <string name="record_center_type_blood_pressure_title">Blood Pressure</string>
+    <string name="record_center_type_blood_pressure_desc">Record and manage blood pressure data to track trends over time</string>
+    <string name="record_center_type_blood_glucose_title">Blood Glucose</string>
+    <string name="record_center_type_blood_glucose_desc">Record and manage blood glucose data to help control blood sugar levels</string>
+    <string name="record_center_type_weight_title">Weight</string>
+    <string name="record_center_type_weight_desc">Record and manage weight data to track weight changes</string>
+    <string name="record_center_type_bmi_title">BMI</string>
+    <string name="record_center_type_bmi_desc">Record and manage BMI data to assess weight health</string>
+    <string name="record_center_type_body_fat_title">Body Fat</string>
+    <string name="record_center_type_body_fat_desc">Record and manage body fat data to understand body composition changes</string>
+    <string name="record_center_type_uric_acid_title">Uric Acid</string>
+    <string name="record_center_type_uric_acid_desc">Record and manage uric acid data to help prevent and control gout</string>
+    <string name="record_center_type_blood_lipid_title">Blood Lipid</string>
+    <string name="record_center_type_blood_lipid_desc">Record and manage blood lipid data to monitor lipid levels</string>
+
+    <!-- 字段标签 -->
+    <string name="record_center_field_heart_rate_value">Heart rate</string>
+    <string name="record_center_field_bp_systolic">Systolic</string>
+    <string name="record_center_field_bp_diastolic">Diastolic</string>
+    <string name="record_center_field_glucose_value">Blood glucose</string>
+    <string name="record_center_field_weight_value">Weight</string>
+    <string name="record_center_field_bmi_value">BMI</string>
+    <string name="record_center_field_body_fat_value">Body fat</string>
+    <string name="record_center_field_uric_acid_value">Uric acid</string>
+    <string name="record_center_field_lipid_total_cholesterol">Total cholesterol</string>
+    <string name="record_center_field_lipid_triglyceride">Triglyceride</string>
+    <string name="record_center_field_lipid_ldl">LDL</string>
+    <string name="record_center_field_lipid_hdl">HDL</string>
+
+    <!-- 参考范围 -->
+    <string name="record_center_ref_heart_rate">Normal 60-100 bpm</string>
+    <string name="record_center_ref_blood_pressure">Normal 90-140/60-90 mmHg</string>
+    <string name="record_center_ref_blood_glucose">Normal fasting 3.9-6.1 mmol/L</string>
+    <string name="record_center_ref_bmi">Normal 18.5-24</string>
+    <string name="record_center_ref_uric_acid">Normal: men 208-428, women 155-357 μmol/L</string>
+    <string name="record_center_ref_blood_lipid">Total cholesterol &lt;5.2 mmol/L</string>
+
+    <!-- 表单与列表(供后续 UI 使用) -->
+    <string name="record_center_label_time">Time</string>
+    <string name="record_center_label_note">Note</string>
+    <string name="record_center_action_save">Save</string>
+    <string name="record_center_action_delete">Delete</string>
+    <string name="record_center_add_record">Add Record</string>
+    <string name="record_center_edit_record">Edit Record</string>
+    <string name="record_center_empty">No records yet</string>
+    <string name="record_center_stats_latest">Latest</string>
+    <string name="record_center_stats_average">Average</string>
+    <string name="record_center_stats_max">Max</string>
+    <string name="record_center_stats_min">Min</string>
+    <string name="record_center_range_7d">7D</string>
+    <string name="record_center_range_30d">30D</string>
+    <string name="record_center_range_all">All</string>
+    <string name="record_center_range_days">Last %1$d days</string>
+    <string name="record_center_today">Today</string>
+    <string name="record_center_yesterday">Yesterday</string>
+    <string name="record_center_days_ago">%1$d days ago</string>
+    <string name="record_center_delete_confirm_title">Delete Record</string>
+    <string name="record_center_delete_confirm_message">Delete this record? This cannot be undone.</string>
+    <string name="record_center_confirm">Confirm</string>
+    <string name="record_center_cancel">Cancel</string>
+    <string name="record_center_save_success">Saved</string>
+
+    <!-- 校验错误 -->
+    <string name="record_center_error_unknown_type">Unknown record type: %1$s</string>
+    <string name="record_center_error_missing_field">Missing required field: %1$s</string>
+    <string name="record_center_error_unknown_field">Unknown field: %1$s</string>
+    <string name="record_center_error_out_of_range">%1$s is out of range (%2$s ~ %3$s)</string>
+    <string name="record_center_error_not_found">Record not found</string>
+    <string name="record_center_error_invalid_number">Please enter a valid number</string>
+    <string name="record_center_error_required">Required</string>
+    <string name="record_center_error_out_of_range_short">Out of range (%1$s ~ %2$s)</string>
+
+    <!-- 审计日志 -->
+    <string name="record_center_log_created">Health record added</string>
+    <string name="record_center_log_updated">Health record updated</string>
+    <string name="record_center_log_deleted">Health record deleted</string>
+
+    <!-- Agent 工具:add_health_record -->
+    <string name="agent_tool_add_health_record_title">Add Health Record</string>
+    <string name="agent_tool_add_health_record_summary">Record a health metric such as blood pressure or weight</string>
+    <string name="agent_tool_add_health_record_description">Add a health record of the given type. values must be a JSON object mapping field keys to numbers; field keys and units depend on record_type. Supported record types and their fields:</string>
+    <string name="agent_tool_add_health_record_param_record_type">Record type key, one of the enum values</string>
+    <string name="agent_tool_add_health_record_param_values">Field values as a JSON object mapping field keys to numbers, e.g. {\"systolic\": 120, \"diastolic\": 80}</string>
+    <string name="agent_tool_add_health_record_param_happened_at">When the measurement happened, epoch milliseconds; defaults to now</string>
+    <string name="agent_tool_add_health_record_param_note">Optional note</string>
+    <string name="agent_tool_add_health_record_success">Saved</string>
+    <string name="agent_tool_add_health_record_failed">Failed to add health record: %1$s</string>
+    <string-array name="agent_tool_add_health_record_keywords">
+        <item>health record</item>
+        <item>blood pressure</item>
+        <item>heart rate</item>
+        <item>weight</item>
+        <item>blood glucose</item>
+        <item>bmi</item>
+    </string-array>
+    <string-array name="agent_tool_add_health_record_examples">
+        <item>Log my blood pressure 120 over 80</item>
+        <item>Record weight 65.5 kg</item>
+        <item>Add a fasting blood glucose of 5.6</item>
+    </string-array>
+
+    <!-- Agent 工具:query_health_records -->
+    <string name="agent_tool_query_health_records_title">Query Health Records</string>
+    <string name="agent_tool_query_health_records_summary">Query recent records and stats for a health metric</string>
+    <string name="agent_tool_query_health_records_description">Query health records of the given type within the last N days (default 30), with average/max/min stats per charted field. Supported record types and their fields:</string>
+    <string name="agent_tool_query_health_records_param_record_type">Record type key, one of the enum values</string>
+    <string name="agent_tool_query_health_records_param_days">How many days to look back, default 30</string>
+    <string name="agent_tool_query_health_records_empty">No records in this period</string>
+    <string name="agent_tool_query_health_records_failed">Failed to query health records: %1$s</string>
+    <string name="agent_tool_query_health_records_section_stats">Stats</string>
+    <string name="agent_tool_query_health_records_section_records">Records</string>
+    <string-array name="agent_tool_query_health_records_keywords">
+        <item>health records</item>
+        <item>blood pressure history</item>
+        <item>weight trend</item>
+        <item>blood glucose stats</item>
+    </string-array>
+    <string-array name="agent_tool_query_health_records_examples">
+        <item>Show my blood pressure this month</item>
+        <item>How has my weight been over the last 30 days</item>
+        <item>Average heart rate this week</item>
+    </string-array>
+
+    <!-- Agent 工具:get_health_summary -->
+    <string name="agent_tool_get_health_summary_title">Health Summary</string>
+    <string name="agent_tool_get_health_summary_summary">Latest value of every health record type</string>
+    <string name="agent_tool_get_health_summary_description">Get the most recent record of every health record type, with units and reference ranges.</string>
+    <string name="agent_tool_get_health_summary_empty">No health records yet</string>
+    <string name="agent_tool_get_health_summary_failed">Failed to get health summary: %1$s</string>
+    <string-array name="agent_tool_get_health_summary_keywords">
+        <item>health summary</item>
+        <item>latest health data</item>
+        <item>health overview</item>
+    </string-array>
+    <string-array name="agent_tool_get_health_summary_examples">
+        <item>Give me an overview of my health data</item>
+        <item>What are my latest measurements</item>
+    </string-array>
+
+    <!-- Agent 工具:公共 -->
+    <string name="agent_tool_record_center_open_link">Open Record Center</string>
+    <string name="agent_tool_record_center_field_optional"> (optional)</string>
+    <string name="agent_tool_record_center_unknown_error">unknown error</string>
+</resources>

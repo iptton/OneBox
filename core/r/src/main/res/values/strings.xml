@@ -1055,6 +1055,8 @@ Hint: If you choose "Hide Forever", you can bring me back later in Settings > Di
     <string name="schedule_description">Manage events and schedules in one place, with sync ready for Google Calendar.</string>
     <string name="bookkeeping">Expense Tracker</string>
     <string name="bookkeeping_description">Track daily income and expenses with categorized summaries.</string>
+    <string name="record_center">Record Center</string>
+    <string name="record_center_description">Record and manage health metrics in one place.</string>
     <string name="habit_tracker">Habit Tracker</string>
     <string name="habit_tracker_description">Daily habit check-ins and stats</string>
     <string name="data_restore_success">Database restored. The app will restart in 3 seconds.</string>

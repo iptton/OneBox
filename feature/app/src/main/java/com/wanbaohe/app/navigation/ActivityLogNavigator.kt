@@ -36,6 +36,7 @@ object ActivityLogNavigator {
             ActivityCategory.NOTE_EDIT -> resolveNote(payload, dataDraftHelper)
             ActivityCategory.HTML_EDIT -> resolveHtml(payload, dataDraftHelper)
             ActivityCategory.BOOKKEEPING -> Screen.Bookkeeping()
+            ActivityCategory.RECORD_CENTER -> Screen.RecordCenter()
             ActivityCategory.TODO -> Screen.MarkTodoRouter()
             ActivityCategory.XIANGQI -> resolveXiangqi(payload)
             ActivityCategory.TELEPROMPTER -> resolveTeleprompter(payload)

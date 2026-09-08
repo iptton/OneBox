@@ -99,6 +99,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineBook
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBookkeeping
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCheckCircleOutline
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronRight
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineFavorite
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineHistory
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineImage
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMarkdownEdit
@@ -905,6 +906,7 @@ private fun recordSectionTheme(category: ActivityCategory): SectionTheme = when 
     ActivityCategory.BLOG_POST -> SectionTheme.PRIMARY
     ActivityCategory.OCR_DOCUMENT -> SectionTheme.SECONDARY
     ActivityCategory.BOOKKEEPING -> SectionTheme.TERTIARY
+    ActivityCategory.RECORD_CENTER -> SectionTheme.PRIMARY
     ActivityCategory.TODO -> SectionTheme.PRIMARY
     ActivityCategory.XIANGQI -> SectionTheme.SECONDARY
     ActivityCategory.TELEPROMPTER -> SectionTheme.TERTIARY
@@ -925,6 +927,7 @@ private fun recordCategoryIcon(category: ActivityCategory): ImageVector = when (
     ActivityCategory.BLOG_POST -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBlog
     ActivityCategory.OCR_DOCUMENT -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineOcrDocument
     ActivityCategory.BOOKKEEPING -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBookkeeping
+    ActivityCategory.RECORD_CENTER -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite
     ActivityCategory.TODO -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineViewList
     ActivityCategory.XIANGQI -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineXiangqi
     ActivityCategory.TELEPROMPTER -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTeleprompter

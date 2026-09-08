@@ -954,6 +954,8 @@
     <string name="schedule_description">Etkinlikleri ve programları tek yerde yönetin, Google Takvim ile senkronizasyona hazır.</string>
     <string name="bookkeeping">Gider Takibi</string>
     <string name="bookkeeping_description">Günlük gelir ve giderleri kategorize edilmiş özetlerle takip edin.</string>
+    <string name="record_center">Kayıt Merkezi</string>
+    <string name="record_center_description">Sağlık ölçümlerinizi tek bir yerden kaydedin ve yönetin.</string>
     <string name="data_restore_success">Veritabanı geri yüklendi. Uygulama 3 saniye içinde yeniden başlayacak.</string>
     <string name="data_backup_success">Yedekleme başarılı! %1$s klasörüne kaydedildi.</string>
     <string name="lifetime">Yaşam Saati</string>

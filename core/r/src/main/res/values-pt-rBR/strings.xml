@@ -954,6 +954,8 @@
     <string name="schedule_description">Gerencie eventos e agendas em um só lugar, com sincronização pronta para o Google Agenda.</string>
     <string name="bookkeeping">Controle de Despesas</string>
     <string name="bookkeeping_description">Acompanhe receitas e despesas diárias com resumos categorizados.</string>
+    <string name="record_center">Central de Registros</string>
+    <string name="record_center_description">Registre e gerencie suas métricas de saúde em um só lugar.</string>
     <string name="data_restore_success">Banco de dados restaurado. O aplicativo será reiniciado em 3 segundos.</string>
     <string name="data_backup_success">Backup bem-sucedido! Salvo na pasta %1$s.</string>
     <string name="lifetime">Relógio da Vida</string>

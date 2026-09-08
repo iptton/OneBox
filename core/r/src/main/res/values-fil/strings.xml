@@ -954,6 +954,8 @@
     <string name="schedule_description">Pamahalaan ang mga event at schedule sa isang lugar, handa na para sa Google Calendar sync.</string>
     <string name="bookkeeping">Expense Tracker</string>
     <string name="bookkeeping_description">I-track ang araw-araw na kita at gastos na may categorized summaries.</string>
+    <string name="record_center">Record Center</string>
+    <string name="record_center_description">Itala at pamahalaan ang mga health metrics sa isang lugar.</string>
     <string name="data_restore_success">Na-restore ang database. Magre-restart ang app sa loob ng 3 segundo.</string>
     <string name="data_backup_success">Matagumpay ang backup! Na-save sa %1$s folder.</string>
     <string name="lifetime">Life Clock</string>

@@ -204,6 +204,8 @@ import com.wanbaohe.blog.screen.CreateFeedbackScreen
 import com.wanbaohe.blog.screen.FeedbackScreen
 import com.wanbaohe.bookkeeping.router.BookkeepingRouterScreen
 import com.wanbaohe.bookkeeping.router.screenLogic.BookkeepingRouterComponent
+import com.wanbaohe.recordcenter.router.RecordCenterRouterScreen
+import com.wanbaohe.recordcenter.router.screenLogic.RecordCenterRouterComponent
 import com.wanbaohe.habittracker.router.HabitTrackerRouterScreen
 import com.wanbaohe.habittracker.router.screenLogic.HabitTrackerRouterComponent
 import com.wanbaohe.calendar.router.CalendarRouterScreen
@@ -1062,6 +1064,15 @@ sealed interface NavigationChild {
         @Composable
         override fun Content() {
             BookkeepingRouterScreen(component = component)
+        }
+    }
+
+    class RecordCenter(
+        private val component: RecordCenterRouterComponent
+    ) : NavigationChild {
+        @Composable
+        override fun Content() {
+            RecordCenterRouterScreen(component = component)
         }
     }
 

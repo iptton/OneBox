@@ -151,6 +151,7 @@ import com.wanbaohe.app.component.FavoriteComponent
 import com.wanbaohe.blog.logic.BlogComponent
 import com.wanbaohe.blog.logic.CreateFeedbackComponent
 import com.wanbaohe.bookkeeping.router.screenLogic.BookkeepingRouterComponent
+import com.wanbaohe.recordcenter.router.screenLogic.RecordCenterRouterComponent
 import com.wanbaohe.habittracker.router.screenLogic.HabitTrackerRouterComponent
 import com.wanbaohe.calendar.router.screenLogic.CalendarRouterComponent
 import com.wanbaohe.camera.watermark.presentation.screenLogic.CameraWatermarkComponent
@@ -984,6 +985,15 @@ class ChildProvider @Inject constructor(
 
         is Screen.Bookkeeping -> NavigationChild.Bookkeeping(
             lifeFactories.get().bookkeepingRouterComponentFactory(
+                componentContext = componentContext,
+                type = config.type,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo,
+            )
+        )
+
+        is Screen.RecordCenter -> NavigationChild.RecordCenter(
+            lifeFactories.get().recordCenterRouterComponentFactory(
                 componentContext = componentContext,
                 type = config.type,
                 onGoBack = ::navigateBack,

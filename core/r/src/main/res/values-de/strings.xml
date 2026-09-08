@@ -954,6 +954,8 @@
     <string name="schedule_description">Verwalten Sie Ereignisse und Zeitpläne an einem Ort, mit Synchronisierung für Google Kalender.</string>
     <string name="bookkeeping">Ausgaben-Tracker</string>
     <string name="bookkeeping_description">Verfolgen Sie tägliche Einnahmen und Ausgaben mit kategorisierten Zusammenfassungen.</string>
+    <string name="record_center">Aufzeichnungszentrale</string>
+    <string name="record_center_description">Erfassen und verwalten Sie Gesundheitswerte an einem Ort.</string>
     <string name="data_restore_success">Datenbank wiederhergestellt. Die App wird in 3 Sekunden neu gestartet.</string>
     <string name="data_backup_success">Sicherung erfolgreich! Gespeichert im Ordner %1$s.</string>
     <string name="lifetime">Lebensuhr</string>

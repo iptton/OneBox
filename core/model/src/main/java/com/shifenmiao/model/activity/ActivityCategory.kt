@@ -40,6 +40,9 @@ enum class ActivityCategory {
     /** 记账（新增/编辑/删除/导入/恢复账目） */
     BOOKKEEPING,
 
+    /** 记录中心（新增/编辑/删除健康记录） */
+    RECORD_CENTER,
+
     /** 待办清单（新增/编辑/删除/完成/收藏分类和任务） */
     TODO,
 

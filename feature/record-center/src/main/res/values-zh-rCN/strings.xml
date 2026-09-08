@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 模块 -->
+    <string name="record_center_title">记录中心</string>
+
+    <!-- 类型:标题与描述 -->
+    <string name="record_center_type_heart_rate_title">心率记录</string>
+    <string name="record_center_type_heart_rate_desc">记录和管理心率数据,监测心脏健康</string>
+    <string name="record_center_type_blood_pressure_title">血压记录</string>
+    <string name="record_center_type_blood_pressure_desc">记录和管理血压数据,追踪血压变化趋势</string>
+    <string name="record_center_type_blood_glucose_title">血糖记录</string>
+    <string name="record_center_type_blood_glucose_desc">记录和管理血糖数据,帮助控制血糖水平</string>
+    <string name="record_center_type_weight_title">体重记录</string>
+    <string name="record_center_type_weight_desc">记录和管理体重数据,追踪体重变化</string>
+    <string name="record_center_type_bmi_title">BMI记录</string>
+    <string name="record_center_type_bmi_desc">记录和管理BMI数据,评估体重健康状况</string>
+    <string name="record_center_type_body_fat_title">体脂记录</string>
+    <string name="record_center_type_body_fat_desc">记录和管理体脂数据,了解身体成分变化</string>
+    <string name="record_center_type_uric_acid_title">尿酸记录</string>
+    <string name="record_center_type_uric_acid_desc">记录和管理尿酸数据,预防和控制痛风</string>
+    <string name="record_center_type_blood_lipid_title">血脂记录</string>
+    <string name="record_center_type_blood_lipid_desc">记录和管理血脂数据,监测血脂水平</string>
+
+    <!-- 字段标签 -->
+    <string name="record_center_field_heart_rate_value">心率</string>
+    <string name="record_center_field_bp_systolic">收缩压</string>
+    <string name="record_center_field_bp_diastolic">舒张压</string>
+    <string name="record_center_field_glucose_value">血糖</string>
+    <string name="record_center_field_weight_value">体重</string>
+    <string name="record_center_field_bmi_value">BMI</string>
+    <string name="record_center_field_body_fat_value">体脂率</string>
+    <string name="record_center_field_uric_acid_value">尿酸</string>
+    <string name="record_center_field_lipid_total_cholesterol">总胆固醇</string>
+    <string name="record_center_field_lipid_triglyceride">甘油三酯</string>
+    <string name="record_center_field_lipid_ldl">低密度脂蛋白</string>
+    <string name="record_center_field_lipid_hdl">高密度脂蛋白</string>
+
+    <!-- 参考范围 -->
+    <string name="record_center_ref_heart_rate">正常 60-100 bpm</string>
+    <string name="record_center_ref_blood_pressure">正常 90-140/60-90 mmHg</string>
+    <string name="record_center_ref_blood_glucose">空腹正常 3.9-6.1 mmol/L</string>
+    <string name="record_center_ref_bmi">正常 18.5-24</string>
+    <string name="record_center_ref_uric_acid">男 208-428 / 女 155-357 μmol/L</string>
+    <string name="record_center_ref_blood_lipid">总胆固醇 &lt;5.2 mmol/L</string>
+
+    <!-- 表单与列表(供后续 UI 使用) -->
+    <string name="record_center_label_time">记录时间</string>
+    <string name="record_center_label_note">备注</string>
+    <string name="record_center_action_save">保存</string>
+    <string name="record_center_action_delete">删除</string>
+    <string name="record_center_add_record">添加记录</string>
+    <string name="record_center_edit_record">编辑记录</string>
+    <string name="record_center_empty">暂无记录</string>
+    <string name="record_center_stats_latest">最新</string>
+    <string name="record_center_stats_average">平均</string>
+    <string name="record_center_stats_max">最高</string>
+    <string name="record_center_stats_min">最低</string>
+    <string name="record_center_range_7d">近7天</string>
+    <string name="record_center_range_30d">近30天</string>
+    <string name="record_center_range_all">全部</string>
+    <string name="record_center_range_days">近%1$d天</string>
+    <string name="record_center_today">今天</string>
+    <string name="record_center_yesterday">昨天</string>
+    <string name="record_center_days_ago">%1$d天前</string>
+    <string name="record_center_delete_confirm_title">删除记录</string>
+    <string name="record_center_delete_confirm_message">确定删除这条记录吗?删除后无法恢复。</string>
+    <string name="record_center_confirm">确定</string>
+    <string name="record_center_cancel">取消</string>
+    <string name="record_center_save_success">已保存</string>
+
+    <!-- 校验错误 -->
+    <string name="record_center_error_unknown_type">未知的记录类型:%1$s</string>
+    <string name="record_center_error_missing_field">缺少必填字段:%1$s</string>
+    <string name="record_center_error_unknown_field">不支持的字段:%1$s</string>
+    <string name="record_center_error_out_of_range">%1$s 超出合理范围(%2$s ~ %3$s)</string>
+    <string name="record_center_error_not_found">记录不存在</string>
+    <string name="record_center_error_invalid_number">请输入有效数字</string>
+    <string name="record_center_error_required">必填项</string>
+    <string name="record_center_error_out_of_range_short">超出范围(%1$s ~ %2$s)</string>
+
+    <!-- 审计日志 -->
+    <string name="record_center_log_created">新增健康记录</string>
+    <string name="record_center_log_updated">更新健康记录</string>
+    <string name="record_center_log_deleted">删除健康记录</string>
+
+    <!-- Agent 工具:add_health_record -->
+    <string name="agent_tool_add_health_record_title">添加健康记录</string>
+    <string name="agent_tool_add_health_record_summary">记录血压、心率、体重等健康数据</string>
+    <string name="agent_tool_add_health_record_description">添加一条指定类型的健康记录。values 为 字段名→数值 的 JSON 对象,字段名和单位由 record_type 决定。支持的记录类型及字段:</string>
+    <string name="agent_tool_add_health_record_param_record_type">记录类型,取枚举值之一</string>
+    <string name="agent_tool_add_health_record_param_values">字段值,字段名→数值的 JSON 对象,如 {\"systolic\": 120, \"diastolic\": 80}</string>
+    <string name="agent_tool_add_health_record_param_happened_at">测量发生的毫秒时间戳,默认当前时间</string>
+    <string name="agent_tool_add_health_record_param_note">备注,可选</string>
+    <string name="agent_tool_add_health_record_success">已保存</string>
+    <string name="agent_tool_add_health_record_failed">添加健康记录失败:%1$s</string>
+    <string-array name="agent_tool_add_health_record_keywords">
+        <item>健康记录</item>
+        <item>血压</item>
+        <item>心率</item>
+        <item>体重</item>
+        <item>血糖</item>
+        <item>BMI</item>
+    </string-array>
+    <string-array name="agent_tool_add_health_record_examples">
+        <item>记一下血压 120/80</item>
+        <item>记录体重 65.5 公斤</item>
+        <item>添加一条空腹血糖 5.6</item>
+    </string-array>
+
+    <!-- Agent 工具:query_health_records -->
+    <string name="agent_tool_query_health_records_title">查询健康记录</string>
+    <string name="agent_tool_query_health_records_summary">查询某类健康指标的近期记录与统计</string>
+    <string name="agent_tool_query_health_records_description">查询指定类型最近 N 天(默认 30 天)的健康记录,并按图表字段给出平均/最高/最低统计。支持的记录类型及字段:</string>
+    <string name="agent_tool_query_health_records_param_record_type">记录类型,取枚举值之一</string>
+    <string name="agent_tool_query_health_records_param_days">向前查询的天数,默认 30</string>
+    <string name="agent_tool_query_health_records_empty">该时间段内暂无记录</string>
+    <string name="agent_tool_query_health_records_failed">查询健康记录失败:%1$s</string>
+    <string name="agent_tool_query_health_records_section_stats">统计</string>
+    <string name="agent_tool_query_health_records_section_records">记录明细</string>
+    <string-array name="agent_tool_query_health_records_keywords">
+        <item>健康记录</item>
+        <item>血压历史</item>
+        <item>体重趋势</item>
+        <item>血糖统计</item>
+    </string-array>
+    <string-array name="agent_tool_query_health_records_examples">
+        <item>看看我这个月的血压</item>
+        <item>最近 30 天体重变化怎么样</item>
+        <item>这周平均心率多少</item>
+    </string-array>
+
+    <!-- Agent 工具:get_health_summary -->
+    <string name="agent_tool_get_health_summary_title">健康数据总览</string>
+    <string name="agent_tool_get_health_summary_summary">各类健康指标的最新数值</string>
+    <string name="agent_tool_get_health_summary_description">获取每种健康记录类型最新的一条数据,含单位与参考范围。</string>
+    <string name="agent_tool_get_health_summary_empty">暂无健康记录</string>
+    <string name="agent_tool_get_health_summary_failed">获取健康总览失败:%1$s</string>
+    <string-array name="agent_tool_get_health_summary_keywords">
+        <item>健康总览</item>
+        <item>最新健康数据</item>
+        <item>健康概况</item>
+    </string-array>
+    <string-array name="agent_tool_get_health_summary_examples">
+        <item>给我看看健康数据总览</item>
+        <item>我最近的各项指标是多少</item>
+    </string-array>
+
+    <!-- Agent 工具:公共 -->
+    <string name="agent_tool_record_center_open_link">打开记录中心</string>
+    <string name="agent_tool_record_center_field_optional">(可选)</string>
+    <string name="agent_tool_record_center_unknown_error">未知错误</string>
+</resources>

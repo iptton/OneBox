@@ -954,6 +954,8 @@
     <string name="schedule_description">이벤트와 일정을 한곳에서 관리하며, Google 캘린더와 동기화가 준비되어 있습니다.</string>
     <string name="bookkeeping">지출 추적기</string>
     <string name="bookkeeping_description">카테고리별 요약으로 일일 수입과 지출을 추적합니다.</string>
+    <string name="record_center">기록 센터</string>
+    <string name="record_center_description">건강 지표를 한곳에서 기록하고 관리하세요.</string>
     <string name="data_restore_success">데이터베이스가 복원되었습니다. 앱이 3초 후에 다시 시작됩니다.</string>
     <string name="data_backup_success">백업 성공! %1$s 폴더에 저장되었습니다.</string>
     <string name="lifetime">인생 시계</string>

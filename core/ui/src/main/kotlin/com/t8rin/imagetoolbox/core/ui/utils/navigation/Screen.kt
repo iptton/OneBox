@@ -1627,6 +1627,30 @@ sealed class Screen(
     }
 
     @Serializable
+    @SerialName("RecordCenter")
+    data class RecordCenter(
+        val type: Type? = null
+    ) : Screen(
+        id = 1101,
+        title = com.shifenmiao.core.R.string.record_center,
+        subtitle = com.shifenmiao.core.R.string.record_center_description,
+    ) {
+        @Serializable
+        sealed class Type {
+            @Serializable
+            @SerialName("RecordCenterList")
+            data class RecordList(val recordType: String) : Type()
+
+            @Serializable
+            @SerialName("RecordCenterAdd")
+            data class AddRecord(
+                val recordType: String,
+                val editingRecordId: String? = null,
+            ) : Type()
+        }
+    }
+
+    @Serializable
     @SerialName("HabitTracker")
     data class HabitTracker(
         val type: Type? = null

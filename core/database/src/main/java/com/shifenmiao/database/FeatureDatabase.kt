@@ -54,6 +54,8 @@ import com.shifenmiao.database.poem.dao.PoemDao
 import com.shifenmiao.database.poem.entity.PoemEntity
 import com.shifenmiao.database.recent_access.dao.RecentAccessDao
 import com.shifenmiao.database.recent_access.entity.RecentAccessEntity
+import com.shifenmiao.database.recordcenter.dao.HealthRecordDao
+import com.shifenmiao.database.recordcenter.entity.HealthRecordEntity
 import com.shifenmiao.database.schedule.dao.ScheduleEventDao
 import com.shifenmiao.database.schedule.dao.ScheduleProviderBindingDao
 import com.shifenmiao.database.schedule.dao.ScheduleSyncStateDao
@@ -127,8 +129,9 @@ import java.io.InputStreamReader
         HabitCheckInEntity::class,
         PoemEntity::class,
         AiDetectRecordEntity::class,
+        HealthRecordEntity::class,
     ],
-    version = 5,
+    version = 6,
     exportSchema = true
 )
 @TypeConverters(MarkTodoTypeConverters::class)
@@ -200,6 +203,8 @@ abstract class FeatureDatabase : RoomDatabase() {
     abstract fun habitCheckInDao(): HabitCheckInDao
 
     abstract fun aiDetectRecordDao(): AiDetectRecordDao
+
+    abstract fun healthRecordDao(): HealthRecordDao
 
     companion object {
         private val MIGRATION_1_2 = object : androidx.room.migration.Migration(1, 2) {
@@ -332,6 +337,28 @@ abstract class FeatureDatabase : RoomDatabase() {
             }
         }
 
+        // 记录中心(健康记录):健康记录表
+        private val MIGRATION_5_6 = object : androidx.room.migration.Migration(5, 6) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS `health_record` (
+                        `id` TEXT NOT NULL,
+                        `type` TEXT NOT NULL,
+                        `happened_at` INTEGER NOT NULL,
+                        `fields_json` TEXT NOT NULL,
+                        `note` TEXT,
+                        `created_at` INTEGER NOT NULL,
+                        `updated_at` INTEGER NOT NULL,
+                        PRIMARY KEY(`id`)
+                    )
+                    """.trimIndent()
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_health_record_happened_at` ON `health_record` (`happened_at`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_health_record_type` ON `health_record` (`type`)")
+            }
+        }
+
         const val DB_NAME_PREFIX: String = "feature"
 
         // 语言切换后进程会冷重启（见 LocaleSwitchWatcher），Hilt @Singleton 注入的库实例
@@ -381,7 +408,7 @@ abstract class FeatureDatabase : RoomDatabase() {
                     FeatureDatabase::class.java,
                     currentDbName
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                     .fallbackToDestructiveMigration(true)
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {

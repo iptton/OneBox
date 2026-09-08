@@ -954,6 +954,8 @@
     <string name="schedule_description">イベントやスケジュールを一元管理し、Googleカレンダーとの同期に対応。</string>
     <string name="bookkeeping">支出トラッカー</string>
     <string name="bookkeeping_description">カテゴリ別のサマリーで日々の収入と支出を記録します。</string>
+    <string name="record_center">記録センター</string>
+    <string name="record_center_description">健康指標をまとめて記録・管理します。</string>
     <string name="data_restore_success">データベースが復元されました。3秒後にアプリが再起動します。</string>
     <string name="data_backup_success">バックアップ成功！%1$sフォルダに保存されました。</string>
     <string name="lifetime">ライフクロック</string>

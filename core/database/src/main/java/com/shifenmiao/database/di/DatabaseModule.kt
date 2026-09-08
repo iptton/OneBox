@@ -27,6 +27,8 @@ import com.shifenmiao.database.blessing.dao.BlessingTabConfigDao
 import com.shifenmiao.database.blessing.dao.BlessingWishDao
 import com.shifenmiao.database.blessing.repo.BlessingRepository
 import com.shifenmiao.database.chat_prompt.dao.PromptDao
+import com.shifenmiao.database.recordcenter.dao.HealthRecordDao
+import com.shifenmiao.database.recordcenter.repo.HealthRecordRepository
 import com.shifenmiao.database.idphoto.dao.IdPhotoSizeDao
 import com.shifenmiao.database.image.dao.ImageDao
 import com.shifenmiao.interfaces.logging.ImageSaveLogger
@@ -320,6 +322,18 @@ object DatabaseModule {
             categoryDao = categoryDao,
             recordDao = recordDao,
         )
+    }
+
+    // RecordCenter feature
+    @Provides
+    fun provideHealthRecordDao(database: FeatureDatabase): HealthRecordDao {
+        return database.healthRecordDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHealthRecordRepository(database: FeatureDatabase): HealthRecordRepository {
+        return HealthRecordRepository(database = database)
     }
 
     // HabitTracker feature

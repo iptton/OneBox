@@ -1116,6 +1116,8 @@
     <string name="schedule_description">独立事件域与同步基础设施，为后续 Google 日历接入做准备。</string>
     <string name="bookkeeping">记账本</string>
     <string name="bookkeeping_description">每日收支记录与分类统计</string>
+    <string name="record_center">记录中心</string>
+    <string name="record_center_description">统一记录和管理血压、体重等健康指标</string>
     <string name="habit_tracker">习惯打卡</string>
     <string name="habit_tracker_description">每日习惯打卡与数据统计</string>
     <string name="data_restore_success">数据库恢复成功，3秒后将重启应用.</string>

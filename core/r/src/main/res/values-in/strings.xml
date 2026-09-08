@@ -954,6 +954,8 @@
     <string name="schedule_description">Kelola acara dan jadwal di satu tempat, siap sinkron dengan Google Kalender.</string>
     <string name="bookkeeping">Pelacak Pengeluaran</string>
     <string name="bookkeeping_description">Lacak pemasukan dan pengeluaran harian dengan ringkasan berkategori.</string>
+    <string name="record_center">Pusat Catatan</string>
+    <string name="record_center_description">Catat dan kelola metrik kesehatan di satu tempat.</string>
     <string name="data_restore_success">Database dipulihkan. Aplikasi akan dimulai ulang dalam 3 detik.</string>
     <string name="data_backup_success">Cadangan berhasil! Disimpan ke folder %1$s.</string>
     <string name="lifetime">Jam Kehidupan</string>

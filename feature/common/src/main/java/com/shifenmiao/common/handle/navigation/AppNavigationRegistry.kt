@@ -170,6 +170,50 @@ object AppNavigationRegistry {
             ),
             AppNavigationTarget(
                 targetType = AppNavigationTargetType.SCREEN,
+                routeKey = Screen.RecordCenter().routeKey,
+                canonicalName = "screen.${Screen.RecordCenter().routeKey}",
+                title = "记录中心",
+                description = "打开记录中心模块，支持打开指定记录类型的列表页或新增/编辑记录页",
+                aliases = listOf("record_center", "health_record", "health", "records", "记录中心", "健康记录", "记录"),
+                deeplink = buildStructuredDeeplink(
+                    AppNavigationTargetType.SCREEN,
+                    Screen.RecordCenter().routeKey,
+                ),
+                screenBuilder = { params ->
+                    val type = params["type"].orEmpty()
+                    val recordType = params["record_type"]
+                        ?: params["recordType"]
+                    val editingRecordId = params["editing_record_id"]
+                        ?: params["editingRecordId"]
+                        ?: params["record_id"]
+                        ?: params["recordId"]
+
+                    when {
+                        type.equals("list", ignoreCase = true) &&
+                            !recordType.isNullOrBlank() -> {
+                            Screen.RecordCenter(
+                                Screen.RecordCenter.Type.RecordList(
+                                    recordType = recordType
+                                )
+                            )
+                        }
+
+                        type.equals("add", ignoreCase = true) &&
+                            !recordType.isNullOrBlank() -> {
+                            Screen.RecordCenter(
+                                Screen.RecordCenter.Type.AddRecord(
+                                    recordType = recordType,
+                                    editingRecordId = editingRecordId?.takeIf { it.isNotBlank() }
+                                )
+                            )
+                        }
+
+                        else -> Screen.RecordCenter()
+                    }
+                }
+            ),
+            AppNavigationTarget(
+                targetType = AppNavigationTargetType.SCREEN,
                 routeKey = Screen.HabitTracker().routeKey,
                 canonicalName = "screen.${Screen.HabitTracker().routeKey}",
                 title = "习惯打卡",
