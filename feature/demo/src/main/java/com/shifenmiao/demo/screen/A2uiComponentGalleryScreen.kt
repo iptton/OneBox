@@ -1461,6 +1461,236 @@ private fun a2uiSamples(): List<A2uiSample> = listOf(
         """.trimIndent()
     ),
 
+    A2uiSample(
+        id = "image_picker",
+        title = "ImagePicker",
+        category = "输入控件",
+        description = "图片选择器，唤起系统图片选择器，结果转写为 file:// 本地路径",
+        json = """
+            {
+              "createSurface": {
+                "surfaceId": "demo_image_picker",
+                "components": [
+                  {
+                    "id": "root",
+                    "component": "Column",
+                    "padding": 16,
+                    "spacing": 12,
+                    "children": ["label", "picker", "result"]
+                  },
+                  {
+                    "id": "label",
+                    "component": "Text",
+                    "text": "ImagePicker 图片选择",
+                    "style": "titleMedium"
+                  },
+                  {
+                    "id": "picker",
+                    "component": "ImagePicker",
+                    "label": "选择图片",
+                    "value": { "path": "/imagePath" }
+                  },
+                  {
+                    "id": "result",
+                    "component": "Text",
+                    "text": { "path": "/imagePath" },
+                    "style": "bodySmall",
+                    "color": "#6750A4"
+                  }
+                ],
+                "dataModel": { "imagePath": "" }
+              }
+            }
+        """.trimIndent()
+    ),
+    A2uiSample(
+        id = "file_picker",
+        title = "FilePicker",
+        category = "输入控件",
+        description = "文件选择器，支持 MIME 过滤与多选，结果转写为 file:// 本地路径",
+        json = """
+            {
+              "createSurface": {
+                "surfaceId": "demo_file_picker",
+                "components": [
+                  {
+                    "id": "root",
+                    "component": "Column",
+                    "padding": 16,
+                    "spacing": 12,
+                    "children": ["label", "picker", "picker_multi", "result"]
+                  },
+                  {
+                    "id": "label",
+                    "component": "Text",
+                    "text": "FilePicker 文件选择",
+                    "style": "titleMedium"
+                  },
+                  {
+                    "id": "picker",
+                    "component": "FilePicker",
+                    "label": "选择 PDF 文件",
+                    "mimeType": "application/pdf",
+                    "value": { "path": "/filePath" }
+                  },
+                  {
+                    "id": "picker_multi",
+                    "component": "FilePicker",
+                    "label": "选择多个文件（不限类型）",
+                    "multiple": true,
+                    "value": { "path": "/filePaths" }
+                  },
+                  {
+                    "id": "result",
+                    "component": "Text",
+                    "text": { "path": "/filePaths" },
+                    "style": "bodySmall",
+                    "color": "#6750A4"
+                  }
+                ],
+                "dataModel": { "filePath": "", "filePaths": "" }
+              }
+            }
+        """.trimIndent()
+    ),
+    A2uiSample(
+        id = "folder_picker",
+        title = "FolderPicker",
+        category = "输入控件",
+        description = "目录选择器，唤起系统目录选择器，结果转写为 file:// 本地路径",
+        json = """
+            {
+              "createSurface": {
+                "surfaceId": "demo_folder_picker",
+                "components": [
+                  {
+                    "id": "root",
+                    "component": "Column",
+                    "padding": 16,
+                    "spacing": 12,
+                    "children": ["label", "picker", "result"]
+                  },
+                  {
+                    "id": "label",
+                    "component": "Text",
+                    "text": "FolderPicker 目录选择",
+                    "style": "titleMedium"
+                  },
+                  {
+                    "id": "picker",
+                    "component": "FolderPicker",
+                    "label": "选择输出目录",
+                    "value": { "path": "/folderPath" }
+                  },
+                  {
+                    "id": "result",
+                    "component": "Text",
+                    "text": { "path": "/folderPath" },
+                    "style": "bodySmall",
+                    "color": "#6750A4"
+                  }
+                ],
+                "dataModel": { "folderPath": "" }
+              }
+            }
+        """.trimIndent()
+    ),
+    A2uiSample(
+        id = "range_slider",
+        title = "RangeSlider",
+        category = "输入控件",
+        description = "区间滑块，选择起止两个值，结果以数字数组写入数据模型",
+        json = """
+            {
+              "createSurface": {
+                "surfaceId": "demo_range_slider",
+                "components": [
+                  {
+                    "id": "root",
+                    "component": "Column",
+                    "padding": 16,
+                    "spacing": 12,
+                    "children": ["label", "slider", "result"]
+                  },
+                  {
+                    "id": "label",
+                    "component": "Text",
+                    "text": "RangeSlider 区间滑块",
+                    "style": "titleMedium"
+                  },
+                  {
+                    "id": "slider",
+                    "component": "RangeSlider",
+                    "label": "预算范围",
+                    "value": { "path": "/budget" },
+                    "min": 0,
+                    "max": 10000,
+                    "steps": 20
+                  },
+                  {
+                    "id": "result",
+                    "component": "Text",
+                    "text": { "path": "/budget" },
+                    "style": "bodySmall",
+                    "color": "#6750A4"
+                  }
+                ],
+                "dataModel": { "budget": [2000, 6000] }
+              }
+            }
+        """.trimIndent()
+    ),
+    A2uiSample(
+        id = "rating",
+        title = "Rating",
+        category = "输入控件",
+        description = "星级评分，点击打分，再点当前分值清零",
+        json = """
+            {
+              "createSurface": {
+                "surfaceId": "demo_rating",
+                "components": [
+                  {
+                    "id": "root",
+                    "component": "Column",
+                    "padding": 16,
+                    "spacing": 12,
+                    "children": ["label", "rating", "rating10", "result"]
+                  },
+                  {
+                    "id": "label",
+                    "component": "Text",
+                    "text": "Rating 星级评分",
+                    "style": "titleMedium"
+                  },
+                  {
+                    "id": "rating",
+                    "component": "Rating",
+                    "label": "总体评价",
+                    "value": { "path": "/score" },
+                    "max": 5
+                  },
+                  {
+                    "id": "rating10",
+                    "component": "Rating",
+                    "label": "推荐指数",
+                    "value": { "path": "/recommend" },
+                    "max": 10
+                  },
+                  {
+                    "id": "result",
+                    "component": "Text",
+                    "text": { "path": "/score" },
+                    "style": "bodySmall",
+                    "color": "#6750A4"
+                  }
+                ],
+                "dataModel": { "score": 3, "recommend": 8 }
+              }
+            }
+        """.trimIndent()
+    ),
+
     // ── 选择器 ──
     A2uiSample(
         id = "row_selector",
