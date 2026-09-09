@@ -34,6 +34,7 @@ dependencies {
     implementation(projects.feature.bookkeeping)
     implementation(projects.feature.limitsResize)
     implementation(projects.feature.weightResize)
+    implementation(projects.feature.watermarking)
     implementation(projects.feature.pdfTools)
     implementation(projects.feature.visualAutomation)
 

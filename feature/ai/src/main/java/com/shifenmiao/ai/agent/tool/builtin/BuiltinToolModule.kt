@@ -123,6 +123,21 @@ object BuiltinToolModule {
 
     @Provides
     @IntoMap
+    @StringKey("convert_image_format")
+    fun provideConvertImageFormatTool(tool: ConvertImageFormatTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
+    @StringKey("edit_exif")
+    fun provideEditExifTool(tool: EditExifTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
+    @StringKey("add_watermark")
+    fun provideAddWatermarkTool(tool: AddWatermarkTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
     @StringKey("browse_files")
     fun provideBrowseFilesTool(tool: BrowseFilesTool): AgentTool = tool
 

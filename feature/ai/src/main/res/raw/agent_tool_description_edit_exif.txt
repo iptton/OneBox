@@ -1,0 +1,13 @@
+读取或修改图片的 EXIF 元数据,支持四种操作：读取(read)、全部清除(clear)、设置单个标签(set_tag)、删除单个标签(remove_tag)。
+
+使用场景：
+- 发图前清除定位、相机型号等隐私信息
+- 查看照片的拍摄时间、设备、GPS 等元数据
+- 修改图片的作者、版权、描述等标签
+
+参数说明：
+- image_uri:图片路径或 URI,必填
+- tag:EXIF 标签名(如 Make、Model、DateTime、ImageDescription、Artist、Copyright、GPSLatitude 等),set_tag/remove_tag 时必填
+- value:要写入的标签值,set_tag 时必填
+
+写操作(clear/set_tag/remove_tag)一律输出为新文件,不覆盖原图;read 只读不写,直接返回全部标签 JSON。

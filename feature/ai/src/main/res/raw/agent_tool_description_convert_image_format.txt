@@ -1,0 +1,14 @@
+批量图片格式转换：把一张或多张图片转换为 PNG / JPG / JPEG / WebP / BMP,输出为新文件,不覆盖原图。
+
+使用场景：
+- 把 PNG 截图批量转成 JPG 以减小体积
+- 把 JPG 照片转成 PNG 保留透明通道前的中间格式
+- 批量统一一批图片的格式
+
+参数说明：
+- image_uris:图片路径或 URI 列表,支持批量
+- target_format:目标格式,必填;webp 为无损,webp_lossy 为有损
+- quality:输出质量 1-100,默认 90
+- keep_exif:是否保留原图 EXIF 元数据,默认 false
+
+工具边界：本工具只做格式转换。要缩小文件体积用 compress_image,要限制宽高尺寸用 limit_resize_image,WebP 动图拆帧/合成用 webp_tool,四者不要混用。

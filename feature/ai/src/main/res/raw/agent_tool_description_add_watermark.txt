@@ -1,0 +1,16 @@
+给一张或多张图片批量添加文字水印,输出为新文件,不覆盖原图。
+
+使用场景：
+- 发图前批量加上"仅供 XX 使用"等防盗水印
+- 给照片加署名、版权文字
+
+参数说明：
+- image_uris:图片路径或 URI 列表,支持批量
+- text:水印文字,必填
+- position:位置,默认 bottom_right(右下角),可选 center/top_left/top_right/bottom_left/top_center/bottom_center/center_left/center_right
+- alpha:透明度 0-1,默认 0.5
+- size_ratio:字号占图片宽高的比例,默认 0.1,范围 0.02-0.5
+- color:颜色十六进制值,如 #FFFFFF,默认白色
+- quality:输出质量 1-100,默认 95;输出格式与原图保持一致并保留 EXIF
+
+工具边界：本工具只加文字水印。格式转换用 convert_image_format,压体积用 compress_image,限尺寸用 limit_resize_image。

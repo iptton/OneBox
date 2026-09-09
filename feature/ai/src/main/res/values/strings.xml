@@ -263,6 +263,50 @@
     <string name="agent_tool_compress_image_save_failed">Failed to save compressed result: %1$s</string>
     <string name="agent_tool_compress_image_failed">Image compression failed: %1$s</string>
 
+    <string name="agent_tool_convert_format_title">Image Format Conversion</string>
+    <string name="agent_tool_convert_format_summary">Batch convert images between PNG / JPG / WebP / BMP formats (use compress_image to shrink file size, limit_resize_image to cap dimensions)</string>
+    <string name="agent_tool_convert_format_param_image_uris">List of image paths or URIs to convert; batch supported.</string>
+    <string name="agent_tool_convert_format_param_target_format">Target format. webp is lossless, webp_lossy is lossy.</string>
+    <string name="agent_tool_convert_format_param_quality">Output quality 1-100, default 90.</string>
+    <string name="agent_tool_convert_format_param_keep_exif">Whether to keep the original EXIF metadata, default false.</string>
+    <string name="agent_tool_convert_format_missing_image_uris">image_uris parameter required, with at least one image</string>
+    <string name="agent_tool_convert_format_invalid_format">Unsupported target format: %1$s</string>
+    <string name="agent_tool_convert_format_load_failed">Unable to load image; please check whether the URI is valid</string>
+    <string name="agent_tool_convert_format_save_failed">Failed to save converted image</string>
+    <string name="agent_tool_convert_format_failed">Format conversion failed: %1$s</string>
+
+    <string name="agent_tool_edit_exif_title">Edit EXIF</string>
+    <string name="agent_tool_edit_exif_summary">Read, modify or clear image EXIF metadata (e.g. strip GPS/camera info before sharing)</string>
+    <string name="agent_tool_edit_exif_param_action">Action type. read returns all tags; clear removes all tags; set_tag writes one tag; remove_tag deletes one tag.</string>
+    <string name="agent_tool_edit_exif_param_image_uri">Path or URI of the image.</string>
+    <string name="agent_tool_edit_exif_param_tag">EXIF tag name (e.g. Make, Model, DateTime, ImageDescription, Artist, Copyright, GPSLatitude). Required for set_tag/remove_tag.</string>
+    <string name="agent_tool_edit_exif_param_value">Tag value to write. Required for set_tag.</string>
+    <string name="agent_tool_edit_exif_missing_image_uri">image_uri parameter required</string>
+    <string name="agent_tool_edit_exif_invalid_action">Unknown action: %1$s</string>
+    <string name="agent_tool_edit_exif_missing_value">set_tag requires the value parameter</string>
+    <string name="agent_tool_edit_exif_unknown_tag">Unknown EXIF tag: %1$s</string>
+    <string name="agent_tool_edit_exif_load_failed">Unable to load image; please check whether the URI is valid</string>
+    <string name="agent_tool_edit_exif_read_failed">Unable to read EXIF metadata from this image</string>
+    <string name="agent_tool_edit_exif_save_failed">Failed to save image with updated EXIF: %1$s</string>
+    <string name="agent_tool_edit_exif_failed">EXIF editing failed: %1$s</string>
+
+    <string name="agent_tool_add_watermark_title">Add Text Watermark</string>
+    <string name="agent_tool_add_watermark_summary">Batch add a text watermark to images (position, opacity, size and color configurable)</string>
+    <string name="agent_tool_add_watermark_param_image_uris">List of image paths or URIs to watermark; batch supported.</string>
+    <string name="agent_tool_add_watermark_param_text">Watermark text.</string>
+    <string name="agent_tool_add_watermark_param_position">Watermark position, default bottom_right.</string>
+    <string name="agent_tool_add_watermark_param_alpha">Watermark opacity 0-1, default 0.5.</string>
+    <string name="agent_tool_add_watermark_param_size_ratio">Text size as a fraction of the image, default 0.1, range 0.02-0.5.</string>
+    <string name="agent_tool_add_watermark_param_color">Text color as a hex value, e.g. #FFFFFF. Default white.</string>
+    <string name="agent_tool_add_watermark_param_quality">Output quality 1-100, default 95. Output format matches the source image.</string>
+    <string name="agent_tool_add_watermark_missing_image_uris">image_uris parameter required, with at least one image</string>
+    <string name="agent_tool_add_watermark_missing_text">text parameter required</string>
+    <string name="agent_tool_add_watermark_invalid_color">Invalid color value: %1$s</string>
+    <string name="agent_tool_add_watermark_load_failed">Unable to load image; please check whether the URI is valid</string>
+    <string name="agent_tool_add_watermark_apply_failed">Failed to apply watermark to image</string>
+    <string name="agent_tool_add_watermark_save_failed">Failed to save watermarked image</string>
+    <string name="agent_tool_add_watermark_failed">Watermarking failed: %1$s</string>
+
     <string name="agent_tool_browse_files_title">Browse Files</string>
     <string name="agent_tool_browse_files_summary">Read-only directory listing, or locate which directory a file is in</string>
     <string name="agent_tool_browse_files_param_action">Action type. list lists a directory; locate reverse-looks-up which directory a file is in.</string>

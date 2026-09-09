@@ -272,6 +272,53 @@
         <item>把图片压缩到 500KB 以内</item>
     </string-array>
 
+    <string-array name="agent_tool_convert_format_keywords">
+        <item>format conversion</item>
+        <item>convert image</item>
+        <item>to png</item>
+        <item>to jpg</item>
+        <item>to bmp</item>
+        <item>image format</item>
+        <item>batch convert</item>
+    </string-array>
+
+    <string-array name="agent_tool_convert_format_examples">
+        <item>Convert these PNG screenshots to JPG</item>
+        <item>Batch convert these images to BMP</item>
+        <item>Turn this JPG into a PNG</item>
+    </string-array>
+
+    <string-array name="agent_tool_edit_exif_keywords">
+        <item>exif</item>
+        <item>metadata</item>
+        <item>clear exif</item>
+        <item>gps info</item>
+        <item>privacy</item>
+        <item>camera info</item>
+        <item>photo details</item>
+    </string-array>
+
+    <string-array name="agent_tool_edit_exif_examples">
+        <item>Clear all EXIF info from this photo</item>
+        <item>Show the metadata of this image</item>
+        <item>Remove the GPS location from this picture</item>
+    </string-array>
+
+    <string-array name="agent_tool_add_watermark_keywords">
+        <item>watermark</item>
+        <item>text watermark</item>
+        <item>add watermark</item>
+        <item>signature</item>
+        <item>copyright</item>
+        <item>batch watermark</item>
+    </string-array>
+
+    <string-array name="agent_tool_add_watermark_examples">
+        <item>Add the text "For internal use only" to these images</item>
+        <item>Put my name as a watermark on this photo</item>
+        <item>Batch watermark these pictures in the bottom right corner</item>
+    </string-array>
+
     <string-array name="agent_tool_browse_files_keywords">
         <item>文件浏览</item>
         <item>目录列表</item>

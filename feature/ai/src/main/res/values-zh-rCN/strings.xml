@@ -263,6 +263,50 @@
     <string name="agent_tool_compress_image_save_failed">保存压缩结果失败: %1$s</string>
     <string name="agent_tool_compress_image_failed">图片压缩失败: %1$s</string>
 
+    <string name="agent_tool_convert_format_title">图片格式转换</string>
+    <string name="agent_tool_convert_format_summary">批量将图片在 PNG / JPG / WebP / BMP 等格式间互转（压体积用 compress_image，限尺寸用 limit_resize_image）</string>
+    <string name="agent_tool_convert_format_param_image_uris">待转换图片的路径或 URI 列表，支持批量。</string>
+    <string name="agent_tool_convert_format_param_target_format">目标格式。webp 为无损，webp_lossy 为有损。</string>
+    <string name="agent_tool_convert_format_param_quality">输出质量 1-100，默认 90。</string>
+    <string name="agent_tool_convert_format_param_keep_exif">是否保留原图 EXIF 元数据，默认 false。</string>
+    <string name="agent_tool_convert_format_missing_image_uris">需要 image_uris 参数，且至少包含一张图片</string>
+    <string name="agent_tool_convert_format_invalid_format">不支持的目标格式: %1$s</string>
+    <string name="agent_tool_convert_format_load_failed">无法加载图片，请检查 URI 是否有效</string>
+    <string name="agent_tool_convert_format_save_failed">保存转换结果失败</string>
+    <string name="agent_tool_convert_format_failed">格式转换失败: %1$s</string>
+
+    <string name="agent_tool_edit_exif_title">EXIF 编辑</string>
+    <string name="agent_tool_edit_exif_summary">读取、修改或清除图片 EXIF 元数据（如发图前清除定位、相机信息）</string>
+    <string name="agent_tool_edit_exif_param_action">操作类型。read 返回全部标签；clear 清除全部标签；set_tag 写入单个标签；remove_tag 删除单个标签。</string>
+    <string name="agent_tool_edit_exif_param_image_uri">图片的路径或 URI。</string>
+    <string name="agent_tool_edit_exif_param_tag">EXIF 标签名（如 Make、Model、DateTime、ImageDescription、Artist、Copyright、GPSLatitude 等），set_tag/remove_tag 时必填。</string>
+    <string name="agent_tool_edit_exif_param_value">要写入的标签值，set_tag 时必填。</string>
+    <string name="agent_tool_edit_exif_missing_image_uri">需要 image_uri 参数</string>
+    <string name="agent_tool_edit_exif_invalid_action">未知操作: %1$s</string>
+    <string name="agent_tool_edit_exif_missing_value">set_tag 操作需要 value 参数</string>
+    <string name="agent_tool_edit_exif_unknown_tag">未知的 EXIF 标签: %1$s</string>
+    <string name="agent_tool_edit_exif_load_failed">无法加载图片，请检查 URI 是否有效</string>
+    <string name="agent_tool_edit_exif_read_failed">无法读取该图片的 EXIF 元数据</string>
+    <string name="agent_tool_edit_exif_save_failed">保存更新 EXIF 后的图片失败: %1$s</string>
+    <string name="agent_tool_edit_exif_failed">EXIF 编辑失败: %1$s</string>
+
+    <string name="agent_tool_add_watermark_title">添加文字水印</string>
+    <string name="agent_tool_add_watermark_summary">批量给图片添加文字水印（位置、透明度、字号、颜色可配）</string>
+    <string name="agent_tool_add_watermark_param_image_uris">待加水印图片的路径或 URI 列表，支持批量。</string>
+    <string name="agent_tool_add_watermark_param_text">水印文字。</string>
+    <string name="agent_tool_add_watermark_param_position">水印位置，默认 bottom_right（右下角）。</string>
+    <string name="agent_tool_add_watermark_param_alpha">水印透明度 0-1，默认 0.5。</string>
+    <string name="agent_tool_add_watermark_param_size_ratio">字号占图片宽高的比例，默认 0.1，范围 0.02-0.5。</string>
+    <string name="agent_tool_add_watermark_param_color">文字颜色十六进制值，如 #FFFFFF，默认白色。</string>
+    <string name="agent_tool_add_watermark_param_quality">输出质量 1-100，默认 95；输出格式与原图保持一致。</string>
+    <string name="agent_tool_add_watermark_missing_image_uris">需要 image_uris 参数，且至少包含一张图片</string>
+    <string name="agent_tool_add_watermark_missing_text">需要 text 参数</string>
+    <string name="agent_tool_add_watermark_invalid_color">无效的颜色值: %1$s</string>
+    <string name="agent_tool_add_watermark_load_failed">无法加载图片，请检查 URI 是否有效</string>
+    <string name="agent_tool_add_watermark_apply_failed">图片水印处理失败</string>
+    <string name="agent_tool_add_watermark_save_failed">保存水印图片失败</string>
+    <string name="agent_tool_add_watermark_failed">添加水印失败: %1$s</string>
+
     <string name="agent_tool_browse_files_title">浏览文件</string>
     <string name="agent_tool_browse_files_summary">只读浏览目录内容，或定位文件所在目录</string>
     <string name="agent_tool_browse_files_param_action">操作类型。list 列目录，locate 反查文件所在目录。</string>

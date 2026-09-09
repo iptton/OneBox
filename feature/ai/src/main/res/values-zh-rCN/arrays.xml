@@ -261,6 +261,50 @@
         <item>把图片压缩到 500KB 以内</item>
     </string-array>
 
+    <string-array name="agent_tool_convert_format_keywords">
+        <item>格式转换</item>
+        <item>转格式</item>
+        <item>转 png</item>
+        <item>转 jpg</item>
+        <item>转 bmp</item>
+        <item>图片格式</item>
+        <item>批量转换</item>
+    </string-array>
+    <string-array name="agent_tool_convert_format_examples">
+        <item>把这几张 PNG 截图转成 JPG</item>
+        <item>批量把这些图片转成 BMP 格式</item>
+        <item>把这张 JPG 转成 PNG</item>
+    </string-array>
+
+    <string-array name="agent_tool_edit_exif_keywords">
+        <item>exif</item>
+        <item>元数据</item>
+        <item>清除 exif</item>
+        <item>定位信息</item>
+        <item>隐私</item>
+        <item>相机信息</item>
+        <item>照片信息</item>
+    </string-array>
+    <string-array name="agent_tool_edit_exif_examples">
+        <item>清除这张照片的所有 EXIF 信息</item>
+        <item>查看这张图片的元数据</item>
+        <item>把照片里的 GPS 定位信息删掉</item>
+    </string-array>
+
+    <string-array name="agent_tool_add_watermark_keywords">
+        <item>水印</item>
+        <item>文字水印</item>
+        <item>加水印</item>
+        <item>署名</item>
+        <item>版权</item>
+        <item>批量水印</item>
+    </string-array>
+    <string-array name="agent_tool_add_watermark_examples">
+        <item>给这几张图加上"仅供内部使用"的水印</item>
+        <item>在这张照片右下角加上我的署名水印</item>
+        <item>批量给这些图片加版权文字</item>
+    </string-array>
+
     <string-array name="agent_tool_browse_files_keywords">
         <item>文件浏览</item>
         <item>目录列表</item>
