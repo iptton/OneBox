@@ -151,5 +151,6 @@
     <string name="agent_tool_household_expiry_today">Expires today</string>
     <string name="agent_tool_household_expiry_none">No expiry date</string>
     <string name="agent_tool_household_open_link">Open Household Items</string>
+    <string name="agent_tool_household_edit_link">View item</string>
     <string name="agent_tool_household_unknown_error">Unknown error</string>
 </resources>

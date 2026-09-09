@@ -1013,6 +1013,7 @@ class ChildProvider @Inject constructor(
         is Screen.HouseholdItems -> NavigationChild.HouseholdItems(
             lifeFactories.get().householdItemsComponentFactory(
                 componentContext = componentContext,
+                initialType = config.type,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo,
             )

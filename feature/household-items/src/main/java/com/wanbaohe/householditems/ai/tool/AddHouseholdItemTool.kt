@@ -89,7 +89,7 @@ class AddHouseholdItemTool @Inject constructor(
                 .takeIf { it.isNotBlank() }
                 ?.let { parseExpireDate(it) }
 
-            service.addItem(
+            val itemId = service.addItem(
                 input = HouseholdService.ItemInput(
                     name = itemName,
                     category = json.optString("category").takeIf { it.isNotBlank() },
@@ -102,6 +102,7 @@ class AddHouseholdItemTool @Inject constructor(
             ).getOrThrow()
 
             val deeplink = householdItemsDeeplink()
+            val editDeeplink = householdItemEditDeeplink(itemId)
             AgentToolResult(
                 content = buildString {
                     appendLine("# ${sanitizeMarkdownText(title)}")
@@ -121,6 +122,7 @@ class AddHouseholdItemTool @Inject constructor(
                     }
                     appendLine()
                     appendLine("- ${buildMarkdownLink(textProvider.string(R.string.agent_tool_household_open_link), deeplink)}")
+                    appendLine("- ${buildMarkdownLink(textProvider.string(R.string.agent_tool_household_edit_link), editDeeplink)}")
                 }.trimEnd(),
             )
         }.getOrElse { error ->
@@ -153,7 +155,16 @@ class AddHouseholdItemTool @Inject constructor(
         internal fun householdItemsDeeplink(): String {
             return AppNavigationRegistry.buildStructuredDeeplink(
                 targetType = AppNavigationTargetType.SCREEN,
-                routeKey = Screen.HouseholdItems.routeKey,
+                routeKey = Screen.HouseholdItems().routeKey,
+            )
+        }
+
+        /** 直达某物品的编辑页(params 由 AppNavigationRegistry 的 screenBuilder 解析) */
+        internal fun householdItemEditDeeplink(itemId: String): String {
+            return AppNavigationRegistry.buildStructuredDeeplink(
+                targetType = AppNavigationTargetType.SCREEN,
+                routeKey = Screen.HouseholdItems().routeKey,
+                params = mapOf("type" to "edit_item", "item_id" to itemId),
             )
         }
     }

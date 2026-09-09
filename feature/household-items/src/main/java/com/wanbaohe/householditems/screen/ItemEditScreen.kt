@@ -41,7 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil3.compose.AsyncImage
 import com.shifenmiao.base.ui.picker.ChineseDatePickerDialog
+import com.shifenmiao.common.ui.BaseScreen
 import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.icons.Check
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAddCircleOutline
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
@@ -49,7 +51,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineFolderCustom
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
 import com.wanbaohe.householditems.R
 import com.wanbaohe.householditems.component.HouseholdItemsComponent
@@ -64,14 +65,13 @@ import java.time.format.FormatStyle
 import java.util.Locale
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 添加/编辑物品表单(底部弹层)
+// 添加/编辑物品(独立页面,支持外部跳转:Screen.HouseholdItems.Type.EditItem)
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
-fun ItemEditSheet(
+fun ItemEditScreen(
     component: HouseholdItemsComponent,
-    visible: Boolean,
-    onDismiss: () -> Unit,
+    onGoBack: () -> Unit,
 ) {
     val uiState by component.uiState.collectAsState()
     var showDatePicker by remember { mutableStateOf(false) }
@@ -81,86 +81,99 @@ fun ItemEditSheet(
         onSuccess = { uri: Uri -> component.onEditorPhotoPicked(uri.toString()) },
     )
 
-    EnhancedModalBottomSheet(
-        nestedScrollEnabled = true,
-        visible = visible,
-        onDismiss = { onDismiss() },
-        endConfirmButtonPadding = 16.dp,
-        title = {
-            Text(
-                stringResource(
-                    if (uiState.editingItemId == null) R.string.household_editor_add_title
-                    else R.string.household_editor_edit_title
-                )
-            )
-        },
-        confirmButton = {
-            EnhancedButton(
+    BaseScreen(
+        title = stringResource(
+            if (uiState.editingItemId == null) R.string.household_editor_add_title
+            else R.string.household_editor_edit_title
+        ),
+        onGoBack = onGoBack,
+        actions = {
+            IconButton(
                 onClick = component::submitItem,
                 enabled = uiState.editorName.isNotBlank(),
             ) {
-                Text(stringResource(R.string.household_save))
+                Icon(
+                    imageVector = Icons.Outlined.Check,
+                    contentDescription = stringResource(R.string.household_save),
+                    tint = if (uiState.editorName.isNotBlank()) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
         },
-    ) {
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 24.dp)
-                .padding(bottom = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            // ── 名称(必填) ──
-            GlassOutlinedTextField(
-                value = uiState.editorName,
-                onValueChange = component::onEditorNameChange,
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.household_editor_name_label)) },
-                placeholder = { Text(stringResource(R.string.household_editor_name_hint)) },
-                singleLine = true,
-            )
+        supportGlassEffect = true,
+        content = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                // ── 名称(必填) ──
+                GlassOutlinedTextField(
+                    value = uiState.editorName,
+                    onValueChange = component::onEditorNameChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text(stringResource(R.string.household_editor_name_label)) },
+                    placeholder = { Text(stringResource(R.string.household_editor_name_hint)) },
+                    singleLine = true,
+                )
 
-            // ── 分类(预设 chips + 自定义输入) ──
-            CategoryField(
-                category = uiState.editorCategory,
-                onCategoryChange = component::onEditorCategoryChange,
-            )
+                // ── 分类(预设 chips + 自定义输入) ──
+                CategoryField(
+                    category = uiState.editorCategory,
+                    onCategoryChange = component::onEditorCategoryChange,
+                )
 
-            // ── 层级位置 ──
-            LocationField(
-                selectedLocationId = uiState.editorLocationId,
-                locationPath = locationPathOf(uiState.locations, uiState.editorLocationId)
-                    .joinToString(" / ") { it.name },
-                onPickClick = { showLocationPicker = true },
-                onClear = { component.onEditorLocationChange(null) },
-            )
+                // ── 层级位置 ──
+                LocationField(
+                    selectedLocationId = uiState.editorLocationId,
+                    locationPath = locationPathOf(uiState.locations, uiState.editorLocationId)
+                        .joinToString(" / ") { it.name },
+                    onPickClick = { showLocationPicker = true },
+                    onClear = { component.onEditorLocationChange(null) },
+                )
 
-            // ── 保质期 ──
-            ExpireField(
-                expireDate = uiState.editorExpireDate,
-                onPickClick = { showDatePicker = true },
-                onClear = { component.onEditorExpireDateChange(null) },
-            )
+                // ── 保质期 ──
+                ExpireField(
+                    expireDate = uiState.editorExpireDate,
+                    onPickClick = { showDatePicker = true },
+                    onClear = { component.onEditorExpireDateChange(null) },
+                )
 
-            // ── 图片 ──
-            PhotoField(
-                photoUri = uiState.editorPhotoUri,
-                photoPath = uiState.editorPhotoPath,
-                onPickClick = imagePicker::pickImage,
-                onRemove = component::onEditorPhotoRemoved,
-            )
+                // ── 图片 ──
+                PhotoField(
+                    photoUri = uiState.editorPhotoUri,
+                    photoPath = uiState.editorPhotoPath,
+                    onPickClick = imagePicker::pickImage,
+                    onRemove = component::onEditorPhotoRemoved,
+                )
 
-            // ── 备注 ──
-            GlassOutlinedTextField(
-                value = uiState.editorNote,
-                onValueChange = component::onEditorNoteChange,
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.household_editor_note_label)) },
-                placeholder = { Text(stringResource(R.string.household_editor_note_hint)) },
-                minLines = 2,
-            )
-        }
-    }
+                // ── 备注 ──
+                GlassOutlinedTextField(
+                    value = uiState.editorNote,
+                    onValueChange = component::onEditorNoteChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text(stringResource(R.string.household_editor_note_label)) },
+                    placeholder = { Text(stringResource(R.string.household_editor_note_hint)) },
+                    minLines = 2,
+                )
+
+                // ── 保存 ──
+                EnhancedButton(
+                    onClick = component::submitItem,
+                    enabled = uiState.editorName.isNotBlank(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                ) {
+                    Text(stringResource(R.string.household_save))
+                }
+            }
+        },
+        showNavigationBarsPadding = false,
+    )
 
     if (showDatePicker) {
         ChineseDatePickerDialog(

@@ -84,6 +84,21 @@ fun locationPathOf(locations: List<HouseholdLocationUi>, locationId: String?): L
     return segments.toList()
 }
 
+/**
+ * 收集 rootId 及其全部后代位置的 id 集合(子树过滤用,UI 层算,不走 DAO)。
+ * rootId = null 返回 null,表示不过滤(全部物品)。
+ */
+fun subtreeLocationIds(locations: List<HouseholdLocationUi>, rootId: String?): Set<String>? {
+    if (rootId == null) return null
+    val result = mutableSetOf(rootId)
+    var frontier = listOf(rootId)
+    while (frontier.isNotEmpty()) {
+        val next = locations.filter { it.parentId in frontier }.map { it.id }
+        frontier = next.filter { result.add(it) }
+    }
+    return result
+}
+
 /** 主页底部 tab */
 enum class HouseholdTab {
     LIST,

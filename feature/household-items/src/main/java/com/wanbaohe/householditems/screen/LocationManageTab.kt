@@ -1,13 +1,17 @@
 package com.wanbaohe.householditems.screen
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -42,8 +47,12 @@ import com.wanbaohe.householditems.model.flattenLocationTree
 import com.wanbaohe.householditems.model.locationIcon
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 位置管理(设置 tab 内嵌):树形展示,支持增加(选父级)/重命名/删除(有子级或物品时阻止)
+// 位置管理(设置 tab):缩进树,一次性展示全部层级
+// 层级感:竖向引导线 + 逐级递减的图标/字号/颜色;顶级行加 primary 淡色底突出
 // ─────────────────────────────────────────────────────────────────────────────
+
+private val INDENT_PER_DEPTH = 20.dp
+private val ROW_HEIGHT = 52.dp
 
 @Composable
 fun LocationManageTab(
@@ -85,7 +94,7 @@ fun LocationManageTab(
             }
         }
         items(flatNodes, key = { it.location.id }) { node ->
-            LocationManageRow(
+            LocationTreeRow(
                 node = node,
                 onAddChild = {
                     nameInputParent = node.location.id
@@ -171,32 +180,89 @@ fun LocationManageTab(
     }
 }
 
+/**
+ * 树形行:引导线区(每级一段 20dp,内含 1dp 竖线)+ 图标 + 名称 + 操作按钮。
+ * 容器走轻量路线:顶级行 primary 淡色圆角底,子级行透明底,避免密集树形下卡片感过重。
+ */
 @Composable
-private fun LocationManageRow(
+private fun LocationTreeRow(
     node: LocationTreeNode,
     onAddChild: () -> Unit,
     onRename: () -> Unit,
     onDelete: () -> Unit,
 ) {
+    val depth = node.depth
+    val isTop = depth == 0
+
+    // 逐级递减的图标/字号/颜色
+    val iconSize = when (depth) {
+        0 -> 22.dp
+        1 -> 20.dp
+        else -> 18.dp
+    }
+    val textStyle = if (depth >= 2) {
+        MaterialTheme.typography.bodyMedium
+    } else {
+        MaterialTheme.typography.bodyLarge
+    }
+    val textColor = if (depth >= 2) {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    } else {
+        MaterialTheme.colorScheme.onSurface
+    }
+    val textWeight = if (isTop) FontWeight.SemiBold else FontWeight.Normal
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = (node.depth * 20).dp),
+            .padding(vertical = 2.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .then(
+                if (isTop) {
+                    Modifier.background(
+                        MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
+                    )
+                } else {
+                    Modifier
+                }
+            )
+            .height(ROW_HEIGHT),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(0.dp),
     ) {
+        // ── 引导线:每级一段,竖线居中于该段,同级多行自然连续 ──
+        repeat(depth) {
+            Box(
+                modifier = Modifier
+                    .width(INDENT_PER_DEPTH)
+                    .fillMaxHeight(),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .width(1.dp)
+                        .fillMaxHeight()
+                        .background(
+                            MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f)
+                        ),
+                )
+            }
+        }
+
         Icon(
             imageVector = locationIcon(node.location.id),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(iconSize),
+            tint = if (isTop) MaterialTheme.colorScheme.primary
+            else MaterialTheme.colorScheme.primary.copy(alpha = 0.85f),
         )
         Text(
             text = node.location.name,
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
+            style = textStyle,
+            fontWeight = textWeight,
+            color = textColor,
             modifier = Modifier
                 .weight(1f)
-                .padding(start = 12.dp),
+                .padding(start = 10.dp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

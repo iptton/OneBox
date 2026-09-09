@@ -705,7 +705,7 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     Screen.MarkTodoRouter(),
                     Screen.Schedule(),
                     Screen.Bookkeeping(),
-                    Screen.HouseholdItems,
+                    Screen.HouseholdItems(),
                     Screen.HabitTracker(),
                     Screen.LifeTime,
                     Screen.MarkdownEditor(),

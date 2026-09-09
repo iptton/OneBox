@@ -49,9 +49,12 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineQuickTiles
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineStorage
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineViewList
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassFilterChip
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedButton
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSearchTextField
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStyle
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSurface
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
 import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavItem
 import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavigationBar
@@ -66,6 +69,7 @@ import com.wanbaohe.householditems.model.HouseholdTab
 import com.wanbaohe.householditems.model.categoryIconOrNull
 import com.wanbaohe.householditems.model.locationIcon
 import com.wanbaohe.householditems.model.locationPathOf
+import com.wanbaohe.householditems.model.subtreeLocationIds
 import java.io.File
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -85,6 +89,15 @@ fun HouseholdItemsScreen(
         } else {
             HouseholdDisplayMode.LIST
         }
+
+    // 轻量内部导航:编辑态整页替换主页,保存/返回回到列表
+    if (uiState.showItemEditor) {
+        ItemEditScreen(
+            component = component,
+            onGoBack = component::hideItemEditor,
+        )
+        return
+    }
 
     BaseScreen(
         title = stringResource(R.string.household_title),
@@ -122,12 +135,6 @@ fun HouseholdItemsScreen(
             }
         },
         showNavigationBarsPadding = false,
-    )
-
-    ItemEditSheet(
-        component = component,
-        visible = uiState.showItemEditor,
-        onDismiss = component::hideItemEditor,
     )
 }
 
@@ -309,7 +316,9 @@ private fun BrowseContent(
 ) {
     val atRoot = uiState.currentLocationId == null
     val children = uiState.locations.filter { it.parentId == uiState.currentLocationId }
-    val currentItems = uiState.items.filter { it.locationId == uiState.currentLocationId }
+    // 子树过滤:根 = 全部物品;选中位置 = 该位置及所有后代位置的物品
+    val subtreeIds = subtreeLocationIds(uiState.locations, uiState.currentLocationId)
+    val currentItems = uiState.items.filter { subtreeIds == null || it.locationId in subtreeIds }
     val breadcrumb = locationPathOf(uiState.locations, uiState.currentLocationId)
     val expiryItems = if (atRoot) uiState.expiredItems + uiState.expiringSoonItems else emptyList()
     val isEmpty = children.isEmpty() && currentItems.isEmpty() && expiryItems.isEmpty()
@@ -543,13 +552,11 @@ internal fun ItemRow(
     onClick: () -> Unit,
     onDelete: () -> Unit,
 ) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .clickable(onClick = onClick),
+    GlassCard(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer,
+        containerAlpha = GlassStyle.Medium.backgroundAlpha,
     ) {
         Row(
             modifier = Modifier.padding(12.dp),
@@ -604,13 +611,11 @@ private fun ItemCard(
     onClick: () -> Unit,
     onDelete: () -> Unit,
 ) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .clickable(onClick = onClick),
+    GlassCard(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer,
+        containerAlpha = GlassStyle.Medium.backgroundAlpha,
     ) {
         Column {
             ItemCardCover(item = item)
@@ -665,32 +670,38 @@ private fun ItemCardCover(item: HouseholdItemUi) {
             contentScale = ContentScale.Crop,
         )
     } else {
+        // 无图:透明封面区 + 居中 Glass 圆角图标容器(分类图标,回退首字)
         val categoryIcon = categoryIconOrNull(item.category)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
-                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+                .height(100.dp),
             contentAlignment = Alignment.Center,
         ) {
-            Surface(
-                color = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier.fillMaxSize(),
-            ) {}
-            if (categoryIcon != null) {
-                Icon(
-                    imageVector = categoryIcon,
-                    contentDescription = item.category,
-                    modifier = Modifier.size(40.dp),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
-            } else {
-                Text(
-                    text = (item.category.ifBlank { item.name }).take(1),
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    textAlign = TextAlign.Center,
-                )
+            GlassSurface(
+                shape = RoundedCornerShape(16.dp),
+                style = GlassStyle.Medium,
+            ) {
+                Box(
+                    modifier = Modifier.padding(12.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (categoryIcon != null) {
+                        Icon(
+                            imageVector = categoryIcon,
+                            contentDescription = item.category,
+                            modifier = Modifier.size(56.dp),
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                    } else {
+                        Text(
+                            text = (item.category.ifBlank { item.name }).take(1),
+                            style = MaterialTheme.typography.headlineMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+                }
             }
         }
     }

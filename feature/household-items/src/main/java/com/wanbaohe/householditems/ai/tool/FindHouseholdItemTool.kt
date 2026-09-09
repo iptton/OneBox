@@ -76,7 +76,11 @@ class FindHouseholdItemTool @Inject constructor(
                         appendLine(textProvider.string(R.string.agent_tool_find_household_item_empty))
                     } else {
                         items.forEach { item ->
-                            appendLine("- **${sanitizeMarkdownText(item.name)}**")
+                            val itemLink = buildMarkdownLink(
+                                sanitizeMarkdownText(item.name),
+                                AddHouseholdItemTool.householdItemEditDeeplink(item.id),
+                            )
+                            appendLine("- **$itemLink**")
                             val path = item.locationPath.ifBlank {
                                 textProvider.string(R.string.household_no_location)
                             }

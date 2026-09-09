@@ -247,6 +247,35 @@ object AppNavigationRegistry {
             ),
             AppNavigationTarget(
                 targetType = AppNavigationTargetType.SCREEN,
+                routeKey = Screen.HouseholdItems().routeKey,
+                canonicalName = "screen.${Screen.HouseholdItems().routeKey}",
+                title = "家庭物品",
+                description = "打开家庭物品模块,支持直达指定物品的编辑页",
+                aliases = listOf("household", "household_items", "物品", "家庭物品", "收纳"),
+                deeplink = buildStructuredDeeplink(
+                    AppNavigationTargetType.SCREEN,
+                    Screen.HouseholdItems().routeKey,
+                ),
+                screenBuilder = { params ->
+                    val type = params["type"].orEmpty()
+                    val itemId = params["item_id"]
+                        ?: params["itemId"]
+
+                    when {
+                        type.equals("edit_item", ignoreCase = true) -> {
+                            Screen.HouseholdItems(
+                                Screen.HouseholdItems.Type.EditItem(
+                                    itemId = itemId?.takeIf { it.isNotBlank() }
+                                )
+                            )
+                        }
+
+                        else -> Screen.HouseholdItems()
+                    }
+                }
+            ),
+            AppNavigationTarget(
+                targetType = AppNavigationTargetType.SCREEN,
                 routeKey = "xiangqi_router",
                 canonicalName = "screen.xiangqi_router",
                 title = "象棋",

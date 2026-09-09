@@ -50,6 +50,7 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
+    @Assisted("initialType") initialType: Screen.HouseholdItems.Type?,
     dispatchersHolder: DispatchersHolder,
     private val repository: HouseholdRepository,
     private val service: HouseholdService,
@@ -66,6 +67,7 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         seedDefaultLocations()
         observeLocations()
         observeItems()
+        handleInitialType(initialType)
     }
 
     // ─────────── Tab ───────────
@@ -190,6 +192,43 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         AppToastHost.showToast(AppContext.getString(com.shifenmiao.core.R.string.save_success))
     }
 
+    /** 外部跳转(EditItem):itemId = null 直接新建,否则加载物品进入编辑态。 */
+    private fun handleInitialType(initialType: Screen.HouseholdItems.Type?) {
+        if (initialType !is Screen.HouseholdItems.Type.EditItem) return
+        componentScope.launch {
+            val itemId = initialType.itemId
+            if (itemId == null) {
+                _uiState.update { itemEditor.startAdd(it, it.currentLocationId) }
+            } else {
+                val entity = service.getItemById(itemId) ?: return@launch
+                _uiState.update { itemEditor.startEdit(it, entity.toUi(locations.value)) }
+            }
+        }
+    }
+
+    private fun com.shifenmiao.database.household.entity.HouseholdItemEntity.toUi(
+        locs: List<HouseholdLocationUi>,
+    ): HouseholdItemUi {
+        val expireDate = expireAt?.let {
+            Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate()
+        }
+        val daysToExpire = expireDate?.let {
+            ChronoUnit.DAYS.between(LocalDate.now(), it)
+        }
+        return HouseholdItemUi(
+            id = id,
+            name = name,
+            category = category.orEmpty(),
+            locationId = locationId,
+            locationPath = locationPathOf(locs, locationId).joinToString(" / ") { it.name },
+            expireDate = expireDate,
+            photoPath = photoPath,
+            note = note.orEmpty(),
+            expiryStatus = expiryStatusOf(daysToExpire),
+            daysToExpire = daysToExpire,
+        )
+    }
+
     /** 预置位置播种(表为空才写入,幂等)。 */
     private fun seedDefaultLocations() {
         componentScope.launch {
@@ -229,26 +268,7 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
             },
             locations,
         ) { items, locs ->
-            items.map { item ->
-                val expireDate = item.expireAt?.let {
-                    Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate()
-                }
-                val daysToExpire = expireDate?.let {
-                    ChronoUnit.DAYS.between(LocalDate.now(), it)
-                }
-                HouseholdItemUi(
-                    id = item.id,
-                    name = item.name,
-                    category = item.category.orEmpty(),
-                    locationId = item.locationId,
-                    locationPath = locationPathOf(locs, item.locationId).joinToString(" / ") { it.name },
-                    expireDate = expireDate,
-                    photoPath = item.photoPath,
-                    note = item.note.orEmpty(),
-                    expiryStatus = expiryStatusOf(daysToExpire),
-                    daysToExpire = daysToExpire,
-                )
-            }
+            items.map { it.toUi(locs) }
         }
             .onEach { list ->
                 _uiState.update { state ->
@@ -275,6 +295,7 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
+            @Assisted("initialType") initialType: Screen.HouseholdItems.Type?,
         ): HouseholdItemsComponent
     }
 

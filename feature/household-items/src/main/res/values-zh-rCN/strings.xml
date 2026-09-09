@@ -151,5 +151,6 @@
     <string name="agent_tool_household_expiry_today">今天到期</string>
     <string name="agent_tool_household_expiry_none">无保质期</string>
     <string name="agent_tool_household_open_link">打开家庭物品</string>
+    <string name="agent_tool_household_edit_link">查看物品</string>
     <string name="agent_tool_household_unknown_error">未知错误</string>
 </resources>
