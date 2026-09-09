@@ -553,8 +553,9 @@ internal fun ItemRow(
             null
         },
     ) {
+        // 右侧只留 4dp,让 ⋯ 按钮贴近卡片右缘
         Row(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier.padding(start = 12.dp, top = 12.dp, bottom = 12.dp, end = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             ItemThumbnail(item = item)
@@ -593,7 +594,7 @@ internal fun ItemRow(
     }
 }
 
-/** 卡片/行右下 ⋯ 菜单:编辑 / 删除 */
+/** 卡片/行右下 ⋯ 菜单:编辑 / 删除。自定义小尺寸(热区 32dp),不用 IconButton(强制 48dp) */
 @Composable
 private fun ItemOverflowMenu(
     onEdit: () -> Unit,
@@ -601,10 +602,17 @@ private fun ItemOverflowMenu(
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box {
-        IconButton(onClick = { expanded = true }) {
+        Box(
+            modifier = Modifier
+                .size(32.dp)
+                .clip(CircleShape)
+                .clickable { expanded = true },
+            contentAlignment = Alignment.Center,
+        ) {
             Icon(
                 imageVector = Icons.Outlined.LineMore,
                 contentDescription = null,
+                modifier = Modifier.size(18.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
@@ -706,7 +714,10 @@ private fun ItemCard(
     ) {
         Column {
             ItemCardCover(item = item)
-            Column(modifier = Modifier.padding(10.dp)) {
+            // 右侧只留 4dp,让 ⋯ 按钮贴近卡片右缘;左侧 padding 不变
+            Column(
+                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp, end = 4.dp)
+            ) {
                 Text(
                     text = item.name,
                     style = MaterialTheme.typography.bodyMedium,

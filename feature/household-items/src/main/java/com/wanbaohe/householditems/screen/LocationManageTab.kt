@@ -1,6 +1,9 @@
 package com.wanbaohe.householditems.screen
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,9 +26,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -33,6 +39,8 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Edit
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAddCircleOutline
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronRight
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineExpandMore
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
@@ -45,7 +53,7 @@ import com.wanbaohe.householditems.model.flattenLocationTree
 import com.wanbaohe.householditems.model.locationIcon
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 位置管理(位置 tab):缩进卡片树,一次性展示全部层级
+// 位置管理(位置 tab):缩进卡片树,父级行可折叠/展开子树
 // 层级感:按深度向右缩进 + 逐级递减的图标/字号/颜色;顶级行 primary 描边突出
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -58,7 +66,14 @@ fun LocationManageTab(
     modifier: Modifier = Modifier,
 ) {
     val uiState by component.uiState.collectAsState()
+
+    /** 收起的位置 id 集合(默认全部展开,仅 rememberSaveable 不持久化) */
+    var collapsedIds by rememberSaveable { mutableStateOf<List<String>>(emptyList()) }
+    // 扁平化全量节点 + 各节点可见性(祖先被收起则整棵子树隐藏,行级 AnimatedVisibility 做折叠动画)
     val flatNodes = remember(uiState.locationTree) { flattenLocationTree(uiState.locationTree) }
+    val visibleIds = remember(uiState.locationTree, collapsedIds) {
+        visibleLocationIds(uiState.locationTree, collapsedIds.toSet())
+    }
 
     /** 待输入名称的目标:nameInputParent = 父位置 id(null = 顶级);nameInputRenameId 非空表示重命名 */
     var nameInputParent by remember { mutableStateOf<String?>(null) }
@@ -92,22 +107,35 @@ fun LocationManageTab(
             }
         }
         items(flatNodes, key = { it.location.id }) { node ->
-            LocationTreeRow(
-                node = node,
-                onAddChild = {
-                    nameInputParent = node.location.id
-                    nameInputRenameId = null
-                    nameInput = ""
-                    showNameInput = true
-                },
-                onRename = {
-                    nameInputParent = null
-                    nameInputRenameId = node.location.id
-                    nameInput = node.location.name
-                    showNameInput = true
-                },
-                onDelete = { component.deleteLocation(node.location.id) },
-            )
+            AnimatedVisibility(
+                visible = node.location.id in visibleIds,
+                modifier = Modifier.animateItem(),
+            ) {
+                LocationTreeRow(
+                    node = node,
+                    collapsed = node.location.id in collapsedIds,
+                    onToggleCollapse = {
+                        collapsedIds = if (node.location.id in collapsedIds) {
+                            collapsedIds - node.location.id
+                        } else {
+                            collapsedIds + node.location.id
+                        }
+                    },
+                    onAddChild = {
+                        nameInputParent = node.location.id
+                        nameInputRenameId = null
+                        nameInput = ""
+                        showNameInput = true
+                    },
+                    onRename = {
+                        nameInputParent = null
+                        nameInputRenameId = node.location.id
+                        nameInput = node.location.name
+                        showNameInput = true
+                    },
+                    onDelete = { component.deleteLocation(node.location.id) },
+                )
+            }
         }
 
         item(key = "add_root") {
@@ -187,12 +215,33 @@ fun LocationManageTab(
 }
 
 /**
+ * 计算可见节点 id 集合:某节点被收起时,其整棵子树隐藏(该节点自身仍可见)。
+ */
+private fun visibleLocationIds(
+    tree: List<LocationTreeNode>,
+    collapsedIds: Set<String>,
+): Set<String> {
+    val result = mutableSetOf<String>()
+    fun walk(nodes: List<LocationTreeNode>, ancestorCollapsed: Boolean) {
+        nodes.forEach { node ->
+            if (!ancestorCollapsed) result += node.location.id
+            walk(node.children, ancestorCollapsed || node.location.id in collapsedIds)
+        }
+    }
+    walk(tree, false)
+    return result
+}
+
+/**
  * 树形行:每行一张玻璃卡片,按层级向右缩进(原型稿样式);
+ * 父级行左侧带展开/收起 chevron,叶子行留同宽占位对齐;
  * 图标/字号/颜色逐级递减,操作按钮(添加子级/重命名/删除)靠右。
  */
 @Composable
 private fun LocationTreeRow(
     node: LocationTreeNode,
+    collapsed: Boolean,
+    onToggleCollapse: () -> Unit,
     onAddChild: () -> Unit,
     onRename: () -> Unit,
     onDelete: () -> Unit,
@@ -235,13 +284,41 @@ private fun LocationTreeRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(ROW_HEIGHT)
-                .padding(horizontal = 12.dp),
+                .padding(start = 4.dp, end = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            // 展开/收起 chevron:父级可点,叶子行留同宽占位对齐
+            if (node.children.isNotEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clip(CircleShape)
+                        .clickable(onClick = onToggleCollapse),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = if (collapsed) {
+                            Icons.Outlined.LineChevronRight
+                        } else {
+                            Icons.Outlined.LineExpandMore
+                        },
+                        contentDescription = stringResource(
+                            if (collapsed) R.string.household_location_expand
+                            else R.string.household_location_collapse
+                        ),
+                        modifier = Modifier.size(18.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            } else {
+                Box(modifier = Modifier.size(28.dp))
+            }
             Icon(
                 imageVector = locationIcon(node.location.id),
                 contentDescription = null,
-                modifier = Modifier.size(iconSize),
+                modifier = Modifier
+                    .padding(start = 4.dp)
+                    .size(iconSize),
                 tint = if (isTop) MaterialTheme.colorScheme.primary
                 else MaterialTheme.colorScheme.primary.copy(alpha = 0.85f),
             )

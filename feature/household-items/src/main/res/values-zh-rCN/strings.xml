@@ -94,6 +94,8 @@
     <string name="household_location_name_hint">位置名称</string>
     <string name="household_location_delete_blocked">该位置下有子位置或物品,请先移除</string>
     <string name="household_locations_empty">暂无位置</string>
+    <string name="household_location_expand">展开</string>
+    <string name="household_location_collapse">收起</string>
 
     <!-- 预置位置(首次进入播种,固定 id) -->
     <string name="household_loc_home">家</string>

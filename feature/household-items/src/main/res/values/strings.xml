@@ -94,6 +94,8 @@
     <string name="household_location_name_hint">Location name</string>
     <string name="household_location_delete_blocked">This location has sub-locations or items, remove them first</string>
     <string name="household_locations_empty">No locations yet</string>
+    <string name="household_location_expand">Expand</string>
+    <string name="household_location_collapse">Collapse</string>
 
     <!-- 预置位置(首次进入播种,固定 id) -->
     <string name="household_loc_home">Home</string>
