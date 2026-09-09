@@ -1,5 +1,6 @@
 package com.shifenmiao.imagegeneration.provider.qwen
 
+import com.google.gson.JsonParser
 import com.google.gson.annotations.SerializedName
 import com.shifenmiao.core.constants.UrlConstants
 import com.shifenmiao.imagegeneration.model.GeneratedImage
@@ -66,7 +67,7 @@ class QwenImageProvider @Inject constructor(
             )
         }
         val responseBody = response.body()
-            ?: error(response.errorBody()?.string().orEmpty().ifBlank { "Image generation failed: HTTP ${response.code()}" })
+            ?: error(response.errorMessage())
         responseBody.code?.let { error("$it: ${responseBody.message.orEmpty()}") }
         val images = responseBody.output?.choices.orEmpty()
             .flatMap { it.message?.content.orEmpty() }
@@ -146,6 +147,23 @@ class QwenImageProvider @Inject constructor(
             }
         }.trimEnd('/')
         return "$normalizedBase/${path.trimStart('/')}"
+    }
+
+    /**
+     * 提取错误响应中的可读信息:网关错误体为 {"error": "..."},
+     * 上游 DashScope 错误体为 {"code": "...", "message": "..."},避免 toast 直接展示原始 JSON。
+     */
+    private fun Response<QwenResponse>.errorMessage(): String {
+        val raw = runCatching { errorBody()?.string().orEmpty() }.getOrDefault("")
+        if (raw.isBlank()) return "Image generation failed: HTTP ${code()}"
+        val parsed = runCatching {
+            val obj = JsonParser.parseString(raw).asJsonObject
+            obj.get("error")?.asString
+                ?: obj.get("message")?.asString?.let { message ->
+                    obj.get("code")?.asString?.let { "$it: $message" } ?: message
+                }
+        }.getOrNull()
+        return parsed ?: raw
     }
 
     companion object {
