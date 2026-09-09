@@ -41,6 +41,8 @@
 | 选择时间 / 时间段 | TimeInput | 不要用 TextField 让用户手输时间 |
 | 选择颜色 / 主题色 | ColorPicker | 不要用 TextField 让用户手输颜色值 |
 | 选择城市 / 地点 / 目的地 | LocationPicker | 使用系统城市选择器，不要用 TextField 让用户手输地点 |
+| 选择图片 / 照片 / 截图 | ImagePicker | 使用系统图片选择器，不要用 TextField 让用户手输路径 |
+| 选择文件 / 文档 / 附件 | FilePicker | 使用系统文件选择器，不要用 TextField 让用户手输路径 |
 | 2-5 个互斥选项单选（紧凑横排） | ChoicePicker | 不要堆多个 Button 或用 TextField |
 | 互斥选项单选（竖排列表，带标题） | RadioGroup | 不要堆多个 Button |
 | 多个标签/选项多选（横向紧凑） | RowSelector | 不要堆多个 Button 或 CheckBox |
@@ -82,6 +84,8 @@ body 是完整的 A2UI v1.0 协议 JSON，version 必须为 "v1.0"，包含 crea
 - **TimeInput**：时间选择（必须用于时间场景）。`label`, `value`({"path":"/x"}), `mode`(time/timerange, 默认time), `separator`(时间段连接符，默认" ~ "), `enabled`
 - **ColorPicker**：颜色选择器（必须用于颜色场景）。`label`, `colors`(HEX数组如["#FF0000","#00FF00"]，未提供使用默认色板), `value`({"path":"/x"}), `allowAlpha`(默认false), `enabled`
 - **LocationPicker**：位置选择器（必须用于城市/地点场景，使用系统城市选择器）。`label`, `value`({"path":"/x"}), `layer`(1/2/3, 默认3), `separator`(默认" "), `provincePath`/`cityPath`/`districtPath`(可选，单独绑定省/市/区), `enabled`
+- **ImagePicker**：图片选择器（必须用于选择图片/照片场景，唤起系统图片选择器）。`label`, `value`({"path":"/x"}，选中结果自动转写为 file:// 本地路径，多选时逗号分隔), `multiple`(默认false), `enabled`
+- **FilePicker**：文件选择器（必须用于选择文件/附件场景，唤起系统文件选择器）。`label`, `value`({"path":"/x"}，选中结果自动转写为 file:// 本地路径，多选时逗号分隔), `mimeType`(MIME 类型过滤，默认"*/*"，多类型逗号分隔如"image/png,application/pdf"), `multiple`(默认false), `enabled`
 - **RowSelector**：横向标签选择器（多选）。`label`, `value`({"path":"/x"}), `options`(字符串数组或 `{label,value}` 对象数组), `maxSelected`(默认0, 0=不限制), `spacing`(默认0), `padding`(默认0), `enabled`
 - **ColumnSelector**：纵向标签选择器（默认单选）。`label`, `value`({"path":"/x"}), `options`(字符串数组或 `{label,value,kind?}` 对象数组，可含 `kind="custom"`), `maxSelected`(默认1), `selectIndex`(默认-1), `spacing`(默认0), `padding`(默认0), `enabled`, `children`(自定义输入子项ID数组)
 - **GridSelector**：网格标签选择器（多选）。`label`, `value`({"path":"/x"}), `options`(字符串数组或 `{label,value}` 对象数组), `columns`(默认3), `maxSelected`(默认0), `spacing`(默认0), `padding`(默认0), `enabled`
@@ -223,7 +227,7 @@ RowSelector / ColumnSelector / GridSelector / ListSelector 支持在选项里加
 2. agent.prompt 必须详细描述 AI 运行时角色、工作流、工具使用策略、澄清问题策略、输出格式与风险边界
 3. agent.body 必须包含提交按钮，context.prompt 必须包含所有表单字段
 4. dataModel 必须包含所有被 `{"path":"/x"}` 绑定的字段，并给出合理默认值
-5. 严格按"组件选择决策规则"选组件，日期/时间/颜色/城市场景禁止用 TextField
+5. 严格按"组件选择决策规则"选组件，日期/时间/颜色/城市/图片/文件场景禁止用 TextField
 6. 只输出 JSON，不要 markdown 包裹、注释或解释
 7. 界面美观大方,注意留白和间距
 
@@ -234,7 +238,7 @@ RowSelector / ColumnSelector / GridSelector / ListSelector 支持在选项里加
 4. **禁止注释**：JSON 中不允许 `//` 或 `/* */` 注释。
 5. **数据绑定统一格式**：所有需要绑定 dataModel 的地方只能写 `{"path":"/字段名"}`，不要写成字符串 `/字段名` 或其他对象。
 6. **dataModel 类型必须与控件匹配**：
-   - TextField / DateInput / TimeInput / LocationPicker → 字符串 `""`
+   - TextField / DateInput / TimeInput / LocationPicker / ImagePicker / FilePicker → 字符串 `""`
    - Switch / CheckBox → 布尔 `false`
    - Slider / Stepper → 数字（如 `0`、`2`），**不要加引号写成字符串**
    - RowSelector / GridSelector / ColumnSelector / ListSelector（多选）→ 字符串数组 `[]`

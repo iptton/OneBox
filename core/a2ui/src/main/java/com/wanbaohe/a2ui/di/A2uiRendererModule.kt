@@ -17,7 +17,9 @@ import com.wanbaohe.a2ui.catalog.builtin.input.ChoicePickerRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.ColorPickerRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.ColumnSelectorRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.DateInputRenderer
+import com.wanbaohe.a2ui.catalog.builtin.input.FilePickerRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.GridSelectorRenderer
+import com.wanbaohe.a2ui.catalog.builtin.input.ImagePickerRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.TimeInputRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.ListSelectorRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.LocationPickerRenderer
@@ -131,6 +133,12 @@ abstract class A2uiRendererModule {
 
     @Binds @IntoSet
     abstract fun bindLocationPickerRenderer(impl: LocationPickerRenderer): A2uiComponentRenderer
+
+    @Binds @IntoSet
+    abstract fun bindImagePickerRenderer(impl: ImagePickerRenderer): A2uiComponentRenderer
+
+    @Binds @IntoSet
+    abstract fun bindFilePickerRenderer(impl: FilePickerRenderer): A2uiComponentRenderer
 
     @Binds @IntoSet
     abstract fun bindBadgeRenderer(impl: BadgeRenderer): A2uiComponentRenderer

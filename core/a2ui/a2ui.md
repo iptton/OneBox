@@ -168,6 +168,21 @@ A2UI（Agent-to-User Interface）是 Google 发起的开放协议，让 AI 动�
 - `districtPath`: 单独绑定区县的路径 (JSON Pointer, 可选)
 - `enabled`: 是否可用 (Boolean, 默认 true)
 
+### ImagePicker
+图片选择器，唤起系统图片选择器（必须用于选择图片场景）。
+- `label`: 标签 (String)
+- `value`: 绑定路径 (JSON Pointer)，选择结果自动转写为 file:// 本地路径（多选时逗号分隔）
+- `multiple`: 是否允许多选 (Boolean, 默认 false)
+- `enabled`: 是否可用 (Boolean, 默认 true)
+
+### FilePicker
+文件选择器，唤起系统文件选择器（必须用于选择文件场景）。
+- `label`: 标签 (String)
+- `value`: 绑定路径 (JSON Pointer)，选择结果自动转写为 file:// 本地路径（多选时逗号分隔）
+- `mimeType`: MIME 类型过滤 (String, 默认 "*/*"，多个类型用逗号分隔，如 "image/png,image/jpeg")
+- `multiple`: 是否允许多选 (Boolean, 默认 false)
+- `enabled`: 是否可用 (Boolean, 默认 true)
+
 ### RowSelector
 横向标签选择器（多选）。
 - `label`: 标签 (String，空字符串不渲染)

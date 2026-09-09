@@ -160,8 +160,9 @@ abstract class AppDatabase : RoomDatabase() {
          * v6 数据库 v2 迁移重建内容表(同步主键改 document_id), 系统预置 prompt 随表清空需重刷。
          * v7 新增易经卜卦解读系统提示词。
          * v8 易经卜卦解读 prompt 丰富化(引卦辞/爻辞/易传原文), 需重刷覆盖旧版。
+         * v9 Agent 创建 prompt 注册 ImagePicker/FilePicker 组件, 需重刷覆盖旧版。
          */
-        private const val SYSTEM_PRESET_VERSION = 8
+        private const val SYSTEM_PRESET_VERSION = 9
 
         /**
          * v1 → v2：同步主键从 (source, remote_id) 全局切换为 (source, document_id)。
