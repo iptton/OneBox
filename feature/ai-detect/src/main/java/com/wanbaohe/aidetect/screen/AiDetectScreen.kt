@@ -70,9 +70,24 @@ fun AiDetectScreen(component: AiDetectComponent) {
     }
 }
 
+/**
+ * 图片检测开关: 上游(腾讯 EdgeOne Makers 内置模型)免费档仅支持文本检测,
+ * 图片检测需企业版专属方案, 未开通前隐藏图片 tab; 开通后置 true 即可恢复。
+ * AgentTool detect_ai_image 不受影响(上游未开通时会透传 403 错误)。
+ */
+private const val IS_IMAGE_DETECT_ENABLED = false
+
 @Composable
 private fun AiDetectMainContent(component: AiDetectComponent) {
     val currentTab by component.currentTab.collectAsState()
+    // 图片检测未开放时, deeplink 直达 ImageDetect 也回落到文本 tab
+    val effectiveTab = if (!IS_IMAGE_DETECT_ENABLED &&
+        currentTab == Screen.AiDetect.Type.ImageDetect
+    ) {
+        Screen.AiDetect.Type.TextDetect
+    } else {
+        currentTab
+    }
 
     BaseScreen(
         title = stringResource(com.shifenmiao.core.R.string.ai_detect_title),
@@ -96,7 +111,7 @@ private fun AiDetectMainContent(component: AiDetectComponent) {
                     .fillMaxWidth()
             ) {
                 AnimatedContent(
-                    targetState = currentTab,
+                    targetState = effectiveTab,
                     transitionSpec = {
                         val direction = if (targetState.ordinal() > initialState.ordinal()) 1 else -1
                         (fadeIn(animationSpec = tween(250)) +
@@ -116,7 +131,7 @@ private fun AiDetectMainContent(component: AiDetectComponent) {
             }
 
             AiDetectBottomBar(
-                currentTab = currentTab,
+                currentTab = effectiveTab,
                 onSwitch = component::switchTo,
             )
         }
@@ -128,18 +143,24 @@ private fun AiDetectBottomBar(
     currentTab: Screen.AiDetect.Type,
     onSwitch: (Screen.AiDetect.Type) -> Unit,
 ) {
-    val tabs = listOf(
-        TabInfo(
-            label = stringResource(R.string.ai_detect_text_tab),
-            icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDescription,
-            type = Screen.AiDetect.Type.TextDetect,
-        ),
-        TabInfo(
-            label = stringResource(R.string.ai_detect_image_tab),
-            icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineImageSearch,
-            type = Screen.AiDetect.Type.ImageDetect,
-        ),
-    )
+    val tabs = buildList {
+        add(
+            TabInfo(
+                label = stringResource(R.string.ai_detect_text_tab),
+                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDescription,
+                type = Screen.AiDetect.Type.TextDetect,
+            )
+        )
+        if (IS_IMAGE_DETECT_ENABLED) {
+            add(
+                TabInfo(
+                    label = stringResource(R.string.ai_detect_image_tab),
+                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineImageSearch,
+                    type = Screen.AiDetect.Type.ImageDetect,
+                )
+            )
+        }
+    }
 
     val items = tabs.mapIndexed { index, tab ->
         BottomNavItem(
