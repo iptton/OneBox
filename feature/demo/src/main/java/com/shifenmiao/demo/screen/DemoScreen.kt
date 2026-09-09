@@ -66,7 +66,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineManageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineNote
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineShield
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSpeedTest
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineStorage
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineDrawerCabinet
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSquareFoot
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTeleprompter
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTextCard
@@ -780,7 +780,7 @@ private fun demoNavigationEntries(): List<DemoNavigationEntry> = listOf(
     DemoNavigationEntry("屏幕坏点检测", com.t8rin.imagetoolbox.core.resources.Icons.Rounded.BrokenImageAlt) { Screen.DeadPixelTest },
     DemoNavigationEntry("记账本", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBookkeeping) { Screen.Bookkeeping() },
     DemoNavigationEntry("习惯打卡", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCheckCircleOutline) { Screen.HabitTracker() },
-    DemoNavigationEntry("家庭物品", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineStorage) { Screen.HouseholdItems },
+    DemoNavigationEntry("家庭物品", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDrawerCabinet) { Screen.HouseholdItems },
     DemoNavigationEntry("贷款计算器", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAccountBalance) { Screen.LoanCalculator },
     DemoNavigationEntry("投骰子", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCasino) { Screen.DiceRoller },
     DemoNavigationEntry(getString(R.string.iching_divination_title), com.t8rin.imagetoolbox.core.resources.Icons.Outlined.TaijiBagua) { Screen.IChingDivination() },

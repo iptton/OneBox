@@ -2,14 +2,24 @@ package com.wanbaohe.householditems.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.shifenmiao.database.household.repo.HouseholdRepository
+import com.shifenmiao.interfaces.singleton.AppContext
+import com.shifenmiao.model.ai.AIConversationEntryType
+import com.shifenmiao.model.ai.Conversation
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.wanbaohe.householditems.R
+import com.wanbaohe.householditems.model.DefaultLocations
 import com.wanbaohe.householditems.model.ExpiryStatus
+import com.wanbaohe.householditems.model.HouseholdDisplayMode
 import com.wanbaohe.householditems.model.HouseholdItemUi
 import com.wanbaohe.householditems.model.HouseholdItemsUiState
 import com.wanbaohe.householditems.model.HouseholdLocationUi
+import com.wanbaohe.householditems.model.HouseholdTab
 import com.wanbaohe.householditems.model.buildLocationTree
+import com.wanbaohe.householditems.model.localizedDefaultLocationName
+import com.wanbaohe.householditems.model.locationPathOf
 import com.wanbaohe.householditems.service.HouseholdService
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -21,9 +31,9 @@ import java.time.temporal.ChronoUnit
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -33,6 +43,7 @@ import kotlinx.coroutines.launch
  *
  * - 写操作全部走 [HouseholdService](AI 工具同样走 Service,共享业务/审计日志)
  * - 表单状态机由 [ItemEditor] 接管
+ * - 预置位置在首次进入(表为空)时播种,照 BookkeepingRepository.ensureDefaults 模式
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 class HouseholdItemsComponent @AssistedInject internal constructor(
@@ -49,10 +60,18 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
 
     private val itemEditor = ItemEditor()
     private val searchQuery = MutableStateFlow("")
+    private val locations = MutableStateFlow<List<HouseholdLocationUi>>(emptyList())
 
     init {
+        seedDefaultLocations()
         observeLocations()
         observeItems()
+    }
+
+    // ─────────── Tab ───────────
+
+    fun switchTab(tab: HouseholdTab) {
+        _uiState.update { it.copy(selectedTab = tab) }
     }
 
     // ─────────── 搜索 / 浏览 ───────────
@@ -68,6 +87,11 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
 
     fun navigateToBreadcrumb(locationId: String?) {
         _uiState.update { it.copy(currentLocationId = locationId) }
+    }
+
+    /** 手动切换列表/宫格;覆盖系统默认(不持久化,页面存活期内有效)。 */
+    fun setDisplayMode(mode: HouseholdDisplayMode) {
+        _uiState.update { it.copy(displayModeOverride = mode) }
     }
 
     // ─────────── 物品表单 ───────────
@@ -103,7 +127,10 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
             } else {
                 service.updateItem(editingId, input, HouseholdService.ACTOR_USER, HouseholdService.SOURCE_UI)
             }
-            result.onSuccess { hideItemEditor() }
+            result.onSuccess {
+                hideItemEditor()
+                showSaveSuccessToast()
+            }
         }
     }
 
@@ -113,13 +140,22 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         }
     }
 
-    // ─────────── 位置管理 ───────────
+    // ─────────── AI 帮我记 ───────────
 
-    fun openLocationManager() = _uiState.update { it.copy(showLocationManager = true) }
-
-    fun closeLocationManager() = _uiState.update {
-        it.copy(showLocationManager = false, locationDeleteBlocked = false)
+    /** 空态引导:跳转 AI 聊天,prompt 为系统指令,引导用户用自然语言记物品。 */
+    fun navigateToAiAssist() {
+        onNavigate(
+            Screen.AITabChatScreen(
+                Conversation(
+                    entryType = AIConversationEntryType.ASSISTANT,
+                    title = AppContext.getString(R.string.household_ai_assist_title),
+                    prompt = AppContext.getString(R.string.household_ai_assist_prompt),
+                )
+            )
+        )
     }
+
+    // ─────────── 位置管理(设置 tab) ───────────
 
     fun consumeLocationDeleteBlocked() = _uiState.update { it.copy(locationDeleteBlocked = false) }
 
@@ -127,6 +163,7 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         if (name.isBlank()) return
         componentScope.launch {
             service.addLocation(name, parentId, HouseholdService.ACTOR_USER, HouseholdService.SOURCE_UI)
+                .onSuccess { showSaveSuccessToast() }
         }
     }
 
@@ -134,6 +171,7 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         if (newName.isBlank()) return
         componentScope.launch {
             service.renameLocation(locationId, newName, HouseholdService.ACTOR_USER, HouseholdService.SOURCE_UI)
+                .onSuccess { showSaveSuccessToast() }
         }
     }
 
@@ -148,10 +186,29 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
 
     // ─────────── 内部 ───────────
 
+    private fun showSaveSuccessToast() {
+        AppToastHost.showToast(AppContext.getString(com.shifenmiao.core.R.string.save_success))
+    }
+
+    /** 预置位置播种(表为空才写入,幂等)。 */
+    private fun seedDefaultLocations() {
+        componentScope.launch {
+            repository.ensureDefaultLocations(DefaultLocations.all())
+        }
+    }
+
     private fun observeLocations() {
         repository.observeLocations()
             .onEach { list ->
-                val ui = list.map { HouseholdLocationUi(id = it.id, name = it.name, parentId = it.parentId) }
+                // 预置位置按当前 locale 重新解析显示名(兼容旧库种子名与当前语言不一致)
+                val ui = list.map {
+                    HouseholdLocationUi(
+                        id = it.id,
+                        name = localizedDefaultLocationName(it.id) ?: it.name,
+                        parentId = it.parentId,
+                    )
+                }
+                locations.value = ui
                 _uiState.update { state ->
                     state.copy(
                         locations = ui,
@@ -166,32 +223,33 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
     }
 
     private fun observeItems() {
-        searchQuery
-            .flatMapLatest { query ->
+        combine(
+            searchQuery.flatMapLatest { query ->
                 if (query.isBlank()) repository.observeItems() else repository.search(query.trim())
-            }
-            .map { items ->
-                items.map { item ->
-                    val expireDate = item.expireAt?.let {
-                        Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate()
-                    }
-                    val daysToExpire = expireDate?.let {
-                        ChronoUnit.DAYS.between(LocalDate.now(), it)
-                    }
-                    HouseholdItemUi(
-                        id = item.id,
-                        name = item.name,
-                        category = item.category.orEmpty(),
-                        locationId = item.locationId,
-                        locationPath = repository.buildLocationPath(item.locationId),
-                        expireDate = expireDate,
-                        photoPath = item.photoPath,
-                        note = item.note.orEmpty(),
-                        expiryStatus = expiryStatusOf(daysToExpire),
-                        daysToExpire = daysToExpire,
-                    )
+            },
+            locations,
+        ) { items, locs ->
+            items.map { item ->
+                val expireDate = item.expireAt?.let {
+                    Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate()
                 }
+                val daysToExpire = expireDate?.let {
+                    ChronoUnit.DAYS.between(LocalDate.now(), it)
+                }
+                HouseholdItemUi(
+                    id = item.id,
+                    name = item.name,
+                    category = item.category.orEmpty(),
+                    locationId = item.locationId,
+                    locationPath = locationPathOf(locs, item.locationId).joinToString(" / ") { it.name },
+                    expireDate = expireDate,
+                    photoPath = item.photoPath,
+                    note = item.note.orEmpty(),
+                    expiryStatus = expiryStatusOf(daysToExpire),
+                    daysToExpire = daysToExpire,
+                )
             }
+        }
             .onEach { list ->
                 _uiState.update { state ->
                     state.copy(

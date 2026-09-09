@@ -61,7 +61,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineBlessingWall
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBlog
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBook
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBookkeeping
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineStorage
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineDrawerCabinet
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCameraWatermark
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCheckCircleOutline
@@ -459,7 +459,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.OcrDocument -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineOcrDocument
     is Screen.DocConvertDocument -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFormatConversion
     is Screen.Bookkeeping -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBookkeeping
-    is Screen.HouseholdItems -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineStorage
+    is Screen.HouseholdItems -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDrawerCabinet
     is Screen.HabitTracker -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCheckCircleOutline
     is Screen.Teleprompter -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTeleprompter
     is Screen.AiDetect -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineManageSearch

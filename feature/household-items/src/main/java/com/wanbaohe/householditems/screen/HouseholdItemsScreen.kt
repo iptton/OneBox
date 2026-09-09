@@ -8,10 +8,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +25,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,23 +42,34 @@ import com.shifenmiao.common.ui.BaseScreen
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendarAlert
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineCatBulky
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronRight
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineFolder
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineSearch
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineQuickTiles
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineStorage
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineViewList
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassFilterChip
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedButton
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSearchTextField
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
+import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavItem
+import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavigationBar
 import com.wanbaohe.householditems.R
 import com.wanbaohe.householditems.component.HouseholdItemsComponent
 import com.wanbaohe.householditems.model.ExpiryStatus
+import com.wanbaohe.householditems.model.HouseholdDisplayMode
 import com.wanbaohe.householditems.model.HouseholdItemUi
 import com.wanbaohe.householditems.model.HouseholdItemsUiState
 import com.wanbaohe.householditems.model.HouseholdLocationUi
+import com.wanbaohe.householditems.model.HouseholdTab
+import com.wanbaohe.householditems.model.categoryIconOrNull
+import com.wanbaohe.householditems.model.locationIcon
 import com.wanbaohe.householditems.model.locationPathOf
 import java.io.File
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 家庭物品主页:搜索 + 保质期提醒 + 按位置逐级浏览 + 物品列表
+// 家庭物品主页:底部双 tab(物品 / 位置),列表 tab = 搜索 + 保质期提醒 + 位置 chips 浏览
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
@@ -63,55 +78,47 @@ fun HouseholdItemsScreen(
     onGoBack: () -> Unit,
 ) {
     val uiState by component.uiState.collectAsState()
+    // 显示模式:用户手动切换优先,否则跟随系统设置(true=宫格)
+    val displayMode = uiState.displayModeOverride
+        ?: if (LocalSettingsState.current.groupOptionsByTypes) {
+            HouseholdDisplayMode.GRID
+        } else {
+            HouseholdDisplayMode.LIST
+        }
 
     BaseScreen(
         title = stringResource(R.string.household_title),
         onGoBack = onGoBack,
         actions = {
-            IconButton(onClick = component::openLocationManager) {
+            IconButton(onClick = component::startAddItem) {
                 Icon(
-                    imageVector = Icons.Outlined.LineStorage,
-                    contentDescription = stringResource(R.string.household_manage_locations),
+                    imageVector = Icons.Outlined.Add,
+                    contentDescription = stringResource(R.string.household_add_item),
                 )
             }
         },
         supportGlassEffect = true,
-        foreground = {
-            Box(modifier = Modifier.fillMaxSize()) {
-                EnhancedFloatingActionButton(
-                    onClick = component::startAddItem,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Add,
-                        contentDescription = stringResource(R.string.household_add_item),
-                    )
-                }
-            }
-        },
         content = {
             Column(modifier = Modifier.fillMaxSize()) {
-                SearchField(
-                    query = uiState.searchQuery,
-                    onQueryChange = component::onSearchQueryChange,
-                )
-                if (uiState.searchQuery.isNotBlank()) {
-                    SearchResults(
-                        items = uiState.items,
-                        onItemClick = component::startEditItem,
-                        onItemDelete = component::deleteItem,
-                    )
-                } else {
-                    BrowseContent(
-                        uiState = uiState,
-                        onLocationClick = component::enterLocation,
-                        onBreadcrumbClick = component::navigateToBreadcrumb,
-                        onItemClick = component::startEditItem,
-                        onItemDelete = component::deleteItem,
-                    )
+                Box(modifier = Modifier.weight(1f)) {
+                    when (uiState.selectedTab) {
+                        HouseholdTab.LIST -> ListTab(
+                            uiState = uiState,
+                            displayMode = displayMode,
+                            component = component,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+
+                        HouseholdTab.SETTINGS -> LocationManageTab(
+                            component = component,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
                 }
+                HouseholdBottomBar(
+                    current = uiState.selectedTab,
+                    onSelect = component::switchTab,
+                )
             }
         },
         showNavigationBarsPadding = false,
@@ -122,40 +129,148 @@ fun HouseholdItemsScreen(
         visible = uiState.showItemEditor,
         onDismiss = component::hideItemEditor,
     )
-
-    LocationManageDialog(
-        component = component,
-        visible = uiState.showLocationManager,
-        onDismiss = component::closeLocationManager,
-    )
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 搜索框
+// 底部导航栏
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
-private fun SearchField(
-    query: String,
-    onQueryChange: (String) -> Unit,
+private fun HouseholdBottomBar(
+    current: HouseholdTab,
+    onSelect: (HouseholdTab) -> Unit,
 ) {
-    TextField(
-        value = query,
-        onValueChange = onQueryChange,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        placeholder = { Text(stringResource(R.string.household_search_hint)) },
-        leadingIcon = {
-            Icon(Icons.Outlined.LineSearch, contentDescription = null)
+    val tabs = listOf(
+        HouseholdTab.LIST to BottomNavItem(
+            id = HouseholdTab.LIST.name,
+            label = stringResource(R.string.household_tab_list),
+            icon = Icons.Outlined.LineViewList,
+            contentDescription = stringResource(R.string.household_tab_list),
+        ),
+        HouseholdTab.SETTINGS to BottomNavItem(
+            id = HouseholdTab.SETTINGS.name,
+            label = stringResource(R.string.household_tab_settings),
+            icon = Icons.Outlined.LineStorage,
+            contentDescription = stringResource(R.string.household_tab_settings),
+        ),
+    )
+
+    BottomNavigationBar(
+        items = tabs.map { it.second },
+        selectedItemId = current.name,
+        onItemClick = { item ->
+            tabs.firstOrNull { it.second.id == item.id }?.first?.let(onSelect)
         },
-        singleLine = true,
-        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier.fillMaxWidth(),
+        showBar = true,
     )
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 搜索结果
+// 列表 tab:搜索 + 位置浏览(List/Grid);空态给手动/AI 两个入口
+// ─────────────────────────────────────────────────────────────────────────────
+
+@Composable
+private fun ListTab(
+    uiState: HouseholdItemsUiState,
+    displayMode: HouseholdDisplayMode,
+    component: HouseholdItemsComponent,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
+        GlassSearchTextField(
+            value = uiState.searchQuery,
+            onValueChange = component::onSearchQueryChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            placeholder = stringResource(R.string.household_search_hint),
+        )
+        when {
+            uiState.searchQuery.isNotBlank() -> SearchResults(
+                items = uiState.items,
+                onItemClick = component::startEditItem,
+                onItemDelete = component::deleteItem,
+            )
+
+            uiState.items.isEmpty() -> EmptyGuide(
+                onAddManually = component::startAddItem,
+                onAddWithAi = component::navigateToAiAssist,
+            )
+
+            else -> BrowseContent(
+                uiState = uiState,
+                displayMode = displayMode,
+                onLocationClick = component::enterLocation,
+                onBreadcrumbClick = component::navigateToBreadcrumb,
+                onDisplayModeToggle = {
+                    component.setDisplayMode(
+                        if (displayMode == HouseholdDisplayMode.LIST) {
+                            HouseholdDisplayMode.GRID
+                        } else {
+                            HouseholdDisplayMode.LIST
+                        }
+                    )
+                },
+                onItemClick = component::startEditItem,
+                onItemDelete = component::deleteItem,
+            )
+        }
+    }
+}
+
+@Composable
+private fun EmptyGuide(
+    onAddManually: () -> Unit,
+    onAddWithAi: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.LineCatBulky,
+            contentDescription = null,
+            modifier = Modifier
+                .size(64.dp)
+                .padding(bottom = 16.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Text(
+            text = stringResource(R.string.household_empty_guide_title),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            text = stringResource(R.string.household_empty_guide_message),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 8.dp, bottom = 24.dp),
+        )
+        GlassTonalButton(
+            onClick = onAddManually,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.household_add_manually))
+        }
+        GlassOutlinedButton(
+            onClick = onAddWithAi,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp),
+        ) {
+            Text(stringResource(R.string.household_add_with_ai))
+        }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 搜索结果(始终列表形态)
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
@@ -179,14 +294,16 @@ private fun SearchResults(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 按位置浏览
+// 按位置浏览:面包屑(+视图切换)+ 子位置 chips + 当前层级物品(List/Grid)
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
 private fun BrowseContent(
     uiState: HouseholdItemsUiState,
+    displayMode: HouseholdDisplayMode,
     onLocationClick: (String) -> Unit,
     onBreadcrumbClick: (String?) -> Unit,
+    onDisplayModeToggle: () -> Unit,
     onItemClick: (HouseholdItemUi) -> Unit,
     onItemDelete: (String) -> Unit,
 ) {
@@ -194,47 +311,109 @@ private fun BrowseContent(
     val children = uiState.locations.filter { it.parentId == uiState.currentLocationId }
     val currentItems = uiState.items.filter { it.locationId == uiState.currentLocationId }
     val breadcrumb = locationPathOf(uiState.locations, uiState.currentLocationId)
-    val expiryItems = uiState.expiredItems + uiState.expiringSoonItems
+    val expiryItems = if (atRoot) uiState.expiredItems + uiState.expiringSoonItems else emptyList()
+    val isEmpty = children.isEmpty() && currentItems.isEmpty() && expiryItems.isEmpty()
 
+    Column(modifier = Modifier.fillMaxSize()) {
+        // ── 面包屑 + 视图切换 ──
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            BreadcrumbRow(
+                breadcrumb = breadcrumb,
+                onBreadcrumbClick = onBreadcrumbClick,
+                modifier = Modifier.weight(1f),
+            )
+            IconButton(onClick = onDisplayModeToggle) {
+                Icon(
+                    imageVector = if (displayMode == HouseholdDisplayMode.LIST) {
+                        Icons.Outlined.LineQuickTiles
+                    } else {
+                        Icons.Outlined.LineViewList
+                    },
+                    contentDescription = stringResource(
+                        if (displayMode == HouseholdDisplayMode.LIST) {
+                            R.string.household_view_grid
+                        } else {
+                            R.string.household_view_list
+                        }
+                    ),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+
+        // ── 子位置 chips(点击进入,面包屑推进) ──
+        if (children.isNotEmpty()) {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(children, key = { it.id }) { location ->
+                    GlassFilterChip(
+                        selected = false,
+                        onClick = { onLocationClick(location.id) },
+                        label = { Text(location.name) },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = locationIcon(location.id),
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp),
+                            )
+                        },
+                    )
+                }
+            }
+        }
+
+        // ── 物品区 ──
+        when (displayMode) {
+            HouseholdDisplayMode.LIST -> ItemListContent(
+                expiryItems = expiryItems,
+                currentItems = currentItems,
+                isEmpty = isEmpty,
+                onItemClick = onItemClick,
+                onItemDelete = onItemDelete,
+            )
+
+            HouseholdDisplayMode.GRID -> ItemGridContent(
+                expiryItems = expiryItems,
+                currentItems = currentItems,
+                isEmpty = isEmpty,
+                onItemClick = onItemClick,
+                onItemDelete = onItemDelete,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ItemListContent(
+    expiryItems: List<HouseholdItemUi>,
+    currentItems: List<HouseholdItemUi>,
+    isEmpty: Boolean,
+    onItemClick: (HouseholdItemUi) -> Unit,
+    onItemDelete: (String) -> Unit,
+) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        // ── 保质期提醒(仅根层级展示,避免逐层重复) ──
-        if (atRoot && expiryItems.isNotEmpty()) {
-            item(key = "expiry_header") {
-                Text(
-                    text = stringResource(R.string.household_expiry_section),
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 4.dp),
-                )
-            }
+        if (expiryItems.isNotEmpty()) {
+            item(key = "expiry_header") { ExpirySectionHeader() }
             items(expiryItems, key = { "expiry_${it.id}" }) { item ->
                 ItemRow(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
             }
         }
-
-        // ── 面包屑 ──
-        item(key = "breadcrumb") {
-            BreadcrumbRow(
-                breadcrumb = breadcrumb,
-                onBreadcrumbClick = onBreadcrumbClick,
-            )
-        }
-
-        // ── 子位置 ──
-        items(children, key = { "loc_${it.id}" }) { location ->
-            LocationRow(location = location, onClick = { onLocationClick(location.id) })
-        }
-
-        // ── 当前层级物品 ──
         items(currentItems, key = { it.id }) { item ->
             ItemRow(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
         }
-
-        if (children.isEmpty() && currentItems.isEmpty() && (expiryItems.isEmpty() || !atRoot)) {
+        if (isEmpty) {
             item(key = "empty") {
                 EmptyHint(stringResource(R.string.household_empty_items))
             }
@@ -243,12 +422,70 @@ private fun BrowseContent(
 }
 
 @Composable
+private fun ItemGridContent(
+    expiryItems: List<HouseholdItemUi>,
+    currentItems: List<HouseholdItemUi>,
+    isEmpty: Boolean,
+    onItemClick: (HouseholdItemUi) -> Unit,
+    onItemDelete: (String) -> Unit,
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        if (expiryItems.isNotEmpty()) {
+            item(key = "expiry_header", span = { GridItemSpan(2) }) { ExpirySectionHeader() }
+            gridItems(expiryItems, key = { "expiry_${it.id}" }) { item ->
+                ItemCard(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
+            }
+        }
+        gridItems(currentItems, key = { it.id }) { item ->
+            ItemCard(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
+        }
+        if (isEmpty) {
+            item(key = "empty", span = { GridItemSpan(2) }) {
+                EmptyHint(stringResource(R.string.household_empty_items))
+            }
+        }
+    }
+}
+
+@Composable
+private fun ExpirySectionHeader() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(top = 4.dp),
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.LineCalendarAlert,
+            contentDescription = null,
+            modifier = Modifier.size(16.dp),
+            tint = MaterialTheme.colorScheme.tertiary,
+        )
+        Text(
+            text = stringResource(R.string.household_expiry_section),
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 6.dp),
+        )
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 面包屑
+// ─────────────────────────────────────────────────────────────────────────────
+
+@Composable
 private fun BreadcrumbRow(
     breadcrumb: List<HouseholdLocationUi>,
     onBreadcrumbClick: (String?) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     LazyRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -297,49 +534,8 @@ private fun BreadcrumbSegment(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 位置行 / 物品行
+// 物品行(List)/ 物品卡片(Grid)
 // ─────────────────────────────────────────────────────────────────────────────
-
-@Composable
-private fun LocationRow(
-    location: HouseholdLocationUi,
-    onClick: () -> Unit,
-) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer,
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.LineFolder,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-            )
-            Text(
-                text = location.name,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 12.dp),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Icon(
-                imageVector = Icons.Outlined.LineChevronRight,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-    }
-}
 
 @Composable
 internal fun ItemRow(
@@ -401,6 +597,105 @@ internal fun ItemRow(
     }
 }
 
+/** 宫格卡片:缩略图上、名称/位置/保质期徽章下 */
+@Composable
+private fun ItemCard(
+    item: HouseholdItemUi,
+    onClick: () -> Unit,
+    onDelete: () -> Unit,
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surfaceContainer,
+    ) {
+        Column {
+            ItemCardCover(item = item)
+            Column(modifier = Modifier.padding(10.dp)) {
+                Text(
+                    text = item.name,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    text = item.locationPath.ifBlank { stringResource(R.string.household_no_location) },
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    ExpiryBadge(item = item)
+                    Box(modifier = Modifier.weight(1f))
+                    IconButton(
+                        onClick = onDelete,
+                        modifier = Modifier.size(32.dp),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = stringResource(R.string.household_delete_item),
+                            modifier = Modifier.size(18.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ItemCardCover(item: HouseholdItemUi) {
+    if (!item.photoPath.isNullOrBlank()) {
+        AsyncImage(
+            model = File(item.photoPath),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+            contentScale = ContentScale.Crop,
+        )
+    } else {
+        val categoryIcon = categoryIconOrNull(item.category)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+            contentAlignment = Alignment.Center,
+        ) {
+            Surface(
+                color = MaterialTheme.colorScheme.primaryContainer,
+                modifier = Modifier.fillMaxSize(),
+            ) {}
+            if (categoryIcon != null) {
+                Icon(
+                    imageVector = categoryIcon,
+                    contentDescription = item.category,
+                    modifier = Modifier.size(40.dp),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+            } else {
+                Text(
+                    text = (item.category.ifBlank { item.name }).take(1),
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
+    }
+}
+
 @Composable
 private fun ItemThumbnail(item: HouseholdItemUi) {
     if (!item.photoPath.isNullOrBlank()) {
@@ -413,8 +708,8 @@ private fun ItemThumbnail(item: HouseholdItemUi) {
             contentScale = ContentScale.Crop,
         )
     } else {
-        // 无图:分类(或名称)首字占位
-        val label = (item.category.ifBlank { item.name }).take(1)
+        // 无图:预设分类显示分类图标,否则回退分类(或名称)首字占位
+        val categoryIcon = categoryIconOrNull(item.category)
         Box(
             modifier = Modifier
                 .size(48.dp)
@@ -426,12 +721,21 @@ private fun ItemThumbnail(item: HouseholdItemUi) {
                 color = MaterialTheme.colorScheme.primaryContainer,
                 modifier = Modifier.fillMaxSize(),
             ) {}
-            Text(
-                text = label,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                textAlign = TextAlign.Center,
-            )
+            if (categoryIcon != null) {
+                Icon(
+                    imageVector = categoryIcon,
+                    contentDescription = item.category,
+                    modifier = Modifier.size(24.dp),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+            } else {
+                Text(
+                    text = (item.category.ifBlank { item.name }).take(1),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
     }
 }
@@ -463,10 +767,9 @@ private fun ExpiryBadge(item: HouseholdItemUi) {
     }
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(start = 8.dp),
     ) {
         Icon(
-            imageVector = Icons.Outlined.LineCalendar,
+            imageVector = Icons.Outlined.LineCalendarAlert,
             contentDescription = null,
             modifier = Modifier.size(12.dp),
             tint = color,

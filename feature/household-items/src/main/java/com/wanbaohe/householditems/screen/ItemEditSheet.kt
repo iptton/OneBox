@@ -20,7 +20,6 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -33,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,20 +41,21 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil3.compose.AsyncImage
 import com.shifenmiao.base.ui.picker.ChineseDatePickerDialog
-import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAddCircleOutline
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineFolder
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineFolderCustom
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
 import com.wanbaohe.householditems.R
 import com.wanbaohe.householditems.component.HouseholdItemsComponent
 import com.wanbaohe.householditems.model.LocationTreeNode
 import com.wanbaohe.householditems.model.flattenLocationTree
+import com.wanbaohe.householditems.model.locationIcon
 import com.wanbaohe.householditems.model.locationPathOf
 import java.io.File
 import java.time.LocalDate
@@ -110,15 +111,13 @@ fun ItemEditSheet(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             // ── 名称(必填) ──
-            OutlinedTextField(
+            GlassOutlinedTextField(
                 value = uiState.editorName,
                 onValueChange = component::onEditorNameChange,
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text(stringResource(R.string.household_editor_name_label)) },
                 placeholder = { Text(stringResource(R.string.household_editor_name_hint)) },
                 singleLine = true,
-                shape = RoundedCornerShape(12.dp),
-                colors = AppTheme.colors.getOutlinedTextFieldColors(),
             )
 
             // ── 分类(预设 chips + 自定义输入) ──
@@ -152,15 +151,13 @@ fun ItemEditSheet(
             )
 
             // ── 备注 ──
-            OutlinedTextField(
+            GlassOutlinedTextField(
                 value = uiState.editorNote,
                 onValueChange = component::onEditorNoteChange,
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text(stringResource(R.string.household_editor_note_label)) },
                 placeholder = { Text(stringResource(R.string.household_editor_note_hint)) },
                 minLines = 2,
-                shape = RoundedCornerShape(12.dp),
-                colors = AppTheme.colors.getOutlinedTextFieldColors(),
             )
         }
     }
@@ -227,14 +224,12 @@ private fun CategoryField(
             }
         }
         if (!isPreset || category.isBlank()) {
-            OutlinedTextField(
+            GlassOutlinedTextField(
                 value = if (isPreset) "" else category,
                 onValueChange = onCategoryChange,
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text(stringResource(R.string.household_category_custom_hint)) },
                 singleLine = true,
-                shape = RoundedCornerShape(12.dp),
-                colors = AppTheme.colors.getOutlinedTextFieldColors(),
             )
         }
     }
@@ -266,7 +261,7 @@ private fun LocationField(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.LineFolder,
+                    imageVector = locationIcon(selectedLocationId ?: ""),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                 )
@@ -424,6 +419,7 @@ private fun LocationPickerDialog(
                     item(key = "none") {
                         LocationPickerRow(
                             name = stringResource(R.string.household_editor_location_none),
+                            icon = Icons.Outlined.LineFolderCustom,
                             depth = 0,
                             selected = selectedLocationId == null,
                             onClick = { onSelect(null) },
@@ -433,6 +429,7 @@ private fun LocationPickerDialog(
                     items(flatNodes, key = { it.location.id }) { node ->
                         LocationPickerRow(
                             name = node.location.name,
+                            icon = locationIcon(node.location.id),
                             depth = node.depth,
                             selected = selectedLocationId == node.location.id,
                             onClick = { onSelect(node.location.id) },
@@ -452,14 +449,12 @@ private fun LocationPickerDialog(
                             .padding(top = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        OutlinedTextField(
+                        GlassOutlinedTextField(
                             value = newLocationName,
                             onValueChange = { newLocationName = it },
                             modifier = Modifier.weight(1f),
                             placeholder = { Text(stringResource(R.string.household_location_name_hint)) },
                             singleLine = true,
-                            shape = RoundedCornerShape(12.dp),
-                            colors = AppTheme.colors.getOutlinedTextFieldColors(),
                         )
                         TextButton(
                             onClick = {
@@ -492,6 +487,7 @@ private fun LocationPickerDialog(
 @Composable
 private fun LocationPickerRow(
     name: String,
+    icon: ImageVector,
     depth: Int,
     selected: Boolean,
     onClick: () -> Unit,
@@ -505,6 +501,12 @@ private fun LocationPickerRow(
             .padding(start = (depth * 20).dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = if (selected) MaterialTheme.colorScheme.primary
+            else MaterialTheme.colorScheme.onSurfaceVariant,
+        )
         Text(
             text = name,
             style = MaterialTheme.typography.bodyMedium,
@@ -513,7 +515,8 @@ private fun LocationPickerRow(
             else MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .weight(1f)
-                .padding(vertical = 12.dp),
+                .padding(vertical = 12.dp)
+                .padding(start = 12.dp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

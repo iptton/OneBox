@@ -84,7 +84,20 @@ fun locationPathOf(locations: List<HouseholdLocationUi>, locationId: String?): L
     return segments.toList()
 }
 
+/** 主页底部 tab */
+enum class HouseholdTab {
+    LIST,
+    SETTINGS,
+}
+
+/** 物品列表显示模式 */
+enum class HouseholdDisplayMode {
+    LIST,
+    GRID,
+}
+
 data class HouseholdItemsUiState(
+    val selectedTab: HouseholdTab = HouseholdTab.LIST,
     val searchQuery: String = "",
     val locations: List<HouseholdLocationUi> = emptyList(),
     val locationTree: List<LocationTreeNode> = emptyList(),
@@ -94,6 +107,8 @@ data class HouseholdItemsUiState(
     val expiringSoonItems: List<HouseholdItemUi> = emptyList(),
     /** 当前浏览的位置层级,null = 根 */
     val currentLocationId: String? = null,
+    /** 用户手动切换的显示模式;null = 跟随系统设置 groupOptionsByTypes */
+    val displayModeOverride: HouseholdDisplayMode? = null,
 
     // ── 物品编辑表单 ──
     val showItemEditor: Boolean = false,
@@ -108,8 +123,7 @@ data class HouseholdItemsUiState(
     val editorPhotoPath: String? = null,
     val editorNote: String = "",
 
-    // ── 位置管理 ──
-    val showLocationManager: Boolean = false,
-    /** 位置删除被阻止(有子级/物品)时置 true,由对话框消费后清除 */
+    // ── 位置管理(设置 tab) ──
+    /** 位置删除被阻止(有子级/物品)时置 true,由设置页消费后清除 */
     val locationDeleteBlocked: Boolean = false,
 )

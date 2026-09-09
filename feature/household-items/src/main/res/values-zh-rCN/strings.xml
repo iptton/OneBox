@@ -2,6 +2,14 @@
 <resources>
     <!-- 主页 -->
     <string name="household_title">家庭物品</string>
+    <string name="household_tab_list">物品</string>
+    <string name="household_tab_settings">位置</string>
+    <string name="household_empty_guide_title">还没有记录任何物品</string>
+    <string name="household_empty_guide_message">手动添加一件,或者让 AI 帮你记</string>
+    <string name="household_add_manually">手动添加</string>
+    <string name="household_add_with_ai">AI 帮我记</string>
+    <string name="household_ai_assist_title">家庭物品助手</string>
+    <string name="household_ai_assist_prompt">你是用户的家庭物品管理助手。用户告诉你什么物品放在哪里(以及可选的保质期)时,用 add_household_item 工具帮他记下来,例如"把感冒药放在主卧药箱,2027年6月过期";用户问东西在哪时用 find_household_item 查询;用户要挪东西时用 move_household_item。每次操作后简短确认结果。</string>
     <string name="household_search_hint">搜索名称、分类或备注</string>
     <string name="household_expiry_section">保质期提醒</string>
     <string name="household_expired">已过期</string>
@@ -14,6 +22,8 @@
     <string name="household_empty_items">暂无物品,点右下角 + 添加一个吧</string>
     <string name="household_empty_search">没有找到匹配的物品</string>
     <string name="household_breadcrumb_home">全部</string>
+    <string name="household_view_list">列表视图</string>
+    <string name="household_view_grid">宫格视图</string>
     <string name="household_uncategorized">未分类</string>
     <string name="household_no_location">未设置位置</string>
     <string name="household_delete_item">删除</string>
@@ -53,6 +63,17 @@
     <string name="household_location_name_hint">位置名称</string>
     <string name="household_location_delete_blocked">该位置下有子位置或物品,请先移除</string>
     <string name="household_locations_empty">暂无位置</string>
+
+    <!-- 预置位置(首次进入播种,固定 id) -->
+    <string name="household_loc_home">家</string>
+    <string name="household_loc_living_room">客厅</string>
+    <string name="household_loc_master_bedroom">主卧</string>
+    <string name="household_loc_second_bedroom">次卧</string>
+    <string name="household_loc_kitchen">厨房</string>
+    <string name="household_loc_bathroom">卫生间</string>
+    <string name="household_loc_study">书房</string>
+    <string name="household_loc_balcony">阳台</string>
+    <string name="household_loc_storage_room">储物间</string>
 
     <!-- 活动日志 -->
     <string name="household_log_item_created">新增物品: %1$s</string>

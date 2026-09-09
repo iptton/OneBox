@@ -24,6 +24,12 @@ class HouseholdRepository @Inject constructor(
         return locationDao.observeAll()
     }
 
+    /** 预置位置播种:表为空才写入,固定 id + upsert 保证幂等。 */
+    suspend fun ensureDefaultLocations(locations: List<HouseholdLocationEntity>) {
+        if (locationDao.count() > 0) return
+        locations.forEach { locationDao.upsert(it) }
+    }
+
     fun observeLocationChildren(parentId: String?): Flow<List<HouseholdLocationEntity>> {
         return locationDao.observeChildren(parentId)
     }

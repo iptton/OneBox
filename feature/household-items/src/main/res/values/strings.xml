@@ -2,6 +2,14 @@
 <resources>
     <!-- 主页 -->
     <string name="household_title">Household Items</string>
+    <string name="household_tab_list">Items</string>
+    <string name="household_tab_settings">Locations</string>
+    <string name="household_empty_guide_title">No items yet</string>
+    <string name="household_empty_guide_message">Add one manually, or let AI record it for you</string>
+    <string name="household_add_manually">Add manually</string>
+    <string name="household_add_with_ai">Ask AI to record</string>
+    <string name="household_ai_assist_title">Household Assistant</string>
+    <string name="household_ai_assist_prompt">You are the user\'s household item assistant. When the user tells you an item and where it is stored (and optionally its expiry date), record it with the add_household_item tool, e.g. "put the cold medicine in the bedroom medicine box, expires June 2027". When the user asks where something is, look it up with find_household_item. When the user wants to move something, use move_household_item. Confirm each action briefly after recording.</string>
     <string name="household_search_hint">Search name, category or note</string>
     <string name="household_expiry_section">Expiry reminders</string>
     <string name="household_expired">Expired</string>
@@ -14,6 +22,8 @@
     <string name="household_empty_items">No items yet. Tap + to add one.</string>
     <string name="household_empty_search">No matching items</string>
     <string name="household_breadcrumb_home">All</string>
+    <string name="household_view_list">List view</string>
+    <string name="household_view_grid">Grid view</string>
     <string name="household_uncategorized">Uncategorized</string>
     <string name="household_no_location">No location</string>
     <string name="household_delete_item">Delete</string>
@@ -53,6 +63,17 @@
     <string name="household_location_name_hint">Location name</string>
     <string name="household_location_delete_blocked">This location has sub-locations or items, remove them first</string>
     <string name="household_locations_empty">No locations yet</string>
+
+    <!-- 预置位置(首次进入播种,固定 id) -->
+    <string name="household_loc_home">Home</string>
+    <string name="household_loc_living_room">Living Room</string>
+    <string name="household_loc_master_bedroom">Master Bedroom</string>
+    <string name="household_loc_second_bedroom">Second Bedroom</string>
+    <string name="household_loc_kitchen">Kitchen</string>
+    <string name="household_loc_bathroom">Bathroom</string>
+    <string name="household_loc_study">Study</string>
+    <string name="household_loc_balcony">Balcony</string>
+    <string name="household_loc_storage_room">Storage Room</string>
 
     <!-- 活动日志 -->
     <string name="household_log_item_created">Added item: %1$s</string>

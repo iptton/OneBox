@@ -40,6 +40,9 @@ interface HouseholdLocationDao {
     @Query("SELECT COUNT(*) FROM household_location WHERE parent_id = :id")
     suspend fun countChildren(id: String): Int
 
+    @Query("SELECT COUNT(*) FROM household_location")
+    suspend fun count(): Int
+
     @Query("DELETE FROM household_location WHERE id = :id")
     suspend fun delete(id: String)
 }
