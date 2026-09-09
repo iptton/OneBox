@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="household_title">생활용품</string>
+    <string name="household_tab_list">물품</string>
+    <string name="household_tab_locations">위치</string>
+    <string name="household_tab_stats">통계</string>
+    <string name="household_empty_guide_title">아직 물품이 없습니다</string>
+    <string name="household_empty_guide_message">직접 추가하거나 AI가 기록하게 하세요</string>
+    <string name="household_add_manually">직접 추가</string>
+    <string name="household_add_with_ai">AI에게 기록 요청</string>
+    <string name="household_ai_assist_title">가정용품 도우미</string>
+    <string name="household_ai_assist_prompt">당신은 사용자의 가정용품 도우미입니다. 사용자가 물품과 보관 위치(선택적으로 유통기한)를 말하면 add_household_item 도구로 기록하세요. 예: \"감기약을 침실 약상자에 넣어, 2027년 6월 만료\". 사용자가 어디에 있는지 물으면 find_household_item으로 찾으세요. 사용자가 옮기려면 move_household_item을 사용하세요. 각 작업 후 간단히 확인하세요.</string>
+    <string name="household_search_hint">이름, 카테고리 또는 메모 검색</string>
+    <string name="household_expired_days">%1$d일 전 만료됨</string>
+    <string name="household_days_left">%1$d일 남음</string>
+    <string name="household_expires_today">오늘 만료</string>
+    <string name="household_add_item">물품 추가</string>
+    <string name="household_manage_locations">위치 관리</string>
+    <string name="household_empty_items">아직 물품이 없습니다. +를 눌러 추가하세요.</string>
+    <string name="household_empty_search">일치하는 물품 없음</string>
+    <string name="household_breadcrumb_home">전체</string>
+    <string name="household_view_list">목록 보기</string>
+    <string name="household_view_grid">격자 보기</string>
+    <string name="household_uncategorized">분류 없음</string>
+    <string name="household_no_location">위치 없음</string>
+    <string name="household_delete_item">삭제</string>
+    <string name="household_edit_item">편집</string>
+    <string name="household_editor_add_title">물품 추가</string>
+    <string name="household_editor_edit_title">물품 편집</string>
+    <string name="household_editor_name_label">이름</string>
+    <string name="household_editor_name_hint">예: 감기약</string>
+    <string name="household_editor_category_label">카테고리</string>
+    <string name="household_category_medicine">의약품</string>
+    <string name="household_category_beauty">뷰티 및 스킨케어</string>
+    <string name="household_category_daily">생활용품</string>
+    <string name="household_category_food">식품 및 음료</string>
+    <string name="household_category_clothing">의류</string>
+    <string name="household_category_digital">전자제품</string>
+    <string name="household_category_books">도서</string>
+    <string name="household_category_stationery">문구류</string>
+    <string name="household_category_home_goods">홈용품</string>
+    <string name="household_category_cleaning">청소용품</string>
+    <string name="household_category_baby">유아 및 아동</string>
+    <string name="household_category_sports">스포츠 및 피트니스</string>
+    <string name="household_category_pet">반려동물 용품</string>
+    <string name="household_category_tools">공구</string>
+    <string name="household_category_accessories">액세서리</string>
+    <string name="household_category_other">기타</string>
+    <string name="household_category_small_legacy">소형 물품</string>
+    <string name="household_category_big_legacy">대형 물품</string>
+    <string name="household_category_custom_hint">사용자 지정 카테고리</string>
+    <string name="household_editor_location_label">위치</string>
+    <string name="household_editor_location_none">위치 없음</string>
+    <string name="household_editor_location_pick">위치 선택</string>
+    <string name="household_editor_expire_label">유통기한</string>
+    <string name="household_editor_expire_pick">날짜 선택</string>
+    <string name="household_editor_expire_clear">지우기</string>
+    <string name="household_editor_photo_label">사진</string>
+    <string name="household_editor_photo_add">사진 추가</string>
+    <string name="household_editor_photo_remove">사진 삭제</string>
+    <string name="household_editor_note_label">메모 (선택 사항)</string>
+    <string name="household_editor_note_hint">사용법, 사양 등</string>
+    <string name="household_save">저장</string>
+    <string name="household_cancel">취소</string>
+    <string name="household_confirm">확인</string>
+    <string name="household_stats_total_items">총 항목</string>
+    <string name="household_stats_location_count">위치</string>
+    <string name="household_stats_expiring_soon">곧 만료</string>
+    <string name="household_stats_unit_item">항목</string>
+    <string name="household_stats_unit_location">합계</string>
+    <string name="household_stats_added_this_month">이번 달 +%1$d개</string>
+    <string name="household_stats_category_share">카테고리별</string>
+    <string name="household_stats_location_distribution">위치별 (항목)</string>
+    <string name="household_stats_activity">활동 요약</string>
+    <string name="household_stats_recent_added">최근 추가됨</string>
+    <string name="household_stats_upcoming_expiry">곧 만료</string>
+    <string name="household_stats_total_count">%1$d\n합계</string>
+    <string name="household_stats_items_count">%1$d</string>
+    <string name="household_stats_other">기타</string>
+    <string name="household_stats_empty">아직 데이터 없음</string>
+    <string name="household_locations_title">위치 관리</string>
+    <string name="household_location_add_root">최상위 위치 추가</string>
+    <string name="household_location_add_child">하위 항목 추가</string>
+    <string name="household_location_rename">이름 바꾸기</string>
+    <string name="household_location_delete">삭제</string>
+    <string name="household_location_name_hint">위치 이름</string>
+    <string name="household_location_delete_blocked">이 위치에 하위 위치 또는 항목이 있습니다. 먼저 제거하세요</string>
+    <string name="household_locations_empty">아직 위치 없음</string>
+    <string name="household_location_expand">펼치기</string>
+    <string name="household_location_collapse">접기</string>
+    <string name="household_loc_home">홈</string>
+    <string name="household_loc_living_room">거실</string>
+    <string name="household_loc_master_bedroom">안방</string>
+    <string name="household_loc_second_bedroom">작은 침실</string>
+    <string name="household_loc_kitchen">주방</string>
+    <string name="household_loc_bathroom">욕실</string>
+    <string name="household_loc_study">서재</string>
+    <string name="household_loc_balcony">발코니</string>
+    <string name="household_loc_storage_room">창고</string>
+    <string name="household_log_item_created">항목 추가됨: %1$s</string>
+    <string name="household_log_item_updated">항목 업데이트됨: %1$s</string>
+    <string name="household_log_item_deleted">항목 삭제됨: %1$s</string>
+    <string name="household_log_item_moved">항목 이동됨: %1$s</string>
+    <string name="household_log_location_created">위치 추가됨: %1$s</string>
+    <string name="household_log_location_renamed">위치 이름 변경됨: %1$s</string>
+    <string name="household_log_location_deleted">위치 삭제됨: %1$s</string>
+    <string name="agent_tool_add_household_item_title">가정용품 추가</string>
+    <string name="agent_tool_add_household_item_summary">보관 위치와 함께 가정용품 기록</string>
+    <string name="agent_tool_add_household_item_description">가정용품 기록: 이름, 보관 위치 경로(없으면 단계별로 자동 생성), 선택적 카테고리, 유통기한 및 메모.</string>
+    <string name="agent_tool_add_household_item_param_name">품목 이름, 예: \"감기약\"</string>
+    <string name="agent_tool_add_household_item_param_location_path">보관 위치 경로, \"/\" 또는 \"&gt;\"로 구분된 세그먼트, 예: \"침실/옷장/상단 서랍\". 없으면 자동 생성됨</string>
+    <string name="agent_tool_add_household_item_param_category">카테고리, 자유 텍스트, 예: 의약품 / 소형품 / 대형품</string>
+    <string name="agent_tool_add_household_item_param_expire_date">유통기한, yyyy-MM-dd, 선택 사항</string>
+    <string name="agent_tool_add_household_item_param_note">선택적 메모</string>
+    <string name="agent_tool_add_household_item_failed">항목 추가 실패: %1$s</string>
+    <string-array name="agent_tool_add_household_item_keywords">
+        <item>가정</item>
+        <item>용품</item>
+        <item>보관</item>
+        <item>항목 추가</item>
+    </string-array>
+    <string-array name="agent_tool_add_household_item_examples">
+        <item>침실 약장에 감기약을 기록하고, 2027년 6월 만료</item>
+        <item>여분 충전기를 서재 책상 서랍에 추가</item>
+    </string-array>
+    <string name="agent_tool_find_household_item_title">가정용품 찾기</string>
+    <string name="agent_tool_find_household_item_summary">가정용품이 보관된 위치 찾기</string>
+    <string name="agent_tool_find_household_item_description">가정용품을 이름, 카테고리 또는 메모로 퍼지 검색합니다. 각 항목의 전체 위치 경로, 유통기한 상태 및 메모를 반환합니다.</string>
+    <string name="agent_tool_find_household_item_param_query">검색 키워드, 이름, 카테고리 및 메모와 대조됩니다</string>
+    <string name="agent_tool_find_household_item_empty">일치하는 항목이 없습니다</string>
+    <string name="agent_tool_find_household_item_failed">항목을 찾지 못했습니다: %1$s</string>
+    <string-array name="agent_tool_find_household_item_keywords">
+        <item>가정용품</item>
+        <item>찾기</item>
+        <item>어디에</item>
+        <item>위치</item>
+    </string-array>
+    <string-array name="agent_tool_find_household_item_examples">
+        <item>감기약은 어디에 있나요?</item>
+        <item>여분의 충전기를 찾아주세요</item>
+    </string-array>
+    <string name="agent_tool_move_household_item_title">가정용품 이동</string>
+    <string name="agent_tool_move_household_item_summary">가정용품의 보관 위치 변경</string>
+    <string name="agent_tool_move_household_item_description">가정용품을 새 보관 위치 경로로 이동합니다. 항목은 퍼지 이름으로 찾으며, 위치 경로가 없으면 단계별로 생성합니다.</string>
+    <string name="agent_tool_move_household_item_param_name">항목 이름, 퍼지 매칭</string>
+    <string name="agent_tool_move_household_item_param_location_path">새 보관 위치 경로, \"/\" 또는 \"&gt;\"로 구분된 세그먼트</string>
+    <string name="agent_tool_move_household_item_not_found">항목을 찾지 못했습니다: %1$s</string>
+    <string name="agent_tool_move_household_item_failed">항목 이동 실패: %1$s</string>
+    <string-array name="agent_tool_move_household_item_keywords">
+        <item>가정용품</item>
+        <item>이동</item>
+        <item>재배치</item>
+    </string-array>
+    <string-array name="agent_tool_move_household_item_examples">
+        <item>감기약을 거실 서랍으로 이동</item>
+    </string-array>
+    <string name="agent_tool_household_label_name">이름</string>
+    <string name="agent_tool_household_label_location">위치</string>
+    <string name="agent_tool_household_label_category">카테고리</string>
+    <string name="agent_tool_household_label_expiry">유통기한</string>
+    <string name="agent_tool_household_label_note">메모</string>
+    <string name="agent_tool_household_expiry_expired">%1$d일 전에 만료됨</string>
+    <string name="agent_tool_household_expiry_days_left">%1$d일 남음</string>
+    <string name="agent_tool_household_expiry_today">오늘 만료</string>
+    <string name="agent_tool_household_expiry_none">만료일 없음</string>
+    <string name="agent_tool_household_open_link">가정용품 열기</string>
+    <string name="agent_tool_household_edit_link">항목 보기</string>
+    <string name="agent_tool_household_unknown_error">알 수 없는 오류</string>
+</resources>

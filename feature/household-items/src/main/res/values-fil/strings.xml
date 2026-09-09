@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="household_title">Mga Gamit sa Bahay</string>
+    <string name="household_tab_list">Mga Gamit</string>
+    <string name="household_tab_locations">Mga Lokasyon</string>
+    <string name="household_tab_stats">Mga Estadistika</string>
+    <string name="household_empty_guide_title">Wala pang mga gamit</string>
+    <string name="household_empty_guide_message">Idagdag nang manu-mano, o hayaang i-record ito ng AI para sa iyo</string>
+    <string name="household_add_manually">Idagdag nang manu-mano</string>
+    <string name="household_add_with_ai">Hilingin sa AI na i-record</string>
+    <string name="household_ai_assist_title">Katulong sa Bahay</string>
+    <string name="household_ai_assist_prompt">Ikaw ang katulong sa mga gamit sa bahay ng gumagamit. Kapag sinabi ng gumagamit ang isang gamit at kung saan ito nakaimbak (at opsyonal ang petsa ng pagka-expire), i-record ito gamit ang tool na add_household_item, hal. \"ilagay ang gamot sa sipon sa kahon ng gamot sa kwarto, mag-e-expire sa Hunyo 2027\". Kapag nagtanong ang gumagamit kung nasaan ang isang bagay, hanapin ito gamit ang find_household_item. Kapag nais ng gumagamit na ilipat ang isang bagay, gamitin ang move_household_item. Kumpirmahin ang bawat aksyon nang maikli pagkatapos i-record.</string>
+    <string name="household_search_hint">Maghanap ng pangalan, kategorya o tala</string>
+    <string name="household_expired_days">Nag-expire %1$d araw na ang nakalipas</string>
+    <string name="household_days_left">%1$d araw ang natitira</string>
+    <string name="household_expires_today">Mag-e-expire ngayon</string>
+    <string name="household_add_item">Magdagdag ng gamit</string>
+    <string name="household_manage_locations">Pamahalaan ang mga lokasyon</string>
+    <string name="household_empty_items">Wala pang mga gamit. Pindutin ang + upang magdagdag.</string>
+    <string name="household_empty_search">Walang katugmang mga gamit</string>
+    <string name="household_breadcrumb_home">Lahat</string>
+    <string name="household_view_list">Listahan view</string>
+    <string name="household_view_grid">Grid view</string>
+    <string name="household_uncategorized">Walang kategorya</string>
+    <string name="household_no_location">Walang lokasyon</string>
+    <string name="household_delete_item">Burahin</string>
+    <string name="household_edit_item">I-edit</string>
+    <string name="household_editor_add_title">Magdagdag ng Gamit</string>
+    <string name="household_editor_edit_title">I-edit ang Gamit</string>
+    <string name="household_editor_name_label">Pangalan</string>
+    <string name="household_editor_name_hint">hal. Gamot sa sipon</string>
+    <string name="household_editor_category_label">Kategorya</string>
+    <string name="household_category_medicine">Gamot</string>
+    <string name="household_category_beauty">Kagandahan at Pangangalaga sa Balat</string>
+    <string name="household_category_daily">Araw-araw na Pangangailangan</string>
+    <string name="household_category_food">Pagkain at Inumin</string>
+    <string name="household_category_clothing">Damit</string>
+    <string name="household_category_digital">Elektronika</string>
+    <string name="household_category_books">Mga Aklat</string>
+    <string name="household_category_stationery">Kagamitang Panulat</string>
+    <string name="household_category_home_goods">Mga Kagamitan sa Bahay</string>
+    <string name="household_category_cleaning">Mga Panlinis</string>
+    <string name="household_category_baby">Sanggol at Bata</string>
+    <string name="household_category_sports">Palakasan at Fitness</string>
+    <string name="household_category_pet">Mga Kagamitan ng Alaga</string>
+    <string name="household_category_tools">Mga Kasangkapan</string>
+    <string name="household_category_accessories">Mga Aksesorya</string>
+    <string name="household_category_other">Iba pa</string>
+    <string name="household_category_small_legacy">Maliit na bagay</string>
+    <string name="household_category_big_legacy">Malalaking bagay</string>
+    <string name="household_category_custom_hint">Pasadya na kategorya</string>
+    <string name="household_editor_location_label">Lokasyon</string>
+    <string name="household_editor_location_none">Walang lokasyon</string>
+    <string name="household_editor_location_pick">Pumili ng lokasyon</string>
+    <string name="household_editor_expire_label">Petsa ng pag-expire</string>
+    <string name="household_editor_expire_pick">Pumili ng petsa</string>
+    <string name="household_editor_expire_clear">Alisin</string>
+    <string name="household_editor_photo_label">Larawan</string>
+    <string name="household_editor_photo_add">Magdagdag ng larawan</string>
+    <string name="household_editor_photo_remove">Alisin ang larawan</string>
+    <string name="household_editor_note_label">Tala (opsyonal)</string>
+    <string name="household_editor_note_hint">Paggamit, specs, atbp.</string>
+    <string name="household_save">I-save</string>
+    <string name="household_cancel">Kanselahin</string>
+    <string name="household_confirm">OK</string>
+    <string name="household_stats_total_items">Kabuuang mga item</string>
+    <string name="household_stats_location_count">Mga Lokasyon</string>
+    <string name="household_stats_expiring_soon">Malapit nang mag-expire</string>
+    <string name="household_stats_unit_item">mga item</string>
+    <string name="household_stats_unit_location">kabuuan</string>
+    <string name="household_stats_added_this_month">+%1$d ngayong buwan</string>
+    <string name="household_stats_category_share">Ayon sa kategorya</string>
+    <string name="household_stats_location_distribution">Ayon sa lokasyon (mga item)</string>
+    <string name="household_stats_activity">Buod ng aktibidad</string>
+    <string name="household_stats_recent_added">Kamakailang idinagdag</string>
+    <string name="household_stats_upcoming_expiry">Malapit nang mag-expire</string>
+    <string name="household_stats_total_count">%1$d\nkabuuan</string>
+    <string name="household_stats_items_count">%1$d</string>
+    <string name="household_stats_other">Iba pa</string>
+    <string name="household_stats_empty">Wala pang data</string>
+    <string name="household_locations_title">Pamahalaan ang mga Lokasyon</string>
+    <string name="household_location_add_root">Magdagdag ng top-level na lokasyon</string>
+    <string name="household_location_add_child">Magdagdag ng anak</string>
+    <string name="household_location_rename">Palitan ang pangalan</string>
+    <string name="household_location_delete">Tanggalin</string>
+    <string name="household_location_name_hint">Pangalan ng lokasyon</string>
+    <string name="household_location_delete_blocked">Ang lokasyong ito ay may mga sub-lokasyon o item, alisin muna ang mga ito</string>
+    <string name="household_locations_empty">Wala pang mga lokasyon</string>
+    <string name="household_location_expand">Palawakin</string>
+    <string name="household_location_collapse">I-collapse</string>
+    <string name="household_loc_home">Tahanan</string>
+    <string name="household_loc_living_room">Sala</string>
+    <string name="household_loc_master_bedroom">Pangunahing Silid-Tulugan</string>
+    <string name="household_loc_second_bedroom">Pangalawang Silid-Tulugan</string>
+    <string name="household_loc_kitchen">Kusina</string>
+    <string name="household_loc_bathroom">Banyo</string>
+    <string name="household_loc_study">Pag-aaralan</string>
+    <string name="household_loc_balcony">Balkonahe</string>
+    <string name="household_loc_storage_room">Silid-Kainan</string>
+    <string name="household_log_item_created">Idinagdag na item: %1$s</string>
+    <string name="household_log_item_updated">Na-update na item: %1$s</string>
+    <string name="household_log_item_deleted">Tinanggal na item: %1$s</string>
+    <string name="household_log_item_moved">Inilipat na item: %1$s</string>
+    <string name="household_log_location_created">Idinagdag na lokasyon: %1$s</string>
+    <string name="household_log_location_renamed">Pinalitan ang pangalan ng lokasyon: %1$s</string>
+    <string name="household_log_location_deleted">Tinanggal na lokasyon: %1$s</string>
+    <string name="agent_tool_add_household_item_title">Magdagdag ng Kagamitan sa Bahay</string>
+    <string name="agent_tool_add_household_item_summary">Itala ang isang kagamitan sa bahay kasama ang lokasyon ng imbakan nito</string>
+    <string name="agent_tool_add_household_item_description">Itala ang isang kagamitan sa bahay: pangalan, landas ng lokasyon ng imbakan (awtomatikong ginagawa kung wala), opsyonal na kategorya, petsa ng pag-expire at tala.</string>
+    <string name="agent_tool_add_household_item_param_name">Pangalan ng item, hal. \"Gamot sa sipon\"</string>
+    <string name="agent_tool_add_household_item_param_location_path">Landas ng lokasyon ng imbakan, mga bahagi na pinaghihiwalay ng \"/\" o \"&gt;\", hal. \"Silid-Tulugan/Aparador/Top drawer\". Awtomatikong ginagawa kung wala</string>
+    <string name="agent_tool_add_household_item_param_category">Kategorya, malayang teksto, hal. Gamot / Maliit na bagay / Malalaking bagay</string>
+    <string name="agent_tool_add_household_item_param_expire_date">Petsa ng pag-expire, yyyy-MM-dd, opsyonal</string>
+    <string name="agent_tool_add_household_item_param_note">Opsyonal na tala</string>
+    <string name="agent_tool_add_household_item_failed">Nabigong idagdag ang item: %1$s</string>
+    <string-array name="agent_tool_add_household_item_keywords">
+        <item>sambahayan</item>
+        <item>item</item>
+        <item>imbakan</item>
+        <item>magdagdag ng item</item>
+    </string-array>
+    <string-array name="agent_tool_add_household_item_examples">
+        <item>Itala ang gamot sa sipon sa kahon ng gamot sa silid-tulugan, mag-e-expire sa Hunyo 2027</item>
+        <item>Idagdag ang ekstrang charger sa drawer ng mesa sa pag-aaralan</item>
+    </string-array>
+    <string name="agent_tool_find_household_item_title">Hanapin ang Kagamitan sa Bahay</string>
+    <string name="agent_tool_find_household_item_summary">Hanapin kung saan nakaimbak ang isang gamit sa bahay</string>
+    <string name="agent_tool_find_household_item_description">Fuzzy-search ng mga gamit sa bahay ayon sa pangalan, kategorya, o tala. Ibinabalik ang bawat tugma kasama ang buong landas ng lokasyon, katayuan ng pag-expire, at tala.</string>
+    <string name="agent_tool_find_household_item_param_query">Keyword sa paghahanap, itinutugma sa pangalan, kategorya, at tala</string>
+    <string name="agent_tool_find_household_item_empty">Walang nahanap na tugmang gamit</string>
+    <string name="agent_tool_find_household_item_failed">Nabigong hanapin ang gamit: %1$s</string>
+    <string-array name="agent_tool_find_household_item_keywords">
+        <item>gamit sa bahay</item>
+        <item>hanapin</item>
+        <item>saan</item>
+        <item>lokasyon</item>
+    </string-array>
+    <string-array name="agent_tool_find_household_item_examples">
+        <item>Saan ang gamot para sa sipon?</item>
+        <item>Hanapin ang ekstrang charger</item>
+    </string-array>
+    <string name="agent_tool_move_household_item_title">Ilipat ang Gamit sa Bahay</string>
+    <string name="agent_tool_move_household_item_summary">Baguhin ang lokasyon ng imbakan ng isang gamit sa bahay</string>
+    <string name="agent_tool_move_household_item_description">Ilipat ang isang gamit sa bahay sa bagong landas ng lokasyon ng imbakan. Ang gamit ay matatagpuan sa pamamagitan ng fuzzy na pangalan; ang landas ng lokasyon ay nilikha nang antas-antas kung wala.</string>
+    <string name="agent_tool_move_household_item_param_name">Pangalan ng gamit, fuzzy na itinutugma</string>
+    <string name="agent_tool_move_household_item_param_location_path">Bagong landas ng lokasyon ng imbakan, mga bahagi na pinaghihiwalay ng \"/\" o \"&gt;\"</string>
+    <string name="agent_tool_move_household_item_not_found">Hindi nahanap ang gamit: %1$s</string>
+    <string name="agent_tool_move_household_item_failed">Nabigong ilipat ang gamit: %1$s</string>
+    <string-array name="agent_tool_move_household_item_keywords">
+        <item>gamit sa bahay</item>
+        <item>ilipat</item>
+        <item>relocate</item>
+    </string-array>
+    <string-array name="agent_tool_move_household_item_examples">
+        <item>Ilipat ang gamot para sa sipon sa drawer ng sala</item>
+    </string-array>
+    <string name="agent_tool_household_label_name">Pangalan</string>
+    <string name="agent_tool_household_label_location">Lokasyon</string>
+    <string name="agent_tool_household_label_category">Kategorya</string>
+    <string name="agent_tool_household_label_expiry">Pag-expire</string>
+    <string name="agent_tool_household_label_note">Tala</string>
+    <string name="agent_tool_household_expiry_expired">Nag-expire %1$d araw na ang nakalipas</string>
+    <string name="agent_tool_household_expiry_days_left">%1$d araw na natitira</string>
+    <string name="agent_tool_household_expiry_today">Mag-e-expire ngayon</string>
+    <string name="agent_tool_household_expiry_none">Walang petsa ng pag-expire</string>
+    <string name="agent_tool_household_open_link">Buksan ang mga Kagamitan sa Bahay</string>
+    <string name="agent_tool_household_edit_link">Tingnan ang item</string>
+    <string name="agent_tool_household_unknown_error">Hindi kilalang error</string>
+</resources>

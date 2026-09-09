@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="household_title">घरेलू सामान</string>
+    <string name="household_tab_list">सामान</string>
+    <string name="household_tab_locations">स्थान</string>
+    <string name="household_tab_stats">आँकड़े</string>
+    <string name="household_empty_guide_title">अभी तक कोई सामान नहीं</string>
+    <string name="household_empty_guide_message">मैन्युअल रूप से जोड़ें, या AI से इसे रिकॉर्ड करवाएं</string>
+    <string name="household_add_manually">मैन्युअल रूप से जोड़ें</string>
+    <string name="household_add_with_ai">AI से रिकॉर्ड करवाएं</string>
+    <string name="household_ai_assist_title">घरेलू सहायक</string>
+    <string name="household_ai_assist_prompt">आप उपयोगकर्ता के घरेलू सामान सहायक हैं। जब उपयोगकर्ता आपको कोई सामान और उसका भंडारण स्थान बताता है (और वैकल्पिक रूप से उसकी समाप्ति तिथि), तो add_household_item टूल से उसे रिकॉर्ड करें, जैसे \"ठंडी दवा को बेडरूम की दवा बॉक्स में रखें, जून 2027 में समाप्त होती है\"। जब उपयोगकर्ता पूछता है कि कुछ कहाँ है, तो find_household_item से खोजें। जब उपयोगकर्ता कुछ स्थानांतरित करना चाहता है, तो move_household_item का उपयोग करें। रिकॉर्डिंग के बाद प्रत्येक क्रिया की संक्षेप में पुष्टि करें।</string>
+    <string name="household_search_hint">नाम, श्रेणी या नोट खोजें</string>
+    <string name="household_expired_days">%1$d दिन पहले समाप्त</string>
+    <string name="household_days_left">%1$d दिन शेष</string>
+    <string name="household_expires_today">आज समाप्त होता है</string>
+    <string name="household_add_item">सामान जोड़ें</string>
+    <string name="household_manage_locations">स्थान प्रबंधित करें</string>
+    <string name="household_empty_items">अभी तक कोई सामान नहीं। जोड़ने के लिए + दबाएं।</string>
+    <string name="household_empty_search">कोई मेल खाता सामान नहीं</string>
+    <string name="household_breadcrumb_home">सभी</string>
+    <string name="household_view_list">सूची दृश्य</string>
+    <string name="household_view_grid">ग्रिड दृश्य</string>
+    <string name="household_uncategorized">बिना श्रेणी</string>
+    <string name="household_no_location">कोई स्थान नहीं</string>
+    <string name="household_delete_item">हटाएं</string>
+    <string name="household_edit_item">संपादित करें</string>
+    <string name="household_editor_add_title">सामान जोड़ें</string>
+    <string name="household_editor_edit_title">सामान संपादित करें</string>
+    <string name="household_editor_name_label">नाम</string>
+    <string name="household_editor_name_hint">जैसे ठंडी दवा</string>
+    <string name="household_editor_category_label">श्रेणी</string>
+    <string name="household_category_medicine">दवा</string>
+    <string name="household_category_beauty">सौंदर्य और त्वचा देखभाल</string>
+    <string name="household_category_daily">दैनिक आवश्यकताएँ</string>
+    <string name="household_category_food">खाद्य और पेय</string>
+    <string name="household_category_clothing">कपड़े</string>
+    <string name="household_category_digital">इलेक्ट्रॉनिक्स</string>
+    <string name="household_category_books">किताबें</string>
+    <string name="household_category_stationery">स्टेशनरी</string>
+    <string name="household_category_home_goods">घरेलू सामान</string>
+    <string name="household_category_cleaning">सफाई की आपूर्ति</string>
+    <string name="household_category_baby">शिशु और बच्चे</string>
+    <string name="household_category_sports">खेल और फिटनेस</string>
+    <string name="household_category_pet">पालतू आपूर्ति</string>
+    <string name="household_category_tools">औज़ार</string>
+    <string name="household_category_accessories">सहायक उपकरण</string>
+    <string name="household_category_other">अन्य</string>
+    <string name="household_category_small_legacy">छोटी वस्तुएँ</string>
+    <string name="household_category_big_legacy">बड़ी वस्तुएँ</string>
+    <string name="household_category_custom_hint">कस्टम श्रेणी</string>
+    <string name="household_editor_location_label">स्थान</string>
+    <string name="household_editor_location_none">कोई स्थान नहीं</string>
+    <string name="household_editor_location_pick">स्थान चुनें</string>
+    <string name="household_editor_expire_label">समाप्ति तिथि</string>
+    <string name="household_editor_expire_pick">तिथि चुनें</string>
+    <string name="household_editor_expire_clear">साफ़ करें</string>
+    <string name="household_editor_photo_label">फोटो</string>
+    <string name="household_editor_photo_add">फोटो जोड़ें</string>
+    <string name="household_editor_photo_remove">फोटो हटाएँ</string>
+    <string name="household_editor_note_label">नोट (वैकल्पिक)</string>
+    <string name="household_editor_note_hint">उपयोग, विशिष्टताएँ, आदि।</string>
+    <string name="household_save">सहेजें</string>
+    <string name="household_cancel">रद्द करें</string>
+    <string name="household_confirm">ठीक है</string>
+    <string name="household_stats_total_items">कुल आइटम</string>
+    <string name="household_stats_location_count">स्थान</string>
+    <string name="household_stats_expiring_soon">जल्द समाप्त हो रहे</string>
+    <string name="household_stats_unit_item">आइटम</string>
+    <string name="household_stats_unit_location">कुल</string>
+    <string name="household_stats_added_this_month">+%1$d इस महीने</string>
+    <string name="household_stats_category_share">श्रेणी के अनुसार</string>
+    <string name="household_stats_location_distribution">स्थान के अनुसार (आइटम)</string>
+    <string name="household_stats_activity">गतिविधि सारांश</string>
+    <string name="household_stats_recent_added">हाल ही में जोड़े गए</string>
+    <string name="household_stats_upcoming_expiry">जल्द समाप्त हो रहे</string>
+    <string name="household_stats_total_count">%1$d\nकुल</string>
+    <string name="household_stats_items_count">%1$d</string>
+    <string name="household_stats_other">अन्य</string>
+    <string name="household_stats_empty">अभी कोई डेटा नहीं</string>
+    <string name="household_locations_title">स्थान प्रबंधित करें</string>
+    <string name="household_location_add_root">शीर्ष-स्तरीय स्थान जोड़ें</string>
+    <string name="household_location_add_child">चाइल्ड जोड़ें</string>
+    <string name="household_location_rename">नाम बदलें</string>
+    <string name="household_location_delete">हटाएं</string>
+    <string name="household_location_name_hint">स्थान का नाम</string>
+    <string name="household_location_delete_blocked">इस स्थान में उप-स्थान या आइटम हैं, पहले उन्हें हटाएं</string>
+    <string name="household_locations_empty">अभी कोई स्थान नहीं</string>
+    <string name="household_location_expand">विस्तार करें</string>
+    <string name="household_location_collapse">संक्षिप्त करें</string>
+    <string name="household_loc_home">होम</string>
+    <string name="household_loc_living_room">लिविंग रूम</string>
+    <string name="household_loc_master_bedroom">मुख्य शयनकक्ष</string>
+    <string name="household_loc_second_bedroom">दूसरा शयनकक्ष</string>
+    <string name="household_loc_kitchen">रसोई</string>
+    <string name="household_loc_bathroom">स्नानघर</string>
+    <string name="household_loc_study">अध्ययन कक्ष</string>
+    <string name="household_loc_balcony">बालकनी</string>
+    <string name="household_loc_storage_room">भंडारण कक्ष</string>
+    <string name="household_log_item_created">जोड़ा गया आइटम: %1$s</string>
+    <string name="household_log_item_updated">अद्यतन किया गया आइटम: %1$s</string>
+    <string name="household_log_item_deleted">हटाया गया आइटम: %1$s</string>
+    <string name="household_log_item_moved">स्थानांतरित आइटम: %1$s</string>
+    <string name="household_log_location_created">जोड़ा गया स्थान: %1$s</string>
+    <string name="household_log_location_renamed">नाम बदला गया स्थान: %1$s</string>
+    <string name="household_log_location_deleted">हटाया गया स्थान: %1$s</string>
+    <string name="agent_tool_add_household_item_title">घरेलू आइटम जोड़ें</string>
+    <string name="agent_tool_add_household_item_summary">घरेलू आइटम को उसके भंडारण स्थान के साथ रिकॉर्ड करें</string>
+    <string name="agent_tool_add_household_item_description">घरेलू आइटम रिकॉर्ड करें: नाम, भंडारण स्थान पथ (यदि अनुपस्थित है तो स्तर-दर-स्तर स्वतः बनाया जाता है), वैकल्पिक श्रेणी, समाप्ति तिथि और नोट।</string>
+    <string name="agent_tool_add_household_item_param_name">आइटम का नाम, जैसे \"सर्दी की दवा\"</string>
+    <string name="agent_tool_add_household_item_param_location_path">भंडारण स्थान पथ, खंड \"/\" या \"&gt;\" से अलग किए गए, जैसे \"शयनकक्ष/अलमारी/ऊपरी दराज\"। यदि अनुपस्थित है तो स्वतः बनाया जाता है</string>
+    <string name="agent_tool_add_household_item_param_category">श्रेणी, मुक्त पाठ, जैसे दवा / छोटी वस्तुएं / बड़ी वस्तुएं</string>
+    <string name="agent_tool_add_household_item_param_expire_date">समाप्ति तिथि, yyyy-MM-dd, वैकल्पिक</string>
+    <string name="agent_tool_add_household_item_param_note">वैकल्पिक नोट</string>
+    <string name="agent_tool_add_household_item_failed">आइटम जोड़ने में विफल: %1$s</string>
+    <string-array name="agent_tool_add_household_item_keywords">
+        <item>घरेलू</item>
+        <item>आइटम</item>
+        <item>भंडारण</item>
+        <item>आइटम जोड़ें</item>
+    </string-array>
+    <string-array name="agent_tool_add_household_item_examples">
+        <item>सर्दी की दवा को शयनकक्ष की दवा बॉक्स में रिकॉर्ड करें, जून 2027 में समाप्त हो रही है</item>
+        <item>अतिरिक्त चार्जर को अध्ययन कक्ष की मेज की दराज में जोड़ें</item>
+    </string-array>
+    <string name="agent_tool_find_household_item_title">घरेलू आइटम खोजें</string>
+    <string name="agent_tool_find_household_item_summary">पता लगाएँ कि घरेलू वस्तु कहाँ रखी है</string>
+    <string name="agent_tool_find_household_item_description">घरेलू वस्तुओं को नाम, श्रेणी या नोट द्वारा फ़ज़ी-खोजें। प्रत्येक मिलान को उसके पूर्ण स्थान पथ, समाप्ति स्थिति और नोट के साथ लौटाता है।</string>
+    <string name="agent_tool_find_household_item_param_query">खोज कीवर्ड, नाम, श्रेणी और नोट से मिलान किया गया</string>
+    <string name="agent_tool_find_household_item_empty">कोई मेल खाती वस्तु नहीं मिली</string>
+    <string name="agent_tool_find_household_item_failed">वस्तु खोजने में विफल: %1$s</string>
+    <string-array name="agent_tool_find_household_item_keywords">
+        <item>घरेलू</item>
+        <item>खोजें</item>
+        <item>कहाँ है</item>
+        <item>स्थान</item>
+    </string-array>
+    <string-array name="agent_tool_find_household_item_examples">
+        <item>सर्दी की दवा कहाँ है?</item>
+        <item>अतिरिक्त चार्जर खोजें</item>
+    </string-array>
+    <string name="agent_tool_move_household_item_title">घरेलू वस्तु स्थानांतरित करें</string>
+    <string name="agent_tool_move_household_item_summary">घरेलू वस्तु का भंडारण स्थान बदलें</string>
+    <string name="agent_tool_move_household_item_description">घरेलू वस्तु को नए भंडारण स्थान पथ पर ले जाएँ। वस्तु फ़ज़ी नाम से स्थित होती है; यदि स्थान पथ गायब है तो स्तर-दर-स्तर बनाया जाता है।</string>
+    <string name="agent_tool_move_household_item_param_name">वस्तु का नाम, फ़ज़ी मिलान</string>
+    <string name="agent_tool_move_household_item_param_location_path">नया भंडारण स्थान पथ, खंड \"/\" या \"&gt;\" द्वारा अलग किए गए</string>
+    <string name="agent_tool_move_household_item_not_found">वस्तु नहीं मिली: %1$s</string>
+    <string name="agent_tool_move_household_item_failed">वस्तु स्थानांतरित करने में विफल: %1$s</string>
+    <string-array name="agent_tool_move_household_item_keywords">
+        <item>घरेलू</item>
+        <item>स्थानांतरित करें</item>
+        <item>पुनः स्थान दें</item>
+    </string-array>
+    <string-array name="agent_tool_move_household_item_examples">
+        <item>सर्दी की दवा को लिविंग रूम की दराज में ले जाएँ</item>
+    </string-array>
+    <string name="agent_tool_household_label_name">नाम</string>
+    <string name="agent_tool_household_label_location">स्थान</string>
+    <string name="agent_tool_household_label_category">श्रेणी</string>
+    <string name="agent_tool_household_label_expiry">समाप्ति</string>
+    <string name="agent_tool_household_label_note">नोट</string>
+    <string name="agent_tool_household_expiry_expired">%1$d दिन पहले समाप्त हुआ</string>
+    <string name="agent_tool_household_expiry_days_left">%1$d दिन शेष</string>
+    <string name="agent_tool_household_expiry_today">आज समाप्त हो रहा है</string>
+    <string name="agent_tool_household_expiry_none">कोई समाप्ति तिथि नहीं</string>
+    <string name="agent_tool_household_open_link">घरेलू सामान खोलें</string>
+    <string name="agent_tool_household_edit_link">आइटम देखें</string>
+    <string name="agent_tool_household_unknown_error">अज्ञात त्रुटि</string>
+</resources>
