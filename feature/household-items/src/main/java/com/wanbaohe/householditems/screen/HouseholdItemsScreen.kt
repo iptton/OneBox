@@ -566,8 +566,8 @@ internal fun ItemRow(
             ) {
                 Text(
                     text = item.name,
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -582,7 +582,7 @@ internal fun ItemRow(
                     Text(
                         text = item.note,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -613,7 +613,8 @@ private fun ItemOverflowMenu(
                 imageVector = Icons.Outlined.LineMore,
                 contentDescription = null,
                 modifier = Modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                // 浅淡色,只做入口不做视觉焦点
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
             )
         }
         EnhancedDropdownMenu(
@@ -652,37 +653,26 @@ private fun ItemOverflowMenu(
     }
 }
 
-/** 第三行信息:分类小图标 + "分类 · 备注";都为空时不占位 */
+/** 第三行信息:主题色圆点 + "分类 | 备注"(浅淡小字);都为空时不占位 */
 @Composable
 private fun CategoryNoteLine(item: HouseholdItemUi) {
     if (item.category.isBlank() && item.note.isBlank()) return
     Row(verticalAlignment = Alignment.CenterVertically) {
-        val categoryIcon = categoryIconOrNull(item.category)
-        if (categoryIcon != null) {
-            Icon(
-                imageVector = categoryIcon,
-                contentDescription = null,
-                modifier = Modifier.size(12.dp),
-                tint = MaterialTheme.colorScheme.primary,
-            )
-        } else if (item.category.isNotBlank()) {
-            // 自定义分类:主题色圆点
-            Box(
-                modifier = Modifier
-                    .size(8.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary),
-            )
-        }
+        Box(
+            modifier = Modifier
+                .size(8.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.primary),
+        )
         Text(
             text = listOf(item.category, item.note)
                 .filter { it.isNotBlank() }
-                .joinToString(" · "),
+                .joinToString("  |  "),
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(start = 4.dp),
+            modifier = Modifier.padding(start = 6.dp),
         )
     }
 }
@@ -714,27 +704,31 @@ private fun ItemCard(
     ) {
         Column {
             ItemCardCover(item = item)
-            // 右侧只留 4dp,让 ⋯ 按钮贴近卡片右缘;左侧 padding 不变
+            // 排版对齐特写稿:大封面 + 大粗名称 + 中灰位置行 + 浅淡"分类 | 备注"行;
+            // 右侧只留 4dp,让 ⋯ 按钮贴近卡片右缘
             Column(
-                modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 10.dp, end = 4.dp)
+                modifier = Modifier.padding(start = 12.dp, top = 12.dp, bottom = 12.dp, end = 4.dp)
             ) {
                 Text(
                     text = item.name,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     text = item.locationPath.ifBlank { stringResource(R.string.household_no_location) },
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(top = 2.dp),
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
                 ) {
                     // 第三行:有保质期显示倒计时徽章,否则显示"分类 · 备注"(原型稿样式)
                     Box(modifier = Modifier.weight(1f)) {
@@ -759,7 +753,7 @@ private fun ItemCardCover(item: HouseholdItemUi) {
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
+                .height(140.dp)
                 .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
             contentScale = ContentScale.Crop,
         )
@@ -769,7 +763,7 @@ private fun ItemCardCover(item: HouseholdItemUi) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp),
+                .height(140.dp),
             contentAlignment = Alignment.Center,
         ) {
             GlassSurface(

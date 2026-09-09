@@ -132,6 +132,8 @@ fun ItemEditScreen(
                 // ── 层级位置 ──
                 LocationField(
                     selectedLocationId = uiState.editorLocationId,
+                    selectedIconKey = uiState.locations
+                        .firstOrNull { it.id == uiState.editorLocationId }?.iconKey,
                     locationPath = locationPathOf(uiState.locations, uiState.editorLocationId)
                         .joinToString(" / ") { it.name },
                     onPickClick = { showLocationPicker = true },
@@ -291,6 +293,7 @@ private fun CategoryField(
 @Composable
 private fun LocationField(
     selectedLocationId: String?,
+    selectedIconKey: String?,
     locationPath: String,
     onPickClick: () -> Unit,
     onClear: () -> Unit,
@@ -312,7 +315,7 @@ private fun LocationField(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
-                    imageVector = locationIcon(selectedLocationId ?: ""),
+                    imageVector = locationIcon(selectedIconKey, selectedLocationId ?: ""),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                 )
@@ -478,7 +481,7 @@ private fun LocationPickerDialog(
                     items(flatNodes, key = { it.location.id }) { node ->
                         LocationPickerRow(
                             name = node.location.name,
-                            icon = locationIcon(node.location.id),
+                            icon = locationIcon(node.location.iconKey, node.location.id),
                             depth = node.depth,
                             selected = selectedLocationId == node.location.id,
                             onClick = { onSelect(node.location.id) },

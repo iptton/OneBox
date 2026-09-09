@@ -27,6 +27,8 @@ data class LocationCountUi(
     val locationId: String?,
     val name: String,
     val count: Int,
+    /** 位置的用户自选图标 key */
+    val iconKey: String? = null,
 )
 
 data class HouseholdStatsUi(
@@ -117,7 +119,7 @@ internal fun buildHouseholdStats(
             if (inSubtree) entity.locationId?.let(countedIds::add)
             inSubtree
         }
-        LocationCountUi(locationId = root.id, name = root.name, count = count)
+        LocationCountUi(locationId = root.id, name = root.name, count = count, iconKey = root.iconKey)
     }.toMutableList()
     val noLocationCount = items.count { it.locationId == null || it.locationId !in countedIds }
     if (noLocationCount > 0) {

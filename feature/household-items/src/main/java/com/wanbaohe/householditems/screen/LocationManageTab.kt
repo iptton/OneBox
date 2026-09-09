@@ -35,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.shifenmiao.base.ui.icon.IconPickerSheet
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Edit
@@ -80,6 +81,9 @@ fun LocationManageTab(
     var nameInputRenameId by remember { mutableStateOf<String?>(null) }
     var showNameInput by remember { mutableStateOf(false) }
     var nameInput by remember { mutableStateOf("") }
+    /** 对话框中选中的图标(IconRegistry key);null = 默认映射 */
+    var nameInputIconKey by remember { mutableStateOf<String?>(null) }
+    var showIconPicker by remember { mutableStateOf(false) }
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -125,12 +129,14 @@ fun LocationManageTab(
                         nameInputParent = node.location.id
                         nameInputRenameId = null
                         nameInput = ""
+                        nameInputIconKey = null
                         showNameInput = true
                     },
                     onRename = {
                         nameInputParent = null
                         nameInputRenameId = node.location.id
                         nameInput = node.location.name
+                        nameInputIconKey = node.location.iconKey
                         showNameInput = true
                     },
                     onDelete = { component.deleteLocation(node.location.id) },
@@ -144,6 +150,7 @@ fun LocationManageTab(
                     nameInputParent = null
                     nameInputRenameId = null
                     nameInput = ""
+                    nameInputIconKey = null
                     showNameInput = true
                 },
                 modifier = Modifier
@@ -185,6 +192,23 @@ fun LocationManageTab(
                     modifier = Modifier.fillMaxWidth(),
                     placeholder = { Text(stringResource(R.string.household_location_name_hint)) },
                     singleLine = true,
+                    // 左侧图标:显示当前选中图标,点击打开图标选择器
+                    leadingIcon = {
+                        Box(
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clip(CircleShape)
+                                .clickable { showIconPicker = true },
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(
+                                imageVector = locationIcon(nameInputIconKey, ""),
+                                contentDescription = stringResource(R.string.household_location_pick_icon),
+                                modifier = Modifier.size(20.dp),
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
+                        }
+                    },
                 )
             },
             confirmButton = {
@@ -194,9 +218,9 @@ fun LocationManageTab(
                         if (name.isNotEmpty()) {
                             val renameId = nameInputRenameId
                             if (renameId != null) {
-                                component.renameLocation(renameId, name)
+                                component.renameLocation(renameId, name, nameInputIconKey)
                             } else {
-                                component.addLocation(name, nameInputParent)
+                                component.addLocation(name, nameInputParent, nameInputIconKey)
                             }
                             showNameInput = false
                         }
@@ -212,6 +236,14 @@ fun LocationManageTab(
             },
         )
     }
+
+    // 图标选择器(复用 core/ui IconPickerSheet,习惯打卡同款)
+    IconPickerSheet(
+        visible = showIconPicker,
+        onDismiss = { showIconPicker = false },
+        onIconSelected = { key -> nameInputIconKey = key },
+        selectedIconName = nameInputIconKey,
+    )
 }
 
 /**
@@ -314,7 +346,7 @@ private fun LocationTreeRow(
                 Box(modifier = Modifier.size(28.dp))
             }
             Icon(
-                imageVector = locationIcon(node.location.id),
+                imageVector = locationIcon(node.location.iconKey, node.location.id),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(start = 4.dp)

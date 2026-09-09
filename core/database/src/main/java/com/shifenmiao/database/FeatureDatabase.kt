@@ -137,7 +137,7 @@ import java.io.InputStreamReader
         HouseholdLocationEntity::class,
         HouseholdItemEntity::class,
     ],
-    version = 7,
+    version = 8,
     exportSchema = true
 )
 @TypeConverters(MarkTodoTypeConverters::class)
@@ -410,6 +410,13 @@ abstract class FeatureDatabase : RoomDatabase() {
             }
         }
 
+        // 家庭物品:位置表加用户自选图标列(icon_key,IconRegistry key)
+        private val MIGRATION_7_8 = object : androidx.room.migration.Migration(7, 8) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `household_location` ADD COLUMN `icon_key` TEXT")
+            }
+        }
+
         const val DB_NAME_PREFIX: String = "feature"
 
         // 语言切换后进程会冷重启（见 LocaleSwitchWatcher），Hilt @Singleton 注入的库实例
@@ -459,7 +466,15 @@ abstract class FeatureDatabase : RoomDatabase() {
                     FeatureDatabase::class.java,
                     currentDbName
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+                    .addMigrations(
+                        MIGRATION_1_2,
+                        MIGRATION_2_3,
+                        MIGRATION_3_4,
+                        MIGRATION_4_5,
+                        MIGRATION_5_6,
+                        MIGRATION_6_7,
+                        MIGRATION_7_8,
+                    )
                     .fallbackToDestructiveMigration(true)
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {

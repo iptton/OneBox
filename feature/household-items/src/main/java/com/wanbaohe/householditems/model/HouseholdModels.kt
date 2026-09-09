@@ -37,6 +37,8 @@ data class HouseholdLocationUi(
     val id: String,
     val name: String,
     val parentId: String?,
+    /** 用户自选图标(IconRegistry key),null = 默认映射 */
+    val iconKey: String? = null,
 )
 
 /** 位置树节点 */

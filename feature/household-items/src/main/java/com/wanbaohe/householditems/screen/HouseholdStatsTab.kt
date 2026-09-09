@@ -447,7 +447,8 @@ private fun LocationBarRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Icon(
-            imageVector = bar.locationId?.let(::locationIcon) ?: Icons.Outlined.LineLocationOn,
+            imageVector = bar.locationId?.let { locationIcon(bar.iconKey, it) }
+                ?: Icons.Outlined.LineLocationOn,
             contentDescription = null,
             modifier = Modifier.size(18.dp),
             tint = MaterialTheme.colorScheme.onSurfaceVariant,

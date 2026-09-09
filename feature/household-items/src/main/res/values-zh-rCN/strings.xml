@@ -87,11 +87,12 @@
 
     <!-- 位置管理 -->
     <string name="household_locations_title">位置管理</string>
-    <string name="household_location_add_root">新建顶级位置</string>
+    <string name="household_location_add_root">新建位置</string>
     <string name="household_location_add_child">添加子级</string>
     <string name="household_location_rename">重命名</string>
     <string name="household_location_delete">删除</string>
     <string name="household_location_name_hint">位置名称</string>
+    <string name="household_location_pick_icon">选择图标</string>
     <string name="household_location_delete_blocked">该位置下有子位置或物品,请先移除</string>
     <string name="household_locations_empty">暂无位置</string>
     <string name="household_location_expand">展开</string>

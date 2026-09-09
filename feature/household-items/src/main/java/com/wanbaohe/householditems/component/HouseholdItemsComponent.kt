@@ -159,18 +159,18 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
 
     fun consumeLocationDeleteBlocked() = _uiState.update { it.copy(locationDeleteBlocked = false) }
 
-    fun addLocation(name: String, parentId: String?) {
+    fun addLocation(name: String, parentId: String?, iconKey: String? = null) {
         if (name.isBlank()) return
         componentScope.launch {
-            service.addLocation(name, parentId, HouseholdService.ACTOR_USER, HouseholdService.SOURCE_UI)
+            service.addLocation(name, parentId, iconKey, HouseholdService.ACTOR_USER, HouseholdService.SOURCE_UI)
                 .onSuccess { showSaveSuccessToast() }
         }
     }
 
-    fun renameLocation(locationId: String, newName: String) {
+    fun renameLocation(locationId: String, newName: String, iconKey: String?) {
         if (newName.isBlank()) return
         componentScope.launch {
-            service.renameLocation(locationId, newName, HouseholdService.ACTOR_USER, HouseholdService.SOURCE_UI)
+            service.renameLocation(locationId, newName, iconKey, HouseholdService.ACTOR_USER, HouseholdService.SOURCE_UI)
                 .onSuccess { showSaveSuccessToast() }
         }
     }
@@ -220,6 +220,7 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
                         id = it.id,
                         name = localizedDefaultLocationName(it.id) ?: it.name,
                         parentId = it.parentId,
+                        iconKey = it.iconKey,
                     )
                 }
                 locations.value = ui

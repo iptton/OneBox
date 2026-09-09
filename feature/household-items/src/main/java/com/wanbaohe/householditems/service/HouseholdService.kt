@@ -194,6 +194,7 @@ class HouseholdService @Inject constructor(
     suspend fun addLocation(
         name: String,
         parentId: String?,
+        iconKey: String? = null,
         actor: String,
         source: String,
     ): Result<String> = runCatching {
@@ -205,6 +206,7 @@ class HouseholdService @Inject constructor(
                 id = id,
                 name = trimmed,
                 parentId = parentId,
+                iconKey = iconKey?.takeIf { it.isNotBlank() },
             )
         )
         activityLogRecorder.recordHousehold(
@@ -223,13 +225,24 @@ class HouseholdService @Inject constructor(
     suspend fun renameLocation(
         locationId: String,
         newName: String,
+        iconKey: String? = null,
         actor: String,
         source: String,
     ): Result<Unit> = runCatching {
         val trimmed = newName.trim()
         require(trimmed.isNotEmpty()) { "location_name_blank" }
         val target = repository.getLocationById(locationId) ?: error("location_not_found")
-        repository.upsertLocation(target.copy(name = trimmed))
+        // iconKey 传 null 表示保持不变;要清空图标传 ""
+        repository.upsertLocation(
+            target.copy(
+                name = trimmed,
+                iconKey = when {
+                    iconKey == null -> target.iconKey
+                    iconKey.isBlank() -> null
+                    else -> iconKey
+                },
+            )
+        )
         activityLogRecorder.recordHousehold(
             entityId = locationId,
             entityType = "HouseholdLocation",

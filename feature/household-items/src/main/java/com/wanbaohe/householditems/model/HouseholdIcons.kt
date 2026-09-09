@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import com.shifenmiao.base.ui.icon.IconRegistry
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Spray
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBook
@@ -49,6 +50,13 @@ fun locationIcon(locationId: String): ImageVector = when (locationId) {
     "loc_storage_room" -> Icons.Outlined.LineLocStorageRoom
     else -> Icons.Outlined.LineFolderCustom
 }
+
+/**
+ * 位置图标解析:用户自选的 [iconKey](IconRegistry key)优先;
+ * 为空或注册表查不到时回退预置 id 映射 / 默认文件夹图标。
+ */
+fun locationIcon(iconKey: String?, locationId: String): ImageVector =
+    iconKey?.let(IconRegistry::resolve) ?: locationIcon(locationId)
 
 /** 预置物品分类:字符串资源 + 图标;分类存库的是本地化文本 */
 data class HouseholdCategoryDef(

@@ -27,5 +27,7 @@ data class HouseholdLocationEntity(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "parent_id") val parentId: String? = null,
     @ColumnInfo(name = "sort_order") val sortOrder: Int = 0,
+    /** 用户自选图标(IconRegistry key);null = 走预置 id 映射/默认文件夹图标 */
+    @ColumnInfo(name = "icon_key") val iconKey: String? = null,
     @ColumnInfo(name = "created_at") val createdAt: Long = System.currentTimeMillis(),
 )

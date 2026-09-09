@@ -153,6 +153,16 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineFormatPaint
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineGridOn
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineHelp
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocationOn
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocBalcony
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocBathroom
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocHome
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocKitchen
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocLivingRoom
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocMasterBedroom
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocSecondBedroom
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocStorageRoom
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocStudy
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineFolderCustom
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMinus
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMovie
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSecurity
@@ -390,6 +400,17 @@ object IconRegistry {
         "Writing" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineWriting },
         "Piggybank" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LinePiggybank },
         "Dumbbell" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDumbbell },
+        // ── 家庭物品位置图标(键与 household_location.icon_key 对应)──
+        "LocHome" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocHome },
+        "LocLivingRoom" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocLivingRoom },
+        "LocMasterBedroom" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocMasterBedroom },
+        "LocSecondBedroom" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocSecondBedroom },
+        "LocKitchen" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocKitchen },
+        "LocBathroom" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocBathroom },
+        "LocStudy" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocStudy },
+        "LocBalcony" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocBalcony },
+        "LocStorageRoom" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocStorageRoom },
+        "FolderCustom" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFolderCustom },
     )
 
     // ── Material 标准图标 ──────────────────────────────────────

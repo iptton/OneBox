@@ -87,11 +87,12 @@
 
     <!-- 位置管理 -->
     <string name="household_locations_title">Manage Locations</string>
-    <string name="household_location_add_root">Add top-level location</string>
+    <string name="household_location_add_root">New Location</string>
     <string name="household_location_add_child">Add child</string>
     <string name="household_location_rename">Rename</string>
     <string name="household_location_delete">Delete</string>
     <string name="household_location_name_hint">Location name</string>
+    <string name="household_location_pick_icon">Pick icon</string>
     <string name="household_location_delete_blocked">This location has sub-locations or items, remove them first</string>
     <string name="household_locations_empty">No locations yet</string>
     <string name="household_location_expand">Expand</string>
