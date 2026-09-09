@@ -3,7 +3,8 @@
     <!-- 主页 -->
     <string name="household_title">家庭物品</string>
     <string name="household_tab_list">物品</string>
-    <string name="household_tab_settings">位置</string>
+    <string name="household_tab_locations">位置</string>
+    <string name="household_tab_stats">统计</string>
     <string name="household_empty_guide_title">还没有记录任何物品</string>
     <string name="household_empty_guide_message">手动添加一件,或者让 AI 帮你记</string>
     <string name="household_add_manually">手动添加</string>
@@ -11,9 +12,6 @@
     <string name="household_ai_assist_title">家庭物品助手</string>
     <string name="household_ai_assist_prompt">你是用户的家庭物品管理助手。用户告诉你什么物品放在哪里(以及可选的保质期)时,用 add_household_item 工具帮他记下来,例如"把感冒药放在主卧药箱,2027年6月过期";用户问东西在哪时用 find_household_item 查询;用户要挪东西时用 move_household_item。每次操作后简短确认结果。</string>
     <string name="household_search_hint">搜索名称、分类或备注</string>
-    <string name="household_expiry_section">保质期提醒</string>
-    <string name="household_expired">已过期</string>
-    <string name="household_expiring_soon">即将过期</string>
     <string name="household_expired_days">已过期 %1$d 天</string>
     <string name="household_days_left">剩余 %1$d 天</string>
     <string name="household_expires_today">今天到期</string>
@@ -36,8 +34,24 @@
     <string name="household_editor_name_hint">如:感冒药</string>
     <string name="household_editor_category_label">分类</string>
     <string name="household_category_medicine">药品</string>
-    <string name="household_category_small">小东西</string>
-    <string name="household_category_big">大件</string>
+    <string name="household_category_beauty">护肤美妆</string>
+    <string name="household_category_daily">日用品</string>
+    <string name="household_category_food">食品饮料</string>
+    <string name="household_category_clothing">衣物</string>
+    <string name="household_category_digital">数码</string>
+    <string name="household_category_books">书籍</string>
+    <string name="household_category_stationery">文具</string>
+    <string name="household_category_home_goods">家居用品</string>
+    <string name="household_category_cleaning">清洁用品</string>
+    <string name="household_category_baby">母婴用品</string>
+    <string name="household_category_sports">运动健身</string>
+    <string name="household_category_pet">宠物用品</string>
+    <string name="household_category_tools">工具</string>
+    <string name="household_category_accessories">饰品配件</string>
+    <string name="household_category_other">其他</string>
+    <!-- 旧版预设(已下线,仅用于存量数据的图标兼容) -->
+    <string name="household_category_small_legacy">小东西</string>
+    <string name="household_category_big_legacy">大件</string>
     <string name="household_category_custom_hint">自定义分类</string>
     <string name="household_editor_location_label">位置</string>
     <string name="household_editor_location_none">未设置位置</string>
@@ -53,6 +67,23 @@
     <string name="household_save">保存</string>
     <string name="household_cancel">取消</string>
     <string name="household_confirm">确定</string>
+
+    <!-- 统计 tab -->
+    <string name="household_stats_total_items">物品总数</string>
+    <string name="household_stats_location_count">位置数量</string>
+    <string name="household_stats_expiring_soon">临期物品</string>
+    <string name="household_stats_unit_item">件</string>
+    <string name="household_stats_unit_location">个</string>
+    <string name="household_stats_added_this_month">本月新增 +%1$d</string>
+    <string name="household_stats_category_share">按物品分类占比</string>
+    <string name="household_stats_location_distribution">按位置分布(件)</string>
+    <string name="household_stats_activity">动态摘要</string>
+    <string name="household_stats_recent_added">最近新增</string>
+    <string name="household_stats_upcoming_expiry">即将过期</string>
+    <string name="household_stats_total_count">%1$d\n总计</string>
+    <string name="household_stats_items_count">%1$d 件</string>
+    <string name="household_stats_other">其他</string>
+    <string name="household_stats_empty">暂无数据</string>
 
     <!-- 位置管理 -->
     <string name="household_locations_title">位置管理</string>

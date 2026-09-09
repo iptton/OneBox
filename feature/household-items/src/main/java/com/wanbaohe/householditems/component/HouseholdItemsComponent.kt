@@ -11,23 +11,20 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.wanbaohe.householditems.R
 import com.wanbaohe.householditems.model.DefaultLocations
-import com.wanbaohe.householditems.model.ExpiryStatus
 import com.wanbaohe.householditems.model.HouseholdDisplayMode
 import com.wanbaohe.householditems.model.HouseholdItemUi
 import com.wanbaohe.householditems.model.HouseholdItemsUiState
 import com.wanbaohe.householditems.model.HouseholdLocationUi
 import com.wanbaohe.householditems.model.HouseholdTab
+import com.wanbaohe.householditems.model.buildHouseholdStats
 import com.wanbaohe.householditems.model.buildLocationTree
 import com.wanbaohe.householditems.model.localizedDefaultLocationName
-import com.wanbaohe.householditems.model.locationPathOf
+import com.wanbaohe.householditems.model.toUi
 import com.wanbaohe.householditems.service.HouseholdService
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
-import java.time.temporal.ChronoUnit
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -67,6 +64,7 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         seedDefaultLocations()
         observeLocations()
         observeItems()
+        observeStats()
         handleInitialType(initialType)
     }
 
@@ -206,29 +204,6 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         }
     }
 
-    private fun com.shifenmiao.database.household.entity.HouseholdItemEntity.toUi(
-        locs: List<HouseholdLocationUi>,
-    ): HouseholdItemUi {
-        val expireDate = expireAt?.let {
-            Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate()
-        }
-        val daysToExpire = expireDate?.let {
-            ChronoUnit.DAYS.between(LocalDate.now(), it)
-        }
-        return HouseholdItemUi(
-            id = id,
-            name = name,
-            category = category.orEmpty(),
-            locationId = locationId,
-            locationPath = locationPathOf(locs, locationId).joinToString(" / ") { it.name },
-            expireDate = expireDate,
-            photoPath = photoPath,
-            note = note.orEmpty(),
-            expiryStatus = expiryStatusOf(daysToExpire),
-            daysToExpire = daysToExpire,
-        )
-    }
-
     /** 预置位置播种(表为空才写入,幂等)。 */
     private fun seedDefaultLocations() {
         componentScope.launch {
@@ -272,21 +247,21 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         }
             .onEach { list ->
                 _uiState.update { state ->
-                    state.copy(
-                        items = list,
-                        expiredItems = list.filter { it.expiryStatus == ExpiryStatus.EXPIRED },
-                        expiringSoonItems = list.filter { it.expiryStatus == ExpiryStatus.EXPIRING_SOON },
-                    )
+                    state.copy(items = list)
                 }
             }
             .launchIn(componentScope)
     }
 
-    private fun expiryStatusOf(daysToExpire: Long?): ExpiryStatus = when {
-        daysToExpire == null -> ExpiryStatus.NONE
-        daysToExpire < 0 -> ExpiryStatus.EXPIRED
-        daysToExpire <= EXPIRING_SOON_DAYS -> ExpiryStatus.EXPIRING_SOON
-        else -> ExpiryStatus.FRESH
+    /** 统计 tab:全量物品(不受搜索词影响)+ 位置列表 → 聚合数据。 */
+    private fun observeStats() {
+        combine(repository.observeItems(), locations) { items, locs ->
+            buildHouseholdStats(items, locs)
+        }
+            .onEach { stats ->
+                _uiState.update { state -> state.copy(stats = stats) }
+            }
+            .launchIn(componentScope)
     }
 
     @AssistedFactory
@@ -297,9 +272,5 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
             onNavigate: (Screen) -> Unit,
             @Assisted("initialType") initialType: Screen.HouseholdItems.Type?,
         ): HouseholdItemsComponent
-    }
-
-    private companion object {
-        const val EXPIRING_SOON_DAYS = 30L
     }
 }

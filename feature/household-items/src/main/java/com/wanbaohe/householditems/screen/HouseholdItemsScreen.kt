@@ -1,5 +1,7 @@
 package com.wanbaohe.householditems.screen
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +22,8 @@ import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +32,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,13 +49,17 @@ import com.shifenmiao.common.ui.BaseScreen
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.Edit
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendarAlert
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCatBulky
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronRight
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocationOn
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineMore
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePieChart
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineQuickTiles
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineStorage
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineViewList
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassFilterChip
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedButton
@@ -73,7 +84,7 @@ import com.wanbaohe.householditems.model.subtreeLocationIds
 import java.io.File
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 家庭物品主页:底部双 tab(物品 / 位置),列表 tab = 搜索 + 保质期提醒 + 位置 chips 浏览
+// 家庭物品主页:底部三 tab(物品 / 位置 / 统计),列表 tab = 搜索 + 位置面包屑浏览
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
@@ -122,7 +133,12 @@ fun HouseholdItemsScreen(
                             modifier = Modifier.fillMaxSize(),
                         )
 
-                        HouseholdTab.SETTINGS -> LocationManageTab(
+                        HouseholdTab.LOCATIONS -> LocationManageTab(
+                            component = component,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+
+                        HouseholdTab.STATS -> HouseholdStatsTab(
                             component = component,
                             modifier = Modifier.fillMaxSize(),
                         )
@@ -154,11 +170,17 @@ private fun HouseholdBottomBar(
             icon = Icons.Outlined.LineViewList,
             contentDescription = stringResource(R.string.household_tab_list),
         ),
-        HouseholdTab.SETTINGS to BottomNavItem(
-            id = HouseholdTab.SETTINGS.name,
-            label = stringResource(R.string.household_tab_settings),
-            icon = Icons.Outlined.LineStorage,
-            contentDescription = stringResource(R.string.household_tab_settings),
+        HouseholdTab.LOCATIONS to BottomNavItem(
+            id = HouseholdTab.LOCATIONS.name,
+            label = stringResource(R.string.household_tab_locations),
+            icon = Icons.Outlined.LineLocationOn,
+            contentDescription = stringResource(R.string.household_tab_locations),
+        ),
+        HouseholdTab.STATS to BottomNavItem(
+            id = HouseholdTab.STATS.name,
+            label = stringResource(R.string.household_tab_stats),
+            icon = Icons.Outlined.LinePieChart,
+            contentDescription = stringResource(R.string.household_tab_stats),
         ),
     )
 
@@ -314,14 +336,12 @@ private fun BrowseContent(
     onItemClick: (HouseholdItemUi) -> Unit,
     onItemDelete: (String) -> Unit,
 ) {
-    val atRoot = uiState.currentLocationId == null
     val children = uiState.locations.filter { it.parentId == uiState.currentLocationId }
     // 子树过滤:根 = 全部物品;选中位置 = 该位置及所有后代位置的物品
     val subtreeIds = subtreeLocationIds(uiState.locations, uiState.currentLocationId)
     val currentItems = uiState.items.filter { subtreeIds == null || it.locationId in subtreeIds }
     val breadcrumb = locationPathOf(uiState.locations, uiState.currentLocationId)
-    val expiryItems = if (atRoot) uiState.expiredItems + uiState.expiringSoonItems else emptyList()
-    val isEmpty = children.isEmpty() && currentItems.isEmpty() && expiryItems.isEmpty()
+    val isEmpty = children.isEmpty() && currentItems.isEmpty()
 
     Column(modifier = Modifier.fillMaxSize()) {
         // ── 面包屑 + 视图切换 ──
@@ -382,7 +402,6 @@ private fun BrowseContent(
         // ── 物品区 ──
         when (displayMode) {
             HouseholdDisplayMode.LIST -> ItemListContent(
-                expiryItems = expiryItems,
                 currentItems = currentItems,
                 isEmpty = isEmpty,
                 onItemClick = onItemClick,
@@ -390,7 +409,6 @@ private fun BrowseContent(
             )
 
             HouseholdDisplayMode.GRID -> ItemGridContent(
-                expiryItems = expiryItems,
                 currentItems = currentItems,
                 isEmpty = isEmpty,
                 onItemClick = onItemClick,
@@ -402,7 +420,6 @@ private fun BrowseContent(
 
 @Composable
 private fun ItemListContent(
-    expiryItems: List<HouseholdItemUi>,
     currentItems: List<HouseholdItemUi>,
     isEmpty: Boolean,
     onItemClick: (HouseholdItemUi) -> Unit,
@@ -410,15 +427,9 @@ private fun ItemListContent(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        if (expiryItems.isNotEmpty()) {
-            item(key = "expiry_header") { ExpirySectionHeader() }
-            items(expiryItems, key = { "expiry_${it.id}" }) { item ->
-                ItemRow(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
-            }
-        }
         items(currentItems, key = { it.id }) { item ->
             ItemRow(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
         }
@@ -432,7 +443,6 @@ private fun ItemListContent(
 
 @Composable
 private fun ItemGridContent(
-    expiryItems: List<HouseholdItemUi>,
     currentItems: List<HouseholdItemUi>,
     isEmpty: Boolean,
     onItemClick: (HouseholdItemUi) -> Unit,
@@ -441,16 +451,10 @@ private fun ItemGridContent(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        if (expiryItems.isNotEmpty()) {
-            item(key = "expiry_header", span = { GridItemSpan(2) }) { ExpirySectionHeader() }
-            gridItems(expiryItems, key = { "expiry_${it.id}" }) { item ->
-                ItemCard(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
-            }
-        }
         gridItems(currentItems, key = { it.id }) { item ->
             ItemCard(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
         }
@@ -459,27 +463,6 @@ private fun ItemGridContent(
                 EmptyHint(stringResource(R.string.household_empty_items))
             }
         }
-    }
-}
-
-@Composable
-private fun ExpirySectionHeader() {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(top = 4.dp),
-    ) {
-        Icon(
-            imageVector = Icons.Outlined.LineCalendarAlert,
-            contentDescription = null,
-            modifier = Modifier.size(16.dp),
-            tint = MaterialTheme.colorScheme.tertiary,
-        )
-        Text(
-            text = stringResource(R.string.household_expiry_section),
-            style = MaterialTheme.typography.titleSmall,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 6.dp),
-        )
     }
 }
 
@@ -552,11 +535,23 @@ internal fun ItemRow(
     onClick: () -> Unit,
     onDelete: () -> Unit,
 ) {
+    val isExpired = item.expiryStatus == ExpiryStatus.EXPIRED
     GlassCard(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         containerAlpha = GlassStyle.Medium.backgroundAlpha,
+        // 过期整卡高亮:errorContainer 玻璃底 + error 描边
+        colors = if (isExpired) {
+            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+        } else {
+            null
+        },
+        border = if (isExpired) {
+            BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.6f))
+        } else {
+            null
+        },
     ) {
         Row(
             modifier = Modifier.padding(12.dp),
@@ -593,14 +588,94 @@ internal fun ItemRow(
                 }
             }
             ExpiryBadge(item = item)
-            IconButton(onClick = onDelete) {
-                Icon(
-                    imageVector = Icons.Outlined.Delete,
-                    contentDescription = stringResource(R.string.household_delete_item),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+            ItemOverflowMenu(onEdit = onClick, onDelete = onDelete)
         }
+    }
+}
+
+/** 卡片/行右下 ⋯ 菜单:编辑 / 删除 */
+@Composable
+private fun ItemOverflowMenu(
+    onEdit: () -> Unit,
+    onDelete: () -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Box {
+        IconButton(onClick = { expanded = true }) {
+            Icon(
+                imageVector = Icons.Outlined.LineMore,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        EnhancedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.household_edit_item)) },
+                onClick = {
+                    expanded = false
+                    onEdit()
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Edit,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                    )
+                },
+            )
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.household_delete_item)) },
+                onClick = {
+                    expanded = false
+                    onDelete()
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                    )
+                },
+            )
+        }
+    }
+}
+
+/** 第三行信息:分类小图标 + "分类 · 备注";都为空时不占位 */
+@Composable
+private fun CategoryNoteLine(item: HouseholdItemUi) {
+    if (item.category.isBlank() && item.note.isBlank()) return
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        val categoryIcon = categoryIconOrNull(item.category)
+        if (categoryIcon != null) {
+            Icon(
+                imageVector = categoryIcon,
+                contentDescription = null,
+                modifier = Modifier.size(12.dp),
+                tint = MaterialTheme.colorScheme.primary,
+            )
+        } else if (item.category.isNotBlank()) {
+            // 自定义分类:主题色圆点
+            Box(
+                modifier = Modifier
+                    .size(8.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.primary),
+            )
+        }
+        Text(
+            text = listOf(item.category, item.note)
+                .filter { it.isNotBlank() }
+                .joinToString(" · "),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(start = 4.dp),
+        )
     }
 }
 
@@ -611,11 +686,23 @@ private fun ItemCard(
     onClick: () -> Unit,
     onDelete: () -> Unit,
 ) {
+    val isExpired = item.expiryStatus == ExpiryStatus.EXPIRED
     GlassCard(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         containerAlpha = GlassStyle.Medium.backgroundAlpha,
+        // 过期整卡高亮:errorContainer 玻璃底 + error 描边
+        colors = if (isExpired) {
+            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+        } else {
+            null
+        },
+        border = if (isExpired) {
+            BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.6f))
+        } else {
+            null
+        },
     ) {
         Column {
             ItemCardCover(item = item)
@@ -638,19 +725,15 @@ private fun ItemCard(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    ExpiryBadge(item = item)
-                    Box(modifier = Modifier.weight(1f))
-                    IconButton(
-                        onClick = onDelete,
-                        modifier = Modifier.size(32.dp),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Delete,
-                            contentDescription = stringResource(R.string.household_delete_item),
-                            modifier = Modifier.size(18.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+                    // 第三行:有保质期显示倒计时徽章,否则显示"分类 · 备注"(原型稿样式)
+                    Box(modifier = Modifier.weight(1f)) {
+                        if (item.daysToExpire != null) {
+                            ExpiryBadge(item = item)
+                        } else {
+                            CategoryNoteLine(item = item)
+                        }
                     }
+                    ItemOverflowMenu(onEdit = onClick, onDelete = onDelete)
                 }
             }
         }

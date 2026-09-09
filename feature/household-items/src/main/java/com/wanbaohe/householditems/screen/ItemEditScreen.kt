@@ -1,6 +1,7 @@
 package com.wanbaohe.householditems.screen
 
 import android.net.Uri
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -50,12 +51,12 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
-import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassFilterChip
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStyle
 import com.wanbaohe.householditems.R
 import com.wanbaohe.householditems.component.HouseholdItemsComponent
 import com.wanbaohe.householditems.model.LocationTreeNode
+import com.wanbaohe.householditems.model.defaultHouseholdCategories
 import com.wanbaohe.householditems.model.flattenLocationTree
 import com.wanbaohe.householditems.model.locationIcon
 import com.wanbaohe.householditems.model.locationPathOf
@@ -215,12 +216,9 @@ private fun CategoryField(
     category: String,
     onCategoryChange: (String) -> Unit,
 ) {
-    val presets = listOf(
-        stringResource(R.string.household_category_medicine),
-        stringResource(R.string.household_category_small),
-        stringResource(R.string.household_category_big),
-    )
-    val isPreset = category.isBlank() || category in presets
+    // 16 个默认分类(名称按当前 locale 解析),宫格选择 + 自定义输入
+    val presets = defaultHouseholdCategories.map { it to stringResource(it.nameResId) }
+    val isCustom = category.isNotBlank() && presets.none { it.second == category }
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
@@ -229,30 +227,64 @@ private fun CategoryField(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         FlowRow(
+            maxItemsInEachRow = 4,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            presets.forEach { preset ->
-                // 玻璃 chip:无描边,未选中中性弱底,选中 primary 色调玻璃底
-                GlassFilterChip(
-                    selected = category == preset,
-                    onClick = { onCategoryChange(if (category == preset) "" else preset) },
-                    label = { Text(preset) },
-                    shape = RoundedCornerShape(16.dp),
-                    style = GlassStyle.Medium,
-                    border = null,
-                )
+            presets.forEach { (def, name) ->
+                val selected = category == name
+                GlassCard(
+                    onClick = { onCategoryChange(if (selected) "" else name) },
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(12.dp),
+                    containerAlpha = GlassStyle.Medium.backgroundAlpha,
+                    border = if (selected) {
+                        BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+                    } else {
+                        null
+                    },
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                    ) {
+                        Icon(
+                            imageVector = def.icon,
+                            contentDescription = null,
+                            modifier = Modifier.size(22.dp),
+                            tint = if (selected) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            },
+                        )
+                        Text(
+                            text = name,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = if (selected) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            },
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                }
             }
         }
-        if (!isPreset || category.isBlank()) {
-            GlassOutlinedTextField(
-                value = if (isPreset) "" else category,
-                onValueChange = onCategoryChange,
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text(stringResource(R.string.household_category_custom_hint)) },
-                singleLine = true,
-                shape = RoundedCornerShape(16.dp),
-            )
-        }
+        // 自定义分类:输入后自动脱离预设选中态
+        GlassOutlinedTextField(
+            value = if (isCustom) category else "",
+            onValueChange = onCategoryChange,
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text(stringResource(R.string.household_category_custom_hint)) },
+            singleLine = true,
+            shape = RoundedCornerShape(16.dp),
+        )
     }
 }
 

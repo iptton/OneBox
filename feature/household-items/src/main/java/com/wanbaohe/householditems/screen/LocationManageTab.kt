@@ -1,17 +1,14 @@
 package com.wanbaohe.householditems.screen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -38,7 +34,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Edit
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAddCircleOutline
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStyle
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
 import com.wanbaohe.householditems.R
 import com.wanbaohe.householditems.component.HouseholdItemsComponent
@@ -47,8 +45,8 @@ import com.wanbaohe.householditems.model.flattenLocationTree
 import com.wanbaohe.householditems.model.locationIcon
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 位置管理(设置 tab):缩进树,一次性展示全部层级
-// 层级感:竖向引导线 + 逐级递减的图标/字号/颜色;顶级行加 primary 淡色底突出
+// 位置管理(位置 tab):缩进卡片树,一次性展示全部层级
+// 层级感:按深度向右缩进 + 逐级递减的图标/字号/颜色;顶级行 primary 描边突出
 // ─────────────────────────────────────────────────────────────────────────────
 
 private val INDENT_PER_DEPTH = 20.dp
@@ -120,12 +118,20 @@ fun LocationManageTab(
                     nameInput = ""
                     showNameInput = true
                 },
-                modifier = Modifier.padding(top = 4.dp),
-                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                shape = RoundedCornerShape(16.dp),
             ) {
+                Icon(
+                    imageVector = Icons.Outlined.LineAddCircleOutline,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                )
                 Text(
                     text = stringResource(R.string.household_location_add_root),
                     style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier.padding(start = 8.dp),
                 )
             }
         }
@@ -181,8 +187,8 @@ fun LocationManageTab(
 }
 
 /**
- * 树形行:引导线区(每级一段 20dp,内含 1dp 竖线)+ 图标 + 名称 + 操作按钮。
- * 容器走轻量路线:顶级行 primary 淡色圆角底,子级行透明底,避免密集树形下卡片感过重。
+ * 树形行:每行一张玻璃卡片,按层级向右缩进(原型稿样式);
+ * 图标/字号/颜色逐级递减,操作按钮(添加子级/重命名/删除)靠右。
  */
 @Composable
 private fun LocationTreeRow(
@@ -212,84 +218,69 @@ private fun LocationTreeRow(
     }
     val textWeight = if (isTop) FontWeight.SemiBold else FontWeight.Normal
 
-    Row(
+    GlassCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 2.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .then(
-                if (isTop) {
-                    Modifier.background(
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
-                    )
-                } else {
-                    Modifier
-                }
-            )
-            .height(ROW_HEIGHT),
-        verticalAlignment = Alignment.CenterVertically,
+            .padding(start = INDENT_PER_DEPTH * depth, top = 3.dp, bottom = 3.dp),
+        shape = RoundedCornerShape(14.dp),
+        containerAlpha = GlassStyle.Medium.backgroundAlpha,
+        // 顶级行加 primary 描边突出层级
+        border = if (isTop) {
+            BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f))
+        } else {
+            null
+        },
     ) {
-        // ── 引导线:每级一段,竖线居中于该段,同级多行自然连续 ──
-        repeat(depth) {
-            Box(
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(ROW_HEIGHT)
+                .padding(horizontal = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = locationIcon(node.location.id),
+                contentDescription = null,
+                modifier = Modifier.size(iconSize),
+                tint = if (isTop) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.primary.copy(alpha = 0.85f),
+            )
+            Text(
+                text = node.location.name,
+                style = textStyle,
+                fontWeight = textWeight,
+                color = textColor,
                 modifier = Modifier
-                    .width(INDENT_PER_DEPTH)
-                    .fillMaxHeight(),
-            ) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .width(1.dp)
-                        .fillMaxHeight()
-                        .background(
-                            MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f)
-                        ),
+                    .weight(1f)
+                    .padding(start = 10.dp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            // 紧凑操作按钮:图标 18dp,触摸区域 36dp
+            IconButton(onClick = onAddChild, modifier = Modifier.size(36.dp)) {
+                Icon(
+                    imageVector = Icons.Outlined.LineAddCircleOutline,
+                    contentDescription = stringResource(R.string.household_location_add_child),
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-        }
-
-        Icon(
-            imageVector = locationIcon(node.location.id),
-            contentDescription = null,
-            modifier = Modifier.size(iconSize),
-            tint = if (isTop) MaterialTheme.colorScheme.primary
-            else MaterialTheme.colorScheme.primary.copy(alpha = 0.85f),
-        )
-        Text(
-            text = node.location.name,
-            style = textStyle,
-            fontWeight = textWeight,
-            color = textColor,
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 10.dp),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-        // 紧凑操作按钮:图标 18dp,触摸区域 36dp
-        IconButton(onClick = onAddChild, modifier = Modifier.size(36.dp)) {
-            Icon(
-                imageVector = Icons.Outlined.LineAddCircleOutline,
-                contentDescription = stringResource(R.string.household_location_add_child),
-                modifier = Modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-        IconButton(onClick = onRename, modifier = Modifier.size(36.dp)) {
-            Icon(
-                imageVector = Icons.Outlined.Edit,
-                contentDescription = stringResource(R.string.household_location_rename),
-                modifier = Modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-        IconButton(onClick = onDelete, modifier = Modifier.size(36.dp)) {
-            Icon(
-                imageVector = Icons.Outlined.Delete,
-                contentDescription = stringResource(R.string.household_location_delete),
-                modifier = Modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            IconButton(onClick = onRename, modifier = Modifier.size(36.dp)) {
+                Icon(
+                    imageVector = Icons.Outlined.Edit,
+                    contentDescription = stringResource(R.string.household_location_rename),
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            IconButton(onClick = onDelete, modifier = Modifier.size(36.dp)) {
+                Icon(
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = stringResource(R.string.household_location_delete),
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
     }
 }

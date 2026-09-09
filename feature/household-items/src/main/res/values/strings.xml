@@ -3,7 +3,8 @@
     <!-- 主页 -->
     <string name="household_title">Household Items</string>
     <string name="household_tab_list">Items</string>
-    <string name="household_tab_settings">Locations</string>
+    <string name="household_tab_locations">Locations</string>
+    <string name="household_tab_stats">Stats</string>
     <string name="household_empty_guide_title">No items yet</string>
     <string name="household_empty_guide_message">Add one manually, or let AI record it for you</string>
     <string name="household_add_manually">Add manually</string>
@@ -11,9 +12,6 @@
     <string name="household_ai_assist_title">Household Assistant</string>
     <string name="household_ai_assist_prompt">You are the user\'s household item assistant. When the user tells you an item and where it is stored (and optionally its expiry date), record it with the add_household_item tool, e.g. "put the cold medicine in the bedroom medicine box, expires June 2027". When the user asks where something is, look it up with find_household_item. When the user wants to move something, use move_household_item. Confirm each action briefly after recording.</string>
     <string name="household_search_hint">Search name, category or note</string>
-    <string name="household_expiry_section">Expiry reminders</string>
-    <string name="household_expired">Expired</string>
-    <string name="household_expiring_soon">Expiring soon</string>
     <string name="household_expired_days">Expired %1$d d ago</string>
     <string name="household_days_left">%1$d d left</string>
     <string name="household_expires_today">Expires today</string>
@@ -36,8 +34,24 @@
     <string name="household_editor_name_hint">e.g. Cold medicine</string>
     <string name="household_editor_category_label">Category</string>
     <string name="household_category_medicine">Medicine</string>
-    <string name="household_category_small">Small items</string>
-    <string name="household_category_big">Large items</string>
+    <string name="household_category_beauty">Beauty &amp; Skincare</string>
+    <string name="household_category_daily">Daily Essentials</string>
+    <string name="household_category_food">Food &amp; Drinks</string>
+    <string name="household_category_clothing">Clothing</string>
+    <string name="household_category_digital">Electronics</string>
+    <string name="household_category_books">Books</string>
+    <string name="household_category_stationery">Stationery</string>
+    <string name="household_category_home_goods">Home Goods</string>
+    <string name="household_category_cleaning">Cleaning Supplies</string>
+    <string name="household_category_baby">Baby &amp; Kids</string>
+    <string name="household_category_sports">Sports &amp; Fitness</string>
+    <string name="household_category_pet">Pet Supplies</string>
+    <string name="household_category_tools">Tools</string>
+    <string name="household_category_accessories">Accessories</string>
+    <string name="household_category_other">Other</string>
+    <!-- 旧版预设(已下线,仅用于存量数据的图标兼容) -->
+    <string name="household_category_small_legacy">Small items</string>
+    <string name="household_category_big_legacy">Large items</string>
     <string name="household_category_custom_hint">Custom category</string>
     <string name="household_editor_location_label">Location</string>
     <string name="household_editor_location_none">No location</string>
@@ -53,6 +67,23 @@
     <string name="household_save">Save</string>
     <string name="household_cancel">Cancel</string>
     <string name="household_confirm">OK</string>
+
+    <!-- 统计 tab -->
+    <string name="household_stats_total_items">Total items</string>
+    <string name="household_stats_location_count">Locations</string>
+    <string name="household_stats_expiring_soon">Expiring soon</string>
+    <string name="household_stats_unit_item">items</string>
+    <string name="household_stats_unit_location">total</string>
+    <string name="household_stats_added_this_month">+%1$d this month</string>
+    <string name="household_stats_category_share">By category</string>
+    <string name="household_stats_location_distribution">By location (items)</string>
+    <string name="household_stats_activity">Activity digest</string>
+    <string name="household_stats_recent_added">Recently added</string>
+    <string name="household_stats_upcoming_expiry">Expiring soon</string>
+    <string name="household_stats_total_count">%1$d\ntotal</string>
+    <string name="household_stats_items_count">%1$d</string>
+    <string name="household_stats_other">Other</string>
+    <string name="household_stats_empty">No data yet</string>
 
     <!-- 位置管理 -->
     <string name="household_locations_title">Manage Locations</string>

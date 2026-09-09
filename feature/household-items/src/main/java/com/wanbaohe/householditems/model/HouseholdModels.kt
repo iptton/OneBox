@@ -29,6 +29,8 @@ data class HouseholdItemUi(
     val expiryStatus: ExpiryStatus,
     /** 距到期天数(负数 = 已过期天数),无保质期为 null */
     val daysToExpire: Long?,
+    /** 创建时间戳(ms),统计页"最近新增/本月新增"用 */
+    val createdAt: Long,
 )
 
 data class HouseholdLocationUi(
@@ -102,7 +104,8 @@ fun subtreeLocationIds(locations: List<HouseholdLocationUi>, rootId: String?): S
 /** 主页底部 tab */
 enum class HouseholdTab {
     LIST,
-    SETTINGS,
+    LOCATIONS,
+    STATS,
 }
 
 /** 物品列表显示模式 */
@@ -118,12 +121,12 @@ data class HouseholdItemsUiState(
     val locationTree: List<LocationTreeNode> = emptyList(),
     /** 当前搜索/全部物品(带位置路径与保质期状态) */
     val items: List<HouseholdItemUi> = emptyList(),
-    val expiredItems: List<HouseholdItemUi> = emptyList(),
-    val expiringSoonItems: List<HouseholdItemUi> = emptyList(),
     /** 当前浏览的位置层级,null = 根 */
     val currentLocationId: String? = null,
     /** 用户手动切换的显示模式;null = 跟随系统设置 groupOptionsByTypes */
     val displayModeOverride: HouseholdDisplayMode? = null,
+    /** 统计 tab 数据(全量,不受搜索词影响) */
+    val stats: HouseholdStatsUi = HouseholdStatsUi(),
 
     // ── 物品编辑表单 ──
     val showItemEditor: Boolean = false,
