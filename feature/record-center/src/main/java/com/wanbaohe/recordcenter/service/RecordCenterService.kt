@@ -14,6 +14,7 @@ import org.json.JSONObject
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * 记录中心业务门面 — UI 层与 Agent 层共用的唯一写入入口。
@@ -164,6 +165,10 @@ class RecordCenterService @Inject constructor(
 
     /**
      * 日志失败不弄崩主流程。
+     *
+     * 注意:CancellationException 必须继续上抛,不能吞掉——
+     * 吞掉取消会破坏结构化并发(如 Agent 停止/超时后仍在写库);
+     * 其余异常记 Error 级日志,便于排查"有记录无日志"的问题。
      */
     private suspend fun logChangeSafe(
         entity: HealthRecordEntity,
@@ -198,7 +203,10 @@ class RecordCenterService @Inject constructor(
                 payload = payload,
                 dedupKey = "record_center_${System.currentTimeMillis()}_${UUID.randomUUID()}",
             )
-        }.onFailure { it.makeLog(TAG) }
+        }.onFailure { error ->
+            if (error is CancellationException) throw error
+            error.makeLog(TAG) { "活动日志写入失败: $action ${entity.type} by $actor" }
+        }
     }
 
     companion object {

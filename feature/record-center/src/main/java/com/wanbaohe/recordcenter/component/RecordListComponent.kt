@@ -3,12 +3,15 @@ package com.wanbaohe.recordcenter.component
 import com.arkivanov.decompose.ComponentContext
 import com.shifenmiao.database.recordcenter.entity.HealthRecordEntity
 import com.shifenmiao.database.recordcenter.repo.HealthRecordRepository
+import com.shifenmiao.interfaces.singleton.AppContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.wanbaohe.recordcenter.R
 import com.wanbaohe.recordcenter.model.RecordFieldsCodec
 import com.wanbaohe.recordcenter.registry.RecordTypeCatalog
 import com.wanbaohe.recordcenter.registry.RecordTypeDefinition
+import com.wanbaohe.recordcenter.service.HealthInsightService
 import com.wanbaohe.recordcenter.service.RecordCenterService
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -25,6 +28,14 @@ import kotlinx.coroutines.launch
 
 /** 列表页时间范围筛选 */
 enum class RecordRangeFilter { DAYS_7, DAYS_30, ALL }
+
+/** AI 解读卡片状态:手动触发,不落库 */
+sealed interface RecordInsightState {
+    data object Idle : RecordInsightState
+    data object Loading : RecordInsightState
+    data class Content(val text: String) : RecordInsightState
+    data class Error(val message: String) : RecordInsightState
+}
 
 /** 单个图表字段的统计数据(基于当前筛选范围) */
 data class RecordFieldStats(
@@ -50,6 +61,7 @@ class RecordListComponent @AssistedInject internal constructor(
     repository: HealthRecordRepository,
     catalog: RecordTypeCatalog,
     private val service: RecordCenterService,
+    private val insightService: HealthInsightService,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     /** 未知类型时为 null,界面层展示空态 */
@@ -96,6 +108,44 @@ class RecordListComponent @AssistedInject internal constructor(
 
     fun setRangeFilter(filter: RecordRangeFilter) {
         _rangeFilter.value = filter
+    }
+
+    private val _insightState = MutableStateFlow<RecordInsightState>(RecordInsightState.Idle)
+    val insightState: StateFlow<RecordInsightState> = _insightState
+
+    /**
+     * 手动生成 AI 解读:快照当前筛选范围内的记录与时间范围,调用解读服务。
+     * 无记录或重复点击 Loading 中时直接忽略。
+     */
+    fun generateInsight() {
+        val typeDefinition = definition ?: return
+        val snapshot = records.value
+        if (snapshot.isEmpty() || _insightState.value is RecordInsightState.Loading) return
+        _insightState.value = RecordInsightState.Loading
+        componentScope.launch {
+            val result = insightService.interpret(
+                definition = typeDefinition,
+                records = snapshot,
+                rangeLabel = rangeLabel(_rangeFilter.value),
+            )
+            _insightState.value = when (result) {
+                is HealthInsightService.GenerationResult.Success ->
+                    RecordInsightState.Content(result.content)
+
+                is HealthInsightService.GenerationResult.Failed ->
+                    RecordInsightState.Error(
+                        result.reason.ifBlank {
+                            AppContext.getString(R.string.record_center_ai_insight_error)
+                        }
+                    )
+            }
+        }
+    }
+
+    private fun rangeLabel(filter: RecordRangeFilter): String = when (filter) {
+        RecordRangeFilter.DAYS_7 -> AppContext.getContext().getString(R.string.record_center_range_days, 7)
+        RecordRangeFilter.DAYS_30 -> AppContext.getContext().getString(R.string.record_center_range_days, 30)
+        RecordRangeFilter.ALL -> AppContext.getString(R.string.record_center_range_all_label)
     }
 
     fun deleteRecord(id: String) {

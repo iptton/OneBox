@@ -3,8 +3,6 @@ package com.wanbaohe.recordcenter.ai.tool
 import com.shifenmiao.ai.agent.tool.AgentTool
 import com.shifenmiao.ai.agent.tool.AgentToolResult
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
-import com.shifenmiao.common.handle.navigation.AppNavigationRegistry
-import com.shifenmiao.common.handle.navigation.AppNavigationTargetType
 import com.shifenmiao.model.ai.ToolParameters
 import com.shifenmiao.model.ai.tool.ToolCategory
 import com.shifenmiao.model.ai.tool.ToolRiskLevel
@@ -53,15 +51,10 @@ class GetHealthSummaryTool @Inject constructor(
         return runCatching {
             val latestByType = service.latestPerType().associateBy { it.type }
 
-            val deeplink = AppNavigationRegistry.buildStructuredDeeplink(
-                targetType = AppNavigationTargetType.SCREEN,
-                routeKey = AddHealthRecordTool.RECORD_CENTER_ROUTE_KEY,
-                params = mapOf("type" to "list"),
-            )
-
             if (latestByType.isEmpty()) {
-                return AgentToolResult(
-                    content = buildString {
+                val deeplink = recordCenterListDeeplink()
+                return recordCenterSuccessResult(
+                    markdown = buildString {
                         appendLine("# ${sanitizeMarkdownText(title)}")
                         appendLine()
                         appendLine(textProvider.string(R.string.agent_tool_get_health_summary_empty))
@@ -70,15 +63,35 @@ class GetHealthSummaryTool @Inject constructor(
                             "- ${buildMarkdownLink(textProvider.string(R.string.agent_tool_record_center_open_link), deeplink)}"
                         )
                     }.trimEnd(),
+                    deepLinks = listOf(
+                        toolDeepLinkJson(
+                            uri = deeplink,
+                            label = textProvider.string(R.string.agent_tool_record_center_open_link),
+                            primary = true,
+                        )
+                    ),
+                ) {
+                    put("action", "summary")
+                    put("count", 0)
+                }
+            }
+
+            // 有数据的类型各出一条跳转链接(按目录顺序,首个为 primary)
+            val involvedTypes = catalog.all().filter { latestByType.containsKey(it.key) }
+            val deepLinks = involvedTypes.mapIndexed { order, definition ->
+                toolDeepLinkJson(
+                    uri = recordCenterListDeeplink(definition.key),
+                    label = textProvider.string(definition.titleRes),
+                    primary = order == 0,
                 )
             }
 
-            AgentToolResult(
-                content = buildString {
+            recordCenterSuccessResult(
+                markdown = buildString {
                     appendLine("# ${sanitizeMarkdownText(title)}")
                     appendLine()
-                    catalog.all().forEach { definition ->
-                        val entity = latestByType[definition.key] ?: return@forEach
+                    involvedTypes.forEach { definition ->
+                        val entity = latestByType.getValue(definition.key)
                         val fields = RecordFieldsCodec.decode(entity.fieldsJson)
                         val timeText = Instant.ofEpochMilli(entity.happenedAt)
                             .atZone(ZoneId.systemDefault())
@@ -98,11 +111,17 @@ class GetHealthSummaryTool @Inject constructor(
                         }
                         appendLine()
                     }
-                    appendLine(
-                        "- ${buildMarkdownLink(textProvider.string(R.string.agent_tool_record_center_open_link), deeplink)}"
-                    )
+                    involvedTypes.forEach { definition ->
+                        appendLine(
+                            "- ${buildMarkdownLink(textProvider.string(definition.titleRes), recordCenterListDeeplink(definition.key))}"
+                        )
+                    }
                 }.trimEnd(),
-            )
+                deepLinks = deepLinks,
+            ) {
+                put("action", "summary")
+                put("count", involvedTypes.size)
+            }
         }.getOrElse { error ->
             AgentToolResult(
                 content = textProvider.string(

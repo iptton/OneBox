@@ -954,7 +954,7 @@
     <string name="schedule_description">घटनाओं और अनुसूचियों को एक स्थान पर प्रबंधित करें, Google Calendar के लिए सिंक तैयार है।</string>
     <string name="bookkeeping">व्यय ट्रैकर</string>
     <string name="bookkeeping_description">श्रेणीबद्ध सारांश के साथ दैनिक आय और व्यय ट्रैक करें।</string>
-    <string name="record_center">रिकॉर्ड सेंटर</string>
+    <string name="record_center">स्वास्थ्य रिकॉर्ड</string>
     <string name="record_center_description">स्वास्थ्य मेट्रिक्स एक ही जगह रिकॉर्ड और प्रबंधित करें।</string>
     <string name="data_restore_success">डेटाबेस पुनर्स्थापित किया गया। ऐप 3 सेकंड में पुनः प्रारंभ होगा।</string>
     <string name="data_backup_success">बैकअप सफल! %1$s फ़ोल्डर में सहेजा गया।</string>

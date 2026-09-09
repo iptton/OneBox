@@ -3,8 +3,6 @@ package com.wanbaohe.recordcenter.ai.tool
 import com.shifenmiao.ai.agent.tool.AgentTool
 import com.shifenmiao.ai.agent.tool.AgentToolResult
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
-import com.shifenmiao.common.handle.navigation.AppNavigationRegistry
-import com.shifenmiao.common.handle.navigation.AppNavigationTargetType
 import com.shifenmiao.model.ai.ToolParameterProperty
 import com.shifenmiao.model.ai.ToolParameters
 import com.shifenmiao.model.ai.tool.ToolCategory
@@ -80,15 +78,18 @@ class QueryHealthRecordsTool @Inject constructor(
             val from = now - days * DAY_MILLIS
             val records = service.listRange(typeKey, from, now)
 
-            val deeplink = AppNavigationRegistry.buildStructuredDeeplink(
-                targetType = AppNavigationTargetType.SCREEN,
-                routeKey = AddHealthRecordTool.RECORD_CENTER_ROUTE_KEY,
-                params = mapOf("type" to "list", "record_type" to typeKey),
+            val deeplink = recordCenterListDeeplink(typeKey)
+            val deepLinks = listOf(
+                toolDeepLinkJson(
+                    uri = deeplink,
+                    label = textProvider.string(R.string.agent_tool_record_center_open_link),
+                    primary = true,
+                )
             )
 
             if (records.isEmpty()) {
-                return AgentToolResult(
-                    content = buildString {
+                return recordCenterSuccessResult(
+                    markdown = buildString {
                         appendLine("# ${sanitizeMarkdownText(title)}")
                         appendLine()
                         appendLine(textProvider.string(R.string.agent_tool_query_health_records_empty))
@@ -97,7 +98,12 @@ class QueryHealthRecordsTool @Inject constructor(
                             "- ${buildMarkdownLink(textProvider.string(R.string.agent_tool_record_center_open_link), deeplink)}"
                         )
                     }.trimEnd(),
-                )
+                    deepLinks = deepLinks,
+                ) {
+                    put("action", "query")
+                    put("record_type", typeKey)
+                    put("count", 0)
+                }
             }
 
             // 统计口径:chartFieldKeys(即图上绘制的字段)
@@ -110,8 +116,8 @@ class QueryHealthRecordsTool @Inject constructor(
                 Triple(field, values, unit)
             }
 
-            AgentToolResult(
-                content = buildString {
+            recordCenterSuccessResult(
+                markdown = buildString {
                     appendLine("# ${sanitizeMarkdownText(title)}")
                     appendLine()
                     appendLine(
@@ -130,11 +136,11 @@ class QueryHealthRecordsTool @Inject constructor(
                             appendLine(
                                 "- ${sanitizeMarkdownText(textProvider.string(field.labelRes))}: " +
                                     "${textProvider.string(R.string.record_center_stats_average)} " +
-                                    "${RecordFieldsCodec.formatValue(values.average().toFloat())}$unit · " +
+                                    "${RecordFieldsCodec.formatStatsValue(values.average().toFloat())}$unit · " +
                                     "${textProvider.string(R.string.record_center_stats_max)} " +
-                                    "${RecordFieldsCodec.formatValue(values.max())}$unit · " +
+                                    "${RecordFieldsCodec.formatStatsValue(values.max())}$unit · " +
                                     "${textProvider.string(R.string.record_center_stats_min)} " +
-                                    "${RecordFieldsCodec.formatValue(values.min())}$unit"
+                                    "${RecordFieldsCodec.formatStatsValue(values.min())}$unit"
                             )
                         }
                         appendLine()
@@ -163,7 +169,13 @@ class QueryHealthRecordsTool @Inject constructor(
                         "- ${buildMarkdownLink(textProvider.string(R.string.agent_tool_record_center_open_link), deeplink)}"
                     )
                 }.trimEnd(),
-            )
+                deepLinks = deepLinks,
+            ) {
+                put("action", "query")
+                put("record_type", typeKey)
+                put("days", days)
+                put("count", records.size)
+            }
         }.getOrElse { error ->
             AgentToolResult(
                 content = textProvider.string(

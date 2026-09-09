@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 模块 -->
-    <string name="record_center_title">记录中心</string>
+    <string name="record_center_title">健康记录</string>
 
     <!-- 类型:标题与描述 -->
     <string name="record_center_type_heart_rate_title">心率记录</string>
@@ -20,6 +20,14 @@
     <string name="record_center_type_uric_acid_desc">记录和管理尿酸数据,预防和控制痛风</string>
     <string name="record_center_type_blood_lipid_title">血脂记录</string>
     <string name="record_center_type_blood_lipid_desc">记录和管理血脂数据,监测血脂水平</string>
+    <string name="record_center_type_blood_oxygen_title">血氧记录</string>
+    <string name="record_center_type_blood_oxygen_desc">记录和管理血氧数据,监测呼吸循环系统健康</string>
+    <string name="record_center_type_body_temperature_title">体温记录</string>
+    <string name="record_center_type_body_temperature_desc">记录和管理体温数据,追踪体温变化</string>
+    <string name="record_center_type_sleep_duration_title">睡眠记录</string>
+    <string name="record_center_type_sleep_duration_desc">记录和管理睡眠时长,改善睡眠质量</string>
+    <string name="record_center_type_waist_circumference_title">腰围记录</string>
+    <string name="record_center_type_waist_circumference_desc">记录和管理腰围数据,关注腹部健康</string>
 
     <!-- 字段标签 -->
     <string name="record_center_field_heart_rate_value">心率</string>
@@ -34,6 +42,10 @@
     <string name="record_center_field_lipid_triglyceride">甘油三酯</string>
     <string name="record_center_field_lipid_ldl">低密度脂蛋白</string>
     <string name="record_center_field_lipid_hdl">高密度脂蛋白</string>
+    <string name="record_center_field_blood_oxygen_value">血氧饱和度</string>
+    <string name="record_center_field_body_temperature_value">体温</string>
+    <string name="record_center_field_sleep_duration_value">睡眠时长</string>
+    <string name="record_center_field_waist_circumference_value">腰围</string>
 
     <!-- 参考范围 -->
     <string name="record_center_ref_heart_rate">正常 60-100 bpm</string>
@@ -42,6 +54,10 @@
     <string name="record_center_ref_bmi">正常 18.5-24</string>
     <string name="record_center_ref_uric_acid">男 208-428 / 女 155-357 μmol/L</string>
     <string name="record_center_ref_blood_lipid">总胆固醇 &lt;5.2 mmol/L</string>
+    <string name="record_center_ref_blood_oxygen">正常 95-100%</string>
+    <string name="record_center_ref_body_temperature">正常 36.0-37.3 °C</string>
+    <string name="record_center_ref_sleep_duration">建议 7-9 小时</string>
+    <string name="record_center_ref_waist_circumference">男 &lt;90 / 女 &lt;85 cm</string>
 
     <!-- 表单与列表(供后续 UI 使用) -->
     <string name="record_center_label_time">记录时间</string>
@@ -67,6 +83,21 @@
     <string name="record_center_confirm">确定</string>
     <string name="record_center_cancel">取消</string>
     <string name="record_center_save_success">已保存</string>
+    <string name="record_center_range_all_label">全部记录</string>
+
+    <!-- AI 解读 -->
+    <string name="record_center_ai_insight">AI 解读</string>
+    <string name="record_center_ai_insight_hint">让 AI 帮你解读这段时间的数据趋势</string>
+    <string name="record_center_ai_insight_empty">先添加记录,再生成解读</string>
+    <string name="record_center_ai_insight_generate">生成解读</string>
+    <string name="record_center_ai_insight_regenerate">重新解读</string>
+    <string name="record_center_ai_insight_retry">重试</string>
+    <string name="record_center_ai_insight_loading">正在生成解读…</string>
+    <string name="record_center_ai_insight_error">生成解读失败,请稍后重试</string>
+
+    <!-- 布局切换 -->
+    <string name="record_center_cd_switch_to_grid">切换到网格视图</string>
+    <string name="record_center_cd_switch_to_list">切换到列表视图</string>
 
     <!-- 校验错误 -->
     <string name="record_center_error_unknown_type">未知的记录类型:%1$s</string>
@@ -86,13 +117,19 @@
     <!-- Agent 工具:add_health_record -->
     <string name="agent_tool_add_health_record_title">添加健康记录</string>
     <string name="agent_tool_add_health_record_summary">记录血压、心率、体重等健康数据</string>
-    <string name="agent_tool_add_health_record_description">添加一条指定类型的健康记录。values 为 字段名→数值 的 JSON 对象,字段名和单位由 record_type 决定。支持的记录类型及字段:</string>
+    <string name="agent_tool_add_health_record_description">添加健康记录。单条模式:顶层传 record_type 和 values(可选 happened_at/note)。批量模式:传 records 数组一次添加多条记录,每项字段同单条模式,各条目独立处理,部分失败不影响其它条目。values 为 字段名→数值 的 JSON 对象,字段名和单位由 record_type 决定。支持的记录类型及字段:</string>
+    <string name="agent_tool_add_health_record_param_records">批量模式:记录数组,每项含 record_type 和 values(可选 happened_at/note);传入后忽略顶层 record_type/values</string>
     <string name="agent_tool_add_health_record_param_record_type">记录类型,取枚举值之一</string>
     <string name="agent_tool_add_health_record_param_values">字段值,字段名→数值的 JSON 对象,如 {\"systolic\": 120, \"diastolic\": 80}</string>
     <string name="agent_tool_add_health_record_param_happened_at">测量发生的毫秒时间戳,默认当前时间</string>
     <string name="agent_tool_add_health_record_param_note">备注,可选</string>
     <string name="agent_tool_add_health_record_success">已保存</string>
     <string name="agent_tool_add_health_record_failed">添加健康记录失败:%1$s</string>
+    <string name="agent_tool_add_health_record_batch_empty">records 不能为空</string>
+    <string name="agent_tool_add_health_record_batch_success_count">成功 %1$d 条</string>
+    <string name="agent_tool_add_health_record_batch_failure_count">失败 %1$d 条</string>
+    <string name="agent_tool_add_health_record_batch_section_success">成功记录</string>
+    <string name="agent_tool_add_health_record_batch_section_failure">失败记录</string>
     <string-array name="agent_tool_add_health_record_keywords">
         <item>健康记录</item>
         <item>血压</item>
@@ -146,7 +183,7 @@
     </string-array>
 
     <!-- Agent 工具:公共 -->
-    <string name="agent_tool_record_center_open_link">打开记录中心</string>
+    <string name="agent_tool_record_center_open_link">打开健康记录</string>
     <string name="agent_tool_record_center_field_optional">(可选)</string>
     <string name="agent_tool_record_center_unknown_error">未知错误</string>
 </resources>

@@ -11,10 +11,14 @@ import com.wanbaohe.recordcenter.registry.RecordTypeDefinition
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+
+/** 聚合页布局模式:列表 / 双列网格 */
+enum class RecordCenterLayout { LIST, GRID }
 
 /**
  * 记录中心聚合页 Component — 展示全部记录类型卡片及各类型最新一条记录。
@@ -38,6 +42,17 @@ class RecordCenterComponent @AssistedInject internal constructor(
         .observeLatestPerType()
         .map { list -> list.associateBy { it.type } }
         .stateIn(componentScope, SharingStarted.WhileSubscribed(5_000L), emptyMap())
+
+    /** 布局模式,页面内保留(重启不持久化) */
+    private val _layoutMode = MutableStateFlow(RecordCenterLayout.LIST)
+    val layoutMode: StateFlow<RecordCenterLayout> = _layoutMode
+
+    fun toggleLayoutMode() {
+        _layoutMode.value = when (_layoutMode.value) {
+            RecordCenterLayout.LIST -> RecordCenterLayout.GRID
+            RecordCenterLayout.GRID -> RecordCenterLayout.LIST
+        }
+    }
 
     fun navigateToRecordList(recordType: String) {
         onNavigate(

@@ -954,7 +954,7 @@
     <string name="schedule_description">Управляйте событиями и расписаниями в одном месте, с синхронизацией для Google Календаря.</string>
     <string name="bookkeeping">Учет расходов</string>
     <string name="bookkeeping_description">Отслеживайте ежедневные доходы и расходы с категориальными сводками.</string>
-    <string name="record_center">Центр записей</string>
+    <string name="record_center">Здоровье</string>
     <string name="record_center_description">Записывайте и отслеживайте показатели здоровья в одном месте.</string>
     <string name="data_restore_success">База данных восстановлена. Приложение перезапустится через 3 секунды.</string>
     <string name="data_backup_success">Резервное копирование успешно! Сохранено в папку %1$s.</string>

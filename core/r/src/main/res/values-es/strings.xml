@@ -954,7 +954,7 @@
     <string name="schedule_description">Gestiona eventos y horarios en un solo lugar, con sincronización lista para Google Calendar.</string>
     <string name="bookkeeping">Control de gastos</string>
     <string name="bookkeeping_description">Registra ingresos y gastos diarios con resúmenes por categorías.</string>
-    <string name="record_center">Centro de registros</string>
+    <string name="record_center">Registros de salud</string>
     <string name="record_center_description">Registra y gestiona tus métricas de salud en un solo lugar.</string>
     <string name="data_restore_success">Base de datos restaurada. La aplicación se reiniciará en 3 segundos.</string>
     <string name="data_backup_success">¡Copia de seguridad exitosa! Guardada en la carpeta %1$s.</string>

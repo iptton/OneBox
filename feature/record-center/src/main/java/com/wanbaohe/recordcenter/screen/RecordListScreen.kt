@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,17 +40,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.shifenmiao.common.ui.BaseScreen
+import com.shifenmiao.base.ui.StreamingMarkdownContent
 import com.shifenmiao.database.recordcenter.entity.HealthRecordEntity
 import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineMagic
 import com.t8rin.imagetoolbox.core.ui.widget.charts.LineTrendChart
 import com.t8rin.imagetoolbox.core.ui.widget.charts.TrendSeries
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedButton
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
 import com.wanbaohe.recordcenter.R
 import com.wanbaohe.recordcenter.component.RecordFieldStats
+import com.wanbaohe.recordcenter.component.RecordInsightState
 import com.wanbaohe.recordcenter.component.RecordListComponent
 import com.wanbaohe.recordcenter.component.RecordRangeFilter
 import com.wanbaohe.recordcenter.model.RecordFieldsCodec
@@ -68,6 +74,7 @@ fun RecordListScreen(component: RecordListComponent) {
     val records by component.records.collectAsState()
     val stats by component.stats.collectAsState()
     val rangeFilter by component.rangeFilter.collectAsState()
+    val insightState by component.insightState.collectAsState()
 
     var pendingDeleteRecordId by remember { mutableStateOf<String?>(null) }
 
@@ -107,7 +114,9 @@ fun RecordListScreen(component: RecordListComponent) {
                     records = records,
                     stats = stats,
                     rangeFilter = rangeFilter,
+                    insightState = insightState,
                     onRangeFilterChange = component::setRangeFilter,
+                    onGenerateInsight = component::generateInsight,
                     onEditRecord = component::navigateToEditRecord,
                     onDeleteRecord = { pendingDeleteRecordId = it },
                 )
@@ -152,7 +161,9 @@ private fun RecordListContent(
     records: List<HealthRecordEntity>,
     stats: List<RecordFieldStats>,
     rangeFilter: RecordRangeFilter,
+    insightState: RecordInsightState,
     onRangeFilterChange: (RecordRangeFilter) -> Unit,
+    onGenerateInsight: () -> Unit,
     onEditRecord: (String) -> Unit,
     onDeleteRecord: (String) -> Unit,
 ) {
@@ -179,6 +190,15 @@ private fun RecordListContent(
                     StatsCard(definition = definition, stats = stats)
                 }
             }
+        }
+
+        // AI 解读卡片:放在数据可视化(趋势图/统计)之下、记录列表之上
+        item {
+            AiInsightCard(
+                state = insightState,
+                hasRecords = records.isNotEmpty(),
+                onGenerate = onGenerateInsight,
+            )
         }
 
         if (records.isEmpty()) {
@@ -309,6 +329,114 @@ private fun LegendDot(color: Color) {
     )
 }
 
+/**
+ * AI 解读卡片:手动触发生成,不落库。
+ * Idle → 提示 + 生成按钮;Loading → 进度;Content → 正文 + 重新解读;Error → 错误 + 重试。
+ */
+@Composable
+private fun AiInsightCard(
+    state: RecordInsightState,
+    hasRecords: Boolean,
+    onGenerate: () -> Unit,
+) {
+    GlassCard(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        borderWidth = 0.dp,
+        containerAlpha = 0.4f,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.LineMagic,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text(
+                    text = stringResource(R.string.record_center_ai_insight),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+
+            when (state) {
+                RecordInsightState.Idle -> {
+                    Text(
+                        text = stringResource(
+                            if (hasRecords) R.string.record_center_ai_insight_hint
+                            else R.string.record_center_ai_insight_empty
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    GlassTonalButton(
+                        onClick = onGenerate,
+                        enabled = hasRecords,
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(text = stringResource(R.string.record_center_ai_insight_generate))
+                    }
+                }
+
+                RecordInsightState.Loading -> {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .padding(end = 12.dp)
+                                .size(24.dp),
+                        )
+                        Text(
+                            text = stringResource(R.string.record_center_ai_insight_loading),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+
+                is RecordInsightState.Content -> {
+                    StreamingMarkdownContent(content = state.text)
+                    GlassOutlinedButton(
+                        onClick = onGenerate,
+                        modifier = Modifier.align(Alignment.End),
+                    ) {
+                        Text(text = stringResource(R.string.record_center_ai_insight_regenerate))
+                    }
+                }
+
+                is RecordInsightState.Error -> {
+                    Text(
+                        text = state.message,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                    GlassTonalButton(
+                        onClick = onGenerate,
+                        enabled = hasRecords,
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(text = stringResource(R.string.record_center_ai_insight_retry))
+                    }
+                }
+            }
+        }
+    }
+}
+
 /** 统计行:每个图表字段一行 最新/平均/最高/最低 */
 @Composable
 private fun StatsCard(
@@ -373,7 +501,7 @@ private fun StatRow(field: RecordField, stat: RecordFieldStats) {
 private fun StatCell(label: String, value: Float?, modifier: Modifier = Modifier) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = value?.let(RecordFieldsCodec::formatValue) ?: "--",
+            text = value?.let(RecordFieldsCodec::formatStatsValue) ?: "--",
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface,

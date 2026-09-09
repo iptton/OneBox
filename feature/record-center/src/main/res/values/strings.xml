@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 模块 -->
-    <string name="record_center_title">Record Center</string>
+    <string name="record_center_title">Health Records</string>
 
     <!-- 类型:标题与描述 -->
     <string name="record_center_type_heart_rate_title">Heart Rate</string>
@@ -20,6 +20,14 @@
     <string name="record_center_type_uric_acid_desc">Record and manage uric acid data to help prevent and control gout</string>
     <string name="record_center_type_blood_lipid_title">Blood Lipid</string>
     <string name="record_center_type_blood_lipid_desc">Record and manage blood lipid data to monitor lipid levels</string>
+    <string name="record_center_type_blood_oxygen_title">Blood Oxygen</string>
+    <string name="record_center_type_blood_oxygen_desc">Record and manage blood oxygen data to monitor respiratory and circulatory health</string>
+    <string name="record_center_type_body_temperature_title">Temperature</string>
+    <string name="record_center_type_body_temperature_desc">Record and manage body temperature data to track temperature changes</string>
+    <string name="record_center_type_sleep_duration_title">Sleep</string>
+    <string name="record_center_type_sleep_duration_desc">Record and manage sleep duration to improve sleep quality</string>
+    <string name="record_center_type_waist_circumference_title">Waist</string>
+    <string name="record_center_type_waist_circumference_desc">Record and manage waist circumference data to watch abdominal health</string>
 
     <!-- 字段标签 -->
     <string name="record_center_field_heart_rate_value">Heart rate</string>
@@ -34,6 +42,10 @@
     <string name="record_center_field_lipid_triglyceride">Triglyceride</string>
     <string name="record_center_field_lipid_ldl">LDL</string>
     <string name="record_center_field_lipid_hdl">HDL</string>
+    <string name="record_center_field_blood_oxygen_value">Blood oxygen</string>
+    <string name="record_center_field_body_temperature_value">Body temperature</string>
+    <string name="record_center_field_sleep_duration_value">Sleep duration</string>
+    <string name="record_center_field_waist_circumference_value">Waist</string>
 
     <!-- 参考范围 -->
     <string name="record_center_ref_heart_rate">Normal 60-100 bpm</string>
@@ -42,6 +54,10 @@
     <string name="record_center_ref_bmi">Normal 18.5-24</string>
     <string name="record_center_ref_uric_acid">Normal: men 208-428, women 155-357 μmol/L</string>
     <string name="record_center_ref_blood_lipid">Total cholesterol &lt;5.2 mmol/L</string>
+    <string name="record_center_ref_blood_oxygen">Normal 95-100%</string>
+    <string name="record_center_ref_body_temperature">Normal 36.0-37.3 °C</string>
+    <string name="record_center_ref_sleep_duration">Recommended 7-9 hours</string>
+    <string name="record_center_ref_waist_circumference">Men &lt;90 / women &lt;85 cm</string>
 
     <!-- 表单与列表(供后续 UI 使用) -->
     <string name="record_center_label_time">Time</string>
@@ -67,6 +83,21 @@
     <string name="record_center_confirm">Confirm</string>
     <string name="record_center_cancel">Cancel</string>
     <string name="record_center_save_success">Saved</string>
+    <string name="record_center_range_all_label">All records</string>
+
+    <!-- AI 解读 -->
+    <string name="record_center_ai_insight">AI Insight</string>
+    <string name="record_center_ai_insight_hint">Let AI interpret the trend of your records in this period</string>
+    <string name="record_center_ai_insight_empty">Add records first, then generate an insight</string>
+    <string name="record_center_ai_insight_generate">Generate insight</string>
+    <string name="record_center_ai_insight_regenerate">Regenerate</string>
+    <string name="record_center_ai_insight_retry">Retry</string>
+    <string name="record_center_ai_insight_loading">Generating insight…</string>
+    <string name="record_center_ai_insight_error">Failed to generate insight, please try again later</string>
+
+    <!-- 布局切换 -->
+    <string name="record_center_cd_switch_to_grid">Switch to grid view</string>
+    <string name="record_center_cd_switch_to_list">Switch to list view</string>
 
     <!-- 校验错误 -->
     <string name="record_center_error_unknown_type">Unknown record type: %1$s</string>
@@ -86,13 +117,19 @@
     <!-- Agent 工具:add_health_record -->
     <string name="agent_tool_add_health_record_title">Add Health Record</string>
     <string name="agent_tool_add_health_record_summary">Record a health metric such as blood pressure or weight</string>
-    <string name="agent_tool_add_health_record_description">Add a health record of the given type. values must be a JSON object mapping field keys to numbers; field keys and units depend on record_type. Supported record types and their fields:</string>
+    <string name="agent_tool_add_health_record_description">Add health records. Single mode: pass record_type and values at the top level (optional happened_at/note). Batch mode: pass a records array to add multiple records at once; each item takes the same fields, and items are processed independently so partial failures do not affect the rest. values must be a JSON object mapping field keys to numbers; field keys and units depend on record_type. Supported record types and their fields:</string>
+    <string name="agent_tool_add_health_record_param_records">Batch mode: array of record items, each with record_type and values (optional happened_at/note). When present, top-level record_type/values are ignored</string>
     <string name="agent_tool_add_health_record_param_record_type">Record type key, one of the enum values</string>
     <string name="agent_tool_add_health_record_param_values">Field values as a JSON object mapping field keys to numbers, e.g. {\"systolic\": 120, \"diastolic\": 80}</string>
     <string name="agent_tool_add_health_record_param_happened_at">When the measurement happened, epoch milliseconds; defaults to now</string>
     <string name="agent_tool_add_health_record_param_note">Optional note</string>
     <string name="agent_tool_add_health_record_success">Saved</string>
     <string name="agent_tool_add_health_record_failed">Failed to add health record: %1$s</string>
+    <string name="agent_tool_add_health_record_batch_empty">records must not be empty</string>
+    <string name="agent_tool_add_health_record_batch_success_count">%1$d succeeded</string>
+    <string name="agent_tool_add_health_record_batch_failure_count">%1$d failed</string>
+    <string name="agent_tool_add_health_record_batch_section_success">Saved records</string>
+    <string name="agent_tool_add_health_record_batch_section_failure">Failed records</string>
     <string-array name="agent_tool_add_health_record_keywords">
         <item>health record</item>
         <item>blood pressure</item>
@@ -146,7 +183,7 @@
     </string-array>
 
     <!-- Agent 工具:公共 -->
-    <string name="agent_tool_record_center_open_link">Open Record Center</string>
+    <string name="agent_tool_record_center_open_link">Open Health Records</string>
     <string name="agent_tool_record_center_field_optional"> (optional)</string>
     <string name="agent_tool_record_center_unknown_error">unknown error</string>
 </resources>
