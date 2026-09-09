@@ -20,8 +20,8 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineSearch
 
 // ──────────────────────────────────────────────────────────────
 //  GlassOutlinedTextField — 毛玻璃风格 OutlinedTextField
@@ -211,7 +210,7 @@ fun GlassOutlinedTextField(
     glassColor: Color = Color.Unspecified,
     glassBorderWidth: Dp = 0.5.dp,
     focusedAlphaBoost: Float = 0.20f,
-    contentPadding: PaddingValues = OutlinedTextFieldDefaults.contentPadding(),
+    contentPadding: PaddingValues = OutlinedTextFieldDefaults.contentPaddingWithoutLabel(),
 ) {
     val settingsState = LocalSettingsState.current
     val isGlassActive = settingsState.isGlassAlphaEnabled
@@ -264,7 +263,7 @@ fun GlassOutlinedTextField(
     val containerColor = glassColor.takeUnless { it == Color.Unspecified }
         ?: colors.containerColor(enabled, isError, isFocused)
     val cursorColor = if (isError) colors.errorIndicatorColor else colors.focusedIndicatorColor
-    val resolvedColors = resolveGlassDecorationColors(colors = colors, isGlassActive = isGlassActive)
+    val resolvedColors = resolveGlassDecorationColors(colors = colors, isGlassActive = true)
 
     GlassOutlinedTextFieldImpl(
         value = value,
@@ -343,7 +342,7 @@ fun GlassOutlinedTextField(
     glassColor: Color = Color.Unspecified,
     glassBorderWidth: Dp = 0.5.dp,
     focusedAlphaBoost: Float = 0.20f,
-    contentPadding: PaddingValues = OutlinedTextFieldDefaults.contentPadding(),
+    contentPadding: PaddingValues = OutlinedTextFieldDefaults.contentPaddingWithoutLabel(),
 ) {
     val settingsState = LocalSettingsState.current
     val isGlassActive = settingsState.isGlassAlphaEnabled
@@ -396,7 +395,7 @@ fun GlassOutlinedTextField(
     val containerColor = glassColor.takeUnless { it == Color.Unspecified }
         ?: colors.containerColor(enabled, isError, isFocused)
     val cursorColor = if (isError) colors.errorIndicatorColor else colors.focusedIndicatorColor
-    val resolvedColors = resolveGlassDecorationColors(colors = colors, isGlassActive = isGlassActive)
+    val resolvedColors = resolveGlassDecorationColors(colors = colors, isGlassActive = true)
 
     GlassOutlinedTextFieldImpl(
         value = value,
