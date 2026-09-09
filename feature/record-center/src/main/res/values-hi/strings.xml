@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 模块 -->
+    <string name="record_center_title">स्वास्थ्य रिकॉर्ड</string>
+
+    <!-- 类型:标题与描述 -->
+    <string name="record_center_type_heart_rate_title">हृदय गति</string>
+    <string name="record_center_type_heart_rate_desc">हृदय स्वास्थ्य की निगरानी के लिए हृदय गति डेटा दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_blood_pressure_title">रक्तचाप</string>
+    <string name="record_center_type_blood_pressure_desc">समय के साथ रुझानों को ट्रैक करने के लिए रक्तचाप डेटा दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_blood_glucose_title">ब्लड ग्लूकोज़</string>
+    <string name="record_center_type_blood_glucose_desc">रक्त शर्करा के स्तर को नियंत्रित करने में मदद के लिए ब्लड ग्लूकोज़ डेटा दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_weight_title">वज़न</string>
+    <string name="record_center_type_weight_desc">वज़न में बदलाव को ट्रैक करने के लिए वज़न डेटा दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_bmi_title">BMI</string>
+    <string name="record_center_type_bmi_desc">वज़न स्वास्थ्य का आकलन करने के लिए BMI डेटा दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_body_fat_title">शारीरिक वसा</string>
+    <string name="record_center_type_body_fat_desc">शरीर की संरचना में बदलाव समझने के लिए शारीरिक वसा डेटा दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_uric_acid_title">यूरिक एसिड</string>
+    <string name="record_center_type_uric_acid_desc">गाउट से बचाव और नियंत्रण में मदद के लिए यूरिक एसिड डेटा दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_blood_lipid_title">रक्त लिपिड</string>
+    <string name="record_center_type_blood_lipid_desc">लिपिड स्तर की निगरानी के लिए रक्त लिपिड डेटा दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_blood_oxygen_title">ब्लड ऑक्सीजन</string>
+    <string name="record_center_type_blood_oxygen_desc">श्वसन और परिसंचरण स्वास्थ्य की निगरानी के लिए ब्लड ऑक्सीजन डेटा दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_body_temperature_title">तापमान</string>
+    <string name="record_center_type_body_temperature_desc">तापमान में बदलाव को ट्रैक करने के लिए शरीर के तापमान का डेटा दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_sleep_duration_title">नींद</string>
+    <string name="record_center_type_sleep_duration_desc">नींद की गुणवत्ता सुधारने के लिए नींद की अवधि दर्ज और प्रबंधित करें</string>
+    <string name="record_center_type_waist_circumference_title">कमर</string>
+    <string name="record_center_type_waist_circumference_desc">पेट के स्वास्थ्य पर नज़र रखने के लिए कमर के घेरे का डेटा दर्ज और प्रबंधित करें</string>
+
+    <!-- 字段标签 -->
+    <string name="record_center_field_heart_rate_value">हृदय गति</string>
+    <string name="record_center_field_bp_systolic">सिस्टोलिक</string>
+    <string name="record_center_field_bp_diastolic">डायास्टोलिक</string>
+    <string name="record_center_field_glucose_value">ब्लड ग्लूकोज़</string>
+    <string name="record_center_field_weight_value">वज़न</string>
+    <string name="record_center_field_bmi_value">BMI</string>
+    <string name="record_center_field_body_fat_value">शारीरिक वसा</string>
+    <string name="record_center_field_uric_acid_value">यूरिक एसिड</string>
+    <string name="record_center_field_lipid_total_cholesterol">कुल कोलेस्ट्रॉल</string>
+    <string name="record_center_field_lipid_triglyceride">ट्राइग्लिसराइड</string>
+    <string name="record_center_field_lipid_ldl">LDL कोलेस्ट्रॉल</string>
+    <string name="record_center_field_lipid_hdl">HDL कोलेस्ट्रॉल</string>
+    <string name="record_center_field_blood_oxygen_value">ब्लड ऑक्सीजन</string>
+    <string name="record_center_field_body_temperature_value">शरीर का तापमान</string>
+    <string name="record_center_field_sleep_duration_value">नींद की अवधि</string>
+    <string name="record_center_field_waist_circumference_value">कमर</string>
+
+    <!-- 参考范围 -->
+    <string name="record_center_ref_heart_rate">सामान्य 60-100 bpm</string>
+    <string name="record_center_ref_blood_pressure">सामान्य 90-140/60-90 mmHg</string>
+    <string name="record_center_ref_blood_glucose">खाली पेट सामान्य 3.9-6.1 mmol/L</string>
+    <string name="record_center_ref_bmi">सामान्य 18.5-24</string>
+    <string name="record_center_ref_uric_acid">सामान्य: पुरुष 208-428, महिला 155-357 μmol/L</string>
+    <string name="record_center_ref_blood_lipid">कुल कोलेस्ट्रॉल &lt;5.2 mmol/L</string>
+    <string name="record_center_ref_blood_oxygen">सामान्य 95-100%</string>
+    <string name="record_center_ref_body_temperature">सामान्य 36.0-37.3 °C</string>
+    <string name="record_center_ref_sleep_duration">अनुशंसित 7-9 घंटे</string>
+    <string name="record_center_ref_waist_circumference">पुरुष &lt;90 / महिला &lt;85 cm</string>
+
+    <!-- 表单与列表(供后续 UI 使用) -->
+    <string name="record_center_label_time">समय</string>
+    <string name="record_center_label_note">नोट</string>
+    <string name="record_center_action_save">सहेजें</string>
+    <string name="record_center_action_delete">हटाएं</string>
+    <string name="record_center_add_record">रिकॉर्ड जोड़ें</string>
+    <string name="record_center_edit_record">रिकॉर्ड संपादित करें</string>
+    <string name="record_center_empty">अभी कोई रिकॉर्ड नहीं</string>
+    <string name="record_center_stats_latest">नवीनतम</string>
+    <string name="record_center_stats_average">औसत</string>
+    <string name="record_center_stats_max">अधिकतम</string>
+    <string name="record_center_stats_min">न्यूनतम</string>
+    <string name="record_center_range_7d">7दि</string>
+    <string name="record_center_range_30d">30दि</string>
+    <string name="record_center_range_all">सभी</string>
+    <string name="record_center_range_days">पिछले %1$d दिन</string>
+    <string name="record_center_today">आज</string>
+    <string name="record_center_yesterday">कल</string>
+    <string name="record_center_days_ago">%1$d दिन पहले</string>
+    <string name="record_center_delete_confirm_title">रिकॉर्ड हटाएं</string>
+    <string name="record_center_delete_confirm_message">यह रिकॉर्ड हटाएं? इसे पूर्ववत नहीं किया जा सकता।</string>
+    <string name="record_center_confirm">पुष्टि करें</string>
+    <string name="record_center_cancel">रद्द करें</string>
+    <string name="record_center_save_success">सहेजा गया</string>
+    <string name="record_center_range_all_label">सभी रिकॉर्ड</string>
+
+    <!-- AI 解读 -->
+    <string name="record_center_ai_insight">AI विश्लेषण</string>
+    <string name="record_center_ai_insight_hint">इस अवधि में अपने रिकॉर्ड के रुझान की AI से व्याख्या कराएं</string>
+    <string name="record_center_ai_insight_empty">पहले रिकॉर्ड जोड़ें, फिर विश्लेषण बनाएं</string>
+    <string name="record_center_ai_insight_generate">विश्लेषण बनाएं</string>
+    <string name="record_center_ai_insight_regenerate">फिर से बनाएं</string>
+    <string name="record_center_ai_insight_retry">पुनः प्रयास करें</string>
+    <string name="record_center_ai_insight_loading">विश्लेषण बनाया जा रहा है…</string>
+    <string name="record_center_ai_insight_error">विश्लेषण बनाने में विफल, कृपया बाद में पुनः प्रयास करें</string>
+    <string name="record_center_ai_insight_points_hint">प्रत्येक विश्लेषण पर %1$d पॉइंट</string>
+
+    <!-- 基础信息 -->
+    <string name="record_center_profile_title">बुनियादी जानकारी</string>
+    <string name="record_center_profile_hint">AI विश्लेषण को आपके लिए बेहतर बनाने में मदद करता है</string>
+    <string name="record_center_profile_unset">सेट नहीं है, पूरा करने के लिए टैप करें</string>
+    <string name="record_center_profile_gender_male">पुरुष</string>
+    <string name="record_center_profile_gender_female">महिला</string>
+    <string name="record_center_profile_field_gender">लिंग</string>
+    <string name="record_center_profile_field_age">आयु</string>
+    <string name="record_center_profile_field_height">ऊंचाई (cm)</string>
+    <string name="record_center_profile_field_weight">वज़न (kg)</string>
+    <string name="record_center_profile_age_years">%1$d वर्ष</string>
+    <string name="record_center_profile_invalid">कृपया मान्य संख्याएं दर्ज करें</string>
+    <string name="record_center_empty_go_ai">AI सहायक से रिकॉर्ड करें</string>
+
+    <!-- 布局切换 -->
+    <string name="record_center_cd_switch_to_grid">ग्रिड व्यू पर जाएं</string>
+    <string name="record_center_cd_switch_to_list">सूची व्यू पर जाएं</string>
+
+    <!-- 校验错误 -->
+    <string name="record_center_error_unknown_type">अज्ञात रिकॉर्ड प्रकार: %1$s</string>
+    <string name="record_center_error_missing_field">आवश्यक फ़ील्ड गायब: %1$s</string>
+    <string name="record_center_error_unknown_field">अज्ञात फ़ील्ड: %1$s</string>
+    <string name="record_center_error_out_of_range">%1$s सीमा से बाहर है (%2$s ~ %3$s)</string>
+    <string name="record_center_error_not_found">रिकॉर्ड नहीं मिला</string>
+    <string name="record_center_error_invalid_number">कृपया मान्य संख्या दर्ज करें</string>
+    <string name="record_center_error_required">आवश्यक</string>
+    <string name="record_center_error_out_of_range_short">सीमा से बाहर (%1$s ~ %2$s)</string>
+
+    <!-- 审计日志 -->
+    <string name="record_center_log_created">स्वास्थ्य रिकॉर्ड जोड़ा गया</string>
+    <string name="record_center_log_updated">स्वास्थ्य रिकॉर्ड अपडेट किया गया</string>
+    <string name="record_center_log_deleted">स्वास्थ्य रिकॉर्ड हटाया गया</string>
+
+    <!-- Agent 工具:add_health_record -->
+    <string name="agent_tool_add_health_record_title">स्वास्थ्य रिकॉर्ड जोड़ें</string>
+    <string name="agent_tool_add_health_record_summary">रक्तचाप या वज़न जैसे स्वास्थ्य माप दर्ज करें</string>
+    <string name="agent_tool_add_health_record_description">स्वास्थ्य रिकॉर्ड जोड़ें। सिंगल मोड: टॉप लेवल पर record_type और values पास करें (happened_at/note वैकल्पिक)। बैच मोड: एक साथ कई रिकॉर्ड जोड़ने के लिए records ऐरे पास करें; प्रत्येक आइटम में वही फ़ील्ड होते हैं और आइटम स्वतंत्र रूप से प्रोसेस होते हैं, इसलिए आंशिक विफलता बाकी को प्रभावित नहीं करती। values फ़ील्ड कीज़ को संख्याओं से मैप करने वाला JSON ऑब्जेक्ट होना चाहिए; फ़ील्ड कीज़ और इकाइयां record_type पर निर्भर करती हैं। समर्थित रिकॉर्ड प्रकार और उनके फ़ील्ड:</string>
+    <string name="agent_tool_add_health_record_param_records">बैच मोड: रिकॉर्ड आइटम का ऐरे, प्रत्येक में record_type और values (happened_at/note वैकल्पिक)। मौजूद होने पर टॉप-लेवल record_type/values को अनदेखा किया जाता है</string>
+    <string name="agent_tool_add_health_record_param_record_type">रिकॉर्ड प्रकार कुंजी, enum मानों में से एक</string>
+    <string name="agent_tool_add_health_record_param_values">फ़ील्ड मान, फ़ील्ड कीज़ को संख्याओं से मैप करने वाला JSON ऑब्जेक्ट, जैसे {\"systolic\": 120, \"diastolic\": 80}</string>
+    <string name="agent_tool_add_health_record_param_happened_at">माप कब हुआ, epoch मिलीसेकंड में; डिफ़ॉल्ट अभी</string>
+    <string name="agent_tool_add_health_record_param_note">वैकल्पिक नोट</string>
+    <string name="agent_tool_add_health_record_success">सहेजा गया</string>
+    <string name="agent_tool_add_health_record_failed">स्वास्थ्य रिकॉर्ड जोड़ने में विफल: %1$s</string>
+    <string name="agent_tool_add_health_record_batch_empty">records खाली नहीं होना चाहिए</string>
+    <string name="agent_tool_add_health_record_batch_success_count">%1$d सफल</string>
+    <string name="agent_tool_add_health_record_batch_failure_count">%1$d विफल</string>
+    <string name="agent_tool_add_health_record_batch_section_success">सहेजे गए रिकॉर्ड</string>
+    <string name="agent_tool_add_health_record_batch_section_failure">विफल रिकॉर्ड</string>
+    <string-array name="agent_tool_add_health_record_keywords">
+        <item>स्वास्थ्य रिकॉर्ड</item>
+        <item>रक्तचाप</item>
+        <item>हृदय गति</item>
+        <item>वज़न</item>
+        <item>ब्लड ग्लूकोज़</item>
+        <item>bmi</item>
+    </string-array>
+    <string-array name="agent_tool_add_health_record_examples">
+        <item>मेरा रक्तचाप 120/80 दर्ज करो</item>
+        <item>वज़न 65.5 kg रिकॉर्ड करो</item>
+        <item>खाली पेट ब्लड ग्लूकोज़ 5.6 जोड़ो</item>
+    </string-array>
+
+    <!-- Agent 工具:query_health_records -->
+    <string name="agent_tool_query_health_records_title">स्वास्थ्य रिकॉर्ड क्वेरी करें</string>
+    <string name="agent_tool_query_health_records_summary">किसी स्वास्थ्य माप के हालिया रिकॉर्ड और आंकड़े क्वेरी करें</string>
+    <string name="agent_tool_query_health_records_description">दिए गए प्रकार के पिछले N दिनों (डिफ़ॉल्ट 30) के स्वास्थ्य रिकॉर्ड क्वेरी करें, प्रत्येक चार्ट किए गए फ़ील्ड के लिए औसत/अधिकतम/न्यूनतम आंकड़ों के साथ। समर्थित रिकॉर्ड प्रकार और उनके फ़ील्ड:</string>
+    <string name="agent_tool_query_health_records_param_record_type">रिकॉर्ड प्रकार कुंजी, enum मानों में से एक</string>
+    <string name="agent_tool_query_health_records_param_days">कितने दिन पीछे देखना है, डिफ़ॉल्ट 30</string>
+    <string name="agent_tool_query_health_records_empty">इस अवधि में कोई रिकॉर्ड नहीं</string>
+    <string name="agent_tool_query_health_records_failed">स्वास्थ्य रिकॉर्ड क्वेरी करने में विफल: %1$s</string>
+    <string name="agent_tool_query_health_records_section_stats">आंकड़े</string>
+    <string name="agent_tool_query_health_records_section_records">रिकॉर्ड</string>
+    <string-array name="agent_tool_query_health_records_keywords">
+        <item>स्वास्थ्य रिकॉर्ड</item>
+        <item>रक्तचाप इतिहास</item>
+        <item>वज़न रुझान</item>
+        <item>ब्लड ग्लूकोज़ आंकड़े</item>
+    </string-array>
+    <string-array name="agent_tool_query_health_records_examples">
+        <item>इस महीने का मेरा रक्तचाप दिखाओ</item>
+        <item>पिछले 30 दिनों में मेरा वज़न कैसा रहा</item>
+        <item>इस हफ्ते की औसत हृदय गति</item>
+    </string-array>
+
+    <!-- Agent 工具:get_health_summary -->
+    <string name="agent_tool_get_health_summary_title">स्वास्थ्य सारांश</string>
+    <string name="agent_tool_get_health_summary_summary">हर स्वास्थ्य रिकॉर्ड प्रकार का नवीनतम मान</string>
+    <string name="agent_tool_get_health_summary_description">हर स्वास्थ्य रिकॉर्ड प्रकार का सबसे हालिया रिकॉर्ड प्राप्त करें, इकाइयों और संदर्भ सीमाओं के साथ।</string>
+    <string name="agent_tool_get_health_summary_empty">अभी कोई स्वास्थ्य रिकॉर्ड नहीं</string>
+    <string name="agent_tool_get_health_summary_failed">स्वास्थ्य सारांश प्राप्त करने में विफल: %1$s</string>
+    <string-array name="agent_tool_get_health_summary_keywords">
+        <item>स्वास्थ्य सारांश</item>
+        <item>नवीनतम स्वास्थ्य डेटा</item>
+        <item>स्वास्थ्य अवलोकन</item>
+    </string-array>
+    <string-array name="agent_tool_get_health_summary_examples">
+        <item>मेरे स्वास्थ्य डेटा का अवलोकन दो</item>
+        <item>मेरे नवीनतम माप क्या हैं</item>
+    </string-array>
+
+    <!-- Agent 工具:公共 -->
+    <string name="agent_tool_record_center_open_link">स्वास्थ्य रिकॉर्ड खोलें</string>
+    <string name="agent_tool_record_center_field_optional"> (वैकल्पिक)</string>
+    <string name="agent_tool_record_center_unknown_error">अज्ञात त्रुटि</string>
+</resources>

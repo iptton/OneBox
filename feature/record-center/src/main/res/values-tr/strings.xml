@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 模块 -->
+    <string name="record_center_title">Sağlık Kayıtları</string>
+
+    <!-- 类型:标题与描述 -->
+    <string name="record_center_type_heart_rate_title">Nabız</string>
+    <string name="record_center_type_heart_rate_desc">Kalp sağlığını izlemek için nabız verilerini kaydedin ve yönetin</string>
+    <string name="record_center_type_blood_pressure_title">Tansiyon</string>
+    <string name="record_center_type_blood_pressure_desc">Zaman içindeki eğilimleri izlemek için tansiyon verilerini kaydedin ve yönetin</string>
+    <string name="record_center_type_blood_glucose_title">Kan Şekeri</string>
+    <string name="record_center_type_blood_glucose_desc">Kan şekeri seviyelerini kontrol etmeye yardımcı olmak için kan şekeri verilerini kaydedin ve yönetin</string>
+    <string name="record_center_type_weight_title">Kilo</string>
+    <string name="record_center_type_weight_desc">Kilo değişimlerini izlemek için kilo verilerini kaydedin ve yönetin</string>
+    <string name="record_center_type_bmi_title">VKİ</string>
+    <string name="record_center_type_bmi_desc">Kilo sağlığını değerlendirmek için VKİ verilerini kaydedin ve yönetin</string>
+    <string name="record_center_type_body_fat_title">Vücut Yağı</string>
+    <string name="record_center_type_body_fat_desc">Vücut kompozisyonundaki değişimleri anlamak için vücut yağı verilerini kaydedin ve yönetin</string>
+    <string name="record_center_type_uric_acid_title">Ürik Asit</string>
+    <string name="record_center_type_uric_acid_desc">Gut hastalığını önlemeye ve kontrol etmeye yardımcı olmak için ürik asit verilerini kaydedin ve yönetin</string>
+    <string name="record_center_type_blood_lipid_title">Kan Lipitleri</string>
+    <string name="record_center_type_blood_lipid_desc">Lipit seviyelerini izlemek için kan lipidi verilerini kaydedin ve yönetin</string>
+    <string name="record_center_type_blood_oxygen_title">Kan Oksijeni</string>
+    <string name="record_center_type_blood_oxygen_desc">Solunum ve dolaşım sağlığını izlemek için kan oksijeni verilerini kaydedin ve yönetin</string>
+    <string name="record_center_type_body_temperature_title">Vücut Sıcaklığı</string>
+    <string name="record_center_type_body_temperature_desc">Sıcaklık değişimlerini izlemek için vücut sıcaklığı verilerini kaydedin ve yönetin</string>
+    <string name="record_center_type_sleep_duration_title">Uyku</string>
+    <string name="record_center_type_sleep_duration_desc">Uyku kalitesini artırmak için uyku süresini kaydedin ve yönetin</string>
+    <string name="record_center_type_waist_circumference_title">Bel Çevresi</string>
+    <string name="record_center_type_waist_circumference_desc">Karın sağlığını izlemek için bel çevresi verilerini kaydedin ve yönetin</string>
+
+    <!-- 字段标签 -->
+    <string name="record_center_field_heart_rate_value">Nabız</string>
+    <string name="record_center_field_bp_systolic">Sistolik</string>
+    <string name="record_center_field_bp_diastolic">Diyastolik</string>
+    <string name="record_center_field_glucose_value">Kan şekeri</string>
+    <string name="record_center_field_weight_value">Kilo</string>
+    <string name="record_center_field_bmi_value">VKİ</string>
+    <string name="record_center_field_body_fat_value">Vücut yağı</string>
+    <string name="record_center_field_uric_acid_value">Ürik asit</string>
+    <string name="record_center_field_lipid_total_cholesterol">Toplam kolesterol</string>
+    <string name="record_center_field_lipid_triglyceride">Trigliserit</string>
+    <string name="record_center_field_lipid_ldl">LDL kolesterol</string>
+    <string name="record_center_field_lipid_hdl">HDL kolesterol</string>
+    <string name="record_center_field_blood_oxygen_value">Kan oksijeni</string>
+    <string name="record_center_field_body_temperature_value">Vücut sıcaklığı</string>
+    <string name="record_center_field_sleep_duration_value">Uyku süresi</string>
+    <string name="record_center_field_waist_circumference_value">Bel çevresi</string>
+
+    <!-- 参考范围 -->
+    <string name="record_center_ref_heart_rate">Normal 60-100 bpm</string>
+    <string name="record_center_ref_blood_pressure">Normal 90-140/60-90 mmHg</string>
+    <string name="record_center_ref_blood_glucose">Açlık normali 3.9-6.1 mmol/L</string>
+    <string name="record_center_ref_bmi">Normal 18.5-24</string>
+    <string name="record_center_ref_uric_acid">Normal: erkek 208-428, kadın 155-357 μmol/L</string>
+    <string name="record_center_ref_blood_lipid">Toplam kolesterol &lt;5.2 mmol/L</string>
+    <string name="record_center_ref_blood_oxygen">Normal 95-100%</string>
+    <string name="record_center_ref_body_temperature">Normal 36.0-37.3 °C</string>
+    <string name="record_center_ref_sleep_duration">Önerilen 7-9 saat</string>
+    <string name="record_center_ref_waist_circumference">Erkek &lt;90 / kadın &lt;85 cm</string>
+
+    <!-- 表单与列表(供后续 UI 使用) -->
+    <string name="record_center_label_time">Zaman</string>
+    <string name="record_center_label_note">Not</string>
+    <string name="record_center_action_save">Kaydet</string>
+    <string name="record_center_action_delete">Sil</string>
+    <string name="record_center_add_record">Kayıt Ekle</string>
+    <string name="record_center_edit_record">Kaydı Düzenle</string>
+    <string name="record_center_empty">Henüz kayıt yok</string>
+    <string name="record_center_stats_latest">Son</string>
+    <string name="record_center_stats_average">Ortalama</string>
+    <string name="record_center_stats_max">Maks</string>
+    <string name="record_center_stats_min">Min</string>
+    <string name="record_center_range_7d">7G</string>
+    <string name="record_center_range_30d">30G</string>
+    <string name="record_center_range_all">Tümü</string>
+    <string name="record_center_range_days">Son %1$d gün</string>
+    <string name="record_center_today">Bugün</string>
+    <string name="record_center_yesterday">Dün</string>
+    <string name="record_center_days_ago">%1$d gün önce</string>
+    <string name="record_center_delete_confirm_title">Kaydı Sil</string>
+    <string name="record_center_delete_confirm_message">Bu kayıt silinsin mi? Bu işlem geri alınamaz.</string>
+    <string name="record_center_confirm">Onayla</string>
+    <string name="record_center_cancel">İptal</string>
+    <string name="record_center_save_success">Kaydedildi</string>
+    <string name="record_center_range_all_label">Tüm kayıtlar</string>
+
+    <!-- AI 解读 -->
+    <string name="record_center_ai_insight">YZ Yorumu</string>
+    <string name="record_center_ai_insight_hint">YZ\'nin bu dönemdeki kayıtlarınızın eğilimini yorumlamasına izin verin</string>
+    <string name="record_center_ai_insight_empty">Önce kayıt ekleyin, sonra yorum oluşturun</string>
+    <string name="record_center_ai_insight_generate">Yorum oluştur</string>
+    <string name="record_center_ai_insight_regenerate">Yeniden oluştur</string>
+    <string name="record_center_ai_insight_retry">Tekrar dene</string>
+    <string name="record_center_ai_insight_loading">Yorum oluşturuluyor…</string>
+    <string name="record_center_ai_insight_error">Yorum oluşturulamadı, lütfen daha sonra tekrar deneyin</string>
+    <string name="record_center_ai_insight_points_hint">Yorum başına %1$d puan</string>
+
+    <!-- 基础信息 -->
+    <string name="record_center_profile_title">Temel Bilgiler</string>
+    <string name="record_center_profile_hint">YZ yorumlarının size daha uygun olmasına yardımcı olur</string>
+    <string name="record_center_profile_unset">Ayarlanmadı, tamamlamak için dokunun</string>
+    <string name="record_center_profile_gender_male">Erkek</string>
+    <string name="record_center_profile_gender_female">Kadın</string>
+    <string name="record_center_profile_field_gender">Cinsiyet</string>
+    <string name="record_center_profile_field_age">Yaş</string>
+    <string name="record_center_profile_field_height">Boy (cm)</string>
+    <string name="record_center_profile_field_weight">Kilo (kg)</string>
+    <string name="record_center_profile_age_years">%1$d yaş</string>
+    <string name="record_center_profile_invalid">Lütfen geçerli sayılar girin</string>
+    <string name="record_center_empty_go_ai">YZ Asistanı ile kaydet</string>
+
+    <!-- 布局切换 -->
+    <string name="record_center_cd_switch_to_grid">Izgara görünümüne geç</string>
+    <string name="record_center_cd_switch_to_list">Liste görünümüne geç</string>
+
+    <!-- 校验错误 -->
+    <string name="record_center_error_unknown_type">Bilinmeyen kayıt türü: %1$s</string>
+    <string name="record_center_error_missing_field">Gerekli alan eksik: %1$s</string>
+    <string name="record_center_error_unknown_field">Bilinmeyen alan: %1$s</string>
+    <string name="record_center_error_out_of_range">%1$s aralık dışında (%2$s ~ %3$s)</string>
+    <string name="record_center_error_not_found">Kayıt bulunamadı</string>
+    <string name="record_center_error_invalid_number">Geçerli bir sayı girin</string>
+    <string name="record_center_error_required">Gerekli</string>
+    <string name="record_center_error_out_of_range_short">Aralık dışında (%1$s ~ %2$s)</string>
+
+    <!-- 审计日志 -->
+    <string name="record_center_log_created">Sağlık kaydı eklendi</string>
+    <string name="record_center_log_updated">Sağlık kaydı güncellendi</string>
+    <string name="record_center_log_deleted">Sağlık kaydı silindi</string>
+
+    <!-- Agent 工具:add_health_record -->
+    <string name="agent_tool_add_health_record_title">Sağlık Kaydı Ekle</string>
+    <string name="agent_tool_add_health_record_summary">Tansiyon veya kilo gibi bir sağlık ölçümünü kaydedin</string>
+    <string name="agent_tool_add_health_record_description">Sağlık kayıtları ekleyin. Tekil mod: üst düzeyde record_type ve values gönderin (happened_at/note isteğe bağlı). Toplu mod: aynı anda birden fazla kayıt eklemek için bir records dizisi gönderin; her öğe aynı alanlara sahiptir ve bağımsız olarak işlenir, böylece kısmi hatalar diğerlerini etkilemez. values, alan anahtarlarını sayılara eşleyen bir JSON nesnesi olmalıdır; alan anahtarları ve birimler record_type değerine bağlıdır. Desteklenen kayıt türleri ve alanları:</string>
+    <string name="agent_tool_add_health_record_param_records">Toplu mod: her biri record_type ve values içeren kayıt öğeleri dizisi (happened_at/note isteğe bağlı). Mevcut olduğunda üst düzey record_type/values yok sayılır</string>
+    <string name="agent_tool_add_health_record_param_record_type">Kayıt türü anahtarı, enum değerlerinden biri</string>
+    <string name="agent_tool_add_health_record_param_values">Alan anahtarlarını sayılara eşleyen JSON nesnesi olarak alan değerleri, ör. {\"systolic\": 120, \"diastolic\": 80}</string>
+    <string name="agent_tool_add_health_record_param_happened_at">Ölçümün ne zaman yapıldığı, epoch milisaniye cinsinden; varsayılan şimdi</string>
+    <string name="agent_tool_add_health_record_param_note">İsteğe bağlı not</string>
+    <string name="agent_tool_add_health_record_success">Kaydedildi</string>
+    <string name="agent_tool_add_health_record_failed">Sağlık kaydı eklenemedi: %1$s</string>
+    <string name="agent_tool_add_health_record_batch_empty">records boş olamaz</string>
+    <string name="agent_tool_add_health_record_batch_success_count">%1$d başarılı</string>
+    <string name="agent_tool_add_health_record_batch_failure_count">%1$d başarısız</string>
+    <string name="agent_tool_add_health_record_batch_section_success">Kaydedilen kayıtlar</string>
+    <string name="agent_tool_add_health_record_batch_section_failure">Başarısız kayıtlar</string>
+    <string-array name="agent_tool_add_health_record_keywords">
+        <item>sağlık kaydı</item>
+        <item>tansiyon</item>
+        <item>nabız</item>
+        <item>kilo</item>
+        <item>kan şekeri</item>
+        <item>vki</item>
+    </string-array>
+    <string-array name="agent_tool_add_health_record_examples">
+        <item>Tansiyonumu 120/80 olarak kaydet</item>
+        <item>Kilomu 65.5 kg olarak kaydet</item>
+        <item>Açlık kan şekeri 5.6 ekle</item>
+    </string-array>
+
+    <!-- Agent 工具:query_health_records -->
+    <string name="agent_tool_query_health_records_title">Sağlık Kayıtlarını Sorgula</string>
+    <string name="agent_tool_query_health_records_summary">Bir sağlık ölçümünün son kayıtlarını ve istatistiklerini sorgulayın</string>
+    <string name="agent_tool_query_health_records_description">Belirtilen türdeki son N günün (varsayılan 30) sağlık kayıtlarını, grafik alanı başına ortalama/maks/min istatistikleriyle sorgulayın. Desteklenen kayıt türleri ve alanları:</string>
+    <string name="agent_tool_query_health_records_param_record_type">Kayıt türü anahtarı, enum değerlerinden biri</string>
+    <string name="agent_tool_query_health_records_param_days">Kaç gün geriye bakılacağı, varsayılan 30</string>
+    <string name="agent_tool_query_health_records_empty">Bu dönemde kayıt yok</string>
+    <string name="agent_tool_query_health_records_failed">Sağlık kayıtları sorgulanamadı: %1$s</string>
+    <string name="agent_tool_query_health_records_section_stats">İstatistikler</string>
+    <string name="agent_tool_query_health_records_section_records">Kayıtlar</string>
+    <string-array name="agent_tool_query_health_records_keywords">
+        <item>sağlık kayıtları</item>
+        <item>tansiyon geçmişi</item>
+        <item>kilo eğilimi</item>
+        <item>kan şekeri istatistikleri</item>
+    </string-array>
+    <string-array name="agent_tool_query_health_records_examples">
+        <item>Bu ayki tansiyonumu göster</item>
+        <item>Son 30 günde kilom nasıldı</item>
+        <item>Bu haftaki ortalama nabzım</item>
+    </string-array>
+
+    <!-- Agent 工具:get_health_summary -->
+    <string name="agent_tool_get_health_summary_title">Sağlık Özeti</string>
+    <string name="agent_tool_get_health_summary_summary">Her sağlık kaydı türünün en son değeri</string>
+    <string name="agent_tool_get_health_summary_description">Her sağlık kaydı türünün en güncel kaydını, birimler ve referans aralıklarıyla birlikte alın.</string>
+    <string name="agent_tool_get_health_summary_empty">Henüz sağlık kaydı yok</string>
+    <string name="agent_tool_get_health_summary_failed">Sağlık özeti alınamadı: %1$s</string>
+    <string-array name="agent_tool_get_health_summary_keywords">
+        <item>sağlık özeti</item>
+        <item>en son sağlık verileri</item>
+        <item>sağlık genel bakışı</item>
+    </string-array>
+    <string-array name="agent_tool_get_health_summary_examples">
+        <item>Sağlık verilerimin genel görünümünü ver</item>
+        <item>En son ölçümlerim neler</item>
+    </string-array>
+
+    <!-- Agent 工具:公共 -->
+    <string name="agent_tool_record_center_open_link">Sağlık Kayıtlarını Aç</string>
+    <string name="agent_tool_record_center_field_optional"> (isteğe bağlı)</string>
+    <string name="agent_tool_record_center_unknown_error">bilinmeyen hata</string>
+</resources>

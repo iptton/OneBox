@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 模块 -->
+    <string name="record_center_title">Catatan Kesehatan</string>
+
+    <!-- 类型:标题与描述 -->
+    <string name="record_center_type_heart_rate_title">Detak Jantung</string>
+    <string name="record_center_type_heart_rate_desc">Catat dan kelola data detak jantung untuk memantau kesehatan jantung</string>
+    <string name="record_center_type_blood_pressure_title">Tekanan Darah</string>
+    <string name="record_center_type_blood_pressure_desc">Catat dan kelola data tekanan darah untuk melacak tren dari waktu ke waktu</string>
+    <string name="record_center_type_blood_glucose_title">Gula Darah</string>
+    <string name="record_center_type_blood_glucose_desc">Catat dan kelola data gula darah untuk membantu mengontrol kadar gula darah</string>
+    <string name="record_center_type_weight_title">Berat Badan</string>
+    <string name="record_center_type_weight_desc">Catat dan kelola data berat badan untuk melacak perubahan berat badan</string>
+    <string name="record_center_type_bmi_title">BMI</string>
+    <string name="record_center_type_bmi_desc">Catat dan kelola data BMI untuk menilai kesehatan berat badan</string>
+    <string name="record_center_type_body_fat_title">Lemak Tubuh</string>
+    <string name="record_center_type_body_fat_desc">Catat dan kelola data lemak tubuh untuk memahami perubahan komposisi tubuh</string>
+    <string name="record_center_type_uric_acid_title">Asam Urat</string>
+    <string name="record_center_type_uric_acid_desc">Catat dan kelola data asam urat untuk membantu mencegah dan mengendalikan asam urat</string>
+    <string name="record_center_type_blood_lipid_title">Lipid Darah</string>
+    <string name="record_center_type_blood_lipid_desc">Catat dan kelola data lipid darah untuk memantau kadar lipid</string>
+    <string name="record_center_type_blood_oxygen_title">Oksigen Darah</string>
+    <string name="record_center_type_blood_oxygen_desc">Catat dan kelola data oksigen darah untuk memantau kesehatan pernapasan dan sirkulasi</string>
+    <string name="record_center_type_body_temperature_title">Suhu</string>
+    <string name="record_center_type_body_temperature_desc">Catat dan kelola data suhu tubuh untuk melacak perubahan suhu</string>
+    <string name="record_center_type_sleep_duration_title">Tidur</string>
+    <string name="record_center_type_sleep_duration_desc">Catat dan kelola durasi tidur untuk meningkatkan kualitas tidur</string>
+    <string name="record_center_type_waist_circumference_title">Lingkar Pinggang</string>
+    <string name="record_center_type_waist_circumference_desc">Catat dan kelola data lingkar pinggang untuk memantau kesehatan perut</string>
+
+    <!-- 字段标签 -->
+    <string name="record_center_field_heart_rate_value">Detak jantung</string>
+    <string name="record_center_field_bp_systolic">Sistolik</string>
+    <string name="record_center_field_bp_diastolic">Diastolik</string>
+    <string name="record_center_field_glucose_value">Gula darah</string>
+    <string name="record_center_field_weight_value">Berat badan</string>
+    <string name="record_center_field_bmi_value">BMI</string>
+    <string name="record_center_field_body_fat_value">Lemak tubuh</string>
+    <string name="record_center_field_uric_acid_value">Asam urat</string>
+    <string name="record_center_field_lipid_total_cholesterol">Kolesterol total</string>
+    <string name="record_center_field_lipid_triglyceride">Trigliserida</string>
+    <string name="record_center_field_lipid_ldl">Kolesterol LDL</string>
+    <string name="record_center_field_lipid_hdl">Kolesterol HDL</string>
+    <string name="record_center_field_blood_oxygen_value">Oksigen darah</string>
+    <string name="record_center_field_body_temperature_value">Suhu tubuh</string>
+    <string name="record_center_field_sleep_duration_value">Durasi tidur</string>
+    <string name="record_center_field_waist_circumference_value">Lingkar pinggang</string>
+
+    <!-- 参考范围 -->
+    <string name="record_center_ref_heart_rate">Normal 60-100 bpm</string>
+    <string name="record_center_ref_blood_pressure">Normal 90-140/60-90 mmHg</string>
+    <string name="record_center_ref_blood_glucose">Normal puasa 3.9-6.1 mmol/L</string>
+    <string name="record_center_ref_bmi">Normal 18.5-24</string>
+    <string name="record_center_ref_uric_acid">Normal: pria 208-428, wanita 155-357 μmol/L</string>
+    <string name="record_center_ref_blood_lipid">Kolesterol total &lt;5.2 mmol/L</string>
+    <string name="record_center_ref_blood_oxygen">Normal 95-100%</string>
+    <string name="record_center_ref_body_temperature">Normal 36.0-37.3 °C</string>
+    <string name="record_center_ref_sleep_duration">Direkomendasikan 7-9 jam</string>
+    <string name="record_center_ref_waist_circumference">Pria &lt;90 / wanita &lt;85 cm</string>
+
+    <!-- 表单与列表(供后续 UI 使用) -->
+    <string name="record_center_label_time">Waktu</string>
+    <string name="record_center_label_note">Catatan</string>
+    <string name="record_center_action_save">Simpan</string>
+    <string name="record_center_action_delete">Hapus</string>
+    <string name="record_center_add_record">Tambah Catatan</string>
+    <string name="record_center_edit_record">Edit Catatan</string>
+    <string name="record_center_empty">Belum ada catatan</string>
+    <string name="record_center_stats_latest">Terbaru</string>
+    <string name="record_center_stats_average">Rata-rata</string>
+    <string name="record_center_stats_max">Maks</string>
+    <string name="record_center_stats_min">Min</string>
+    <string name="record_center_range_7d">7H</string>
+    <string name="record_center_range_30d">30H</string>
+    <string name="record_center_range_all">Semua</string>
+    <string name="record_center_range_days">%1$d hari terakhir</string>
+    <string name="record_center_today">Hari ini</string>
+    <string name="record_center_yesterday">Kemarin</string>
+    <string name="record_center_days_ago">%1$d hari yang lalu</string>
+    <string name="record_center_delete_confirm_title">Hapus Catatan</string>
+    <string name="record_center_delete_confirm_message">Hapus catatan ini? Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="record_center_confirm">Konfirmasi</string>
+    <string name="record_center_cancel">Batal</string>
+    <string name="record_center_save_success">Tersimpan</string>
+    <string name="record_center_range_all_label">Semua catatan</string>
+
+    <!-- AI 解读 -->
+    <string name="record_center_ai_insight">Wawasan AI</string>
+    <string name="record_center_ai_insight_hint">Biarkan AI menafsirkan tren catatan Anda pada periode ini</string>
+    <string name="record_center_ai_insight_empty">Tambahkan catatan dulu, lalu buat wawasan</string>
+    <string name="record_center_ai_insight_generate">Buat wawasan</string>
+    <string name="record_center_ai_insight_regenerate">Buat ulang</string>
+    <string name="record_center_ai_insight_retry">Coba lagi</string>
+    <string name="record_center_ai_insight_loading">Membuat wawasan…</string>
+    <string name="record_center_ai_insight_error">Gagal membuat wawasan, coba lagi nanti</string>
+    <string name="record_center_ai_insight_points_hint">%1$d poin per wawasan</string>
+
+    <!-- 基础信息 -->
+    <string name="record_center_profile_title">Info Dasar</string>
+    <string name="record_center_profile_hint">Membantu wawasan AI lebih sesuai untuk Anda</string>
+    <string name="record_center_profile_unset">Belum diatur, ketuk untuk melengkapi</string>
+    <string name="record_center_profile_gender_male">Pria</string>
+    <string name="record_center_profile_gender_female">Wanita</string>
+    <string name="record_center_profile_field_gender">Jenis kelamin</string>
+    <string name="record_center_profile_field_age">Usia</string>
+    <string name="record_center_profile_field_height">Tinggi (cm)</string>
+    <string name="record_center_profile_field_weight">Berat (kg)</string>
+    <string name="record_center_profile_age_years">%1$d thn</string>
+    <string name="record_center_profile_invalid">Masukkan angka yang valid</string>
+    <string name="record_center_empty_go_ai">Catat dengan Asisten AI</string>
+
+    <!-- 布局切换 -->
+    <string name="record_center_cd_switch_to_grid">Beralih ke tampilan grid</string>
+    <string name="record_center_cd_switch_to_list">Beralih ke tampilan daftar</string>
+
+    <!-- 校验错误 -->
+    <string name="record_center_error_unknown_type">Jenis catatan tidak dikenal: %1$s</string>
+    <string name="record_center_error_missing_field">Kolom wajib tidak ada: %1$s</string>
+    <string name="record_center_error_unknown_field">Kolom tidak dikenal: %1$s</string>
+    <string name="record_center_error_out_of_range">%1$s di luar rentang (%2$s ~ %3$s)</string>
+    <string name="record_center_error_not_found">Catatan tidak ditemukan</string>
+    <string name="record_center_error_invalid_number">Masukkan angka yang valid</string>
+    <string name="record_center_error_required">Wajib</string>
+    <string name="record_center_error_out_of_range_short">Di luar rentang (%1$s ~ %2$s)</string>
+
+    <!-- 审计日志 -->
+    <string name="record_center_log_created">Catatan kesehatan ditambahkan</string>
+    <string name="record_center_log_updated">Catatan kesehatan diperbarui</string>
+    <string name="record_center_log_deleted">Catatan kesehatan dihapus</string>
+
+    <!-- Agent 工具:add_health_record -->
+    <string name="agent_tool_add_health_record_title">Tambah Catatan Kesehatan</string>
+    <string name="agent_tool_add_health_record_summary">Catat metrik kesehatan seperti tekanan darah atau berat badan</string>
+    <string name="agent_tool_add_health_record_description">Tambahkan catatan kesehatan. Mode tunggal: kirim record_type dan values di tingkat atas (happened_at/note opsional). Mode batch: kirim array records untuk menambahkan beberapa catatan sekaligus; setiap item memiliki field yang sama dan diproses secara independen sehingga kegagalan sebagian tidak memengaruhi sisanya. values harus berupa objek JSON yang memetakan kunci field ke angka; kunci field dan unit bergantung pada record_type. Jenis catatan yang didukung dan field-nya:</string>
+    <string name="agent_tool_add_health_record_param_records">Mode batch: array item catatan, masing-masing dengan record_type dan values (happened_at/note opsional). Jika ada, record_type/values tingkat atas diabaikan</string>
+    <string name="agent_tool_add_health_record_param_record_type">Kunci jenis catatan, salah satu nilai enum</string>
+    <string name="agent_tool_add_health_record_param_values">Nilai field sebagai objek JSON yang memetakan kunci field ke angka, mis. {\"systolic\": 120, \"diastolic\": 80}</string>
+    <string name="agent_tool_add_health_record_param_happened_at">Kapan pengukuran terjadi, dalam milidetik epoch; default sekarang</string>
+    <string name="agent_tool_add_health_record_param_note">Catatan opsional</string>
+    <string name="agent_tool_add_health_record_success">Tersimpan</string>
+    <string name="agent_tool_add_health_record_failed">Gagal menambahkan catatan kesehatan: %1$s</string>
+    <string name="agent_tool_add_health_record_batch_empty">records tidak boleh kosong</string>
+    <string name="agent_tool_add_health_record_batch_success_count">%1$d berhasil</string>
+    <string name="agent_tool_add_health_record_batch_failure_count">%1$d gagal</string>
+    <string name="agent_tool_add_health_record_batch_section_success">Catatan tersimpan</string>
+    <string name="agent_tool_add_health_record_batch_section_failure">Catatan gagal</string>
+    <string-array name="agent_tool_add_health_record_keywords">
+        <item>catatan kesehatan</item>
+        <item>tekanan darah</item>
+        <item>detak jantung</item>
+        <item>berat badan</item>
+        <item>gula darah</item>
+        <item>bmi</item>
+    </string-array>
+    <string-array name="agent_tool_add_health_record_examples">
+        <item>Catat tekanan darah saya 120/80</item>
+        <item>Catat berat badan 65.5 kg</item>
+        <item>Tambahkan gula darah puasa 5.6</item>
+    </string-array>
+
+    <!-- Agent 工具:query_health_records -->
+    <string name="agent_tool_query_health_records_title">Kueri Catatan Kesehatan</string>
+    <string name="agent_tool_query_health_records_summary">Kueri catatan terbaru dan statistik untuk metrik kesehatan</string>
+    <string name="agent_tool_query_health_records_description">Kueri catatan kesehatan dari jenis tertentu dalam N hari terakhir (default 30), dengan statistik rata-rata/maks/min per field yang digambarkan. Jenis catatan yang didukung dan field-nya:</string>
+    <string name="agent_tool_query_health_records_param_record_type">Kunci jenis catatan, salah satu nilai enum</string>
+    <string name="agent_tool_query_health_records_param_days">Berapa hari ke belakang, default 30</string>
+    <string name="agent_tool_query_health_records_empty">Tidak ada catatan pada periode ini</string>
+    <string name="agent_tool_query_health_records_failed">Gagal membuat kueri catatan kesehatan: %1$s</string>
+    <string name="agent_tool_query_health_records_section_stats">Statistik</string>
+    <string name="agent_tool_query_health_records_section_records">Catatan</string>
+    <string-array name="agent_tool_query_health_records_keywords">
+        <item>catatan kesehatan</item>
+        <item>riwayat tekanan darah</item>
+        <item>tren berat badan</item>
+        <item>statistik gula darah</item>
+    </string-array>
+    <string-array name="agent_tool_query_health_records_examples">
+        <item>Tampilkan tekanan darah saya bulan ini</item>
+        <item>Bagaimana berat badan saya selama 30 hari terakhir</item>
+        <item>Rata-rata detak jantung minggu ini</item>
+    </string-array>
+
+    <!-- Agent 工具:get_health_summary -->
+    <string name="agent_tool_get_health_summary_title">Ringkasan Kesehatan</string>
+    <string name="agent_tool_get_health_summary_summary">Nilai terbaru dari setiap jenis catatan kesehatan</string>
+    <string name="agent_tool_get_health_summary_description">Dapatkan catatan terbaru dari setiap jenis catatan kesehatan, beserta unit dan rentang referensi.</string>
+    <string name="agent_tool_get_health_summary_empty">Belum ada catatan kesehatan</string>
+    <string name="agent_tool_get_health_summary_failed">Gagal mendapatkan ringkasan kesehatan: %1$s</string>
+    <string-array name="agent_tool_get_health_summary_keywords">
+        <item>ringkasan kesehatan</item>
+        <item>data kesehatan terbaru</item>
+        <item>ikhtisar kesehatan</item>
+    </string-array>
+    <string-array name="agent_tool_get_health_summary_examples">
+        <item>Berikan ikhtisar data kesehatan saya</item>
+        <item>Berapa pengukuran terbaru saya</item>
+    </string-array>
+
+    <!-- Agent 工具:公共 -->
+    <string name="agent_tool_record_center_open_link">Buka Catatan Kesehatan</string>
+    <string name="agent_tool_record_center_field_optional"> (opsional)</string>
+    <string name="agent_tool_record_center_unknown_error">kesalahan tidak diketahui</string>
+</resources>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 模块 -->
+    <string name="record_center_title">Registros de Saúde</string>
+
+    <!-- 类型:标题与描述 -->
+    <string name="record_center_type_heart_rate_title">Frequência Cardíaca</string>
+    <string name="record_center_type_heart_rate_desc">Registre e gerencie dados de frequência cardíaca para monitorar a saúde do coração</string>
+    <string name="record_center_type_blood_pressure_title">Pressão Arterial</string>
+    <string name="record_center_type_blood_pressure_desc">Registre e gerencie dados de pressão arterial para acompanhar tendências ao longo do tempo</string>
+    <string name="record_center_type_blood_glucose_title">Glicose</string>
+    <string name="record_center_type_blood_glucose_desc">Registre e gerencie dados de glicose para ajudar a controlar os níveis de açúcar no sangue</string>
+    <string name="record_center_type_weight_title">Peso</string>
+    <string name="record_center_type_weight_desc">Registre e gerencie dados de peso para acompanhar as mudanças de peso</string>
+    <string name="record_center_type_bmi_title">IMC</string>
+    <string name="record_center_type_bmi_desc">Registre e gerencie dados de IMC para avaliar a saúde do peso</string>
+    <string name="record_center_type_body_fat_title">Gordura Corporal</string>
+    <string name="record_center_type_body_fat_desc">Registre e gerencie dados de gordura corporal para entender as mudanças na composição corporal</string>
+    <string name="record_center_type_uric_acid_title">Ácido Úrico</string>
+    <string name="record_center_type_uric_acid_desc">Registre e gerencie dados de ácido úrico para ajudar a prevenir e controlar a gota</string>
+    <string name="record_center_type_blood_lipid_title">Lipídios no Sangue</string>
+    <string name="record_center_type_blood_lipid_desc">Registre e gerencie dados de lipídios no sangue para monitorar seus níveis</string>
+    <string name="record_center_type_blood_oxygen_title">Oxigênio no Sangue</string>
+    <string name="record_center_type_blood_oxygen_desc">Registre e gerencie dados de oxigênio no sangue para monitorar a saúde respiratória e circulatória</string>
+    <string name="record_center_type_body_temperature_title">Temperatura</string>
+    <string name="record_center_type_body_temperature_desc">Registre e gerencie dados de temperatura corporal para acompanhar suas variações</string>
+    <string name="record_center_type_sleep_duration_title">Sono</string>
+    <string name="record_center_type_sleep_duration_desc">Registre e gerencie a duração do sono para melhorar a qualidade do sono</string>
+    <string name="record_center_type_waist_circumference_title">Cintura</string>
+    <string name="record_center_type_waist_circumference_desc">Registre e gerencie dados da circunferência da cintura para acompanhar a saúde abdominal</string>
+
+    <!-- 字段标签 -->
+    <string name="record_center_field_heart_rate_value">Frequência cardíaca</string>
+    <string name="record_center_field_bp_systolic">Sistólica</string>
+    <string name="record_center_field_bp_diastolic">Diastólica</string>
+    <string name="record_center_field_glucose_value">Glicose</string>
+    <string name="record_center_field_weight_value">Peso</string>
+    <string name="record_center_field_bmi_value">IMC</string>
+    <string name="record_center_field_body_fat_value">Gordura corporal</string>
+    <string name="record_center_field_uric_acid_value">Ácido úrico</string>
+    <string name="record_center_field_lipid_total_cholesterol">Colesterol total</string>
+    <string name="record_center_field_lipid_triglyceride">Triglicerídeos</string>
+    <string name="record_center_field_lipid_ldl">Colesterol LDL</string>
+    <string name="record_center_field_lipid_hdl">Colesterol HDL</string>
+    <string name="record_center_field_blood_oxygen_value">Oxigênio no sangue</string>
+    <string name="record_center_field_body_temperature_value">Temperatura corporal</string>
+    <string name="record_center_field_sleep_duration_value">Duração do sono</string>
+    <string name="record_center_field_waist_circumference_value">Cintura</string>
+
+    <!-- 参考范围 -->
+    <string name="record_center_ref_heart_rate">Normal 60-100 bpm</string>
+    <string name="record_center_ref_blood_pressure">Normal 90-140/60-90 mmHg</string>
+    <string name="record_center_ref_blood_glucose">Normal em jejum 3.9-6.1 mmol/L</string>
+    <string name="record_center_ref_bmi">Normal 18.5-24</string>
+    <string name="record_center_ref_uric_acid">Normal: homens 208-428, mulheres 155-357 μmol/L</string>
+    <string name="record_center_ref_blood_lipid">Colesterol total &lt;5.2 mmol/L</string>
+    <string name="record_center_ref_blood_oxygen">Normal 95-100%</string>
+    <string name="record_center_ref_body_temperature">Normal 36.0-37.3 °C</string>
+    <string name="record_center_ref_sleep_duration">Recomendado 7-9 horas</string>
+    <string name="record_center_ref_waist_circumference">Homens &lt;90 / mulheres &lt;85 cm</string>
+
+    <!-- 表单与列表(供后续 UI 使用) -->
+    <string name="record_center_label_time">Hora</string>
+    <string name="record_center_label_note">Nota</string>
+    <string name="record_center_action_save">Salvar</string>
+    <string name="record_center_action_delete">Excluir</string>
+    <string name="record_center_add_record">Adicionar Registro</string>
+    <string name="record_center_edit_record">Editar Registro</string>
+    <string name="record_center_empty">Ainda não há registros</string>
+    <string name="record_center_stats_latest">Mais recente</string>
+    <string name="record_center_stats_average">Média</string>
+    <string name="record_center_stats_max">Máx</string>
+    <string name="record_center_stats_min">Mín</string>
+    <string name="record_center_range_7d">7D</string>
+    <string name="record_center_range_30d">30D</string>
+    <string name="record_center_range_all">Tudo</string>
+    <string name="record_center_range_days">Últimos %1$d dias</string>
+    <string name="record_center_today">Hoje</string>
+    <string name="record_center_yesterday">Ontem</string>
+    <string name="record_center_days_ago">Há %1$d dias</string>
+    <string name="record_center_delete_confirm_title">Excluir Registro</string>
+    <string name="record_center_delete_confirm_message">Excluir este registro? Esta ação não pode ser desfeita.</string>
+    <string name="record_center_confirm">Confirmar</string>
+    <string name="record_center_cancel">Cancelar</string>
+    <string name="record_center_save_success">Salvo</string>
+    <string name="record_center_range_all_label">Todos os registros</string>
+
+    <!-- AI 解读 -->
+    <string name="record_center_ai_insight">Análise de IA</string>
+    <string name="record_center_ai_insight_hint">Deixe a IA interpretar a tendência dos seus registros neste período</string>
+    <string name="record_center_ai_insight_empty">Adicione registros primeiro e depois gere uma análise</string>
+    <string name="record_center_ai_insight_generate">Gerar análise</string>
+    <string name="record_center_ai_insight_regenerate">Gerar novamente</string>
+    <string name="record_center_ai_insight_retry">Tentar novamente</string>
+    <string name="record_center_ai_insight_loading">Gerando análise…</string>
+    <string name="record_center_ai_insight_error">Falha ao gerar análise, tente novamente mais tarde</string>
+    <string name="record_center_ai_insight_points_hint">%1$d pontos por análise</string>
+
+    <!-- 基础信息 -->
+    <string name="record_center_profile_title">Informações Básicas</string>
+    <string name="record_center_profile_hint">Ajuda as análises de IA a se ajustarem melhor a você</string>
+    <string name="record_center_profile_unset">Não definido, toque para completar</string>
+    <string name="record_center_profile_gender_male">Masculino</string>
+    <string name="record_center_profile_gender_female">Feminino</string>
+    <string name="record_center_profile_field_gender">Gênero</string>
+    <string name="record_center_profile_field_age">Idade</string>
+    <string name="record_center_profile_field_height">Altura (cm)</string>
+    <string name="record_center_profile_field_weight">Peso (kg)</string>
+    <string name="record_center_profile_age_years">%1$d anos</string>
+    <string name="record_center_profile_invalid">Insira números válidos</string>
+    <string name="record_center_empty_go_ai">Registrar com o Assistente de IA</string>
+
+    <!-- 布局切换 -->
+    <string name="record_center_cd_switch_to_grid">Alternar para visualização em grade</string>
+    <string name="record_center_cd_switch_to_list">Alternar para visualização em lista</string>
+
+    <!-- 校验错误 -->
+    <string name="record_center_error_unknown_type">Tipo de registro desconhecido: %1$s</string>
+    <string name="record_center_error_missing_field">Campo obrigatório ausente: %1$s</string>
+    <string name="record_center_error_unknown_field">Campo desconhecido: %1$s</string>
+    <string name="record_center_error_out_of_range">%1$s está fora do intervalo (%2$s ~ %3$s)</string>
+    <string name="record_center_error_not_found">Registro não encontrado</string>
+    <string name="record_center_error_invalid_number">Insira um número válido</string>
+    <string name="record_center_error_required">Obrigatório</string>
+    <string name="record_center_error_out_of_range_short">Fora do intervalo (%1$s ~ %2$s)</string>
+
+    <!-- 审计日志 -->
+    <string name="record_center_log_created">Registro de saúde adicionado</string>
+    <string name="record_center_log_updated">Registro de saúde atualizado</string>
+    <string name="record_center_log_deleted">Registro de saúde excluído</string>
+
+    <!-- Agent 工具:add_health_record -->
+    <string name="agent_tool_add_health_record_title">Adicionar Registro de Saúde</string>
+    <string name="agent_tool_add_health_record_summary">Registre uma métrica de saúde como pressão arterial ou peso</string>
+    <string name="agent_tool_add_health_record_description">Adicione registros de saúde. Modo único: passe record_type e values no nível superior (happened_at/note opcionais). Modo em lote: passe um array records para adicionar vários registros de uma vez; cada item usa os mesmos campos e é processado de forma independente, portanto falhas parciais não afetam os demais. values deve ser um objeto JSON que mapeia chaves de campo para números; as chaves e unidades dependem de record_type. Tipos de registro suportados e seus campos:</string>
+    <string name="agent_tool_add_health_record_param_records">Modo em lote: array de itens de registro, cada um com record_type e values (happened_at/note opcionais). Quando presente, record_type/values do nível superior são ignorados</string>
+    <string name="agent_tool_add_health_record_param_record_type">Chave do tipo de registro, um dos valores do enum</string>
+    <string name="agent_tool_add_health_record_param_values">Valores de campo como objeto JSON que mapeia chaves para números, ex. {\"systolic\": 120, \"diastolic\": 80}</string>
+    <string name="agent_tool_add_health_record_param_happened_at">Quando a medição ocorreu, em milissegundos epoch; o padrão é agora</string>
+    <string name="agent_tool_add_health_record_param_note">Nota opcional</string>
+    <string name="agent_tool_add_health_record_success">Salvo</string>
+    <string name="agent_tool_add_health_record_failed">Falha ao adicionar registro de saúde: %1$s</string>
+    <string name="agent_tool_add_health_record_batch_empty">records não pode estar vazio</string>
+    <string name="agent_tool_add_health_record_batch_success_count">%1$d com sucesso</string>
+    <string name="agent_tool_add_health_record_batch_failure_count">%1$d com falha</string>
+    <string name="agent_tool_add_health_record_batch_section_success">Registros salvos</string>
+    <string name="agent_tool_add_health_record_batch_section_failure">Registros com falha</string>
+    <string-array name="agent_tool_add_health_record_keywords">
+        <item>registro de saúde</item>
+        <item>pressão arterial</item>
+        <item>frequência cardíaca</item>
+        <item>peso</item>
+        <item>glicose</item>
+        <item>imc</item>
+    </string-array>
+    <string-array name="agent_tool_add_health_record_examples">
+        <item>Registre minha pressão arterial 120 por 80</item>
+        <item>Registre peso 65.5 kg</item>
+        <item>Adicione uma glicose em jejum de 5.6</item>
+    </string-array>
+
+    <!-- Agent 工具:query_health_records -->
+    <string name="agent_tool_query_health_records_title">Consultar Registros de Saúde</string>
+    <string name="agent_tool_query_health_records_summary">Consulte registros recentes e estatísticas de uma métrica de saúde</string>
+    <string name="agent_tool_query_health_records_description">Consulte os registros de saúde do tipo informado nos últimos N dias (padrão 30), com estatísticas de média/máximo/mínimo por campo exibido no gráfico. Tipos de registro suportados e seus campos:</string>
+    <string name="agent_tool_query_health_records_param_record_type">Chave do tipo de registro, um dos valores do enum</string>
+    <string name="agent_tool_query_health_records_param_days">Quantos dias para trás consultar, padrão 30</string>
+    <string name="agent_tool_query_health_records_empty">Nenhum registro neste período</string>
+    <string name="agent_tool_query_health_records_failed">Falha ao consultar registros de saúde: %1$s</string>
+    <string name="agent_tool_query_health_records_section_stats">Estatísticas</string>
+    <string name="agent_tool_query_health_records_section_records">Registros</string>
+    <string-array name="agent_tool_query_health_records_keywords">
+        <item>registros de saúde</item>
+        <item>histórico de pressão arterial</item>
+        <item>tendência de peso</item>
+        <item>estatísticas de glicose</item>
+    </string-array>
+    <string-array name="agent_tool_query_health_records_examples">
+        <item>Mostre minha pressão arterial deste mês</item>
+        <item>Como foi meu peso nos últimos 30 dias</item>
+        <item>Frequência cardíaca média desta semana</item>
+    </string-array>
+
+    <!-- Agent 工具:get_health_summary -->
+    <string name="agent_tool_get_health_summary_title">Resumo de Saúde</string>
+    <string name="agent_tool_get_health_summary_summary">Valor mais recente de cada tipo de registro de saúde</string>
+    <string name="agent_tool_get_health_summary_description">Obtenha o registro mais recente de cada tipo de registro de saúde, com unidades e faixas de referência.</string>
+    <string name="agent_tool_get_health_summary_empty">Ainda não há registros de saúde</string>
+    <string name="agent_tool_get_health_summary_failed">Falha ao obter resumo de saúde: %1$s</string>
+    <string-array name="agent_tool_get_health_summary_keywords">
+        <item>resumo de saúde</item>
+        <item>dados de saúde recentes</item>
+        <item>visão geral da saúde</item>
+    </string-array>
+    <string-array name="agent_tool_get_health_summary_examples">
+        <item>Me dê uma visão geral dos meus dados de saúde</item>
+        <item>Quais são minhas medições mais recentes</item>
+    </string-array>
+
+    <!-- Agent 工具:公共 -->
+    <string name="agent_tool_record_center_open_link">Abrir Registros de Saúde</string>
+    <string name="agent_tool_record_center_field_optional"> (opcional)</string>
+    <string name="agent_tool_record_center_unknown_error">erro desconhecido</string>
+</resources>

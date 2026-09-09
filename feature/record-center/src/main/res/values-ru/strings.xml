@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 模块 -->
+    <string name="record_center_title">Записи о здоровье</string>
+
+    <!-- 类型:标题与描述 -->
+    <string name="record_center_type_heart_rate_title">Пульс</string>
+    <string name="record_center_type_heart_rate_desc">Записывайте и отслеживайте данные пульса для контроля здоровья сердца</string>
+    <string name="record_center_type_blood_pressure_title">Артериальное давление</string>
+    <string name="record_center_type_blood_pressure_desc">Записывайте и отслеживайте данные давления, чтобы следить за динамикой</string>
+    <string name="record_center_type_blood_glucose_title">Глюкоза в крови</string>
+    <string name="record_center_type_blood_glucose_desc">Записывайте и отслеживайте данные глюкозы для контроля уровня сахара в крови</string>
+    <string name="record_center_type_weight_title">Вес</string>
+    <string name="record_center_type_weight_desc">Записывайте и отслеживайте данные веса, чтобы следить за его изменениями</string>
+    <string name="record_center_type_bmi_title">ИМТ</string>
+    <string name="record_center_type_bmi_desc">Записывайте и отслеживайте данные ИМТ для оценки здоровья веса</string>
+    <string name="record_center_type_body_fat_title">Жировая масса</string>
+    <string name="record_center_type_body_fat_desc">Записывайте и отслеживайте данные о жире в организме, чтобы понимать изменения состава тела</string>
+    <string name="record_center_type_uric_acid_title">Мочевая кислота</string>
+    <string name="record_center_type_uric_acid_desc">Записывайте и отслеживайте данные мочевой кислоты для профилактики и контроля подагры</string>
+    <string name="record_center_type_blood_lipid_title">Липиды крови</string>
+    <string name="record_center_type_blood_lipid_desc">Записывайте и отслеживайте данные липидов крови для контроля их уровня</string>
+    <string name="record_center_type_blood_oxygen_title">Кислород в крови</string>
+    <string name="record_center_type_blood_oxygen_desc">Записывайте и отслеживайте данные кислорода в крови для контроля дыхания и кровообращения</string>
+    <string name="record_center_type_body_temperature_title">Температура</string>
+    <string name="record_center_type_body_temperature_desc">Записывайте и отслеживайте данные температуры тела, чтобы следить за её изменениями</string>
+    <string name="record_center_type_sleep_duration_title">Сон</string>
+    <string name="record_center_type_sleep_duration_desc">Записывайте и отслеживайте длительность сна для улучшения его качества</string>
+    <string name="record_center_type_waist_circumference_title">Талия</string>
+    <string name="record_center_type_waist_circumference_desc">Записывайте и отслеживайте данные окружности талии для контроля здоровья живота</string>
+
+    <!-- 字段标签 -->
+    <string name="record_center_field_heart_rate_value">Пульс</string>
+    <string name="record_center_field_bp_systolic">Систолическое</string>
+    <string name="record_center_field_bp_diastolic">Диастолическое</string>
+    <string name="record_center_field_glucose_value">Глюкоза</string>
+    <string name="record_center_field_weight_value">Вес</string>
+    <string name="record_center_field_bmi_value">ИМТ</string>
+    <string name="record_center_field_body_fat_value">Жировая масса</string>
+    <string name="record_center_field_uric_acid_value">Мочевая кислота</string>
+    <string name="record_center_field_lipid_total_cholesterol">Общий холестерин</string>
+    <string name="record_center_field_lipid_triglyceride">Триглицериды</string>
+    <string name="record_center_field_lipid_ldl">Холестерин ЛПНП</string>
+    <string name="record_center_field_lipid_hdl">Холестерин ЛПВП</string>
+    <string name="record_center_field_blood_oxygen_value">Кислород в крови</string>
+    <string name="record_center_field_body_temperature_value">Температура тела</string>
+    <string name="record_center_field_sleep_duration_value">Длительность сна</string>
+    <string name="record_center_field_waist_circumference_value">Талия</string>
+
+    <!-- 参考范围 -->
+    <string name="record_center_ref_heart_rate">Норма 60-100 уд/мин</string>
+    <string name="record_center_ref_blood_pressure">Норма 90-140/60-90 мм рт. ст.</string>
+    <string name="record_center_ref_blood_glucose">Норма натощак 3.9-6.1 ммоль/л</string>
+    <string name="record_center_ref_bmi">Норма 18.5-24</string>
+    <string name="record_center_ref_uric_acid">Норма: мужчины 208-428, женщины 155-357 мкмоль/л</string>
+    <string name="record_center_ref_blood_lipid">Общий холестерин &lt;5.2 ммоль/л</string>
+    <string name="record_center_ref_blood_oxygen">Норма 95-100%</string>
+    <string name="record_center_ref_body_temperature">Норма 36.0-37.3 °C</string>
+    <string name="record_center_ref_sleep_duration">Рекомендуется 7-9 часов</string>
+    <string name="record_center_ref_waist_circumference">Мужчины &lt;90 / женщины &lt;85 см</string>
+
+    <!-- 表单与列表(供后续 UI 使用) -->
+    <string name="record_center_label_time">Время</string>
+    <string name="record_center_label_note">Заметка</string>
+    <string name="record_center_action_save">Сохранить</string>
+    <string name="record_center_action_delete">Удалить</string>
+    <string name="record_center_add_record">Добавить запись</string>
+    <string name="record_center_edit_record">Изменить запись</string>
+    <string name="record_center_empty">Записей пока нет</string>
+    <string name="record_center_stats_latest">Последнее</string>
+    <string name="record_center_stats_average">Среднее</string>
+    <string name="record_center_stats_max">Макс</string>
+    <string name="record_center_stats_min">Мин</string>
+    <string name="record_center_range_7d">7 дн</string>
+    <string name="record_center_range_30d">30 дн</string>
+    <string name="record_center_range_all">Все</string>
+    <string name="record_center_range_days">За последние %1$d дн.</string>
+    <string name="record_center_today">Сегодня</string>
+    <string name="record_center_yesterday">Вчера</string>
+    <string name="record_center_days_ago">%1$d дн. назад</string>
+    <string name="record_center_delete_confirm_title">Удалить запись</string>
+    <string name="record_center_delete_confirm_message">Удалить эту запись? Это действие нельзя отменить.</string>
+    <string name="record_center_confirm">Подтвердить</string>
+    <string name="record_center_cancel">Отмена</string>
+    <string name="record_center_save_success">Сохранено</string>
+    <string name="record_center_range_all_label">Все записи</string>
+
+    <!-- AI 解读 -->
+    <string name="record_center_ai_insight">Анализ ИИ</string>
+    <string name="record_center_ai_insight_hint">Позвольте ИИ интерпретировать тренд ваших записей за этот период</string>
+    <string name="record_center_ai_insight_empty">Сначала добавьте записи, затем создайте анализ</string>
+    <string name="record_center_ai_insight_generate">Создать анализ</string>
+    <string name="record_center_ai_insight_regenerate">Создать заново</string>
+    <string name="record_center_ai_insight_retry">Повторить</string>
+    <string name="record_center_ai_insight_loading">Создание анализа…</string>
+    <string name="record_center_ai_insight_error">Не удалось создать анализ, попробуйте позже</string>
+    <string name="record_center_ai_insight_points_hint">%1$d баллов за анализ</string>
+
+    <!-- 基础信息 -->
+    <string name="record_center_profile_title">Основные данные</string>
+    <string name="record_center_profile_hint">Помогает ИИ-анализу лучше подходить вам</string>
+    <string name="record_center_profile_unset">Не задано, нажмите, чтобы заполнить</string>
+    <string name="record_center_profile_gender_male">Мужской</string>
+    <string name="record_center_profile_gender_female">Женский</string>
+    <string name="record_center_profile_field_gender">Пол</string>
+    <string name="record_center_profile_field_age">Возраст</string>
+    <string name="record_center_profile_field_height">Рост (см)</string>
+    <string name="record_center_profile_field_weight">Вес (кг)</string>
+    <string name="record_center_profile_age_years">%1$d лет</string>
+    <string name="record_center_profile_invalid">Введите корректные числа</string>
+    <string name="record_center_empty_go_ai">Записать с помощью ИИ-ассистента</string>
+
+    <!-- 布局切换 -->
+    <string name="record_center_cd_switch_to_grid">Переключиться на сетку</string>
+    <string name="record_center_cd_switch_to_list">Переключиться на список</string>
+
+    <!-- 校验错误 -->
+    <string name="record_center_error_unknown_type">Неизвестный тип записи: %1$s</string>
+    <string name="record_center_error_missing_field">Отсутствует обязательное поле: %1$s</string>
+    <string name="record_center_error_unknown_field">Неизвестное поле: %1$s</string>
+    <string name="record_center_error_out_of_range">%1$s вне диапазона (%2$s ~ %3$s)</string>
+    <string name="record_center_error_not_found">Запись не найдена</string>
+    <string name="record_center_error_invalid_number">Введите корректное число</string>
+    <string name="record_center_error_required">Обязательно</string>
+    <string name="record_center_error_out_of_range_short">Вне диапазона (%1$s ~ %2$s)</string>
+
+    <!-- 审计日志 -->
+    <string name="record_center_log_created">Запись о здоровье добавлена</string>
+    <string name="record_center_log_updated">Запись о здоровье обновлена</string>
+    <string name="record_center_log_deleted">Запись о здоровье удалена</string>
+
+    <!-- Agent 工具:add_health_record -->
+    <string name="agent_tool_add_health_record_title">Добавить запись о здоровье</string>
+    <string name="agent_tool_add_health_record_summary">Записать показатель здоровья, например давление или вес</string>
+    <string name="agent_tool_add_health_record_description">Добавить записи о здоровье. Одиночный режим: передайте record_type и values на верхнем уровне (happened_at/note необязательны). Пакетный режим: передайте массив records, чтобы добавить несколько записей сразу; каждый элемент имеет те же поля и обрабатывается независимо, поэтому частичные ошибки не влияют на остальные. values должен быть JSON-объектом, сопоставляющим ключи полей с числами; ключи полей и единицы зависят от record_type. Поддерживаемые типы записей и их поля:</string>
+    <string name="agent_tool_add_health_record_param_records">Пакетный режим: массив элементов записей, каждый с record_type и values (happened_at/note необязательны). Если задан, верхнеуровневые record_type/values игнорируются</string>
+    <string name="agent_tool_add_health_record_param_record_type">Ключ типа записи, одно из значений enum</string>
+    <string name="agent_tool_add_health_record_param_values">Значения полей как JSON-объект, сопоставляющий ключи полей с числами, например {\"systolic\": 120, \"diastolic\": 80}</string>
+    <string name="agent_tool_add_health_record_param_happened_at">Когда было сделано измерение, в миллисекундах epoch; по умолчанию — сейчас</string>
+    <string name="agent_tool_add_health_record_param_note">Необязательная заметка</string>
+    <string name="agent_tool_add_health_record_success">Сохранено</string>
+    <string name="agent_tool_add_health_record_failed">Не удалось добавить запись о здоровье: %1$s</string>
+    <string name="agent_tool_add_health_record_batch_empty">records не должен быть пустым</string>
+    <string name="agent_tool_add_health_record_batch_success_count">Успешно: %1$d</string>
+    <string name="agent_tool_add_health_record_batch_failure_count">С ошибкой: %1$d</string>
+    <string name="agent_tool_add_health_record_batch_section_success">Сохранённые записи</string>
+    <string name="agent_tool_add_health_record_batch_section_failure">Записи с ошибками</string>
+    <string-array name="agent_tool_add_health_record_keywords">
+        <item>запись о здоровье</item>
+        <item>артериальное давление</item>
+        <item>пульс</item>
+        <item>вес</item>
+        <item>глюкоза</item>
+        <item>имт</item>
+    </string-array>
+    <string-array name="agent_tool_add_health_record_examples">
+        <item>Запиши моё давление 120 на 80</item>
+        <item>Запиши вес 65.5 кг</item>
+        <item>Добавь глюкозу натощак 5.6</item>
+    </string-array>
+
+    <!-- Agent 工具:query_health_records -->
+    <string name="agent_tool_query_health_records_title">Запрос записей о здоровье</string>
+    <string name="agent_tool_query_health_records_summary">Запросить недавние записи и статистику по показателю здоровья</string>
+    <string name="agent_tool_query_health_records_description">Запросить записи о здоровье заданного типа за последние N дней (по умолчанию 30) со статистикой среднего/максимума/минимума по каждому отображаемому полю. Поддерживаемые типы записей и их поля:</string>
+    <string name="agent_tool_query_health_records_param_record_type">Ключ типа записи, одно из значений enum</string>
+    <string name="agent_tool_query_health_records_param_days">За сколько дней назад искать, по умолчанию 30</string>
+    <string name="agent_tool_query_health_records_empty">Нет записей за этот период</string>
+    <string name="agent_tool_query_health_records_failed">Не удалось запросить записи о здоровье: %1$s</string>
+    <string name="agent_tool_query_health_records_section_stats">Статистика</string>
+    <string name="agent_tool_query_health_records_section_records">Записи</string>
+    <string-array name="agent_tool_query_health_records_keywords">
+        <item>записи о здоровье</item>
+        <item>история давления</item>
+        <item>динамика веса</item>
+        <item>статистика глюкозы</item>
+    </string-array>
+    <string-array name="agent_tool_query_health_records_examples">
+        <item>Покажи моё давление за этот месяц</item>
+        <item>Как менялся мой вес за последние 30 дней</item>
+        <item>Средний пульс за эту неделю</item>
+    </string-array>
+
+    <!-- Agent 工具:get_health_summary -->
+    <string name="agent_tool_get_health_summary_title">Сводка здоровья</string>
+    <string name="agent_tool_get_health_summary_summary">Последнее значение каждого типа записей о здоровье</string>
+    <string name="agent_tool_get_health_summary_description">Получить самую последнюю запись каждого типа записей о здоровье с единицами измерения и референсными диапазонами.</string>
+    <string name="agent_tool_get_health_summary_empty">Записей о здоровье пока нет</string>
+    <string name="agent_tool_get_health_summary_failed">Не удалось получить сводку здоровья: %1$s</string>
+    <string-array name="agent_tool_get_health_summary_keywords">
+        <item>сводка здоровья</item>
+        <item>последние данные о здоровье</item>
+        <item>обзор здоровья</item>
+    </string-array>
+    <string-array name="agent_tool_get_health_summary_examples">
+        <item>Дай обзор моих данных о здоровье</item>
+        <item>Какие у меня последние измерения</item>
+    </string-array>
+
+    <!-- Agent 工具:公共 -->
+    <string name="agent_tool_record_center_open_link">Открыть записи о здоровье</string>
+    <string name="agent_tool_record_center_field_optional"> (необязательно)</string>
+    <string name="agent_tool_record_center_unknown_error">неизвестная ошибка</string>
+</resources>

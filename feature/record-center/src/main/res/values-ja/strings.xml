@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 模块 -->
+    <string name="record_center_title">健康記録</string>
+
+    <!-- 类型:标题与描述 -->
+    <string name="record_center_type_heart_rate_title">心拍数</string>
+    <string name="record_center_type_heart_rate_desc">心拍数データを記録・管理して心臓の健康をモニタリング</string>
+    <string name="record_center_type_blood_pressure_title">血圧</string>
+    <string name="record_center_type_blood_pressure_desc">血圧データを記録・管理して長期的な傾向を追跡</string>
+    <string name="record_center_type_blood_glucose_title">血糖値</string>
+    <string name="record_center_type_blood_glucose_desc">血糖値データを記録・管理して血糖コントロールをサポート</string>
+    <string name="record_center_type_weight_title">体重</string>
+    <string name="record_center_type_weight_desc">体重データを記録・管理して体重の変化を追跡</string>
+    <string name="record_center_type_bmi_title">BMI</string>
+    <string name="record_center_type_bmi_desc">BMIデータを記録・管理して体重の健康状態を評価</string>
+    <string name="record_center_type_body_fat_title">体脂肪率</string>
+    <string name="record_center_type_body_fat_desc">体脂肪データを記録・管理して体組成の変化を把握</string>
+    <string name="record_center_type_uric_acid_title">尿酸値</string>
+    <string name="record_center_type_uric_acid_desc">尿酸データを記録・管理して痛風の予防とコントロールをサポート</string>
+    <string name="record_center_type_blood_lipid_title">血中脂質</string>
+    <string name="record_center_type_blood_lipid_desc">血中脂質データを記録・管理して脂質レベルをモニタリング</string>
+    <string name="record_center_type_blood_oxygen_title">血中酸素</string>
+    <string name="record_center_type_blood_oxygen_desc">血中酸素データを記録・管理して呼吸・循環器の健康をモニタリング</string>
+    <string name="record_center_type_body_temperature_title">体温</string>
+    <string name="record_center_type_body_temperature_desc">体温データを記録・管理して体温の変化を追跡</string>
+    <string name="record_center_type_sleep_duration_title">睡眠</string>
+    <string name="record_center_type_sleep_duration_desc">睡眠時間を記録・管理して睡眠の質を改善</string>
+    <string name="record_center_type_waist_circumference_title">腹囲</string>
+    <string name="record_center_type_waist_circumference_desc">腹囲データを記録・管理して腹部の健康に注意</string>
+
+    <!-- 字段标签 -->
+    <string name="record_center_field_heart_rate_value">心拍数</string>
+    <string name="record_center_field_bp_systolic">収縮期血圧</string>
+    <string name="record_center_field_bp_diastolic">拡張期血圧</string>
+    <string name="record_center_field_glucose_value">血糖値</string>
+    <string name="record_center_field_weight_value">体重</string>
+    <string name="record_center_field_bmi_value">BMI</string>
+    <string name="record_center_field_body_fat_value">体脂肪率</string>
+    <string name="record_center_field_uric_acid_value">尿酸値</string>
+    <string name="record_center_field_lipid_total_cholesterol">総コレステロール</string>
+    <string name="record_center_field_lipid_triglyceride">トリグリセリド</string>
+    <string name="record_center_field_lipid_ldl">LDLコレステロール</string>
+    <string name="record_center_field_lipid_hdl">HDLコレステロール</string>
+    <string name="record_center_field_blood_oxygen_value">血中酸素飽和度</string>
+    <string name="record_center_field_body_temperature_value">体温</string>
+    <string name="record_center_field_sleep_duration_value">睡眠時間</string>
+    <string name="record_center_field_waist_circumference_value">腹囲</string>
+
+    <!-- 参考范围 -->
+    <string name="record_center_ref_heart_rate">正常 60-100 bpm</string>
+    <string name="record_center_ref_blood_pressure">正常 90-140/60-90 mmHg</string>
+    <string name="record_center_ref_blood_glucose">空腹時正常 3.9-6.1 mmol/L</string>
+    <string name="record_center_ref_bmi">正常 18.5-24</string>
+    <string name="record_center_ref_uric_acid">正常:男性 208-428、女性 155-357 μmol/L</string>
+    <string name="record_center_ref_blood_lipid">総コレステロール &lt;5.2 mmol/L</string>
+    <string name="record_center_ref_blood_oxygen">正常 95-100%</string>
+    <string name="record_center_ref_body_temperature">正常 36.0-37.3 °C</string>
+    <string name="record_center_ref_sleep_duration">推奨 7-9 時間</string>
+    <string name="record_center_ref_waist_circumference">男性 &lt;90 / 女性 &lt;85 cm</string>
+
+    <!-- 表单与列表(供后续 UI 使用) -->
+    <string name="record_center_label_time">時刻</string>
+    <string name="record_center_label_note">メモ</string>
+    <string name="record_center_action_save">保存</string>
+    <string name="record_center_action_delete">削除</string>
+    <string name="record_center_add_record">記録を追加</string>
+    <string name="record_center_edit_record">記録を編集</string>
+    <string name="record_center_empty">まだ記録がありません</string>
+    <string name="record_center_stats_latest">最新</string>
+    <string name="record_center_stats_average">平均</string>
+    <string name="record_center_stats_max">最大</string>
+    <string name="record_center_stats_min">最小</string>
+    <string name="record_center_range_7d">7日</string>
+    <string name="record_center_range_30d">30日</string>
+    <string name="record_center_range_all">すべて</string>
+    <string name="record_center_range_days">過去%1$d日間</string>
+    <string name="record_center_today">今日</string>
+    <string name="record_center_yesterday">昨日</string>
+    <string name="record_center_days_ago">%1$d日前</string>
+    <string name="record_center_delete_confirm_title">記録を削除</string>
+    <string name="record_center_delete_confirm_message">この記録を削除しますか?この操作は元に戻せません。</string>
+    <string name="record_center_confirm">確認</string>
+    <string name="record_center_cancel">キャンセル</string>
+    <string name="record_center_save_success">保存しました</string>
+    <string name="record_center_range_all_label">すべての記録</string>
+
+    <!-- AI 解读 -->
+    <string name="record_center_ai_insight">AI 分析</string>
+    <string name="record_center_ai_insight_hint">この期間の記録の傾向を AI に解釈してもらいます</string>
+    <string name="record_center_ai_insight_empty">まず記録を追加してから分析を生成してください</string>
+    <string name="record_center_ai_insight_generate">分析を生成</string>
+    <string name="record_center_ai_insight_regenerate">再生成</string>
+    <string name="record_center_ai_insight_retry">再試行</string>
+    <string name="record_center_ai_insight_loading">分析を生成中…</string>
+    <string name="record_center_ai_insight_error">分析の生成に失敗しました。後でもう一度お試しください</string>
+    <string name="record_center_ai_insight_points_hint">1回の分析で %1$d ポイント</string>
+
+    <!-- 基础信息 -->
+    <string name="record_center_profile_title">基本情報</string>
+    <string name="record_center_profile_hint">AI の分析をあなたに合わせるのに役立ちます</string>
+    <string name="record_center_profile_unset">未設定。タップして入力</string>
+    <string name="record_center_profile_gender_male">男性</string>
+    <string name="record_center_profile_gender_female">女性</string>
+    <string name="record_center_profile_field_gender">性別</string>
+    <string name="record_center_profile_field_age">年齢</string>
+    <string name="record_center_profile_field_height">身長 (cm)</string>
+    <string name="record_center_profile_field_weight">体重 (kg)</string>
+    <string name="record_center_profile_age_years">%1$d 歳</string>
+    <string name="record_center_profile_invalid">有効な数値を入力してください</string>
+    <string name="record_center_empty_go_ai">AI アシスタントで記録</string>
+
+    <!-- 布局切换 -->
+    <string name="record_center_cd_switch_to_grid">グリッド表示に切り替え</string>
+    <string name="record_center_cd_switch_to_list">リスト表示に切り替え</string>
+
+    <!-- 校验错误 -->
+    <string name="record_center_error_unknown_type">不明な記録タイプ: %1$s</string>
+    <string name="record_center_error_missing_field">必須フィールドがありません: %1$s</string>
+    <string name="record_center_error_unknown_field">不明なフィールド: %1$s</string>
+    <string name="record_center_error_out_of_range">%1$s が範囲外です(%2$s ~ %3$s)</string>
+    <string name="record_center_error_not_found">記録が見つかりません</string>
+    <string name="record_center_error_invalid_number">有効な数値を入力してください</string>
+    <string name="record_center_error_required">必須</string>
+    <string name="record_center_error_out_of_range_short">範囲外(%1$s ~ %2$s)</string>
+
+    <!-- 审计日志 -->
+    <string name="record_center_log_created">健康記録を追加しました</string>
+    <string name="record_center_log_updated">健康記録を更新しました</string>
+    <string name="record_center_log_deleted">健康記録を削除しました</string>
+
+    <!-- Agent 工具:add_health_record -->
+    <string name="agent_tool_add_health_record_title">健康記録を追加</string>
+    <string name="agent_tool_add_health_record_summary">血圧や体重などの健康指標を記録する</string>
+    <string name="agent_tool_add_health_record_description">健康記録を追加します。単一モード:トップレベルで record_type と values を渡します(happened_at/note は任意)。バッチモード:records 配列を渡して複数の記録を一度に追加します。各項目のフィールドは同じで、項目は独立して処理されるため、一部の失敗が他に影響しません。values はフィールドキーを数値にマッピングする JSON オブジェクトである必要があります。フィールドキーと単位は record_type によって異なります。サポートされる記録タイプとそのフィールド:</string>
+    <string name="agent_tool_add_health_record_param_records">バッチモード:記録項目の配列。各項目に record_type と values(happened_at/note は任意)。指定された場合、トップレベルの record_type/values は無視されます</string>
+    <string name="agent_tool_add_health_record_param_record_type">記録タイプのキー。列挙値のいずれか</string>
+    <string name="agent_tool_add_health_record_param_values">フィールド値。フィールドキーを数値にマッピングする JSON オブジェクト。例:{\"systolic\": 120, \"diastolic\": 80}</string>
+    <string name="agent_tool_add_health_record_param_happened_at">測定が行われた日時。エポックミリ秒。デフォルトは現在時刻</string>
+    <string name="agent_tool_add_health_record_param_note">任意のメモ</string>
+    <string name="agent_tool_add_health_record_success">保存しました</string>
+    <string name="agent_tool_add_health_record_failed">健康記録の追加に失敗しました: %1$s</string>
+    <string name="agent_tool_add_health_record_batch_empty">records は空にできません</string>
+    <string name="agent_tool_add_health_record_batch_success_count">%1$d 件成功</string>
+    <string name="agent_tool_add_health_record_batch_failure_count">%1$d 件失敗</string>
+    <string name="agent_tool_add_health_record_batch_section_success">保存された記録</string>
+    <string name="agent_tool_add_health_record_batch_section_failure">失敗した記録</string>
+    <string-array name="agent_tool_add_health_record_keywords">
+        <item>健康記録</item>
+        <item>血圧</item>
+        <item>心拍数</item>
+        <item>体重</item>
+        <item>血糖値</item>
+        <item>BMI</item>
+    </string-array>
+    <string-array name="agent_tool_add_health_record_examples">
+        <item>血圧 120/80 を記録して</item>
+        <item>体重 65.5 kg を記録して</item>
+        <item>空腹時血糖値 5.6 を追加して</item>
+    </string-array>
+
+    <!-- Agent 工具:query_health_records -->
+    <string name="agent_tool_query_health_records_title">健康記録を検索</string>
+    <string name="agent_tool_query_health_records_summary">健康指標の最近の記録と統計を検索する</string>
+    <string name="agent_tool_query_health_records_description">指定されたタイプの過去 N 日間(デフォルト 30 日)の健康記録を検索し、グラフ化されたフィールドごとに平均/最大/最小の統計を表示します。サポートされる記録タイプとそのフィールド:</string>
+    <string name="agent_tool_query_health_records_param_record_type">記録タイプのキー。列挙値のいずれか</string>
+    <string name="agent_tool_query_health_records_param_days">さかのぼる日数。デフォルトは 30</string>
+    <string name="agent_tool_query_health_records_empty">この期間の記録はありません</string>
+    <string name="agent_tool_query_health_records_failed">健康記録の検索に失敗しました: %1$s</string>
+    <string name="agent_tool_query_health_records_section_stats">統計</string>
+    <string name="agent_tool_query_health_records_section_records">記録</string>
+    <string-array name="agent_tool_query_health_records_keywords">
+        <item>健康記録</item>
+        <item>血圧履歴</item>
+        <item>体重の推移</item>
+        <item>血糖値統計</item>
+    </string-array>
+    <string-array name="agent_tool_query_health_records_examples">
+        <item>今月の血圧を見せて</item>
+        <item>過去 30 日間の体重はどうだった?</item>
+        <item>今週の平均心拍数</item>
+    </string-array>
+
+    <!-- Agent 工具:get_health_summary -->
+    <string name="agent_tool_get_health_summary_title">健康サマリー</string>
+    <string name="agent_tool_get_health_summary_summary">すべての健康記録タイプの最新値</string>
+    <string name="agent_tool_get_health_summary_description">すべての健康記録タイプの最新の記録を、単位と基準範囲とともに取得します。</string>
+    <string name="agent_tool_get_health_summary_empty">まだ健康記録がありません</string>
+    <string name="agent_tool_get_health_summary_failed">健康サマリーの取得に失敗しました: %1$s</string>
+    <string-array name="agent_tool_get_health_summary_keywords">
+        <item>健康サマリー</item>
+        <item>最新の健康データ</item>
+        <item>健康の概要</item>
+    </string-array>
+    <string-array name="agent_tool_get_health_summary_examples">
+        <item>健康データの概要を見せて</item>
+        <item>最新の測定値は?</item>
+    </string-array>
+
+    <!-- Agent 工具:公共 -->
+    <string name="agent_tool_record_center_open_link">健康記録を開く</string>
+    <string name="agent_tool_record_center_field_optional"> (任意)</string>
+    <string name="agent_tool_record_center_unknown_error">不明なエラー</string>
+</resources>

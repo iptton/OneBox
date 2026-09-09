@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 模块 -->
+    <string name="record_center_title">Mga Rekord ng Kalusugan</string>
+
+    <!-- 类型:标题与描述 -->
+    <string name="record_center_type_heart_rate_title">Tibok ng Puso</string>
+    <string name="record_center_type_heart_rate_desc">Itala at pamahalaan ang mga datos ng tibok ng puso upang subaybayan ang kalusugan ng puso</string>
+    <string name="record_center_type_blood_pressure_title">Presyon ng Dugo</string>
+    <string name="record_center_type_blood_pressure_desc">Itala at pamahalaan ang mga datos ng presyon ng dugo upang subaybayan ang mga trend sa paglipas ng panahon</string>
+    <string name="record_center_type_blood_glucose_title">Glucose sa Dugo</string>
+    <string name="record_center_type_blood_glucose_desc">Itala at pamahalaan ang mga datos ng glucose sa dugo upang makatulong sa pagkontrol ng antas ng asukal sa dugo</string>
+    <string name="record_center_type_weight_title">Timbang</string>
+    <string name="record_center_type_weight_desc">Itala at pamahalaan ang mga datos ng timbang upang subaybayan ang mga pagbabago nito</string>
+    <string name="record_center_type_bmi_title">BMI</string>
+    <string name="record_center_type_bmi_desc">Itala at pamahalaan ang mga datos ng BMI upang masuri ang kalusugan ng timbang</string>
+    <string name="record_center_type_body_fat_title">Taba ng Katawan</string>
+    <string name="record_center_type_body_fat_desc">Itala at pamahalaan ang mga datos ng taba ng katawan upang maunawaan ang mga pagbabago sa komposisyon ng katawan</string>
+    <string name="record_center_type_uric_acid_title">Uric Acid</string>
+    <string name="record_center_type_uric_acid_desc">Itala at pamahalaan ang mga datos ng uric acid upang makatulong sa pagpigil at pagkontrol ng gout</string>
+    <string name="record_center_type_blood_lipid_title">Lipid sa Dugo</string>
+    <string name="record_center_type_blood_lipid_desc">Itala at pamahalaan ang mga datos ng lipid sa dugo upang subaybayan ang mga antas nito</string>
+    <string name="record_center_type_blood_oxygen_title">Oxygen sa Dugo</string>
+    <string name="record_center_type_blood_oxygen_desc">Itala at pamahalaan ang mga datos ng oxygen sa dugo upang subaybayan ang kalusugan ng paghinga at sirkulasyon</string>
+    <string name="record_center_type_body_temperature_title">Temperatura</string>
+    <string name="record_center_type_body_temperature_desc">Itala at pamahalaan ang mga datos ng temperatura ng katawan upang subaybayan ang mga pagbabago nito</string>
+    <string name="record_center_type_sleep_duration_title">Tulog</string>
+    <string name="record_center_type_sleep_duration_desc">Itala at pamahalaan ang tagal ng tulog upang mapabuti ang kalidad nito</string>
+    <string name="record_center_type_waist_circumference_title">Baywang</string>
+    <string name="record_center_type_waist_circumference_desc">Itala at pamahalaan ang mga datos ng sukat ng baywang upang bantayan ang kalusugan ng tiyan</string>
+
+    <!-- 字段标签 -->
+    <string name="record_center_field_heart_rate_value">Tibok ng puso</string>
+    <string name="record_center_field_bp_systolic">Systolic</string>
+    <string name="record_center_field_bp_diastolic">Diastolic</string>
+    <string name="record_center_field_glucose_value">Glucose sa dugo</string>
+    <string name="record_center_field_weight_value">Timbang</string>
+    <string name="record_center_field_bmi_value">BMI</string>
+    <string name="record_center_field_body_fat_value">Taba ng katawan</string>
+    <string name="record_center_field_uric_acid_value">Uric acid</string>
+    <string name="record_center_field_lipid_total_cholesterol">Kabuuang cholesterol</string>
+    <string name="record_center_field_lipid_triglyceride">Triglyceride</string>
+    <string name="record_center_field_lipid_ldl">LDL cholesterol</string>
+    <string name="record_center_field_lipid_hdl">HDL cholesterol</string>
+    <string name="record_center_field_blood_oxygen_value">Oxygen sa dugo</string>
+    <string name="record_center_field_body_temperature_value">Temperatura ng katawan</string>
+    <string name="record_center_field_sleep_duration_value">Tagal ng tulog</string>
+    <string name="record_center_field_waist_circumference_value">Baywang</string>
+
+    <!-- 参考范围 -->
+    <string name="record_center_ref_heart_rate">Normal 60-100 bpm</string>
+    <string name="record_center_ref_blood_pressure">Normal 90-140/60-90 mmHg</string>
+    <string name="record_center_ref_blood_glucose">Normal na fasting 3.9-6.1 mmol/L</string>
+    <string name="record_center_ref_bmi">Normal 18.5-24</string>
+    <string name="record_center_ref_uric_acid">Normal: lalaki 208-428, babae 155-357 μmol/L</string>
+    <string name="record_center_ref_blood_lipid">Kabuuang cholesterol &lt;5.2 mmol/L</string>
+    <string name="record_center_ref_blood_oxygen">Normal 95-100%</string>
+    <string name="record_center_ref_body_temperature">Normal 36.0-37.3 °C</string>
+    <string name="record_center_ref_sleep_duration">Inirerekomenda 7-9 na oras</string>
+    <string name="record_center_ref_waist_circumference">Lalaki &lt;90 / babae &lt;85 cm</string>
+
+    <!-- 表单与列表(供后续 UI 使用) -->
+    <string name="record_center_label_time">Oras</string>
+    <string name="record_center_label_note">Tala</string>
+    <string name="record_center_action_save">I-save</string>
+    <string name="record_center_action_delete">I-delete</string>
+    <string name="record_center_add_record">Magdagdag ng Rekord</string>
+    <string name="record_center_edit_record">I-edit ang Rekord</string>
+    <string name="record_center_empty">Wala pang mga rekord</string>
+    <string name="record_center_stats_latest">Pinakabago</string>
+    <string name="record_center_stats_average">Average</string>
+    <string name="record_center_stats_max">Max</string>
+    <string name="record_center_stats_min">Min</string>
+    <string name="record_center_range_7d">7D</string>
+    <string name="record_center_range_30d">30D</string>
+    <string name="record_center_range_all">Lahat</string>
+    <string name="record_center_range_days">Huling %1$d araw</string>
+    <string name="record_center_today">Ngayong araw</string>
+    <string name="record_center_yesterday">Kahapon</string>
+    <string name="record_center_days_ago">%1$d araw na ang nakalipas</string>
+    <string name="record_center_delete_confirm_title">I-delete ang Rekord</string>
+    <string name="record_center_delete_confirm_message">Ide-delete ang rekord na ito? Hindi na ito maibabalik.</string>
+    <string name="record_center_confirm">Kumpirmahin</string>
+    <string name="record_center_cancel">Kanselahin</string>
+    <string name="record_center_save_success">Nai-save na</string>
+    <string name="record_center_range_all_label">Lahat ng rekord</string>
+
+    <!-- AI 解读 -->
+    <string name="record_center_ai_insight">Pagsusuri ng AI</string>
+    <string name="record_center_ai_insight_hint">Hayaang bigyang-kahulugan ng AI ang trend ng iyong mga rekord sa panahong ito</string>
+    <string name="record_center_ai_insight_empty">Magdagdag muna ng mga rekord, pagkatapos ay bumuo ng pagsusuri</string>
+    <string name="record_center_ai_insight_generate">Bumuo ng pagsusuri</string>
+    <string name="record_center_ai_insight_regenerate">Bumuo muli</string>
+    <string name="record_center_ai_insight_retry">Subukan muli</string>
+    <string name="record_center_ai_insight_loading">Bumubuo ng pagsusuri…</string>
+    <string name="record_center_ai_insight_error">Nabigong bumuo ng pagsusuri, pakisubukan ulit mamaya</string>
+    <string name="record_center_ai_insight_points_hint">%1$d puntos bawat pagsusuri</string>
+
+    <!-- 基础信息 -->
+    <string name="record_center_profile_title">Pangunahing Impormasyon</string>
+    <string name="record_center_profile_hint">Tumutulong upang mas angkop sa iyo ang mga pagsusuri ng AI</string>
+    <string name="record_center_profile_unset">Hindi pa naitatakda, i-tap upang kumpletuhin</string>
+    <string name="record_center_profile_gender_male">Lalaki</string>
+    <string name="record_center_profile_gender_female">Babae</string>
+    <string name="record_center_profile_field_gender">Kasarian</string>
+    <string name="record_center_profile_field_age">Edad</string>
+    <string name="record_center_profile_field_height">Taas (cm)</string>
+    <string name="record_center_profile_field_weight">Timbang (kg)</string>
+    <string name="record_center_profile_age_years">%1$d taong gulang</string>
+    <string name="record_center_profile_invalid">Maglagay ng wastong mga numero</string>
+    <string name="record_center_empty_go_ai">Mag-record gamit ang AI Assistant</string>
+
+    <!-- 布局切换 -->
+    <string name="record_center_cd_switch_to_grid">Lumipat sa grid view</string>
+    <string name="record_center_cd_switch_to_list">Lumipat sa list view</string>
+
+    <!-- 校验错误 -->
+    <string name="record_center_error_unknown_type">Hindi kilalang uri ng rekord: %1$s</string>
+    <string name="record_center_error_missing_field">Nawawalang kinakailangang field: %1$s</string>
+    <string name="record_center_error_unknown_field">Hindi kilalang field: %1$s</string>
+    <string name="record_center_error_out_of_range">Ang %1$s ay lampas sa saklaw (%2$s ~ %3$s)</string>
+    <string name="record_center_error_not_found">Hindi natagpuan ang rekord</string>
+    <string name="record_center_error_invalid_number">Maglagay ng wastong numero</string>
+    <string name="record_center_error_required">Kinakailangan</string>
+    <string name="record_center_error_out_of_range_short">Lampas sa saklaw (%1$s ~ %2$s)</string>
+
+    <!-- 审计日志 -->
+    <string name="record_center_log_created">Naidagdag ang rekord ng kalusugan</string>
+    <string name="record_center_log_updated">Na-update ang rekord ng kalusugan</string>
+    <string name="record_center_log_deleted">Na-delete ang rekord ng kalusugan</string>
+
+    <!-- Agent 工具:add_health_record -->
+    <string name="agent_tool_add_health_record_title">Magdagdag ng Rekord ng Kalusugan</string>
+    <string name="agent_tool_add_health_record_summary">Magtala ng sukatan ng kalusugan tulad ng presyon ng dugo o timbang</string>
+    <string name="agent_tool_add_health_record_description">Magdagdag ng mga rekord ng kalusugan. Single mode: ipasa ang record_type at values sa top level (opsyonal ang happened_at/note). Batch mode: ipasa ang records array upang magdagdag ng maraming rekord nang sabay-sabay; parehong mga field ang bawat item at hiwalay na pinoproseso ang bawat isa, kaya hindi naaapektuhan ng bahagyang pagkabigo ang iba. Ang values ay dapat JSON object na nagmamapa ng mga field key sa mga numero; ang mga field key at unit ay nakadepende sa record_type. Mga suportadong uri ng rekord at ang kanilang mga field:</string>
+    <string name="agent_tool_add_health_record_param_records">Batch mode: array ng mga item ng rekord, bawat isa ay may record_type at values (opsyonal ang happened_at/note). Kapag narito, binabalewala ang top-level record_type/values</string>
+    <string name="agent_tool_add_health_record_param_record_type">Key ng uri ng rekord, isa sa mga enum value</string>
+    <string name="agent_tool_add_health_record_param_values">Mga field value bilang JSON object na nagmamapa ng mga field key sa mga numero, hal. {\"systolic\": 120, \"diastolic\": 80}</string>
+    <string name="agent_tool_add_health_record_param_happened_at">Kailan naganap ang pagsukat, epoch milliseconds; default ay ngayon</string>
+    <string name="agent_tool_add_health_record_param_note">Opsyonal na tala</string>
+    <string name="agent_tool_add_health_record_success">Nai-save na</string>
+    <string name="agent_tool_add_health_record_failed">Nabigong magdagdag ng rekord ng kalusugan: %1$s</string>
+    <string name="agent_tool_add_health_record_batch_empty">Hindi dapat walang laman ang records</string>
+    <string name="agent_tool_add_health_record_batch_success_count">%1$d ang nagtagumpay</string>
+    <string name="agent_tool_add_health_record_batch_failure_count">%1$d ang nabigo</string>
+    <string name="agent_tool_add_health_record_batch_section_success">Mga naka-save na rekord</string>
+    <string name="agent_tool_add_health_record_batch_section_failure">Mga nabigong rekord</string>
+    <string-array name="agent_tool_add_health_record_keywords">
+        <item>rekord ng kalusugan</item>
+        <item>presyon ng dugo</item>
+        <item>tibok ng puso</item>
+        <item>timbang</item>
+        <item>glucose sa dugo</item>
+        <item>bmi</item>
+    </string-array>
+    <string-array name="agent_tool_add_health_record_examples">
+        <item>Itala ang presyon ng dugo kong 120 over 80</item>
+        <item>I-record ang timbang na 65.5 kg</item>
+        <item>Magdagdag ng fasting blood glucose na 5.6</item>
+    </string-array>
+
+    <!-- Agent 工具:query_health_records -->
+    <string name="agent_tool_query_health_records_title">Mag-query ng mga Rekord ng Kalusugan</string>
+    <string name="agent_tool_query_health_records_summary">Mag-query ng mga kamakailang rekord at stats ng isang sukatan ng kalusugan</string>
+    <string name="agent_tool_query_health_records_description">Mag-query ng mga rekord ng kalusugan ng ibinigay na uri sa huling N araw (default 30), na may average/max/min na stats bawat naka-chart na field. Mga suportadong uri ng rekord at ang kanilang mga field:</string>
+    <string name="agent_tool_query_health_records_param_record_type">Key ng uri ng rekord, isa sa mga enum value</string>
+    <string name="agent_tool_query_health_records_param_days">Ilang araw ang babalikan, default 30</string>
+    <string name="agent_tool_query_health_records_empty">Walang mga rekord sa panahong ito</string>
+    <string name="agent_tool_query_health_records_failed">Nabigong mag-query ng mga rekord ng kalusugan: %1$s</string>
+    <string name="agent_tool_query_health_records_section_stats">Stats</string>
+    <string name="agent_tool_query_health_records_section_records">Mga Rekord</string>
+    <string-array name="agent_tool_query_health_records_keywords">
+        <item>mga rekord ng kalusugan</item>
+        <item>history ng presyon ng dugo</item>
+        <item>trend ng timbang</item>
+        <item>stats ng glucose sa dugo</item>
+    </string-array>
+    <string-array name="agent_tool_query_health_records_examples">
+        <item>Ipakita ang presyon ng dugo ko ngayong buwan</item>
+        <item>Kumusta ang timbang ko sa huling 30 araw</item>
+        <item>Average na tibok ng puso ngayong linggo</item>
+    </string-array>
+
+    <!-- Agent 工具:get_health_summary -->
+    <string name="agent_tool_get_health_summary_title">Buod ng Kalusugan</string>
+    <string name="agent_tool_get_health_summary_summary">Pinakabagong value ng bawat uri ng rekord ng kalusugan</string>
+    <string name="agent_tool_get_health_summary_description">Kunin ang pinakabagong rekord ng bawat uri ng rekord ng kalusugan, kasama ang mga unit at reference range.</string>
+    <string name="agent_tool_get_health_summary_empty">Wala pang mga rekord ng kalusugan</string>
+    <string name="agent_tool_get_health_summary_failed">Nabigong kunin ang buod ng kalusugan: %1$s</string>
+    <string-array name="agent_tool_get_health_summary_keywords">
+        <item>buod ng kalusugan</item>
+        <item>pinakabagong datos ng kalusugan</item>
+        <item>pangkalahatang-tingin ng kalusugan</item>
+    </string-array>
+    <string-array name="agent_tool_get_health_summary_examples">
+        <item>Bigyan mo ako ng pangkalahatang-tingin sa aking mga datos ng kalusugan</item>
+        <item>Ano ang aking mga pinakabagong sukatan</item>
+    </string-array>
+
+    <!-- Agent 工具:公共 -->
+    <string name="agent_tool_record_center_open_link">Buksan ang mga Rekord ng Kalusugan</string>
+    <string name="agent_tool_record_center_field_optional"> (opsyonal)</string>
+    <string name="agent_tool_record_center_unknown_error">hindi kilalang error</string>
+</resources>
