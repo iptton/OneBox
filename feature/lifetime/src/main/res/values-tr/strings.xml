@@ -26,7 +26,7 @@
     <string name="lifetime_frequency_label">Frekans</string>
     <string name="lifetime_unit_label">Birim</string>
     <string name="lifetime_times_per_period">Dönem başına kez</string>
-    <string name="lifetime_add_to_timeline">Yaşam İşaretini Kaydet</string>
+    <string name="lifetime_add_to_timeline">Yaşam İşareti Kaydet</string>
     <string name="lifetime_default_times_per_period">1</string>
     <string name="lifetime_validation_event_name_required">Bir etkinlik adı girin</string>
     <string name="lifetime_validation_times_per_period_required">0\'dan büyük bir değer girin</string>
@@ -35,20 +35,20 @@
     <string name="lifetime_select_birthday">Doğum Tarihi Seçin</string>
     <string name="lifetime_confirm">Onayla</string>
     <string name="lifetime_cancel">İptal</string>
-    <string name="lifetime_settings">Başlangıç Noktası Belirle</string>
+    <string name="lifetime_settings">Başlangıç Noktasını Ayarla</string>
     <string name="lifetime_birth_date">Doğum Tarihi</string>
     <string name="lifetime_target_age">Beklenen Yaşam Süresi</string>
     <string name="lifetime_target_age_description">Beklenen yaşam süreniz, Zaman Kum Saati görselleştirmesini tanımlar. Dolu dolu bir yaşam için kişisel vizyonunuzu temsil eder.</string>
     <string name="lifetime_tap_to_change">Değiştirmek için dokunun</string>
-    <string name="lifetime_update_settings">Zaman Kum Saatine Girin</string>
+    <string name="lifetime_update_settings">Zaman Kum Saatine Gir</string>
     <string name="lifetime_hide_progress">Yaşam ilerlemesini gizle</string>
     <string name="lifetime_welcome_title">Zaman Kum Saati</string>
     <string name="lifetime_welcome_subtitle">Zaman kimseyi beklemez, ama siz onu hatırlayabilirsiniz.</string>
     <string name="lifetime_welcome_start">Başla</string>
-    <string name="lifetime_demo_hint">Demo veri — gerçek doğum tarihinizi ayarlamak için dokunun</string>
+    <string name="lifetime_demo_hint">Demo verisi — gerçek doğum tarihinizi ayarlamak için dokunun</string>
     <string name="lifetime_demo_action">Ayarla</string>
     <string name="lifetime_empty_events_title">Henüz yaşam işareti yok</string>
-    <string name="lifetime_empty_events_subtitle">Yemek, okumak, seyahat etmek gibi önemsediğiniz şeyleri ekleyin…</string>
+    <string name="lifetime_empty_events_subtitle">Yemek, okumak, seyahat gibi önemsediğiniz şeyleri ekleyin…</string>
     <string name="lifetime_empty_milestones_title">Henüz anma yok</string>
     <string name="lifetime_empty_milestones_subtitle">Mezuniyet + 1000 gün, 30. doğum günü… Önemli anlarınızı kaydedin</string>
     <string name="lifetime_empty_countdown_title">Henüz geri sayım yok</string>
@@ -59,7 +59,7 @@
     <string name="lifetime_event_picker_title">Yaşam İşareti Seç</string>
     <string name="lifetime_event_picker_add">Ekle</string>
     <string name="lifetime_event_picker_recommended">Önerilen</string>
-    <string name="lifetime_event_picker_preset">Önceden Tanımlı Etkinlikler</string>
+    <string name="lifetime_event_picker_preset">Hazır Etkinlikler</string>
     <string name="lifetime_event_picker_custom">Yaşam İşaretlerim</string>
     <string name="lifetime_event_added">Eklendi</string>
     <string name="lifetime_event_saved">Yaşam işareti eklendi</string>
@@ -105,10 +105,10 @@
     <string name="lifetime_add_countdown">Geri Sayım Ekle</string>
     <string name="lifetime_countdown_detail_title">Geri Sayım Detayı</string>
     <string name="lifetime_countdown_name_label">Geri Sayım Adı</string>
-    <string name="lifetime_countdown_name_placeholder">Maaş Günü, Yıl Dönümü, Bonus…</string>
+    <string name="lifetime_countdown_name_placeholder">Maaş Günü, Yıl Dönümü, İkramiye…</string>
     <string name="lifetime_countdown_target_date">Hedef Tarih</string>
     <string name="lifetime_countdown_lunar_target">Ay takvimine göre tekrarla (her yıl tekrarlanır)</string>
-    <string name="lifetime_countdown_lunar_target_help">Ay takvimindeki doğum günleri, geleneksel bayramlar ve diğer yıllık etkinlikler için kullanın.</string>
+    <string name="lifetime_countdown_lunar_target_help">Ay takvimine göre doğum günleri, geleneksel bayramlar ve diğer yıllık etkinlikler için kullanın.</string>
     <string name="lifetime_countdown_note_placeholder">İsteğe bağlı: bu geri sayımın anlamını not edin…</string>
     <string name="lifetime_countdown_holiday_badge">Tatil</string>
     <string name="lifetime_countdown_holiday_hint">Takvimden otomatik olarak eklenir. Silip kendi sürümünüzü ekleyebilirsiniz.</string>
@@ -138,7 +138,7 @@
     <string name="lifetime_preset_name_laba">Laba Festivali</string>
     <string name="lifetime_preset_name_little_new_year">Küçük Yeni Yıl</string>
     <string name="lifetime_preset_name_chinese_new_years_eve">Çin Yeni Yılı Arifesi</string>
-    <string name="lifetime_preset_name_new_years_day">Yılbaşı</string>
+    <string name="lifetime_preset_name_new_years_day">Yeni Yıl Günü</string>
     <string name="lifetime_preset_name_valentines">Sevgililer Günü</string>
     <string name="lifetime_preset_name_womens_day">Kadınlar Günü</string>
     <string name="lifetime_preset_name_arbor_day">Ağaç Bayramı</string>
@@ -182,4 +182,105 @@
     <string name="lifetime_event_unit_bottles">şişe</string>
     <string name="lifetime_event_unit_packs">paket</string>
     <string name="lifetime_event_unit_boxes">kutular</string>
+    <string name="agent_tool_lifetime_unknown_error">Bilinmeyen hata</string>
+    <string name="agent_tool_lifetime_open_link">Ömür boyu açık</string>
+    <string name="agent_tool_lifetime_invalid_date">Geçersiz tarih \"%1$s\". yyyy-MM-dd biçimini kullanın, örn. 2026-12-31.</string>
+    <string name="agent_tool_lifetime_invalid_type">Geçersiz tür \"%1$s\". countdown veya milestone kullanın.</string>
+    <string name="agent_tool_lifetime_label_target_date">Hedef tarih</string>
+    <string name="agent_tool_lifetime_label_note">Not</string>
+    <string name="agent_tool_lifetime_section_countdown">Geri sayımlar</string>
+    <string name="agent_tool_lifetime_section_milestone">Dönüm noktaları</string>
+    <string name="agent_tool_lifetime_days_left">%1$d gün kaldı</string>
+    <string name="agent_tool_lifetime_days_ago">%1$d gün önce</string>
+    <string name="agent_tool_lifetime_today">bugün</string>
+    <string name="agent_tool_lifetime_reached">ulaşıldı</string>
+    <string name="agent_tool_lifetime_date_unknown">tarih belirsiz</string>
+    <string name="agent_tool_add_countdown_event_title">Geri Sayım Etkinliği Ekle</string>
+    <string name="agent_tool_add_countdown_event_summary">Ad ve hedef tarih ile bir geri sayım etkinliği oluşturun.</string>
+    <string name="agent_tool_add_countdown_event_description">Ömür modülünde bir geri sayım etkinliği oluşturun. `name` ve `target_date` zorunludur; hedef tarih tek seferlik Gregoryen bir tarihtir (yyyy-MM-dd) — tekrarlayan veya ay takvimine dayalı geri sayımlar desteklenmez. `note` isteğe bağlıdır.</string>
+    <string name="agent_tool_add_countdown_event_param_name">Geri sayım adı, zorunlu, örn. \"Üniversite giriş sınavı\".</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">Hedef tarih, yyyy-MM-dd, örn. 2026-12-31.</string>
+    <string name="agent_tool_add_countdown_event_param_note">Geri sayım için isteğe bağlı not.</string>
+    <string name="agent_tool_add_countdown_event_name_required">Ad parametresi zorunludur ve boş olamaz.</string>
+    <string name="agent_tool_add_countdown_event_failed">Geri sayım etkinliği eklenemedi: %1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>geri sayım</item>
+        <item>günler önemlidir</item>
+        <item>yıl dönümü</item>
+        <item>倒数日</item>
+        <item>倒计时</item>
+        <item>纪念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>Geri sayım ekle: Yeni Yıl 2027-01-01</item>
+        <item>帮我建一个倒数日:高考 2027-06-07</item>
+        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+    </string-array>
+    <string name="agent_tool_add_life_milestone_title">Yaşam Dönüm Noktası Ekle</string>
+    <string name="agent_tool_add_life_milestone_summary">Ad ve hedef tarih ile kişisel bir yaşam dönüm noktası kaydedin.</string>
+    <string name="agent_tool_add_life_milestone_description">Ömür modülünde kişisel bir dönüm noktası oluşturun (örn. bir hedef tarihi veya unutulmaz bir gün). `name` ve `target_date` (yyyy-MM-dd) zorunludur; `note` isteğe bağlıdır.</string>
+    <string name="agent_tool_add_life_milestone_param_name">Dönüm noktası adı, zorunlu, örn. \"İlk maraton\".</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">Hedef tarih, yyyy-MM-dd, örn. 2027-05-01.</string>
+    <string name="agent_tool_add_life_milestone_param_note">Dönüm noktası için isteğe bağlı not.</string>
+    <string name="agent_tool_add_life_milestone_name_required">Ad parametresi zorunludur ve boş olamaz.</string>
+    <string name="agent_tool_add_life_milestone_failed">Yaşam dönüm noktası eklenemedi: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>dönüm noktası</item>
+        <item>hedef</item>
+        <item>yaşam olayı</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目标</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>Bir dönüm noktası kaydet: 2026-11-15\'te ilk maraton</item>
+        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
+        <item>添加人生里程碑 买房 2027-05-01</item>
+    </string-array>
+    <string name="agent_tool_query_life_events_title">Yaşam Olaylarını Sorgula</string>
+    <string name="agent_tool_query_life_events_summary">Geri sayım olaylarını ve yaşam dönüm noktalarını kalan günlerle listele.</string>
+    <string name="agent_tool_query_life_events_description">Yaşam modülündeki geri sayım olaylarını ve kişisel dönüm noktalarını sorgula. `type` sonucu filtreler: countdown, milestone veya all (varsayılan). `limit` tür başına girişleri sınırlar (varsayılan 20, maksimum 50). Her giriş, kimliğini (delete_lifetime_entry için), adını, hedef tarihini ve kalan günleri içerir.</string>
+    <string name="agent_tool_query_life_events_param_type">Giriş türü filtresi: countdown, milestone veya all (varsayılan).</string>
+    <string name="agent_tool_query_life_events_param_limit">Tür başına maksimum giriş, 1-50, varsayılan 20.</string>
+    <string name="agent_tool_query_life_events_empty">Henüz giriş yok</string>
+    <string name="agent_tool_query_life_events_failed">Yaşam olayları sorgulanamadı: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>geri sayım</item>
+        <item>dönüm noktası</item>
+        <item>sorgula</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+        <item>还有几天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>Hangi geri sayımlarım var?</item>
+        <item>我还有哪些倒数日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距离下一个倒数日还有几天</item>
+    </string-array>
+    <string name="agent_tool_delete_lifetime_entry_title">Yaşam Olayını Sil</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">Bir geri sayım olayını veya yaşam dönüm noktasını kimliğe göre sil.</string>
+    <string name="agent_tool_delete_lifetime_entry_description">Yaşam modülünden bir geri sayım olayını veya kişisel dönüm noktasını sil. `type` (countdown veya milestone) ve `id` zorunludur; kimlik, query_life_events sonuçlarından gelir. Silme işlemi geri alınamaz.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">Giriş türü: countdown veya milestone.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">Giriş kimliği, query_life_events sonuçlarından.</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">id parametresi zorunludur ve bir sayı olmalıdır.</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">%1$d kimlikli giriş bulunamadı.</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">\"%1$s\" silindi.</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">Yaşam olayını sil</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">Bir geri sayım olayını veya yaşam dönüm noktasını sil. Bu geri alınamaz.</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">Yaşam olayı silinemedi: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>sil</item>
+        <item>kaldır</item>
+        <item>geri sayım</item>
+        <item>dönüm noktası</item>
+        <item>删除</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>id 3 olan geri sayımı sil</item>
+        <item>id 3 olan geri sayımı sil</item>
+        <item>删掉里程碑 5</item>
+    </string-array>
 </resources>

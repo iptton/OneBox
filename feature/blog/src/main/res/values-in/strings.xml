@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_tool_submit_feedback_title">Kirim Masukan</string>
+    <string name="agent_tool_submit_feedback_summary">Kirim saran, laporan bug, atau permintaan fitur kepada pengembang</string>
+    <string name="agent_tool_submit_feedback_description">Kirim masukan pengguna (saran, laporan bug, atau permintaan fitur) ke tim pengembangan. Tidak perlu login. Parameter konten wajib diisi; informasi kontak opsional akan dilampirkan pada masukan agar pengembang dapat menindaklanjuti.</string>
+    <string name="agent_tool_submit_feedback_param_content">Konten masukan, wajib, maksimal 2000 karakter. Jelaskan masalah, saran, atau permintaan fitur secara detail.</string>
+    <string name="agent_tool_submit_feedback_param_contact">Informasi kontak opsional (email, QQ, WeChat, dll.) agar pengembang dapat menghubungi pengguna untuk tindak lanjut.</string>
+    <string name="agent_tool_submit_feedback_success">Masukan berhasil dikirim. Terima kasih! Pengembang akan meninjaunya sesegera mungkin, dan Anda dapat memeriksa balasan di halaman masukan.</string>
+    <string name="agent_tool_submit_feedback_failed">Gagal mengirim masukan: %1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">Konten masukan tidak boleh kosong</string>
+    <string name="agent_tool_submit_feedback_error_too_long">Konten masukan melebihi batas panjang (maksimal %1$d karakter)</string>
+    <string name="agent_tool_submit_feedback_contact_label">Kontak</string>
+    <string name="agent_tool_submit_feedback_unknown_error">Kesalahan tidak diketahui</string>
+    <string name="agent_tool_submit_feedback_open_link">Lihat masukan saya</string>
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>masukan</item>
+        <item>saran</item>
+        <item>laporan bug</item>
+        <item>permintaan fitur</item>
+        <item>masalah</item>
+    </string-array>
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>Kirim masukan untuk saya: Saya harap mode gelap dapat beralih otomatis</item>
+        <item>Saya ingin melaporkan masalah: pemindai QR kadang mogok</item>
+        <item>Kirim masukan: mohon tambahkan penggantian nama massal, email saya test@example.com</item>
+    </string-array>
+</resources>

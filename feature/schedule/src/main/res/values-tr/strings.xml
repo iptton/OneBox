@@ -2,16 +2,16 @@
 <resources>
     <string name="schedule_screen_title">Program Merkezi</string>
     <string name="schedule_sync_card_title">Senkronizasyon altyapısı hazır</string>
-    <string name="schedule_sync_card_description">Bu modül zaten kendi etkinlik modeline, senkronizasyon imleci durumuna ve yapılacaklar köprüsü alanlarına sahiptir; böylece Google Takvim daha sonra almanak veya yapılacaklar modüllerini kirletmeden eklenebilir.</string>
-    <string name="schedule_sync_ready">Senkronizasyon imleci kaydedildi</string>
+    <string name="schedule_sync_card_description">Bu modül zaten kendi etkinlik modeline, senkron imleç durumuna ve görev köprüsü alanlarına sahiptir, böylece Google Takvim daha sonra almanak veya görev modüllerini kirletmeden eklenebilir.</string>
+    <string name="schedule_sync_ready">Senkron imleci kaydedildi</string>
     <string name="schedule_sync_not_connected">Hesap bağlı değil</string>
     <string name="schedule_event_count_label">%1$d etkinlik</string>
-    <string name="schedule_linked_task_chip">Yapılacaklar bağlamı bağlandı</string>
+    <string name="schedule_linked_task_chip">Görev bağlamı bağlandı</string>
     <string name="schedule_last_error_label">Son hata: %1$s</string>
     <string name="schedule_action_card_title">Temiz bir yerel etkinlik alanıyla başlayın</string>
     <string name="schedule_action_create_local">Yerel etkinlik oluştur</string>
     <string name="schedule_action_create_focus">Odak tarihinden etkinlik oluştur</string>
-    <string name="schedule_action_open_todo">Yapılacakları aç</string>
+    <string name="schedule_action_open_todo">Görevi aç</string>
     <string name="schedule_action_open_calendar">Takvimi aç</string>
     <string name="schedule_event_section_title">Etkinlikler</string>
     <string name="schedule_empty_title">Henüz program etkinliği yok</string>
@@ -29,18 +29,95 @@
     <string name="schedule_linked_task_badge">Görev köprüsü</string>
     <string name="schedule_quick_event_title">Yeni yerel etkinlik</string>
     <string name="schedule_focus_event_title">Odak etkinliği</string>
-    <string name="schedule_linked_task_description">Bağlı yapılacak: %1$s</string>
+    <string name="schedule_linked_task_description">Bağlı görev: %1$s</string>
     <string name="schedule_save_to_system_calendar">Doğrudan sistem takvimine yaz</string>
     <string name="schedule_export_to_system_calendar">Sistem takvimine ekle</string>
     <string name="schedule_system_calendar_unavailable">Bu cihazda takvim uygulaması yok</string>
-    <string name="schedule_no_writable_calendar">Yazılabilir sistem takvimi yok</string>
+    <string name="schedule_no_writable_calendar">Yazılabilir sistem takvimi mevcut değil</string>
     <string name="schedule_saved_to_system_calendar">Sistem takvimine kaydedildi</string>
     <string name="schedule_save_to_system_calendar_failed">Sistem takvimine kaydedilemedi. Lütfen daha sonra tekrar deneyin</string>
     <string name="schedule_calendar_permission_denied">Doğrudan sistem takvimine yazmak için takvim izni gereklidir</string>
-    <string name="schedule_choose_calendar_title">Hedef takvimi seçin</string>
+    <string name="schedule_choose_calendar_title">Hedef takvim seçin</string>
     <string name="schedule_calendar_primary_badge">Birincil</string>
     <string name="schedule_dialog_close">Kapat</string>
     <string name="schedule_permission_dialog_title">Takvim izni gerekli</string>
     <string name="schedule_permission_dialog_message">Sistem takvimine doğrudan yazmak için sistem ayarlarından takvim okuma/yazma izinlerini etkinleştirin.</string>
     <string name="schedule_open_settings">Ayarları aç</string>
+    <string name="agent_tool_schedule_unknown_error">Bilinmeyen hata</string>
+    <string name="agent_tool_schedule_open_link">Programı aç</string>
+    <string name="agent_tool_schedule_label_start">Başlangıç</string>
+    <string name="agent_tool_schedule_label_end">Bitiş</string>
+    <string name="agent_tool_schedule_label_all_day">Tüm gün etkinliği</string>
+    <string name="agent_tool_schedule_label_location">Konum</string>
+    <string name="agent_tool_schedule_invalid_datetime">Geçersiz tarih/saat \"%1$s\". ISO biçimini kullanın, örn. 2026-09-10T14:00 veya 2026-09-10.</string>
+    <string name="agent_tool_schedule_invalid_date">Geçersiz tarih \"%1$s\". yyyy-MM-dd biçimini kullanın, örn. 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_title">Takvim Etkinliği Ekle</string>
+    <string name="agent_tool_add_schedule_event_summary">Başlık, zaman, not ve konum ile yerel bir takvim etkinliği oluşturun.</string>
+    <string name="agent_tool_add_schedule_event_description">Yerel bir takvim etkinliği oluşturun. `title` ve `start` zorunludur; `end` varsayılan olarak başlangıçtan bir saat sonradır (tüm gün etkinlikler için ertesi gün). Zamanlar ISO dizelerini kabul eder: 2026-09-10T14:00, 2026-09-10T14:00:00+08:00 veya düz bir tarih 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_param_title">Etkinlik başlığı, zorunlu.</string>
+    <string name="agent_tool_add_schedule_event_param_start">Başlangıç zamanı, ISO biçimi, örn. 2026-09-10T14:00; düz bir tarih o günün 00:00\'ı anlamına gelir.</string>
+    <string name="agent_tool_add_schedule_event_param_end">Bitiş zamanı, ISO biçimi. İsteğe bağlı; varsayılan olarak başlangıçtan bir saat sonra veya tüm gün etkinlikler için ertesi gün.</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">Bu etkinliğin tüm gün olup olmadığı, varsayılan false.</string>
+    <string name="agent_tool_add_schedule_event_param_description">Etkinlik için isteğe bağlı not.</string>
+    <string name="agent_tool_add_schedule_event_param_location">Etkinliğin isteğe bağlı konumu.</string>
+    <string name="agent_tool_add_schedule_event_title_required">Başlık parametresi zorunludur ve boş olamaz.</string>
+    <string name="agent_tool_add_schedule_event_failed">Takvim etkinliği eklenemedi: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>takvim</item>
+        <item>takvim</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+    <string name="agent_tool_query_schedule_events_title">Takvim Etkinliklerini Sorgula</string>
+    <string name="agent_tool_query_schedule_events_summary">Bir tarih aralığındaki yerel takvim etkinliklerini sorgular.</string>
+    <string name="agent_tool_query_schedule_events_description">Bir tarih aralığıyla çakışan yerel takvim etkinliklerini sorgular. `start_date` varsayılan olarak bugünü, `end_date` ise ondan 6 gün sonrasını (7 günlük bir pencere) varsayar. Başlangıç saatine göre sıralanmış en fazla 50 etkinlik döndürür; her biri kimliği, başlığı, zamanı, konumu ve notuyla birlikte gelir; kimlik, delete_schedule_event\'e aktarılabilir.</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">Aralık başlangıç tarihi, yyyy-MM-dd; varsayılan olarak bugün.</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">Aralık bitiş tarihi (dahil), yyyy-MM-dd; varsayılan olarak start_date\'den 6 gün sonrası.</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_date, start_date\'den önce olamaz.</string>
+    <string name="agent_tool_query_schedule_events_empty">Bu aralıkta etkinlik yok</string>
+    <string name="agent_tool_query_schedule_events_failed">Takvim etkinlikleri sorgulanamadı: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>takvim</item>
+        <item>takvim</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+    <string name="agent_tool_delete_schedule_event_title">Takvim Etkinliğini Sil</string>
+    <string name="agent_tool_delete_schedule_event_summary">Kimliğine göre yerel bir takvim etkinliğini siler.</string>
+    <string name="agent_tool_delete_schedule_event_description">event_id ile (genellikle query_schedule_events sonucundan) yerel bir takvim etkinliğini siler. Silme işlemi ayrıca sistem takvimi bağlantılarını da kaldırır ve geri alınamaz, bu nedenle çalıştırmadan önce kullanıcı onayı gereklidir.</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">Silinecek etkinliğin kimliği, query_schedule_events sonuçlarından.</string>
+    <string name="agent_tool_delete_schedule_event_id_required">event_id parametresi zorunludur.</string>
+    <string name="agent_tool_delete_schedule_event_not_found">Etkinlik bulunamadı: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">Silindi: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">Takvim etkinliği silinemedi: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">Takvim etkinliğini sil</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">Bu takvim etkinliğini kalıcı olarak sil</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>takvim</item>
+        <item>etkinliği sil</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>

@@ -40,7 +40,7 @@
     <string name="lifetime_target_age">Harapan Usia</string>
     <string name="lifetime_target_age_description">Harapan usia Anda menentukan visualisasi Jam Pasir Waktu. Ini mewakili visi pribadi Anda untuk hidup yang memuaskan.</string>
     <string name="lifetime_tap_to_change">Ketuk untuk mengubah</string>
-    <string name="lifetime_update_settings">Masuk ke Jam Pasir Waktu</string>
+    <string name="lifetime_update_settings">Masuk Jam Pasir Waktu</string>
     <string name="lifetime_hide_progress">Sembunyikan progres hidup</string>
     <string name="lifetime_welcome_title">Jam Pasir Waktu</string>
     <string name="lifetime_welcome_subtitle">Waktu tidak menunggu siapa pun, tetapi Anda bisa mengingatnya.</string>
@@ -48,7 +48,7 @@
     <string name="lifetime_demo_hint">Data demo — ketuk untuk mengatur tanggal lahir asli Anda</string>
     <string name="lifetime_demo_action">Atur</string>
     <string name="lifetime_empty_events_title">Belum ada penanda hidup</string>
-    <string name="lifetime_empty_events_subtitle">Tambahkan hal-hal yang Anda pedulikan, seperti makan, membaca, bepergian…</string>
+    <string name="lifetime_empty_events_subtitle">Tambahkan hal yang Anda pedulikan, seperti makan, membaca, bepergian…</string>
     <string name="lifetime_empty_milestones_title">Belum ada peringatan</string>
     <string name="lifetime_empty_milestones_subtitle">Wisuda + 1000 hari, ulang tahun ke-30… Catat momen penting Anda</string>
     <string name="lifetime_empty_countdown_title">Belum ada hitung mundur</string>
@@ -107,17 +107,17 @@
     <string name="lifetime_countdown_name_label">Nama Hitung Mundur</string>
     <string name="lifetime_countdown_name_placeholder">Hari Gajian, Hari Jadi, Bonus…</string>
     <string name="lifetime_countdown_target_date">Tanggal Target</string>
-    <string name="lifetime_countdown_lunar_target">Ulangi berdasarkan kalender lunar (berulang setiap tahun)</string>
+    <string name="lifetime_countdown_lunar_target">Ulangi menurut kalender lunar (berulang setiap tahun)</string>
     <string name="lifetime_countdown_lunar_target_help">Gunakan untuk ulang tahun lunar, hari libur tradisional, dan acara tahunan lainnya.</string>
-    <string name="lifetime_countdown_note_placeholder">Opsional: catat arti hitung mundur ini…</string>
-    <string name="lifetime_countdown_holiday_badge">Liburan</string>
-    <string name="lifetime_countdown_holiday_hint">Dibuat otomatis dari kalender. Anda dapat menghapusnya dan menambahkan versi Anda sendiri.</string>
+    <string name="lifetime_countdown_note_placeholder">Opsional: catat makna hitung mundur ini…</string>
+    <string name="lifetime_countdown_holiday_badge">Hari Libur</string>
+    <string name="lifetime_countdown_holiday_hint">Diisi otomatis dari kalender. Anda dapat menghapusnya dan menambahkan versi Anda sendiri.</string>
     <string name="lifetime_event_picker_delete">Hapus</string>
     <string name="lifetime_add">Tambah</string>
     <string name="lifetime_date_ymd">%2$d/%3$d/%1$d</string>
     <string name="lifetime_lunar_date">Lunar %1$s %2$s%3$s</string>
     <string name="lifetime_frequency_value_label">%1$s %2$d %3$s</string>
-    <string name="lifetime_status_today">Hari ini</string>
+    <string name="lifetime_status_today">Hari Ini</string>
     <string name="lifetime_status_days_until">%1$d hari lagi</string>
     <string name="lifetime_status_days_past">%1$d hari yang lalu</string>
     <string name="lifetime_status_months_until">%1$d bulan lagi</string>
@@ -150,7 +150,7 @@
     <string name="lifetime_preset_name_nurses_day">Hari Perawat</string>
     <string name="lifetime_preset_name_childrens_day">Hari Anak</string>
     <string name="lifetime_preset_name_environment_day">Hari Lingkungan</string>
-    <string name="lifetime_preset_name_party_founding_day">Hari Berdirinya PKC</string>
+    <string name="lifetime_preset_name_party_founding_day">Hari Berdirinya PKT</string>
     <string name="lifetime_preset_name_army_day">Hari Tentara</string>
     <string name="lifetime_preset_name_victory_day">Hari Kemenangan atas Jepang</string>
     <string name="lifetime_preset_name_teachers_day">Hari Guru</string>
@@ -175,11 +175,112 @@
     <string name="lifetime_event_unit_km">km</string>
     <string name="lifetime_event_unit_meters">m</string>
     <string name="lifetime_event_unit_steps">langkah</string>
-    <string name="lifetime_event_unit_minutes">menit</string>
+    <string name="lifetime_event_unit_minutes">mnt</string>
     <string name="lifetime_event_unit_hours">jam</string>
     <string name="lifetime_event_unit_items">item</string>
     <string name="lifetime_event_unit_cups">cangkir</string>
     <string name="lifetime_event_unit_bottles">botol</string>
     <string name="lifetime_event_unit_packs">bungkus</string>
     <string name="lifetime_event_unit_boxes">kotak</string>
+    <string name="agent_tool_lifetime_unknown_error">Kesalahan tidak diketahui</string>
+    <string name="agent_tool_lifetime_open_link">Buka seumur hidup</string>
+    <string name="agent_tool_lifetime_invalid_date">Tanggal tidak valid \"%1$s\". Gunakan yyyy-MM-dd, mis. 2026-12-31.</string>
+    <string name="agent_tool_lifetime_invalid_type">Tipe tidak valid \"%1$s\". Gunakan countdown atau milestone.</string>
+    <string name="agent_tool_lifetime_label_target_date">Tanggal target</string>
+    <string name="agent_tool_lifetime_label_note">Catatan</string>
+    <string name="agent_tool_lifetime_section_countdown">Hitung mundur</string>
+    <string name="agent_tool_lifetime_section_milestone">Pencapaian</string>
+    <string name="agent_tool_lifetime_days_left">%1$d hari lagi</string>
+    <string name="agent_tool_lifetime_days_ago">%1$d hari yang lalu</string>
+    <string name="agent_tool_lifetime_today">hari ini</string>
+    <string name="agent_tool_lifetime_reached">tercapai</string>
+    <string name="agent_tool_lifetime_date_unknown">tanggal belum ditentukan</string>
+    <string name="agent_tool_add_countdown_event_title">Tambah Acara Hitung Mundur</string>
+    <string name="agent_tool_add_countdown_event_summary">Buat acara hitung mundur dengan nama dan tanggal target.</string>
+    <string name="agent_tool_add_countdown_event_description">Buat acara hitung mundur di modul seumur hidup. `name` dan `target_date` wajib diisi; tanggal target adalah tanggal Gregorian satu kali (yyyy-MM-dd) — hitung mundur berulang atau kalender lunar tidak didukung. `note` opsional.</string>
+    <string name="agent_tool_add_countdown_event_param_name">Nama hitung mundur, wajib, mis. \"Ujian masuk perguruan tinggi\".</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">Tanggal target, yyyy-MM-dd, mis. 2026-12-31.</string>
+    <string name="agent_tool_add_countdown_event_param_note">Catatan opsional untuk hitung mundur.</string>
+    <string name="agent_tool_add_countdown_event_name_required">Parameter nama wajib diisi dan tidak boleh kosong.</string>
+    <string name="agent_tool_add_countdown_event_failed">Gagal menambahkan acara hitung mundur: %1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>hitung mundur</item>
+        <item>hari-hari penting</item>
+        <item>ulang tahun</item>
+        <item>倒数日</item>
+        <item>倒计时</item>
+        <item>纪念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>Tambah hitung mundur: Tahun Baru 2027-01-01</item>
+        <item>帮我建一个倒数日:高考 2027-06-07</item>
+        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+    </string-array>
+    <string name="agent_tool_add_life_milestone_title">Tambah Pencapaian Hidup</string>
+    <string name="agent_tool_add_life_milestone_summary">Catat pencapaian hidup pribadi dengan nama dan tanggal target.</string>
+    <string name="agent_tool_add_life_milestone_description">Buat pencapaian pribadi di modul seumur hidup (mis. tanggal tujuan atau hari yang berkesan). `name` dan `target_date` (yyyy-MM-dd) wajib diisi; `note` opsional.</string>
+    <string name="agent_tool_add_life_milestone_param_name">Nama pencapaian, wajib, mis. \"Maraton pertama\".</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">Tanggal target, yyyy-MM-dd, mis. 2027-05-01.</string>
+    <string name="agent_tool_add_life_milestone_param_note">Catatan opsional untuk pencapaian.</string>
+    <string name="agent_tool_add_life_milestone_name_required">Parameter nama wajib diisi dan tidak boleh kosong.</string>
+    <string name="agent_tool_add_life_milestone_failed">Gagal menambahkan pencapaian hidup: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>pencapaian</item>
+        <item>tujuan</item>
+        <item>peristiwa hidup</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目标</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>Catat pencapaian: maraton pertama pada 2026-11-15</item>
+        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
+        <item>添加人生里程碑 买房 2027-05-01</item>
+    </string-array>
+    <string name="agent_tool_query_life_events_title">Kueri Peristiwa Hidup</string>
+    <string name="agent_tool_query_life_events_summary">Daftar peristiwa hitung mundur dan pencapaian hidup dengan sisa hari.</string>
+    <string name="agent_tool_query_life_events_description">Kueri peristiwa hitung mundur dan pencapaian pribadi di modul seumur hidup. `type` memfilter hasil: countdown, milestone, atau all (default). `limit` membatasi entri per jenis (default 20, maks 50). Setiap entri mencakup id-nya (untuk delete_lifetime_entry), nama, tanggal target, dan sisa hari.</string>
+    <string name="agent_tool_query_life_events_param_type">Filter jenis entri: countdown, milestone, atau all (default).</string>
+    <string name="agent_tool_query_life_events_param_limit">Maksimal entri per jenis, 1-50, default 20.</string>
+    <string name="agent_tool_query_life_events_empty">Belum ada entri</string>
+    <string name="agent_tool_query_life_events_failed">Gagal mengueri peristiwa hidup: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>hitung mundur</item>
+        <item>pencapaian</item>
+        <item>kueri</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+        <item>还有几天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>Hitung mundur apa yang saya miliki?</item>
+        <item>我还有哪些倒数日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距离下一个倒数日还有几天</item>
+    </string-array>
+    <string name="agent_tool_delete_lifetime_entry_title">Hapus Peristiwa Hidup</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">Hapus peristiwa hitung mundur atau pencapaian hidup berdasarkan id.</string>
+    <string name="agent_tool_delete_lifetime_entry_description">Hapus peristiwa hitung mundur atau pencapaian pribadi dari modul seumur hidup. `type` (countdown atau milestone) dan `id` wajib diisi; id berasal dari hasil query_life_events. Penghapusan tidak dapat dibatalkan.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">Jenis entri: countdown atau milestone.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">Id entri, dari hasil query_life_events.</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">Parameter id wajib diisi dan harus berupa angka.</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">Tidak ada entri dengan id %1$d.</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">Menghapus \"%1$s\".</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">Hapus peristiwa hidup</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">Hapus peristiwa hitung mundur atau pencapaian hidup. Ini tidak dapat dibatalkan.</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">Gagal menghapus peristiwa hidup: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>hapus</item>
+        <item>hapus</item>
+        <item>hitungan mundur</item>
+        <item>tonggak</item>
+        <item>删除</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>Hapus hitungan mundur dengan id 3</item>
+        <item>Hapus hitungan mundur dengan id 3</item>
+        <item>删掉里程碑 5</item>
+    </string-array>
 </resources>

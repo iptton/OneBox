@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="schedule_screen_title">Расписание</string>
+    <string name="schedule_screen_title">Центр расписания</string>
     <string name="schedule_sync_card_title">База синхронизации готова</string>
-    <string name="schedule_sync_card_description">Этот модуль уже владеет своей моделью событий, состоянием курсора синхронизации и полями моста задач, поэтому Google Календарь можно добавить позже, не загрязняя модули альманаха или задач.</string>
-    <string name="schedule_sync_ready">Курсор синхронизации сохранен</string>
-    <string name="schedule_sync_not_connected">Аккаунт не подключен</string>
+    <string name="schedule_sync_card_description">Этот модуль уже владеет своей моделью событий, состоянием курсора синхронизации и полями моста задач, поэтому Google Calendar можно добавить позже, не загрязняя модули альманаха или задач.</string>
+    <string name="schedule_sync_ready">Курсор синхронизации сохранён</string>
+    <string name="schedule_sync_not_connected">Аккаунт не подключён</string>
     <string name="schedule_event_count_label">Событий: %1$d</string>
     <string name="schedule_linked_task_chip">Контекст задачи связан</string>
     <string name="schedule_last_error_label">Последняя ошибка: %1$s</string>
@@ -15,17 +15,17 @@
     <string name="schedule_action_open_calendar">Открыть календарь</string>
     <string name="schedule_event_section_title">События</string>
     <string name="schedule_empty_title">Пока нет событий расписания</string>
-    <string name="schedule_empty_description">Начните с локальных событий, затем постепенно добавьте авторизацию Google, дельта-синхронизацию и обработку конфликтов.</string>
-    <string name="schedule_provider_local">Локальные</string>
+    <string name="schedule_empty_description">Сначала начните с локальных событий, затем постепенно добавьте авторизацию Google-аккаунта, дельта-синхронизацию и обработку конфликтов.</string>
+    <string name="schedule_provider_local">Локально</string>
     <string name="schedule_provider_system">Системный календарь</string>
-    <string name="schedule_provider_google">Google Календарь</string>
+    <string name="schedule_provider_google">Google Calendar</string>
     <string name="schedule_event_time_range">%1$s - %2$s</string>
     <string name="schedule_status_local_only">Только локально</string>
     <string name="schedule_status_pending_upload">Ожидает загрузки</string>
     <string name="schedule_status_synced">Синхронизировано</string>
     <string name="schedule_status_pending_delete">Ожидает удаления</string>
     <string name="schedule_status_conflict">Конфликт</string>
-    <string name="schedule_status_failed">Синхронизация не удалась</string>
+    <string name="schedule_status_failed">Сбой синхронизации</string>
     <string name="schedule_linked_task_badge">Мост задач</string>
     <string name="schedule_quick_event_title">Новое локальное событие</string>
     <string name="schedule_focus_event_title">Событие фокуса</string>
@@ -33,14 +33,91 @@
     <string name="schedule_save_to_system_calendar">Записать напрямую в системный календарь</string>
     <string name="schedule_export_to_system_calendar">Добавить в системный календарь</string>
     <string name="schedule_system_calendar_unavailable">На этом устройстве нет приложения календаря</string>
-    <string name="schedule_no_writable_calendar">Нет доступного записываемого системного календаря</string>
+    <string name="schedule_no_writable_calendar">Нет доступного для записи системного календаря</string>
     <string name="schedule_saved_to_system_calendar">Сохранено в системный календарь</string>
-    <string name="schedule_save_to_system_calendar_failed">Не удалось сохранить в системный календарь. Попробуйте позже</string>
+    <string name="schedule_save_to_system_calendar_failed">Не удалось сохранить в системный календарь. Повторите попытку позже</string>
     <string name="schedule_calendar_permission_denied">Для прямой записи в системный календарь требуется разрешение на доступ к календарю</string>
     <string name="schedule_choose_calendar_title">Выберите целевой календарь</string>
     <string name="schedule_calendar_primary_badge">Основной</string>
     <string name="schedule_dialog_close">Закрыть</string>
     <string name="schedule_permission_dialog_title">Требуется разрешение на доступ к календарю</string>
-    <string name="schedule_permission_dialog_message">Включите разрешения на чтение и запись календаря в настройках системы, чтобы записывать напрямую в системный календарь.</string>
+    <string name="schedule_permission_dialog_message">Включите разрешения на чтение и запись календаря в системных настройках, чтобы записывать напрямую в системный календарь.</string>
     <string name="schedule_open_settings">Открыть настройки</string>
+    <string name="agent_tool_schedule_unknown_error">Неизвестная ошибка</string>
+    <string name="agent_tool_schedule_open_link">Открыть расписание</string>
+    <string name="agent_tool_schedule_label_start">Начало</string>
+    <string name="agent_tool_schedule_label_end">Конец</string>
+    <string name="agent_tool_schedule_label_all_day">Событие на весь день</string>
+    <string name="agent_tool_schedule_label_location">Место</string>
+    <string name="agent_tool_schedule_invalid_datetime">Недопустимые дата/время \"%1$s\". Используйте формат ISO, например 2026-09-10T14:00 или 2026-09-10.</string>
+    <string name="agent_tool_schedule_invalid_date">Недопустимая дата \"%1$s\". Используйте ГГГГ-ММ-ДД, например 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_title">Добавить событие расписания</string>
+    <string name="agent_tool_add_schedule_event_summary">Создайте локальное событие расписания с названием, временем, заметкой и местом.</string>
+    <string name="agent_tool_add_schedule_event_description">Создайте локальное событие расписания. `title` и `start` обязательны; `end` по умолчанию — через час после начала (или на следующий день для событий на весь день). Время принимает строки ISO: 2026-09-10T14:00, 2026-09-10T14:00:00+08:00 или просто дату 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_param_title">Название события, обязательно.</string>
+    <string name="agent_tool_add_schedule_event_param_start">Время начала, формат ISO, например 2026-09-10T14:00; просто дата означает 00:00 этого дня.</string>
+    <string name="agent_tool_add_schedule_event_param_end">Время окончания, формат ISO. Необязательно; по умолчанию — через час после начала или на следующий день для событий на весь день.</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">Является ли это событием на весь день, по умолчанию false.</string>
+    <string name="agent_tool_add_schedule_event_param_description">Необязательная заметка для события.</string>
+    <string name="agent_tool_add_schedule_event_param_location">Необязательное место проведения события.</string>
+    <string name="agent_tool_add_schedule_event_title_required">Параметр title обязателен и не может быть пустым.</string>
+    <string name="agent_tool_add_schedule_event_failed">Не удалось добавить событие расписания: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>расписание</item>
+        <item>календарь</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+    <string name="agent_tool_query_schedule_events_title">Запрос событий расписания</string>
+    <string name="agent_tool_query_schedule_events_summary">Запрос локальных событий расписания в пределах диапазона дат.</string>
+    <string name="agent_tool_query_schedule_events_description">Запрос локальных событий расписания, пересекающихся с диапазоном дат. `start_date` по умолчанию — сегодня, а `end_date` по умолчанию — через 6 дней (окно в 7 дней). Возвращает до 50 событий, упорядоченных по времени начала, каждое с его id, названием, временем, местом и заметкой; id можно передать в delete_schedule_event.</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">Дата начала диапазона, гггг-ММ-дд; по умолчанию — сегодня.</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">Дата окончания диапазона (включительно), гггг-ММ-дд; по умолчанию — через 6 дней после start_date.</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_date не может быть раньше start_date.</string>
+    <string name="agent_tool_query_schedule_events_empty">Нет событий в этом диапазоне</string>
+    <string name="agent_tool_query_schedule_events_failed">Не удалось запросить события расписания: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>расписание</item>
+        <item>календарь</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+    <string name="agent_tool_delete_schedule_event_title">Удалить событие расписания</string>
+    <string name="agent_tool_delete_schedule_event_summary">Удалить локальное событие расписания по его id.</string>
+    <string name="agent_tool_delete_schedule_event_description">Удалить локальное событие расписания по event_id (обычно из результата query_schedule_events). Удаление также убирает его привязки к системному календарю и не может быть отменено, поэтому перед выполнением требуется подтверждение пользователя.</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">Id события для удаления, из результатов query_schedule_events.</string>
+    <string name="agent_tool_delete_schedule_event_id_required">Параметр event_id обязателен.</string>
+    <string name="agent_tool_delete_schedule_event_not_found">Событие не найдено: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">Удалено: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">Не удалось удалить событие расписания: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">Удалить событие расписания</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">Удалить это событие расписания навсегда</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>расписание</item>
+        <item>удалить событие</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>

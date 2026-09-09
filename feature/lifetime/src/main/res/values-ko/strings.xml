@@ -13,37 +13,37 @@
     <string name="lifetime_life_journey">인생 여정</string>
     <string name="lifetime_progress_label">진행 상황</string>
     <string name="lifetime_remaining_estimate">약 %1$d년 남음</string>
-    <string name="lifetime_milestone_section">기념일</string>
+    <string name="lifetime_milestone_section">추모</string>
     <string name="lifetime_countdown_section">카운트다운</string>
     <string name="lifetime_frequency_section">생활 빈도</string>
-    <string name="lifetime_add_event">생활 마크 추가</string>
-    <string name="lifetime_add_milestone">기념일 추가</string>
-    <string name="lifetime_edit_milestone">기념일 편집</string>
+    <string name="lifetime_add_event">생활 표시 추가</string>
+    <string name="lifetime_add_milestone">추모 추가</string>
+    <string name="lifetime_edit_milestone">추모 편집</string>
     <string name="lifetime_event_name_label">이벤트 이름</string>
-    <string name="lifetime_milestone_name_hint">기념일 이름</string>
+    <string name="lifetime_milestone_name_hint">추모 이름</string>
     <string name="lifetime_event_name_placeholder">식사</string>
     <string name="lifetime_choose_icon">아이콘 선택</string>
     <string name="lifetime_frequency_label">빈도</string>
     <string name="lifetime_unit_label">단위</string>
     <string name="lifetime_times_per_period">기간당 횟수</string>
-    <string name="lifetime_add_to_timeline">생활 마크 기록</string>
+    <string name="lifetime_add_to_timeline">생활 표시 기록</string>
     <string name="lifetime_default_times_per_period">1</string>
     <string name="lifetime_validation_event_name_required">이벤트 이름을 입력하세요</string>
     <string name="lifetime_validation_times_per_period_required">0보다 큰 값을 입력하세요</string>
-    <string name="lifetime_validation_milestone_name_required">기념일 이름을 입력하세요</string>
-    <string name="lifetime_validation_milestone_target_date_required">대상 날짜 선택</string>
+    <string name="lifetime_validation_milestone_name_required">추모 이름을 입력하세요</string>
+    <string name="lifetime_validation_milestone_target_date_required">목표 날짜 선택</string>
     <string name="lifetime_select_birthday">생년월일 선택</string>
     <string name="lifetime_confirm">확인</string>
     <string name="lifetime_cancel">취소</string>
     <string name="lifetime_settings">시작점 설정</string>
     <string name="lifetime_birth_date">생년월일</string>
     <string name="lifetime_target_age">기대 수명</string>
-    <string name="lifetime_target_age_description">기대 수명은 시간 모래시계 시각화를 정의합니다. 이는 충실한 삶을 위한 개인적인 비전을 나타냅니다.</string>
+    <string name="lifetime_target_age_description">기대 수명은 시간 모래시계 시각화를 정의합니다. 충실한 삶을 위한 개인적인 비전을 나타냅니다.</string>
     <string name="lifetime_tap_to_change">탭하여 변경</string>
     <string name="lifetime_update_settings">시간 모래시계 시작</string>
-    <string name="lifetime_hide_progress">인생 진행 상황 숨기기</string>
+    <string name="lifetime_hide_progress">인생 진행률 숨기기</string>
     <string name="lifetime_welcome_title">시간 모래시계</string>
-    <string name="lifetime_welcome_subtitle">시간은 누구도 기다리지 않지만, 당신은 기억할 수 있습니다.</string>
+    <string name="lifetime_welcome_subtitle">시간은 누구도 기다려 주지 않지만, 당신은 기억할 수 있습니다.</string>
     <string name="lifetime_welcome_start">시작</string>
     <string name="lifetime_demo_hint">데모 데이터 — 탭하여 실제 생년월일 설정</string>
     <string name="lifetime_demo_action">설정</string>
@@ -52,7 +52,7 @@
     <string name="lifetime_empty_milestones_title">아직 기념일이 없습니다</string>
     <string name="lifetime_empty_milestones_subtitle">졸업 + 1000일, 30번째 생일… 중요한 순간을 기록하세요</string>
     <string name="lifetime_empty_countdown_title">아직 카운트다운이 없습니다</string>
-    <string name="lifetime_empty_countdown_subtitle">향후 3개월의 휴일이 자동으로 생성됩니다. 중요한 날을 직접 추가하세요.</string>
+    <string name="lifetime_empty_countdown_subtitle">향후 3개월의 휴일이 자동으로 채워집니다. 중요한 날을 직접 추가하세요.</string>
     <string name="lifetime_recommend_events_title">추천 인생 표식</string>
     <string name="lifetime_event_date">이벤트 날짜</string>
     <string name="lifetime_select_date">날짜 선택</string>
@@ -62,15 +62,15 @@
     <string name="lifetime_event_picker_preset">사전 설정 이벤트</string>
     <string name="lifetime_event_picker_custom">내 인생 표식</string>
     <string name="lifetime_event_added">추가됨</string>
-    <string name="lifetime_event_saved">생명 표시 추가됨</string>
-    <string name="lifetime_event_updated">생명 표시 업데이트됨</string>
-    <string name="lifetime_event_deleted">생명 표시 삭제됨</string>
+    <string name="lifetime_event_saved">인생 마크가 추가되었습니다</string>
+    <string name="lifetime_event_updated">인생 마크가 업데이트되었습니다</string>
+    <string name="lifetime_event_deleted">인생 마크가 삭제되었습니다</string>
     <string name="lifetime_frequency_one_time">일회성</string>
     <string name="lifetime_frequency_daily">매일</string>
     <string name="lifetime_frequency_weekly">매주</string>
     <string name="lifetime_frequency_monthly">매월</string>
     <string name="lifetime_frequency_yearly">매년</string>
-    <string name="lifetime_frequency_progress">인생의 %1$d%%가 경과됨</string>
+    <string name="lifetime_frequency_progress">인생의 %1$d%%가 지났습니다</string>
     <string name="lifetime_card_flip_hint">탭하여 뒤집기</string>
     <string name="lifetime_completed_label">완료</string>
     <string name="lifetime_remaining_label">남은 시간</string>
@@ -105,9 +105,9 @@
     <string name="lifetime_add_countdown">카운트다운 추가</string>
     <string name="lifetime_countdown_detail_title">카운트다운 상세</string>
     <string name="lifetime_countdown_name_label">카운트다운 이름</string>
-    <string name="lifetime_countdown_name_placeholder">월급날, 기념일, 보너스…</string>
+    <string name="lifetime_countdown_name_placeholder">월급일, 기념일, 보너스…</string>
     <string name="lifetime_countdown_target_date">대상 날짜</string>
-    <string name="lifetime_countdown_lunar_target">음력 반복 (매년 돌아옴)</string>
+    <string name="lifetime_countdown_lunar_target">음력 반복 (매년 반복)</string>
     <string name="lifetime_countdown_lunar_target_help">음력 생일, 전통 명절 및 기타 연례 행사에 사용하세요.</string>
     <string name="lifetime_countdown_note_placeholder">선택 사항: 이 카운트다운의 의미를 적어보세요…</string>
     <string name="lifetime_countdown_holiday_badge">휴일</string>
@@ -138,7 +138,7 @@
     <string name="lifetime_preset_name_laba">납팔절</string>
     <string name="lifetime_preset_name_little_new_year">작은 설</string>
     <string name="lifetime_preset_name_chinese_new_years_eve">섣달 그믐</string>
-    <string name="lifetime_preset_name_new_years_day">새해 첫날</string>
+    <string name="lifetime_preset_name_new_years_day">신정</string>
     <string name="lifetime_preset_name_valentines">발렌타인데이</string>
     <string name="lifetime_preset_name_womens_day">여성의 날</string>
     <string name="lifetime_preset_name_arbor_day">식목일</string>
@@ -152,11 +152,11 @@
     <string name="lifetime_preset_name_environment_day">환경의 날</string>
     <string name="lifetime_preset_name_party_founding_day">중국공산당 창건일</string>
     <string name="lifetime_preset_name_army_day">군인의 날</string>
-    <string name="lifetime_preset_name_victory_day">일본 항복 기념일</string>
+    <string name="lifetime_preset_name_victory_day">대일 승전 기념일</string>
     <string name="lifetime_preset_name_teachers_day">스승의 날</string>
     <string name="lifetime_preset_name_national_day">국경일</string>
     <string name="lifetime_preset_name_singles_day">싱글즈 데이</string>
-    <string name="lifetime_preset_name_national_memorial_day">현충일</string>
+    <string name="lifetime_preset_name_national_memorial_day">국가 추모일</string>
     <string name="lifetime_preset_name_christmas_eve">크리스마스 이브</string>
     <string name="lifetime_preset_name_christmas">크리스마스</string>
     <string name="lifetime_preset_name_eating">식사</string>
@@ -181,5 +181,106 @@
     <string name="lifetime_event_unit_cups">잔</string>
     <string name="lifetime_event_unit_bottles">병</string>
     <string name="lifetime_event_unit_packs">팩</string>
-    <string name="lifetime_event_unit_boxes">박스</string>
+    <string name="lifetime_event_unit_boxes">상자</string>
+    <string name="agent_tool_lifetime_unknown_error">알 수 없는 오류</string>
+    <string name="agent_tool_lifetime_open_link">평생 열기</string>
+    <string name="agent_tool_lifetime_invalid_date">잘못된 날짜 \"%1$s\"입니다. yyyy-MM-dd 형식을 사용하세요(예: 2026-12-31).</string>
+    <string name="agent_tool_lifetime_invalid_type">잘못된 유형 \"%1$s\"입니다. countdown 또는 milestone을 사용하세요.</string>
+    <string name="agent_tool_lifetime_label_target_date">목표 날짜</string>
+    <string name="agent_tool_lifetime_label_note">메모</string>
+    <string name="agent_tool_lifetime_section_countdown">카운트다운</string>
+    <string name="agent_tool_lifetime_section_milestone">이정표</string>
+    <string name="agent_tool_lifetime_days_left">%1$d일 남음</string>
+    <string name="agent_tool_lifetime_days_ago">%1$d일 전</string>
+    <string name="agent_tool_lifetime_today">오늘</string>
+    <string name="agent_tool_lifetime_reached">도달함</string>
+    <string name="agent_tool_lifetime_date_unknown">날짜 미정</string>
+    <string name="agent_tool_add_countdown_event_title">카운트다운 이벤트 추가</string>
+    <string name="agent_tool_add_countdown_event_summary">이름과 목표 날짜로 카운트다운 이벤트를 만듭니다.</string>
+    <string name="agent_tool_add_countdown_event_description">평생 모듈에서 카운트다운 이벤트를 만듭니다. `name`과 `target_date`는 필수이며, 목표 날짜는 일회성 그레고리력 날짜(yyyy-MM-dd)입니다. 반복 또는 음력 카운트다운은 지원되지 않습니다. `note`는 선택 사항입니다.</string>
+    <string name="agent_tool_add_countdown_event_param_name">카운트다운 이름(필수), 예: \"대학 입학 시험\".</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">목표 날짜, yyyy-MM-dd 형식, 예: 2026-12-31.</string>
+    <string name="agent_tool_add_countdown_event_param_note">카운트다운에 대한 선택적 메모.</string>
+    <string name="agent_tool_add_countdown_event_name_required">name 매개변수는 필수이며 비워 둘 수 없습니다.</string>
+    <string name="agent_tool_add_countdown_event_failed">카운트다운 이벤트 추가 실패: %1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>카운트다운</item>
+        <item>날짜가 중요합니다</item>
+        <item>기념일</item>
+        <item>倒数日</item>
+        <item>倒计时</item>
+        <item>纪念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>카운트다운 추가: 새해 2027-01-01</item>
+        <item>帮我建一个倒数日:高考 2027-06-07</item>
+        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+    </string-array>
+    <string name="agent_tool_add_life_milestone_title">인생 이정표 추가</string>
+    <string name="agent_tool_add_life_milestone_summary">이름과 목표 날짜로 개인 인생 이정표를 기록합니다.</string>
+    <string name="agent_tool_add_life_milestone_description">평생 모듈에서 개인 이정표를 만듭니다(예: 목표 날짜 또는 기억에 남는 날). `name`과 `target_date`(yyyy-MM-dd)는 필수이며, `note`는 선택 사항입니다.</string>
+    <string name="agent_tool_add_life_milestone_param_name">이정표 이름(필수), 예: \"첫 마라톤\".</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">목표 날짜, yyyy-MM-dd 형식, 예: 2027-05-01.</string>
+    <string name="agent_tool_add_life_milestone_param_note">이정표에 대한 선택적 메모.</string>
+    <string name="agent_tool_add_life_milestone_name_required">이름 매개변수는 필수이며 비워 둘 수 없습니다.</string>
+    <string name="agent_tool_add_life_milestone_failed">인생 이정표 추가 실패: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>이정표</item>
+        <item>목표</item>
+        <item>인생 이벤트</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目标</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>이정표 기록: 2026-11-15 첫 마라톤</item>
+        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
+        <item>添加人生里程碑 买房 2027-05-01</item>
+    </string-array>
+    <string name="agent_tool_query_life_events_title">인생 이벤트 조회</string>
+    <string name="agent_tool_query_life_events_summary">남은 일수와 함께 카운트다운 이벤트 및 인생 이정표를 나열합니다.</string>
+    <string name="agent_tool_query_life_events_description">라이프타임 모듈에서 카운트다운 이벤트와 개인 이정표를 조회합니다. `type`은 결과를 필터링합니다: countdown, milestone 또는 all(기본값). `limit`은 유형당 항목 수를 제한합니다(기본 20, 최대 50). 각 항목에는 id(delete_lifetime_entry용), 이름, 목표 날짜 및 남은 일수가 포함됩니다.</string>
+    <string name="agent_tool_query_life_events_param_type">항목 유형 필터: countdown, milestone 또는 all(기본값).</string>
+    <string name="agent_tool_query_life_events_param_limit">유형당 최대 항목 수, 1-50, 기본 20.</string>
+    <string name="agent_tool_query_life_events_empty">아직 항목이 없습니다</string>
+    <string name="agent_tool_query_life_events_failed">인생 이벤트 조회 실패: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>카운트다운</item>
+        <item>이정표</item>
+        <item>조회</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+        <item>还有几天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>내 카운트다운은 무엇인가요?</item>
+        <item>我还有哪些倒数日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距离下一个倒数日还有几天</item>
+    </string-array>
+    <string name="agent_tool_delete_lifetime_entry_title">인생 이벤트 삭제</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">ID로 카운트다운 이벤트 또는 인생 이정표를 삭제합니다.</string>
+    <string name="agent_tool_delete_lifetime_entry_description">라이프타임 모듈에서 카운트다운 이벤트 또는 개인 이정표를 삭제합니다. `type`(countdown 또는 milestone)과 `id`가 필요하며, id는 query_life_events 결과에서 가져옵니다. 삭제는 되돌릴 수 없습니다.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">항목 유형: countdown 또는 milestone.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">항목 ID, query_life_events 결과에서 가져옵니다.</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">id 매개변수는 필수이며 숫자여야 합니다.</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">ID %1$d에 해당하는 항목이 없습니다.</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">\"%1$s\"을(를) 삭제했습니다.</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">인생 이벤트 삭제</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">카운트다운 이벤트 또는 인생 이정표를 삭제합니다. 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">인생 이벤트 삭제 실패: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>삭제</item>
+        <item>제거</item>
+        <item>카운트다운</item>
+        <item>이정표</item>
+        <item>删除</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>ID 3의 카운트다운 삭제</item>
+        <item>ID 3의 카운트다운 삭제</item>
+        <item>删掉里程碑 5</item>
+    </string-array>
 </resources>

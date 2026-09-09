@@ -2,7 +2,7 @@
 <resources>
     <string name="schedule_screen_title">Centro de horarios</string>
     <string name="schedule_sync_card_title">La base de sincronización está lista</string>
-    <string name="schedule_sync_card_description">Este módulo ya posee su modelo de eventos, estado del cursor de sincronización y campos de puente de tareas, por lo que Google Calendar se puede agregar más tarde sin contaminar los módulos de almanaque o tareas.</string>
+    <string name="schedule_sync_card_description">Este módulo ya posee su propio modelo de eventos, estado del cursor de sincronización y campos de puente de tareas, por lo que Google Calendar se puede agregar más adelante sin contaminar los módulos de almanaque o tareas.</string>
     <string name="schedule_sync_ready">Cursor de sincronización guardado</string>
     <string name="schedule_sync_not_connected">Ninguna cuenta conectada</string>
     <string name="schedule_event_count_label">%1$d eventos</string>
@@ -25,7 +25,7 @@
     <string name="schedule_status_synced">Sincronizado</string>
     <string name="schedule_status_pending_delete">Eliminación pendiente</string>
     <string name="schedule_status_conflict">Conflicto</string>
-    <string name="schedule_status_failed">Sincronización fallida</string>
+    <string name="schedule_status_failed">Error de sincronización</string>
     <string name="schedule_linked_task_badge">Puente de tareas</string>
     <string name="schedule_quick_event_title">Nuevo evento local</string>
     <string name="schedule_focus_event_title">Evento de enfoque</string>
@@ -43,4 +43,81 @@
     <string name="schedule_permission_dialog_title">Permiso de calendario requerido</string>
     <string name="schedule_permission_dialog_message">Habilita los permisos de lectura/escritura del calendario en la configuración del sistema para escribir directamente en el calendario del sistema.</string>
     <string name="schedule_open_settings">Abrir configuración</string>
+    <string name="agent_tool_schedule_unknown_error">Error desconocido</string>
+    <string name="agent_tool_schedule_open_link">Abrir agenda</string>
+    <string name="agent_tool_schedule_label_start">Inicio</string>
+    <string name="agent_tool_schedule_label_end">Fin</string>
+    <string name="agent_tool_schedule_label_all_day">Evento de todo el día</string>
+    <string name="agent_tool_schedule_label_location">Ubicación</string>
+    <string name="agent_tool_schedule_invalid_datetime">Fecha/hora no válida \"%1$s\". Usa formato ISO, p. ej. 2026-09-10T14:00 o 2026-09-10.</string>
+    <string name="agent_tool_schedule_invalid_date">Fecha no válida \"%1$s\". Usa aaaa-mm-dd, p. ej. 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_title">Añadir evento de agenda</string>
+    <string name="agent_tool_add_schedule_event_summary">Crea un evento de agenda local con título, hora, nota y ubicación.</string>
+    <string name="agent_tool_add_schedule_event_description">Crea un evento de agenda local. `title` y `start` son obligatorios; `end` se establece por defecto una hora después del inicio (o al día siguiente para eventos de todo el día). Las horas aceptan cadenas ISO: 2026-09-10T14:00, 2026-09-10T14:00:00+08:00, o una fecha simple 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_param_title">Título del evento, obligatorio.</string>
+    <string name="agent_tool_add_schedule_event_param_start">Hora de inicio, formato ISO, p. ej. 2026-09-10T14:00; una fecha simple significa las 00:00 de ese día.</string>
+    <string name="agent_tool_add_schedule_event_param_end">Hora de fin, formato ISO. Opcional; por defecto una hora después del inicio, o al día siguiente para eventos de todo el día.</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">Si es un evento de todo el día, por defecto falso.</string>
+    <string name="agent_tool_add_schedule_event_param_description">Nota opcional para el evento.</string>
+    <string name="agent_tool_add_schedule_event_param_location">Ubicación opcional del evento.</string>
+    <string name="agent_tool_add_schedule_event_title_required">El parámetro de título es obligatorio y no puede estar en blanco.</string>
+    <string name="agent_tool_add_schedule_event_failed">No se pudo agregar el evento de agenda: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>agenda</item>
+        <item>calendario</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+    <string name="agent_tool_query_schedule_events_title">Consultar eventos de agenda</string>
+    <string name="agent_tool_query_schedule_events_summary">Consultar eventos de agenda locales dentro de un rango de fechas.</string>
+    <string name="agent_tool_query_schedule_events_description">Consulta eventos de agenda locales que se superponen con un rango de fechas. `start_date` por defecto es hoy y `end_date` por defecto es 6 días después (una ventana de 7 días). Devuelve hasta 50 eventos ordenados por hora de inicio, cada uno con su id, título, hora, ubicación y nota; el id se puede pasar a delete_schedule_event.</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">Fecha de inicio del rango, aaaa-MM-dd; por defecto es hoy.</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">Fecha de fin del rango (inclusive), aaaa-MM-dd; por defecto es 6 días después de start_date.</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_date no puede ser anterior a start_date.</string>
+    <string name="agent_tool_query_schedule_events_empty">No hay eventos en este rango</string>
+    <string name="agent_tool_query_schedule_events_failed">No se pudieron consultar los eventos de agenda: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>agenda</item>
+        <item>calendario</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+    <string name="agent_tool_delete_schedule_event_title">Eliminar evento de agenda</string>
+    <string name="agent_tool_delete_schedule_event_summary">Eliminar un evento de agenda local por su id.</string>
+    <string name="agent_tool_delete_schedule_event_description">Elimina un evento de agenda local por event_id (generalmente del resultado de query_schedule_events). La eliminación también quita sus vínculos con el calendario del sistema y no se puede deshacer, por lo que se requiere confirmación del usuario antes de ejecutarla.</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">Id del evento a eliminar, de los resultados de query_schedule_events.</string>
+    <string name="agent_tool_delete_schedule_event_id_required">El parámetro event_id es obligatorio.</string>
+    <string name="agent_tool_delete_schedule_event_not_found">Evento no encontrado: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">Eliminado: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">No se pudo eliminar el evento de agenda: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">Eliminar evento de agenda</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">Eliminar este evento de agenda permanentemente</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>agenda</item>
+        <item>eliminar evento</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>

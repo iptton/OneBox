@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_tool_submit_feedback_title">Отправить отзыв</string>
+    <string name="agent_tool_submit_feedback_summary">Отправьте предложения, отчеты об ошибках или запросы функций разработчикам</string>
+    <string name="agent_tool_submit_feedback_description">Отправьте отзыв пользователя (предложения, отчеты об ошибках или запросы функций) команде разработчиков. Вход не требуется. Параметр содержания обязателен; необязательная контактная информация будет добавлена к отзыву, чтобы разработчики могли связаться с вами.</string>
+    <string name="agent_tool_submit_feedback_param_content">Содержание отзыва, обязательно, до 2000 символов. Опишите проблему, предложение или запрос функции подробно.</string>
+    <string name="agent_tool_submit_feedback_param_contact">Необязательная контактная информация (email, QQ, WeChat и т.д.), чтобы разработчики могли связаться с пользователем для уточнения.</string>
+    <string name="agent_tool_submit_feedback_success">Отзыв успешно отправлен. Спасибо! Разработчики рассмотрят его как можно скорее, и вы сможете проверить ответы на странице отзывов.</string>
+    <string name="agent_tool_submit_feedback_failed">Не удалось отправить отзыв: %1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">Содержание отзыва не может быть пустым</string>
+    <string name="agent_tool_submit_feedback_error_too_long">Содержание отзыва превышает лимит длины (максимум %1$d символов)</string>
+    <string name="agent_tool_submit_feedback_contact_label">Контакт</string>
+    <string name="agent_tool_submit_feedback_unknown_error">Неизвестная ошибка</string>
+    <string name="agent_tool_submit_feedback_open_link">Мои отзывы</string>
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>отзыв</item>
+        <item>предложение</item>
+        <item>отчет об ошибке</item>
+        <item>запрос функции</item>
+        <item>проблема</item>
+    </string-array>
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>Отправить отзыв за меня: я надеюсь, что темный режим может переключаться автоматически</item>
+        <item>Я хочу сообщить о проблеме: сканер QR-кодов иногда вылетает</item>
+        <item>Отправить отзыв: пожалуйста, добавьте пакетное переименование, мой email test@example.com</item>
+    </string-array>
+</resources>

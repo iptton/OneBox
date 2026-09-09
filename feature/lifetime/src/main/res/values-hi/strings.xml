@@ -14,7 +14,7 @@
     <string name="lifetime_progress_label">प्रगति</string>
     <string name="lifetime_remaining_estimate">लगभग %1$d वर्ष शेष</string>
     <string name="lifetime_milestone_section">स्मारक</string>
-    <string name="lifetime_countdown_section">उल्टी गिनती</string>
+    <string name="lifetime_countdown_section">उलटी गिनती</string>
     <string name="lifetime_frequency_section">जीवन आवृत्ति</string>
     <string name="lifetime_add_event">जीवन चिह्न जोड़ें</string>
     <string name="lifetime_add_milestone">स्मारक जोड़ें</string>
@@ -48,11 +48,11 @@
     <string name="lifetime_demo_hint">डेमो डेटा — अपनी वास्तविक जन्म तिथि सेट करने के लिए टैप करें</string>
     <string name="lifetime_demo_action">सेट करें</string>
     <string name="lifetime_empty_events_title">अभी तक कोई जीवन चिह्न नहीं</string>
-    <string name="lifetime_empty_events_subtitle">जिन चीज़ों की आप परवाह करते हैं उन्हें जोड़ें, जैसे खाना, पढ़ना, यात्रा…</string>
+    <string name="lifetime_empty_events_subtitle">जो चीज़ें आपको पसंद हैं, जैसे खाना, पढ़ना, यात्रा करना… जोड़ें</string>
     <string name="lifetime_empty_milestones_title">अभी तक कोई स्मृति नहीं</string>
-    <string name="lifetime_empty_milestones_subtitle">स्नातक + 1000 दिन, 30वां जन्मदिन… अपने महत्वपूर्ण क्षणों को रिकॉर्ड करें</string>
+    <string name="lifetime_empty_milestones_subtitle">स्नातक + 1000 दिन, 30वां जन्मदिन… अपने महत्वपूर्ण क्षण रिकॉर्ड करें</string>
     <string name="lifetime_empty_countdown_title">अभी तक कोई काउंटडाउन नहीं</string>
-    <string name="lifetime_empty_countdown_subtitle">भविष्य के 3 महीने की छुट्टियाँ स्वचालित रूप से बीजित हैं। अपने महत्वपूर्ण दिन जोड़ें।</string>
+    <string name="lifetime_empty_countdown_subtitle">भविष्य के 3 महीने की छुट्टियाँ स्वचालित रूप से जोड़ी जाती हैं। अपने महत्वपूर्ण दिन जोड़ें।</string>
     <string name="lifetime_recommend_events_title">आपके लिए अनुशंसित जीवन चिह्न</string>
     <string name="lifetime_event_date">घटना तिथि</string>
     <string name="lifetime_select_date">तिथि चुनें</string>
@@ -80,7 +80,7 @@
     <string name="lifetime_milestone_note">नोट</string>
     <string name="lifetime_action_frequency_events">आवृत्ति</string>
     <string name="lifetime_action_milestones">स्मारक</string>
-    <string name="lifetime_action_countdown">उलटी गिनती</string>
+    <string name="lifetime_action_countdown">उल्टी गिनती</string>
     <string name="lifetime_milestone_days_until">%1$d दिन शेष</string>
     <string name="lifetime_milestone_days_today">आज</string>
     <string name="lifetime_milestone_days_past">%1$d दिन पहले</string>
@@ -107,11 +107,11 @@
     <string name="lifetime_countdown_name_label">काउंटडाउन नाम</string>
     <string name="lifetime_countdown_name_placeholder">वेतन दिवस, वर्षगांठ, बोनस…</string>
     <string name="lifetime_countdown_target_date">लक्ष्य तिथि</string>
-    <string name="lifetime_countdown_lunar_target">चंद्र कैलेंडर द्वारा पुनरावृत्ति (हर साल दोहराएं)</string>
+    <string name="lifetime_countdown_lunar_target">चंद्र कैलेंडर द्वारा दोहराएं (हर साल दोहराता है)</string>
     <string name="lifetime_countdown_lunar_target_help">चंद्र जन्मदिन, पारंपरिक त्योहारों और अन्य वार्षिक घटनाओं के लिए उपयोग करें।</string>
     <string name="lifetime_countdown_note_placeholder">वैकल्पिक: इस काउंटडाउन का अर्थ नोट करें…</string>
     <string name="lifetime_countdown_holiday_badge">छुट्टी</string>
-    <string name="lifetime_countdown_holiday_hint">कैलेंडर से स्वचालित रूप से बीजित। आप इसे हटा सकते हैं और अपना संस्करण जोड़ सकते हैं।</string>
+    <string name="lifetime_countdown_holiday_hint">कैलेंडर से स्वचालित रूप से जोड़ा गया। आप इसे हटा सकते हैं और अपना संस्करण जोड़ सकते हैं।</string>
     <string name="lifetime_event_picker_delete">हटाएं</string>
     <string name="lifetime_add">जोड़ें</string>
     <string name="lifetime_date_ymd">%2$d/%3$d/%1$d</string>
@@ -126,10 +126,10 @@
     <string name="lifetime_status_years_past">%1$d साल पहले</string>
     <string name="lifetime_preset_name_spring_festival">वसंत महोत्सव</string>
     <string name="lifetime_preset_name_lantern_festival">लालटेन महोत्सव</string>
-    <string name="lifetime_preset_name_longtaitou">लोंगताइटो महोत्सव</string>
+    <string name="lifetime_preset_name_longtaitou">लोंगताइटोउ महोत्सव</string>
     <string name="lifetime_preset_name_shangsi">शांगसी महोत्सव</string>
     <string name="lifetime_preset_name_dragon_boat">ड्रैगन बोट महोत्सव</string>
-    <string name="lifetime_preset_name_qixi">किशी महोत्सव</string>
+    <string name="lifetime_preset_name_qixi">किक्सी महोत्सव</string>
     <string name="lifetime_preset_name_zhongyuan">झोंगयुआन महोत्सव</string>
     <string name="lifetime_preset_name_mid_autumn">मध्य-शरद महोत्सव</string>
     <string name="lifetime_preset_name_double_ninth">दोहरा नवम महोत्सव</string>
@@ -145,12 +145,12 @@
     <string name="lifetime_preset_name_consumer_rights_day">उपभोक्ता अधिकार दिवस</string>
     <string name="lifetime_preset_name_april_fools">अप्रैल फूल दिवस</string>
     <string name="lifetime_preset_name_earth_day">पृथ्वी दिवस</string>
-    <string name="lifetime_preset_name_labor_day">श्रम दिवस</string>
+    <string name="lifetime_preset_name_labor_day">मजदूर दिवस</string>
     <string name="lifetime_preset_name_youth_day">युवा दिवस</string>
     <string name="lifetime_preset_name_nurses_day">नर्स दिवस</string>
     <string name="lifetime_preset_name_childrens_day">बाल दिवस</string>
     <string name="lifetime_preset_name_environment_day">पर्यावरण दिवस</string>
-    <string name="lifetime_preset_name_party_founding_day">सीपीसी स्थापना दिवस</string>
+    <string name="lifetime_preset_name_party_founding_day">CPC स्थापना दिवस</string>
     <string name="lifetime_preset_name_army_day">सेना दिवस</string>
     <string name="lifetime_preset_name_victory_day">जापान पर विजय दिवस</string>
     <string name="lifetime_preset_name_teachers_day">शिक्षक दिवस</string>
@@ -182,4 +182,105 @@
     <string name="lifetime_event_unit_bottles">बोतलें</string>
     <string name="lifetime_event_unit_packs">पैक</string>
     <string name="lifetime_event_unit_boxes">बॉक्स</string>
+    <string name="agent_tool_lifetime_unknown_error">अज्ञात त्रुटि</string>
+    <string name="agent_tool_lifetime_open_link">जीवनकाल खोलें</string>
+    <string name="agent_tool_lifetime_invalid_date">अमान्य तिथि \"%1$s\"। yyyy-MM-dd प्रारूप का उपयोग करें, जैसे 2026-12-31।</string>
+    <string name="agent_tool_lifetime_invalid_type">अमान्य प्रकार \"%1$s\"। countdown या milestone का उपयोग करें।</string>
+    <string name="agent_tool_lifetime_label_target_date">लक्ष्य तिथि</string>
+    <string name="agent_tool_lifetime_label_note">नोट</string>
+    <string name="agent_tool_lifetime_section_countdown">काउंटडाउन</string>
+    <string name="agent_tool_lifetime_section_milestone">मील के पत्थर</string>
+    <string name="agent_tool_lifetime_days_left">%1$d दिन शेष</string>
+    <string name="agent_tool_lifetime_days_ago">%1$d दिन पहले</string>
+    <string name="agent_tool_lifetime_today">आज</string>
+    <string name="agent_tool_lifetime_reached">पहुंच गया</string>
+    <string name="agent_tool_lifetime_date_unknown">तिथि तय नहीं</string>
+    <string name="agent_tool_add_countdown_event_title">काउंटडाउन इवेंट जोड़ें</string>
+    <string name="agent_tool_add_countdown_event_summary">नाम और लक्ष्य तिथि के साथ एक काउंटडाउन इवेंट बनाएं।</string>
+    <string name="agent_tool_add_countdown_event_description">जीवनकाल मॉड्यूल में एक काउंटडाउन इवेंट बनाएं। `name` और `target_date` आवश्यक हैं; लक्ष्य तिथि एक बार की ग्रेगोरियन तिथि (yyyy-MM-dd) है — दोहराए जाने वाले या चंद्र-कैलेंडर काउंटडाउन समर्थित नहीं हैं। `note` वैकल्पिक है।</string>
+    <string name="agent_tool_add_countdown_event_param_name">काउंटडाउन नाम, आवश्यक, जैसे \"कॉलेज प्रवेश परीक्षा\"।</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">लक्ष्य तिथि, yyyy-MM-dd, जैसे 2026-12-31।</string>
+    <string name="agent_tool_add_countdown_event_param_note">काउंटडाउन के लिए वैकल्पिक नोट।</string>
+    <string name="agent_tool_add_countdown_event_name_required">नाम पैरामीटर आवश्यक है और खाली नहीं हो सकता।</string>
+    <string name="agent_tool_add_countdown_event_failed">काउंटडाउन इवेंट जोड़ने में विफल: %1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>काउंटडाउन</item>
+        <item>दिन महत्वपूर्ण हैं</item>
+        <item>वर्षगांठ</item>
+        <item>倒数日</item>
+        <item>倒计时</item>
+        <item>纪念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>काउंटडाउन जोड़ें: नया साल 2027-01-01</item>
+        <item>帮我建一个倒数日:高考 2027-06-07</item>
+        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+    </string-array>
+    <string name="agent_tool_add_life_milestone_title">जीवन मील का पत्थर जोड़ें</string>
+    <string name="agent_tool_add_life_milestone_summary">नाम और लक्ष्य तिथि के साथ एक व्यक्तिगत जीवन मील का पत्थर रिकॉर्ड करें।</string>
+    <string name="agent_tool_add_life_milestone_description">जीवनकाल मॉड्यूल में एक व्यक्तिगत मील का पत्थर बनाएं (जैसे एक लक्ष्य तिथि या एक यादगार दिन)। `name` और `target_date` (yyyy-MM-dd) आवश्यक हैं; `note` वैकल्पिक है।</string>
+    <string name="agent_tool_add_life_milestone_param_name">मील का पत्थर नाम, आवश्यक, जैसे \"पहली मैराथन\"।</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">लक्ष्य तिथि, yyyy-MM-dd, जैसे 2027-05-01।</string>
+    <string name="agent_tool_add_life_milestone_param_note">मील के पत्थर के लिए वैकल्पिक नोट।</string>
+    <string name="agent_tool_add_life_milestone_name_required">नाम पैरामीटर आवश्यक है और खाली नहीं हो सकता।</string>
+    <string name="agent_tool_add_life_milestone_failed">जीवन मील का पत्थर जोड़ने में विफल: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>मील का पत्थर</item>
+        <item>लक्ष्य</item>
+        <item>जीवन घटना</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目标</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>एक मील का पत्थर रिकॉर्ड करें: 2026-11-15 को पहला मैराथन</item>
+        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
+        <item>添加人生里程碑 买房 2027-05-01</item>
+    </string-array>
+    <string name="agent_tool_query_life_events_title">जीवन घटनाएँ क्वेरी करें</string>
+    <string name="agent_tool_query_life_events_summary">शेष दिनों के साथ काउंटडाउन घटनाओं और जीवन मील के पत्थरों की सूची बनाएं।</string>
+    <string name="agent_tool_query_life_events_description">जीवनकाल मॉड्यूल में काउंटडाउन घटनाओं और व्यक्तिगत मील के पत्थरों को क्वेरी करें। `type` परिणाम को फ़िल्टर करता है: countdown, milestone, या all (डिफ़ॉल्ट)। `limit` प्रति प्रकार प्रविष्टियों को सीमित करता है (डिफ़ॉल्ट 20, अधिकतम 50)। प्रत्येक प्रविष्टि में उसका id (delete_lifetime_entry के लिए), नाम, लक्ष्य तिथि और शेष दिन शामिल हैं।</string>
+    <string name="agent_tool_query_life_events_param_type">प्रविष्टि प्रकार फ़िल्टर: countdown, milestone, या all (डिफ़ॉल्ट)।</string>
+    <string name="agent_tool_query_life_events_param_limit">प्रति प्रकार अधिकतम प्रविष्टियाँ, 1-50, डिफ़ॉल्ट 20।</string>
+    <string name="agent_tool_query_life_events_empty">अभी तक कोई प्रविष्टि नहीं</string>
+    <string name="agent_tool_query_life_events_failed">जीवन घटनाएँ क्वेरी करने में विफल: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>काउंटडाउन</item>
+        <item>मील का पत्थर</item>
+        <item>क्वेरी</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+        <item>还有几天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>मेरे पास कौन से काउंटडाउन हैं?</item>
+        <item>我还有哪些倒数日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距离下一个倒数日还有几天</item>
+    </string-array>
+    <string name="agent_tool_delete_lifetime_entry_title">जीवन घटना हटाएँ</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">id द्वारा काउंटडाउन घटना या जीवन मील का पत्थर हटाएँ।</string>
+    <string name="agent_tool_delete_lifetime_entry_description">जीवनकाल मॉड्यूल से काउंटडाउन घटना या व्यक्तिगत मील का पत्थर हटाएँ। `type` (countdown या milestone) और `id` आवश्यक हैं; id query_life_events परिणामों से आता है। विलोपन अपरिवर्तनीय है।</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">प्रविष्टि प्रकार: countdown या milestone।</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">प्रविष्टि id, query_life_events परिणामों से।</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">id पैरामीटर आवश्यक है और एक संख्या होनी चाहिए।</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">id %1$d वाली कोई प्रविष्टि नहीं।</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">\"%1$s\" हटा दिया गया।</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">जीवन घटना हटाएँ</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">काउंटडाउन घटना या जीवन मील का पत्थर हटाएँ। इसे पूर्ववत नहीं किया जा सकता।</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">जीवन घटना हटाने में विफल: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>हटाएं</item>
+        <item>निकालें</item>
+        <item>उल्टी गिनती</item>
+        <item>मील का पत्थर</item>
+        <item>删除</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>आईडी 3 वाली उल्टी गिनती हटाएं</item>
+        <item>आईडी 3 वाली उल्टी गिनती हटाएं</item>
+        <item>删掉里程碑 5</item>
+    </string-array>
 </resources>

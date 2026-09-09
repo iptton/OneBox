@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="poem_page_title">Китайская поэзия</string>
-    <string name="poem_latest">Новейшее</string>
+    <string name="poem_latest">Новое</string>
     <string name="poem_generate">Новое стихотворение</string>
     <string name="poem_generate_random">Случайно</string>
-    <string name="poem_generating_pinyin">Создание пиньиня…</string>
+    <string name="poem_generating_pinyin">Генерация пиньиня…</string>
     <string name="poem_ai_pinyin">ИИ-пиньинь</string>
     <string name="poem_pinyin_done">Пиньинь готов</string>
-    <string name="poem_recite">Декламировать</string>
-    <string name="poem_recite_stop">Остановить</string>
+    <string name="poem_recite">Учить наизусть</string>
+    <string name="poem_recite_stop">Остановить заучивание</string>
     <string name="poem_search">Поиск</string>
     <string name="poem_history">История</string>
-    <string name="poem_ai_insight">Интерпретация ИИ</string>
+    <string name="poem_ai_insight">ИИ-анализ</string>
     <string name="poem_favorite">В избранное</string>
     <string name="poem_favorited">В избранном</string>
     <string name="poem_retry">Повторить</string>
     <string name="poem_load_failed">Не удалось загрузить. Попробуйте позже.</string>
-    <string name="poem_generating_insight">Создание интерпретации…</string>
-    <string name="poem_generating_translation">Создание перевода…</string>
-    <string name="poem_insight_title">Поэтическая интерпретация</string>
+    <string name="poem_generating_insight">Генерация анализа…</string>
+    <string name="poem_generating_translation">Генерация перевода…</string>
+    <string name="poem_insight_title">Поэтический анализ</string>
     <string name="poem_translation_title">Современный перевод</string>
-    <string name="poem_regenerate">Создать заново</string>
-    <string name="poem_insight_empty_hint">Нажмите, чтобы создать интерпретацию и понять глубокий смысл стихов</string>
-    <string name="poem_translation_empty_hint">Нажмите, чтобы создать современный перевод и понять, что стихи значат сегодня</string>
-    <string name="poem_generate_click">Нажмите для создания</string>
+    <string name="poem_regenerate">Сгенерировать заново</string>
+    <string name="poem_insight_empty_hint">Нажмите, чтобы получить анализ и понять глубинный смысл стихов</string>
+    <string name="poem_translation_empty_hint">Нажмите, чтобы получить современный перевод и понять, что стихи значат сегодня</string>
+    <string name="poem_generate_click">Нажмите для генерации</string>
     <string name="poem_history_title">История</string>
     <string name="poem_clear_history">Очистить</string>
-    <string name="poem_clear_history_confirm">Очистить всю историю? Избранные стихи будут сохранены.</string>
+    <string name="poem_clear_history_confirm">Очистить всю историю? Избранные стихи сохранятся.</string>
     <string name="poem_confirm">Подтвердить</string>
     <string name="poem_cancel">Отмена</string>
-    <string name="poem_empty_title">Пока нет созданных стихов</string>
+    <string name="poem_empty_title">Стихи ещё не созданы</string>
     <string name="poem_empty_subtitle">Нажмите кнопку ниже, чтобы начать</string>
     <string name="poem_search_hint">Поиск стихов, поэтов или ключевых слов</string>
     <string name="poem_filter_dynasty">Династия</string>
@@ -37,9 +37,72 @@
     <string name="poem_filter_author">Поэт</string>
     <string name="poem_filter_all">Все</string>
     <string name="poem_search_results">Результаты поиска</string>
-    <string name="poem_result_count">Стихотворений: %1$d</string>
+    <string name="poem_result_count">%1$d стихотворений</string>
     <string name="poem_search_empty">Ничего не найдено</string>
     <string name="poem_history_empty">История пуста</string>
     <string name="poem_favorites_only">Только избранное</string>
     <string name="poem_delete">Удалить</string>
+    <string name="agent_tool_search_poem_title">Поиск стихов</string>
+    <string name="agent_tool_search_poem_summary">Поиск китайской классической поэзии по ключевому слову</string>
+    <string name="agent_tool_search_poem_description">Поиск китайской классической поэзии по ключевому слову, сопоставляя названия, поэтов и текст стихов. Ключевые слова из 3 и более символов используют полнотекстовый поиск; более короткие ключевые слова (например, имя поэта из двух символов) используют фильтрованную выборку. Возвращает id стихотворения, название, поэта, династию и отрывок. Вызовите get_poem_detail с id или названием, чтобы получить полный текст.</string>
+    <string name="agent_tool_search_poem_param_query">Ключевое слово поиска: фрагмент стиха, название стихотворения или имя поэта</string>
+    <string name="agent_tool_search_poem_param_max_results">Максимальное количество результатов, 1-20, по умолчанию 10</string>
+    <string name="agent_tool_search_poem_query_required">Запрос не может быть пустым</string>
+    <string name="agent_tool_search_poem_empty">Стихи по запросу \"%1$s\" не найдены</string>
+    <string name="agent_tool_search_poem_failed">Не удалось выполнить поиск стихов: %1$s</string>
+    <string-array name="agent_tool_search_poem_keywords">
+        <item>стихотворение</item>
+        <item>поэзия</item>
+        <item>стих</item>
+        <item>поэт</item>
+        <item>古诗</item>
+        <item>诗词</item>
+    </string-array>
+    <string-array name="agent_tool_search_poem_examples">
+        <item>Поиск стихов о луне</item>
+        <item>Найти стихи Ли Бо</item>
+        <item>有哪些写月亮的古诗</item>
+    </string-array>
+    <string name="agent_tool_get_poem_detail_title">Детали стихотворения</string>
+    <string name="agent_tool_get_poem_detail_summary">Полный текст стихотворения с переводом и пояснениями, если они доступны</string>
+    <string name="agent_tool_get_poem_detail_description">Получите полный текст китайского классического стихотворения, а также его современный перевод и пояснения, созданные ИИ, если они были ранее сгенерированы. Укажите poem_id (из результатов search_poem) или название стихотворения, при необходимости с автором для уточнения. Стихи, найденные в интернете, сохраняются в локальную библиотеку, чтобы ссылка на страницу деталей работала.</string>
+    <string name="agent_tool_get_poem_detail_param_poem_id">Id стихотворения, возвращаемый search_poem</string>
+    <string name="agent_tool_get_poem_detail_param_title">Название стихотворения, используется, когда poem_id неизвестен</string>
+    <string name="agent_tool_get_poem_detail_param_author">Имя поэта, необязательно, используется вместе с названием для уточнения</string>
+    <string name="agent_tool_get_poem_detail_id_or_title_required">Укажите poem_id или название</string>
+    <string name="agent_tool_get_poem_detail_not_found">Стихотворение не найдено: %1$s</string>
+    <string name="agent_tool_get_poem_detail_failed">Не удалось получить детали стихотворения: %1$s</string>
+    <string-array name="agent_tool_get_poem_detail_keywords">
+        <item>детали стихотворения</item>
+        <item>полный текст</item>
+        <item>перевод</item>
+        <item>анализ</item>
+        <item>诗词详情</item>
+        <item>全文</item>
+    </string-array>
+    <string-array name="agent_tool_get_poem_detail_examples">
+        <item>Показать полный текст «静夜思»</item>
+        <item>Получить стихотворение с id 123</item>
+        <item>把《静夜思》的全文和译文给我</item>
+    </string-array>
+    <string name="agent_tool_query_poem_favorites_title">Избранные стихотворения</string>
+    <string name="agent_tool_query_poem_favorites_summary">Список локально избранных стихотворений</string>
+    <string name="agent_tool_query_poem_favorites_description">Список стихотворений, добавленных пользователем в избранное локально, с id, названием, поэтом, династией и отрывком. Только локально, без сети.</string>
+    <string name="agent_tool_query_poem_favorites_param_max_results">Максимальное количество результатов, 1-50, по умолчанию 20</string>
+    <string name="agent_tool_query_poem_favorites_empty">Пока нет избранных стихотворений</string>
+    <string name="agent_tool_query_poem_favorites_failed">Не удалось запросить избранные стихотворения: %1$s</string>
+    <string-array name="agent_tool_query_poem_favorites_keywords">
+        <item>избранные стихотворения</item>
+        <item>избранное</item>
+        <item>收藏</item>
+        <item>诗词收藏</item>
+    </string-array>
+    <string-array name="agent_tool_query_poem_favorites_examples">
+        <item>Список моих избранных стихотворений</item>
+        <item>我收藏了哪些诗</item>
+    </string-array>
+    <string name="agent_tool_poem_open_detail_link">Читать стихотворение</string>
+    <string name="agent_tool_poem_open_search_link">Открыть поиск стихотворений</string>
+    <string name="agent_tool_poem_open_home_link">Открыть китайскую поэзию</string>
+    <string name="agent_tool_poem_unknown_error">неизвестная ошибка</string>
 </resources>

@@ -4,42 +4,105 @@
     <string name="poem_latest">Terbaru</string>
     <string name="poem_generate">Puisi Baru</string>
     <string name="poem_generate_random">Acak</string>
-    <string name="poem_generating_pinyin">Membuat pinyin…</string>
+    <string name="poem_generating_pinyin">Menghasilkan pinyin…</string>
     <string name="poem_ai_pinyin">Pinyin AI</string>
-    <string name="poem_pinyin_done">Pinyin siap</string>
-    <string name="poem_recite">Deklamasi</string>
-    <string name="poem_recite_stop">Hentikan deklamasi</string>
+    <string name="poem_pinyin_done">Pinyin Siap</string>
+    <string name="poem_recite">Baca</string>
+    <string name="poem_recite_stop">Berhenti membaca</string>
     <string name="poem_search">Cari</string>
     <string name="poem_history">Riwayat</string>
-    <string name="poem_ai_insight">Tafsir AI</string>
+    <string name="poem_ai_insight">Wawasan AI</string>
     <string name="poem_favorite">Favorit</string>
     <string name="poem_favorited">Difavoritkan</string>
     <string name="poem_retry">Coba lagi</string>
-    <string name="poem_load_failed">Gagal memuat. Coba lagi nanti.</string>
-    <string name="poem_generating_insight">Membuat tafsir…</string>
-    <string name="poem_generating_translation">Membuat terjemahan…</string>
-    <string name="poem_insight_title">Tafsir Puitis</string>
+    <string name="poem_load_failed">Gagal memuat. Silakan coba lagi nanti.</string>
+    <string name="poem_generating_insight">Menghasilkan wawasan…</string>
+    <string name="poem_generating_translation">Menghasilkan terjemahan…</string>
+    <string name="poem_insight_title">Wawasan Puitis</string>
     <string name="poem_translation_title">Terjemahan Modern</string>
-    <string name="poem_regenerate">Buat ulang</string>
-    <string name="poem_insight_empty_hint">Ketuk untuk membuat tafsir dan memahami makna mendalam bait-baitnya</string>
-    <string name="poem_translation_empty_hint">Ketuk untuk membuat terjemahan modern dan memahami makna bait-baitnya saat ini</string>
-    <string name="poem_generate_click">Ketuk untuk Membuat</string>
+    <string name="poem_regenerate">Hasilkan Ulang</string>
+    <string name="poem_insight_empty_hint">Ketuk untuk menghasilkan wawasan dan memahami makna mendalam dari bait-bait ini</string>
+    <string name="poem_translation_empty_hint">Ketuk untuk menghasilkan terjemahan modern dan memahami makna bait-bait ini saat ini</string>
+    <string name="poem_generate_click">Ketuk untuk Menghasilkan</string>
     <string name="poem_history_title">Riwayat</string>
-    <string name="poem_clear_history">Hapus semua</string>
-    <string name="poem_clear_history_confirm">Hapus semua riwayat? Puisi favorit akan tetap disimpan.</string>
+    <string name="poem_clear_history">Bersihkan</string>
+    <string name="poem_clear_history_confirm">Bersihkan semua riwayat? Puisi yang difavoritkan akan disimpan.</string>
     <string name="poem_confirm">Konfirmasi</string>
     <string name="poem_cancel">Batal</string>
-    <string name="poem_empty_title">Belum ada puisi yang dibuat</string>
-    <string name="poem_empty_subtitle">Ketuk tombol di bawah untuk mulai</string>
-    <string name="poem_search_hint">Cari bait, penyair, atau kata kunci</string>
+    <string name="poem_empty_title">Belum ada puisi yang dihasilkan</string>
+    <string name="poem_empty_subtitle">Ketuk tombol di bawah untuk memulai</string>
+    <string name="poem_search_hint">Cari ayat, penyair, atau kata kunci</string>
     <string name="poem_filter_dynasty">Dinasti</string>
     <string name="poem_filter_type">Genre</string>
     <string name="poem_filter_author">Penyair</string>
     <string name="poem_filter_all">Semua</string>
     <string name="poem_search_results">Hasil Pencarian</string>
     <string name="poem_result_count">%1$d puisi</string>
-    <string name="poem_search_empty">Tidak ada hasil</string>
+    <string name="poem_search_empty">Tidak ada hasil ditemukan</string>
     <string name="poem_history_empty">Belum ada riwayat</string>
     <string name="poem_favorites_only">Hanya favorit</string>
     <string name="poem_delete">Hapus</string>
+    <string name="agent_tool_search_poem_title">Cari Puisi</string>
+    <string name="agent_tool_search_poem_summary">Cari puisi klasik Tiongkok berdasarkan kata kunci</string>
+    <string name="agent_tool_search_poem_description">Cari puisi klasik Tiongkok berdasarkan kata kunci, mencocokkan judul, penyair, dan teks ayat. Kata kunci dengan 3 karakter atau lebih menggunakan pencarian teks lengkap; kata kunci yang lebih pendek (seperti nama penyair dua karakter) menggunakan sampel yang difilter. Mengembalikan id puisi, judul, penyair, dinasti, dan kutipan. Panggil get_poem_detail dengan id atau judul untuk mendapatkan teks lengkap.</string>
+    <string name="agent_tool_search_poem_param_query">Kata kunci pencarian: fragmen ayat, judul puisi, atau nama penyair</string>
+    <string name="agent_tool_search_poem_param_max_results">Jumlah maksimum hasil, 1-20, default 10</string>
+    <string name="agent_tool_search_poem_query_required">kueri tidak boleh kosong</string>
+    <string name="agent_tool_search_poem_empty">Tidak ada puisi yang cocok dengan \"%1$s\"</string>
+    <string name="agent_tool_search_poem_failed">Gagal mencari puisi: %1$s</string>
+    <string-array name="agent_tool_search_poem_keywords">
+        <item>puisi</item>
+        <item>sajak</item>
+        <item>ayat</item>
+        <item>penyair</item>
+        <item>古诗</item>
+        <item>诗词</item>
+    </string-array>
+    <string-array name="agent_tool_search_poem_examples">
+        <item>Cari puisi tentang bulan</item>
+        <item>Temukan puisi karya Li Bai</item>
+        <item>有哪些写月亮的古诗</item>
+    </string-array>
+    <string name="agent_tool_get_poem_detail_title">Detail Puisi</string>
+    <string name="agent_tool_get_poem_detail_summary">Teks lengkap puisi, dengan terjemahan dan wawasan jika tersedia</string>
+    <string name="agent_tool_get_poem_detail_description">Dapatkan teks lengkap puisi klasik Tiongkok, plus terjemahan modern yang dihasilkan AI dan wawasan jika sebelumnya telah dibuat. Berikan poem_id (dari hasil search_poem) atau judul puisi, opsional dengan penulis untuk membedakan. Puisi yang diselesaikan secara online disimpan ke perpustakaan lokal sehingga tautan halaman detail berfungsi.</string>
+    <string name="agent_tool_get_poem_detail_param_poem_id">Id puisi, seperti yang dikembalikan oleh search_poem</string>
+    <string name="agent_tool_get_poem_detail_param_title">Judul puisi, digunakan saat poem_id tidak diketahui</string>
+    <string name="agent_tool_get_poem_detail_param_author">Nama penyair, opsional, digunakan bersama judul untuk membedakan</string>
+    <string name="agent_tool_get_poem_detail_id_or_title_required">Berikan poem_id atau judul</string>
+    <string name="agent_tool_get_poem_detail_not_found">Puisi tidak ditemukan: %1$s</string>
+    <string name="agent_tool_get_poem_detail_failed">Gagal mendapatkan detail puisi: %1$s</string>
+    <string-array name="agent_tool_get_poem_detail_keywords">
+        <item>detail puisi</item>
+        <item>teks lengkap</item>
+        <item>terjemahan</item>
+        <item>wawasan</item>
+        <item>诗词详情</item>
+        <item>全文</item>
+    </string-array>
+    <string-array name="agent_tool_get_poem_detail_examples">
+        <item>Tampilkan teks lengkap 静夜思</item>
+        <item>Dapatkan puisi dengan id 123</item>
+        <item>把《静夜思》的全文和译文给我</item>
+    </string-array>
+    <string name="agent_tool_query_poem_favorites_title">Puisi Favorit</string>
+    <string name="agent_tool_query_poem_favorites_summary">Daftar puisi yang difavoritkan secara lokal</string>
+    <string name="agent_tool_query_poem_favorites_description">Daftar puisi yang difavoritkan pengguna secara lokal, dengan id, judul, penyair, dinasti, dan kutipan. Hanya lokal, tanpa jaringan.</string>
+    <string name="agent_tool_query_poem_favorites_param_max_results">Jumlah maksimum hasil, 1-50, default 20</string>
+    <string name="agent_tool_query_poem_favorites_empty">Belum ada puisi yang difavoritkan</string>
+    <string name="agent_tool_query_poem_favorites_failed">Gagal meminta puisi favorit: %1$s</string>
+    <string-array name="agent_tool_query_poem_favorites_keywords">
+        <item>puisi favorit</item>
+        <item>favorit</item>
+        <item>收藏</item>
+        <item>诗词收藏</item>
+    </string-array>
+    <string-array name="agent_tool_query_poem_favorites_examples">
+        <item>Daftar puisi favorit saya</item>
+        <item>我收藏了哪些诗</item>
+    </string-array>
+    <string name="agent_tool_poem_open_detail_link">Baca Puisi</string>
+    <string name="agent_tool_poem_open_search_link">Buka Pencarian Puisi</string>
+    <string name="agent_tool_poem_open_home_link">Buka Puisi Tionghoa</string>
+    <string name="agent_tool_poem_unknown_error">kesalahan tidak diketahui</string>
 </resources>

@@ -2,7 +2,7 @@
 <resources>
     <string name="schedule_screen_title">Zeitplan-Hub</string>
     <string name="schedule_sync_card_title">Sync-Grundlage ist bereit</string>
-    <string name="schedule_sync_card_description">Dieses Modul besitzt bereits sein eigenes Ereignismodell, den Sync-Cursor-Zustand und die Todo-Brückenfelder, sodass Google Kalender später hinzugefügt werden kann, ohne die Almanach- oder Todo-Module zu verschmutzen.</string>
+    <string name="schedule_sync_card_description">Dieses Modul besitzt bereits sein eigenes Ereignismodell, den Sync-Cursor-Zustand und die Todo-Brückenfelder, sodass Google Kalender später hinzugefügt werden kann, ohne die Almanach- oder Todo-Module zu beeinträchtigen.</string>
     <string name="schedule_sync_ready">Sync-Cursor gespeichert</string>
     <string name="schedule_sync_not_connected">Kein Konto verbunden</string>
     <string name="schedule_event_count_label">%1$d Ereignisse</string>
@@ -23,12 +23,12 @@
     <string name="schedule_status_local_only">Nur lokal</string>
     <string name="schedule_status_pending_upload">Upload ausstehend</string>
     <string name="schedule_status_synced">Synchronisiert</string>
-    <string name="schedule_status_pending_delete">Löschung ausstehend</string>
+    <string name="schedule_status_pending_delete">Löschen ausstehend</string>
     <string name="schedule_status_conflict">Konflikt</string>
     <string name="schedule_status_failed">Sync fehlgeschlagen</string>
-    <string name="schedule_linked_task_badge">Aufgabenbrücke</string>
+    <string name="schedule_linked_task_badge">Aufgaben-Brücke</string>
     <string name="schedule_quick_event_title">Neues lokales Ereignis</string>
-    <string name="schedule_focus_event_title">Fokusereignis</string>
+    <string name="schedule_focus_event_title">Fokus-Ereignis</string>
     <string name="schedule_linked_task_description">Verknüpftes Todo: %1$s</string>
     <string name="schedule_save_to_system_calendar">Direkt in den Systemkalender schreiben</string>
     <string name="schedule_export_to_system_calendar">Zum Systemkalender hinzufügen</string>
@@ -41,6 +41,83 @@
     <string name="schedule_calendar_primary_badge">Primär</string>
     <string name="schedule_dialog_close">Schließen</string>
     <string name="schedule_permission_dialog_title">Kalenderberechtigung erforderlich</string>
-    <string name="schedule_permission_dialog_message">Bitte aktivieren Sie in den Systemeinstellungen die Lese-/Schreibberechtigung für den Kalender, um direkt in den Systemkalender schreiben zu können.</string>
+    <string name="schedule_permission_dialog_message">Bitte aktivieren Sie in den Systemeinstellungen die Lese-/Schreibberechtigung für Kalender, um direkt in den Systemkalender schreiben zu können.</string>
     <string name="schedule_open_settings">Einstellungen öffnen</string>
+    <string name="agent_tool_schedule_unknown_error">Unbekannter Fehler</string>
+    <string name="agent_tool_schedule_open_link">Zeitplan öffnen</string>
+    <string name="agent_tool_schedule_label_start">Start</string>
+    <string name="agent_tool_schedule_label_end">Ende</string>
+    <string name="agent_tool_schedule_label_all_day">Ganztägiges Ereignis</string>
+    <string name="agent_tool_schedule_label_location">Ort</string>
+    <string name="agent_tool_schedule_invalid_datetime">Ungültiges Datum/Uhrzeit \"%1$s\". Verwenden Sie das ISO-Format, z. B. 2026-09-10T14:00 oder 2026-09-10.</string>
+    <string name="agent_tool_schedule_invalid_date">Ungültiges Datum \"%1$s\". Verwenden Sie yyyy-MM-dd, z. B. 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_title">Zeitplanereignis hinzufügen</string>
+    <string name="agent_tool_add_schedule_event_summary">Erstellen Sie ein lokales Zeitplanereignis mit Titel, Zeit, Notiz und Ort.</string>
+    <string name="agent_tool_add_schedule_event_description">Erstellen Sie ein lokales Zeitplanereignis. `title` und `start` sind erforderlich; `end` standardmäßig eine Stunde nach Start (oder am nächsten Tag für ganztägige Ereignisse). Zeiten akzeptieren ISO-Strings: 2026-09-10T14:00, 2026-09-10T14:00:00+08:00 oder ein einfaches Datum 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_param_title">Ereignistitel, erforderlich.</string>
+    <string name="agent_tool_add_schedule_event_param_start">Startzeit, ISO-Format, z. B. 2026-09-10T14:00; ein einfaches Datum bedeutet 00:00 Uhr an diesem Tag.</string>
+    <string name="agent_tool_add_schedule_event_param_end">Endzeit, ISO-Format. Optional; standardmäßig eine Stunde nach Start oder am nächsten Tag für ganztägige Ereignisse.</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">Ob dies ein ganztägiges Ereignis ist, Standardwert false.</string>
+    <string name="agent_tool_add_schedule_event_param_description">Optionale Notiz für das Ereignis.</string>
+    <string name="agent_tool_add_schedule_event_param_location">Optionaler Ort des Ereignisses.</string>
+    <string name="agent_tool_add_schedule_event_title_required">Der Parameter \"Titel\" ist erforderlich und darf nicht leer sein.</string>
+    <string name="agent_tool_add_schedule_event_failed">Fehler beim Hinzufügen des Zeitplaneintrags: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>Zeitplan</item>
+        <item>Kalender</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+    <string name="agent_tool_query_schedule_events_title">Zeitplaneinträge abfragen</string>
+    <string name="agent_tool_query_schedule_events_summary">Lokale Zeitplaneinträge innerhalb eines Datumsbereichs abfragen.</string>
+    <string name="agent_tool_query_schedule_events_description">Lokale Zeitplaneinträge abfragen, die einen Datumsbereich überschneiden. `start_date` ist standardmäßig heute und `end_date` standardmäßig 6 Tage danach (ein 7-Tage-Fenster). Gibt bis zu 50 Einträge sortiert nach Startzeit zurück, jeweils mit ID, Titel, Zeit, Ort und Notiz; die ID kann an delete_schedule_event übergeben werden.</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">Startdatum des Bereichs, JJJJ-MM-TT; Standard ist heute.</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">Enddatum des Bereichs (einschließlich), JJJJ-MM-TT; Standard ist 6 Tage nach start_date.</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_date darf nicht vor start_date liegen.</string>
+    <string name="agent_tool_query_schedule_events_empty">Keine Einträge in diesem Bereich</string>
+    <string name="agent_tool_query_schedule_events_failed">Fehler beim Abfragen der Zeitplaneinträge: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>Zeitplan</item>
+        <item>Kalender</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+    <string name="agent_tool_delete_schedule_event_title">Zeitplaneintrag löschen</string>
+    <string name="agent_tool_delete_schedule_event_summary">Einen lokalen Zeitplaneintrag anhand seiner ID löschen.</string>
+    <string name="agent_tool_delete_schedule_event_description">Einen lokalen Zeitplaneintrag anhand der event_id löschen (normalerweise aus dem Ergebnis von query_schedule_events). Das Löschen entfernt auch die Systemkalender-Verknüpfungen und kann nicht rückgängig gemacht werden. Daher ist vor der Ausführung eine Benutzerbestätigung erforderlich.</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">ID des zu löschenden Eintrags aus den Ergebnissen von query_schedule_events.</string>
+    <string name="agent_tool_delete_schedule_event_id_required">Der Parameter event_id ist erforderlich.</string>
+    <string name="agent_tool_delete_schedule_event_not_found">Eintrag nicht gefunden: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">Gelöscht: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">Fehler beim Löschen des Zeitplaneintrags: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">Zeitplaneintrag löschen</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">Diesen Zeitplaneintrag dauerhaft löschen</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>Zeitplan</item>
+        <item>Eintrag löschen</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>

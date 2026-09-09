@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="lifetime_title">Reloj de Arena</string>
+    <string name="lifetime_title">Reloj de Arena de Tiempo</string>
     <string name="lifetime_loading">Calculando tu tiempo…</string>
     <string name="lifetime_time_card_label">Viaje Hasta Ahora</string>
     <string name="lifetime_remaining_time_label">Tiempo Restante</string>
@@ -10,7 +10,7 @@
     <string name="lifetime_unit_hours">Horas</string>
     <string name="lifetime_unit_minutes">Minutos</string>
     <string name="lifetime_unit_seconds">Segundos</string>
-    <string name="lifetime_life_journey">Viaje de Vida</string>
+    <string name="lifetime_life_journey">Viaje de la Vida</string>
     <string name="lifetime_progress_label">Progreso</string>
     <string name="lifetime_remaining_estimate">Aproximadamente %1$d años restantes</string>
     <string name="lifetime_milestone_section">Memoriales</string>
@@ -37,8 +37,8 @@
     <string name="lifetime_cancel">Cancelar</string>
     <string name="lifetime_settings">Establecer punto de partida</string>
     <string name="lifetime_birth_date">Fecha de nacimiento</string>
-    <string name="lifetime_target_age">Esperanza de vida</string>
-    <string name="lifetime_target_age_description">Tu esperanza de vida define la visualización del Reloj de Arena del Tiempo. Representa tu visión personal de una vida plena.</string>
+    <string name="lifetime_target_age">Esperanza de vida esperada</string>
+    <string name="lifetime_target_age_description">Tu esperanza de vida esperada define la visualización del Reloj de Arena del Tiempo. Representa tu visión personal de una vida plena.</string>
     <string name="lifetime_tap_to_change">Toca para cambiar</string>
     <string name="lifetime_update_settings">Entrar al Reloj de Arena del Tiempo</string>
     <string name="lifetime_hide_progress">Ocultar progreso de vida</string>
@@ -52,7 +52,7 @@
     <string name="lifetime_empty_milestones_title">Aún no hay conmemoraciones</string>
     <string name="lifetime_empty_milestones_subtitle">Graduación + 1000 días, cumpleaños 30… Registra tus momentos importantes</string>
     <string name="lifetime_empty_countdown_title">Aún no hay cuentas regresivas</string>
-    <string name="lifetime_empty_countdown_subtitle">Los días festivos de los próximos 3 meses se agregan automáticamente. Añade tus propios días importantes.</string>
+    <string name="lifetime_empty_countdown_subtitle">Las vacaciones de los próximos 3 meses se agregan automáticamente. Añade tus propios días importantes.</string>
     <string name="lifetime_recommend_events_title">Marcas de vida recomendadas para ti</string>
     <string name="lifetime_event_date">Fecha del evento</string>
     <string name="lifetime_select_date">Seleccionar fecha</string>
@@ -70,7 +70,7 @@
     <string name="lifetime_frequency_weekly">Semanal</string>
     <string name="lifetime_frequency_monthly">Mensual</string>
     <string name="lifetime_frequency_yearly">Anual</string>
-    <string name="lifetime_frequency_progress">El %1$d%% de la vida ha transcurrido</string>
+    <string name="lifetime_frequency_progress">%1$d%% de vida transcurrida</string>
     <string name="lifetime_card_flip_hint">Toca para voltear</string>
     <string name="lifetime_completed_label">Completado</string>
     <string name="lifetime_remaining_label">Restante</string>
@@ -81,7 +81,7 @@
     <string name="lifetime_action_frequency_events">Frecuencia</string>
     <string name="lifetime_action_milestones">Conmemoración</string>
     <string name="lifetime_action_countdown">Cuenta regresiva</string>
-    <string name="lifetime_milestone_days_until">Faltan %1$d días</string>
+    <string name="lifetime_milestone_days_until">%1$d días restantes</string>
     <string name="lifetime_milestone_days_today">Hoy</string>
     <string name="lifetime_milestone_days_past">Hace %1$d días</string>
     <string name="lifetime_delete_confirm_title">Confirmar eliminación</string>
@@ -102,40 +102,40 @@
     <string name="lifetime_insight_empty">Aún no hay reflexión, toca Actualizar para generar</string>
     <string name="lifetime_insight_history_title">Historial de reflexiones</string>
     <string name="lifetime_insight_history_empty">Sin historial</string>
-    <string name="lifetime_add_countdown">Añadir cuenta regresiva</string>
-    <string name="lifetime_countdown_detail_title">Detalle de cuenta regresiva</string>
-    <string name="lifetime_countdown_name_label">Nombre de la cuenta regresiva</string>
+    <string name="lifetime_add_countdown">Añadir cuenta atrás</string>
+    <string name="lifetime_countdown_detail_title">Detalle de cuenta atrás</string>
+    <string name="lifetime_countdown_name_label">Nombre de la cuenta atrás</string>
     <string name="lifetime_countdown_name_placeholder">Día de pago, aniversario, bono…</string>
     <string name="lifetime_countdown_target_date">Fecha objetivo</string>
-    <string name="lifetime_countdown_lunar_target">Repetir por calendario lunar (anualmente)</string>
-    <string name="lifetime_countdown_lunar_target_help">Úsalo para cumpleaños lunares, festividades tradicionales y otros eventos anuales.</string>
-    <string name="lifetime_countdown_note_placeholder">Opcional: anota el significado de esta cuenta regresiva…</string>
-    <string name="lifetime_countdown_holiday_badge">Festividad</string>
-    <string name="lifetime_countdown_holiday_hint">Se añade automáticamente desde el calendario. Puedes eliminarla y añadir tu propia versión.</string>
+    <string name="lifetime_countdown_lunar_target">Repetir por calendario lunar (se repite cada año)</string>
+    <string name="lifetime_countdown_lunar_target_help">Úsalo para cumpleaños lunares, festivos tradicionales y otros eventos anuales.</string>
+    <string name="lifetime_countdown_note_placeholder">Opcional: anota el significado de esta cuenta atrás…</string>
+    <string name="lifetime_countdown_holiday_badge">Festivo</string>
+    <string name="lifetime_countdown_holiday_hint">Se añade automáticamente desde el calendario. Puedes eliminarlo y añadir tu propia versión.</string>
     <string name="lifetime_event_picker_delete">Eliminar</string>
     <string name="lifetime_add">Añadir</string>
     <string name="lifetime_date_ymd">%2$d/%3$d/%1$d</string>
     <string name="lifetime_lunar_date">Lunar %1$s %2$s%3$s</string>
     <string name="lifetime_frequency_value_label">%1$s %2$d %3$s</string>
     <string name="lifetime_status_today">Hoy</string>
-    <string name="lifetime_status_days_until">Faltan %1$d días</string>
+    <string name="lifetime_status_days_until">Quedan %1$d días</string>
     <string name="lifetime_status_days_past">Hace %1$d días</string>
-    <string name="lifetime_status_months_until">Faltan %1$d meses</string>
-    <string name="lifetime_status_months_past">hace %1$d meses</string>
-    <string name="lifetime_status_years_until">faltan %1$d años</string>
-    <string name="lifetime_status_years_past">hace %1$d años</string>
+    <string name="lifetime_status_months_until">Quedan %1$d meses</string>
+    <string name="lifetime_status_months_past">Hace %1$d meses</string>
+    <string name="lifetime_status_years_until">%1$d años por delante</string>
+    <string name="lifetime_status_years_past">Hace %1$d años</string>
     <string name="lifetime_preset_name_spring_festival">Festival de Primavera</string>
     <string name="lifetime_preset_name_lantern_festival">Festival de los Faroles</string>
-    <string name="lifetime_preset_name_longtaitou">Festival Longtaitou</string>
-    <string name="lifetime_preset_name_shangsi">Festival Shangsi</string>
-    <string name="lifetime_preset_name_dragon_boat">Festival del Barco Dragón</string>
-    <string name="lifetime_preset_name_qixi">Festival Qixi</string>
-    <string name="lifetime_preset_name_zhongyuan">Festival Zhongyuan</string>
+    <string name="lifetime_preset_name_longtaitou">Festival de Longtaitou</string>
+    <string name="lifetime_preset_name_shangsi">Festival de Shangsi</string>
+    <string name="lifetime_preset_name_dragon_boat">Festival del Barco del Dragón</string>
+    <string name="lifetime_preset_name_qixi">Festival de Qixi</string>
+    <string name="lifetime_preset_name_zhongyuan">Festival de Zhongyuan</string>
     <string name="lifetime_preset_name_mid_autumn">Festival del Medio Otoño</string>
     <string name="lifetime_preset_name_double_ninth">Festival del Doble Nueve</string>
-    <string name="lifetime_preset_name_hanyi">Festival Hanyi</string>
-    <string name="lifetime_preset_name_xiayuan">Festival Xiayuan</string>
-    <string name="lifetime_preset_name_laba">Festival Laba</string>
+    <string name="lifetime_preset_name_hanyi">Festival de Hanyi</string>
+    <string name="lifetime_preset_name_xiayuan">Festival de Xiayuan</string>
+    <string name="lifetime_preset_name_laba">Festival de Laba</string>
     <string name="lifetime_preset_name_little_new_year">Pequeño Año Nuevo</string>
     <string name="lifetime_preset_name_chinese_new_years_eve">Víspera del Año Nuevo Chino</string>
     <string name="lifetime_preset_name_new_years_day">Día de Año Nuevo</string>
@@ -160,7 +160,7 @@
     <string name="lifetime_preset_name_christmas_eve">Nochebuena</string>
     <string name="lifetime_preset_name_christmas">Navidad</string>
     <string name="lifetime_preset_name_eating">Comidas</string>
-    <string name="lifetime_preset_name_sleeping">Dormir</string>
+    <string name="lifetime_preset_name_sleeping">Sueño</string>
     <string name="lifetime_preset_name_journaling">Diario</string>
     <string name="lifetime_preset_name_exercise">Ejercicio</string>
     <string name="lifetime_preset_name_reading">Lectura</string>
@@ -182,4 +182,105 @@
     <string name="lifetime_event_unit_bottles">botellas</string>
     <string name="lifetime_event_unit_packs">paquetes</string>
     <string name="lifetime_event_unit_boxes">cajas</string>
+    <string name="agent_tool_lifetime_unknown_error">Error desconocido</string>
+    <string name="agent_tool_lifetime_open_link">Abrir toda la vida</string>
+    <string name="agent_tool_lifetime_invalid_date">Fecha no válida \"%1$s\". Use yyyy-MM-dd, p. ej. 2026-12-31.</string>
+    <string name="agent_tool_lifetime_invalid_type">Tipo no válido \"%1$s\". Use countdown o milestone.</string>
+    <string name="agent_tool_lifetime_label_target_date">Fecha objetivo</string>
+    <string name="agent_tool_lifetime_label_note">Nota</string>
+    <string name="agent_tool_lifetime_section_countdown">Cuentas atrás</string>
+    <string name="agent_tool_lifetime_section_milestone">Hitos</string>
+    <string name="agent_tool_lifetime_days_left">Quedan %1$d días</string>
+    <string name="agent_tool_lifetime_days_ago">Hace %1$d días</string>
+    <string name="agent_tool_lifetime_today">hoy</string>
+    <string name="agent_tool_lifetime_reached">alcanzado</string>
+    <string name="agent_tool_lifetime_date_unknown">fecha por determinar</string>
+    <string name="agent_tool_add_countdown_event_title">Añadir evento de cuenta atrás</string>
+    <string name="agent_tool_add_countdown_event_summary">Crea un evento de cuenta atrás con un nombre y una fecha objetivo.</string>
+    <string name="agent_tool_add_countdown_event_description">Crea un evento de cuenta atrás en el módulo de vida. `name` y `target_date` son obligatorios; la fecha objetivo es una fecha gregoriana única (yyyy-MM-dd) — no se admiten cuentas atrás repetitivas ni de calendario lunar. `note` es opcional.</string>
+    <string name="agent_tool_add_countdown_event_param_name">Nombre de la cuenta atrás, obligatorio, p. ej. \"Examen de acceso a la universidad\".</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">Fecha objetivo, yyyy-MM-dd, p. ej. 2026-12-31.</string>
+    <string name="agent_tool_add_countdown_event_param_note">Nota opcional para la cuenta atrás.</string>
+    <string name="agent_tool_add_countdown_event_name_required">El parámetro name es obligatorio y no puede estar en blanco.</string>
+    <string name="agent_tool_add_countdown_event_failed">Error al añadir el evento de cuenta atrás: %1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>cuenta atrás</item>
+        <item>los días importan</item>
+        <item>aniversario</item>
+        <item>倒数日</item>
+        <item>倒计时</item>
+        <item>纪念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>Añadir una cuenta atrás: Año Nuevo 2027-01-01</item>
+        <item>帮我建一个倒数日:高考 2027-06-07</item>
+        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+    </string-array>
+    <string name="agent_tool_add_life_milestone_title">Añadir hito de vida</string>
+    <string name="agent_tool_add_life_milestone_summary">Registra un hito personal de vida con un nombre y una fecha objetivo.</string>
+    <string name="agent_tool_add_life_milestone_description">Crea un hito personal en el módulo de vida (p. ej. una fecha de meta o un día memorable). `name` y `target_date` (yyyy-MM-dd) son obligatorios; `note` es opcional.</string>
+    <string name="agent_tool_add_life_milestone_param_name">Nombre del hito, obligatorio, p. ej. \"Primera maratón\".</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">Fecha objetivo, aaaa-mm-dd, p. ej. 2027-05-01.</string>
+    <string name="agent_tool_add_life_milestone_param_note">Nota opcional para el hito.</string>
+    <string name="agent_tool_add_life_milestone_name_required">El parámetro de nombre es obligatorio y no puede estar en blanco.</string>
+    <string name="agent_tool_add_life_milestone_failed">No se pudo agregar el hito de vida: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>hito</item>
+        <item>meta</item>
+        <item>evento de vida</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目标</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>Registrar un hito: primera maratón el 2026-11-15</item>
+        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
+        <item>添加人生里程碑 买房 2027-05-01</item>
+    </string-array>
+    <string name="agent_tool_query_life_events_title">Consultar eventos de vida</string>
+    <string name="agent_tool_query_life_events_summary">Listar eventos de cuenta regresiva e hitos de vida con días restantes.</string>
+    <string name="agent_tool_query_life_events_description">Consultar eventos de cuenta regresiva e hitos personales en el módulo de vida. `type` filtra el resultado: countdown, milestone o all (predeterminado). `limit` limita las entradas por tipo (predeterminado 20, máximo 50). Cada entrada incluye su id (para delete_lifetime_entry), nombre, fecha objetivo y días restantes.</string>
+    <string name="agent_tool_query_life_events_param_type">Filtro de tipo de entrada: countdown, milestone o all (predeterminado).</string>
+    <string name="agent_tool_query_life_events_param_limit">Máximo de entradas por tipo, 1-50, predeterminado 20.</string>
+    <string name="agent_tool_query_life_events_empty">Aún no hay entradas</string>
+    <string name="agent_tool_query_life_events_failed">No se pudieron consultar los eventos de vida: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>cuenta regresiva</item>
+        <item>hito</item>
+        <item>consultar</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+        <item>还有几天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>¿Qué cuentas regresivas tengo?</item>
+        <item>我还有哪些倒数日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距离下一个倒数日还有几天</item>
+    </string-array>
+    <string name="agent_tool_delete_lifetime_entry_title">Eliminar evento de vida</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">Eliminar un evento de cuenta regresiva o hito de vida por id.</string>
+    <string name="agent_tool_delete_lifetime_entry_description">Eliminar un evento de cuenta regresiva o hito personal del módulo de vida. `type` (countdown o milestone) e `id` son obligatorios; el id proviene de los resultados de query_life_events. La eliminación es irreversible.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">Tipo de entrada: countdown o milestone.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">Id de entrada, de los resultados de query_life_events.</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">El parámetro id es obligatorio y debe ser un número.</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">No hay ninguna entrada con id %1$d.</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">Se eliminó \"%1$s\".</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">Eliminar evento de vida</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">Eliminar un evento de cuenta regresiva o hito de vida. Esto no se puede deshacer.</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">No se pudo eliminar el evento de vida: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>eliminar</item>
+        <item>quitar</item>
+        <item>cuenta regresiva</item>
+        <item>hito</item>
+        <item>删除</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>Eliminar la cuenta regresiva con id 3</item>
+        <item>Eliminar la cuenta regresiva con id 3</item>
+        <item>删掉里程碑 5</item>
+    </string-array>
 </resources>

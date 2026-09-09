@@ -2,16 +2,16 @@
 <resources>
     <string name="schedule_screen_title">शेड्यूल हब</string>
     <string name="schedule_sync_card_title">सिंक फाउंडेशन तैयार है</string>
-    <string name="schedule_sync_card_description">इस मॉड्यूल के पास पहले से ही अपना इवेंट मॉडल, सिंक कर्सर स्थिति और टोडो ब्रिज फ़ील्ड हैं, इसलिए Google कैलेंडर को बाद में जोड़ा जा सकता है बिना अल्मनैक या टोडो मॉड्यूल को प्रदूषित किए।</string>
+    <string name="schedule_sync_card_description">इस मॉड्यूल के पास पहले से ही अपना इवेंट मॉडल, सिंक कर्सर स्थिति और टूडो ब्रिज फ़ील्ड हैं, इसलिए Google कैलेंडर को बाद में जोड़ा जा सकता है बिना अल्मनैक या टूडो मॉड्यूल को प्रदूषित किए।</string>
     <string name="schedule_sync_ready">सिंक कर्सर सहेजा गया</string>
     <string name="schedule_sync_not_connected">कोई खाता कनेक्ट नहीं है</string>
     <string name="schedule_event_count_label">%1$d इवेंट</string>
-    <string name="schedule_linked_task_chip">टोडो संदर्भ लिंक किया गया</string>
+    <string name="schedule_linked_task_chip">टूडो संदर्भ लिंक किया गया</string>
     <string name="schedule_last_error_label">अंतिम त्रुटि: %1$s</string>
     <string name="schedule_action_card_title">स्वच्छ स्थानीय इवेंट डोमेन से शुरू करें</string>
     <string name="schedule_action_create_local">स्थानीय इवेंट बनाएं</string>
     <string name="schedule_action_create_focus">फोकस तिथि से इवेंट बनाएं</string>
-    <string name="schedule_action_open_todo">टोडो खोलें</string>
+    <string name="schedule_action_open_todo">टूडो खोलें</string>
     <string name="schedule_action_open_calendar">कैलेंडर खोलें</string>
     <string name="schedule_event_section_title">इवेंट</string>
     <string name="schedule_empty_title">अभी तक कोई शेड्यूल इवेंट नहीं</string>
@@ -29,7 +29,7 @@
     <string name="schedule_linked_task_badge">कार्य ब्रिज</string>
     <string name="schedule_quick_event_title">नया स्थानीय इवेंट</string>
     <string name="schedule_focus_event_title">फोकस इवेंट</string>
-    <string name="schedule_linked_task_description">लिंक किया गया टोडो: %1$s</string>
+    <string name="schedule_linked_task_description">लिंक किया गया टूडो: %1$s</string>
     <string name="schedule_save_to_system_calendar">सीधे सिस्टम कैलेंडर में लिखें</string>
     <string name="schedule_export_to_system_calendar">सिस्टम कैलेंडर में जोड़ें</string>
     <string name="schedule_system_calendar_unavailable">इस डिवाइस पर कोई कैलेंडर ऐप उपलब्ध नहीं है</string>
@@ -41,6 +41,83 @@
     <string name="schedule_calendar_primary_badge">प्राथमिक</string>
     <string name="schedule_dialog_close">बंद करें</string>
     <string name="schedule_permission_dialog_title">कैलेंडर अनुमति आवश्यक</string>
-    <string name="schedule_permission_dialog_message">सिस्टम कैलेंडर में सीधे लिखने के लिए कृपया सिस्टम सेटिंग्स में कैलेंडर पढ़ने/लिखने की अनुमति सक्षम करें।</string>
+    <string name="schedule_permission_dialog_message">सीधे सिस्टम कैलेंडर में लिखने के लिए सिस्टम सेटिंग्स में कैलेंडर पढ़ने/लिखने की अनुमति सक्षम करें।</string>
     <string name="schedule_open_settings">सेटिंग्स खोलें</string>
+    <string name="agent_tool_schedule_unknown_error">अज्ञात त्रुटि</string>
+    <string name="agent_tool_schedule_open_link">शेड्यूल खोलें</string>
+    <string name="agent_tool_schedule_label_start">प्रारंभ</string>
+    <string name="agent_tool_schedule_label_end">समाप्त</string>
+    <string name="agent_tool_schedule_label_all_day">पूरे दिन का इवेंट</string>
+    <string name="agent_tool_schedule_label_location">स्थान</string>
+    <string name="agent_tool_schedule_invalid_datetime">अमान्य दिनांक/समय \"%1$s\"। ISO प्रारूप का उपयोग करें, जैसे 2026-09-10T14:00 या 2026-09-10।</string>
+    <string name="agent_tool_schedule_invalid_date">अमान्य दिनांक \"%1$s\"। yyyy-MM-dd का उपयोग करें, जैसे 2026-09-10।</string>
+    <string name="agent_tool_add_schedule_event_title">शेड्यूल इवेंट जोड़ें</string>
+    <string name="agent_tool_add_schedule_event_summary">शीर्षक, समय, नोट और स्थान के साथ एक स्थानीय शेड्यूल इवेंट बनाएं।</string>
+    <string name="agent_tool_add_schedule_event_description">एक स्थानीय शेड्यूल इवेंट बनाएं। `title` और `start` आवश्यक हैं; `end` डिफ़ॉल्ट रूप से प्रारंभ के एक घंटे बाद (या पूरे दिन के इवेंट के लिए अगले दिन) होता है। समय ISO स्ट्रिंग स्वीकार करते हैं: 2026-09-10T14:00, 2026-09-10T14:00:00+08:00, या एक सादा दिनांक 2026-09-10।</string>
+    <string name="agent_tool_add_schedule_event_param_title">इवेंट शीर्षक, आवश्यक।</string>
+    <string name="agent_tool_add_schedule_event_param_start">प्रारंभ समय, ISO प्रारूप, जैसे 2026-09-10T14:00; एक सादा दिनांक उस दिन 00:00 का अर्थ है।</string>
+    <string name="agent_tool_add_schedule_event_param_end">समाप्ति समय, ISO प्रारूप। वैकल्पिक; डिफ़ॉल्ट रूप से प्रारंभ के एक घंटे बाद, या पूरे दिन के इवेंट के लिए अगले दिन।</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">क्या यह पूरे दिन का इवेंट है, डिफ़ॉल्ट false।</string>
+    <string name="agent_tool_add_schedule_event_param_description">इवेंट के लिए वैकल्पिक नोट।</string>
+    <string name="agent_tool_add_schedule_event_param_location">इवेंट का वैकल्पिक स्थान।</string>
+    <string name="agent_tool_add_schedule_event_title_required">शीर्षक पैरामीटर आवश्यक है और खाली नहीं हो सकता।</string>
+    <string name="agent_tool_add_schedule_event_failed">शेड्यूल इवेंट जोड़ने में विफल: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>शेड्यूल</item>
+        <item>कैलेंडर</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+    <string name="agent_tool_query_schedule_events_title">शेड्यूल इवेंट क्वेरी करें</string>
+    <string name="agent_tool_query_schedule_events_summary">तारीख सीमा के भीतर स्थानीय शेड्यूल इवेंट क्वेरी करें।</string>
+    <string name="agent_tool_query_schedule_events_description">तारीख सीमा को ओवरलैप करने वाले स्थानीय शेड्यूल इवेंट क्वेरी करें। `start_date` डिफ़ॉल्ट रूप से आज और `end_date` इसके 6 दिन बाद (7-दिन की विंडो) होता है। प्रारंभ समय के अनुसार क्रमबद्ध 50 तक इवेंट लौटाता है, प्रत्येक में उसका id, शीर्षक, समय, स्थान और नोट होता है; id को delete_schedule_event में पास किया जा सकता है।</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">सीमा प्रारंभ तिथि, yyyy-MM-dd; डिफ़ॉल्ट आज।</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">सीमा समाप्ति तिथि (सम्मिलित), yyyy-MM-dd; डिफ़ॉल्ट start_date के 6 दिन बाद।</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_date start_date से पहले नहीं हो सकता।</string>
+    <string name="agent_tool_query_schedule_events_empty">इस सीमा में कोई इवेंट नहीं</string>
+    <string name="agent_tool_query_schedule_events_failed">शेड्यूल इवेंट क्वेरी करने में विफल: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>शेड्यूल</item>
+        <item>कैलेंडर</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+    <string name="agent_tool_delete_schedule_event_title">शेड्यूल इवेंट हटाएं</string>
+    <string name="agent_tool_delete_schedule_event_summary">अपने id द्वारा स्थानीय शेड्यूल इवेंट हटाएं।</string>
+    <string name="agent_tool_delete_schedule_event_description">event_id द्वारा स्थानीय शेड्यूल इवेंट हटाएं (आमतौर पर query_schedule_events के परिणाम से)। हटाने से इसके सिस्टम-कैलेंडर बाइंडिंग भी हट जाते हैं और इसे पूर्ववत नहीं किया जा सकता, इसलिए निष्पादन से पहले उपयोगकर्ता की पुष्टि आवश्यक है।</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">हटाने के लिए इवेंट का id, query_schedule_events परिणामों से।</string>
+    <string name="agent_tool_delete_schedule_event_id_required">event_id पैरामीटर आवश्यक है।</string>
+    <string name="agent_tool_delete_schedule_event_not_found">इवेंट नहीं मिला: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">हटाया गया: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">शेड्यूल इवेंट हटाने में विफल: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">शेड्यूल इवेंट हटाएं</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">इस शेड्यूल इवेंट को स्थायी रूप से हटाएं</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>शेड्यूल</item>
+        <item>इवेंट हटाएं</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>

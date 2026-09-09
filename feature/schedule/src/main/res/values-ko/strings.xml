@@ -10,7 +10,7 @@
     <string name="schedule_last_error_label">마지막 오류: %1$s</string>
     <string name="schedule_action_card_title">깨끗한 로컬 이벤트 도메인으로 시작</string>
     <string name="schedule_action_create_local">로컬 이벤트 만들기</string>
-    <string name="schedule_action_create_focus">포커스 날짜로 이벤트 만들기</string>
+    <string name="schedule_action_create_focus">포커스 날짜에서 이벤트 만들기</string>
     <string name="schedule_action_open_todo">할 일 열기</string>
     <string name="schedule_action_open_calendar">캘린더 열기</string>
     <string name="schedule_event_section_title">이벤트</string>
@@ -32,7 +32,7 @@
     <string name="schedule_linked_task_description">연결된 할 일: %1$s</string>
     <string name="schedule_save_to_system_calendar">시스템 캘린더에 직접 쓰기</string>
     <string name="schedule_export_to_system_calendar">시스템 캘린더에 추가</string>
-    <string name="schedule_system_calendar_unavailable">이 기기에는 캘린더 앱이 없습니다</string>
+    <string name="schedule_system_calendar_unavailable">이 기기에서 사용할 수 있는 캘린더 앱이 없습니다</string>
     <string name="schedule_no_writable_calendar">쓰기 가능한 시스템 캘린더가 없습니다</string>
     <string name="schedule_saved_to_system_calendar">시스템 캘린더에 저장됨</string>
     <string name="schedule_save_to_system_calendar_failed">시스템 캘린더에 저장하지 못했습니다. 나중에 다시 시도해 주세요</string>
@@ -43,4 +43,81 @@
     <string name="schedule_permission_dialog_title">캘린더 권한 필요</string>
     <string name="schedule_permission_dialog_message">시스템 캘린더에 직접 쓰려면 시스템 설정에서 캘린더 읽기/쓰기 권한을 활성화해 주세요.</string>
     <string name="schedule_open_settings">설정 열기</string>
+    <string name="agent_tool_schedule_unknown_error">알 수 없는 오류</string>
+    <string name="agent_tool_schedule_open_link">일정 열기</string>
+    <string name="agent_tool_schedule_label_start">시작</string>
+    <string name="agent_tool_schedule_label_end">종료</string>
+    <string name="agent_tool_schedule_label_all_day">종일 이벤트</string>
+    <string name="agent_tool_schedule_label_location">위치</string>
+    <string name="agent_tool_schedule_invalid_datetime">잘못된 날짜/시간 \"%1$s\"입니다. ISO 형식을 사용하세요(예: 2026-09-10T14:00 또는 2026-09-10).</string>
+    <string name="agent_tool_schedule_invalid_date">잘못된 날짜 \"%1$s\"입니다. yyyy-MM-dd 형식을 사용하세요(예: 2026-09-10).</string>
+    <string name="agent_tool_add_schedule_event_title">일정 이벤트 추가</string>
+    <string name="agent_tool_add_schedule_event_summary">제목, 시간, 메모 및 위치가 포함된 로컬 일정 이벤트를 만듭니다.</string>
+    <string name="agent_tool_add_schedule_event_description">로컬 일정 이벤트를 만듭니다. `title`과 `start`는 필수이며, `end`는 시작 후 1시간(종일 이벤트의 경우 다음 날)으로 기본 설정됩니다. 시간은 ISO 문자열(2026-09-10T14:00, 2026-09-10T14:00:00+08:00) 또는 일반 날짜(2026-09-10)를 허용합니다.</string>
+    <string name="agent_tool_add_schedule_event_param_title">이벤트 제목, 필수.</string>
+    <string name="agent_tool_add_schedule_event_param_start">시작 시간, ISO 형식(예: 2026-09-10T14:00); 일반 날짜는 해당일 00:00을 의미합니다.</string>
+    <string name="agent_tool_add_schedule_event_param_end">종료 시간, ISO 형식. 선택 사항이며, 기본값은 시작 후 1시간 또는 종일 이벤트의 경우 다음 날입니다.</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">종일 이벤트 여부, 기본값은 false입니다.</string>
+    <string name="agent_tool_add_schedule_event_param_description">이벤트에 대한 선택 메모.</string>
+    <string name="agent_tool_add_schedule_event_param_location">이벤트의 선택 위치.</string>
+    <string name="agent_tool_add_schedule_event_title_required">제목 매개변수는 필수이며 비워 둘 수 없습니다.</string>
+    <string name="agent_tool_add_schedule_event_failed">일정 이벤트 추가 실패: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>일정</item>
+        <item>달력</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+    <string name="agent_tool_query_schedule_events_title">일정 이벤트 조회</string>
+    <string name="agent_tool_query_schedule_events_summary">날짜 범위 내의 로컬 일정 이벤트를 조회합니다.</string>
+    <string name="agent_tool_query_schedule_events_description">날짜 범위와 겹치는 로컬 일정 이벤트를 조회합니다. `start_date`는 기본적으로 오늘로 설정되고 `end_date`는 기본적으로 6일 후(7일 창)로 설정됩니다. 시작 시간 순으로 정렬된 최대 50개의 이벤트를 반환하며, 각 이벤트에는 id, 제목, 시간, 위치 및 메모가 포함됩니다. id는 delete_schedule_event에 전달할 수 있습니다.</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">범위 시작 날짜, yyyy-MM-dd; 기본값은 오늘입니다.</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">범위 종료 날짜(포함), yyyy-MM-dd; 기본값은 start_date 이후 6일입니다.</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_date는 start_date보다 이전일 수 없습니다.</string>
+    <string name="agent_tool_query_schedule_events_empty">이 범위에 이벤트가 없습니다.</string>
+    <string name="agent_tool_query_schedule_events_failed">일정 이벤트 조회 실패: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>일정</item>
+        <item>달력</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+    <string name="agent_tool_delete_schedule_event_title">일정 이벤트 삭제</string>
+    <string name="agent_tool_delete_schedule_event_summary">id로 로컬 일정 이벤트를 삭제합니다.</string>
+    <string name="agent_tool_delete_schedule_event_description">event_id(일반적으로 query_schedule_events의 결과)로 로컬 일정 이벤트를 삭제합니다. 삭제는 시스템 달력 바인딩도 제거하며 되돌릴 수 없으므로 실행 전에 사용자 확인이 필요합니다.</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">query_schedule_events 결과에서 삭제할 이벤트의 id입니다.</string>
+    <string name="agent_tool_delete_schedule_event_id_required">event_id 매개변수는 필수입니다.</string>
+    <string name="agent_tool_delete_schedule_event_not_found">이벤트를 찾을 수 없음: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">삭제됨: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">일정 이벤트 삭제 실패: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">일정 이벤트 삭제</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">이 일정 이벤트를 영구적으로 삭제합니다.</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>일정</item>
+        <item>이벤트 삭제</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>

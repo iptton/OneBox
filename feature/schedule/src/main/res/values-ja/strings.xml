@@ -2,7 +2,7 @@
 <resources>
     <string name="schedule_screen_title">スケジュールハブ</string>
     <string name="schedule_sync_card_title">同期基盤の準備ができました</string>
-    <string name="schedule_sync_card_description">このモジュールはすでにイベントモデル、同期カーソル状態、Todoブリッジフィールドを所有しているため、Googleカレンダーは後で追加しても、アルマナックやTodoモジュールを汚染しません。</string>
+    <string name="schedule_sync_card_description">このモジュールは既に独自のイベントモデル、同期カーソル状態、Todoブリッジフィールドを所有しているため、Googleカレンダーは後で追加しても、アルマナックやTodoモジュールを汚染しません。</string>
     <string name="schedule_sync_ready">同期カーソルが保存されました</string>
     <string name="schedule_sync_not_connected">アカウントが接続されていません</string>
     <string name="schedule_event_count_label">%1$d件のイベント</string>
@@ -36,11 +36,88 @@
     <string name="schedule_no_writable_calendar">書き込み可能なシステムカレンダーがありません</string>
     <string name="schedule_saved_to_system_calendar">システムカレンダーに保存しました</string>
     <string name="schedule_save_to_system_calendar_failed">システムカレンダーへの保存に失敗しました。後でもう一度お試しください</string>
-    <string name="schedule_calendar_permission_denied">システムカレンダーへの直接書き込みにはカレンダー権限が必要です</string>
+    <string name="schedule_calendar_permission_denied">システムカレンダーへの直接書き込みにはカレンダーの権限が必要です</string>
     <string name="schedule_choose_calendar_title">保存先のカレンダーを選択</string>
     <string name="schedule_calendar_primary_badge">プライマリ</string>
     <string name="schedule_dialog_close">閉じる</string>
-    <string name="schedule_permission_dialog_title">カレンダー権限が必要です</string>
+    <string name="schedule_permission_dialog_title">カレンダーの権限が必要です</string>
     <string name="schedule_permission_dialog_message">システムカレンダーに直接書き込むには、システム設定でカレンダーの読み取り・書き込み権限を有効にしてください。</string>
     <string name="schedule_open_settings">設定を開く</string>
+    <string name="agent_tool_schedule_unknown_error">不明なエラー</string>
+    <string name="agent_tool_schedule_open_link">スケジュールを開く</string>
+    <string name="agent_tool_schedule_label_start">開始</string>
+    <string name="agent_tool_schedule_label_end">終了</string>
+    <string name="agent_tool_schedule_label_all_day">終日イベント</string>
+    <string name="agent_tool_schedule_label_location">場所</string>
+    <string name="agent_tool_schedule_invalid_datetime">日時「%1$s」が無効です。ISO形式（例：2026-09-10T14:00 または 2026-09-10）を使用してください。</string>
+    <string name="agent_tool_schedule_invalid_date">日付「%1$s」が無効です。yyyy-MM-dd形式（例：2026-09-10）を使用してください。</string>
+    <string name="agent_tool_add_schedule_event_title">スケジュールイベントを追加</string>
+    <string name="agent_tool_add_schedule_event_summary">タイトル、時刻、メモ、場所を含むローカルスケジュールイベントを作成します。</string>
+    <string name="agent_tool_add_schedule_event_description">ローカルスケジュールイベントを作成します。`title` と `start` は必須です。`end` は省略時、開始から1時間後（終日イベントの場合は翌日）になります。時刻はISO文字列（2026-09-10T14:00、2026-09-10T14:00:00+08:00、または日付のみの2026-09-10）を受け付けます。</string>
+    <string name="agent_tool_add_schedule_event_param_title">イベントのタイトル（必須）。</string>
+    <string name="agent_tool_add_schedule_event_param_start">開始時刻（ISO形式、例：2026-09-10T14:00）。日付のみの場合はその日の00:00を意味します。</string>
+    <string name="agent_tool_add_schedule_event_param_end">終了時刻（ISO形式）。省略可能。省略時は開始から1時間後、終日イベントの場合は翌日になります。</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">終日イベントかどうか。デフォルトはfalse。</string>
+    <string name="agent_tool_add_schedule_event_param_description">イベントのメモ（任意）。</string>
+    <string name="agent_tool_add_schedule_event_param_location">イベントの場所（任意）。</string>
+    <string name="agent_tool_add_schedule_event_title_required">タイトルパラメータは必須であり、空白にすることはできません。</string>
+    <string name="agent_tool_add_schedule_event_failed">スケジュールイベントの追加に失敗しました: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>スケジュール</item>
+        <item>カレンダー</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+    <string name="agent_tool_query_schedule_events_title">スケジュールイベントの照会</string>
+    <string name="agent_tool_query_schedule_events_summary">日付範囲内のローカルスケジュールイベントを照会します。</string>
+    <string name="agent_tool_query_schedule_events_description">日付範囲に重なるローカルスケジュールイベントを照会します。`start_date`はデフォルトで今日、`end_date`はその6日後（7日間のウィンドウ）がデフォルトです。開始時刻順に最大50件のイベントを返し、各イベントにはID、タイトル、時刻、場所、メモが含まれます。IDはdelete_schedule_eventに渡すことができます。</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">範囲の開始日、yyyy-MM-dd形式。デフォルトは今日。</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">範囲の終了日（含む）、yyyy-MM-dd形式。デフォルトはstart_dateの6日後。</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_dateはstart_dateより前にすることはできません。</string>
+    <string name="agent_tool_query_schedule_events_empty">この範囲にはイベントがありません</string>
+    <string name="agent_tool_query_schedule_events_failed">スケジュールイベントの照会に失敗しました: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>スケジュール</item>
+        <item>カレンダー</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+    <string name="agent_tool_delete_schedule_event_title">スケジュールイベントの削除</string>
+    <string name="agent_tool_delete_schedule_event_summary">IDでローカルスケジュールイベントを削除します。</string>
+    <string name="agent_tool_delete_schedule_event_description">event_id（通常はquery_schedule_eventsの結果から）でローカルスケジュールイベントを削除します。削除するとシステムカレンダーとの関連付けも削除され、元に戻すことはできません。実行前にユーザーの確認が必要です。</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">削除するイベントのID（query_schedule_eventsの結果から）。</string>
+    <string name="agent_tool_delete_schedule_event_id_required">event_idパラメータは必須です。</string>
+    <string name="agent_tool_delete_schedule_event_not_found">イベントが見つかりません: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">削除しました: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">スケジュールイベントの削除に失敗しました: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">スケジュールイベントを削除</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">このスケジュールイベントを完全に削除します</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>スケジュール</item>
+        <item>イベントを削除</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>

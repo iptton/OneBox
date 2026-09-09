@@ -12,11 +12,11 @@
     <string name="lifetime_unit_seconds">Segundo</string>
     <string name="lifetime_life_journey">Paglalakbay ng Buhay</string>
     <string name="lifetime_progress_label">Progreso</string>
-    <string name="lifetime_remaining_estimate">Humigit-kumulang %1$d taon ang natitira</string>
+    <string name="lifetime_remaining_estimate">Tinatayang %1$d taon ang natitira</string>
     <string name="lifetime_milestone_section">Mga Alaala</string>
     <string name="lifetime_countdown_section">Mga Countdown</string>
     <string name="lifetime_frequency_section">Dalas ng Buhay</string>
-    <string name="lifetime_add_event">Magdagdag ng Marka ng Buhay</string>
+    <string name="lifetime_add_event">Magdagdag ng Marka sa Buhay</string>
     <string name="lifetime_add_milestone">Magdagdag ng Alaala</string>
     <string name="lifetime_edit_milestone">I-edit ang Alaala</string>
     <string name="lifetime_event_name_label">Pangalan ng Kaganapan</string>
@@ -26,10 +26,10 @@
     <string name="lifetime_frequency_label">Dalas</string>
     <string name="lifetime_unit_label">Yunit</string>
     <string name="lifetime_times_per_period">Beses bawat panahon</string>
-    <string name="lifetime_add_to_timeline">Itala ang Marka ng Buhay</string>
+    <string name="lifetime_add_to_timeline">Itala ang Marka sa Buhay</string>
     <string name="lifetime_default_times_per_period">1</string>
     <string name="lifetime_validation_event_name_required">Maglagay ng pangalan ng kaganapan</string>
-    <string name="lifetime_validation_times_per_period_required">Maglagay ng halaga na higit sa 0</string>
+    <string name="lifetime_validation_times_per_period_required">Maglagay ng halagang higit sa 0</string>
     <string name="lifetime_validation_milestone_name_required">Maglagay ng pangalan ng alaala</string>
     <string name="lifetime_validation_milestone_target_date_required">Pumili ng target na petsa</string>
     <string name="lifetime_select_birthday">Pumili ng Petsa ng Kapanganakan</string>
@@ -38,7 +38,7 @@
     <string name="lifetime_settings">Itakda ang Panimulang Punto</string>
     <string name="lifetime_birth_date">Petsa ng Kapanganakan</string>
     <string name="lifetime_target_age">Inaasahang Haba ng Buhay</string>
-    <string name="lifetime_target_age_description">Ang iyong inaasahang haba ng buhay ay tumutukoy sa visualisasyon ng Time Hourglass. Kinakatawan nito ang iyong personal na pananaw para sa isang kasiya-siyang buhay.</string>
+    <string name="lifetime_target_age_description">Ang iyong inaasahang haba ng buhay ay tumutukoy sa visualisasyon ng Time Hourglass. Ito ay kumakatawan sa iyong personal na pananaw para sa isang kasiya-siyang buhay.</string>
     <string name="lifetime_tap_to_change">I-tap upang baguhin</string>
     <string name="lifetime_update_settings">Ilagay ang Time Hourglass</string>
     <string name="lifetime_hide_progress">Itago ang progreso ng buhay</string>
@@ -52,7 +52,7 @@
     <string name="lifetime_empty_milestones_title">Wala pang memorials</string>
     <string name="lifetime_empty_milestones_subtitle">Graduation + 1000 araw, ika-30 kaarawan… Itala ang iyong mahahalagang sandali</string>
     <string name="lifetime_empty_countdown_title">Wala pang countdowns</string>
-    <string name="lifetime_empty_countdown_subtitle">Ang mga holiday sa susunod na 3 buwan ay awtomatikong naka-seed. Idagdag ang iyong sariling mahahalagang araw.</string>
+    <string name="lifetime_empty_countdown_subtitle">Ang mga hinaharap na 3-buwang holiday ay awtomatikong naka-seed. Idagdag ang iyong sariling mahahalagang araw.</string>
     <string name="lifetime_recommend_events_title">Mga inirerekomendang life marks para sa iyo</string>
     <string name="lifetime_event_date">Petsa ng Kaganapan</string>
     <string name="lifetime_select_date">Pumili ng petsa</string>
@@ -79,17 +79,17 @@
     <string name="lifetime_milestone_start_date">Petsa ng Pagsisimula</string>
     <string name="lifetime_milestone_note">Tala</string>
     <string name="lifetime_action_frequency_events">Dalas</string>
-    <string name="lifetime_action_milestones">Alaala</string>
+    <string name="lifetime_action_milestones">Pag-alaala</string>
     <string name="lifetime_action_countdown">Countdown</string>
     <string name="lifetime_milestone_days_until">%1$d araw na lang</string>
     <string name="lifetime_milestone_days_today">Ngayon</string>
     <string name="lifetime_milestone_days_past">%1$d araw ang nakalipas</string>
     <string name="lifetime_delete_confirm_title">Kumpirmahin ang Pagtanggal</string>
-    <string name="lifetime_delete_confirm_message">Hindi ito maaaring i-undo. Sigurado ka bang gusto mong tanggalin ang alaalang ito?</string>
+    <string name="lifetime_delete_confirm_message">Hindi ito maaaring i-undo. Sigurado ka bang gusto mong tanggalin ang pag-alaalang ito?</string>
     <string name="lifetime_delete">Tanggalin</string>
-    <string name="lifetime_note_placeholder">Ano ang kahulugan ng alaalang ito sa iyo…</string>
+    <string name="lifetime_note_placeholder">Ano ang kahulugan ng pag-alaalang ito sa iyo…</string>
     <string name="lifetime_milestone_name_placeholder">Pagtatapos + 1000 araw</string>
-    <string name="lifetime_milestone_note_placeholder">Opsyonal: isulat ang kahulugan ng alaalang ito…</string>
+    <string name="lifetime_milestone_note_placeholder">Opsyonal: itala ang kahulugan ng pag-alaalang ito…</string>
     <string name="lifetime_note_edit">I-edit ang tala</string>
     <string name="lifetime_note_delete">Tanggalin ang tala</string>
     <string name="lifetime_note_add">Magdagdag ng tala</string>
@@ -105,13 +105,13 @@
     <string name="lifetime_add_countdown">Magdagdag ng Countdown</string>
     <string name="lifetime_countdown_detail_title">Detalye ng Countdown</string>
     <string name="lifetime_countdown_name_label">Pangalan ng Countdown</string>
-    <string name="lifetime_countdown_name_placeholder">Araw ng Sahod, Anibersaryo, Bonus…</string>
+    <string name="lifetime_countdown_name_placeholder">Araw ng suweldo, Anibersaryo, Bonus…</string>
     <string name="lifetime_countdown_target_date">Petsa ng Target</string>
     <string name="lifetime_countdown_lunar_target">Ulitin ayon sa kalendaryong lunar (umiikot taon-taon)</string>
     <string name="lifetime_countdown_lunar_target_help">Gamitin para sa mga kaarawan sa lunar, tradisyonal na pista, at iba pang taunang okasyon.</string>
     <string name="lifetime_countdown_note_placeholder">Opsyonal: isulat ang kahulugan ng countdown na ito…</string>
-    <string name="lifetime_countdown_holiday_badge">Pista</string>
-    <string name="lifetime_countdown_holiday_hint">Awtomatikong idinagdag mula sa kalendaryo. Maaari mo itong tanggalin at magdagdag ng sarili mong bersyon.</string>
+    <string name="lifetime_countdown_holiday_badge">Piyesta Opisyal</string>
+    <string name="lifetime_countdown_holiday_hint">Awtomatikong idinagdag mula sa kalendaryo. Maaari mo itong tanggalin at gumawa ng sarili mong bersyon.</string>
     <string name="lifetime_event_picker_delete">Tanggalin</string>
     <string name="lifetime_add">Idagdag</string>
     <string name="lifetime_date_ymd">%2$d/%3$d/%1$d</string>
@@ -131,8 +131,8 @@
     <string name="lifetime_preset_name_dragon_boat">Pista ng Dragon Boat</string>
     <string name="lifetime_preset_name_qixi">Pista ng Qixi</string>
     <string name="lifetime_preset_name_zhongyuan">Pista ng Zhongyuan</string>
-    <string name="lifetime_preset_name_mid_autumn">Pista ng Gitnang Taglagas</string>
-    <string name="lifetime_preset_name_double_ninth">Pista ng Doble Siyam</string>
+    <string name="lifetime_preset_name_mid_autumn">Pista ng Mid-Autumn</string>
+    <string name="lifetime_preset_name_double_ninth">Pista ng Double Ninth</string>
     <string name="lifetime_preset_name_hanyi">Pista ng Hanyi</string>
     <string name="lifetime_preset_name_xiayuan">Pista ng Xiayuan</string>
     <string name="lifetime_preset_name_laba">Pista ng Laba</string>
@@ -160,9 +160,9 @@
     <string name="lifetime_preset_name_christmas_eve">Bisperas ng Pasko</string>
     <string name="lifetime_preset_name_christmas">Pasko</string>
     <string name="lifetime_preset_name_eating">Mga pagkain</string>
-    <string name="lifetime_preset_name_sleeping">Tulog</string>
+    <string name="lifetime_preset_name_sleeping">Pagtulog</string>
     <string name="lifetime_preset_name_journaling">Pagsusulat ng journal</string>
-    <string name="lifetime_preset_name_exercise">Ehersisyo</string>
+    <string name="lifetime_preset_name_exercise">Pag-eehersisyo</string>
     <string name="lifetime_preset_name_reading">Pagbabasa</string>
     <string name="lifetime_preset_name_movies">Mga pelikula</string>
     <string name="lifetime_preset_name_travel">Paglalakbay</string>
@@ -182,4 +182,105 @@
     <string name="lifetime_event_unit_bottles">mga bote</string>
     <string name="lifetime_event_unit_packs">mga pakete</string>
     <string name="lifetime_event_unit_boxes">mga kahon</string>
+    <string name="agent_tool_lifetime_unknown_error">Hindi kilalang error</string>
+    <string name="agent_tool_lifetime_open_link">Buksan ang habambuhay</string>
+    <string name="agent_tool_lifetime_invalid_date">Hindi wastong petsa \"%1$s\". Gamitin ang yyyy-MM-dd, hal. 2026-12-31.</string>
+    <string name="agent_tool_lifetime_invalid_type">Hindi wastong uri \"%1$s\". Gamitin ang countdown o milestone.</string>
+    <string name="agent_tool_lifetime_label_target_date">Target na petsa</string>
+    <string name="agent_tool_lifetime_label_note">Tala</string>
+    <string name="agent_tool_lifetime_section_countdown">Mga countdown</string>
+    <string name="agent_tool_lifetime_section_milestone">Mga milestone</string>
+    <string name="agent_tool_lifetime_days_left">%1$d araw na natitira</string>
+    <string name="agent_tool_lifetime_days_ago">%1$d araw ang nakalipas</string>
+    <string name="agent_tool_lifetime_today">ngayon</string>
+    <string name="agent_tool_lifetime_reached">naabot</string>
+    <string name="agent_tool_lifetime_date_unknown">petsa TBD</string>
+    <string name="agent_tool_add_countdown_event_title">Magdagdag ng Countdown Event</string>
+    <string name="agent_tool_add_countdown_event_summary">Gumawa ng countdown event na may pangalan at target na petsa.</string>
+    <string name="agent_tool_add_countdown_event_description">Gumawa ng countdown event sa lifetime module. Kinakailangan ang `name` at `target_date`; ang target na petsa ay isang beses na Gregorian na petsa (yyyy-MM-dd) — hindi sinusuportahan ang paulit-ulit o lunar-calendar na countdown. Opsyonal ang `note`.</string>
+    <string name="agent_tool_add_countdown_event_param_name">Pangalan ng countdown, kinakailangan, hal. \"College entrance exam\".</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">Target na petsa, yyyy-MM-dd, hal. 2026-12-31.</string>
+    <string name="agent_tool_add_countdown_event_param_note">Opsyonal na tala para sa countdown.</string>
+    <string name="agent_tool_add_countdown_event_name_required">Kinakailangan ang parameter na pangalan at hindi maaaring blangko.</string>
+    <string name="agent_tool_add_countdown_event_failed">Nabigong magdagdag ng countdown event: %1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>countdown</item>
+        <item>mahalaga ang mga araw</item>
+        <item>anibersaryo</item>
+        <item>倒数日</item>
+        <item>倒计时</item>
+        <item>纪念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>Magdagdag ng countdown: Bagong Taon 2027-01-01</item>
+        <item>帮我建一个倒数日:高考 2027-06-07</item>
+        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+    </string-array>
+    <string name="agent_tool_add_life_milestone_title">Magdagdag ng Life Milestone</string>
+    <string name="agent_tool_add_life_milestone_summary">Itala ang personal na milestone sa buhay na may pangalan at target na petsa.</string>
+    <string name="agent_tool_add_life_milestone_description">Gumawa ng personal na milestone sa lifetime module (hal. isang petsa ng layunin o isang di-malilimutang araw). Kinakailangan ang `name` at `target_date` (yyyy-MM-dd); opsyonal ang `note`.</string>
+    <string name="agent_tool_add_life_milestone_param_name">Pangalan ng milestone, kinakailangan, hal. \"Unang marathon\".</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">Target na petsa, yyyy-MM-dd, hal. 2027-05-01.</string>
+    <string name="agent_tool_add_life_milestone_param_note">Opsyonal na tala para sa milestone.</string>
+    <string name="agent_tool_add_life_milestone_name_required">Kinakailangan ang parameter na pangalan at hindi maaaring blangko.</string>
+    <string name="agent_tool_add_life_milestone_failed">Nabigong magdagdag ng life milestone: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>milestone</item>
+        <item>layunin</item>
+        <item>pangyayari sa buhay</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目标</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>Itala ang isang milestone: unang marathon sa 2026-11-15</item>
+        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
+        <item>添加人生里程碑 买房 2027-05-01</item>
+    </string-array>
+    <string name="agent_tool_query_life_events_title">I-query ang mga Life Events</string>
+    <string name="agent_tool_query_life_events_summary">Ilista ang mga countdown event at life milestone na may natitirang araw.</string>
+    <string name="agent_tool_query_life_events_description">I-query ang mga countdown event at personal milestone sa lifetime module. Ang `type` ay nag-filter ng resulta: countdown, milestone, o all (default). Ang `limit` ay naglilimita sa mga entry bawat type (default 20, max 50). Ang bawat entry ay may kasamang id (para sa delete_lifetime_entry), pangalan, target na petsa at natitirang araw.</string>
+    <string name="agent_tool_query_life_events_param_type">Filter ng uri ng entry: countdown, milestone, o all (default).</string>
+    <string name="agent_tool_query_life_events_param_limit">Max na entry bawat type, 1-50, default 20.</string>
+    <string name="agent_tool_query_life_events_empty">Wala pang mga entry</string>
+    <string name="agent_tool_query_life_events_failed">Nabigong i-query ang mga life events: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>countdown</item>
+        <item>milestone</item>
+        <item>query</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+        <item>还有几天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>Anong mga countdown ang mayroon ako?</item>
+        <item>我还有哪些倒数日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距离下一个倒数日还有几天</item>
+    </string-array>
+    <string name="agent_tool_delete_lifetime_entry_title">Tanggalin ang Life Event</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">Tanggalin ang isang countdown event o life milestone sa pamamagitan ng id.</string>
+    <string name="agent_tool_delete_lifetime_entry_description">Tanggalin ang isang countdown event o personal milestone mula sa lifetime module. Kinakailangan ang `type` (countdown o milestone) at `id`; ang id ay mula sa mga resulta ng query_life_events. Hindi maaaring i-undo ang pagtanggal.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">Uri ng entry: countdown o milestone.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">Id ng entry, mula sa mga resulta ng query_life_events.</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">Kinakailangan ang parameter na id at dapat itong numero.</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">Walang entry na may id %1$d.</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">Tinanggal ang \"%1$s\".</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">Tanggalin ang life event</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">Tanggalin ang isang countdown event o life milestone. Hindi ito maaaring i-undo.</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">Nabigong tanggalin ang life event: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>tanggalin</item>
+        <item>alisin</item>
+        <item>countdown</item>
+        <item>milestone</item>
+        <item>删除</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>Tanggalin ang countdown na may id 3</item>
+        <item>Tanggalin ang countdown na may id 3</item>
+        <item>删掉里程碑 5</item>
+    </string-array>
 </resources>

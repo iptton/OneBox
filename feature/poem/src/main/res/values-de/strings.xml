@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="poem_page_title">Chinesische Gedichte</string>
+    <string name="poem_page_title">Chinesische Poesie</string>
     <string name="poem_latest">Neueste</string>
     <string name="poem_generate">Neues Gedicht</string>
     <string name="poem_generate_random">Zufällig</string>
-    <string name="poem_generating_pinyin">Pinyin wird erstellt…</string>
-    <string name="poem_ai_pinyin">AI-Pinyin</string>
-    <string name="poem_pinyin_done">Pinyin fertig</string>
-    <string name="poem_recite">Rezitieren</string>
-    <string name="poem_recite_stop">Rezitation stoppen</string>
+    <string name="poem_generating_pinyin">Pinyin wird generiert…</string>
+    <string name="poem_ai_pinyin">KI-Pinyin</string>
+    <string name="poem_pinyin_done">Pinyin bereit</string>
+    <string name="poem_recite">Aufsagen</string>
+    <string name="poem_recite_stop">Aufsagen beenden</string>
     <string name="poem_search">Suchen</string>
     <string name="poem_history">Verlauf</string>
-    <string name="poem_ai_insight">KI-Deutung</string>
+    <string name="poem_ai_insight">KI-Einblick</string>
     <string name="poem_favorite">Favorit</string>
     <string name="poem_favorited">Favorisiert</string>
-    <string name="poem_retry">Wiederholen</string>
+    <string name="poem_retry">Erneut versuchen</string>
     <string name="poem_load_failed">Laden fehlgeschlagen. Bitte später erneut versuchen.</string>
-    <string name="poem_generating_insight">Deutung wird erstellt…</string>
-    <string name="poem_generating_translation">Übersetzung wird erstellt…</string>
-    <string name="poem_insight_title">Poetische Deutung</string>
+    <string name="poem_generating_insight">Einblick wird generiert…</string>
+    <string name="poem_generating_translation">Übersetzung wird generiert…</string>
+    <string name="poem_insight_title">Poetischer Einblick</string>
     <string name="poem_translation_title">Moderne Übersetzung</string>
     <string name="poem_regenerate">Neu generieren</string>
-    <string name="poem_insight_empty_hint">Tippe, um eine Deutung zu erstellen und die tiefere Bedeutung der Verse zu verstehen</string>
-    <string name="poem_translation_empty_hint">Tippe, um eine moderne Übersetzung zu erstellen und die heutige Bedeutung der Verse zu verstehen</string>
+    <string name="poem_insight_empty_hint">Tippen, um einen Einblick zu generieren und die tiefere Bedeutung der Verse zu verstehen</string>
+    <string name="poem_translation_empty_hint">Tippen, um eine moderne Übersetzung zu generieren und zu verstehen, was die Verse heute bedeuten</string>
     <string name="poem_generate_click">Tippen zum Generieren</string>
     <string name="poem_history_title">Verlauf</string>
-    <string name="poem_clear_history">Leeren</string>
+    <string name="poem_clear_history">Löschen</string>
     <string name="poem_clear_history_confirm">Gesamten Verlauf löschen? Favorisierte Gedichte bleiben erhalten.</string>
     <string name="poem_confirm">Bestätigen</string>
     <string name="poem_cancel">Abbrechen</string>
-    <string name="poem_empty_title">Noch keine Gedichte erstellt</string>
-    <string name="poem_empty_subtitle">Tippe auf die Schaltfläche unten, um zu starten</string>
-    <string name="poem_search_hint">Verse, Dichter oder Stichwörter suchen</string>
+    <string name="poem_empty_title">Noch keine Gedichte generiert</string>
+    <string name="poem_empty_subtitle">Tippen Sie auf die Schaltfläche unten, um zu starten</string>
+    <string name="poem_search_hint">Verse, Dichter oder Schlüsselwörter suchen</string>
     <string name="poem_filter_dynasty">Dynastie</string>
-    <string name="poem_filter_type">Gattung</string>
+    <string name="poem_filter_type">Genre</string>
     <string name="poem_filter_author">Dichter</string>
     <string name="poem_filter_all">Alle</string>
     <string name="poem_search_results">Suchergebnisse</string>
@@ -42,4 +42,67 @@
     <string name="poem_history_empty">Noch kein Verlauf</string>
     <string name="poem_favorites_only">Nur Favoriten</string>
     <string name="poem_delete">Löschen</string>
+    <string name="agent_tool_search_poem_title">Gedichte suchen</string>
+    <string name="agent_tool_search_poem_summary">Chinesische klassische Gedichte nach Schlüsselwort suchen</string>
+    <string name="agent_tool_search_poem_description">Suchen Sie chinesische klassische Gedichte nach Schlüsselwort, das Titel, Dichter und Vers text abgleicht. Schlüsselwörter mit 3 oder mehr Zeichen verwenden eine Volltextsuche; kürzere Schlüsselwörter (wie ein zweizeichiger Dichtername) verwenden eine gefilterte Stichprobe. Gibt Gedicht-ID, Titel, Dichter, Dynastie und einen Auszug zurück. Rufen Sie get_poem_detail mit der ID oder dem Titel auf, um den vollständigen Text zu erhalten.</string>
+    <string name="agent_tool_search_poem_param_query">Suchschlüsselwort: ein Versfragment, Gedichtstitel oder Dichtername</string>
+    <string name="agent_tool_search_poem_param_max_results">Maximale Anzahl der Ergebnisse, 1-20, Standard 10</string>
+    <string name="agent_tool_search_poem_query_required">Abfrage darf nicht leer sein</string>
+    <string name="agent_tool_search_poem_empty">Keine Gedichte zu \"%1$s\" gefunden</string>
+    <string name="agent_tool_search_poem_failed">Fehler beim Suchen von Gedichten: %1$s</string>
+    <string-array name="agent_tool_search_poem_keywords">
+        <item>Gedicht</item>
+        <item>Poesie</item>
+        <item>Vers</item>
+        <item>Dichter</item>
+        <item>古诗</item>
+        <item>诗词</item>
+    </string-array>
+    <string-array name="agent_tool_search_poem_examples">
+        <item>Gedichte über den Mond suchen</item>
+        <item>Gedichte von Li Bai finden</item>
+        <item>有哪些写月亮的古诗</item>
+    </string-array>
+    <string name="agent_tool_get_poem_detail_title">Gedichtdetail</string>
+    <string name="agent_tool_get_poem_detail_summary">Volltext eines Gedichts, mit Übersetzung und Einsicht, falls verfügbar</string>
+    <string name="agent_tool_get_poem_detail_description">Holen Sie den vollständigen Text eines chinesischen klassischen Gedichts sowie seine KI-generierte moderne Übersetzung und Einsicht, falls diese zuvor generiert wurden. Geben Sie poem_id (aus search_poem-Ergebnissen) oder den Gedichtstitel an, optional mit Autor zur Unterscheidung. Online aufgelöste Gedichte werden in der lokalen Bibliothek gespeichert, damit der Detailseiten-Link funktioniert.</string>
+    <string name="agent_tool_get_poem_detail_param_poem_id">Gedicht-ID, wie von search_poem zurückgegeben</string>
+    <string name="agent_tool_get_poem_detail_param_title">Gedichtstitel, verwendet, wenn poem_id unbekannt ist</string>
+    <string name="agent_tool_get_poem_detail_param_author">Dichtername, optional, zusammen mit dem Titel zur Unterscheidung verwendet</string>
+    <string name="agent_tool_get_poem_detail_id_or_title_required">Geben Sie poem_id oder Titel an</string>
+    <string name="agent_tool_get_poem_detail_not_found">Gedicht nicht gefunden: %1$s</string>
+    <string name="agent_tool_get_poem_detail_failed">Fehler beim Abrufen der Gedichtdetails: %1$s</string>
+    <string-array name="agent_tool_get_poem_detail_keywords">
+        <item>Gedichtdetails</item>
+        <item>Volltext</item>
+        <item>Übersetzung</item>
+        <item>Einblick</item>
+        <item>诗词详情</item>
+        <item>全文</item>
+    </string-array>
+    <string-array name="agent_tool_get_poem_detail_examples">
+        <item>Zeigen Sie den vollständigen Text von 静夜思</item>
+        <item>Holen Sie sich das Gedicht mit der ID 123</item>
+        <item>把《静夜思》的全文和译文给我</item>
+    </string-array>
+    <string name="agent_tool_query_poem_favorites_title">Lieblingsgedichte</string>
+    <string name="agent_tool_query_poem_favorites_summary">Lokale Lieblingsgedichte auflisten</string>
+    <string name="agent_tool_query_poem_favorites_description">Listen Sie die lokal als Favoriten markierten Gedichte auf, mit ID, Titel, Dichter, Dynastie und einem Auszug. Nur lokal, keine Netzwerkverbindung erforderlich.</string>
+    <string name="agent_tool_query_poem_favorites_param_max_results">Maximale Anzahl der Ergebnisse, 1-50, Standard 20</string>
+    <string name="agent_tool_query_poem_favorites_empty">Noch keine Lieblingsgedichte</string>
+    <string name="agent_tool_query_poem_favorites_failed">Fehler beim Abfragen der Lieblingsgedichte: %1$s</string>
+    <string-array name="agent_tool_query_poem_favorites_keywords">
+        <item>Lieblingsgedichte</item>
+        <item>Favoriten</item>
+        <item>收藏</item>
+        <item>诗词收藏</item>
+    </string-array>
+    <string-array name="agent_tool_query_poem_favorites_examples">
+        <item>Meine Lieblingsgedichte auflisten</item>
+        <item>我收藏了哪些诗</item>
+    </string-array>
+    <string name="agent_tool_poem_open_detail_link">Gedicht lesen</string>
+    <string name="agent_tool_poem_open_search_link">Gedichtsuche öffnen</string>
+    <string name="agent_tool_poem_open_home_link">Chinesische Poesie öffnen</string>
+    <string name="agent_tool_poem_unknown_error">Unbekannter Fehler</string>
 </resources>

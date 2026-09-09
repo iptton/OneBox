@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_tool_submit_feedback_title">Geri Bildirim Gönder</string>
+    <string name="agent_tool_submit_feedback_summary">Geliştiricilere öneri, hata raporu veya özellik istekleri gönderin</string>
+    <string name="agent_tool_submit_feedback_description">Kullanıcının geri bildirimini (öneriler, hata raporları veya özellik istekleri) geliştirme ekibine gönderin. Giriş gerekmez. İçerik parametresi zorunludur; isteğe bağlı iletişim bilgisi, geliştiricilerin takip edebilmesi için geri bildirime eklenir.</string>
+    <string name="agent_tool_submit_feedback_param_content">Geri bildirim içeriği, zorunlu, en fazla 2000 karakter. Sorunu, öneriyi veya özellik isteğini ayrıntılı olarak açıklayın.</string>
+    <string name="agent_tool_submit_feedback_param_contact">İsteğe bağlı iletişim bilgisi (e-posta, QQ, WeChat vb.) geliştiricilerin kullanıcıya ulaşabilmesi için.</string>
+    <string name="agent_tool_submit_feedback_success">Geri bildirim başarıyla gönderildi. Teşekkürler! Geliştiriciler en kısa sürede inceleyecek ve geri bildirim sayfasındaki yanıtları kontrol edebilirsiniz.</string>
+    <string name="agent_tool_submit_feedback_failed">Geri bildirim gönderilemedi: %1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">Geri bildirim içeriği boş olamaz</string>
+    <string name="agent_tool_submit_feedback_error_too_long">Geri bildirim içeriği uzunluk sınırını aşıyor (en fazla %1$d karakter)</string>
+    <string name="agent_tool_submit_feedback_contact_label">İletişim</string>
+    <string name="agent_tool_submit_feedback_unknown_error">Bilinmeyen hata</string>
+    <string name="agent_tool_submit_feedback_open_link">Geri bildirimlerimi görüntüle</string>
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>geri bildirim</item>
+        <item>öneri</item>
+        <item>hata raporu</item>
+        <item>özellik isteği</item>
+        <item>sorun</item>
+    </string-array>
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>Benim için geri bildirim gönder: Karanlık modun otomatik değişebilmesini umuyorum</item>
+        <item>Bir sorun bildirmek istiyorum: QR tarayıcı bazen çöküyor</item>
+        <item>Geri bildirim gönder: lütfen toplu yeniden adlandırma ekleyin, e-postam test@example.com</item>
+    </string-array>
+</resources>

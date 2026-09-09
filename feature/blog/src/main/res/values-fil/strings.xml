@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_tool_submit_feedback_title">Magsumite ng Feedback</string>
+    <string name="agent_tool_submit_feedback_summary">Magpadala ng mga mungkahi, ulat ng bug, o kahilingan ng tampok sa mga developer</string>
+    <string name="agent_tool_submit_feedback_description">Isumite ang feedback ng user (mga mungkahi, ulat ng bug, o kahilingan ng tampok) sa pangkat ng development. Hindi kailangan ng pag-login. Kinakailangan ang parameter ng nilalaman; ang opsyonal na impormasyon ng contact ay idaragdag sa feedback upang makasunod ang mga developer.</string>
+    <string name="agent_tool_submit_feedback_param_content">Nilalaman ng feedback, kinakailangan, hanggang 2000 na karakter. Ilarawan nang detalyado ang problema, mungkahi, o kahilingan ng tampok.</string>
+    <string name="agent_tool_submit_feedback_param_contact">Opsyonal na impormasyon ng contact (email, QQ, WeChat, atbp.) upang maabot ng mga developer ang user para sa follow-up.</string>
+    <string name="agent_tool_submit_feedback_success">Matagumpay na naisumite ang feedback. Salamat! Susuriin ito ng mga developer sa lalong madaling panahon, at maaari mong tingnan ang mga tugon sa pahina ng feedback.</string>
+    <string name="agent_tool_submit_feedback_failed">Nabigo ang pagsumite ng feedback: %1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">Hindi maaaring walang laman ang nilalaman ng feedback</string>
+    <string name="agent_tool_submit_feedback_error_too_long">Lumampas ang nilalaman ng feedback sa limitasyon ng haba (max %1$d na karakter)</string>
+    <string name="agent_tool_submit_feedback_contact_label">Contact</string>
+    <string name="agent_tool_submit_feedback_unknown_error">Hindi kilalang error</string>
+    <string name="agent_tool_submit_feedback_open_link">Tingnan ang aking feedback</string>
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>feedback</item>
+        <item>mungkahi</item>
+        <item>ulat ng bug</item>
+        <item>kahilingan ng tampok</item>
+        <item>isyu</item>
+    </string-array>
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>Magsumite ng feedback para sa akin: Sana ang dark mode ay maaaring awtomatikong lumipat</item>
+        <item>Gusto kong mag-ulat ng problema: ang QR scanner ay paminsan-minsang nag-crash</item>
+        <item>Magsumite ng feedback: mangyaring magdagdag ng batch rename, ang aking email ay test@example.com</item>
+    </string-array>
+</resources>

@@ -12,16 +12,16 @@
     <string name="lifetime_unit_seconds">Секунды</string>
     <string name="lifetime_life_journey">Жизненный путь</string>
     <string name="lifetime_progress_label">Прогресс</string>
-    <string name="lifetime_remaining_estimate">Примерно %1$d лет осталось</string>
+    <string name="lifetime_remaining_estimate">Приблизительно %1$d лет осталось</string>
     <string name="lifetime_milestone_section">Памятные даты</string>
-    <string name="lifetime_countdown_section">Обратные отсчеты</string>
+    <string name="lifetime_countdown_section">Обратный отсчет</string>
     <string name="lifetime_frequency_section">Частота жизни</string>
     <string name="lifetime_add_event">Добавить отметку жизни</string>
     <string name="lifetime_add_milestone">Добавить памятную дату</string>
     <string name="lifetime_edit_milestone">Изменить памятную дату</string>
     <string name="lifetime_event_name_label">Название события</string>
     <string name="lifetime_milestone_name_hint">Название памятной даты</string>
-    <string name="lifetime_event_name_placeholder">Питание</string>
+    <string name="lifetime_event_name_placeholder">Прием пищи</string>
     <string name="lifetime_choose_icon">Выберите иконку</string>
     <string name="lifetime_frequency_label">Частота</string>
     <string name="lifetime_unit_label">Единица</string>
@@ -38,21 +38,21 @@
     <string name="lifetime_settings">Установить начальную точку</string>
     <string name="lifetime_birth_date">Дата рождения</string>
     <string name="lifetime_target_age">Ожидаемая продолжительность жизни</string>
-    <string name="lifetime_target_age_description">Ожидаемая продолжительность жизни определяет визуализацию Песочных часов времени. Она отражает ваше личное представление о полноценной жизни.</string>
+    <string name="lifetime_target_age_description">Ожидаемая продолжительность жизни определяет визуализацию Песочных часов времени. Она отражает ваше личное видение полноценной жизни.</string>
     <string name="lifetime_tap_to_change">Нажмите, чтобы изменить</string>
     <string name="lifetime_update_settings">Войти в Песочные часы времени</string>
     <string name="lifetime_hide_progress">Скрыть прогресс жизни</string>
     <string name="lifetime_welcome_title">Песочные часы времени</string>
-    <string name="lifetime_welcome_subtitle">Время не ждет никого, но вы можете его запомнить.</string>
+    <string name="lifetime_welcome_subtitle">Время не ждет, но вы можете его помнить.</string>
     <string name="lifetime_welcome_start">Начать</string>
-    <string name="lifetime_demo_hint">Демо-данные — нажмите, чтобы указать вашу настоящую дату рождения</string>
+    <string name="lifetime_demo_hint">Демо-данные — нажмите, чтобы указать реальную дату рождения</string>
     <string name="lifetime_demo_action">Установить</string>
     <string name="lifetime_empty_events_title">Пока нет жизненных меток</string>
     <string name="lifetime_empty_events_subtitle">Добавьте то, что вам важно: еда, чтение, путешествия…</string>
     <string name="lifetime_empty_milestones_title">Пока нет памятных дат</string>
     <string name="lifetime_empty_milestones_subtitle">Выпускной + 1000 дней, 30-летие… Записывайте важные моменты</string>
-    <string name="lifetime_empty_countdown_title">Пока нет обратного отсчета</string>
-    <string name="lifetime_empty_countdown_subtitle">Будущие 3-месячные праздники добавляются автоматически. Добавьте свои важные дни.</string>
+    <string name="lifetime_empty_countdown_title">Пока нет обратных отсчетов</string>
+    <string name="lifetime_empty_countdown_subtitle">Будущие праздники на 3 месяца добавляются автоматически. Добавьте свои важные дни.</string>
     <string name="lifetime_recommend_events_title">Рекомендуемые жизненные метки для вас</string>
     <string name="lifetime_event_date">Дата события</string>
     <string name="lifetime_select_date">Выберите дату</string>
@@ -62,15 +62,15 @@
     <string name="lifetime_event_picker_preset">Предустановленные события</string>
     <string name="lifetime_event_picker_custom">Мои жизненные метки</string>
     <string name="lifetime_event_added">Добавлено</string>
-    <string name="lifetime_event_saved">Памятная метка добавлена</string>
-    <string name="lifetime_event_updated">Памятная метка обновлена</string>
-    <string name="lifetime_event_deleted">Памятная метка удалена</string>
-    <string name="lifetime_frequency_one_time">Одноразово</string>
+    <string name="lifetime_event_saved">Метка жизни добавлена</string>
+    <string name="lifetime_event_updated">Метка жизни обновлена</string>
+    <string name="lifetime_event_deleted">Метка жизни удалена</string>
+    <string name="lifetime_frequency_one_time">Одноразовое</string>
     <string name="lifetime_frequency_daily">Ежедневно</string>
     <string name="lifetime_frequency_weekly">Еженедельно</string>
     <string name="lifetime_frequency_monthly">Ежемесячно</string>
     <string name="lifetime_frequency_yearly">Ежегодно</string>
-    <string name="lifetime_frequency_progress">Прошло %1$d%% жизни</string>
+    <string name="lifetime_frequency_progress">Прошло %%1$d%%%% жизни</string>
     <string name="lifetime_card_flip_hint">Нажмите, чтобы перевернуть</string>
     <string name="lifetime_completed_label">Завершено</string>
     <string name="lifetime_remaining_label">Осталось</string>
@@ -99,17 +99,17 @@
     <string name="lifetime_insight_current_title">Мысль дня</string>
     <string name="lifetime_insight_refresh">Обновить</string>
     <string name="lifetime_insight_loading">ИИ думает…</string>
-    <string name="lifetime_insight_empty">Пока нет мыслей, нажмите «Обновить», чтобы сгенерировать</string>
+    <string name="lifetime_insight_empty">Пока нет мысли, нажмите «Обновить», чтобы сгенерировать</string>
     <string name="lifetime_insight_history_title">История мыслей</string>
     <string name="lifetime_insight_history_empty">Нет истории</string>
-    <string name="lifetime_add_countdown">Добавить отсчёт</string>
-    <string name="lifetime_countdown_detail_title">Детали отсчёта</string>
-    <string name="lifetime_countdown_name_label">Название отсчёта</string>
+    <string name="lifetime_add_countdown">Добавить обратный отсчёт</string>
+    <string name="lifetime_countdown_detail_title">Детали обратного отсчёта</string>
+    <string name="lifetime_countdown_name_label">Название обратного отсчёта</string>
     <string name="lifetime_countdown_name_placeholder">Зарплата, годовщина, бонус…</string>
     <string name="lifetime_countdown_target_date">Целевая дата</string>
     <string name="lifetime_countdown_lunar_target">Повторять по лунному календарю (ежегодно)</string>
     <string name="lifetime_countdown_lunar_target_help">Используйте для лунных дней рождения, традиционных праздников и других ежегодных событий.</string>
-    <string name="lifetime_countdown_note_placeholder">Необязательно: укажите значение этого отсчёта…</string>
+    <string name="lifetime_countdown_note_placeholder">Необязательно: укажите значение этого обратного отсчёта…</string>
     <string name="lifetime_countdown_holiday_badge">Праздник</string>
     <string name="lifetime_countdown_holiday_hint">Добавлено автоматически из календаря. Вы можете удалить его и добавить свой вариант.</string>
     <string name="lifetime_event_picker_delete">Удалить</string>
@@ -177,9 +177,110 @@
     <string name="lifetime_event_unit_steps">шагов</string>
     <string name="lifetime_event_unit_minutes">мин</string>
     <string name="lifetime_event_unit_hours">ч</string>
-    <string name="lifetime_event_unit_items">пунктов</string>
+    <string name="lifetime_event_unit_items">элементов</string>
     <string name="lifetime_event_unit_cups">чашек</string>
     <string name="lifetime_event_unit_bottles">бутылок</string>
     <string name="lifetime_event_unit_packs">упаковок</string>
     <string name="lifetime_event_unit_boxes">коробки</string>
+    <string name="agent_tool_lifetime_unknown_error">Неизвестная ошибка</string>
+    <string name="agent_tool_lifetime_open_link">Открыть на всю жизнь</string>
+    <string name="agent_tool_lifetime_invalid_date">Неверная дата \"%1$s\". Используйте yyyy-MM-dd, например 2026-12-31.</string>
+    <string name="agent_tool_lifetime_invalid_type">Неверный тип \"%1$s\". Используйте countdown или milestone.</string>
+    <string name="agent_tool_lifetime_label_target_date">Целевая дата</string>
+    <string name="agent_tool_lifetime_label_note">Примечание</string>
+    <string name="agent_tool_lifetime_section_countdown">Обратный отсчет</string>
+    <string name="agent_tool_lifetime_section_milestone">Вехи</string>
+    <string name="agent_tool_lifetime_days_left">Осталось дней: %1$d</string>
+    <string name="agent_tool_lifetime_days_ago">Дней назад: %1$d</string>
+    <string name="agent_tool_lifetime_today">сегодня</string>
+    <string name="agent_tool_lifetime_reached">достигнуто</string>
+    <string name="agent_tool_lifetime_date_unknown">дата не определена</string>
+    <string name="agent_tool_add_countdown_event_title">Добавить событие обратного отсчета</string>
+    <string name="agent_tool_add_countdown_event_summary">Создайте событие обратного отсчета с названием и целевой датой.</string>
+    <string name="agent_tool_add_countdown_event_description">Создайте событие обратного отсчета в модуле жизненного цикла. `name` и `target_date` обязательны; целевая дата — одноразовая григорианская дата (yyyy-MM-dd) — повторяющиеся или лунные календарные отсчеты не поддерживаются. `note` необязательно.</string>
+    <string name="agent_tool_add_countdown_event_param_name">Название обратного отсчета, обязательно, например \"Вступительный экзамен в колледж\".</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">Целевая дата, yyyy-MM-dd, например 2026-12-31.</string>
+    <string name="agent_tool_add_countdown_event_param_note">Необязательное примечание для обратного отсчета.</string>
+    <string name="agent_tool_add_countdown_event_name_required">Параметр name обязателен и не может быть пустым.</string>
+    <string name="agent_tool_add_countdown_event_failed">Не удалось добавить событие обратного отсчета: %1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>обратный отсчет</item>
+        <item>дни имеют значение</item>
+        <item>годовщина</item>
+        <item>倒数日</item>
+        <item>倒计时</item>
+        <item>纪念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>Добавить обратный отсчет: Новый год 2027-01-01</item>
+        <item>帮我建一个倒数日:高考 2027-06-07</item>
+        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+    </string-array>
+    <string name="agent_tool_add_life_milestone_title">Добавить жизненную веху</string>
+    <string name="agent_tool_add_life_milestone_summary">Запишите личную жизненную веху с названием и целевой датой.</string>
+    <string name="agent_tool_add_life_milestone_description">Создайте личную веху в модуле жизненного цикла (например, дату цели или памятный день). `name` и `target_date` (yyyy-MM-dd) обязательны; `note` необязательно.</string>
+    <string name="agent_tool_add_life_milestone_param_name">Название вехи, обязательно, например \"Первый марафон\".</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">Целевая дата, гггг-мм-дд, например 2027-05-01.</string>
+    <string name="agent_tool_add_life_milestone_param_note">Необязательная заметка для вехи.</string>
+    <string name="agent_tool_add_life_milestone_name_required">Параметр name обязателен и не может быть пустым.</string>
+    <string name="agent_tool_add_life_milestone_failed">Не удалось добавить жизненную веху: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>веха</item>
+        <item>цель</item>
+        <item>событие жизни</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目标</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>Записать веху: первый марафон 2026-11-15</item>
+        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
+        <item>添加人生里程碑 买房 2027-05-01</item>
+    </string-array>
+    <string name="agent_tool_query_life_events_title">Запрос жизненных событий</string>
+    <string name="agent_tool_query_life_events_summary">Список событий обратного отсчета и жизненных вех с оставшимися днями.</string>
+    <string name="agent_tool_query_life_events_description">Запрос событий обратного отсчета и личных вех в модуле жизненного пути. `type` фильтрует результат: countdown, milestone или all (по умолчанию). `limit` ограничивает количество записей на тип (по умолчанию 20, максимум 50). Каждая запись включает id (для delete_lifetime_entry), имя, целевую дату и оставшиеся дни.</string>
+    <string name="agent_tool_query_life_events_param_type">Фильтр типа записей: countdown, milestone или all (по умолчанию).</string>
+    <string name="agent_tool_query_life_events_param_limit">Максимум записей на тип, 1-50, по умолчанию 20.</string>
+    <string name="agent_tool_query_life_events_empty">Пока нет записей</string>
+    <string name="agent_tool_query_life_events_failed">Не удалось запросить жизненные события: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>обратный отсчет</item>
+        <item>веха</item>
+        <item>запрос</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+        <item>还有几天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>Какие у меня обратные отсчеты?</item>
+        <item>我还有哪些倒数日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距离下一个倒数日还有几天</item>
+    </string-array>
+    <string name="agent_tool_delete_lifetime_entry_title">Удалить жизненное событие</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">Удалить событие обратного отсчета или жизненную веху по id.</string>
+    <string name="agent_tool_delete_lifetime_entry_description">Удалить событие обратного отсчета или личную веху из модуля жизненного пути. `type` (countdown или milestone) и `id` обязательны; id берется из результатов query_life_events. Удаление необратимо.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">Тип записи: countdown или milestone.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">ID записи из результатов query_life_events.</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">Параметр id обязателен и должен быть числом.</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">Нет записи с id %1$d.</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">Удалено \"%1$s\".</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">Удалить жизненное событие</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">Удалить событие обратного отсчета или жизненную веху. Это действие нельзя отменить.</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">Не удалось удалить жизненное событие: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>удалить</item>
+        <item>удалить</item>
+        <item>обратный отсчет</item>
+        <item>веха</item>
+        <item>删除</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>Удалить обратный отсчет с id 3</item>
+        <item>Удалить обратный отсчет с id 3</item>
+        <item>删掉里程碑 5</item>
+    </string-array>
 </resources>

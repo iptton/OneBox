@@ -1,45 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="poem_page_title">中国の詩詞</string>
-    <string name="poem_latest">最新生成</string>
+    <string name="poem_page_title">中国詩</string>
+    <string name="poem_latest">最新</string>
     <string name="poem_generate">新しい詩</string>
     <string name="poem_generate_random">ランダム</string>
-    <string name="poem_generating_pinyin">拼音を生成中…</string>
-    <string name="poem_ai_pinyin">AI ピンイン</string>
-    <string name="poem_pinyin_done">ピンイン生成済み</string>
-    <string name="poem_recite">朗詠</string>
-    <string name="poem_recite_stop">朗詠を停止</string>
+    <string name="poem_generating_pinyin">ピンインを生成中…</string>
+    <string name="poem_ai_pinyin">AIピンイン</string>
+    <string name="poem_pinyin_done">ピンイン準備完了</string>
+    <string name="poem_recite">暗唱</string>
+    <string name="poem_recite_stop">暗唱を停止</string>
     <string name="poem_search">検索</string>
     <string name="poem_history">履歴</string>
-    <string name="poem_ai_insight">AI 鑑賞</string>
+    <string name="poem_ai_insight">AI解説</string>
     <string name="poem_favorite">お気に入り</string>
     <string name="poem_favorited">お気に入り済み</string>
     <string name="poem_retry">再試行</string>
     <string name="poem_load_failed">読み込みに失敗しました。後でもう一度お試しください。</string>
-    <string name="poem_generating_insight">鑑賞を生成中…</string>
+    <string name="poem_generating_insight">解説を生成中…</string>
     <string name="poem_generating_translation">翻訳を生成中…</string>
-    <string name="poem_insight_title">詩の鑑賞</string>
+    <string name="poem_insight_title">詩の解説</string>
     <string name="poem_translation_title">現代語訳</string>
     <string name="poem_regenerate">再生成</string>
-    <string name="poem_insight_empty_hint">タップして鑑賞を生成し、詩句の深い意味を理解しましょう</string>
-    <string name="poem_translation_empty_hint">タップして現代語訳を生成し、詩句の現代的な意味を理解しましょう</string>
+    <string name="poem_insight_empty_hint">タップして解説を生成し、詩の深い意味を理解しましょう</string>
+    <string name="poem_translation_empty_hint">タップして現代語訳を生成し、詩の意味を現代で理解しましょう</string>
     <string name="poem_generate_click">タップして生成</string>
     <string name="poem_history_title">履歴</string>
-    <string name="poem_clear_history">履歴をクリア</string>
-    <string name="poem_clear_history_confirm">履歴をすべてクリアしますか?お気に入りの詩は保持されます。</string>
+    <string name="poem_clear_history">クリア</string>
+    <string name="poem_clear_history_confirm">すべての履歴をクリアしますか？お気に入りの詩は保持されます。</string>
     <string name="poem_confirm">確認</string>
     <string name="poem_cancel">キャンセル</string>
-    <string name="poem_empty_title">まだ詩を生成していません</string>
-    <string name="poem_empty_subtitle">下のボタンをタップして始めましょう</string>
-    <string name="poem_search_hint">詩句・詩人・キーワードで検索</string>
+    <string name="poem_empty_title">まだ生成された詩はありません</string>
+    <string name="poem_empty_subtitle">下のボタンをタップして開始</string>
+    <string name="poem_search_hint">詩、詩人、キーワードを検索</string>
     <string name="poem_filter_dynasty">朝代</string>
-    <string name="poem_filter_type">体裁</string>
+    <string name="poem_filter_type">ジャンル</string>
     <string name="poem_filter_author">詩人</string>
     <string name="poem_filter_all">すべて</string>
     <string name="poem_search_results">検索結果</string>
-    <string name="poem_result_count">%1$d 首</string>
+    <string name="poem_result_count">%1$d 首の詩</string>
     <string name="poem_search_empty">結果が見つかりません</string>
     <string name="poem_history_empty">履歴はまだありません</string>
     <string name="poem_favorites_only">お気に入りのみ</string>
     <string name="poem_delete">削除</string>
+    <string name="agent_tool_search_poem_title">詩を検索</string>
+    <string name="agent_tool_search_poem_summary">キーワードで中国の古典詩を検索</string>
+    <string name="agent_tool_search_poem_description">キーワードで中国の古典詩を検索し、タイトル、詩人、詩文に一致します。3文字以上のキーワードは全文検索を使用し、短いキーワード（2文字の詩人名など）はフィルタリングサンプリングを使用します。詩のID、タイトル、詩人、朝代、抜粋を返します。全文を取得するには、IDまたはタイトルでget_poem_detailを呼び出します。</string>
+    <string name="agent_tool_search_poem_param_query">検索キーワード：詩句、詩のタイトル、または詩人名</string>
+    <string name="agent_tool_search_poem_param_max_results">結果の最大数、1〜20、デフォルトは10</string>
+    <string name="agent_tool_search_poem_query_required">クエリは空白にできません</string>
+    <string name="agent_tool_search_poem_empty">「%1$s」に一致する詩はありません</string>
+    <string name="agent_tool_search_poem_failed">詩の検索に失敗しました：%1$s</string>
+    <string-array name="agent_tool_search_poem_keywords">
+        <item>詩</item>
+        <item>詩歌</item>
+        <item>詩句</item>
+        <item>詩人</item>
+        <item>古诗</item>
+        <item>诗词</item>
+    </string-array>
+    <string-array name="agent_tool_search_poem_examples">
+        <item>月についての詩を検索</item>
+        <item>李白の詩を検索</item>
+        <item>有哪些写月亮的古诗</item>
+    </string-array>
+    <string name="agent_tool_get_poem_detail_title">詩の詳細</string>
+    <string name="agent_tool_get_poem_detail_summary">詩の全文。翻訳と解説が利用可能な場合は表示</string>
+    <string name="agent_tool_get_poem_detail_description">中国の古典詩の全文を取得します。以前に生成された場合は、AIによる現代語訳と解説も含まれます。search_poemの結果からのpoem_id、または詩のタイトルを指定します。曖昧さを避けるために作者を任意で指定できます。オンラインで解決された詩はローカルライブラリに保存され、詳細ページのリンクが機能します。</string>
+    <string name="agent_tool_get_poem_detail_param_poem_id">詩のID（search_poemが返すもの）</string>
+    <string name="agent_tool_get_poem_detail_param_title">詩のタイトル、poem_idが不明な場合に使用</string>
+    <string name="agent_tool_get_poem_detail_param_author">詩人の名前、任意、タイトルと一緒に使用して曖昧さを解消</string>
+    <string name="agent_tool_get_poem_detail_id_or_title_required">poem_idまたはタイトルを指定してください</string>
+    <string name="agent_tool_get_poem_detail_not_found">詩が見つかりません: %1$s</string>
+    <string name="agent_tool_get_poem_detail_failed">詩の詳細を取得できませんでした: %1$s</string>
+    <string-array name="agent_tool_get_poem_detail_keywords">
+        <item>詩の詳細</item>
+        <item>全文</item>
+        <item>翻訳</item>
+        <item>解説</item>
+        <item>诗词详情</item>
+        <item>全文</item>
+    </string-array>
+    <string-array name="agent_tool_get_poem_detail_examples">
+        <item>静夜思の全文を表示</item>
+        <item>ID 123の詩を取得</item>
+        <item>把《静夜思》的全文和译文给我</item>
+    </string-array>
+    <string name="agent_tool_query_poem_favorites_title">お気に入りの詩</string>
+    <string name="agent_tool_query_poem_favorites_summary">ローカルに保存されたお気に入りの詩を一覧表示</string>
+    <string name="agent_tool_query_poem_favorites_description">ユーザーがローカルにお気に入り登録した詩を、ID、タイトル、詩人、朝代、抜粋とともに一覧表示します。ローカルのみで、ネットワークは不要です。</string>
+    <string name="agent_tool_query_poem_favorites_param_max_results">結果の最大数、1〜50、デフォルトは20</string>
+    <string name="agent_tool_query_poem_favorites_empty">まだお気に入りの詩はありません</string>
+    <string name="agent_tool_query_poem_favorites_failed">お気に入りの詩のクエリに失敗しました: %1$s</string>
+    <string-array name="agent_tool_query_poem_favorites_keywords">
+        <item>お気に入りの詩</item>
+        <item>お気に入り</item>
+        <item>收藏</item>
+        <item>诗词收藏</item>
+    </string-array>
+    <string-array name="agent_tool_query_poem_favorites_examples">
+        <item>お気に入りの詩を一覧表示</item>
+        <item>我收藏了哪些诗</item>
+    </string-array>
+    <string name="agent_tool_poem_open_detail_link">詩を読む</string>
+    <string name="agent_tool_poem_open_search_link">詩の検索を開く</string>
+    <string name="agent_tool_poem_open_home_link">中国詩を開く</string>
+    <string name="agent_tool_poem_unknown_error">不明なエラー</string>
 </resources>

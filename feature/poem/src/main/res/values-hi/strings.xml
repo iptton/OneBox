@@ -3,43 +3,106 @@
     <string name="poem_page_title">चीनी कविता</string>
     <string name="poem_latest">नवीनतम</string>
     <string name="poem_generate">नई कविता</string>
-    <string name="poem_generate_random">रैंडम</string>
-    <string name="poem_generating_pinyin">पिनयिन बनाया जा रहा है…</string>
-    <string name="poem_ai_pinyin">AI पिनयिन</string>
+    <string name="poem_generate_random">यादृच्छिक</string>
+    <string name="poem_generating_pinyin">पिनयिन उत्पन्न हो रहा है…</string>
+    <string name="poem_ai_pinyin">एआई पिनयिन</string>
     <string name="poem_pinyin_done">पिनयिन तैयार</string>
-    <string name="poem_recite">कविता वाचन</string>
-    <string name="poem_recite_stop">वाचन रोकें</string>
+    <string name="poem_recite">पाठ करें</string>
+    <string name="poem_recite_stop">पाठ बंद करें</string>
     <string name="poem_search">खोजें</string>
     <string name="poem_history">इतिहास</string>
-    <string name="poem_ai_insight">AI व्याख्या</string>
+    <string name="poem_ai_insight">एआई अंतर्दृष्टि</string>
     <string name="poem_favorite">पसंदीदा</string>
     <string name="poem_favorited">पसंदीदा में जोड़ा गया</string>
     <string name="poem_retry">पुनः प्रयास करें</string>
-    <string name="poem_load_failed">लोड करने में विफल। बाद में पुनः प्रयास करें।</string>
-    <string name="poem_generating_insight">व्याख्या तैयार हो रही है…</string>
-    <string name="poem_generating_translation">अनुवाद तैयार हो रहा है…</string>
-    <string name="poem_insight_title">काव्यात्मक व्याख्या</string>
+    <string name="poem_load_failed">लोड करने में विफल। कृपया बाद में पुनः प्रयास करें।</string>
+    <string name="poem_generating_insight">अंतर्दृष्टि उत्पन्न हो रही है…</string>
+    <string name="poem_generating_translation">अनुवाद उत्पन्न हो रहा है…</string>
+    <string name="poem_insight_title">काव्यात्मक अंतर्दृष्टि</string>
     <string name="poem_translation_title">आधुनिक अनुवाद</string>
     <string name="poem_regenerate">पुनः उत्पन्न करें</string>
-    <string name="poem_insight_empty_hint">व्याख्या बनाने और पंक्तियों का गहरा अर्थ समझने के लिए टैप करें</string>
-    <string name="poem_translation_empty_hint">आधुनिक अनुवाद बनाने और पंक्तियों का आज का अर्थ समझने के लिए टैप करें</string>
-    <string name="poem_generate_click">बनाने के लिए टैप करें</string>
+    <string name="poem_insight_empty_hint">अंतर्दृष्टि उत्पन्न करने और पंक्तियों के गहरे अर्थ को समझने के लिए टैप करें</string>
+    <string name="poem_translation_empty_hint">आधुनिक अनुवाद उत्पन्न करने और यह समझने के लिए टैप करें कि पंक्तियों का आज क्या अर्थ है</string>
+    <string name="poem_generate_click">उत्पन्न करने के लिए टैप करें</string>
     <string name="poem_history_title">इतिहास</string>
     <string name="poem_clear_history">साफ़ करें</string>
-    <string name="poem_clear_history_confirm">पूरा इतिहास साफ़ करें? पसंदीदा कविताएँ बनी रहेंगी।</string>
+    <string name="poem_clear_history_confirm">पूरा इतिहास साफ़ करें? पसंदीदा कविताएँ रखी जाएँगी।</string>
     <string name="poem_confirm">पुष्टि करें</string>
     <string name="poem_cancel">रद्द करें</string>
-    <string name="poem_empty_title">अभी तक कोई कविता नहीं बनी</string>
-    <string name="poem_empty_subtitle">शुरू करने के लिए नीचे बटन टैप करें</string>
-    <string name="poem_search_hint">पंक्तियाँ, कवि या कीवर्ड खोजें</string>
+    <string name="poem_empty_title">अभी तक कोई कविता उत्पन्न नहीं हुई</string>
+    <string name="poem_empty_subtitle">नीचे दिए गए बटन को दबाकर शुरू करें</string>
+    <string name="poem_search_hint">पद, कवि या कीवर्ड खोजें</string>
     <string name="poem_filter_dynasty">राजवंश</string>
-    <string name="poem_filter_type">विधा</string>
+    <string name="poem_filter_type">शैली</string>
     <string name="poem_filter_author">कवि</string>
     <string name="poem_filter_all">सभी</string>
     <string name="poem_search_results">खोज परिणाम</string>
     <string name="poem_result_count">%1$d कविताएँ</string>
     <string name="poem_search_empty">कोई परिणाम नहीं मिला</string>
-    <string name="poem_history_empty">अभी कोई इतिहास नहीं</string>
+    <string name="poem_history_empty">अभी तक कोई इतिहास नहीं</string>
     <string name="poem_favorites_only">केवल पसंदीदा</string>
     <string name="poem_delete">हटाएँ</string>
+    <string name="agent_tool_search_poem_title">कविताएँ खोजें</string>
+    <string name="agent_tool_search_poem_summary">चीनी शास्त्रीय कविताओं को कीवर्ड द्वारा खोजें</string>
+    <string name="agent_tool_search_poem_description">चीनी शास्त्रीय कविताओं को कीवर्ड द्वारा खोजें, शीर्षक, कवि और पद पाठ से मिलान करें। 3 या अधिक अक्षरों वाले कीवर्ड पूर्ण-पाठ खोज का उपयोग करते हैं; छोटे कीवर्ड (जैसे दो-अक्षर वाला कवि नाम) फ़िल्टर किए गए नमूने का उपयोग करते हैं। कविता आईडी, शीर्षक, कवि, राजवंश और एक अंश लौटाता है। पूर्ण पाठ पाने के लिए आईडी या शीर्षक के साथ get_poem_detail को कॉल करें।</string>
+    <string name="agent_tool_search_poem_param_query">खोज कीवर्ड: एक पद अंश, कविता शीर्षक या कवि नाम</string>
+    <string name="agent_tool_search_poem_param_max_results">परिणामों की अधिकतम संख्या, 1-20, डिफ़ॉल्ट 10</string>
+    <string name="agent_tool_search_poem_query_required">क्वेरी रिक्त नहीं होनी चाहिए</string>
+    <string name="agent_tool_search_poem_empty">कोई कविता \"%1$s\" से मेल नहीं खाई</string>
+    <string name="agent_tool_search_poem_failed">कविताएँ खोजने में विफल: %1$s</string>
+    <string-array name="agent_tool_search_poem_keywords">
+        <item>कविता</item>
+        <item>काव्य</item>
+        <item>पद</item>
+        <item>कवि</item>
+        <item>古诗</item>
+        <item>诗词</item>
+    </string-array>
+    <string-array name="agent_tool_search_poem_examples">
+        <item>चाँद के बारे में कविताएँ खोजें</item>
+        <item>ली बाई की कविताएँ खोजें</item>
+        <item>有哪些写月亮的古诗</item>
+    </string-array>
+    <string name="agent_tool_get_poem_detail_title">कविता विवरण</string>
+    <string name="agent_tool_get_poem_detail_summary">कविता का पूर्ण पाठ, उपलब्ध होने पर अनुवाद और अंतर्दृष्टि के साथ</string>
+    <string name="agent_tool_get_poem_detail_description">चीनी शास्त्रीय कविता का पूर्ण पाठ प्राप्त करें, साथ ही इसका AI-जनित आधुनिक अनुवाद और अंतर्दृष्टि यदि वे पहले उत्पन्न हुए हों। poem_id (search_poem परिणामों से) या कविता शीर्षक प्रदान करें, वैकल्पिक रूप से लेखक के साथ अस्पष्टता दूर करें। ऑनलाइन हल की गई कविताएँ स्थानीय पुस्तकालय में सहेजी जाती हैं ताकि विवरण पृष्ठ लिंक काम करे।</string>
+    <string name="agent_tool_get_poem_detail_param_poem_id">कविता आईडी, जैसा कि search_poem द्वारा लौटाया गया</string>
+    <string name="agent_tool_get_poem_detail_param_title">कविता का शीर्षक, जब poem_id अज्ञात हो</string>
+    <string name="agent_tool_get_poem_detail_param_author">कवि का नाम, वैकल्पिक, शीर्षक के साथ मिलाकर स्पष्टता के लिए</string>
+    <string name="agent_tool_get_poem_detail_id_or_title_required">poem_id या शीर्षक प्रदान करें</string>
+    <string name="agent_tool_get_poem_detail_not_found">कविता नहीं मिली: %1$s</string>
+    <string name="agent_tool_get_poem_detail_failed">कविता विवरण प्राप्त करने में विफल: %1$s</string>
+    <string-array name="agent_tool_get_poem_detail_keywords">
+        <item>कविता विवरण</item>
+        <item>पूरा पाठ</item>
+        <item>अनुवाद</item>
+        <item>अंतर्दृष्टि</item>
+        <item>诗词详情</item>
+        <item>全文</item>
+    </string-array>
+    <string-array name="agent_tool_get_poem_detail_examples">
+        <item>静夜思 का पूरा पाठ दिखाएं</item>
+        <item>आईडी 123 वाली कविता प्राप्त करें</item>
+        <item>把《静夜思》的全文和译文给我</item>
+    </string-array>
+    <string name="agent_tool_query_poem_favorites_title">पसंदीदा कविताएँ</string>
+    <string name="agent_tool_query_poem_favorites_summary">स्थानीय रूप से पसंदीदा कविताओं की सूची बनाएं</string>
+    <string name="agent_tool_query_poem_favorites_description">उपयोगकर्ता द्वारा स्थानीय रूप से पसंदीदा कविताओं की सूची बनाएं, जिसमें आईडी, शीर्षक, कवि, काल और एक अंश शामिल हो। केवल स्थानीय, नेटवर्क की आवश्यकता नहीं।</string>
+    <string name="agent_tool_query_poem_favorites_param_max_results">परिणामों की अधिकतम संख्या, 1-50, डिफ़ॉल्ट 20</string>
+    <string name="agent_tool_query_poem_favorites_empty">अभी तक कोई पसंदीदा कविता नहीं</string>
+    <string name="agent_tool_query_poem_favorites_failed">पसंदीदा कविताओं को क्वेरी करने में विफल: %1$s</string>
+    <string-array name="agent_tool_query_poem_favorites_keywords">
+        <item>पसंदीदा कविताएँ</item>
+        <item>पसंदीदा</item>
+        <item>收藏</item>
+        <item>诗词收藏</item>
+    </string-array>
+    <string-array name="agent_tool_query_poem_favorites_examples">
+        <item>मेरी पसंदीदा कविताओं की सूची बनाएं</item>
+        <item>我收藏了哪些诗</item>
+    </string-array>
+    <string name="agent_tool_poem_open_detail_link">कविता पढ़ें</string>
+    <string name="agent_tool_poem_open_search_link">कविता खोज खोलें</string>
+    <string name="agent_tool_poem_open_home_link">चीनी कविता खोलें</string>
+    <string name="agent_tool_poem_unknown_error">अज्ञात त्रुटि</string>
 </resources>

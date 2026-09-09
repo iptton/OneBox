@@ -1,45 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="poem_page_title">Tulang Tsino</string>
+    <string name="poem_page_title">Tula ng Tsino</string>
     <string name="poem_latest">Pinakabago</string>
     <string name="poem_generate">Bagong Tula</string>
     <string name="poem_generate_random">Random</string>
-    <string name="poem_generating_pinyin">Ginagawa ang pinyin…</string>
+    <string name="poem_generating_pinyin">Gumagawa ng pinyin…</string>
     <string name="poem_ai_pinyin">AI Pinyin</string>
     <string name="poem_pinyin_done">Handa na ang Pinyin</string>
-    <string name="poem_recite">Deklamasyon</string>
-    <string name="poem_recite_stop">Itigil ang deklamasyon</string>
+    <string name="poem_recite">Bigkasin</string>
+    <string name="poem_recite_stop">Itigil ang pagbigkas</string>
     <string name="poem_search">Maghanap</string>
     <string name="poem_history">Kasaysayan</string>
-    <string name="poem_ai_insight">AI na Interpretasyon</string>
+    <string name="poem_ai_insight">AI Pananaw</string>
     <string name="poem_favorite">Paborito</string>
-    <string name="poem_favorited">Naka-paborito</string>
+    <string name="poem_favorited">Nasa Paborito</string>
     <string name="poem_retry">Subukan muli</string>
-    <string name="poem_load_failed">Nabigong mag-load. Subukan ulit mamaya.</string>
-    <string name="poem_generating_insight">Ginagawa ang interpretasyon…</string>
-    <string name="poem_generating_translation">Ginagawa ang pagsasalin…</string>
-    <string name="poem_insight_title">Interpretasyon ng Tula</string>
-    <string name="poem_translation_title">Modernong Salin</string>
-    <string name="poem_regenerate">Gumawa muli</string>
-    <string name="poem_insight_empty_hint">I-tap para gumawa ng interpretasyon at maunawaan ang malalim na kahulugan ng mga taludtud</string>
-    <string name="poem_translation_empty_hint">I-tap para gumawa ng modernong salin at maunawaan ang kahulugan ng mga taludtud ngayon</string>
-    <string name="poem_generate_click">I-tap para Bumuo</string>
+    <string name="poem_load_failed">Hindi ma-load. Pakisubukan muli mamaya.</string>
+    <string name="poem_generating_insight">Gumagawa ng pananaw…</string>
+    <string name="poem_generating_translation">Gumagawa ng pagsasalin…</string>
+    <string name="poem_insight_title">Pananaw sa Tula</string>
+    <string name="poem_translation_title">Makabagong Pagsasalin</string>
+    <string name="poem_regenerate">I-regenerate</string>
+    <string name="poem_insight_empty_hint">I-tap upang makabuo ng pananaw at maunawaan ang mas malalim na kahulugan ng mga taludtod</string>
+    <string name="poem_translation_empty_hint">I-tap upang makabuo ng makabagong pagsasalin at maunawaan ang kahulugan ng mga taludtod sa kasalukuyan</string>
+    <string name="poem_generate_click">I-tap upang Bumuo</string>
     <string name="poem_history_title">Kasaysayan</string>
     <string name="poem_clear_history">I-clear</string>
-    <string name="poem_clear_history_confirm">I-clear ang lahat ng kasaysayan? Mananatili ang mga naka-paboritong tula.</string>
+    <string name="poem_clear_history_confirm">I-clear ang lahat ng kasaysayan? Mananatili ang mga paboritong tula.</string>
     <string name="poem_confirm">Kumpirmahin</string>
     <string name="poem_cancel">Kanselahin</string>
-    <string name="poem_empty_title">Wala pang nagawang tula</string>
-    <string name="poem_empty_subtitle">I-tap ang button sa ibaba para magsimula</string>
-    <string name="poem_search_hint">Maghanap ng taludtud, makata o keyword</string>
+    <string name="poem_empty_title">Wala pang nabuong tula</string>
+    <string name="poem_empty_subtitle">Pindutin ang button sa ibaba upang magsimula</string>
+    <string name="poem_search_hint">Maghanap ng mga taludtod, makata o keyword</string>
     <string name="poem_filter_dynasty">Dinastiya</string>
-    <string name="poem_filter_type">Uri</string>
+    <string name="poem_filter_type">Genre</string>
     <string name="poem_filter_author">Makata</string>
     <string name="poem_filter_all">Lahat</string>
     <string name="poem_search_results">Mga Resulta ng Paghahanap</string>
-    <string name="poem_result_count">%1$d tula</string>
+    <string name="poem_result_count">%1$d mga tula</string>
     <string name="poem_search_empty">Walang nahanap na resulta</string>
     <string name="poem_history_empty">Wala pang kasaysayan</string>
-    <string name="poem_favorites_only">Mga paborito lang</string>
-    <string name="poem_delete">Burahin</string>
+    <string name="poem_favorites_only">Mga paborito lamang</string>
+    <string name="poem_delete">Tanggalin</string>
+    <string name="agent_tool_search_poem_title">Maghanap ng mga Tula</string>
+    <string name="agent_tool_search_poem_summary">Maghanap ng mga klasikong tulang Tsino sa pamamagitan ng keyword</string>
+    <string name="agent_tool_search_poem_description">Maghanap ng mga klasikong tulang Tsino sa pamamagitan ng keyword, na tumutugma sa mga pamagat, makata at teksto ng taludtod. Ang mga keyword na may 3 o higit pang mga karakter ay gumagamit ng full-text search; ang mga mas maikling keyword (tulad ng dalawang-karakter na pangalan ng makata) ay gumagamit ng filtered sampling. Ibinabalik ang id ng tula, pamagat, makata, dinastiya at isang sipi. Tawagan ang get_poem_detail gamit ang id o pamagat upang makuha ang buong teksto.</string>
+    <string name="agent_tool_search_poem_param_query">Search keyword: isang piraso ng taludtod, pamagat ng tula o pangalan ng makata</string>
+    <string name="agent_tool_search_poem_param_max_results">Pinakamataas na bilang ng mga resulta, 1-20, default 10</string>
+    <string name="agent_tool_search_poem_query_required">Ang query ay hindi dapat blangko</string>
+    <string name="agent_tool_search_poem_empty">Walang mga tulang tumugma sa \"%1$s\"</string>
+    <string name="agent_tool_search_poem_failed">Nabigo ang paghahanap ng mga tula: %1$s</string>
+    <string-array name="agent_tool_search_poem_keywords">
+        <item>tula</item>
+        <item>panulaan</item>
+        <item>taludtod</item>
+        <item>makata</item>
+        <item>古诗</item>
+        <item>诗词</item>
+    </string-array>
+    <string-array name="agent_tool_search_poem_examples">
+        <item>Maghanap ng mga tula tungkol sa buwan</item>
+        <item>Maghanap ng mga tula ni Li Bai</item>
+        <item>有哪些写月亮的古诗</item>
+    </string-array>
+    <string name="agent_tool_get_poem_detail_title">Detalye ng Tula</string>
+    <string name="agent_tool_get_poem_detail_summary">Buong teksto ng isang tula, na may pagsasalin at pananaw kapag magagamit</string>
+    <string name="agent_tool_get_poem_detail_description">Kunin ang buong teksto ng isang klasikong tulang Tsino, kasama ang AI-generated na modernong pagsasalin at pananaw kung ito ay na-generate na dati. Ibigay ang poem_id (mula sa mga resulta ng search_poem) o ang pamagat ng tula, opsyonal na may may-akda upang maiwasan ang kalituhan. Ang mga tulang na-resolve online ay nai-save sa lokal na library upang gumana ang link ng pahina ng detalye.</string>
+    <string name="agent_tool_get_poem_detail_param_poem_id">Id ng tula, gaya ng ibinalik ng search_poem</string>
+    <string name="agent_tool_get_poem_detail_param_title">Pamagat ng tula, ginagamit kapag hindi alam ang poem_id</string>
+    <string name="agent_tool_get_poem_detail_param_author">Pangalan ng makata, opsyonal, ginagamit kasama ng pamagat upang linawin</string>
+    <string name="agent_tool_get_poem_detail_id_or_title_required">Magbigay ng poem_id o pamagat</string>
+    <string name="agent_tool_get_poem_detail_not_found">Hindi nahanap ang tula: %1$s</string>
+    <string name="agent_tool_get_poem_detail_failed">Nabigong makuha ang detalye ng tula: %1$s</string>
+    <string-array name="agent_tool_get_poem_detail_keywords">
+        <item>detalye ng tula</item>
+        <item>buong teksto</item>
+        <item>pagsasalin</item>
+        <item>pananaw</item>
+        <item>诗词详情</item>
+        <item>全文</item>
+    </string-array>
+    <string-array name="agent_tool_get_poem_detail_examples">
+        <item>Ipakita ang buong teksto ng 静夜思</item>
+        <item>Kunin ang tula na may id 123</item>
+        <item>把《静夜思》的全文和译文给我</item>
+    </string-array>
+    <string name="agent_tool_query_poem_favorites_title">Mga Paboritong Tula</string>
+    <string name="agent_tool_query_poem_favorites_summary">Ilista ang mga lokal na paboritong tula</string>
+    <string name="agent_tool_query_poem_favorites_description">Ilista ang mga tulang minarkahan ng gumagamit bilang paborito sa lokal, kasama ang id, pamagat, makata, dinastiya at isang sipi. Lokal lamang, walang network na kailangan.</string>
+    <string name="agent_tool_query_poem_favorites_param_max_results">Pinakamataas na bilang ng mga resulta, 1-50, default 20</string>
+    <string name="agent_tool_query_poem_favorites_empty">Wala pang paboritong tula</string>
+    <string name="agent_tool_query_poem_favorites_failed">Nabigong i-query ang mga paboritong tula: %1$s</string>
+    <string-array name="agent_tool_query_poem_favorites_keywords">
+        <item>mga paboritong tula</item>
+        <item>mga paborito</item>
+        <item>收藏</item>
+        <item>诗词收藏</item>
+    </string-array>
+    <string-array name="agent_tool_query_poem_favorites_examples">
+        <item>Ilista ang aking mga paboritong tula</item>
+        <item>我收藏了哪些诗</item>
+    </string-array>
+    <string name="agent_tool_poem_open_detail_link">Basahin ang Tula</string>
+    <string name="agent_tool_poem_open_search_link">Buksan ang Paghahanap ng Tula</string>
+    <string name="agent_tool_poem_open_home_link">Buksan ang Tula ng Tsino</string>
+    <string name="agent_tool_poem_unknown_error">hindi kilalang error</string>
 </resources>

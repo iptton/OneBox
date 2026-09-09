@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="poem_page_title">Çin Şiiri</string>
-    <string name="poem_latest">En yeni</string>
+    <string name="poem_latest">En Yeni</string>
     <string name="poem_generate">Yeni Şiir</string>
     <string name="poem_generate_random">Rastgele</string>
     <string name="poem_generating_pinyin">Pinyin oluşturuluyor…</string>
     <string name="poem_ai_pinyin">AI Pinyin</string>
-    <string name="poem_pinyin_done">Pinyin hazır</string>
-    <string name="poem_recite">Sesli oku</string>
-    <string name="poem_recite_stop">Okumayı durdur</string>
+    <string name="poem_pinyin_done">Pinyin Hazır</string>
+    <string name="poem_recite">Ezberle</string>
+    <string name="poem_recite_stop">Ezberlemeyi durdur</string>
     <string name="poem_search">Ara</string>
     <string name="poem_history">Geçmiş</string>
-    <string name="poem_ai_insight">YZ Yorumu</string>
+    <string name="poem_ai_insight">AI İçgörüsü</string>
     <string name="poem_favorite">Favori</string>
-    <string name="poem_favorited">Favorilere eklendi</string>
-    <string name="poem_retry">Tekrar dene</string>
+    <string name="poem_favorited">Favorilendi</string>
+    <string name="poem_retry">Tekrar Dene</string>
     <string name="poem_load_failed">Yüklenemedi. Lütfen daha sonra tekrar deneyin.</string>
-    <string name="poem_generating_insight">Yorum oluşturuluyor…</string>
+    <string name="poem_generating_insight">İçgörü oluşturuluyor…</string>
     <string name="poem_generating_translation">Çeviri oluşturuluyor…</string>
-    <string name="poem_insight_title">Şiirsel Yorum</string>
+    <string name="poem_insight_title">Şiirsel İçgörü</string>
     <string name="poem_translation_title">Modern Çeviri</string>
-    <string name="poem_regenerate">Yeniden oluştur</string>
-    <string name="poem_insight_empty_hint">Bir yorum oluşturmak ve dizelerin derin anlamını anlamak için dokunun</string>
-    <string name="poem_translation_empty_hint">Modern bir çeviri oluşturmak ve dizelerin bugünkü anlamını anlamak için dokunun</string>
-    <string name="poem_generate_click">Oluşturmak için dokunun</string>
+    <string name="poem_regenerate">Yeniden Oluştur</string>
+    <string name="poem_insight_empty_hint">İçgörü oluşturmak ve dizelerin daha derin anlamını anlamak için dokunun</string>
+    <string name="poem_translation_empty_hint">Modern bir çeviri oluşturmak ve dizelerin bugün ne anlama geldiğini anlamak için dokunun</string>
+    <string name="poem_generate_click">Oluşturmak için Dokunun</string>
     <string name="poem_history_title">Geçmiş</string>
     <string name="poem_clear_history">Temizle</string>
-    <string name="poem_clear_history_confirm">Tüm geçmiş temizlensin mi? Favori şiirler korunur.</string>
+    <string name="poem_clear_history_confirm">Tüm geçmiş silinsin mi? Favori şiirler korunacaktır.</string>
     <string name="poem_confirm">Onayla</string>
     <string name="poem_cancel">İptal</string>
     <string name="poem_empty_title">Henüz şiir oluşturulmadı</string>
     <string name="poem_empty_subtitle">Başlamak için aşağıdaki düğmeye dokunun</string>
-    <string name="poem_search_hint">Dize, şair veya anahtar kelime ara</string>
+    <string name="poem_search_hint">Dizeler, şairler veya anahtar kelimeler arayın</string>
     <string name="poem_filter_dynasty">Hanedan</string>
     <string name="poem_filter_type">Tür</string>
     <string name="poem_filter_author">Şair</string>
@@ -42,4 +42,67 @@
     <string name="poem_history_empty">Henüz geçmiş yok</string>
     <string name="poem_favorites_only">Yalnızca favoriler</string>
     <string name="poem_delete">Sil</string>
+    <string name="agent_tool_search_poem_title">Şiir Ara</string>
+    <string name="agent_tool_search_poem_summary">Çince klasik şiirleri anahtar kelimeyle arayın</string>
+    <string name="agent_tool_search_poem_description">Çince klasik şiirleri anahtar kelimeyle arayın; başlıklar, şairler ve dize metinleri eşleştirilir. 3 veya daha fazla karakterli anahtar kelimeler tam metin araması kullanır; daha kısa anahtar kelimeler (iki karakterli şair adı gibi) filtrelenmiş örnekleme kullanır. Şiir kimliği, başlık, şair, hanedan ve bir alıntı döndürür. Tam metin için get_poem_detail\'i kimlik veya başlıkla çağırın.</string>
+    <string name="agent_tool_search_poem_param_query">Arama anahtar kelimesi: bir dize parçası, şiir başlığı veya şair adı</string>
+    <string name="agent_tool_search_poem_param_max_results">Maksimum sonuç sayısı, 1-20, varsayılan 10</string>
+    <string name="agent_tool_search_poem_query_required">sorgu boş olmamalıdır</string>
+    <string name="agent_tool_search_poem_empty">\"%1$s\" ile eşleşen şiir bulunamadı</string>
+    <string name="agent_tool_search_poem_failed">Şiir araması başarısız: %1$s</string>
+    <string-array name="agent_tool_search_poem_keywords">
+        <item>şiir</item>
+        <item>şiir sanatı</item>
+        <item>dize</item>
+        <item>şair</item>
+        <item>古诗</item>
+        <item>诗词</item>
+    </string-array>
+    <string-array name="agent_tool_search_poem_examples">
+        <item>Ay hakkında şiirler ara</item>
+        <item>Li Bai\'nin şiirlerini bul</item>
+        <item>有哪些写月亮的古诗</item>
+    </string-array>
+    <string name="agent_tool_get_poem_detail_title">Şiir Detayı</string>
+    <string name="agent_tool_get_poem_detail_summary">Bir şiirin tam metni, çeviri ve içgörü mevcutsa</string>
+    <string name="agent_tool_get_poem_detail_description">Bir Çince klasik şiirin tam metnini, daha önce oluşturulmuşsa AI tarafından üretilen modern çevirisi ve içgörüsüyle birlikte alın. poem_id (search_poem sonuçlarından) veya şiir başlığını, isteğe bağlı olarak yazarı belirterek sağlayın. Çevrimiçi çözülen şiirler, detay sayfası bağlantısının çalışması için yerel kütüphaneye kaydedilir.</string>
+    <string name="agent_tool_get_poem_detail_param_poem_id">search_poem tarafından döndürülen şiir kimliği</string>
+    <string name="agent_tool_get_poem_detail_param_title">Şiir başlığı, poem_id bilinmediğinde kullanılır</string>
+    <string name="agent_tool_get_poem_detail_param_author">Şair adı, isteğe bağlı, başlıkla birlikte ayırt etmek için kullanılır</string>
+    <string name="agent_tool_get_poem_detail_id_or_title_required">poem_id veya başlık sağlayın</string>
+    <string name="agent_tool_get_poem_detail_not_found">Şiir bulunamadı: %1$s</string>
+    <string name="agent_tool_get_poem_detail_failed">Şiir detayı alınamadı: %1$s</string>
+    <string-array name="agent_tool_get_poem_detail_keywords">
+        <item>şiir detayı</item>
+        <item>tam metin</item>
+        <item>çeviri</item>
+        <item>içgörü</item>
+        <item>诗词详情</item>
+        <item>全文</item>
+    </string-array>
+    <string-array name="agent_tool_get_poem_detail_examples">
+        <item>静夜思 tam metnini göster</item>
+        <item>123 kimlikli şiiri getir</item>
+        <item>把《静夜思》的全文和译文给我</item>
+    </string-array>
+    <string name="agent_tool_query_poem_favorites_title">Favori Şiirler</string>
+    <string name="agent_tool_query_poem_favorites_summary">Yerel olarak favorilere eklenen şiirleri listele</string>
+    <string name="agent_tool_query_poem_favorites_description">Kullanıcının yerel olarak favorilere eklediği şiirleri kimlik, başlık, şair, dönem ve bir alıntıyla listele. Yalnızca yerel, ağ gerekmez.</string>
+    <string name="agent_tool_query_poem_favorites_param_max_results">Maksimum sonuç sayısı, 1-50, varsayılan 20</string>
+    <string name="agent_tool_query_poem_favorites_empty">Henüz favori şiir yok</string>
+    <string name="agent_tool_query_poem_favorites_failed">Favori şiirler sorgulanamadı: %1$s</string>
+    <string-array name="agent_tool_query_poem_favorites_keywords">
+        <item>favori şiirler</item>
+        <item>favoriler</item>
+        <item>收藏</item>
+        <item>诗词收藏</item>
+    </string-array>
+    <string-array name="agent_tool_query_poem_favorites_examples">
+        <item>Favori şiirlerimi listele</item>
+        <item>我收藏了哪些诗</item>
+    </string-array>
+    <string name="agent_tool_poem_open_detail_link">Şiir Oku</string>
+    <string name="agent_tool_poem_open_search_link">Şiir Arama Aç</string>
+    <string name="agent_tool_poem_open_home_link">Çin Şiiri Aç</string>
+    <string name="agent_tool_poem_unknown_error">bilinmeyen hata</string>
 </resources>

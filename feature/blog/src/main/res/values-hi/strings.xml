@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_tool_submit_feedback_title">प्रतिक्रिया सबमिट करें</string>
+    <string name="agent_tool_submit_feedback_summary">डेवलपर्स को सुझाव, बग रिपोर्ट या फीचर अनुरोध भेजें</string>
+    <string name="agent_tool_submit_feedback_description">उपयोगकर्ता की प्रतिक्रिया (सुझाव, बग रिपोर्ट या फीचर अनुरोध) विकास टीम को सबमिट करें। लॉगिन आवश्यक नहीं है। सामग्री पैरामीटर आवश्यक है; वैकल्पिक संपर्क जानकारी प्रतिक्रिया के साथ जोड़ी जाएगी ताकि डेवलपर्स अनुसरण कर सकें।</string>
+    <string name="agent_tool_submit_feedback_param_content">प्रतिक्रिया सामग्री, आवश्यक, अधिकतम 2000 अक्षर। समस्या, सुझाव या फीचर अनुरोध का विस्तार से वर्णन करें।</string>
+    <string name="agent_tool_submit_feedback_param_contact">वैकल्पिक संपर्क जानकारी (ईमेल, QQ, WeChat, आदि) ताकि डेवलपर्स अनुवर्ती के लिए उपयोगकर्ता से संपर्क कर सकें।</string>
+    <string name="agent_tool_submit_feedback_success">प्रतिक्रिया सफलतापूर्वक सबमिट की गई। धन्यवाद! डेवलपर्स जल्द से जल्द इसकी समीक्षा करेंगे, और आप प्रतिक्रिया पृष्ठ पर उत्तर देख सकते हैं।</string>
+    <string name="agent_tool_submit_feedback_failed">प्रतिक्रिया सबमिट करने में विफल: %1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">प्रतिक्रिया सामग्री खाली नहीं हो सकती</string>
+    <string name="agent_tool_submit_feedback_error_too_long">प्रतिक्रिया सामग्री लंबाई सीमा से अधिक है (अधिकतम %1$d अक्षर)</string>
+    <string name="agent_tool_submit_feedback_contact_label">संपर्क</string>
+    <string name="agent_tool_submit_feedback_unknown_error">अज्ञात त्रुटि</string>
+    <string name="agent_tool_submit_feedback_open_link">मेरी प्रतिक्रिया देखें</string>
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>प्रतिक्रिया</item>
+        <item>सुझाव</item>
+        <item>बग रिपोर्ट</item>
+        <item>फीचर अनुरोध</item>
+        <item>समस्या</item>
+    </string-array>
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>मेरे लिए प्रतिक्रिया सबमिट करें: मुझे उम्मीद है कि डार्क मोड स्वचालित रूप से स्विच हो सकता है</item>
+        <item>मैं एक समस्या रिपोर्ट करना चाहता हूं: QR स्कैनर कभी-कभी क्रैश हो जाता है</item>
+        <item>प्रतिक्रिया सबमिट करें: कृपया बैच रीनेम जोड़ें, मेरा ईमेल test@example.com है</item>
+    </string-array>
+</resources>

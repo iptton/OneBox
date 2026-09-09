@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_tool_submit_feedback_title">Feedback senden</string>
+    <string name="agent_tool_submit_feedback_summary">Senden Sie Vorschläge, Fehlerberichte oder Funktionswünsche an die Entwickler</string>
+    <string name="agent_tool_submit_feedback_description">Senden Sie das Feedback des Benutzers (Vorschläge, Fehlerberichte oder Funktionswünsche) an das Entwicklungsteam. Keine Anmeldung erforderlich. Das Inhaltsfeld ist erforderlich; optionale Kontaktinformationen werden dem Feedback hinzugefügt, damit die Entwickler nachfassen können.</string>
+    <string name="agent_tool_submit_feedback_param_content">Feedback-Inhalt, erforderlich, bis zu 2000 Zeichen. Beschreiben Sie das Problem, den Vorschlag oder den Funktionswunsch im Detail.</string>
+    <string name="agent_tool_submit_feedback_param_contact">Optionale Kontaktinformationen (E-Mail, QQ, WeChat usw.), damit die Entwickler den Benutzer für Rückfragen erreichen können.</string>
+    <string name="agent_tool_submit_feedback_success">Feedback erfolgreich gesendet. Vielen Dank! Die Entwickler werden es so schnell wie möglich prüfen. Antworten finden Sie auf der Feedback-Seite.</string>
+    <string name="agent_tool_submit_feedback_failed">Fehler beim Senden des Feedbacks: %1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">Feedback-Inhalt darf nicht leer sein</string>
+    <string name="agent_tool_submit_feedback_error_too_long">Feedback-Inhalt überschreitet die Längenbegrenzung (max. %1$d Zeichen)</string>
+    <string name="agent_tool_submit_feedback_contact_label">Kontakt</string>
+    <string name="agent_tool_submit_feedback_unknown_error">Unbekannter Fehler</string>
+    <string name="agent_tool_submit_feedback_open_link">Mein Feedback ansehen</string>
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>Feedback</item>
+        <item>Vorschlag</item>
+        <item>Fehlerbericht</item>
+        <item>Funktionswunsch</item>
+        <item>Problem</item>
+    </string-array>
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>Feedback für mich senden: Ich hoffe, der dunkle Modus kann automatisch wechseln</item>
+        <item>Ich möchte ein Problem melden: Der QR-Scanner stürzt gelegentlich ab</item>
+        <item>Feedback senden: Bitte Stapelumbenennung hinzufügen, meine E-Mail ist test@example.com</item>
+    </string-array>
+</resources>

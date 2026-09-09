@@ -2,10 +2,10 @@
 <resources>
     <string name="schedule_screen_title">Schedule Hub</string>
     <string name="schedule_sync_card_title">Handa na ang sync foundation</string>
-    <string name="schedule_sync_card_description">Ang modyul na ito ay may sariling event model, sync cursor state, at todo bridge fields, kaya maaaring idagdag ang Google Calendar sa ibang pagkakataon nang hindi nadudumihan ang almanac o todo modules.</string>
-    <string name="schedule_sync_ready">Na-save ang sync cursor</string>
+    <string name="schedule_sync_card_description">Ang modyul na ito ay may sariling event model, sync cursor state, at todo bridge fields, kaya maaaring idagdag ang Google Calendar mamaya nang hindi nadudumihan ang almanac o todo modules.</string>
+    <string name="schedule_sync_ready">Nai-save ang sync cursor</string>
     <string name="schedule_sync_not_connected">Walang konektadong account</string>
-    <string name="schedule_event_count_label">%1$d mga event</string>
+    <string name="schedule_event_count_label">%1$d na mga event</string>
     <string name="schedule_linked_task_chip">Naka-link ang todo context</string>
     <string name="schedule_last_error_label">Huling error: %1$s</string>
     <string name="schedule_action_card_title">Magsimula sa malinis na lokal na event domain</string>
@@ -21,9 +21,9 @@
     <string name="schedule_provider_google">Google Calendar</string>
     <string name="schedule_event_time_range">%1$s - %2$s</string>
     <string name="schedule_status_local_only">Lokal lamang</string>
-    <string name="schedule_status_pending_upload">Nakapending na upload</string>
-    <string name="schedule_status_synced">Na-sync</string>
-    <string name="schedule_status_pending_delete">Nakapending na delete</string>
+    <string name="schedule_status_pending_upload">Nakapila ang upload</string>
+    <string name="schedule_status_synced">Naka-sync</string>
+    <string name="schedule_status_pending_delete">Nakapila ang pagtanggal</string>
     <string name="schedule_status_conflict">Salungatan</string>
     <string name="schedule_status_failed">Nabigo ang sync</string>
     <string name="schedule_linked_task_badge">Task bridge</string>
@@ -35,12 +35,89 @@
     <string name="schedule_system_calendar_unavailable">Walang available na calendar app sa device na ito</string>
     <string name="schedule_no_writable_calendar">Walang available na writable system calendar</string>
     <string name="schedule_saved_to_system_calendar">Nai-save sa kalendaryo ng system</string>
-    <string name="schedule_save_to_system_calendar_failed">Nabigong i-save sa kalendaryo ng system. Pakisubukang muli mamaya</string>
-    <string name="schedule_calendar_permission_denied">Kinakailangan ang pahintulot sa kalendaryo para sa direktang pagsusulat sa system calendar</string>
+    <string name="schedule_save_to_system_calendar_failed">Hindi nagawang i-save sa kalendaryo ng system. Pakisubukan muli mamaya</string>
+    <string name="schedule_calendar_permission_denied">Kinakailangan ang pahintulot sa kalendaryo para sa direktang pagsusulat sa kalendaryo ng system</string>
     <string name="schedule_choose_calendar_title">Pumili ng target na kalendaryo</string>
     <string name="schedule_calendar_primary_badge">Pangunahin</string>
     <string name="schedule_dialog_close">Isara</string>
     <string name="schedule_permission_dialog_title">Kinakailangan ang pahintulot sa kalendaryo</string>
-    <string name="schedule_permission_dialog_message">Paki-enable ang read/write permissions sa kalendaryo sa mga setting ng system upang direktang makasulat sa system calendar.</string>
+    <string name="schedule_permission_dialog_message">Paki-enable ang read/write permissions sa kalendaryo sa mga setting ng system upang direktang makapagsulat sa kalendaryo ng system.</string>
     <string name="schedule_open_settings">Buksan ang mga setting</string>
+    <string name="agent_tool_schedule_unknown_error">Hindi kilalang error</string>
+    <string name="agent_tool_schedule_open_link">Buksan ang iskedyul</string>
+    <string name="agent_tool_schedule_label_start">Simula</string>
+    <string name="agent_tool_schedule_label_end">Tapos</string>
+    <string name="agent_tool_schedule_label_all_day">Buong araw na event</string>
+    <string name="agent_tool_schedule_label_location">Lokasyon</string>
+    <string name="agent_tool_schedule_invalid_datetime">Hindi wastong petsa/oras \"%1$s\". Gamitin ang ISO format, hal. 2026-09-10T14:00 o 2026-09-10.</string>
+    <string name="agent_tool_schedule_invalid_date">Hindi wastong petsa \"%1$s\". Gamitin ang yyyy-MM-dd, hal. 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_title">Magdagdag ng Schedule Event</string>
+    <string name="agent_tool_add_schedule_event_summary">Gumawa ng lokal na schedule event na may pamagat, oras, tala, at lokasyon.</string>
+    <string name="agent_tool_add_schedule_event_description">Gumawa ng lokal na schedule event. Kinakailangan ang `title` at `start`; ang `end` ay default na isang oras pagkatapos ng simula (o sa susunod na araw para sa all-day events). Tinatanggap ng mga oras ang ISO strings: 2026-09-10T14:00, 2026-09-10T14:00:00+08:00, o isang simpleng petsa 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_param_title">Pamagat ng event, kinakailangan.</string>
+    <string name="agent_tool_add_schedule_event_param_start">Oras ng simula, ISO format, hal. 2026-09-10T14:00; ang simpleng petsa ay nangangahulugang 00:00 sa araw na iyon.</string>
+    <string name="agent_tool_add_schedule_event_param_end">Oras ng pagtatapos, ISO format. Opsyonal; default ay isang oras pagkatapos ng simula, o sa susunod na araw para sa all-day events.</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">Kung ito ay all-day event, default false.</string>
+    <string name="agent_tool_add_schedule_event_param_description">Opsyonal na tala para sa event.</string>
+    <string name="agent_tool_add_schedule_event_param_location">Opsyonal na lokasyon ng event.</string>
+    <string name="agent_tool_add_schedule_event_title_required">Kinakailangan ang parameter ng pamagat at hindi maaaring blangko.</string>
+    <string name="agent_tool_add_schedule_event_failed">Nabigo sa pagdagdag ng schedule event: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>iskedyul</item>
+        <item>kalendaryo</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+    <string name="agent_tool_query_schedule_events_title">I-query ang mga Schedule Event</string>
+    <string name="agent_tool_query_schedule_events_summary">I-query ang mga lokal na schedule event sa loob ng isang saklaw ng petsa.</string>
+    <string name="agent_tool_query_schedule_events_description">I-query ang mga lokal na schedule event na nagsasapawan sa isang saklaw ng petsa. Ang `start_date` ay default sa ngayon at ang `end_date` ay default sa 6 na araw pagkatapos nito (isang 7-araw na window). Nagbabalik ng hanggang 50 event na nakaayos ayon sa oras ng pagsisimula, bawat isa ay may id, pamagat, oras, lokasyon at tala; ang id ay maaaring ipasa sa delete_schedule_event.</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">Saklaw na petsa ng pagsisimula, yyyy-MM-dd; default sa ngayon.</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">Saklaw na petsa ng pagtatapos (kasama), yyyy-MM-dd; default sa 6 na araw pagkatapos ng start_date.</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">Ang end_date ay hindi maaaring mas maaga kaysa sa start_date.</string>
+    <string name="agent_tool_query_schedule_events_empty">Walang event sa saklaw na ito</string>
+    <string name="agent_tool_query_schedule_events_failed">Nabigo sa pag-query ng schedule events: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>iskedyul</item>
+        <item>kalendaryo</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+    <string name="agent_tool_delete_schedule_event_title">Tanggalin ang Schedule Event</string>
+    <string name="agent_tool_delete_schedule_event_summary">Tanggalin ang isang lokal na schedule event gamit ang id nito.</string>
+    <string name="agent_tool_delete_schedule_event_description">Tanggalin ang isang lokal na schedule event gamit ang event_id (karaniwang mula sa resulta ng query_schedule_events). Ang pagtanggal ay nag-aalis din ng mga binding nito sa system calendar at hindi maaaring i-undo, kaya kinakailangan ang kumpirmasyon ng user bago isagawa.</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">Id ng event na tatanggalin, mula sa mga resulta ng query_schedule_events.</string>
+    <string name="agent_tool_delete_schedule_event_id_required">Kinakailangan ang parameter ng event_id.</string>
+    <string name="agent_tool_delete_schedule_event_not_found">Hindi nahanap ang event: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">Tinanggal: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">Nabigo sa pagtanggal ng schedule event: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">Tanggalin ang schedule event</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">Tanggalin ang schedule event na ito nang permanente</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>iskedyul</item>
+        <item>tanggalin ang event</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>

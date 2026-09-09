@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_tool_submit_feedback_title">フィードバックを送信</string>
+    <string name="agent_tool_submit_feedback_summary">開発者に提案、バグ報告、機能リクエストを送信</string>
+    <string name="agent_tool_submit_feedback_description">ユーザーのフィードバック（提案、バグ報告、機能リクエスト）を開発チームに送信します。ログインは不要です。コンテンツパラメータは必須で、任意の連絡先情報はフィードバックに添付され、開発者がフォローアップできます。</string>
+    <string name="agent_tool_submit_feedback_param_content">フィードバックの内容（必須、最大2000文字）。問題、提案、機能リクエストを詳しく説明してください。</string>
+    <string name="agent_tool_submit_feedback_param_contact">任意の連絡先情報（メール、QQ、WeChatなど）。開発者がユーザーにフォローアップできるようにします。</string>
+    <string name="agent_tool_submit_feedback_success">フィードバックが正常に送信されました。ありがとうございます！開発者ができるだけ早く確認し、フィードバックページで返信を確認できます。</string>
+    <string name="agent_tool_submit_feedback_failed">フィードバックの送信に失敗しました: %1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">フィードバックの内容を空にすることはできません</string>
+    <string name="agent_tool_submit_feedback_error_too_long">フィードバックの内容が長さの上限（最大%1$d文字）を超えています</string>
+    <string name="agent_tool_submit_feedback_contact_label">連絡先</string>
+    <string name="agent_tool_submit_feedback_unknown_error">不明なエラー</string>
+    <string name="agent_tool_submit_feedback_open_link">自分のフィードバックを表示</string>
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>フィードバック</item>
+        <item>提案</item>
+        <item>バグ報告</item>
+        <item>機能リクエスト</item>
+        <item>問題</item>
+    </string-array>
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>フィードバックを送信: ダークモードが自動的に切り替わることを希望します</item>
+        <item>問題を報告したい: QRスキャナーが時々クラッシュします</item>
+        <item>フィードバックを送信: バッチリネームを追加してください。私のメールはtest@example.comです</item>
+    </string-array>
+</resources>

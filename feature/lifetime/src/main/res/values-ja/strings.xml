@@ -12,11 +12,11 @@
     <string name="lifetime_unit_seconds">秒</string>
     <string name="lifetime_life_journey">人生の旅</string>
     <string name="lifetime_progress_label">進捗</string>
-    <string name="lifetime_remaining_estimate">約%1$d年残っています</string>
+    <string name="lifetime_remaining_estimate">約%1$d年が残っています</string>
     <string name="lifetime_milestone_section">記念</string>
     <string name="lifetime_countdown_section">カウントダウン</string>
     <string name="lifetime_frequency_section">生活頻度</string>
-    <string name="lifetime_add_event">人生のマークを追加</string>
+    <string name="lifetime_add_event">ライフマークを追加</string>
     <string name="lifetime_add_milestone">記念を追加</string>
     <string name="lifetime_edit_milestone">記念を編集</string>
     <string name="lifetime_event_name_label">イベント名</string>
@@ -26,7 +26,7 @@
     <string name="lifetime_frequency_label">頻度</string>
     <string name="lifetime_unit_label">単位</string>
     <string name="lifetime_times_per_period">期間ごとの回数</string>
-    <string name="lifetime_add_to_timeline">人生のマークを記録</string>
+    <string name="lifetime_add_to_timeline">ライフマークを記録</string>
     <string name="lifetime_default_times_per_period">1</string>
     <string name="lifetime_validation_event_name_required">イベント名を入力してください</string>
     <string name="lifetime_validation_times_per_period_required">0より大きい値を入力してください</string>
@@ -35,24 +35,24 @@
     <string name="lifetime_select_birthday">生年月日を選択</string>
     <string name="lifetime_confirm">確認</string>
     <string name="lifetime_cancel">キャンセル</string>
-    <string name="lifetime_settings">開始地点を設定</string>
+    <string name="lifetime_settings">開始点を設定</string>
     <string name="lifetime_birth_date">生年月日</string>
     <string name="lifetime_target_age">予想寿命</string>
-    <string name="lifetime_target_age_description">予想寿命はタイムアワーグラスの表示を定義します。充実した人生へのあなたの個人的なビジョンを表します。</string>
+    <string name="lifetime_target_age_description">予想寿命によって時間の砂時計の表示が決まります。充実した人生へのあなた自身のビジョンを表します。</string>
     <string name="lifetime_tap_to_change">タップして変更</string>
-    <string name="lifetime_update_settings">タイムアワーグラスに入る</string>
+    <string name="lifetime_update_settings">時間の砂時計に入る</string>
     <string name="lifetime_hide_progress">人生の進捗を隠す</string>
-    <string name="lifetime_welcome_title">タイムアワーグラス</string>
-    <string name="lifetime_welcome_subtitle">時は待ってはくれないが、あなたはそれを覚えていられる。</string>
+    <string name="lifetime_welcome_title">時間の砂時計</string>
+    <string name="lifetime_welcome_subtitle">時は誰も待たないが、あなたはそれを覚えていられる。</string>
     <string name="lifetime_welcome_start">開始</string>
     <string name="lifetime_demo_hint">デモデータ — タップして実際の生年月日を設定</string>
     <string name="lifetime_demo_action">設定</string>
     <string name="lifetime_empty_events_title">ライフマークはまだありません</string>
-    <string name="lifetime_empty_events_subtitle">食事、読書、旅行など、気になることを追加してください…</string>
+    <string name="lifetime_empty_events_subtitle">食事、読書、旅行など、気になることを追加しましょう…</string>
     <string name="lifetime_empty_milestones_title">記念日はまだありません</string>
     <string name="lifetime_empty_milestones_subtitle">卒業から1000日、30歳の誕生日…大切な瞬間を記録しましょう</string>
     <string name="lifetime_empty_countdown_title">カウントダウンはまだありません</string>
-    <string name="lifetime_empty_countdown_subtitle">今後3ヶ月の祝日は自動的に追加されます。自分にとって大切な日を追加してください。</string>
+    <string name="lifetime_empty_countdown_subtitle">今後3ヶ月の祝日は自動的に追加されます。自分にとって大切な日を追加しましょう。</string>
     <string name="lifetime_recommend_events_title">おすすめのライフマーク</string>
     <string name="lifetime_event_date">イベント日</string>
     <string name="lifetime_select_date">日付を選択</string>
@@ -61,17 +61,17 @@
     <string name="lifetime_event_picker_recommended">おすすめ</string>
     <string name="lifetime_event_picker_preset">プリセットイベント</string>
     <string name="lifetime_event_picker_custom">マイライフマーク</string>
-    <string name="lifetime_event_added">追加済み</string>
-    <string name="lifetime_event_saved">ライフマークが追加されました</string>
-    <string name="lifetime_event_updated">ライフマークが更新されました</string>
-    <string name="lifetime_event_deleted">ライフマークが削除されました</string>
+    <string name="lifetime_event_added">追加しました</string>
+    <string name="lifetime_event_saved">ライフマークを追加しました</string>
+    <string name="lifetime_event_updated">ライフマークを更新しました</string>
+    <string name="lifetime_event_deleted">ライフマークを削除しました</string>
     <string name="lifetime_frequency_one_time">一回限り</string>
     <string name="lifetime_frequency_daily">毎日</string>
     <string name="lifetime_frequency_weekly">毎週</string>
     <string name="lifetime_frequency_monthly">毎月</string>
     <string name="lifetime_frequency_yearly">毎年</string>
     <string name="lifetime_frequency_progress">人生の%1$d%%が経過しました</string>
-    <string name="lifetime_card_flip_hint">タップして反転</string>
+    <string name="lifetime_card_flip_hint">タップして裏返す</string>
     <string name="lifetime_completed_label">完了</string>
     <string name="lifetime_remaining_label">残り</string>
     <string name="lifetime_milestone_target_date">目標日</string>
@@ -103,7 +103,7 @@
     <string name="lifetime_insight_history_title">洞察履歴</string>
     <string name="lifetime_insight_history_empty">履歴なし</string>
     <string name="lifetime_add_countdown">カウントダウンを追加</string>
-    <string name="lifetime_countdown_detail_title">カウントダウン詳細</string>
+    <string name="lifetime_countdown_detail_title">カウントダウンの詳細</string>
     <string name="lifetime_countdown_name_label">カウントダウン名</string>
     <string name="lifetime_countdown_name_placeholder">給料日、記念日、ボーナス…</string>
     <string name="lifetime_countdown_target_date">目標日</string>
@@ -115,7 +115,7 @@
     <string name="lifetime_event_picker_delete">削除</string>
     <string name="lifetime_add">追加</string>
     <string name="lifetime_date_ymd">%2$d/%3$d/%1$d</string>
-    <string name="lifetime_lunar_date">旧暦 %1$s %2$s%3$s</string>
+    <string name="lifetime_lunar_date">旧暦%1$s %2$s%3$s</string>
     <string name="lifetime_frequency_value_label">%1$s %2$d %3$s</string>
     <string name="lifetime_status_today">今日</string>
     <string name="lifetime_status_days_until">あと%1$d日</string>
@@ -145,18 +145,18 @@
     <string name="lifetime_preset_name_consumer_rights_day">消費者権利デー</string>
     <string name="lifetime_preset_name_april_fools">エイプリルフール</string>
     <string name="lifetime_preset_name_earth_day">アースデー</string>
-    <string name="lifetime_preset_name_labor_day">労働節</string>
+    <string name="lifetime_preset_name_labor_day">メーデー</string>
     <string name="lifetime_preset_name_youth_day">青年節</string>
     <string name="lifetime_preset_name_nurses_day">看護師の日</string>
     <string name="lifetime_preset_name_childrens_day">こどもの日</string>
     <string name="lifetime_preset_name_environment_day">環境デー</string>
     <string name="lifetime_preset_name_party_founding_day">中国共産党創立記念日</string>
-    <string name="lifetime_preset_name_army_day">陸軍記念日</string>
-    <string name="lifetime_preset_name_victory_day">対日戦勝記念日</string>
+    <string name="lifetime_preset_name_army_day">建国記念日</string>
+    <string name="lifetime_preset_name_victory_day">終戦記念日</string>
     <string name="lifetime_preset_name_teachers_day">教師の日</string>
     <string name="lifetime_preset_name_national_day">国慶節</string>
     <string name="lifetime_preset_name_singles_day">独身の日</string>
-    <string name="lifetime_preset_name_national_memorial_day">国家記念日</string>
+    <string name="lifetime_preset_name_national_memorial_day">国家追悼日</string>
     <string name="lifetime_preset_name_christmas_eve">クリスマスイブ</string>
     <string name="lifetime_preset_name_christmas">クリスマス</string>
     <string name="lifetime_preset_name_eating">食事</string>
@@ -180,6 +180,107 @@
     <string name="lifetime_event_unit_items">個</string>
     <string name="lifetime_event_unit_cups">杯</string>
     <string name="lifetime_event_unit_bottles">本</string>
-    <string name="lifetime_event_unit_packs">箱</string>
+    <string name="lifetime_event_unit_packs">パック</string>
     <string name="lifetime_event_unit_boxes">ボックス</string>
+    <string name="agent_tool_lifetime_unknown_error">不明なエラー</string>
+    <string name="agent_tool_lifetime_open_link">生涯を開く</string>
+    <string name="agent_tool_lifetime_invalid_date">無効な日付 \"%1$s\"。yyyy-MM-dd形式を使用してください。例：2026-12-31。</string>
+    <string name="agent_tool_lifetime_invalid_type">無効なタイプ \"%1$s\"。countdownまたはmilestoneを使用してください。</string>
+    <string name="agent_tool_lifetime_label_target_date">目標日</string>
+    <string name="agent_tool_lifetime_label_note">メモ</string>
+    <string name="agent_tool_lifetime_section_countdown">カウントダウン</string>
+    <string name="agent_tool_lifetime_section_milestone">マイルストーン</string>
+    <string name="agent_tool_lifetime_days_left">残り%1$d日</string>
+    <string name="agent_tool_lifetime_days_ago">%1$d日前</string>
+    <string name="agent_tool_lifetime_today">今日</string>
+    <string name="agent_tool_lifetime_reached">達成</string>
+    <string name="agent_tool_lifetime_date_unknown">日付未定</string>
+    <string name="agent_tool_add_countdown_event_title">カウントダウンイベントを追加</string>
+    <string name="agent_tool_add_countdown_event_summary">名前と目標日を指定してカウントダウンイベントを作成します。</string>
+    <string name="agent_tool_add_countdown_event_description">ライフタイムモジュールでカウントダウンイベントを作成します。`name`と`target_date`は必須です。目標日は一度きりのグレゴリオ暦の日付（yyyy-MM-dd）で、繰り返しや旧暦のカウントダウンはサポートされていません。`note`は任意です。</string>
+    <string name="agent_tool_add_countdown_event_param_name">カウントダウン名（必須）。例：「大学入試」。</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">目標日（yyyy-MM-dd）。例：2026-12-31。</string>
+    <string name="agent_tool_add_countdown_event_param_note">カウントダウンの任意のメモ。</string>
+    <string name="agent_tool_add_countdown_event_name_required">nameパラメータは必須で、空白にすることはできません。</string>
+    <string name="agent_tool_add_countdown_event_failed">カウントダウンイベントの追加に失敗しました：%1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>カウントダウン</item>
+        <item>大切な日々</item>
+        <item>記念日</item>
+        <item>倒数日</item>
+        <item>倒计时</item>
+        <item>纪念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>カウントダウンを追加：新年 2027-01-01</item>
+        <item>帮我建一个倒数日:高考 2027-06-07</item>
+        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+    </string-array>
+    <string name="agent_tool_add_life_milestone_title">ライフマイルストーンを追加</string>
+    <string name="agent_tool_add_life_milestone_summary">名前と目標日を指定して個人的なライフマイルストーンを記録します。</string>
+    <string name="agent_tool_add_life_milestone_description">ライフタイムモジュールで個人的なマイルストーンを作成します（例：目標日や記念日）。`name`と`target_date`（yyyy-MM-dd）は必須です。`note`は任意です。</string>
+    <string name="agent_tool_add_life_milestone_param_name">マイルストーン名（必須）。例：「初マラソン」。</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">目標日、yyyy-MM-dd形式、例：2027-05-01。</string>
+    <string name="agent_tool_add_life_milestone_param_note">マイルストーンに関する任意のメモ。</string>
+    <string name="agent_tool_add_life_milestone_name_required">名前パラメータは必須であり、空白にすることはできません。</string>
+    <string name="agent_tool_add_life_milestone_failed">ライフマイルストーンの追加に失敗しました: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>マイルストーン</item>
+        <item>目標</item>
+        <item>ライフイベント</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目标</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>マイルストーンを記録: 2026-11-15 初マラソン</item>
+        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
+        <item>添加人生里程碑 买房 2027-05-01</item>
+    </string-array>
+    <string name="agent_tool_query_life_events_title">ライフイベントを照会</string>
+    <string name="agent_tool_query_life_events_summary">残り日数付きでカウントダウンイベントとライフマイルストーンを一覧表示します。</string>
+    <string name="agent_tool_query_life_events_description">ライフタイムモジュールでカウントダウンイベントと個人マイルストーンを照会します。`type`で結果をフィルタリングします: countdown、milestone、またはall（デフォルト）。`limit`はタイプごとのエントリ数を制限します（デフォルト20、最大50）。各エントリには、id（delete_lifetime_entry用）、名前、目標日、残り日数が含まれます。</string>
+    <string name="agent_tool_query_life_events_param_type">エントリタイプのフィルタ: countdown、milestone、またはall（デフォルト）。</string>
+    <string name="agent_tool_query_life_events_param_limit">タイプごとの最大エントリ数、1〜50、デフォルト20。</string>
+    <string name="agent_tool_query_life_events_empty">まだエントリがありません</string>
+    <string name="agent_tool_query_life_events_failed">ライフイベントの照会に失敗しました: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>カウントダウン</item>
+        <item>マイルストーン</item>
+        <item>照会</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+        <item>还有几天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>どんなカウントダウンがありますか？</item>
+        <item>我还有哪些倒数日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距离下一个倒数日还有几天</item>
+    </string-array>
+    <string name="agent_tool_delete_lifetime_entry_title">ライフイベントを削除</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">IDでカウントダウンイベントまたはライフマイルストーンを削除します。</string>
+    <string name="agent_tool_delete_lifetime_entry_description">ライフタイムモジュールからカウントダウンイベントまたは個人マイルストーンを削除します。`type`（countdownまたはmilestone）と`id`が必要です。idはquery_life_eventsの結果から取得します。削除は元に戻せません。</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">エントリタイプ: countdownまたはmilestone。</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">エントリID、query_life_eventsの結果から取得。</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">idパラメータは必須であり、数値である必要があります。</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">ID %1$d のエントリが見つかりません。</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">\"%1$s\" を削除しました。</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">ライフイベントを削除</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">カウントダウンイベントまたはライフマイルストーンを削除します。この操作は元に戻せません。</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">ライフイベントの削除に失敗しました: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>削除</item>
+        <item>削除</item>
+        <item>カウントダウン</item>
+        <item>マイルストーン</item>
+        <item>删除</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>ID 3 のカウントダウンを削除</item>
+        <item>ID 3 のカウントダウンを削除</item>
+        <item>删掉里程碑 5</item>
+    </string-array>
 </resources>

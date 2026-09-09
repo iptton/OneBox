@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_tool_submit_feedback_title">Enviar comentarios</string>
+    <string name="agent_tool_submit_feedback_summary">Envíe sugerencias, informes de errores o solicitudes de funciones a los desarrolladores</string>
+    <string name="agent_tool_submit_feedback_description">Envíe los comentarios del usuario (sugerencias, informes de errores o solicitudes de funciones) al equipo de desarrollo. No se requiere inicio de sesión. El parámetro de contenido es obligatorio; la información de contacto opcional se adjuntará a los comentarios para que los desarrolladores puedan hacer un seguimiento.</string>
+    <string name="agent_tool_submit_feedback_param_content">Contenido de los comentarios, obligatorio, hasta 2000 caracteres. Describa el problema, la sugerencia o la solicitud de función en detalle.</string>
+    <string name="agent_tool_submit_feedback_param_contact">Información de contacto opcional (correo electrónico, QQ, WeChat, etc.) para que los desarrolladores puedan comunicarse con el usuario para hacer un seguimiento.</string>
+    <string name="agent_tool_submit_feedback_success">Comentarios enviados con éxito. ¡Gracias! Los desarrolladores los revisarán lo antes posible y podrá consultar las respuestas en la página de comentarios.</string>
+    <string name="agent_tool_submit_feedback_failed">Error al enviar los comentarios: %1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">El contenido de los comentarios no puede estar vacío</string>
+    <string name="agent_tool_submit_feedback_error_too_long">El contenido de los comentarios supera el límite de longitud (máximo %1$d caracteres)</string>
+    <string name="agent_tool_submit_feedback_contact_label">Contacto</string>
+    <string name="agent_tool_submit_feedback_unknown_error">Error desconocido</string>
+    <string name="agent_tool_submit_feedback_open_link">Ver mis comentarios</string>
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>comentarios</item>
+        <item>sugerencia</item>
+        <item>informe de error</item>
+        <item>solicitud de función</item>
+        <item>problema</item>
+    </string-array>
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>Enviar comentarios por mí: espero que el modo oscuro pueda cambiar automáticamente</item>
+        <item>Quiero informar un problema: el escáner de códigos QR falla ocasionalmente</item>
+        <item>Enviar comentarios: agregue renombrado por lotes, mi correo es test@example.com</item>
+    </string-array>
+</resources>

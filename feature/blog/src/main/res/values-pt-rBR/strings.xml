@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_tool_submit_feedback_title">Enviar feedback</string>
+    <string name="agent_tool_submit_feedback_summary">Envie sugestões, relatórios de bugs ou solicitações de recursos aos desenvolvedores</string>
+    <string name="agent_tool_submit_feedback_description">Envie o feedback do usuário (sugestões, relatórios de bugs ou solicitações de recursos) para a equipe de desenvolvimento. Não é necessário login. O parâmetro de conteúdo é obrigatório; as informações de contato opcionais serão anexadas ao feedback para que os desenvolvedores possam acompanhar.</string>
+    <string name="agent_tool_submit_feedback_param_content">Conteúdo do feedback, obrigatório, até 2000 caracteres. Descreva o problema, sugestão ou solicitação de recurso em detalhes.</string>
+    <string name="agent_tool_submit_feedback_param_contact">Informações de contato opcionais (e-mail, QQ, WeChat, etc.) para que os desenvolvedores possam entrar em contato com o usuário para acompanhamento.</string>
+    <string name="agent_tool_submit_feedback_success">Feedback enviado com sucesso. Obrigado! Os desenvolvedores o revisarão o mais rápido possível, e você pode verificar as respostas na página de feedback.</string>
+    <string name="agent_tool_submit_feedback_failed">Falha ao enviar feedback: %1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">O conteúdo do feedback não pode estar vazio</string>
+    <string name="agent_tool_submit_feedback_error_too_long">O conteúdo do feedback excede o limite de caracteres (máx. %1$d caracteres)</string>
+    <string name="agent_tool_submit_feedback_contact_label">Contato</string>
+    <string name="agent_tool_submit_feedback_unknown_error">Erro desconhecido</string>
+    <string name="agent_tool_submit_feedback_open_link">Ver meu feedback</string>
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>feedback</item>
+        <item>sugestão</item>
+        <item>relatório de bug</item>
+        <item>solicitação de recurso</item>
+        <item>problema</item>
+    </string-array>
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>Enviar feedback para mim: espero que o modo escuro possa alternar automaticamente</item>
+        <item>Quero relatar um problema: o leitor de QR code trava ocasionalmente</item>
+        <item>Enviar feedback: adicione renomeação em lote, meu e-mail é test@example.com</item>
+    </string-array>
+</resources>

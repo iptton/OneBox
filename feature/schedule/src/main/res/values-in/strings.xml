@@ -36,11 +36,88 @@
     <string name="schedule_no_writable_calendar">Tidak ada kalender sistem yang dapat ditulis</string>
     <string name="schedule_saved_to_system_calendar">Tersimpan ke kalender sistem</string>
     <string name="schedule_save_to_system_calendar_failed">Gagal menyimpan ke kalender sistem. Silakan coba lagi nanti</string>
-    <string name="schedule_calendar_permission_denied">Izin kalender diperlukan untuk menulis langsung ke kalender sistem</string>
-    <string name="schedule_choose_calendar_title">Pilih kalender target</string>
+    <string name="schedule_calendar_permission_denied">Izin kalender diperlukan untuk penulisan langsung ke kalender sistem</string>
+    <string name="schedule_choose_calendar_title">Pilih kalender tujuan</string>
     <string name="schedule_calendar_primary_badge">Utama</string>
     <string name="schedule_dialog_close">Tutup</string>
     <string name="schedule_permission_dialog_title">Izin kalender diperlukan</string>
     <string name="schedule_permission_dialog_message">Harap aktifkan izin baca/tulis kalender di pengaturan sistem untuk menulis langsung ke kalender sistem.</string>
     <string name="schedule_open_settings">Buka pengaturan</string>
+    <string name="agent_tool_schedule_unknown_error">Kesalahan tidak diketahui</string>
+    <string name="agent_tool_schedule_open_link">Buka jadwal</string>
+    <string name="agent_tool_schedule_label_start">Mulai</string>
+    <string name="agent_tool_schedule_label_end">Selesai</string>
+    <string name="agent_tool_schedule_label_all_day">Acara sepanjang hari</string>
+    <string name="agent_tool_schedule_label_location">Lokasi</string>
+    <string name="agent_tool_schedule_invalid_datetime">Tanggal/waktu tidak valid \"%1$s\". Gunakan format ISO, mis. 2026-09-10T14:00 atau 2026-09-10.</string>
+    <string name="agent_tool_schedule_invalid_date">Tanggal tidak valid \"%1$s\". Gunakan yyyy-MM-dd, mis. 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_title">Tambah Acara Jadwal</string>
+    <string name="agent_tool_add_schedule_event_summary">Buat acara jadwal lokal dengan judul, waktu, catatan, dan lokasi.</string>
+    <string name="agent_tool_add_schedule_event_description">Buat acara jadwal lokal. `title` dan `start` wajib; `end` default satu jam setelah mulai (atau hari berikutnya untuk acara sepanjang hari). Waktu menerima string ISO: 2026-09-10T14:00, 2026-09-10T14:00:00+08:00, atau tanggal biasa 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_param_title">Judul acara, wajib.</string>
+    <string name="agent_tool_add_schedule_event_param_start">Waktu mulai, format ISO, mis. 2026-09-10T14:00; tanggal biasa berarti 00:00 hari itu.</string>
+    <string name="agent_tool_add_schedule_event_param_end">Waktu selesai, format ISO. Opsional; default satu jam setelah mulai, atau hari berikutnya untuk acara sepanjang hari.</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">Apakah ini acara sepanjang hari, default false.</string>
+    <string name="agent_tool_add_schedule_event_param_description">Catatan opsional untuk acara.</string>
+    <string name="agent_tool_add_schedule_event_param_location">Lokasi opsional acara.</string>
+    <string name="agent_tool_add_schedule_event_title_required">Parameter judul wajib diisi dan tidak boleh kosong.</string>
+    <string name="agent_tool_add_schedule_event_failed">Gagal menambahkan acara jadwal: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>jadwal</item>
+        <item>kalender</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+    <string name="agent_tool_query_schedule_events_title">Kueri Acara Jadwal</string>
+    <string name="agent_tool_query_schedule_events_summary">Kueri acara jadwal lokal dalam rentang tanggal.</string>
+    <string name="agent_tool_query_schedule_events_description">Kueri acara jadwal lokal yang tumpang tindih dengan rentang tanggal. `start_date` default hari ini dan `end_date` default 6 hari setelahnya (jendela 7 hari). Mengembalikan hingga 50 acara yang diurutkan berdasarkan waktu mulai, masing-masing dengan id, judul, waktu, lokasi, dan catatan; id dapat diteruskan ke delete_schedule_event.</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">Tanggal mulai rentang, yyyy-MM-dd; default hari ini.</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">Tanggal akhir rentang (inklusif), yyyy-MM-dd; default 6 hari setelah start_date.</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_date tidak boleh lebih awal dari start_date.</string>
+    <string name="agent_tool_query_schedule_events_empty">Tidak ada acara dalam rentang ini</string>
+    <string name="agent_tool_query_schedule_events_failed">Gagal mengueri acara jadwal: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>jadwal</item>
+        <item>kalender</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+    <string name="agent_tool_delete_schedule_event_title">Hapus Acara Jadwal</string>
+    <string name="agent_tool_delete_schedule_event_summary">Hapus acara jadwal lokal berdasarkan id-nya.</string>
+    <string name="agent_tool_delete_schedule_event_description">Hapus acara jadwal lokal berdasarkan event_id (biasanya dari hasil query_schedule_events). Penghapusan juga menghapus ikatan kalender sistemnya dan tidak dapat dibatalkan, sehingga konfirmasi pengguna diperlukan sebelum eksekusi.</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">Id acara yang akan dihapus, dari hasil query_schedule_events.</string>
+    <string name="agent_tool_delete_schedule_event_id_required">Parameter event_id wajib diisi.</string>
+    <string name="agent_tool_delete_schedule_event_not_found">Acara tidak ditemukan: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">Dihapus: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">Gagal menghapus acara jadwal: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">Hapus acara jadwal</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">Hapus acara jadwal ini secara permanen</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>jadwal</item>
+        <item>hapus acara</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>
