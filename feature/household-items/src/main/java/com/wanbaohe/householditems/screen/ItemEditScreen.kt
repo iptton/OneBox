@@ -16,11 +16,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -51,7 +49,10 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineFolderCustom
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassFilterChip
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStyle
 import com.wanbaohe.householditems.R
 import com.wanbaohe.householditems.component.HouseholdItemsComponent
 import com.wanbaohe.householditems.model.LocationTreeNode
@@ -118,6 +119,7 @@ fun ItemEditScreen(
                     label = { Text(stringResource(R.string.household_editor_name_label)) },
                     placeholder = { Text(stringResource(R.string.household_editor_name_hint)) },
                     singleLine = true,
+                    shape = RoundedCornerShape(16.dp),
                 )
 
                 // ── 分类(预设 chips + 自定义输入) ──
@@ -158,6 +160,7 @@ fun ItemEditScreen(
                     label = { Text(stringResource(R.string.household_editor_note_label)) },
                     placeholder = { Text(stringResource(R.string.household_editor_note_hint)) },
                     minLines = 2,
+                    shape = RoundedCornerShape(16.dp),
                 )
 
                 // ── 保存 ──
@@ -229,10 +232,14 @@ private fun CategoryField(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             presets.forEach { preset ->
-                FilterChip(
+                // 玻璃 chip:无描边,未选中中性弱底,选中 primary 色调玻璃底
+                GlassFilterChip(
                     selected = category == preset,
                     onClick = { onCategoryChange(if (category == preset) "" else preset) },
                     label = { Text(preset) },
+                    shape = RoundedCornerShape(16.dp),
+                    style = GlassStyle.Medium,
+                    border = null,
                 )
             }
         }
@@ -243,6 +250,7 @@ private fun CategoryField(
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text(stringResource(R.string.household_category_custom_hint)) },
                 singleLine = true,
+                shape = RoundedCornerShape(16.dp),
             )
         }
     }
@@ -261,13 +269,11 @@ private fun LocationField(
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
-                .clickable(onClick = onPickClick),
-            shape = RoundedCornerShape(12.dp),
-            color = MaterialTheme.colorScheme.surfaceContainer,
+        GlassCard(
+            onClick = onPickClick,
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            containerAlpha = GlassStyle.Medium.backgroundAlpha,
         ) {
             Row(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
@@ -316,13 +322,11 @@ private fun ExpireField(
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
-                .clickable(onClick = onPickClick),
-            shape = RoundedCornerShape(12.dp),
-            color = MaterialTheme.colorScheme.surfaceContainer,
+        GlassCard(
+            onClick = onPickClick,
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            containerAlpha = GlassStyle.Medium.backgroundAlpha,
         ) {
             Row(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
@@ -380,7 +384,7 @@ private fun PhotoField(
                     contentDescription = null,
                     modifier = Modifier
                         .size(72.dp)
-                        .clip(RoundedCornerShape(12.dp)),
+                        .clip(RoundedCornerShape(16.dp)),
                     contentScale = ContentScale.Crop,
                 )
                 TextButton(onClick = onRemove) {
@@ -468,6 +472,7 @@ private fun LocationPickerDialog(
                             modifier = Modifier.weight(1f),
                             placeholder = { Text(stringResource(R.string.household_location_name_hint)) },
                             singleLine = true,
+                            shape = RoundedCornerShape(16.dp),
                         )
                         TextButton(
                             onClick = {
