@@ -43,6 +43,9 @@
 | 选择城市 / 地点 / 目的地 | LocationPicker | 使用系统城市选择器，不要用 TextField 让用户手输地点 |
 | 选择图片 / 照片 / 截图 | ImagePicker | 使用系统图片选择器，不要用 TextField 让用户手输路径 |
 | 选择文件 / 文档 / 附件 | FilePicker | 使用系统文件选择器，不要用 TextField 让用户手输路径 |
+| 选择目录 / 文件夹 / 输出位置 | FolderPicker | 使用系统目录选择器，不要用 TextField 让用户手输路径 |
+| 数值区间 / 范围（价格、年龄段） | RangeSlider | 不要用两个 TextField 让用户手输起止值 |
+| 打分 / 评分 / 星级 | Rating | 不要用 Slider 或 TextField 代替星级评分 |
 | 2-5 个互斥选项单选（紧凑横排） | ChoicePicker | 不要堆多个 Button 或用 TextField |
 | 互斥选项单选（竖排列表，带标题） | RadioGroup | 不要堆多个 Button |
 | 多个标签/选项多选（横向紧凑） | RowSelector | 不要堆多个 Button 或 CheckBox |
@@ -86,6 +89,9 @@ body 是完整的 A2UI v1.0 协议 JSON，version 必须为 "v1.0"，包含 crea
 - **LocationPicker**：位置选择器（必须用于城市/地点场景，使用系统城市选择器）。`label`, `value`({"path":"/x"}), `layer`(1/2/3, 默认3), `separator`(默认" "), `provincePath`/`cityPath`/`districtPath`(可选，单独绑定省/市/区), `enabled`
 - **ImagePicker**：图片选择器（必须用于选择图片/照片场景，唤起系统图片选择器）。`label`, `value`({"path":"/x"}，选中结果自动转写为 file:// 本地路径，多选时逗号分隔), `multiple`(默认false), `enabled`
 - **FilePicker**：文件选择器（必须用于选择文件/附件场景，唤起系统文件选择器）。`label`, `value`({"path":"/x"}，选中结果自动转写为 file:// 本地路径，多选时逗号分隔), `mimeType`(MIME 类型过滤，默认"*/*"，多类型逗号分隔如"image/png,application/pdf"), `multiple`(默认false), `enabled`
+- **FolderPicker**：目录选择器（必须用于选择目录/输出位置场景，唤起系统目录选择器）。`label`, `value`({"path":"/x"}，选中结果自动转写为 file:// 本地路径), `enabled`
+- **RangeSlider**：区间滑块（必须用于数值区间场景，如价格范围、年龄段）。`label`, `value`({"path":"/x"}，dataModel 用数字数组如 [18,35]), `min`(默认0), `max`(默认100), `steps`(默认0), `enabled`
+- **Rating**：星级评分（必须用于打分/评分场景）。`label`, `value`({"path":"/x"}，数字，0=未评分), `max`(默认5), `enabled`
 - **RowSelector**：横向标签选择器（多选）。`label`, `value`({"path":"/x"}), `options`(字符串数组或 `{label,value}` 对象数组), `maxSelected`(默认0, 0=不限制), `spacing`(默认0), `padding`(默认0), `enabled`
 - **ColumnSelector**：纵向标签选择器（默认单选）。`label`, `value`({"path":"/x"}), `options`(字符串数组或 `{label,value,kind?}` 对象数组，可含 `kind="custom"`), `maxSelected`(默认1), `selectIndex`(默认-1), `spacing`(默认0), `padding`(默认0), `enabled`, `children`(自定义输入子项ID数组)
 - **GridSelector**：网格标签选择器（多选）。`label`, `value`({"path":"/x"}), `options`(字符串数组或 `{label,value}` 对象数组), `columns`(默认3), `maxSelected`(默认0), `spacing`(默认0), `padding`(默认0), `enabled`
@@ -227,7 +233,7 @@ RowSelector / ColumnSelector / GridSelector / ListSelector 支持在选项里加
 2. agent.prompt 必须详细描述 AI 运行时角色、工作流、工具使用策略、澄清问题策略、输出格式与风险边界
 3. agent.body 必须包含提交按钮，context.prompt 必须包含所有表单字段
 4. dataModel 必须包含所有被 `{"path":"/x"}` 绑定的字段，并给出合理默认值
-5. 严格按"组件选择决策规则"选组件，日期/时间/颜色/城市/图片/文件场景禁止用 TextField
+5. 严格按"组件选择决策规则"选组件，日期/时间/颜色/城市/图片/文件/目录/区间/评分场景禁止用 TextField
 6. 只输出 JSON，不要 markdown 包裹、注释或解释
 7. 界面美观大方,注意留白和间距
 
@@ -238,9 +244,10 @@ RowSelector / ColumnSelector / GridSelector / ListSelector 支持在选项里加
 4. **禁止注释**：JSON 中不允许 `//` 或 `/* */` 注释。
 5. **数据绑定统一格式**：所有需要绑定 dataModel 的地方只能写 `{"path":"/字段名"}`，不要写成字符串 `/字段名` 或其他对象。
 6. **dataModel 类型必须与控件匹配**：
-   - TextField / DateInput / TimeInput / LocationPicker / ImagePicker / FilePicker → 字符串 `""`
+   - TextField / DateInput / TimeInput / LocationPicker / ImagePicker / FilePicker / FolderPicker → 字符串 `""`
    - Switch / CheckBox → 布尔 `false`
-   - Slider / Stepper → 数字（如 `0`、`2`），**不要加引号写成字符串**
+   - Slider / Stepper / Rating → 数字（如 `0`、`2`），**不要加引号写成字符串**
+   - RangeSlider → 数字数组 `[min, max]`（如 `[18, 35]`），**不要写成字符串**
    - RowSelector / GridSelector / ColumnSelector / ListSelector（多选）→ 字符串数组 `[]`
    - RowSelector / GridSelector / ColumnSelector / ListSelector / RadioGroup / ChoicePicker（单选）→ 字符串 `""`
 7. **children 数组引用的 id 必须在 components 中真实存在**，且每个组件必须有唯一的 `"id"`。

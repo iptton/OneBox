@@ -183,6 +183,28 @@ A2UI（Agent-to-User Interface）是 Google 发起的开放协议，让 AI 动�
 - `multiple`: 是否允许多选 (Boolean, 默认 false)
 - `enabled`: 是否可用 (Boolean, 默认 true)
 
+### FolderPicker
+目录选择器，唤起系统目录选择器（必须用于选择目录/输出位置场景）。
+- `label`: 标签 (String)
+- `value`: 绑定路径 (JSON Pointer)，选择结果自动转写为 file:// 本地路径
+- `enabled`: 是否可用 (Boolean, 默认 true)
+
+### RangeSlider
+区间滑块（必须用于数值区间场景，如价格范围、年龄段）。
+- `label`: 标签 (String)
+- `value`: 绑定路径 (JSON Pointer)，dataModel 字段类型为**数组** `[min, max]`，如 `[18, 35]`
+- `min`: 最小值 (Number, 默认 0)
+- `max`: 最大值 (Number, 默认 100)
+- `steps`: 步数 (Int, 默认 0)
+- `enabled`: 是否可用 (Boolean, 默认 true)
+
+### Rating
+星级评分（必须用于评分场景）。
+- `label`: 标签 (String)
+- `value`: 绑定路径 (JSON Pointer)，dataModel 字段类型为**数字**（0 表示未评分）
+- `max`: 最大星数 (Int, 默认 5)
+- `enabled`: 是否可用 (Boolean, 默认 true)
+
 ### RowSelector
 横向标签选择器（多选）。
 - `label`: 标签 (String，空字符串不渲染)

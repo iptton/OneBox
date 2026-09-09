@@ -43,6 +43,9 @@ Choose the most matching component based on the user's input semantics. **NEVER 
 | Select city / location / destination | LocationPicker | Use the system city picker; do not use TextField for location input |
 | Select image / photo / screenshot | ImagePicker | Use the system image picker; do not use TextField for image path input |
 | Select file / document / attachment | FilePicker | Use the system file picker; do not use TextField for file path input |
+| Select folder / directory / output location | FolderPicker | Use the system folder picker; do not use TextField for folder path input |
+| Numeric range (price, age group) | RangeSlider | Do not use two TextFields for start/end values |
+| Score / rating / stars | Rating | Do not use Slider or TextField for star rating |
 | 2-5 mutually exclusive options (compact row) | ChoicePicker | Do not stack Buttons or use TextField |
 | Mutually exclusive options (vertical list with title) | RadioGroup | Do not stack Buttons |
 | Multiple tags/options multi-select (compact horizontal) | RowSelector | Do not stack Buttons or CheckBoxes |
@@ -86,6 +89,9 @@ Property value types:
 - **LocationPicker**: location picker (MUST use for city/location scenarios; uses the system city picker). `label`, `value`({"path":"/x"}), `layer`(1/2/3, default 3), `separator`(default " "), `provincePath`/`cityPath`/`districtPath`(optional separate bindings), `enabled`
 - **ImagePicker**: image picker (MUST use for image/photo scenarios; launches the system image picker). `label`, `value`({"path":"/x"}, result is converted to a file:// local path, comma-separated when multiple), `multiple`(default false), `enabled`
 - **FilePicker**: file picker (MUST use for file/attachment scenarios; launches the system file picker). `label`, `value`({"path":"/x"}, result is converted to a file:// local path, comma-separated when multiple), `mimeType`(MIME filter, default "*/*", comma-separated for multiple types e.g. "image/png,application/pdf"), `multiple`(default false), `enabled`
+- **FolderPicker**: folder picker (MUST use for folder/output-location scenarios; launches the system folder picker). `label`, `value`({"path":"/x"}, result is converted to a file:// local path), `enabled`
+- **RangeSlider**: range slider (MUST use for numeric-range scenarios such as price or age ranges). `label`, `value`({"path":"/x"}, dataModel uses a number array e.g. [18,35]), `min`(default 0), `max`(default 100), `steps`(default 0), `enabled`
+- **Rating**: star rating (MUST use for scoring/rating scenarios). `label`, `value`({"path":"/x"}, number, 0 = unrated), `max`(default 5), `enabled`
 - **RowSelector**: horizontal tag selector (multi-select). `label`, `value`({"path":"/x"}), `options`(string array or `{label,value}` object array), `maxSelected`(default 0, 0=unlimited), `spacing`(default 0), `padding`(default 0), `enabled`
 - **ColumnSelector**: vertical tag selector (default single-select). `label`, `value`({"path":"/x"}), `options`(string array or `{label,value,kind?}` object array; `kind="custom"` for custom item), `maxSelected`(default 1), `selectIndex`(default -1), `spacing`(default 0), `padding`(default 0), `enabled`, `children`(custom input child id array)
 - **GridSelector**: grid tag selector (multi-select). `label`, `value`({"path":"/x"}), `options`(string array or `{label,value}` object array), `columns`(default 3), `maxSelected`(default 0), `spacing`(default 0), `padding`(default 0), `enabled`
@@ -227,7 +233,7 @@ When the user selects the `kind="custom"` option, the component renders the cust
 2. agent.prompt must detail the AI runtime role, workflow, tool strategy, clarification strategy, output format, and risk boundaries
 3. agent.body must contain a submit button; context.prompt must include all form fields
 4. dataModel must contain all fields bound by `{"path":"/x"}` with sensible default values
-5. Strictly follow the "Component Selection Decision Rules"; NEVER use TextField for date/time/color/city/image/file scenarios
+5. Strictly follow the "Component Selection Decision Rules"; NEVER use TextField for date/time/color/city/image/file/folder/range/rating scenarios
 6. Output only JSON, no markdown wrapping, comments or explanations
 
 ## JSON Quality Checklist (MUST verify before output, otherwise rendering will fail)
@@ -237,9 +243,10 @@ When the user selects the `kind="custom"` option, the component renders the cust
 4. **No comments**: JSON does not allow `//` or `/* */` comments.
 5. **Unified data binding format**: All dataModel bindings must be `{"path":"/fieldName"}`. Do NOT use the string `/fieldName` or any other object shape.
 6. **dataModel types must match the control**: 
-   - TextField / DateInput / TimeInput / LocationPicker / ImagePicker / FilePicker → string `""`
+   - TextField / DateInput / TimeInput / LocationPicker / ImagePicker / FilePicker / FolderPicker → string `""`
    - Switch / CheckBox → boolean `false`
-   - Slider / Stepper → number (e.g. `0`, `2`), **do NOT quote as string**
+   - Slider / Stepper / Rating → number (e.g. `0`, `2`), **do NOT quote as string**
+   - RangeSlider → number array `[min, max]` (e.g. `[18, 35]`), **do NOT write as string**
    - RowSelector / GridSelector / ColumnSelector / ListSelector (multi-select) → string array `[]`
    - RowSelector / GridSelector / ColumnSelector / ListSelector / RadioGroup / ChoicePicker (single-select) → string `""`
 7. **Every id referenced in `children` must exist in `components`**, and every component must have a unique `"id"`.

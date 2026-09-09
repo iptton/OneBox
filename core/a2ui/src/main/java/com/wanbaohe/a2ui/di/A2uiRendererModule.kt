@@ -18,12 +18,15 @@ import com.wanbaohe.a2ui.catalog.builtin.input.ColorPickerRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.ColumnSelectorRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.DateInputRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.FilePickerRenderer
+import com.wanbaohe.a2ui.catalog.builtin.input.FolderPickerRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.GridSelectorRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.ImagePickerRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.TimeInputRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.ListSelectorRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.LocationPickerRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.RadioGroupRenderer
+import com.wanbaohe.a2ui.catalog.builtin.input.RangeSliderRenderer
+import com.wanbaohe.a2ui.catalog.builtin.input.RatingRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.RowSelectorRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.SliderRenderer
 import com.wanbaohe.a2ui.catalog.builtin.input.StepperRenderer
@@ -139,6 +142,15 @@ abstract class A2uiRendererModule {
 
     @Binds @IntoSet
     abstract fun bindFilePickerRenderer(impl: FilePickerRenderer): A2uiComponentRenderer
+
+    @Binds @IntoSet
+    abstract fun bindFolderPickerRenderer(impl: FolderPickerRenderer): A2uiComponentRenderer
+
+    @Binds @IntoSet
+    abstract fun bindRangeSliderRenderer(impl: RangeSliderRenderer): A2uiComponentRenderer
+
+    @Binds @IntoSet
+    abstract fun bindRatingRenderer(impl: RatingRenderer): A2uiComponentRenderer
 
     @Binds @IntoSet
     abstract fun bindBadgeRenderer(impl: BadgeRenderer): A2uiComponentRenderer
