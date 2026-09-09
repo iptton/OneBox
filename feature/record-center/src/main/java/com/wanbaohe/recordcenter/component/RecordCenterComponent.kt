@@ -6,6 +6,8 @@ import com.shifenmiao.database.recordcenter.repo.HealthRecordRepository
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.wanbaohe.recordcenter.data.HealthProfile
+import com.wanbaohe.recordcenter.data.HealthProfileStore
 import com.wanbaohe.recordcenter.registry.RecordTypeCatalog
 import com.wanbaohe.recordcenter.registry.RecordTypeDefinition
 import dagger.assisted.Assisted
@@ -32,10 +34,18 @@ class RecordCenterComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder,
     repository: HealthRecordRepository,
     catalog: RecordTypeCatalog,
+    private val profileStore: HealthProfileStore,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     /** 全部记录类型定义,按 sortOrder 升序 */
     val recordTypes: List<RecordTypeDefinition> = catalog.all()
+
+    /** 基础信息(性别/年龄/身高/体重),置顶卡片展示与编辑 */
+    val profile: StateFlow<HealthProfile> = profileStore.profile
+
+    fun saveProfile(profile: HealthProfile) {
+        profileStore.save(profile)
+    }
 
     /** 各类型最新一条记录,type → entity */
     val latestByType: StateFlow<Map<String, HealthRecordEntity>> = repository

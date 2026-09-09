@@ -3,6 +3,7 @@ package com.wanbaohe.recordcenter.service
 import com.shifenmiao.common.ai.AIPromptExecutor
 import com.shifenmiao.database.recordcenter.entity.HealthRecordEntity
 import com.shifenmiao.interfaces.singleton.AppContext
+import com.wanbaohe.recordcenter.data.HealthProfile
 import com.wanbaohe.recordcenter.model.RecordFieldsCodec
 import com.wanbaohe.recordcenter.registry.RecordTypeDefinition
 import java.time.Instant
@@ -31,13 +32,15 @@ class HealthInsightService @Inject constructor(
      * @param definition 记录类型定义(标题/字段/参考范围经 string resources 本地化)
      * @param records    当前范围内的记录(任意顺序,内部按时间倒序截取最近 [MAX_RECORDS] 条)
      * @param rangeLabel 已本地化的时间范围文案,如「近 30 天」
+     * @param profile    用户基础信息(性别/年龄/身高/体重),已设置时作为上下文带上
      */
     suspend fun interpret(
         definition: RecordTypeDefinition,
         records: List<HealthRecordEntity>,
         rangeLabel: String,
+        profile: HealthProfile? = null,
     ): GenerationResult {
-        val input = buildInput(definition, records, rangeLabel)
+        val input = buildInput(definition, records, rangeLabel, profile)
         val result = aiExecutor.execute(
             systemPrompt = SYSTEM_PROMPT,
             input = input,
@@ -56,7 +59,22 @@ class HealthInsightService @Inject constructor(
         definition: RecordTypeDefinition,
         records: List<HealthRecordEntity>,
         rangeLabel: String,
+        profile: HealthProfile?,
     ): String = buildString {
+        profile?.takeIf { it.isSet }?.let { p ->
+            val parts = mutableListOf<String>()
+            when (p.gender) {
+                HealthProfile.Gender.MALE -> parts += "男性"
+                HealthProfile.Gender.FEMALE -> parts += "女性"
+                HealthProfile.Gender.UNSET -> {}
+            }
+            p.age?.let { parts += "${it}岁" }
+            p.heightCm?.let { parts += "身高${RecordFieldsCodec.formatValue(it)}cm" }
+            p.weightKg?.let { parts += "体重${RecordFieldsCodec.formatValue(it)}kg" }
+            if (parts.isNotEmpty()) {
+                append("用户基本信息:").append(parts.joinToString(",")).append('\n')
+            }
+        }
         append("记录类型:").append(AppContext.getString(definition.titleRes)).append('\n')
         definition.referenceRangeRes?.let {
             append("参考范围:").append(AppContext.getString(it)).append('\n')

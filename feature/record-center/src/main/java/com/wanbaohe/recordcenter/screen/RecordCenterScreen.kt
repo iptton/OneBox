@@ -29,6 +29,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,11 +42,13 @@ import androidx.compose.ui.unit.dp
 import com.shifenmiao.common.ui.BaseScreen
 import com.shifenmiao.database.recordcenter.entity.HealthRecordEntity
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFeatures
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAvatarDefault
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronRight
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.wanbaohe.recordcenter.R
 import com.wanbaohe.recordcenter.component.RecordCenterComponent
 import com.wanbaohe.recordcenter.component.RecordCenterLayout
+import com.wanbaohe.recordcenter.data.HealthProfile
 import com.wanbaohe.recordcenter.registry.RecordTypeDefinition
 import com.wanbaohe.recordcenter.screen.util.formatRecordValues
 import com.wanbaohe.recordcenter.screen.util.formatRelativeDate
@@ -55,6 +60,8 @@ import com.wanbaohe.recordcenter.screen.util.formatRelativeDate
 fun RecordCenterScreen(component: RecordCenterComponent) {
     val latestByType by component.latestByType.collectAsState()
     val layoutMode by component.layoutMode.collectAsState()
+    val profile by component.profile.collectAsState()
+    var showProfileSheet by remember { mutableStateOf(false) }
 
     BaseScreen(
         title = {
@@ -85,10 +92,30 @@ fun RecordCenterScreen(component: RecordCenterComponent) {
         supportGlassEffect = true,
         content = {
             when (layoutMode) {
-                RecordCenterLayout.LIST -> RecordTypeList(component = component, latestByType = latestByType)
-                RecordCenterLayout.GRID -> RecordTypeGrid(component = component, latestByType = latestByType)
+                RecordCenterLayout.LIST -> RecordTypeList(
+                    component = component,
+                    latestByType = latestByType,
+                    profile = profile,
+                    onProfileClick = { showProfileSheet = true },
+                )
+                RecordCenterLayout.GRID -> RecordTypeGrid(
+                    component = component,
+                    latestByType = latestByType,
+                    profile = profile,
+                    onProfileClick = { showProfileSheet = true },
+                )
             }
         },
+    )
+
+    HealthProfileSheet(
+        visible = showProfileSheet,
+        initial = profile,
+        onSave = {
+            component.saveProfile(it)
+            showProfileSheet = false
+        },
+        onDismiss = { showProfileSheet = false },
     )
 }
 
@@ -97,6 +124,8 @@ fun RecordCenterScreen(component: RecordCenterComponent) {
 private fun RecordTypeList(
     component: RecordCenterComponent,
     latestByType: Map<String, HealthRecordEntity>,
+    profile: HealthProfile,
+    onProfileClick: () -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -105,6 +134,9 @@ private fun RecordTypeList(
         contentPadding = PaddingValues(vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+        item {
+            HealthProfileCard(profile = profile, onClick = onProfileClick)
+        }
         items(
             items = component.recordTypes,
             key = { it.key },
@@ -129,6 +161,8 @@ private fun RecordTypeList(
 private fun RecordTypeGrid(
     component: RecordCenterComponent,
     latestByType: Map<String, HealthRecordEntity>,
+    profile: HealthProfile,
+    onProfileClick: () -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -139,6 +173,9 @@ private fun RecordTypeGrid(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            HealthProfileCard(profile = profile, onClick = onProfileClick)
+        }
         items(
             items = component.recordTypes,
             key = { it.key },
@@ -159,6 +196,89 @@ private fun RecordTypeGrid(
         }
     }
 }
+
+/** 置顶基础信息卡片:摘要展示,点击进入编辑弹层 */
+@Composable
+private fun HealthProfileCard(
+    profile: HealthProfile,
+    onClick: () -> Unit,
+) {
+    GlassCard(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        borderWidth = 0.dp,
+        containerAlpha = 0.4f,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAvatarDefault,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(26.dp),
+                )
+            }
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+            ) {
+                Text(
+                    text = stringResource(R.string.record_center_profile_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Text(
+                    text = profileSummary(profile),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = if (profile.isSet) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+            Icon(
+                imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+/** 基础信息摘要:已设置 → "男 · 28 岁 · 175 cm · 70 kg";未设置 → 引导文案 */
+@Composable
+private fun profileSummary(profile: HealthProfile): String {
+    if (!profile.isSet) return stringResource(R.string.record_center_profile_unset)
+    val parts = mutableListOf<String>()
+    when (profile.gender) {
+        HealthProfile.Gender.MALE -> parts += stringResource(R.string.record_center_profile_gender_male)
+        HealthProfile.Gender.FEMALE -> parts += stringResource(R.string.record_center_profile_gender_female)
+        HealthProfile.Gender.UNSET -> {}
+    }
+    profile.age?.let { parts += stringResource(R.string.record_center_profile_age_years, it) }
+    profile.heightCm?.let { parts += "${formatProfileNumber(it)} cm" }
+    profile.weightKg?.let { parts += "${formatProfileNumber(it)} kg" }
+    return parts.joinToString(" · ")
+}
+
+/** 摘要数字格式化:整数去小数点 */
+private fun formatProfileNumber(value: Float): String =
+    if (value % 1f == 0f) value.toInt().toString() else value.toString()
 
 @Composable
 private fun RecordTypeCard(
@@ -246,7 +366,8 @@ private fun RecordTypeCard(
     }
 }
 
-/** 网格模式紧凑卡片:图标在上,标题 + 描述(最多两行) + 最新值 */
+/** 网格模式紧凑卡片:图标在上,标题 + 描述(最多两行) + 最新值(底对齐)。
+ *  固定高度保证同行卡片上下对齐,无数据卡片中间留白。 */
 @Composable
 private fun RecordTypeGridCard(
     definition: RecordTypeDefinition,
@@ -256,7 +377,9 @@ private fun RecordTypeGridCard(
 ) {
     GlassCard(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(GRID_CARD_HEIGHT),
         shape = RoundedCornerShape(16.dp),
         borderWidth = 0.dp,
         containerAlpha = 0.4f,
@@ -264,7 +387,7 @@ private fun RecordTypeGridCard(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
@@ -298,6 +421,7 @@ private fun RecordTypeGridCard(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
+            Spacer(modifier = Modifier.weight(1f))
             if (latestValues != null) {
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     Text(
@@ -320,3 +444,6 @@ private fun RecordTypeGridCard(
         }
     }
 }
+
+/** 网格卡片固定高度:图标+标题+两行描述+最新值区块的内容高度 */
+private val GRID_CARD_HEIGHT = 192.dp

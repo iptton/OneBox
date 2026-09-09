@@ -41,6 +41,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.shifenmiao.common.ui.BaseScreen
 import com.shifenmiao.base.ui.StreamingMarkdownContent
+import com.shifenmiao.base.utils.ActionUtils
+import com.shifenmiao.base.utils.aiHealthInsightPointsCost
 import com.shifenmiao.database.recordcenter.entity.HealthRecordEntity
 import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -75,8 +77,22 @@ fun RecordListScreen(component: RecordListComponent) {
     val stats by component.stats.collectAsState()
     val rangeFilter by component.rangeFilter.collectAsState()
     val insightState by component.insightState.collectAsState()
+    val profile by component.profile.collectAsState()
 
     var pendingDeleteRecordId by remember { mutableStateOf<String?>(null) }
+    // AI 解读前未设置基础信息:先弹编辑层,保存后自动继续解读
+    var showProfileSheet by remember { mutableStateOf(false) }
+    var pendingInsight by remember { mutableStateOf(false) }
+
+    // 登录 + 积分预检:通过后才真正生成(同其他 AI 能力)
+    fun launchInsight() {
+        ActionUtils.ensureLoginAndCheckPoints(
+            source = RecordListComponent.POINTS_SOURCE,
+            point = aiHealthInsightPointsCost(),
+        ) {
+            component.generateInsight()
+        }
+    }
 
     BaseScreen(
         title = {
@@ -116,11 +132,36 @@ fun RecordListScreen(component: RecordListComponent) {
                     rangeFilter = rangeFilter,
                     insightState = insightState,
                     onRangeFilterChange = component::setRangeFilter,
-                    onGenerateInsight = component::generateInsight,
+                    onGenerateInsight = {
+                        if (profile.isSet) {
+                            launchInsight()
+                        } else {
+                            pendingInsight = true
+                            showProfileSheet = true
+                        }
+                    },
                     onEditRecord = component::navigateToEditRecord,
                     onDeleteRecord = { pendingDeleteRecordId = it },
+                    onGoAiChat = component::navigateToAiChat,
                 )
             }
+        },
+    )
+
+    HealthProfileSheet(
+        visible = showProfileSheet,
+        initial = profile,
+        onSave = {
+            component.saveProfile(it)
+            showProfileSheet = false
+            if (pendingInsight) {
+                pendingInsight = false
+                launchInsight()
+            }
+        },
+        onDismiss = {
+            showProfileSheet = false
+            pendingInsight = false
         },
     )
 
@@ -166,6 +207,7 @@ private fun RecordListContent(
     onGenerateInsight: () -> Unit,
     onEditRecord: (String) -> Unit,
     onDeleteRecord: (String) -> Unit,
+    onGoAiChat: () -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -192,27 +234,34 @@ private fun RecordListContent(
             }
         }
 
-        // AI 解读卡片:放在数据可视化(趋势图/统计)之下、记录列表之上
+        // AI 解读卡片:放在数据可视化(趋势图/统计)之下、记录列表之上,上下留白加大
         item {
-            AiInsightCard(
-                state = insightState,
-                hasRecords = records.isNotEmpty(),
-                onGenerate = onGenerateInsight,
-            )
+            Box(modifier = Modifier.padding(vertical = 8.dp)) {
+                AiInsightCard(
+                    state = insightState,
+                    hasRecords = records.isNotEmpty(),
+                    onGenerate = onGenerateInsight,
+                )
+            }
         }
 
         if (records.isEmpty()) {
             item {
-                Box(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp),
-                    contentAlignment = Alignment.Center,
+                        .padding(vertical = 32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     Text(
                         text = stringResource(R.string.record_center_empty),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
+                    // 空态引导:去 AI 助手对话记录健康数据
+                    GlassTonalButton(onClick = onGoAiChat) {
+                        Text(text = stringResource(R.string.record_center_empty_go_ai))
+                    }
                 }
             }
         } else {
@@ -385,6 +434,15 @@ private fun AiInsightCard(
                     ) {
                         Text(text = stringResource(R.string.record_center_ai_insight_generate))
                     }
+                    Text(
+                        text = stringResource(
+                            R.string.record_center_ai_insight_points_hint,
+                            aiHealthInsightPointsCost(),
+                        ),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                    )
                 }
 
                 RecordInsightState.Loading -> {

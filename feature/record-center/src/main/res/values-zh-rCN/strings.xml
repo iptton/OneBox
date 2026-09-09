@@ -94,6 +94,21 @@
     <string name="record_center_ai_insight_retry">重试</string>
     <string name="record_center_ai_insight_loading">正在生成解读…</string>
     <string name="record_center_ai_insight_error">生成解读失败,请稍后重试</string>
+    <string name="record_center_ai_insight_points_hint">每次解读消耗 %1$d 积分</string>
+
+    <!-- 基础信息 -->
+    <string name="record_center_profile_title">基础信息</string>
+    <string name="record_center_profile_hint">用于 AI 解读更贴合你的情况</string>
+    <string name="record_center_profile_unset">未设置,点击完善</string>
+    <string name="record_center_profile_gender_male">男</string>
+    <string name="record_center_profile_gender_female">女</string>
+    <string name="record_center_profile_field_gender">性别</string>
+    <string name="record_center_profile_field_age">年龄</string>
+    <string name="record_center_profile_field_height">身高 (cm)</string>
+    <string name="record_center_profile_field_weight">体重 (kg)</string>
+    <string name="record_center_profile_age_years">%1$d 岁</string>
+    <string name="record_center_profile_invalid">请输入有效数值</string>
+    <string name="record_center_empty_go_ai">去 AI 助手记录</string>
 
     <!-- 布局切换 -->
     <string name="record_center_cd_switch_to_grid">切换到网格视图</string>

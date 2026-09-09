@@ -1,6 +1,8 @@
 package com.wanbaohe.recordcenter.component
 
 import com.arkivanov.decompose.ComponentContext
+import com.shifenmiao.base.utils.aiHealthInsightPointsCost
+import com.shifenmiao.common.utils.BaseUtils
 import com.shifenmiao.database.recordcenter.entity.HealthRecordEntity
 import com.shifenmiao.database.recordcenter.repo.HealthRecordRepository
 import com.shifenmiao.interfaces.singleton.AppContext
@@ -8,6 +10,8 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.wanbaohe.recordcenter.R
+import com.wanbaohe.recordcenter.data.HealthProfile
+import com.wanbaohe.recordcenter.data.HealthProfileStore
 import com.wanbaohe.recordcenter.model.RecordFieldsCodec
 import com.wanbaohe.recordcenter.registry.RecordTypeCatalog
 import com.wanbaohe.recordcenter.registry.RecordTypeDefinition
@@ -62,10 +66,18 @@ class RecordListComponent @AssistedInject internal constructor(
     catalog: RecordTypeCatalog,
     private val service: RecordCenterService,
     private val insightService: HealthInsightService,
+    private val profileStore: HealthProfileStore,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     /** 未知类型时为 null,界面层展示空态 */
     val definition: RecordTypeDefinition? = catalog.byKey(recordTypeKey)
+
+    /** 基础信息:AI 解读前未设置时引导完善,生成时作为上下文带上 */
+    val profile: StateFlow<HealthProfile> = profileStore.profile
+
+    fun saveProfile(profile: HealthProfile) {
+        profileStore.save(profile)
+    }
 
     private val _rangeFilter = MutableStateFlow(RecordRangeFilter.DAYS_30)
     val rangeFilter: StateFlow<RecordRangeFilter> = _rangeFilter
@@ -116,6 +128,8 @@ class RecordListComponent @AssistedInject internal constructor(
     /**
      * 手动生成 AI 解读:快照当前筛选范围内的记录与时间范围,调用解读服务。
      * 无记录或重复点击 Loading 中时直接忽略。
+     * 登录与积分预检由调用方(UI 层 ActionUtils.ensureLoginAndCheckPoints)完成;
+     * 仅解读成功扣积分,失败不扣。
      */
     fun generateInsight() {
         val typeDefinition = definition ?: return
@@ -127,10 +141,18 @@ class RecordListComponent @AssistedInject internal constructor(
                 definition = typeDefinition,
                 records = snapshot,
                 rangeLabel = rangeLabel(_rangeFilter.value),
+                profile = profile.value.takeIf { it.isSet },
             )
             _insightState.value = when (result) {
-                is HealthInsightService.GenerationResult.Success ->
+                is HealthInsightService.GenerationResult.Success -> {
+                    BaseUtils.consumePoints(
+                        degree = aiHealthInsightPointsCost(),
+                        desc = AppContext.getString(R.string.record_center_ai_insight),
+                        source = POINTS_SOURCE,
+                        showToast = true,
+                    )
                     RecordInsightState.Content(result.content)
+                }
 
                 is HealthInsightService.GenerationResult.Failed ->
                     RecordInsightState.Error(
@@ -171,6 +193,11 @@ class RecordListComponent @AssistedInject internal constructor(
         )
     }
 
+    /** 空态引导:跳转 AI 助手,通过对话记录健康数据 */
+    fun navigateToAiChat() {
+        onNavigate(Screen.AiChatScreen())
+    }
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
@@ -179,5 +206,10 @@ class RecordListComponent @AssistedInject internal constructor(
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): RecordListComponent
+    }
+
+    companion object {
+        /** AI 解读积分消耗来源标识 */
+        const val POINTS_SOURCE = "health_insight"
     }
 }

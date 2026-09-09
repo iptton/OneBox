@@ -94,6 +94,21 @@
     <string name="record_center_ai_insight_retry">Retry</string>
     <string name="record_center_ai_insight_loading">Generating insight…</string>
     <string name="record_center_ai_insight_error">Failed to generate insight, please try again later</string>
+    <string name="record_center_ai_insight_points_hint">%1$d points per insight</string>
+
+    <!-- 基础信息 -->
+    <string name="record_center_profile_title">Basic Info</string>
+    <string name="record_center_profile_hint">Helps AI insights fit you better</string>
+    <string name="record_center_profile_unset">Not set, tap to complete</string>
+    <string name="record_center_profile_gender_male">Male</string>
+    <string name="record_center_profile_gender_female">Female</string>
+    <string name="record_center_profile_field_gender">Gender</string>
+    <string name="record_center_profile_field_age">Age</string>
+    <string name="record_center_profile_field_height">Height (cm)</string>
+    <string name="record_center_profile_field_weight">Weight (kg)</string>
+    <string name="record_center_profile_age_years">%1$d yrs</string>
+    <string name="record_center_profile_invalid">Please enter valid numbers</string>
+    <string name="record_center_empty_go_ai">Record with AI Assistant</string>
 
     <!-- 布局切换 -->
     <string name="record_center_cd_switch_to_grid">Switch to grid view</string>

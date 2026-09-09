@@ -62,6 +62,14 @@ data class RemoteConfig(
     val aiImageProcessPoints: Int? = null,
 
     /**
+     * AI 解读类能力(如健康记录「AI 解读」)单次消耗积分。
+     *
+     * 与 [aiImageProcessPoints] 同款意图:默认 `null` 表示服务端未下发,
+     * 由消费端回退到本地默认值(当前为 200)。
+     */
+    val aiHealthInsightPoints: Int? = null,
+
+    /**
      * Agent 单个工具的默认执行超时。
      *
      * 单位秒；默认 `null` 表示服务端未下发，由消费端回退到本地默认值（当前为 60）。
@@ -297,6 +305,7 @@ data class RemoteConfig(
         loginBindPhone = mergeField(net.loginBindPhone, loginBindPhone),
         adminVipLevel = mergeField(net.adminVipLevel, adminVipLevel),
         aiImageProcessPoints = mergeField(net.aiImageProcessPoints, aiImageProcessPoints),
+        aiHealthInsightPoints = mergeField(net.aiHealthInsightPoints, aiHealthInsightPoints),
         agentToolTimeoutSeconds = mergeField(net.agentToolTimeoutSeconds, agentToolTimeoutSeconds),
         accessToken = mergeField(net.accessToken, accessToken) { !it.isNullOrBlank() },
         requestUrl = mergeField(net.requestUrl, requestUrl) { !it.isNullOrBlank() },
@@ -368,6 +377,7 @@ data class RemoteConfig(
                 loginBindPhone == other.loginBindPhone &&
                 adminVipLevel == other.adminVipLevel &&
                 aiImageProcessPoints == other.aiImageProcessPoints &&
+                aiHealthInsightPoints == other.aiHealthInsightPoints &&
                 agentToolTimeoutSeconds == other.agentToolTimeoutSeconds &&
                 helpBlogIds == other.helpBlogIds &&
                 webViewResourceRules == other.webViewResourceRules &&
@@ -412,6 +422,7 @@ data class RemoteConfig(
             loginBindPhone,
             adminVipLevel,
             aiImageProcessPoints,
+            aiHealthInsightPoints,
             agentToolTimeoutSeconds,
             helpBlogIds,
             webViewResourceRules,
