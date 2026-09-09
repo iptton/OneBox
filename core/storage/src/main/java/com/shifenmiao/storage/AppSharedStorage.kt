@@ -327,12 +327,11 @@ object AppSharedStorage {
     }
 
     /**
-     * 工具目录快照版本号 —— 由 [com.shifenmiao.ai.agent.tool.ToolCatalogRepository.ensureSnapshot]
-     * 读取, 与 [com.shifenmiao.ai.agent.tool.AgentToolRegistry.getCatalogVersion] 比对;
+     * 工具目录快照版本号 —— 历史上由 ToolCatalogRepository (已删除) 与
+     * [com.shifenmiao.ai.agent.tool.AgentToolRegistry.getCatalogVersion] 比对,
      * 不一致时重写 tool_catalog 表 (BUILT_IN 记录).
      *
-     * 与旧的 [AI_TOOL_CATALOG_VERSION] 区别: 旧字段是给 [ToolCatalogRepository.ensureCatalogSynced]
-     * (已删除的运行时缓存) 用的; 现在仅服务于导出/导入场景下的快照判断.
+     * 读写方删除后当前无调用点, 与 tool_catalog 表一样作为遗留保留 (见 ToolCatalogEntity 注释).
      */
     fun saveToolCatalogSnapshotVersion(version: Int) {
         localeMmkv.encode(TOOL_CATALOG_SNAPSHOT_VERSION, version)

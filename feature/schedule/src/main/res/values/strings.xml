@@ -43,5 +43,87 @@
     <string name="schedule_permission_dialog_title">Calendar permission required</string>
     <string name="schedule_permission_dialog_message">Please enable calendar read/write permissions in system settings to write directly into the system calendar.</string>
     <string name="schedule_open_settings">Open settings</string>
+
+    <!-- Schedule agent tools -->
+    <string name="agent_tool_schedule_unknown_error">Unknown error</string>
+    <string name="agent_tool_schedule_open_link">Open schedule</string>
+    <string name="agent_tool_schedule_label_start">Start</string>
+    <string name="agent_tool_schedule_label_end">End</string>
+    <string name="agent_tool_schedule_label_all_day">All-day event</string>
+    <string name="agent_tool_schedule_label_location">Location</string>
+    <string name="agent_tool_schedule_invalid_datetime">Invalid date/time \"%1$s\". Use ISO format, e.g. 2026-09-10T14:00 or 2026-09-10.</string>
+    <string name="agent_tool_schedule_invalid_date">Invalid date \"%1$s\". Use yyyy-MM-dd, e.g. 2026-09-10.</string>
+
+    <string name="agent_tool_add_schedule_event_title">Add Schedule Event</string>
+    <string name="agent_tool_add_schedule_event_summary">Create a local schedule event with title, time, note and location.</string>
+    <string name="agent_tool_add_schedule_event_description">Create a local schedule event. `title` and `start` are required; `end` defaults to one hour after start (or the next day for all-day events). Times accept ISO strings: 2026-09-10T14:00, 2026-09-10T14:00:00+08:00, or a plain date 2026-09-10.</string>
+    <string name="agent_tool_add_schedule_event_param_title">Event title, required.</string>
+    <string name="agent_tool_add_schedule_event_param_start">Start time, ISO format, e.g. 2026-09-10T14:00; a plain date means 00:00 that day.</string>
+    <string name="agent_tool_add_schedule_event_param_end">End time, ISO format. Optional; defaults to one hour after start, or the next day for all-day events.</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">Whether this is an all-day event, default false.</string>
+    <string name="agent_tool_add_schedule_event_param_description">Optional note for the event.</string>
+    <string name="agent_tool_add_schedule_event_param_location">Optional location of the event.</string>
+    <string name="agent_tool_add_schedule_event_title_required">The title parameter is required and cannot be blank.</string>
+    <string name="agent_tool_add_schedule_event_failed">Failed to add schedule event: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>schedule</item>
+        <item>calendar</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+
+    <string name="agent_tool_query_schedule_events_title">Query Schedule Events</string>
+    <string name="agent_tool_query_schedule_events_summary">Query local schedule events within a date range.</string>
+    <string name="agent_tool_query_schedule_events_description">Query local schedule events overlapping a date range. `start_date` defaults to today and `end_date` defaults to 6 days after it (a 7-day window). Returns up to 50 events ordered by start time, each with its id, title, time, location and note; the id can be passed to delete_schedule_event.</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">Range start date, yyyy-MM-dd; defaults to today.</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">Range end date (inclusive), yyyy-MM-dd; defaults to 6 days after start_date.</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_date cannot be earlier than start_date.</string>
+    <string name="agent_tool_query_schedule_events_empty">No events in this range</string>
+    <string name="agent_tool_query_schedule_events_failed">Failed to query schedule events: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>schedule</item>
+        <item>calendar</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+
+    <string name="agent_tool_delete_schedule_event_title">Delete Schedule Event</string>
+    <string name="agent_tool_delete_schedule_event_summary">Delete a local schedule event by its id.</string>
+    <string name="agent_tool_delete_schedule_event_description">Delete a local schedule event by event_id (usually from the result of query_schedule_events). Deletion also removes its system-calendar bindings and cannot be undone, so user confirmation is required before execution.</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">Id of the event to delete, from query_schedule_events results.</string>
+    <string name="agent_tool_delete_schedule_event_id_required">The event_id parameter is required.</string>
+    <string name="agent_tool_delete_schedule_event_not_found">Event not found: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">Deleted: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">Failed to delete schedule event: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">Delete schedule event</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">Delete this schedule event permanently</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>schedule</item>
+        <item>delete event</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>
 

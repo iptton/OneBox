@@ -16,6 +16,7 @@ import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlin.math.max
 
@@ -33,6 +34,11 @@ class ScheduleService @Inject constructor(
     private val repository: ScheduleRepository,
 ) {
 
+    companion object {
+        /** AI Agent 写入事件的来源标记,落 providerPayload 便于审计 */
+        const val SOURCE_AGENT = "AGENT"
+    }
+
     data class EventInput(
         val title: String,
         val description: String? = null,
@@ -44,6 +50,22 @@ class ScheduleService @Inject constructor(
         val linkedTaskId: String? = null,
         val recurrenceRule: String? = null,
     )
+
+    suspend fun getEvent(eventId: String): ScheduleEventEntity? = withContext(Dispatchers.IO) {
+        repository.getEvent(eventId)
+    }
+
+    /** 查询与 [rangeStartUtcMillis, rangeEndUtcMillis) 时间窗有交集的全部本地事件,按开始时间升序 */
+    suspend fun listEventsInRange(
+        rangeStartUtcMillis: Long,
+        rangeEndUtcMillis: Long,
+    ): List<ScheduleEventEntity> = withContext(Dispatchers.IO) {
+        repository.observeEvents().first()
+            .filter { event ->
+                event.startUtcMillis < rangeEndUtcMillis && event.endUtcMillis >= rangeStartUtcMillis
+            }
+            .sortedBy { it.startUtcMillis }
+    }
 
     suspend fun createLocalEvent(
         input: EventInput,

@@ -542,8 +542,58 @@ class ActivityLogRecorder @Inject constructor(
         )
     }
 
-    // ── 通用记录 ────────────────────────────────────
+    // ── 家庭物品 ────────────────────────────────────
 
+    /**
+     * 记录一次家庭物品/位置变更。每次写入都是独立日志（审计场景不去重）。
+     *
+     * @param entityId      关联实体 ID（itemId / locationId）
+     * @param entityType    "HouseholdItem" / "HouseholdLocation"
+     * @param actorType     USER / AGENT / SYSTEM
+     * @param actionType    CREATE / UPDATE / DELETE / MOVE
+     * @param source        触发源（UI 路径 / AgentTool 名）
+     * @param title         标题（如 "新增物品: 感冒药"）
+     * @param description   详细描述（通常为位置路径）
+     * @param appTitle      来源功能名（由调用方提供本地化文案）
+     * @param snapshot      实体 JSON 快照（可选）
+     */
+    suspend fun recordHousehold(
+        entityId: String,
+        entityType: String,
+        actorType: String,
+        actionType: String,
+        source: String,
+        title: String,
+        description: String,
+        appTitle: String,
+        snapshot: String? = null,
+        timestamp: Date = Date()
+    ) {
+        val payload = JSONObject().apply {
+            put("entityId", entityId)
+            put("entityType", entityType)
+            put("actorType", actorType)
+            put("actionType", actionType)
+            put("source", source)
+            if (snapshot != null) put("snapshot", snapshot)
+        }.toString()
+
+        repository.record(
+            ActivityLogEntry(
+                category = ActivityCategory.HOUSEHOLD,
+                title = title,
+                appTitle = appTitle,
+                description = description.ifEmpty { title },
+                screenRoute = "",
+                payload = payload,
+                // 每次都唯一,避免同一 entityId 的旧日志被覆盖
+                dedupKey = "household_${timestamp.time}_${java.util.UUID.randomUUID()}",
+                createdAt = timestamp
+            )
+        )
+    }
+
+    // ── 通用记录 ────────────────────────────────────
     /**
      * 通用记录方法 — 当上面没有覆盖到的类型时使用。
      */

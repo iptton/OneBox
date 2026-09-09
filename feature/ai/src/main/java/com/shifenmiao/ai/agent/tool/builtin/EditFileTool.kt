@@ -9,12 +9,23 @@ import com.shifenmiao.model.ai.ToolParameterProperty
 import com.shifenmiao.model.ai.ToolParameters
 import com.shifenmiao.model.ai.tool.ToolCategory
 import com.shifenmiao.model.ai.tool.ToolRiskLevel
+import com.shifenmiao.model.file.AgentApplyRangePatchParams
+import com.shifenmiao.model.file.AgentApplyTextPatchParams
 import com.shifenmiao.model.file.AgentEditFileData
 import com.shifenmiao.model.file.AgentEditFileParams
 import com.shifenmiao.model.file.AgentFileOperationResult
 import com.shifenmiao.model.file.AgentFileService
+import com.shifenmiao.model.file.AgentRangePatchHunk
+import com.shifenmiao.model.file.AgentTextPatchHunk
 import javax.inject.Inject
 
+/**
+ * 文件编辑工具（合并原 edit_file / apply_text_patch / apply_range_patch 三者能力）。
+ *
+ * 通过 action 区分编辑模式：
+ * - 单点编辑：replace_text / replace_lines / insert_before_line / insert_after_line / append / prepend
+ * - 多段补丁：apply_text_patch（按 old_text/new_text 精准匹配）、apply_range_patch（按起止行号）
+ */
 class EditFileTool @Inject constructor(
     private val agentFileService: AgentFileService,
     private val gson: Gson,
@@ -56,6 +67,8 @@ class EditFileTool @Inject constructor(
                     "insert_after_line",
                     "append",
                     "prepend",
+                    "apply_text_patch",
+                    "apply_range_patch",
                 ),
             ),
             "old_text" to ToolParameterProperty(
@@ -82,6 +95,10 @@ class EditFileTool @Inject constructor(
                 type = "boolean",
                 description = textProvider.string(R.string.agent_tool_edit_file_param_replace_all),
             ),
+            "hunks" to ToolParameterProperty(
+                type = "array",
+                description = textProvider.string(R.string.agent_tool_edit_file_param_hunks),
+            ),
         ),
         required = listOf("file_uri", "action"),
     )
@@ -106,22 +123,10 @@ class EditFileTool @Inject constructor(
                 return AgentToolResult(content = validationError, isError = true)
             }
 
-            when (
-                val result = agentFileService.editFile(
-                    AgentEditFileParams(
-                        fileUri = fileUri,
-                        action = action,
-                        newText = params.new_text,
-                        oldText = params.old_text,
-                        startLine = params.start_line,
-                        endLine = params.end_line,
-                        line = params.line,
-                        replaceAll = params.replace_all == true,
-                    )
-                )
-            ) {
-                is AgentFileOperationResult.Success -> success(result.data)
-                is AgentFileOperationResult.Error -> failure(result.message)
+            when (action) {
+                ACTION_APPLY_TEXT_PATCH -> applyTextPatch(fileUri, params)
+                ACTION_APPLY_RANGE_PATCH -> applyRangePatch(fileUri, params)
+                else -> editFile(fileUri, action, params)
             }
         } catch (e: Exception) {
             AgentToolResult(
@@ -131,6 +136,79 @@ class EditFileTool @Inject constructor(
                 ),
                 isError = true,
             )
+        }
+    }
+
+    private suspend fun editFile(
+        fileUri: String,
+        action: String,
+        params: EditFileToolParams,
+    ): AgentToolResult {
+        return when (
+            val result = agentFileService.editFile(
+                AgentEditFileParams(
+                    fileUri = fileUri,
+                    action = action,
+                    newText = params.new_text,
+                    oldText = params.old_text,
+                    startLine = params.start_line,
+                    endLine = params.end_line,
+                    line = params.line,
+                    replaceAll = params.replace_all == true,
+                )
+            )
+        ) {
+            is AgentFileOperationResult.Success -> success(result.data)
+            is AgentFileOperationResult.Error -> failure(result.message)
+        }
+    }
+
+    private suspend fun applyTextPatch(
+        fileUri: String,
+        params: EditFileToolParams,
+    ): AgentToolResult {
+        val hunks = params.hunks.orEmpty().map { hunk ->
+            AgentTextPatchHunk(
+                oldText = hunk.old_text.orEmpty(),
+                newText = hunk.new_text.orEmpty(),
+                replaceAll = hunk.replace_all == true,
+            )
+        }
+        return when (
+            val result = agentFileService.applyTextPatch(
+                AgentApplyTextPatchParams(
+                    fileUri = fileUri,
+                    hunks = hunks,
+                )
+            )
+        ) {
+            is AgentFileOperationResult.Success -> AgentToolResult(gson.toJson(result.data))
+            is AgentFileOperationResult.Error -> failure(result.message)
+        }
+    }
+
+    private suspend fun applyRangePatch(
+        fileUri: String,
+        params: EditFileToolParams,
+    ): AgentToolResult {
+        val hunks = params.hunks.orEmpty().map { hunk ->
+            AgentRangePatchHunk(
+                startLine = hunk.start_line ?: 0,
+                endLine = hunk.end_line ?: 0,
+                newText = hunk.new_text.orEmpty(),
+                oldText = hunk.old_text,
+            )
+        }
+        return when (
+            val result = agentFileService.applyRangePatch(
+                AgentApplyRangePatchParams(
+                    fileUri = fileUri,
+                    hunks = hunks,
+                )
+            )
+        ) {
+            is AgentFileOperationResult.Success -> AgentToolResult(gson.toJson(result.data))
+            is AgentFileOperationResult.Error -> failure(result.message)
         }
     }
 
@@ -169,11 +247,34 @@ class EditFileTool @Inject constructor(
                 }
             }
 
+            ACTION_APPLY_TEXT_PATCH -> validateHunks(params) { hunk ->
+                hunk.old_text != null && hunk.new_text != null
+            }
+
+            ACTION_APPLY_RANGE_PATCH -> validateHunks(params) { hunk ->
+                hunk.start_line != null && hunk.end_line != null && hunk.new_text != null
+            }
+
             else -> textProvider.string(
                 R.string.agent_tool_edit_file_invalid_action,
                 params.action.orEmpty(),
             )
         }
+    }
+
+    private inline fun validateHunks(
+        params: EditFileToolParams,
+        isHunkValid: (EditFileHunkPayload) -> Boolean,
+    ): String? {
+        val hunks = params.hunks
+        if (hunks.isNullOrEmpty()) {
+            return textProvider.string(R.string.agent_tool_edit_file_missing_hunks)
+        }
+        val invalidIndex = hunks.indexOfFirst { !isHunkValid(it) }
+        if (invalidIndex >= 0) {
+            return textProvider.string(R.string.agent_tool_edit_file_invalid_hunk, invalidIndex + 1)
+        }
+        return null
     }
 
     private fun success(data: AgentEditFileData): AgentToolResult {
@@ -204,6 +305,11 @@ class EditFileTool @Inject constructor(
             isError = true,
         )
     }
+
+    private companion object {
+        const val ACTION_APPLY_TEXT_PATCH = "apply_text_patch"
+        const val ACTION_APPLY_RANGE_PATCH = "apply_range_patch"
+    }
 }
 
 private data class EditFileToolParams(
@@ -215,6 +321,16 @@ private data class EditFileToolParams(
     val end_line: Int? = null,
     val line: Int? = null,
     val replace_all: Boolean? = null,
+    val hunks: List<EditFileHunkPayload>? = null,
+)
+
+/** 补丁段负载：apply_text_patch 用 old_text/new_text/replace_all，apply_range_patch 用 start_line/end_line/new_text/old_text */
+private data class EditFileHunkPayload(
+    val old_text: String? = null,
+    val new_text: String? = null,
+    val replace_all: Boolean? = null,
+    val start_line: Int? = null,
+    val end_line: Int? = null,
 )
 
 private data class EditFileResult(
@@ -229,4 +345,3 @@ private data class EditFileResult(
     val line: Int?,
     val deeplink: String?,
 )
-

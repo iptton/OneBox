@@ -94,9 +94,10 @@ class PromptAssemblyService(
         currentTools: List<ToolDefinition>?,
     ): List<ToolDefinition>? {
         // Step 1: 识别本轮调用了哪些发现类工具
+        val discoveryToolNames = agentToolRegistry.getDiscoveryToolNames()
         val calledDiscoveryTools = results
             .map { (call, _) -> call.function.name }
-            .filter { it in AgentToolRegistry.DISCOVERY_TOOL_NAMES }
+            .filter { it in discoveryToolNames }
             .toSet()
 
         // Step 2: 从发现类工具的成功结果中提取推荐的工具名称
@@ -106,7 +107,7 @@ class PromptAssemblyService(
             .toSet()
         val discoveredNames = results
             .filter { (call, result) ->
-                call.function.name in AgentToolRegistry.DISCOVERY_TOOL_NAMES && !result.isError
+                call.function.name in discoveryToolNames && !result.isError
             }
             .flatMap { (_, result) -> extractRecommendedToolNames(result.content) }
             .plus(buildImplicitFollowUpToolNames(calledDiscoveryTools))
@@ -129,7 +130,7 @@ class PromptAssemblyService(
         // Step 5: 并集去重 — 当前工具 ∪ 新发现工具 ∪ 发现类工具本身
         val mergedNames = linkedSetOf<String>().apply {
             addAll(currentNames)                                                // 保留当前轮所有工具
-            addAll(AgentToolRegistry.DISCOVERY_TOOL_NAMES.filter { it in catalogNames })           // 保留发现类工具
+            addAll(discoveryToolNames.filter { it in catalogNames })            // 保留发现类工具
             addAll(expandedNames)                                               // 追加新发现的工具
         }
 

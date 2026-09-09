@@ -16,6 +16,8 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.database)
     implementation(projects.core.a2ui)
+    implementation(projects.core.weather)
+    implementation(projects.core.tts)
     implementation(projects.core.interfaces)
     implementation(projects.core.imageGeneration)
     implementation(projects.feature.common)

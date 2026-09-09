@@ -22,6 +22,7 @@ import com.wanbaohe.poem.component.PoemSearchComponent
 import com.wanbaohe.bookkeeping.router.screenLogic.BookkeepingRouterComponent
 import com.wanbaohe.recordcenter.router.screenLogic.RecordCenterRouterComponent
 import com.wanbaohe.habittracker.router.screenLogic.HabitTrackerRouterComponent
+import com.wanbaohe.householditems.component.HouseholdItemsComponent
 import com.wanbaohe.calendar.router.screenLogic.CalendarRouterComponent
 import com.wanbaohe.camera.watermark.presentation.screenLogic.CameraWatermarkComponent
 import com.wanbaohe.cloud.storage.screenLogic.CloudStorageComponent
@@ -64,6 +65,7 @@ class LifeNavigationFactories @Inject constructor(
     val bookkeepingRouterComponentFactory: BookkeepingRouterComponent.Factory,
     val recordCenterRouterComponentFactory: RecordCenterRouterComponent.Factory,
     val habitTrackerRouterComponentFactory: HabitTrackerRouterComponent.Factory,
+    val householdItemsComponentFactory: HouseholdItemsComponent.Factory,
     val calendarRouterComponentFactory: CalendarRouterComponent.Factory,
     val scheduleComponentFactory: ScheduleComponent.Factory,
     val markTodoRouterComponentFactory: MarkTodoRouterComponent.Factory,

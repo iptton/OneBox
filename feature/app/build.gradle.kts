@@ -83,6 +83,7 @@ dependencies {
     implementation(projects.feature.bookkeeping)
     implementation(projects.feature.recordCenter)
     implementation(projects.feature.habitTracker)
+    implementation(projects.feature.householdItems)
     implementation(projects.feature.loanCalculator)
     implementation(projects.feature.lifetime)
     implementation(projects.feature.cameraWatermark)

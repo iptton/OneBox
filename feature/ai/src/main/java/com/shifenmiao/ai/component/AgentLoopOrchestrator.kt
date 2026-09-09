@@ -93,6 +93,25 @@ class AgentLoopOrchestrator(
     /** Agent Loop 暂停上下文 */
     private var pausedAgentLoopContext: PausedAgentLoopContext? = null
 
+    /**
+     * P1 review M1: 会话取消/超时后的 shutdown 标记.
+     *
+     * 旧 fetchJob 被 cancel 后, [AgentLoopExecutor.executeBatchedToolCalls] 内
+     * coroutineScope 的工具子协程不会立刻终止 (要到下一个 suspension point),
+     * 可能在 catch 块执行 persistInterruptedChat() 期间完成并触发 onToolCompleted
+     * 修改 live _answerMessageEntity, 造成入库快照与内存状态不一致.
+     *
+     * 置位后 onToolCompleted 跳过 live state 修改 (工具结果已由执行器侧
+     * persistCallbacks 落 DB, 即"只入 DB"); [reset] 在新一轮请求开始时清除.
+     */
+    @Volatile
+    private var isShuttingDown = false
+
+    /** 标记当前会话进入 shutdown (取消/超时由 catch 块统一接管), 见 [isShuttingDown] */
+    fun beginShutdown() {
+        isShuttingDown = true
+    }
+
     fun prepareToolSelection(): ToolSelectionResult {
         return promptAssemblyService.prepareToolSelection(
             engine = sharedState.conversation.value.engine
@@ -201,6 +220,8 @@ class AgentLoopOrchestrator(
         enableWebSearch: Boolean,
         tools: List<ToolDefinition>?,
     ) {
+        // P1 review M1: 新一轮 (含 continueAgentLoop 续跑) 开始时清除 shutdown 标记.
+        isShuttingDown = false
         val conversation = sharedState.conversation.value
         val enableReasoning = AIChatStorage.isEnableReasoning.value
         val conversationId = conversation.id
@@ -228,6 +249,7 @@ class AgentLoopOrchestrator(
                 answerProvider = { sharedState.answerMessageEntity.value.answer },
                 reasoningContentProvider = { sharedState.answerMessageEntity.value.reasoningContent },
                 previousResponseIdProvider = { sharedState.answerMessageEntity.value.providerResponseId },
+                isShuttingDownProvider = { isShuttingDown },
                 callback = buildAgentLoopCallback(),
             )
 
@@ -357,6 +379,7 @@ class AgentLoopOrchestrator(
         toolCallsChainJson = ""
         toolConfigResolver.clearCache()
         toolUiCoordinator.showIdle()
+        isShuttingDown = false
     }
 
     fun onDestroy() {
@@ -426,6 +449,11 @@ class AgentLoopOrchestrator(
             // 修复: 把 [sharedState.updateAnswerMessage] 也收进 synchronized 块, 保证整个
             // append 流程对其它并发的 onToolCompleted 不可分割.
             synchronized(toolCallAppendLock) {
+                // P1 review M1: 会话已进入 shutdown (取消/超时由 catch 块接管) 时,
+                // 跳过 live state 修改 — 工具结果已由执行器侧 persistCallbacks 落 DB,
+                // 避免与 catch 块 (persistInterruptedChat / renderErrorUIForChat)
+                // 对同一 _answerMessageEntity 形成并发读写.
+                if (isShuttingDown) return
                 val currentJson = sharedState.answerMessageEntity.value.toolCalls
                 val newToolCallsJson = ToolCallRecord.appendToJson(
                     existingJson = currentJson,

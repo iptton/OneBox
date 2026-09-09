@@ -16,6 +16,7 @@ data class ToolCatalogItem(
     val dependencies: List<String> = emptyList(),
     val bootstrapModes: Set<ChatWorkingMode> = emptySet(),
     val visibleToUser: Boolean,
+    val isDiscoveryTool: Boolean = false,
     val requiresConfirmation: Boolean,
     val isInteractive: Boolean,
     val riskLevel: ToolRiskLevel,

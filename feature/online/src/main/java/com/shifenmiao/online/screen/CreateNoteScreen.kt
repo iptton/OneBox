@@ -1,7 +1,7 @@
 package com.shifenmiao.online.screen
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.background
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material3.Icon
@@ -77,6 +77,7 @@ fun CreateNoteScreen(
     }
 
     BaseScreen(
+        modifier = Modifier.background(MaterialTheme.colorScheme.surface),
         title = {
             Text(
                 text = titlePlaceholder,
@@ -118,8 +119,7 @@ fun CreateNoteScreen(
             }
         },
         supportGlassEffect = false,
-        showNavigationBarsPadding = true,
-        containerColor = MaterialTheme.colorScheme.surface
+        showNavigationBarsPadding = true
     ) {
         WebViewMarkdownEditor(
             initialValue = uiState.data,
@@ -127,8 +127,7 @@ fun CreateNoteScreen(
             placeholder = stringResource(R.string.note_placeholder),
             textStyle = EditorUiDefaults.contentTextStyle(),
             modifier = Modifier
-                .weight(1f)
-                .navigationBarsPadding(),
+                .weight(1f),
             storageKey = "create_note_item",
             onContentChanged = {
                 createNoteComponent.markAsDirty()

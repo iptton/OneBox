@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主页 -->
+    <string name="household_title">家庭物品</string>
+    <string name="household_search_hint">搜索名称、分类或备注</string>
+    <string name="household_expiry_section">保质期提醒</string>
+    <string name="household_expired">已过期</string>
+    <string name="household_expiring_soon">即将过期</string>
+    <string name="household_expired_days">已过期 %1$d 天</string>
+    <string name="household_days_left">剩余 %1$d 天</string>
+    <string name="household_expires_today">今天到期</string>
+    <string name="household_add_item">添加物品</string>
+    <string name="household_manage_locations">位置管理</string>
+    <string name="household_empty_items">暂无物品,点右下角 + 添加一个吧</string>
+    <string name="household_empty_search">没有找到匹配的物品</string>
+    <string name="household_breadcrumb_home">全部</string>
+    <string name="household_uncategorized">未分类</string>
+    <string name="household_no_location">未设置位置</string>
+    <string name="household_delete_item">删除</string>
+    <string name="household_edit_item">编辑</string>
+
+    <!-- 编辑表单 -->
+    <string name="household_editor_add_title">添加物品</string>
+    <string name="household_editor_edit_title">编辑物品</string>
+    <string name="household_editor_name_label">名称</string>
+    <string name="household_editor_name_hint">如:感冒药</string>
+    <string name="household_editor_category_label">分类</string>
+    <string name="household_category_medicine">药品</string>
+    <string name="household_category_small">小东西</string>
+    <string name="household_category_big">大件</string>
+    <string name="household_category_custom_hint">自定义分类</string>
+    <string name="household_editor_location_label">位置</string>
+    <string name="household_editor_location_none">未设置位置</string>
+    <string name="household_editor_location_pick">选择位置</string>
+    <string name="household_editor_expire_label">保质期</string>
+    <string name="household_editor_expire_pick">选择日期</string>
+    <string name="household_editor_expire_clear">清除</string>
+    <string name="household_editor_photo_label">图片</string>
+    <string name="household_editor_photo_add">添加图片</string>
+    <string name="household_editor_photo_remove">移除图片</string>
+    <string name="household_editor_note_label">备注(可选)</string>
+    <string name="household_editor_note_hint">用途、规格等</string>
+    <string name="household_save">保存</string>
+    <string name="household_cancel">取消</string>
+    <string name="household_confirm">确定</string>
+
+    <!-- 位置管理 -->
+    <string name="household_locations_title">位置管理</string>
+    <string name="household_location_add_root">新建顶级位置</string>
+    <string name="household_location_add_child">添加子级</string>
+    <string name="household_location_rename">重命名</string>
+    <string name="household_location_delete">删除</string>
+    <string name="household_location_name_hint">位置名称</string>
+    <string name="household_location_delete_blocked">该位置下有子位置或物品,请先移除</string>
+    <string name="household_locations_empty">暂无位置</string>
+
+    <!-- 活动日志 -->
+    <string name="household_log_item_created">新增物品: %1$s</string>
+    <string name="household_log_item_updated">更新物品: %1$s</string>
+    <string name="household_log_item_deleted">删除物品: %1$s</string>
+    <string name="household_log_item_moved">移动物品: %1$s</string>
+    <string name="household_log_location_created">新增位置: %1$s</string>
+    <string name="household_log_location_renamed">重命名位置: %1$s</string>
+    <string name="household_log_location_deleted">删除位置: %1$s</string>
+
+    <!-- AI 工具:add_household_item -->
+    <string name="agent_tool_add_household_item_title">添加家庭物品</string>
+    <string name="agent_tool_add_household_item_summary">记录一件家庭物品及其存放位置</string>
+    <string name="agent_tool_add_household_item_description">记录一件家庭物品:名称、存放位置路径(不存在时自动逐级创建)、可选分类、保质期和备注。</string>
+    <string name="agent_tool_add_household_item_param_name">物品名称,如 "感冒药"</string>
+    <string name="agent_tool_add_household_item_param_location_path">存放位置路径,用 "/" 或 ">" 分隔,如 "主卧/衣柜/上层抽屉"。不存在时自动创建</string>
+    <string name="agent_tool_add_household_item_param_category">分类,自由文本,如 药品 / 小东西 / 大件</string>
+    <string name="agent_tool_add_household_item_param_expire_date">保质期截止日期,yyyy-MM-dd,可选</string>
+    <string name="agent_tool_add_household_item_param_note">备注,可选</string>
+    <string name="agent_tool_add_household_item_failed">添加物品失败: %1$s</string>
+    <string-array name="agent_tool_add_household_item_keywords">
+        <item>物品</item>
+        <item>家庭物品</item>
+        <item>收纳</item>
+        <item>记录物品</item>
+    </string-array>
+    <string-array name="agent_tool_add_household_item_examples">
+        <item>帮我把感冒药记在主卧药箱,2027年6月过期</item>
+        <item>把备用充电线记在书房抽屉里</item>
+    </string-array>
+
+    <!-- AI 工具:find_household_item -->
+    <string name="agent_tool_find_household_item_title">查找家庭物品</string>
+    <string name="agent_tool_find_household_item_summary">查找物品放在家里什么位置</string>
+    <string name="agent_tool_find_household_item_description">按名称、分类或备注模糊搜索家庭物品,返回每个匹配的完整位置路径、保质期状态和备注。</string>
+    <string name="agent_tool_find_household_item_param_query">搜索关键词,匹配名称、分类和备注</string>
+    <string name="agent_tool_find_household_item_empty">没有找到匹配的物品</string>
+    <string name="agent_tool_find_household_item_failed">查找物品失败: %1$s</string>
+    <string-array name="agent_tool_find_household_item_keywords">
+        <item>物品</item>
+        <item>查找</item>
+        <item>在哪</item>
+        <item>位置</item>
+    </string-array>
+    <string-array name="agent_tool_find_household_item_examples">
+        <item>感冒药在哪</item>
+        <item>备用充电线放哪了</item>
+    </string-array>
+
+    <!-- AI 工具:move_household_item -->
+    <string name="agent_tool_move_household_item_title">移动家庭物品</string>
+    <string name="agent_tool_move_household_item_summary">修改物品的存放位置</string>
+    <string name="agent_tool_move_household_item_description">把一件家庭物品移动到新的存放位置路径。物品按名称模糊匹配;位置路径不存在时自动逐级创建。</string>
+    <string name="agent_tool_move_household_item_param_name">物品名称,模糊匹配</string>
+    <string name="agent_tool_move_household_item_param_location_path">新的存放位置路径,用 "/" 或 ">" 分隔</string>
+    <string name="agent_tool_move_household_item_not_found">没有找到物品: %1$s</string>
+    <string name="agent_tool_move_household_item_failed">移动物品失败: %1$s</string>
+    <string-array name="agent_tool_move_household_item_keywords">
+        <item>物品</item>
+        <item>移动</item>
+        <item>挪到</item>
+    </string-array>
+    <string-array name="agent_tool_move_household_item_examples">
+        <item>把感冒药挪到客厅抽屉</item>
+    </string-array>
+
+    <!-- AI 工具:公共 -->
+    <string name="agent_tool_household_label_name">名称</string>
+    <string name="agent_tool_household_label_location">位置</string>
+    <string name="agent_tool_household_label_category">分类</string>
+    <string name="agent_tool_household_label_expiry">保质期</string>
+    <string name="agent_tool_household_label_note">备注</string>
+    <string name="agent_tool_household_expiry_expired">已过期 %1$d 天</string>
+    <string name="agent_tool_household_expiry_days_left">剩余 %1$d 天</string>
+    <string name="agent_tool_household_expiry_today">今天到期</string>
+    <string name="agent_tool_household_expiry_none">无保质期</string>
+    <string name="agent_tool_household_open_link">打开家庭物品</string>
+    <string name="agent_tool_household_unknown_error">未知错误</string>
+</resources>

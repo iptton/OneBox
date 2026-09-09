@@ -5,6 +5,7 @@ import com.shifenmiao.ai.R
 import com.shifenmiao.ai.agent.tool.AgentTool
 import com.shifenmiao.ai.agent.tool.AgentToolResult
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
+import com.shifenmiao.ai.agent.tool.RetryPolicy
 import com.shifenmiao.model.ai.ToolParameterProperty
 import com.shifenmiao.model.ai.ToolParameters
 import com.shifenmiao.model.ai.tool.ToolCategory
@@ -43,6 +44,8 @@ class FetchWebpageTool @Inject constructor(
         textProvider.array(R.array.agent_tool_fetch_webpage_examples)
 
     override val riskLevel: ToolRiskLevel = ToolRiskLevel.SENSITIVE
+
+    override val retryPolicy: RetryPolicy = RetryPolicy.NETWORK_DEFAULT
 
     override val parametersSchema: ToolParameters = ToolParameters(
         type = "object",

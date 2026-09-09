@@ -1,13 +1,16 @@
 对本地文本文件做局部编辑，适合代码 Agent 按计划执行小范围修改。输入支持本地路径、file:// URI，以及可解析为真实路径的 SAF content:// URI；工具会先统一转换为 file:// URI 后再修改文件。
 
-支持动作：
-- replace_text：按文本匹配替换，支持 replace_all
-- replace_lines：按行号整段替换
+支持动作（用 action 区分）：
+- replace_text：单处文本匹配替换，支持 replace_all。只改一处时用它
+- replace_lines：按起止行号整段替换。只改一段连续行时用它的 start_line/end_line 参数
 - insert_before_line / insert_after_line：在指定行前后插入内容
 - append / prepend：在文件尾部或头部追加内容
+- apply_text_patch：一次应用多段 old_text/new_text 补丁（经 hunks 参数）。要改多处、且每处都能给出精准旧文本时用；任一 hunk 匹配不到 old_text 会整体报错，避免误改
+- apply_range_patch：一次应用多段行范围补丁（经 hunks 参数，每项含 start_line/end_line/new_text，old_text 可选用于校验原内容）。已确认行号、更接近 diff 的修改方式时用
+
+选择建议：单处修改优先 replace_text / replace_lines；多处修改优先 apply_text_patch 或 apply_range_patch，一次调用完成，减少往返。
 
 注意：
 - 这是高风险写操作，需要用户确认
 - 仅支持文本文件，无法解析成真实 file:// 的 URI 会直接报错
 - 返回结果包含变更预览和目录 deeplink
-

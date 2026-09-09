@@ -5,6 +5,7 @@ import com.shifenmiao.ai.R
 import com.shifenmiao.ai.agent.tool.AgentTool
 import com.shifenmiao.ai.agent.tool.AgentToolResult
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
+import com.shifenmiao.ai.agent.tool.RetryPolicy
 import com.shifenmiao.model.ai.ToolParameterProperty
 import com.shifenmiao.model.ai.ToolParameters
 import com.shifenmiao.model.ai.tool.ToolCategory
@@ -43,6 +44,9 @@ class SendHttpRequestTool @Inject constructor(
         textProvider.array(R.array.agent_tool_send_http_request_examples)
 
     override val riskLevel: ToolRiskLevel = ToolRiskLevel.DANGEROUS
+
+    // 声明仅供参考: requiresConfirmation=true, 执行层安全约束会强制跳过重试
+    override val retryPolicy: RetryPolicy = RetryPolicy.NETWORK_DEFAULT
 
     override val requiresConfirmation: Boolean = true
 

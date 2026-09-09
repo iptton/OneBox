@@ -5,3 +5,5 @@ WebP 双向处理：提取帧（extract_frames）或合成 WebP 动画（create_
 - 将多张图片合成为 WebP 动画
 
 注意：提取帧建议用 png 格式；合成时未指定宽高则取第一张图片的原始尺寸。
+
+工具边界：本工具负责 WebP 格式相关处理（拆帧 / 合成动画）。要缩小图片文件体积用 compress_image，要限制图片宽高尺寸用 limit_resize_image，三者不要混用。

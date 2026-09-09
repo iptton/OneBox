@@ -47,7 +47,6 @@
         <item>builtin_ocean_deep|DeepOcean (dark mode)</item>
     </string-array>
 
-
     <!-- 中文 agent 工具关键词/示例,英文未翻译,默认配置保留以兜底 -->
     <string-array name="agent_tool_get_current_time_keywords">
         <item>时间</item>
@@ -306,6 +305,56 @@
         <item>批量记 3 笔今天的支出和收入</item>
     </string-array>
 
+    <string-array name="agent_tool_get_weather_keywords">
+        <item>天气</item>
+        <item>气温</item>
+        <item>天气预报</item>
+        <item>下雨</item>
+        <item>weather</item>
+        <item>forecast</item>
+        <item>温度</item>
+        <item>湿度</item>
+    </string-array>
+
+    <string-array name="agent_tool_get_weather_examples">
+        <item>北京今天天气怎么样</item>
+        <item>查一下上海未来 3 天的天气预报</item>
+        <item>我这里现在下雨吗</item>
+        <item>东京明天的气温</item>
+    </string-array>
+
+    <string-array name="agent_tool_read_text_aloud_keywords">
+        <item>TTS</item>
+        <item>text to speech</item>
+        <item>read aloud</item>
+        <item>speak</item>
+        <item>voice</item>
+        <item>speech</item>
+        <item>朗读</item>
+        <item>语音</item>
+    </string-array>
+
+    <string-array name="agent_tool_read_text_aloud_examples">
+        <item>Read this paragraph aloud</item>
+        <item>Speak the reply you just gave</item>
+        <item>Read this poem to me at a slower speed</item>
+        <item>I want to listen to this text</item>
+    </string-array>
+
+    <string-array name="agent_tool_stop_reading_keywords">
+        <item>stop reading</item>
+        <item>stop playback</item>
+        <item>silence</item>
+        <item>停止朗读</item>
+        <item>别读了</item>
+    </string-array>
+
+    <string-array name="agent_tool_stop_reading_examples">
+        <item>Stop reading</item>
+        <item>Don\'t read anymore</item>
+        <item>Turn off the voice</item>
+    </string-array>
+
     <string-array name="agent_tool_query_bookkeeping_records_keywords">
         <item>记账</item>
         <item>账本</item>
@@ -361,13 +410,16 @@
         <item>插入代码</item>
         <item>追加内容</item>
         <item>局部修改</item>
+        <item>应用补丁</item>
         <item>file edit</item>
+        <item>patch</item>
     </string-array>
 
     <string-array name="agent_tool_edit_file_examples">
         <item>把文件中的旧文本替换成新文本</item>
         <item>将第 20 到 35 行替换为新的实现</item>
         <item>在第 88 行后插入一段 Kotlin 代码</item>
+        <item>一次性应用多段 old_text/new_text 补丁</item>
     </string-array>
 
     <string-array name="agent_tool_glob_files_keywords">
@@ -398,21 +450,6 @@
         <item>在所有 Kotlin 文件中搜索 RootComponent</item>
         <item>查找所有包含 browse_files 的位置</item>
         <item>用正则搜索所有 Hilt Module</item>
-    </string-array>
-
-    <string-array name="agent_tool_apply_text_patch_keywords">
-        <item>补丁</item>
-        <item>patch</item>
-        <item>文本替换</item>
-        <item>批量替换</item>
-        <item>代码修改</item>
-        <item>多段替换</item>
-    </string-array>
-
-    <string-array name="agent_tool_apply_text_patch_examples">
-        <item>对同一个文件应用两段 old_text/new_text 替换</item>
-        <item>把一个 import 和一个函数体一起改掉</item>
-        <item>在确认 old_text 后批量打补丁</item>
     </string-array>
 
     <string-array name="agent_tool_stat_file_keywords">
@@ -458,21 +495,6 @@
         <item>先列出可用根目录</item>
         <item>看看代码代理应该从哪些目录开始</item>
         <item>展示可用的本地文件根目录</item>
-    </string-array>
-
-    <string-array name="agent_tool_apply_range_patch_keywords">
-        <item>行范围补丁</item>
-        <item>range patch</item>
-        <item>diff</item>
-        <item>按行替换</item>
-        <item>patch lines</item>
-        <item>代码补丁</item>
-    </string-array>
-
-    <string-array name="agent_tool_apply_range_patch_examples">
-        <item>把第 20 到 35 行替换成新的实现</item>
-        <item>一次修改两个不相邻的代码块</item>
-        <item>按行号应用类似 diff 的补丁</item>
     </string-array>
 
     <string-array name="agent_tool_fetch_webpage_keywords">
@@ -884,5 +906,4 @@
         <item>{"taskDescription": "open the settings page and turn on dark mode", "maxSteps": 15}</item>
     </string-array>
 </resources>
-
 

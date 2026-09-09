@@ -192,4 +192,111 @@
     <string name="lifetime_event_unit_bottles">bottles</string>
     <string name="lifetime_event_unit_packs">packs</string>
     <string name="lifetime_event_unit_boxes">boxes</string>
+
+    <!-- Lifetime agent tools -->
+    <string name="agent_tool_lifetime_unknown_error">Unknown error</string>
+    <string name="agent_tool_lifetime_open_link">Open lifetime</string>
+    <string name="agent_tool_lifetime_invalid_date">Invalid date \"%1$s\". Use yyyy-MM-dd, e.g. 2026-12-31.</string>
+    <string name="agent_tool_lifetime_invalid_type">Invalid type \"%1$s\". Use countdown or milestone.</string>
+    <string name="agent_tool_lifetime_label_target_date">Target date</string>
+    <string name="agent_tool_lifetime_label_note">Note</string>
+    <string name="agent_tool_lifetime_section_countdown">Countdowns</string>
+    <string name="agent_tool_lifetime_section_milestone">Milestones</string>
+    <string name="agent_tool_lifetime_days_left">%1$d days left</string>
+    <string name="agent_tool_lifetime_days_ago">%1$d days ago</string>
+    <string name="agent_tool_lifetime_today">today</string>
+    <string name="agent_tool_lifetime_reached">reached</string>
+    <string name="agent_tool_lifetime_date_unknown">date TBD</string>
+
+    <string name="agent_tool_add_countdown_event_title">Add Countdown Event</string>
+    <string name="agent_tool_add_countdown_event_summary">Create a countdown event with a name and target date.</string>
+    <string name="agent_tool_add_countdown_event_description">Create a countdown event in the lifetime module. `name` and `target_date` are required; the target date is a one-time Gregorian date (yyyy-MM-dd) — repeating or lunar-calendar countdowns are not supported. `note` is optional.</string>
+    <string name="agent_tool_add_countdown_event_param_name">Countdown name, required, e.g. "College entrance exam".</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">Target date, yyyy-MM-dd, e.g. 2026-12-31.</string>
+    <string name="agent_tool_add_countdown_event_param_note">Optional note for the countdown.</string>
+    <string name="agent_tool_add_countdown_event_name_required">The name parameter is required and cannot be blank.</string>
+    <string name="agent_tool_add_countdown_event_failed">Failed to add countdown event: %1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>countdown</item>
+        <item>days matter</item>
+        <item>anniversary</item>
+        <item>倒数日</item>
+        <item>倒计时</item>
+        <item>纪念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>Add a countdown: New Year 2027-01-01</item>
+        <item>帮我建一个倒数日:高考 2027-06-07</item>
+        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+    </string-array>
+
+    <string name="agent_tool_add_life_milestone_title">Add Life Milestone</string>
+    <string name="agent_tool_add_life_milestone_summary">Record a personal life milestone with a name and target date.</string>
+    <string name="agent_tool_add_life_milestone_description">Create a personal milestone in the lifetime module (e.g. a goal date or a memorable day). `name` and `target_date` (yyyy-MM-dd) are required; `note` is optional.</string>
+    <string name="agent_tool_add_life_milestone_param_name">Milestone name, required, e.g. "First marathon".</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">Target date, yyyy-MM-dd, e.g. 2027-05-01.</string>
+    <string name="agent_tool_add_life_milestone_param_note">Optional note for the milestone.</string>
+    <string name="agent_tool_add_life_milestone_name_required">The name parameter is required and cannot be blank.</string>
+    <string name="agent_tool_add_life_milestone_failed">Failed to add life milestone: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>milestone</item>
+        <item>goal</item>
+        <item>life event</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目标</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>Record a milestone: first marathon on 2026-11-15</item>
+        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
+        <item>添加人生里程碑 买房 2027-05-01</item>
+    </string-array>
+
+    <string name="agent_tool_query_life_events_title">Query Life Events</string>
+    <string name="agent_tool_query_life_events_summary">List countdown events and life milestones with remaining days.</string>
+    <string name="agent_tool_query_life_events_description">Query countdown events and personal milestones in the lifetime module. `type` filters the result: countdown, milestone, or all (default). `limit` caps the entries per type (default 20, max 50). Each entry includes its id (for delete_lifetime_entry), name, target date and remaining days.</string>
+    <string name="agent_tool_query_life_events_param_type">Entry type filter: countdown, milestone, or all (default).</string>
+    <string name="agent_tool_query_life_events_param_limit">Max entries per type, 1-50, default 20.</string>
+    <string name="agent_tool_query_life_events_empty">No entries yet</string>
+    <string name="agent_tool_query_life_events_failed">Failed to query life events: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>countdown</item>
+        <item>milestone</item>
+        <item>query</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+        <item>还有几天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>What countdowns do I have?</item>
+        <item>我还有哪些倒数日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距离下一个倒数日还有几天</item>
+    </string-array>
+
+    <string name="agent_tool_delete_lifetime_entry_title">Delete Life Event</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">Delete a countdown event or life milestone by id.</string>
+    <string name="agent_tool_delete_lifetime_entry_description">Delete a countdown event or personal milestone from the lifetime module. `type` (countdown or milestone) and `id` are required; the id comes from query_life_events results. Deletion is irreversible.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">Entry type: countdown or milestone.</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">Entry id, from query_life_events results.</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">The id parameter is required and must be a number.</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">No entry with id %1$d.</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">Deleted \"%1$s\".</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">Delete life event</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">Delete a countdown event or life milestone. This cannot be undone.</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">Failed to delete life event: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>delete</item>
+        <item>remove</item>
+        <item>countdown</item>
+        <item>milestone</item>
+        <item>删除</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>Delete the countdown with id 3</item>
+        <item>删除 id 为 3 的倒数日</item>
+        <item>删掉里程碑 5</item>
+    </string-array>
 </resources>

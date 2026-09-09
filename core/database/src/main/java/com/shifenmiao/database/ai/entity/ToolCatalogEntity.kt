@@ -6,19 +6,15 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 /**
- * 工具目录的持久化快照表.
+ * 工具目录的持久化快照表 (**遗留表, 当前无读写方**).
  *
- * 关注点分离:
- * - 运行时查询 (首轮 tools 选取 / 工具中心列表) 走 [com.shifenmiao.ai.agent.tool.AgentToolRegistry]
- *   (in-memory, 编译期权威, Step 1 缓存命中).
- * - 持久化 / 导出 / 导入 / 备份走本表, 由
- *   [com.shifenmiao.ai.agent.tool.ToolCatalogRepository] 读写.
+ * 历史上由 ToolCatalogRepository (已删除) 负责快照 / 导出 / 导入, 运行时查询一直走
+ * [com.shifenmiao.ai.agent.tool.AgentToolRegistry] (in-memory, 编译期权威).
+ * 该仓库从未接入任何 UI / 同步链路, 删除后本表成为孤儿.
  *
- * 数据来源 ([source] 字段):
- * - [SOURCE_BUILT_IN]: 由 [ToolCatalogRepository.snapshotFromRegistry] 从 in-memory 写入,
- *   包含当前 app 版本内置的全部工具元数据. 供 export 用.
- * - [SOURCE_IMPORTED]: 由 [ToolCatalogRepository.importFromJson] 写入, 来自用户导入的 JSON.
- *   可作为 "已导入工具" 列表展示, 也可被 [ToolCatalogRepository.clearImported] 一键清除.
+ * 保留本实体而不 DROP 表的原因: 删除 Room 实体需要一次数据库迁移
+ * (DROP TABLE + 版本号升级), 而项目没有数据库测试可验证迁移正确性;
+ * 表内数据无害且体积小, 留待下次必须升级 schema 时一并清理.
  *
  * Schema 注意点 (与历史上 v1 实现的差异):
  * - 集合字段 (keywords / examples / dependencies / bootstrapModes) 全部以 JSON 数组存储,

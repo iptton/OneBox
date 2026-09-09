@@ -208,6 +208,8 @@ import com.wanbaohe.recordcenter.router.RecordCenterRouterScreen
 import com.wanbaohe.recordcenter.router.screenLogic.RecordCenterRouterComponent
 import com.wanbaohe.habittracker.router.HabitTrackerRouterScreen
 import com.wanbaohe.habittracker.router.screenLogic.HabitTrackerRouterComponent
+import com.wanbaohe.householditems.component.HouseholdItemsComponent
+import com.wanbaohe.householditems.screen.HouseholdItemsScreen
 import com.wanbaohe.calendar.router.CalendarRouterScreen
 import com.wanbaohe.calendar.router.screenLogic.CalendarRouterComponent
 import com.wanbaohe.camera.watermark.presentation.screen.CameraWatermarkScreen
@@ -1082,6 +1084,15 @@ sealed interface NavigationChild {
         @Composable
         override fun Content() {
             HabitTrackerRouterScreen(component = component)
+        }
+    }
+
+    class HouseholdItems(
+        private val component: HouseholdItemsComponent
+    ) : NavigationChild {
+        @Composable
+        override fun Content() {
+            HouseholdItemsScreen(component = component, onGoBack = component.onGoBack)
         }
     }
 

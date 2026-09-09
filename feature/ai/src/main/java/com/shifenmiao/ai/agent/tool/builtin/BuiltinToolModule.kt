@@ -173,16 +173,6 @@ object BuiltinToolModule {
 
     @Provides
     @IntoMap
-    @StringKey("apply_text_patch")
-    fun provideApplyTextPatchTool(tool: ApplyTextPatchTool): AgentTool = tool
-
-    @Provides
-    @IntoMap
-    @StringKey("apply_range_patch")
-    fun provideApplyRangePatchTool(tool: ApplyRangePatchTool): AgentTool = tool
-
-    @Provides
-    @IntoMap
     @StringKey("process_file")
     fun provideProcessFileTool(tool: ProcessFileTool): AgentTool = tool
 
@@ -205,6 +195,21 @@ object BuiltinToolModule {
     @IntoMap
     @StringKey("query_bookkeeping_records")
     fun provideQueryBookkeepingRecordsTool(tool: QueryBookkeepingRecordsTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
+    @StringKey("get_weather")
+    fun provideGetWeatherTool(tool: GetWeatherTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
+    @StringKey("read_text_aloud")
+    fun provideReadTextAloudTool(tool: ReadTextAloudTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
+    @StringKey("stop_reading")
+    fun provideStopReadingTool(tool: StopReadingTool): AgentTool = tool
 
     // ========== 网络工具 ==========
 

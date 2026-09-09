@@ -5,6 +5,7 @@ import com.wanbaohe.core.weather.data.cache.LocationCityCache
 import com.wanbaohe.core.weather.data.cache.WeatherDataCache
 import com.wanbaohe.core.weather.data.source.QWeatherDataSource
 import com.wanbaohe.core.weather.domain.model.CityInfo
+import com.wanbaohe.core.weather.domain.model.DailyWeatherInfo
 import com.wanbaohe.core.weather.domain.model.WeatherInfo
 import com.wanbaohe.core.weather.domain.repository.WeatherRepository
 
@@ -31,6 +32,18 @@ class WeatherRepositoryImpl(
             return Result.success(cityInfo)
         }
         return Result.failure(result.exceptionOrNull()!!)
+    }
+
+    override suspend fun getCityByName(name: String): Result<CityInfo> {
+        val safeName = name.trim()
+        if (safeName.isEmpty()) {
+            return Result.failure(IllegalArgumentException("city name is blank"))
+        }
+        return dataSource.geoCityLookupByName(safeName)
+    }
+
+    override suspend fun getDailyForecast(cityId: String, days: Int): Result<List<DailyWeatherInfo>> {
+        return dataSource.getWeatherDaily(cityId, days.coerceIn(1, 7))
     }
 
     override suspend fun getWeatherAtLocation(lat: Double, lon: Double): Result<WeatherInfo> {

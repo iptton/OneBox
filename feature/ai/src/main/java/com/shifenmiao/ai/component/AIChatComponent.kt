@@ -553,10 +553,11 @@ open class AIChatComponent @AssistedInject internal constructor(
         // 但 [AgentLoopExecutor.executeBatchedToolCalls] 内部的
         //   coroutineScope { async { executeSingleToolCall(...) }.awaitAll() }
         // 是 structured concurrency: 取消信号会传播到子协程, 但子协程要到达下一个 suspension
-        // point 才会真正取消. 在这之间的 race window 内, 工具仍可能完成, 触发 onToolCompleted
-        // 修改 _answerMessageEntity, 与父 catch 块 (persistInterruptedChat) 对同一 entity
-        // 形成并发读写. 当前未引入新缺陷, 但也未根治 — 后续可考虑加 isShuttingDown flag
-        // 让 onToolCompleted 在 flag 置位后跳过 live state 修改, 改为只入 DB.
+        // point 才会真正取消. 在这之间的 race window 内, 工具仍可能完成.
+        // P1 review M1: 先置 shutdown 标记再 cancel — 窗口内完成的工具结果由执行器侧
+        // persistCallbacks 落 DB, onToolCompleted 跳过 live state 修改, 避免与旧 job
+        // catch 块 (persistInterruptedChat) 对同一 entity 形成并发读写.
+        agentLoopOrchestrator.beginShutdown()
         fetchJob?.cancel()
         fetchJob = newJob
     }
@@ -788,6 +789,9 @@ open class AIChatComponent @AssistedInject internal constructor(
         } catch (e: Exception) {
             streamContentProcessor.stopStreamWatchdog()
             agentLoopOrchestrator.showToolUiIdle()
+            // P1 review M1: 兜底置 shutdown 标记 (覆盖 onDestroy 等未经 cancel 入口的取消来源),
+            // 本 catch 块接管期间, 窗口内完成的工具结果只入 DB, 不改 live state.
+            agentLoopOrchestrator.beginShutdown()
             // 完整栈写到 logcat，UI 上的 errorMessage 只带栈首帧，避免无意义刷屏。
             "executeStreamingChat failed: ${e.javaClass.name}: ${e.message}".makeLog("AIChatComponent")
             e.stackTrace.take(5).forEach { frame ->
@@ -901,6 +905,8 @@ open class AIChatComponent @AssistedInject internal constructor(
         // 真正的错误 UI + DB 持久化由 executeStreamingChat 的 catch 块统一处理,
         // 避免与 persistInterruptedChat 对 _answerMessageEntity / DB 双重写.
         streamTimeoutByWatchdog = true
+        // P1 review M1: 先置 shutdown 标记, 窗口内完成的工具结果只入 DB, 不改 live state.
+        agentLoopOrchestrator.beginShutdown()
         runCatching { fetchJob?.cancel() }
     }
 
@@ -986,6 +992,8 @@ open class AIChatComponent @AssistedInject internal constructor(
             streamContentProcessor.stopStreamWatchdog()
             // P1 review M3: 同 [cancelCurrentTool], 防御性重置 watchdog flag.
             streamTimeoutByWatchdog = false
+            // P1 review M1: 先置 shutdown 标记再 cancel, 窗口内完成的工具结果只入 DB.
+            agentLoopOrchestrator.beginShutdown()
             fetchJob?.cancel()
             _chatUIState.value = _chatUIState.value.copy(chatActive = false)
             // fetchJob 被 cancel 后会在 executeStreamingChat 的 catch 块中触发 persistInterruptedChat()，
@@ -1092,6 +1100,8 @@ open class AIChatComponent @AssistedInject internal constructor(
             // 导致 flag 残留. 严格说下一轮 executeStreamingChat 入口会再次重置, 这里只是
             // 缩短 flag 残留窗口, 减少误判可能.
             streamTimeoutByWatchdog = false
+            // P1 review M1: 先置 shutdown 标记再 cancel, 窗口内完成的工具结果只入 DB.
+            agentLoopOrchestrator.beginShutdown()
             fetchJob?.cancel()
             agentLoopOrchestrator.showToolUiIdle()
             _chatUIState.value = _chatUIState.value.copy(chatActive = false)

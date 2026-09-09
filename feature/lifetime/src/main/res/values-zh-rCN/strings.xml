@@ -231,4 +231,111 @@
     <string name="lifetime_event_unit_bottles">瓶</string>
     <string name="lifetime_event_unit_packs">包</string>
     <string name="lifetime_event_unit_boxes">盒</string>
+
+    <!-- 人生时间线 Agent 工具 -->
+    <string name="agent_tool_lifetime_unknown_error">未知错误</string>
+    <string name="agent_tool_lifetime_open_link">打开人生时间线</string>
+    <string name="agent_tool_lifetime_invalid_date">日期「%1$s」格式错误，请使用 yyyy-MM-dd，例如 2026-12-31。</string>
+    <string name="agent_tool_lifetime_invalid_type">类型「%1$s」无效，请使用 countdown 或 milestone。</string>
+    <string name="agent_tool_lifetime_label_target_date">目标日期</string>
+    <string name="agent_tool_lifetime_label_note">备注</string>
+    <string name="agent_tool_lifetime_section_countdown">倒数日</string>
+    <string name="agent_tool_lifetime_section_milestone">人生里程碑</string>
+    <string name="agent_tool_lifetime_days_left">还剩 %1$d 天</string>
+    <string name="agent_tool_lifetime_days_ago">已过 %1$d 天</string>
+    <string name="agent_tool_lifetime_today">就是今天</string>
+    <string name="agent_tool_lifetime_reached">已达成</string>
+    <string name="agent_tool_lifetime_date_unknown">日期待定</string>
+
+    <string name="agent_tool_add_countdown_event_title">新建倒数日</string>
+    <string name="agent_tool_add_countdown_event_summary">创建一个带名称和目标日期的倒数日。</string>
+    <string name="agent_tool_add_countdown_event_description">在人生时间线中创建一条倒数日。name 与 target_date 必填；目标日期为一次性的公历日期（yyyy-MM-dd），不支持重复或农历倒数日。note 可选。</string>
+    <string name="agent_tool_add_countdown_event_param_name">倒数日名称，必填，例如「高考」。</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">目标日期，yyyy-MM-dd，例如 2026-12-31。</string>
+    <string name="agent_tool_add_countdown_event_param_note">倒数日备注，可选。</string>
+    <string name="agent_tool_add_countdown_event_name_required">name 参数必填且不能为空。</string>
+    <string name="agent_tool_add_countdown_event_failed">新建倒数日失败: %1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>countdown</item>
+        <item>days matter</item>
+        <item>anniversary</item>
+        <item>倒数日</item>
+        <item>倒计时</item>
+        <item>纪念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>Add a countdown: New Year 2027-01-01</item>
+        <item>帮我建一个倒数日:高考 2027-06-07</item>
+        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+    </string-array>
+
+    <string name="agent_tool_add_life_milestone_title">新建人生里程碑</string>
+    <string name="agent_tool_add_life_milestone_summary">记录一个带名称和目标日期的人生里程碑。</string>
+    <string name="agent_tool_add_life_milestone_description">在人生时间线中创建一条个人里程碑（如目标日、纪念日）。name 与 target_date（yyyy-MM-dd）必填；note 可选。</string>
+    <string name="agent_tool_add_life_milestone_param_name">里程碑名称，必填，例如「第一次马拉松」。</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">目标日期，yyyy-MM-dd，例如 2027-05-01。</string>
+    <string name="agent_tool_add_life_milestone_param_note">里程碑备注，可选。</string>
+    <string name="agent_tool_add_life_milestone_name_required">name 参数必填且不能为空。</string>
+    <string name="agent_tool_add_life_milestone_failed">新建人生里程碑失败: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>milestone</item>
+        <item>goal</item>
+        <item>life event</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目标</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>Record a milestone: first marathon on 2026-11-15</item>
+        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
+        <item>添加人生里程碑 买房 2027-05-01</item>
+    </string-array>
+
+    <string name="agent_tool_query_life_events_title">查询人生事件</string>
+    <string name="agent_tool_query_life_events_summary">列出倒数日与人生里程碑，含剩余天数。</string>
+    <string name="agent_tool_query_life_events_description">查询人生时间线中的倒数日和个人里程碑。type 过滤结果：countdown、milestone 或 all（默认）。limit 限制每类返回条数（默认 20，上限 50）。每条包含 id（可传给 delete_lifetime_entry）、名称、目标日期与剩余天数。</string>
+    <string name="agent_tool_query_life_events_param_type">条目类型过滤：countdown、milestone 或 all（默认）。</string>
+    <string name="agent_tool_query_life_events_param_limit">每类最多返回条数，1-50，默认 20。</string>
+    <string name="agent_tool_query_life_events_empty">暂无条目</string>
+    <string name="agent_tool_query_life_events_failed">查询人生事件失败: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>countdown</item>
+        <item>milestone</item>
+        <item>query</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+        <item>还有几天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>What countdowns do I have?</item>
+        <item>我还有哪些倒数日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距离下一个倒数日还有几天</item>
+    </string-array>
+
+    <string name="agent_tool_delete_lifetime_entry_title">删除人生事件</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">按 id 删除一条倒数日或人生里程碑。</string>
+    <string name="agent_tool_delete_lifetime_entry_description">删除人生时间线中的一条倒数日或个人里程碑。type（countdown 或 milestone）与 id 必填；id 来自 query_life_events 的查询结果。删除不可逆。</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">条目类型：countdown 或 milestone。</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">条目 id，来自 query_life_events 的查询结果。</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">id 参数必填且必须是数字。</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">未找到 id 为 %1$d 的条目。</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">已删除「%1$s」。</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">删除人生事件</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">删除一条倒数日或人生里程碑，删除后不可恢复。</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">删除人生事件失败: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>delete</item>
+        <item>remove</item>
+        <item>countdown</item>
+        <item>milestone</item>
+        <item>删除</item>
+        <item>倒数日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>Delete the countdown with id 3</item>
+        <item>删除 id 为 3 的倒数日</item>
+        <item>删掉里程碑 5</item>
+    </string-array>
 </resources>

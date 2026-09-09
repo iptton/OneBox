@@ -42,4 +42,71 @@
     <string name="poem_history_empty">No history yet</string>
     <string name="poem_favorites_only">Favorites only</string>
     <string name="poem_delete">Delete</string>
+
+    <string name="agent_tool_search_poem_title">Search Poems</string>
+    <string name="agent_tool_search_poem_summary">Search Chinese classical poems by keyword</string>
+    <string name="agent_tool_search_poem_description">Search Chinese classical poems by keyword, matching titles, poets and verse text. Keywords with 3 or more characters use full-text search; shorter keywords (such as a two-character poet name) use filtered sampling. Returns poem id, title, poet, dynasty and an excerpt. Call get_poem_detail with the id or title to get the full text.</string>
+    <string name="agent_tool_search_poem_param_query">Search keyword: a verse fragment, poem title or poet name</string>
+    <string name="agent_tool_search_poem_param_max_results">Max number of results, 1-20, default 10</string>
+    <string name="agent_tool_search_poem_query_required">query must not be blank</string>
+    <string name="agent_tool_search_poem_empty">No poems matched \"%1$s\"</string>
+    <string name="agent_tool_search_poem_failed">Failed to search poems: %1$s</string>
+    <string-array name="agent_tool_search_poem_keywords">
+        <item>poem</item>
+        <item>poetry</item>
+        <item>verse</item>
+        <item>poet</item>
+        <item>古诗</item>
+        <item>诗词</item>
+    </string-array>
+    <string-array name="agent_tool_search_poem_examples">
+        <item>Search poems about the moon</item>
+        <item>Find poems by Li Bai</item>
+        <item>有哪些写月亮的古诗</item>
+    </string-array>
+
+    <string name="agent_tool_get_poem_detail_title">Poem Detail</string>
+    <string name="agent_tool_get_poem_detail_summary">Full text of a poem, with translation and insight when available</string>
+    <string name="agent_tool_get_poem_detail_description">Get the full text of a Chinese classical poem, plus its AI-generated modern translation and insight if they were previously generated. Provide poem_id (from search_poem results) or the poem title, optionally with author to disambiguate. Poems resolved online are saved to the local library so the detail page link works.</string>
+    <string name="agent_tool_get_poem_detail_param_poem_id">Poem id, as returned by search_poem</string>
+    <string name="agent_tool_get_poem_detail_param_title">Poem title, used when poem_id is unknown</string>
+    <string name="agent_tool_get_poem_detail_param_author">Poet name, optional, used together with title to disambiguate</string>
+    <string name="agent_tool_get_poem_detail_id_or_title_required">Provide poem_id or title</string>
+    <string name="agent_tool_get_poem_detail_not_found">Poem not found: %1$s</string>
+    <string name="agent_tool_get_poem_detail_failed">Failed to get poem detail: %1$s</string>
+    <string-array name="agent_tool_get_poem_detail_keywords">
+        <item>poem detail</item>
+        <item>full text</item>
+        <item>translation</item>
+        <item>insight</item>
+        <item>诗词详情</item>
+        <item>全文</item>
+    </string-array>
+    <string-array name="agent_tool_get_poem_detail_examples">
+        <item>Show the full text of 静夜思</item>
+        <item>Get the poem with id 123</item>
+        <item>把《静夜思》的全文和译文给我</item>
+    </string-array>
+
+    <string name="agent_tool_query_poem_favorites_title">Favorite Poems</string>
+    <string name="agent_tool_query_poem_favorites_summary">List locally favorited poems</string>
+    <string name="agent_tool_query_poem_favorites_description">List the poems the user has favorited locally, with id, title, poet, dynasty and an excerpt. Local only, no network needed.</string>
+    <string name="agent_tool_query_poem_favorites_param_max_results">Max number of results, 1-50, default 20</string>
+    <string name="agent_tool_query_poem_favorites_empty">No favorited poems yet</string>
+    <string name="agent_tool_query_poem_favorites_failed">Failed to query favorite poems: %1$s</string>
+    <string-array name="agent_tool_query_poem_favorites_keywords">
+        <item>favorite poems</item>
+        <item>favorites</item>
+        <item>收藏</item>
+        <item>诗词收藏</item>
+    </string-array>
+    <string-array name="agent_tool_query_poem_favorites_examples">
+        <item>List my favorite poems</item>
+        <item>我收藏了哪些诗</item>
+    </string-array>
+
+    <string name="agent_tool_poem_open_detail_link">Read Poem</string>
+    <string name="agent_tool_poem_open_search_link">Open Poem Search</string>
+    <string name="agent_tool_poem_open_home_link">Open Chinese Poetry</string>
+    <string name="agent_tool_poem_unknown_error">unknown error</string>
 </resources>

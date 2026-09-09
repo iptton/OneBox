@@ -42,4 +42,70 @@
     <string name="poem_history_empty">暂无历史记录</string>
     <string name="poem_favorites_only">只看收藏</string>
     <string name="poem_delete">删除</string>
+
+    <string name="agent_tool_search_poem_title">搜索诗词</string>
+    <string name="agent_tool_search_poem_summary">按关键词搜索中国古诗词</string>
+    <string name="agent_tool_search_poem_description">按关键词搜索中国古诗词,匹配标题、诗人与诗句。3 个字符及以上的关键词走全文搜索;更短的关键词(如两字诗人名)走筛选取样近似。返回诗词 id、标题、诗人、朝代与节选;用 get_poem_detail 传 id 或标题可取全文。</string>
+    <string name="agent_tool_search_poem_param_query">搜索关键词:诗句片段、诗名或诗人名</string>
+    <string name="agent_tool_search_poem_param_max_results">最多返回条数,1-20,默认 10</string>
+    <string name="agent_tool_search_poem_query_required">query 不能为空</string>
+    <string name="agent_tool_search_poem_empty">没有找到与「%1$s」相关的诗词</string>
+    <string name="agent_tool_search_poem_failed">搜索诗词失败:%1$s</string>
+    <string-array name="agent_tool_search_poem_keywords">
+        <item>古诗</item>
+        <item>诗词</item>
+        <item>诗句</item>
+        <item>诗人</item>
+        <item>poem</item>
+        <item>poetry</item>
+    </string-array>
+    <string-array name="agent_tool_search_poem_examples">
+        <item>搜索写月亮的诗</item>
+        <item>找几首李白的诗</item>
+        <item>Search poems about autumn</item>
+    </string-array>
+
+    <string name="agent_tool_get_poem_detail_title">诗词详情</string>
+    <string name="agent_tool_get_poem_detail_summary">获取诗词全文,含已生成的译文与解读</string>
+    <string name="agent_tool_get_poem_detail_description">获取一首中国古诗词的全文;若之前生成过 AI 现代翻译与诗意解读,一并返回。可传 poem_id(search_poem 结果中的 id)或诗词标题,标题可搭配 author 消歧。线上取到的诗词会写入本地库,详情页链接因此可用。</string>
+    <string name="agent_tool_get_poem_detail_param_poem_id">诗词 id,即 search_poem 结果中的 id</string>
+    <string name="agent_tool_get_poem_detail_param_title">诗词标题,不知道 poem_id 时使用</string>
+    <string name="agent_tool_get_poem_detail_param_author">诗人名,可选,搭配标题消歧</string>
+    <string name="agent_tool_get_poem_detail_id_or_title_required">请提供 poem_id 或 title</string>
+    <string name="agent_tool_get_poem_detail_not_found">未找到诗词:%1$s</string>
+    <string name="agent_tool_get_poem_detail_failed">获取诗词详情失败:%1$s</string>
+    <string-array name="agent_tool_get_poem_detail_keywords">
+        <item>诗词详情</item>
+        <item>全文</item>
+        <item>译文</item>
+        <item>解读</item>
+        <item>poem detail</item>
+    </string-array>
+    <string-array name="agent_tool_get_poem_detail_examples">
+        <item>把《静夜思》的全文给我</item>
+        <item>获取 id 为 123 的诗词</item>
+        <item>Show the full text of 静夜思</item>
+    </string-array>
+
+    <string name="agent_tool_query_poem_favorites_title">收藏的诗词</string>
+    <string name="agent_tool_query_poem_favorites_summary">查看本地收藏的诗词</string>
+    <string name="agent_tool_query_poem_favorites_description">列出用户本地收藏的诗词,含 id、标题、诗人、朝代与节选。纯本地查询,不需要网络。</string>
+    <string name="agent_tool_query_poem_favorites_param_max_results">最多返回条数,1-50,默认 20</string>
+    <string name="agent_tool_query_poem_favorites_empty">还没有收藏任何诗词</string>
+    <string name="agent_tool_query_poem_favorites_failed">查询收藏诗词失败:%1$s</string>
+    <string-array name="agent_tool_query_poem_favorites_keywords">
+        <item>收藏</item>
+        <item>诗词收藏</item>
+        <item>favorite poems</item>
+        <item>favorites</item>
+    </string-array>
+    <string-array name="agent_tool_query_poem_favorites_examples">
+        <item>我收藏了哪些诗</item>
+        <item>List my favorite poems</item>
+    </string-array>
+
+    <string name="agent_tool_poem_open_detail_link">查看诗词</string>
+    <string name="agent_tool_poem_open_search_link">打开诗词搜索</string>
+    <string name="agent_tool_poem_open_home_link">打开中国古诗词</string>
+    <string name="agent_tool_poem_unknown_error">未知错误</string>
 </resources>

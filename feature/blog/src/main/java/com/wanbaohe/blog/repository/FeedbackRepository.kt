@@ -5,10 +5,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.shifenmiao.model.blog.BlogItem
+import com.shifenmiao.model.blog.FeedbackRequest
 import com.shifenmiao.network.api.ApiService
 import com.shifenmiao.storage.BlogListStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class FeedbackRepository(
     private val apiService: ApiService
@@ -56,6 +60,36 @@ class FeedbackRepository(
         } catch (e: Exception) {
             null
         }
+    }
+
+    /**
+     * 提交用户反馈(对应 POST api/blogs/feedback)。
+     *
+     * 该接口走 AnyAuth 鉴权(游客 token 即可),服务端对未登录请求有默认用户兜底,
+     * 因此不要求登录态。服务端对 title 有全局非空 + 唯一约束,
+     * 这里取正文首行前缀拼接时间戳生成标题,避免重名导致提交失败。
+     *
+     * @return true 表示提交成功
+     */
+    suspend fun submitFeedback(content: String): Boolean {
+        val request = FeedbackRequest(
+            title = buildFeedbackTitle(content),
+            content = content,
+            pictureIds = emptyList(),
+            tagIds = emptyList(),
+            blogType = FEEDBACK_BLOG_TYPE
+        )
+        return try {
+            apiService.createFeedback(request).isSuccessful
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    private fun buildFeedbackTitle(content: String): String {
+        val prefix = content.lineSequence().firstOrNull().orEmpty().trim().take(TITLE_PREFIX_LENGTH)
+        val timestamp = SimpleDateFormat(TITLE_TIME_PATTERN, Locale.US).format(Date())
+        return "$prefix-$timestamp"
     }
 
     private class BlogPagingSource(
@@ -108,5 +142,14 @@ class FeedbackRepository(
                 anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
             }
         }
+    }
+
+    private companion object {
+        /** 与反馈页 CreateFeedbackComponent 默认 blogType 保持一致 */
+        const val FEEDBACK_BLOG_TYPE = 1
+
+        const val TITLE_PREFIX_LENGTH = 16
+
+        const val TITLE_TIME_PATTERN = "yyyyMMddHHmmss"
     }
 }

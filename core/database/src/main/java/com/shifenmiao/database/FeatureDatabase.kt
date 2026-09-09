@@ -32,6 +32,10 @@ import com.shifenmiao.database.habit.dao.HabitCheckInDao
 import com.shifenmiao.database.habit.dao.HabitDao
 import com.shifenmiao.database.habit.entity.HabitCheckInEntity
 import com.shifenmiao.database.habit.entity.HabitEntity
+import com.shifenmiao.database.household.dao.HouseholdItemDao
+import com.shifenmiao.database.household.dao.HouseholdLocationDao
+import com.shifenmiao.database.household.entity.HouseholdItemEntity
+import com.shifenmiao.database.household.entity.HouseholdLocationEntity
 import com.shifenmiao.database.idphoto.dao.IdPhotoSizeDao
 import com.shifenmiao.database.idphoto.entity.IdPhotoSizeEntity
 import com.shifenmiao.database.lifetime.dao.CountdownEventDao
@@ -130,8 +134,10 @@ import java.io.InputStreamReader
         PoemEntity::class,
         AiDetectRecordEntity::class,
         HealthRecordEntity::class,
+        HouseholdLocationEntity::class,
+        HouseholdItemEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = true
 )
 @TypeConverters(MarkTodoTypeConverters::class)
@@ -205,6 +211,10 @@ abstract class FeatureDatabase : RoomDatabase() {
     abstract fun aiDetectRecordDao(): AiDetectRecordDao
 
     abstract fun healthRecordDao(): HealthRecordDao
+
+    abstract fun householdLocationDao(): HouseholdLocationDao
+
+    abstract fun householdItemDao(): HouseholdItemDao
 
     companion object {
         private val MIGRATION_1_2 = object : androidx.room.migration.Migration(1, 2) {
@@ -359,6 +369,47 @@ abstract class FeatureDatabase : RoomDatabase() {
             }
         }
 
+        // 家庭物品管理:位置(自关联层级)+ 物品表,SQL 与 schemas/.../7.json 的 createSql 一致
+        private val MIGRATION_6_7 = object : androidx.room.migration.Migration(6, 7) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS `household_location` (
+                        `id` TEXT NOT NULL,
+                        `name` TEXT NOT NULL,
+                        `parent_id` TEXT,
+                        `sort_order` INTEGER NOT NULL,
+                        `created_at` INTEGER NOT NULL,
+                        PRIMARY KEY(`id`),
+                        FOREIGN KEY(`parent_id`) REFERENCES `household_location`(`id`)
+                            ON UPDATE CASCADE ON DELETE CASCADE
+                    )
+                    """.trimIndent()
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_household_location_parent_id` ON `household_location` (`parent_id`)")
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS `household_item` (
+                        `id` TEXT NOT NULL,
+                        `name` TEXT NOT NULL,
+                        `category` TEXT,
+                        `location_id` TEXT,
+                        `expire_at` INTEGER,
+                        `photo_path` TEXT,
+                        `note` TEXT,
+                        `created_at` INTEGER NOT NULL,
+                        `updated_at` INTEGER NOT NULL,
+                        PRIMARY KEY(`id`),
+                        FOREIGN KEY(`location_id`) REFERENCES `household_location`(`id`)
+                            ON UPDATE CASCADE ON DELETE SET NULL
+                    )
+                    """.trimIndent()
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_household_item_location_id` ON `household_item` (`location_id`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_household_item_name` ON `household_item` (`name`)")
+            }
+        }
+
         const val DB_NAME_PREFIX: String = "feature"
 
         // 语言切换后进程会冷重启（见 LocaleSwitchWatcher），Hilt @Singleton 注入的库实例
@@ -408,7 +459,7 @@ abstract class FeatureDatabase : RoomDatabase() {
                     FeatureDatabase::class.java,
                     currentDbName
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
                     .fallbackToDestructiveMigration(true)
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {

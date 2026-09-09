@@ -36,6 +36,7 @@ dependencies {
 
     implementation(projects.feature.common)
     implementation(projects.feature.webview)
+    implementation(projects.feature.ai)
 
 
 }

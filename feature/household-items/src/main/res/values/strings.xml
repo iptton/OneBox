@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主页 -->
+    <string name="household_title">Household Items</string>
+    <string name="household_search_hint">Search name, category or note</string>
+    <string name="household_expiry_section">Expiry reminders</string>
+    <string name="household_expired">Expired</string>
+    <string name="household_expiring_soon">Expiring soon</string>
+    <string name="household_expired_days">Expired %1$d d ago</string>
+    <string name="household_days_left">%1$d d left</string>
+    <string name="household_expires_today">Expires today</string>
+    <string name="household_add_item">Add item</string>
+    <string name="household_manage_locations">Manage locations</string>
+    <string name="household_empty_items">No items yet. Tap + to add one.</string>
+    <string name="household_empty_search">No matching items</string>
+    <string name="household_breadcrumb_home">All</string>
+    <string name="household_uncategorized">Uncategorized</string>
+    <string name="household_no_location">No location</string>
+    <string name="household_delete_item">Delete</string>
+    <string name="household_edit_item">Edit</string>
+
+    <!-- 编辑表单 -->
+    <string name="household_editor_add_title">Add Item</string>
+    <string name="household_editor_edit_title">Edit Item</string>
+    <string name="household_editor_name_label">Name</string>
+    <string name="household_editor_name_hint">e.g. Cold medicine</string>
+    <string name="household_editor_category_label">Category</string>
+    <string name="household_category_medicine">Medicine</string>
+    <string name="household_category_small">Small items</string>
+    <string name="household_category_big">Large items</string>
+    <string name="household_category_custom_hint">Custom category</string>
+    <string name="household_editor_location_label">Location</string>
+    <string name="household_editor_location_none">No location</string>
+    <string name="household_editor_location_pick">Choose location</string>
+    <string name="household_editor_expire_label">Expiry date</string>
+    <string name="household_editor_expire_pick">Pick date</string>
+    <string name="household_editor_expire_clear">Clear</string>
+    <string name="household_editor_photo_label">Photo</string>
+    <string name="household_editor_photo_add">Add photo</string>
+    <string name="household_editor_photo_remove">Remove photo</string>
+    <string name="household_editor_note_label">Note (optional)</string>
+    <string name="household_editor_note_hint">Usage, specs, etc.</string>
+    <string name="household_save">Save</string>
+    <string name="household_cancel">Cancel</string>
+    <string name="household_confirm">OK</string>
+
+    <!-- 位置管理 -->
+    <string name="household_locations_title">Manage Locations</string>
+    <string name="household_location_add_root">Add top-level location</string>
+    <string name="household_location_add_child">Add child</string>
+    <string name="household_location_rename">Rename</string>
+    <string name="household_location_delete">Delete</string>
+    <string name="household_location_name_hint">Location name</string>
+    <string name="household_location_delete_blocked">This location has sub-locations or items, remove them first</string>
+    <string name="household_locations_empty">No locations yet</string>
+
+    <!-- 活动日志 -->
+    <string name="household_log_item_created">Added item: %1$s</string>
+    <string name="household_log_item_updated">Updated item: %1$s</string>
+    <string name="household_log_item_deleted">Deleted item: %1$s</string>
+    <string name="household_log_item_moved">Moved item: %1$s</string>
+    <string name="household_log_location_created">Added location: %1$s</string>
+    <string name="household_log_location_renamed">Renamed location: %1$s</string>
+    <string name="household_log_location_deleted">Deleted location: %1$s</string>
+
+    <!-- AI 工具:add_household_item -->
+    <string name="agent_tool_add_household_item_title">Add Household Item</string>
+    <string name="agent_tool_add_household_item_summary">Record a household item with its storage location</string>
+    <string name="agent_tool_add_household_item_description">Record a household item: name, storage location path (auto-created level by level if missing), optional category, expiry date and note.</string>
+    <string name="agent_tool_add_household_item_param_name">Item name, e.g. "Cold medicine"</string>
+    <string name="agent_tool_add_household_item_param_location_path">Storage location path, segments separated by "/" or ">", e.g. "Bedroom/Wardrobe/Top drawer". Created automatically if missing</string>
+    <string name="agent_tool_add_household_item_param_category">Category, free text, e.g. Medicine / Small items / Large items</string>
+    <string name="agent_tool_add_household_item_param_expire_date">Expiry date, yyyy-MM-dd, optional</string>
+    <string name="agent_tool_add_household_item_param_note">Optional note</string>
+    <string name="agent_tool_add_household_item_failed">Failed to add item: %1$s</string>
+    <string-array name="agent_tool_add_household_item_keywords">
+        <item>household</item>
+        <item>item</item>
+        <item>storage</item>
+        <item>add item</item>
+    </string-array>
+    <string-array name="agent_tool_add_household_item_examples">
+        <item>Record the cold medicine in the bedroom medicine box, expiring June 2027</item>
+        <item>Add the spare charger to the study desk drawer</item>
+    </string-array>
+
+    <!-- AI 工具:find_household_item -->
+    <string name="agent_tool_find_household_item_title">Find Household Item</string>
+    <string name="agent_tool_find_household_item_summary">Find where a household item is stored</string>
+    <string name="agent_tool_find_household_item_description">Fuzzy-search household items by name, category or note. Returns each match with its full location path, expiry status and note.</string>
+    <string name="agent_tool_find_household_item_param_query">Search keyword, matched against name, category and note</string>
+    <string name="agent_tool_find_household_item_empty">No matching items found</string>
+    <string name="agent_tool_find_household_item_failed">Failed to find item: %1$s</string>
+    <string-array name="agent_tool_find_household_item_keywords">
+        <item>household</item>
+        <item>find</item>
+        <item>where is</item>
+        <item>location</item>
+    </string-array>
+    <string-array name="agent_tool_find_household_item_examples">
+        <item>Where is the cold medicine?</item>
+        <item>Find the spare charger</item>
+    </string-array>
+
+    <!-- AI 工具:move_household_item -->
+    <string name="agent_tool_move_household_item_title">Move Household Item</string>
+    <string name="agent_tool_move_household_item_summary">Change the storage location of a household item</string>
+    <string name="agent_tool_move_household_item_description">Move a household item to a new storage location path. The item is located by fuzzy name; the location path is created level by level if missing.</string>
+    <string name="agent_tool_move_household_item_param_name">Item name, fuzzy matched</string>
+    <string name="agent_tool_move_household_item_param_location_path">New storage location path, segments separated by "/" or ">"</string>
+    <string name="agent_tool_move_household_item_not_found">Item not found: %1$s</string>
+    <string name="agent_tool_move_household_item_failed">Failed to move item: %1$s</string>
+    <string-array name="agent_tool_move_household_item_keywords">
+        <item>household</item>
+        <item>move</item>
+        <item>relocate</item>
+    </string-array>
+    <string-array name="agent_tool_move_household_item_examples">
+        <item>Move the cold medicine to the living room drawer</item>
+    </string-array>
+
+    <!-- AI 工具:公共 -->
+    <string name="agent_tool_household_label_name">Name</string>
+    <string name="agent_tool_household_label_location">Location</string>
+    <string name="agent_tool_household_label_category">Category</string>
+    <string name="agent_tool_household_label_expiry">Expiry</string>
+    <string name="agent_tool_household_label_note">Note</string>
+    <string name="agent_tool_household_expiry_expired">Expired %1$d days ago</string>
+    <string name="agent_tool_household_expiry_days_left">%1$d days left</string>
+    <string name="agent_tool_household_expiry_today">Expires today</string>
+    <string name="agent_tool_household_expiry_none">No expiry date</string>
+    <string name="agent_tool_household_open_link">Open Household Items</string>
+    <string name="agent_tool_household_unknown_error">Unknown error</string>
+</resources>

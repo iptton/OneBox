@@ -1627,6 +1627,14 @@ sealed class Screen(
     }
 
     @Serializable
+    @SerialName("HouseholdItems")
+    data object HouseholdItems : Screen(
+        id = 1059,
+        title = com.shifenmiao.core.R.string.household_items,
+        subtitle = com.shifenmiao.core.R.string.household_items_description,
+    )
+
+    @Serializable
     @SerialName("RecordCenter")
     data class RecordCenter(
         val type: Type? = null

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AI Agent 工具: submit_feedback -->
+    <string name="agent_tool_submit_feedback_title">Submit Feedback</string>
+    <string name="agent_tool_submit_feedback_summary">Send suggestions, bug reports or feature requests to the developers</string>
+    <string name="agent_tool_submit_feedback_description">Submit the user\'s feedback (suggestions, bug reports or feature requests) to the development team. No login required. The content parameter is required; the optional contact info will be appended to the feedback so the developers can follow up.</string>
+    <string name="agent_tool_submit_feedback_param_content">Feedback content, required, up to 2000 characters. Describe the problem, suggestion or feature request in detail.</string>
+    <string name="agent_tool_submit_feedback_param_contact">Optional contact info (email, QQ, WeChat, etc.) so the developers can reach the user for follow-up.</string>
+    <string name="agent_tool_submit_feedback_success">Feedback submitted successfully. Thank you! The developers will review it as soon as possible, and you can check for replies on the feedback page.</string>
+    <string name="agent_tool_submit_feedback_failed">Failed to submit feedback: %1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">Feedback content cannot be empty</string>
+    <string name="agent_tool_submit_feedback_error_too_long">Feedback content exceeds the length limit (max %1$d characters)</string>
+    <string name="agent_tool_submit_feedback_contact_label">Contact</string>
+    <string name="agent_tool_submit_feedback_unknown_error">Unknown error</string>
+    <string name="agent_tool_submit_feedback_open_link">View my feedback</string>
+
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>feedback</item>
+        <item>suggestion</item>
+        <item>bug report</item>
+        <item>feature request</item>
+        <item>issue</item>
+    </string-array>
+
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>Submit feedback for me: I hope dark mode can switch automatically</item>
+        <item>I want to report a problem: the QR scanner crashes occasionally</item>
+        <item>Submit feedback: please add batch rename, my email is test@example.com</item>
+    </string-array>
+</resources>

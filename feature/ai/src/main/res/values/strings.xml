@@ -236,8 +236,8 @@
     <string name="agent_tool_read_barcode_failed">Barcode recognition failed: %1$s</string>
 
     <string name="agent_tool_limit_resize_title">Image Size Limit</string>
-    <string name="agent_tool_limit_resize_summary">Crop or scale images by max width/height limits</string>
-    <string name="agent_tool_limit_resize_description">Process images within the specified max width and height limits. Supports three modes: Skip (skip images within limits), Recode (re-encode only), Zoom (force scale into the limit range). Processed images are saved to the cache directory and the URI is returned.</string>
+    <string name="agent_tool_limit_resize_summary">Crop or scale images by max width/height limits (use compress_image to shrink file size, webp_tool for WebP format work)</string>
+    <string name="agent_tool_limit_resize_description">Process images within the specified max width and height limits — this tool is about DIMENSIONS, not file size. Supports three modes: Skip (skip images within limits), Recode (re-encode only), Zoom (force scale into the limit range). Processed images are saved to the cache directory and the URI is returned. To reduce file size below a target byte count use compress_image; for WebP frame extraction / animation creation use webp_tool.</string>
     <string name="agent_tool_limit_resize_param_image_uri">URI of the image to process.</string>
     <string name="agent_tool_limit_resize_param_max_width">Max width in pixels, 0 means no width limit.</string>
     <string name="agent_tool_limit_resize_param_max_height">Max height in pixels, 0 means no height limit.</string>
@@ -251,8 +251,8 @@
     <string name="agent_tool_limit_resize_failed">Image size limit processing failed: %1$s</string>
 
     <string name="agent_tool_compress_image_title">Image Compression</string>
-    <string name="agent_tool_compress_image_summary">Compress an image below a target file size</string>
-    <string name="agent_tool_compress_image_description">Compress an image below the specified target byte size. Achieved by progressively lowering quality and shrinking dimensions. If the original is already smaller than the target, returns directly without processing. Compressed images are saved to the cache directory and the URI is returned.</string>
+    <string name="agent_tool_compress_image_summary">Compress an image below a target file size (use limit_resize_image to cap dimensions, webp_tool for WebP format work)</string>
+    <string name="agent_tool_compress_image_description">Compress an image below the specified target byte size — this tool is about FILE SIZE, not dimensions. Achieved by progressively lowering quality and shrinking dimensions. If the original is already smaller than the target, returns directly without processing. Compressed images are saved to the cache directory and the URI is returned. To cap image width/height use limit_resize_image; for WebP frame extraction / animation creation use webp_tool.</string>
     <string name="agent_tool_compress_image_param_image_uri">URI of the image to compress.</string>
     <string name="agent_tool_compress_image_param_max_bytes">Target max byte size, e.g. 1048576 for 1MB.</string>
     <string name="agent_tool_compress_image_param_image_format">Output format, e.g. jpeg, png, webp. Default jpeg.</string>
@@ -306,7 +306,7 @@
 
     <!-- File processing tools -->
     <string name="agent_tool_process_file_title">Read File</string>
-    <string name="agent_tool_process_file_summary">Read local text files, search keywords and return structured line-numbered results</string>
+    <string name="agent_tool_process_file_summary">Read a single local text file by line range, search keywords and return structured line-numbered results</string>
     <string name="agent_tool_process_file_param_file_path">Local file path or URI inside the workspace.</string>
     <string name="agent_tool_process_file_param_action">Action type: read reads a line range; search searches keywords; context returns match context.</string>
     <string name="agent_tool_process_file_param_start_line">Start line number for read mode, starting from 1.</string>
@@ -322,15 +322,16 @@
     <string name="agent_tool_process_file_failed">File read tool execution failed: %1$s</string>
 
     <string name="agent_tool_edit_file_title">Edit File</string>
-    <string name="agent_tool_edit_file_summary">Make partial replacements, line insertions or append content on a text file</string>
+    <string name="agent_tool_edit_file_summary">Edit a text file: single edits, multi-segment old/new patches or line-range patches</string>
     <string name="agent_tool_edit_file_param_file_uri">File path or URI inside the workspace to edit.</string>
-    <string name="agent_tool_edit_file_param_action">Edit action: replace_text, replace_lines, insert_before_line, insert_after_line, append, prepend.</string>
+    <string name="agent_tool_edit_file_param_action">Edit action. Single edits: replace_text (match and replace text), replace_lines (replace a line range), insert_before_line / insert_after_line, append, prepend. Multi-segment patches: apply_text_patch (multiple old_text/new_text hunks via the hunks parameter), apply_range_patch (multiple start_line/end_line hunks via the hunks parameter).</string>
     <string name="agent_tool_edit_file_param_old_text">Old text to match and replace in replace_text mode.</string>
     <string name="agent_tool_edit_file_param_new_text">New text content to write.</string>
     <string name="agent_tool_edit_file_param_start_line">Start line number (inclusive) for replace_lines mode.</string>
     <string name="agent_tool_edit_file_param_end_line">End line number (inclusive) for replace_lines mode.</string>
     <string name="agent_tool_edit_file_param_line">Target line number for insert_before_line / insert_after_line modes.</string>
     <string name="agent_tool_edit_file_param_replace_all">Whether replace_text should replace all matches, default false.</string>
+    <string name="agent_tool_edit_file_param_hunks">Patch array for apply_text_patch / apply_range_patch modes. apply_text_patch hunks require old_text and new_text (optional replace_all); apply_range_patch hunks require start_line, end_line and new_text (optional old_text for content verification).</string>
     <string name="agent_tool_edit_file_missing_file_uri">Missing file_uri parameter</string>
     <string name="agent_tool_edit_file_missing_action">Missing action parameter</string>
     <string name="agent_tool_edit_file_missing_old_text">replace_text mode requires the old_text parameter</string>
@@ -338,6 +339,8 @@
     <string name="agent_tool_edit_file_missing_start_line">replace_lines mode requires the start_line parameter</string>
     <string name="agent_tool_edit_file_missing_end_line">replace_lines mode requires the end_line parameter</string>
     <string name="agent_tool_edit_file_missing_line">This insert action requires the line parameter</string>
+    <string name="agent_tool_edit_file_missing_hunks">This patch action requires the hunks parameter</string>
+    <string name="agent_tool_edit_file_invalid_hunk">Hunk #%1$d is missing required fields</string>
     <string name="agent_tool_edit_file_invalid_action">Unknown edit action: %1$s</string>
     <string name="agent_tool_edit_file_failed">File edit failed: %1$s</string>
 
@@ -362,15 +365,6 @@
     <string name="agent_tool_grep_files_missing_query">Missing query parameter</string>
     <string name="agent_tool_grep_files_failed">File content search failed: %1$s</string>
 
-    <string name="agent_tool_apply_text_patch_title">Apply Text Patch</string>
-    <string name="agent_tool_apply_text_patch_summary">Batch-modify a text file with multi-segment old_text/new_text patches</string>
-    <string name="agent_tool_apply_text_patch_param_file_uri">File path or URI inside the workspace to patch.</string>
-    <string name="agent_tool_apply_text_patch_param_hunks">Patch array. Each item must contain old_text, new_text, with optional replace_all.</string>
-    <string name="agent_tool_apply_text_patch_missing_file_uri">Missing file_uri parameter</string>
-    <string name="agent_tool_apply_text_patch_missing_hunks">Missing hunks parameter</string>
-    <string name="agent_tool_apply_text_patch_invalid_hunk">Hunk #%1$d is missing old_text or new_text</string>
-    <string name="agent_tool_apply_text_patch_failed">Apply text patch failed: %1$s</string>
-
     <string name="agent_tool_stat_file_title">View File Info</string>
     <string name="agent_tool_stat_file_summary">View existence, size, type, modification time and other metadata of a single file or directory</string>
     <string name="agent_tool_stat_file_param_target_uri">File path or URI inside the workspace to inspect.</string>
@@ -378,19 +372,11 @@
     <string name="agent_tool_workspace_roots_title">View Workspace Roots</string>
     <string name="agent_tool_workspace_roots_summary">List the app workspace roots currently available to the code agent</string>
     <string name="agent_tool_workspace_roots_failed">View workspace roots failed: %1$s</string>
-            <string name="agent_tool_apply_range_patch_title">Apply Line-Range Patch</string>
-            <string name="agent_tool_apply_range_patch_summary">Batch-replace multiple text fragments by start/end line numbers, closer to diff/patch style edits</string>
-            <string name="agent_tool_apply_range_patch_param_file_uri">File path or URI inside the workspace to patch.</string>
-            <string name="agent_tool_apply_range_patch_param_hunks">Patch array. Each item must contain start_line, end_line, new_text, with optional old_text.</string>
-            <string name="agent_tool_apply_range_patch_missing_file_uri">Missing file_uri parameter</string>
-            <string name="agent_tool_apply_range_patch_missing_hunks">Missing hunks parameter</string>
-            <string name="agent_tool_apply_range_patch_invalid_hunk">Hunk #%1$d is missing required fields</string>
-            <string name="agent_tool_apply_range_patch_failed">Apply line-range patch failed: %1$s</string>
     <string name="agent_tool_stat_file_missing_target_uri">Missing target_uri parameter</string>
     <string name="agent_tool_stat_file_failed">View file info failed: %1$s</string>
 
     <string name="agent_tool_read_multiple_files_title">Batch Read Files</string>
-    <string name="agent_tool_read_multiple_files_summary">Read specified line ranges of multiple text files in one call to reduce code-agent round trips</string>
+    <string name="agent_tool_read_multiple_files_summary">Batch-read multiple text files (full content or line ranges) in one call to reduce code-agent round trips</string>
     <string name="agent_tool_read_multiple_files_param_files">File array. Each item must contain file_uri, with optional start_line and end_line.</string>
     <string name="agent_tool_read_multiple_files_param_max_length_per_file">Max characters returned per file, default 4096.</string>
     <string name="agent_tool_read_multiple_files_missing_files">Missing files parameter</string>
@@ -459,6 +445,34 @@
     <string name="agent_tool_query_bookkeeping_records_add_link_label">Add an entry</string>
     <string name="agent_tool_query_bookkeeping_records_edit_link_label">View this entry</string>
 
+    <!-- Weather tool -->
+    <string name="agent_tool_get_weather_title">Get Weather</string>
+    <string name="agent_tool_get_weather_summary">Query current weather and a multi-day forecast for a city or location.</string>
+    <string name="agent_tool_get_weather_description">Query real-time weather and a daily forecast (up to 7 days). Location resolution order: the `city` name first, then `latitude`/`longitude`, then the device\'s last known location. Returns the city, temperature, feels-like temperature, condition, wind, humidity, and more.</string>
+    <string name="agent_tool_get_weather_param_city">City name (Chinese, English or pinyin), e.g. Beijing; takes precedence over coordinates.</string>
+    <string name="agent_tool_get_weather_param_latitude">Latitude, e.g. 39.9042; must be used together with longitude.</string>
+    <string name="agent_tool_get_weather_param_longitude">Longitude, e.g. 116.4074; must be used together with latitude.</string>
+    <string name="agent_tool_get_weather_param_days">Forecast days, 1-7, default 1. A value of 1 returns current weather only; larger values also return the daily forecast.</string>
+    <string name="agent_tool_get_weather_failed">Failed to query weather: %1$s</string>
+    <string name="agent_tool_get_weather_latlon_incomplete">latitude and longitude must be provided together.</string>
+    <string name="agent_tool_get_weather_location_unavailable">Device location is unavailable. Please provide a city name or latitude/longitude instead.</string>
+
+    <!-- TTS tools -->
+    <string name="agent_tool_read_text_aloud_title">Read Text Aloud</string>
+    <string name="agent_tool_read_text_aloud_summary">Convert text to speech with the configured TTS engine and play it aloud immediately.</string>
+    <string name="agent_tool_read_text_aloud_description">Synthesize the given text into speech and play it aloud right away. Use this when the user asks to read, speak or listen to some content. `text` is required (at most 2000 characters); `voice` and `speed` are optional and fall back to the user\'s TTS settings. Synthesized audio is cached, so repeating the same text is fast. Use stop_reading to interrupt ongoing playback.</string>
+    <string name="agent_tool_read_text_aloud_param_text">Text to read aloud, at most 2000 characters.</string>
+    <string name="agent_tool_read_text_aloud_param_voice">Optional voice name. Available voices depend on the configured TTS engine; omit to use the user\'s default voice.</string>
+    <string name="agent_tool_read_text_aloud_param_speed">Optional speech rate from 0.5 to 2.0, 1.0 is normal speed; omit to use the user\'s default speed.</string>
+    <string name="agent_tool_read_text_aloud_text_required">The text to read aloud must not be empty.</string>
+    <string name="agent_tool_read_text_aloud_text_too_long">The text is too long to read aloud; please keep it under %1$d characters or split it into parts.</string>
+    <string name="agent_tool_read_text_aloud_not_configured">Text-to-speech is not configured yet. Guide the user to open the app\'s TTS settings and set up a TTS engine first.</string>
+    <string name="agent_tool_read_text_aloud_failed">Failed to read the text aloud: %1$s</string>
+    <string name="agent_tool_stop_reading_title">Stop Reading</string>
+    <string name="agent_tool_stop_reading_summary">Stop the text-to-speech playback that is currently reading aloud.</string>
+    <string name="agent_tool_stop_reading_description">Stop the ongoing read-aloud playback started by read_text_aloud. Use this when the user asks to stop, interrupt or silence the reading. Takes no parameters.</string>
+    <string name="agent_tool_stop_reading_stopped">Playback stopped.</string>
+
     <!-- Network tools common -->
     <string name="agent_tool_network_error">Network request failed: %1$s</string>
     <string name="agent_tool_network_timeout">Request timed out</string>
@@ -466,7 +480,7 @@
 
     <!-- fetch_webpage -->
     <string name="agent_tool_fetch_webpage_title">Fetch Webpage Content</string>
-    <string name="agent_tool_fetch_webpage_summary">Fetch webpage content from a specified URL</string>
+    <string name="agent_tool_fetch_webpage_summary">Fetch webpage content via direct HTTP (no JS rendering; use browser_navigate/browser_read_page for JS-rendered pages)</string>
     <string name="agent_tool_fetch_webpage_param_url">Webpage URL to fetch</string>
     <string name="agent_tool_fetch_webpage_param_extract_mode">Extract mode: text (plain text), html (raw HTML), links, images, all</string>
     <string name="agent_tool_fetch_webpage_param_max_length">Max length of returned content, default 5000 chars</string>
@@ -653,8 +667,6 @@
     <string name="ai_environment_context_work_dir">- Working directory: %1$s</string>
     <string name="ai_environment_context_work_dir_unset">Not set</string>
 
-
-
     <!-- AgentTool: discover_cloud_connections -->
     <string name="agent_tool_discover_cloud_connections_title">Discover Cloud Storage Connections</string>
 
@@ -663,7 +675,6 @@
     <string name="agent_tool_discover_cloud_connections_param_name_filter">Fuzzy filter by name (optional)</string>
 
     <string name="agent_tool_discover_cloud_connections_param_protocol">Filter by protocol (optional)</string>
-
 
     <!-- AgentTool: browse_cloud_files -->
     <string name="agent_tool_browse_cloud_files_title">Browse Cloud Storage Directories</string>
@@ -688,7 +699,6 @@
 
     <string name="agent_tool_browse_cloud_files_failed">Failed to browse cloud storage: %s</string>
 
-
     <!-- AgentTool: read_cloud_file -->
     <string name="agent_tool_read_cloud_file_title">Read Cloud Storage File</string>
 
@@ -710,7 +720,6 @@
 
     <string name="agent_tool_read_cloud_file_failed">Failed to read cloud storage file: %s</string>
 
-
     <!-- AgentTool: search_cloud_files -->
     <string name="agent_tool_search_cloud_files_title">Search Cloud Storage Files</string>
 
@@ -731,7 +740,6 @@
     <string name="agent_tool_search_cloud_files_missing_query">Missing query parameter</string>
 
     <string name="agent_tool_search_cloud_files_failed">Failed to search cloud storage: %s</string>
-
 
     <!-- AgentTool: manage_cloud_files -->
     <string name="agent_tool_manage_cloud_files_title">Manage Cloud Storage Files</string>
@@ -765,7 +773,6 @@
     <string name="agent_tool_manage_cloud_files_invalid_action">Unknown action: %s</string>
 
     <string name="agent_tool_manage_cloud_files_failed">Failed to manage cloud storage: %s</string>
-
 
     <!-- AgentTool: upload_to_cloud -->
     <string name="agent_tool_upload_to_cloud_title">Upload Content to Cloud Storage</string>

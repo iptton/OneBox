@@ -41,6 +41,7 @@ object ActivityLogNavigator {
             ActivityCategory.XIANGQI -> resolveXiangqi(payload)
             ActivityCategory.TELEPROMPTER -> resolveTeleprompter(payload)
             ActivityCategory.HABIT -> resolveHabit(payload)
+            ActivityCategory.HOUSEHOLD -> Screen.HouseholdItems
             ActivityCategory.POEM -> resolvePoem(payload)
             else -> resolveByScreenRoute(entry)
         }

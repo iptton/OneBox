@@ -99,6 +99,9 @@ class AgentLoopRunner(
      * @param answerProvider 当前回答文本提供者
      * @param reasoningContentProvider 当前推理文本提供者
      * @param previousResponseIdProvider 上一次响应 ID 提供者
+     * @param isShuttingDownProvider 会话 shutdown 标记提供者 (P1 review M1):
+     *   置位后执行器跳过工具完成的 live 回调, 结果只入 DB, 避免与取消/超时
+     *   catch 块对 live state 的并发读写
      * @param callback Agent Loop 执行回调，统一收口所有 UI/状态事件
      */
     suspend fun execute(
@@ -116,6 +119,7 @@ class AgentLoopRunner(
         answerProvider: () -> String,
         reasoningContentProvider: () -> String,
         previousResponseIdProvider: () -> String,
+        isShuttingDownProvider: () -> Boolean = { false },
         callback: AgentLoopCallback,
     ): RunResult {
         callback.onEnsureStartingHint()
@@ -167,6 +171,7 @@ class AgentLoopRunner(
                 callback = callback,
                 previousAnswerSnapshot = consumedAnswerSnapshot,
                 previousReasoningSnapshot = consumedReasoningSnapshot,
+                isShuttingDownProvider = isShuttingDownProvider,
             ) ?: break
 
             // 回合结束: 当前 answer / reasoning 已被 appendToolResultsToContext 消费过,
@@ -297,6 +302,7 @@ class AgentLoopRunner(
         callback: AgentLoopCallback,
         previousAnswerSnapshot: String,
         previousReasoningSnapshot: String,
+        isShuttingDownProvider: () -> Boolean = { false },
     ): IterationResult? {
         agentLoopExecutor.incrementIteration(session)
         val iteration = session.currentIteration
@@ -332,6 +338,7 @@ class AgentLoopRunner(
             completionId = completionIdProvider(),
             interactionOwnerId = interactionOwnerId,
             callbackRouter = callbackRouter,
+            isShuttingDown = isShuttingDownProvider,
             onToolStarted = { toolCall ->
                 callback.onResetStreamWatchdog()
                 stepStatuses[toolCall.id] = ExecutionStepStatus.RUNNING

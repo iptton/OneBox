@@ -19,6 +19,7 @@ dependencies {
     api(projects.core.database)
     api(projects.feature.common)
     api(projects.feature.calendar)
+    implementation(projects.feature.ai)
 
 
     implementation(libs.androidx.room.ktx)

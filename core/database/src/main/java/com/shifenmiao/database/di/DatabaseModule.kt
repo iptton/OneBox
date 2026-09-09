@@ -22,6 +22,9 @@ import com.shifenmiao.database.ai.dao.ToolCatalogDao
 import com.shifenmiao.database.bookkeeping.dao.BookkeepingCategoryDao
 import com.shifenmiao.database.bookkeeping.dao.BookkeepingRecordDao
 import com.shifenmiao.database.bookkeeping.repo.BookkeepingRepository
+import com.shifenmiao.database.household.dao.HouseholdItemDao
+import com.shifenmiao.database.household.dao.HouseholdLocationDao
+import com.shifenmiao.database.household.repo.HouseholdRepository
 import com.shifenmiao.database.blessing.dao.BlessingRecordDao
 import com.shifenmiao.database.blessing.dao.BlessingTabConfigDao
 import com.shifenmiao.database.blessing.dao.BlessingWishDao
@@ -321,6 +324,30 @@ object DatabaseModule {
             database = database,
             categoryDao = categoryDao,
             recordDao = recordDao,
+        )
+    }
+
+    @Provides
+    fun provideHouseholdLocationDao(database: FeatureDatabase): HouseholdLocationDao {
+        return database.householdLocationDao()
+    }
+
+    @Provides
+    fun provideHouseholdItemDao(database: FeatureDatabase): HouseholdItemDao {
+        return database.householdItemDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHouseholdRepository(
+        database: FeatureDatabase,
+        locationDao: HouseholdLocationDao,
+        itemDao: HouseholdItemDao,
+    ): HouseholdRepository {
+        return HouseholdRepository(
+            database = database,
+            locationDao = locationDao,
+            itemDao = itemDao,
         )
     }
 

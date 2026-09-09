@@ -51,6 +51,11 @@ class DiscoverToolsTool @Inject constructor(
 
     override val visibleToUser: Boolean = true
 
+    override val isDiscoveryTool: Boolean = true
+
+    /** 发现类工具返回大量候选数据，截断阈值放宽（原注册表硬编码值，现改为自声明） */
+    override val maxResultLength: Int = 8192
+
     override val requiresConfirmation: Boolean = false
 
     override val riskLevel: ToolRiskLevel = ToolRiskLevel.SAFE

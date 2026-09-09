@@ -14,6 +14,7 @@ dependencies {
     api(projects.core.database)
     api(projects.core.tts)
     api(projects.feature.common)
+    implementation(projects.feature.ai)
     implementation(projects.libs.richtext)
     implementation(libs.com.squareup.okhttp3.okhttp)
 }

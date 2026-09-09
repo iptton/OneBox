@@ -43,5 +43,87 @@
     <string name="schedule_permission_dialog_title">需要日历权限</string>
     <string name="schedule_permission_dialog_message">请在系统设置中开启日历读写权限，才能直接写入系统日历。</string>
     <string name="schedule_open_settings">去设置</string>
+
+    <!-- 日程 Agent 工具 -->
+    <string name="agent_tool_schedule_unknown_error">未知错误</string>
+    <string name="agent_tool_schedule_open_link">打开日程</string>
+    <string name="agent_tool_schedule_label_start">开始</string>
+    <string name="agent_tool_schedule_label_end">结束</string>
+    <string name="agent_tool_schedule_label_all_day">全天事件</string>
+    <string name="agent_tool_schedule_label_location">地点</string>
+    <string name="agent_tool_schedule_invalid_datetime">时间「%1$s」格式错误，请使用 ISO 格式，例如 2026-09-10T14:00 或 2026-09-10。</string>
+    <string name="agent_tool_schedule_invalid_date">日期「%1$s」格式错误，请使用 yyyy-MM-dd，例如 2026-09-10。</string>
+
+    <string name="agent_tool_add_schedule_event_title">新建日程</string>
+    <string name="agent_tool_add_schedule_event_summary">创建一条本地日程，支持标题、时间、备注与地点。</string>
+    <string name="agent_tool_add_schedule_event_description">创建一条本地日程事件。title 与 start 必填；end 缺省时默认为开始时间后 1 小时（全天事件则为次日）。时间使用 ISO 格式字符串：2026-09-10T14:00、2026-09-10T14:00:00+08:00，或纯日期 2026-09-10。</string>
+    <string name="agent_tool_add_schedule_event_param_title">事件标题，必填。</string>
+    <string name="agent_tool_add_schedule_event_param_start">开始时间，ISO 格式，例如 2026-09-10T14:00；纯日期表示当天 00:00。</string>
+    <string name="agent_tool_add_schedule_event_param_end">结束时间，ISO 格式，可选；缺省为开始时间后 1 小时，全天事件则为次日。</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">是否全天事件，默认 false。</string>
+    <string name="agent_tool_add_schedule_event_param_description">事件备注，可选。</string>
+    <string name="agent_tool_add_schedule_event_param_location">事件地点，可选。</string>
+    <string name="agent_tool_add_schedule_event_title_required">title 参数必填且不能为空。</string>
+    <string name="agent_tool_add_schedule_event_failed">新建日程失败: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>schedule</item>
+        <item>calendar</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 点提醒我开会</item>
+        <item>建一个 9 月 20 日全天的日程:朋友婚礼</item>
+        <item>下周一 10:00 到 11:00 安排健身,地点在健身房</item>
+    </string-array>
+
+    <string name="agent_tool_query_schedule_events_title">查询日程</string>
+    <string name="agent_tool_query_schedule_events_summary">按日期范围查询本地日程事件。</string>
+    <string name="agent_tool_query_schedule_events_description">查询与指定日期范围有交集的本地日程事件。start_date 缺省为今天，end_date 缺省为其后 6 天（即默认 7 天窗口）。最多返回 50 条，按开始时间升序，每条包含 id、标题、时间、地点与备注；id 可传给 delete_schedule_event 删除。</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">范围开始日期，yyyy-MM-dd；缺省为今天。</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">范围结束日期（含当天），yyyy-MM-dd；缺省为 start_date 后 6 天。</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_date 不能早于 start_date。</string>
+    <string name="agent_tool_query_schedule_events_empty">该范围内没有日程</string>
+    <string name="agent_tool_query_schedule_events_failed">查询日程失败: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>安排</item>
+        <item>schedule</item>
+        <item>calendar</item>
+        <item>查日程</item>
+        <item>今天有什么安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什么安排</item>
+        <item>看看这周的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+
+    <string name="agent_tool_delete_schedule_event_title">删除日程</string>
+    <string name="agent_tool_delete_schedule_event_summary">按事件 id 删除一条本地日程。</string>
+    <string name="agent_tool_delete_schedule_event_description">按 event_id（通常来自 query_schedule_events 的查询结果）删除一条本地日程事件。删除会连带清除系统日历等同步绑定且不可恢复，执行前需要用户确认。</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">要删除的事件 id，来自 query_schedule_events 的查询结果。</string>
+    <string name="agent_tool_delete_schedule_event_id_required">event_id 参数必填。</string>
+    <string name="agent_tool_delete_schedule_event_not_found">未找到事件: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">已删除: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">删除日程失败: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">删除日程</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">永久删除这条日程事件</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日历</item>
+        <item>删除日程</item>
+        <item>取消日程</item>
+        <item>schedule</item>
+        <item>delete event</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>删掉明天下午 3 点的会议</item>
+        <item>取消周五的健身安排</item>
+    </string-array>
 </resources>
 

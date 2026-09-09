@@ -51,6 +51,16 @@ interface ToolCatalogMetadata {
     val visibleToUser: Boolean
         get() = true
 
+    /**
+     * 是否为发现/路由类工具（如 discover_tools / discover_apps）。
+     *
+     * 发现类工具的搜索结果会在 Agent Loop 中触发 follow-up 工具扩展
+     * （见 PromptAssemblyService.buildFollowUpToolsAfterDiscovery），
+     * 且通常需要更大的结果截断阈值（通过 [ToolExecutionConfig.maxResultLength] 声明）。
+     */
+    val isDiscoveryTool: Boolean
+        get() = false
+
     /** 排序权重，越小越靠前 */
     val sortOrder: Int
         get() = 0
@@ -185,22 +195,52 @@ interface ToolExecutionConfig {
      */
     val parallelizable: Boolean
         get() = true
+
+    /**
+     * 失败重试策略，默认 [RetryPolicy.NONE] 不重试。
+     *
+     * 已接入执行层：AgentLoopExecutor 在工具返回 isError=true 时按该策略重试
+     * （每次尝试独立计时，重试间隔用可取消的 delay），重试不算新的 tool call
+     * 轮次，只在最终结果出来后触发一次完成/持久化回调。
+     *
+     * 注意：requiresConfirmation / 交互式 / requiresLogin / 声明了非空权限的工具
+     * 在执行层被强制跳过重试（避免重复弹窗/重复权限申请/交互重入），
+     * 即使这里声明了 policy 也不会生效。
+     */
+    val retryPolicy: RetryPolicy
+        get() = RetryPolicy.NONE
 }
 
 /**
  * 工具重试策略声明。
  *
- * TODO: 执行层尚未接入，待 AgentLoopExecutor 实现重试逻辑后再添加到 [ToolExecutionConfig]。
+ * 已接入执行层：通过 [ToolExecutionConfig.retryPolicy] 声明，
+ * AgentLoopExecutor 在工具返回 isError=true 时按策略重试。
+ * 安全约束：requiresConfirmation / 交互式 / requiresLogin / 声明了非空权限的
+ * 工具在执行层被强制跳过重试，即使声明了 policy。
  *
  * @param maxRetries 最大重试次数（0 = 不重试）
- * @param delayMs 重试间隔毫秒数（0 = 立即重试）
- * @param retryableErrors 可重试的错误类型，空集表示所有错误都可重试
+ * @param delayMs 重试间隔毫秒数（0 = 立即重试），用可取消的 delay 实现
+ * @param retryableErrors 可重试的错误匹配串，空集表示所有错误都可重试
  */
 data class RetryPolicy(
     val maxRetries: Int = 0,
     val delayMs: Long = 0,
     val retryableErrors: Set<String> = emptySet(),
 ) {
+    /**
+     * 判断一次失败结果是否可重试。
+     *
+     * 匹配规则：[retryableErrors] 为空集 → 所有错误可重试；
+     * 非空 → 任一条目（忽略大小写）包含于错误内容 [errorContent] 即视为可重试。
+     * 由于 [AgentToolResult] 仅有 content/isError，匹配基于 content 文本，
+     * 工具可在 content 中使用固定前缀/错误码（如 "timeout"、"HTTP 429"）提高匹配精度。
+     */
+    fun isRetryable(errorContent: String): Boolean {
+        if (retryableErrors.isEmpty()) return true
+        return retryableErrors.any { errorContent.contains(it, ignoreCase = true) }
+    }
+
     companion object {
         /** 不重试（默认） */
         val NONE = RetryPolicy()
@@ -323,6 +363,7 @@ interface AgentTool : ToolCatalogMetadata, ToolSecurityPolicy, ToolExecutionConf
             dependencies = dependencies,
             bootstrapModes = bootstrapModes,
             visibleToUser = visibleToUser,
+            isDiscoveryTool = isDiscoveryTool,
             requiresConfirmation = requiresConfirmation,
             isInteractive = isInteractive,
             riskLevel = riskLevel,

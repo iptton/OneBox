@@ -1,0 +1,115 @@
+package com.shifenmiao.database.household.repo
+
+import androidx.room.withTransaction
+import com.shifenmiao.database.FeatureDatabase
+import com.shifenmiao.database.household.dao.HouseholdItemDao
+import com.shifenmiao.database.household.dao.HouseholdLocationDao
+import com.shifenmiao.database.household.entity.HouseholdItemEntity
+import com.shifenmiao.database.household.entity.HouseholdLocationEntity
+import com.shifenmiao.database.household.model.HouseholdItemWithPath
+import java.util.UUID
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class HouseholdRepository @Inject constructor(
+    private val database: FeatureDatabase,
+    private val locationDao: HouseholdLocationDao,
+    private val itemDao: HouseholdItemDao,
+) {
+
+    fun observeLocations(): Flow<List<HouseholdLocationEntity>> {
+        return locationDao.observeAll()
+    }
+
+    fun observeLocationChildren(parentId: String?): Flow<List<HouseholdLocationEntity>> {
+        return locationDao.observeChildren(parentId)
+    }
+
+    suspend fun upsertLocation(location: HouseholdLocationEntity) {
+        locationDao.upsert(location)
+    }
+
+    suspend fun getLocationById(id: String): HouseholdLocationEntity? {
+        return locationDao.getById(id)
+    }
+
+    suspend fun deleteLocation(id: String) {
+        if (locationDao.countChildren(id) > 0) {
+            throw IllegalStateException("Location $id still has child locations")
+        }
+        if (itemDao.countByLocation(id) > 0) {
+            throw IllegalStateException("Location $id still has items")
+        }
+        locationDao.delete(id)
+    }
+
+    suspend fun buildLocationPath(locationId: String?): String {
+        if (locationId == null) return ""
+        val segments = ArrayDeque<String>()
+        val visited = mutableSetOf<String>()
+        var current = locationDao.getById(locationId)
+        while (current != null && visited.add(current.id)) {
+            segments.addFirst(current.name)
+            current = current.parentId?.let { locationDao.getById(it) }
+        }
+        return segments.joinToString(" / ")
+    }
+
+    suspend fun findOrCreateLocationByPath(path: List<String>): HouseholdLocationEntity {
+        return database.withTransaction {
+            var parentId: String? = null
+            var location: HouseholdLocationEntity? = null
+            path.forEach { name ->
+                location = locationDao.getByNameAndParent(name, parentId) ?: run {
+                    val created = HouseholdLocationEntity(
+                        id = UUID.randomUUID().toString(),
+                        name = name,
+                        parentId = parentId,
+                    )
+                    locationDao.upsert(created)
+                    created
+                }
+                parentId = location!!.id
+            }
+            location ?: throw IllegalArgumentException("path must not be empty")
+        }
+    }
+
+    fun observeItems(): Flow<List<HouseholdItemEntity>> {
+        return itemDao.observeAll()
+    }
+
+    fun observeItemsByLocation(locationId: String): Flow<List<HouseholdItemEntity>> {
+        return itemDao.observeByLocation(locationId)
+    }
+
+    fun search(query: String): Flow<List<HouseholdItemEntity>> {
+        return itemDao.search(query)
+    }
+
+    fun searchWithLocation(query: String): Flow<List<HouseholdItemWithPath>> {
+        return itemDao.search(query).map { items ->
+            items.map { item ->
+                HouseholdItemWithPath(
+                    item = item,
+                    locationPath = buildLocationPath(item.locationId),
+                )
+            }
+        }
+    }
+
+    suspend fun upsertItem(item: HouseholdItemEntity) {
+        itemDao.upsert(item)
+    }
+
+    suspend fun getItemById(id: String): HouseholdItemEntity? {
+        return itemDao.getById(id)
+    }
+
+    suspend fun deleteItem(id: String) {
+        itemDao.delete(id)
+    }
+}

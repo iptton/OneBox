@@ -1,12 +1,12 @@
 package com.shifenmiao.online.screen
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
@@ -82,6 +82,7 @@ fun EditPromptScreen(
     }
 
     BaseScreen(
+        modifier = Modifier.background(MaterialTheme.colorScheme.surface),
         title = {
             EditorTitleField(
                 value = uiState.title,
@@ -124,8 +125,7 @@ fun EditPromptScreen(
             }
         },
         supportGlassEffect = false,
-        showNavigationBarsPadding = true,
-        containerColor = MaterialTheme.colorScheme.surface
+        showNavigationBarsPadding = true
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -148,8 +148,7 @@ fun EditPromptScreen(
                 onVerticalScrollDelta = ::handleEditorScrollDelta,
                 modifier = Modifier
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
-                    .weight(1f)
-                    .navigationBarsPadding(),
+                    .weight(1f),
                 storageKey = "edit_prompt_item",
                 onContentChanged = {
                     editPromptComponent.markAsDirty()

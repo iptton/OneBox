@@ -10,7 +10,9 @@ import com.shifenmiao.ai.agent.tool.AgentToolLoginChecker
 import com.shifenmiao.ai.agent.tool.AgentToolPermissionRequester
 import com.shifenmiao.ai.agent.tool.AgentToolRegistry
 import com.shifenmiao.ai.agent.tool.AgentToolResult
+import com.shifenmiao.ai.agent.tool.InteractiveToolResultFactory
 import com.shifenmiao.ai.agent.tool.InteractiveToolRuntime
+import com.shifenmiao.ai.agent.tool.RetryPolicy
 import com.shifenmiao.core.R
 import com.shifenmiao.database.ai.entity.ToolCallTaskEntity
 import com.shifenmiao.model.ai.FunctionCall
@@ -25,6 +27,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -154,6 +157,9 @@ class AgentLoopExecutor @Inject constructor(
      * @param onToolStarted 工具开始执行时的回调（用于 UI 更新）
      * @param onToolCompleted 工具执行完成时的回调（用于 UI 更新）
      * @param onToolWaitingInput 交互式工具等待用户输入时的回调
+     * @param isShuttingDown 会话 shutdown 标记 (P1 review M1): 置位后跳过
+     *   onToolCompleted 等 live 回调 (避免与取消/超时 catch 块并发读写 live state),
+     *   persistCallbacks 的 DB 落库不受影响 (即"只入 DB")
      * @return 每个 toolCall 对应的执行结果
      */
     suspend fun executeToolCalls(
@@ -166,7 +172,8 @@ class AgentLoopExecutor @Inject constructor(
         onToolStarted: (ToolCall) -> Unit = {},
         onToolCompleted: (ToolCall, AgentToolResult) -> Unit = { _, _ -> },
         onToolWaitingInput: (ToolCall) -> Unit = {},
-        onToolNeedConfirmation: (ToolCall, String) -> Unit = { _, _ -> }
+        onToolNeedConfirmation: (ToolCall, String) -> Unit = { _, _ -> },
+        isShuttingDown: () -> Boolean = { false }
     ): List<Pair<ToolCall, AgentToolResult>> {
         // 批量持久化为 PENDING 状态
         if (conversationId.isNotEmpty()) {
@@ -186,6 +193,7 @@ class AgentLoopExecutor @Inject constructor(
             onToolCompleted = onToolCompleted,
             onToolWaitingInput = onToolWaitingInput,
             onToolNeedConfirmation = onToolNeedConfirmation,
+            isShuttingDown = isShuttingDown,
             persistCallbacks = createPersistCallbacks(conversationId)
         )
     }
@@ -279,6 +287,7 @@ class AgentLoopExecutor @Inject constructor(
         onToolCompleted: (ToolCall, AgentToolResult) -> Unit,
         onToolWaitingInput: (ToolCall) -> Unit,
         onToolNeedConfirmation: (ToolCall, String) -> Unit,
+        isShuttingDown: () -> Boolean = { false },
         persistCallbacks: PersistCallbacks
     ): List<Pair<ToolCall, AgentToolResult>> {
         val results = mutableListOf<Pair<ToolCall, AgentToolResult>>()
@@ -304,6 +313,7 @@ class AgentLoopExecutor @Inject constructor(
                                 onToolCompleted = onToolCompleted,
                                 onToolWaitingInput = onToolWaitingInput,
                                 onToolNeedConfirmation = onToolNeedConfirmation,
+                                isShuttingDown = isShuttingDown,
                                 onPersistExecuting = persistCallbacks.onExecuting,
                                 onPersistCompleted = persistCallbacks.onCompleted,
                                 onPersistFailed = persistCallbacks.onFailed
@@ -325,6 +335,7 @@ class AgentLoopExecutor @Inject constructor(
                         onToolCompleted = onToolCompleted,
                         onToolWaitingInput = onToolWaitingInput,
                         onToolNeedConfirmation = onToolNeedConfirmation,
+                        isShuttingDown = isShuttingDown,
                         onPersistExecuting = persistCallbacks.onExecuting,
                         onPersistCompleted = persistCallbacks.onCompleted,
                         onPersistFailed = persistCallbacks.onFailed
@@ -521,6 +532,12 @@ class AgentLoopExecutor @Inject constructor(
     /**
      * 执行单个 ToolCall 的完整生命周期（guard → 执行 → 持久化 → 回调）。
      * 供 executeToolCalls / resumeToolCalls 复用，避免并行/串行两套重复代码。
+     *
+     * [isShuttingDown] 置位时 (P1 review M1, 会话取消/超时由 catch 块接管):
+     * onPersistCompleted / onPersistFailed 照常落 DB, 但跳过 onToolCompleted
+     * live 回调 — 旧 job 取消后 coroutineScope 内的工具子协程不会立刻终止,
+     * 可能在 catch 块 persistInterruptedChat() 期间完成, 此时再改 live
+     * _answerMessageEntity 会造成入库快照不一致.
      */
     private suspend fun executeSingleToolCall(
         toolCall: ToolCall,
@@ -531,6 +548,7 @@ class AgentLoopExecutor @Inject constructor(
         onToolCompleted: (ToolCall, AgentToolResult) -> Unit,
         onToolWaitingInput: (ToolCall) -> Unit,
         onToolNeedConfirmation: (ToolCall, String) -> Unit,
+        isShuttingDown: () -> Boolean = { false },
         onPersistExecuting: (suspend (String) -> Unit)? = null,
         onPersistCompleted: (suspend (String, String, Boolean) -> Unit)? = null,
         onPersistFailed: (suspend (String, String) -> Unit)? = null
@@ -545,7 +563,7 @@ class AgentLoopExecutor @Inject constructor(
         )
         if (guardResult != null) {
             onPersistCompleted?.invoke(toolCall.id, guardResult.content, guardResult.isError)
-            onToolCompleted(toolCall, guardResult)
+            if (!isShuttingDown()) onToolCompleted(toolCall, guardResult)
             return toolCall to guardResult
         }
 
@@ -556,9 +574,28 @@ class AgentLoopExecutor @Inject constructor(
         }
 
         val timeoutMs = resolveExecutionTimeout(toolCall.function.name)
-        val result = try {
-            val rawResult = if (timeoutMs != null) {
-                withTimeoutOrNull(timeoutMs) {
+        val retryPolicy = resolveEffectiveRetryPolicy(toolCall)
+        // 重试循环: 每次尝试独立计时 (超时作用于单次尝试, 重试间隔不计入任何超时预算).
+        // 选择 per-attempt 而非整链共享预算, 是因为既有语义就是"单次执行超时",
+        // 共享预算会压缩首次尝试的可用时间, 破坏既有行为.
+        // resultFromTool 区分结果来源: 工具自身返回 (含 isError) 走 onPersistCompleted,
+        // 超时/异常由执行器生成的错误走 onPersistFailed — 与重试前的持久化语义保持一致.
+        var attempt = 0
+        var resultFromTool = false
+        var result: AgentToolResult
+        while (true) {
+            result = try {
+                val rawResult = if (timeoutMs != null) {
+                    withTimeoutOrNull(timeoutMs) {
+                        executeToolCallWithOptionalCallback(
+                            toolName = toolCall.function.name,
+                            arguments = toolCall.function.arguments,
+                            toolCallId = toolCall.id,
+                            interactionOwnerId = interactionOwnerId,
+                            callbackRouter = callbackRouter
+                        )
+                    }
+                } else {
                     executeToolCallWithOptionalCallback(
                         toolName = toolCall.function.name,
                         arguments = toolCall.function.arguments,
@@ -567,43 +604,74 @@ class AgentLoopExecutor @Inject constructor(
                         callbackRouter = callbackRouter
                     )
                 }
-            } else {
-                executeToolCallWithOptionalCallback(
-                    toolName = toolCall.function.name,
-                    arguments = toolCall.function.arguments,
-                    toolCallId = toolCall.id,
-                    interactionOwnerId = interactionOwnerId,
-                    callbackRouter = callbackRouter
+                if (rawResult != null) {
+                    resultFromTool = true
+                    rawResult
+                } else {
+                    // 超时（仅普通工具会走到这里）
+                    resultFromTool = false
+                    val timeoutSeconds = (timeoutMs ?: 0L) / 1000
+                    "Tool '${toolCall.function.name}' timed out after ${timeoutMs}ms (attempt ${attempt + 1})"
+                        .makeLog("AgentLoopExecutor")
+                    AgentToolResult(
+                        content = context.getString(R.string.agent_tool_execution_timeout, timeoutSeconds),
+                        isError = true
+                    )
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                resultFromTool = false
+                "Tool '${toolCall.function.name}' failed (attempt ${attempt + 1}): ${e.message}"
+                    .makeLog("AgentLoopExecutor")
+                AgentToolResult(
+                    content = "Tool execution failed: ${e.message ?: "Unknown error"}",
+                    isError = true
                 )
             }
-            if (rawResult != null) {
-                onPersistCompleted?.invoke(toolCall.id, rawResult.content, rawResult.isError)
-                onToolCompleted(toolCall, rawResult)
-                "Tool '${toolCall.function.name}' executed: isError=${rawResult.isError}, contentLen=${rawResult.content.length}"
-                    .makeLog("AgentLoopExecutor")
-                return toolCall to rawResult
-            }
-            // 超时（仅普通工具会走到这里）
-            val timeoutSeconds = (timeoutMs ?: 0L) / 1000
-            val timeoutMsg = context.getString(R.string.agent_tool_execution_timeout, timeoutSeconds)
-            "Tool '${toolCall.function.name}' timed out after ${timeoutMs}ms"
+
+            // 重试判定: 仅 isError 结果可重试; 尊重 isShuttingDown (会话取消/超时后
+            // 不再发起新尝试, 避免延长与 catch 块的 race window); delay 可取消.
+            val shouldRetry = result.isError &&
+                attempt < retryPolicy.maxRetries &&
+                retryPolicy.isRetryable(result.content) &&
+                !isShuttingDown()
+            if (!shouldRetry) break
+            attempt++
+            "Tool '${toolCall.function.name}' attempt $attempt failed, retrying in ${retryPolicy.delayMs}ms"
                 .makeLog("AgentLoopExecutor")
-            AgentToolResult(content = timeoutMsg, isError = true)
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            "Tool '${toolCall.function.name}' failed: ${e.message}"
-                .makeLog("AgentLoopExecutor")
-            AgentToolResult(
-                content = "Tool execution failed: ${e.message ?: "Unknown error"}",
-                isError = true
-            )
+            if (retryPolicy.delayMs > 0) delay(retryPolicy.delayMs)
         }
 
-        // 仅在异常/超时路径到达此处（正常路径已提前 return）
-        onPersistFailed?.invoke(toolCall.id, result.content)
-        onToolCompleted(toolCall, result)
+        if (resultFromTool) {
+            onPersistCompleted?.invoke(toolCall.id, result.content, result.isError)
+            "Tool '${toolCall.function.name}' executed: isError=${result.isError}, contentLen=${result.content.length}"
+                .makeLog("AgentLoopExecutor")
+        } else {
+            onPersistFailed?.invoke(toolCall.id, result.content)
+        }
+        if (!isShuttingDown()) onToolCompleted(toolCall, result)
         return toolCall to result
+    }
+
+    /**
+     * 解析工具的有效重试策略。
+     *
+     * 安全约束: 以下工具一律返回 [RetryPolicy.NONE] (即使声明了 policy),
+     * 避免重复弹窗 / 重复权限申请 / 交互重入:
+     * requiresConfirmation、交互式、requiresLogin、声明了非空 requiredPermissions。
+     */
+    private fun resolveEffectiveRetryPolicy(toolCall: ToolCall): RetryPolicy {
+        val policy = toolRegistry.getExecutionPolicy(
+            toolName = toolCall.function.name,
+            arguments = toolCall.function.arguments
+        ) ?: return RetryPolicy.NONE
+        if (policy.requiresConfirmation || policy.isInteractive ||
+            policy.requiresLogin || policy.requiredPermissions.isNotEmpty()
+        ) {
+            return RetryPolicy.NONE
+        }
+        return policy.retryPolicy
     }
 
     private suspend fun evaluateToolExecutionGuards(
@@ -716,7 +784,7 @@ class AgentLoopExecutor @Inject constructor(
             submitButtonText = context.getString(R.string.agent_tool_confirm_approve),
             cancelButtonText = context.getString(R.string.agent_tool_confirm_reject)
         )
-        return if (result?.contains("\"approved\"") == true) {
+        return if (InteractiveToolResultFactory.isConfirmationApproved(result)) {
             ToolConfirmationDecision(approved = true)
         } else {
             ToolConfirmationDecision(approved = false)

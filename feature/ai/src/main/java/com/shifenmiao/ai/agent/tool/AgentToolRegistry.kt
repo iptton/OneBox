@@ -39,15 +39,6 @@ class AgentToolRegistry @Inject constructor(
     companion object {
         /** 默认工具返回结果最大字符数，超出部分截断 */
         private const val DEFAULT_MAX_RESULT_LENGTH = 4096
-
-        /** 发现/枚举类工具的结果截断阈值（通常返回大量候选数据） */
-        private const val DISCOVERY_MAX_RESULT_LENGTH = 8192
-
-        /** 发现类工具名称集合 */
-        val DISCOVERY_TOOL_NAMES = setOf(
-            "discover_tools",
-            "discover_apps"
-        )
     }
 
     /**
@@ -222,6 +213,10 @@ class AgentToolRegistry @Inject constructor(
     fun getVisibleTools(): List<ToolCatalogItem> =
         getToolCatalogItems().filter { it.visibleToUser }
 
+    /** 发现/路由类工具名称集合 (工具自声明 [ToolCatalogItem.isDiscoveryTool]). */
+    fun getDiscoveryToolNames(): Set<String> =
+        catalogItems.values.filter { it.isDiscoveryTool }.mapTo(linkedSetOf()) { it.name }
+
     /**
      * 获取工具目录, 默认只返回用户可见工具; [includeHidden] = true 时包含隐藏工具 (供系统类工具自身使用).
      */
@@ -301,7 +296,8 @@ class AgentToolRegistry @Inject constructor(
             confirmationToolPresentation = tool.confirmationToolPresentation,
             parallelizable = tool.parallelizable,
             isInteractive = tool is InteractiveAgentTool,
-            executionTimeoutMs = tool.executionTimeoutMs
+            executionTimeoutMs = tool.executionTimeoutMs,
+            retryPolicy = tool.retryPolicy
         )
     }
 
@@ -501,7 +497,6 @@ class AgentToolRegistry @Inject constructor(
     }
 
     private fun resolveMaxLength(toolName: String): Int {
-        if (toolName in DISCOVERY_TOOL_NAMES) return DISCOVERY_MAX_RESULT_LENGTH
         val provider = toolProviders[toolName] ?: return DEFAULT_MAX_RESULT_LENGTH
         val toolMax = provider.get().maxResultLength
         return if (toolMax > 0) toolMax else DEFAULT_MAX_RESULT_LENGTH
@@ -530,6 +525,7 @@ data class AgentToolExecutionPolicy(
     val confirmationToolPresentation: String = "",
     val parallelizable: Boolean = true,
     val isInteractive: Boolean = false,
-    val executionTimeoutMs: Long = 0
+    val executionTimeoutMs: Long = 0,
+    val retryPolicy: RetryPolicy = RetryPolicy.NONE
 )
 
