@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class A2uiComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    @Assisted private val onGoBack: () -> Unit,
+    @Assisted private val onGoBackCallback: () -> Unit,
     private val surfaceHolder: A2uiSurfaceHolder,
     private val transport: A2uiTransport,
     private val actionBus: A2uiActionBus,
@@ -62,7 +62,7 @@ class A2uiComponent @AssistedInject internal constructor(
 
     fun onGoBack() {
         disconnect()
-        onGoBack()
+        onGoBackCallback()
     }
 
     @AssistedFactory
