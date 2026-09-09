@@ -16,5 +16,6 @@ dependencies {
     api(projects.core.theme)
     api(projects.core.database)
     api(projects.feature.common)
+    implementation(projects.feature.ai)
 }
 
