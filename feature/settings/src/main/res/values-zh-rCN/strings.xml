@@ -84,6 +84,14 @@
     <string name="custom_background_pick">选择背景图片</string>
     <string name="custom_background_clear">清除</string>
     <string name="custom_background_overlay_alpha">遮罩透明度</string>
+    <string name="custom_background_ai_generate">AI 生成背景</string>
+    <string name="custom_background_ai_title">AI 生成背景图片</string>
+    <string name="custom_background_ai_hint">描述你想要的背景，如：清晨薄雾中的森林</string>
+    <string name="custom_background_ai_action">生成</string>
+    <string name="custom_background_ai_points_hint">每次生成消耗 %1$d 积分</string>
+    <string name="custom_background_ai_empty">请输入背景描述</string>
+    <string name="custom_background_ai_running">正在生成中，请稍候</string>
+    <string name="custom_background_ai_generating">生成中…</string>
 
     <string name="ai_feature_settings_heading">AI 功能开关</string>
     <string name="ai_feature_settings_desc">统一管理 AI 对话中的偏好开关。后续新增的 AI 相关开关设置，也会集中放在这里。</string>

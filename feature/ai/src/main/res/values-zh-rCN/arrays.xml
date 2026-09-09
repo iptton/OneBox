@@ -115,6 +115,8 @@
         <item>风格</item>
         <item>主色</item>
         <item>背景色</item>
+        <item>背景图</item>
+        <item>壁纸</item>
     </string-array>
     <string-array name="agent_tool_theme_setting_examples">
         <item>当前主题是什么</item>
@@ -122,6 +124,8 @@
         <item>主色改成蓝色</item>
         <item>主题调成更清透一点</item>
         <item>打开薰衣草风格渐变</item>
+        <item>生成一张星空背景</item>
+        <item>清除背景图</item>
     </string-array>
     <string-array name="agent_tool_theme_setting_gradient_styles">
         <item>Classic</item>

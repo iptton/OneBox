@@ -136,7 +136,7 @@
     <string name="agent_tool_view_note_failed">Failed to get note: %1$s</string>
 
     <string name="agent_tool_theme_setting_title">Theme Settings</string>
-    <string name="agent_tool_theme_setting_summary">Read / switch / fine-tune the current theme (colors, night mode, glass effect, gradient background)</string>
+    <string name="agent_tool_theme_setting_summary">Read / switch / fine-tune the current theme (colors, night mode, glass effect, gradient background, AI-generated background image)</string>
     <string name="agent_tool_theme_setting_param_action">Action type. list=read current theme; set=modify fields on current theme; apply=switch to a preset theme. **Only action is required**</string>
     <string name="agent_tool_theme_setting_param_preset_id">Preset theme ID (from list response `builtinPresets[i].id`). Use either this or `preset_name`. apply only</string>
     <string name="agent_tool_theme_setting_param_preset_name">Preset theme name (fuzzy match, supports Chinese display names like "樱花粉", or English id/pinyin, case-insensitive). apply only</string>
@@ -150,6 +150,8 @@
     <string name="agent_tool_theme_setting_param_mesh_gradient">Mesh gradient background. Same values as glass ("true" / "false"). Optional</string>
     <string name="agent_tool_theme_setting_param_gradient_style">Gradient background style name. **Must** be picked from list response `gradientStyles` (case-sensitive). Optional</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">Glass transparency base value. **Number type** (NOT string), range [0.1, 1.0], default 1.0. Lower = more transparent. Optional</string>
+    <string name="agent_tool_theme_setting_param_background_image">Custom background image. Only value: "clear" — removes the current background image and restores the plain background. Optional</string>
+    <string name="agent_tool_theme_setting_param_background_prompt">AI-generate a background image from this text description and set it as the custom background (text-to-image, may take tens of seconds; costs points on the proxy route). When passed together with background_image, this one wins. Optional</string>
     <string name="agent_tool_theme_setting_failed">Theme settings failed: %1$s</string>
     <string name="agent_tool_theme_setting_unknown_action">Unknown action: %1$s. Must be one of list / set / apply</string>
     <string name="agent_tool_theme_setting_missing_action">Missing action parameter</string>

@@ -9,6 +9,8 @@
         <item>style</item>
         <item>primary color</item>
         <item>background color</item>
+        <item>background image</item>
+        <item>wallpaper</item>
     </string-array>
     <string-array name="agent_tool_theme_setting_examples">
         <item>What is the current theme</item>
@@ -16,6 +18,8 @@
         <item>Make the primary color blue</item>
         <item>Make the theme feel more airy</item>
         <item>Use the Lavender gradient style</item>
+        <item>Generate a starry sky background</item>
+        <item>Remove the background image</item>
     </string-array>
     <string-array name="agent_tool_theme_setting_gradient_styles">
         <item>Classic</item>

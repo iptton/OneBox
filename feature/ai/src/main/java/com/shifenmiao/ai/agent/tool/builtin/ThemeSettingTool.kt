@@ -1,17 +1,25 @@
 package com.shifenmiao.ai.agent.tool.builtin
 
+import android.net.Uri
 import com.google.gson.Gson
 import com.shifenmiao.ai.agent.tool.AgentTool
+import com.shifenmiao.ai.agent.tool.AgentToolLoginChecker
 import com.shifenmiao.ai.agent.tool.AgentToolResult
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
 import com.shifenmiao.ai.agent.tool.ToolDeepLink
 import com.shifenmiao.ai.R
+import com.shifenmiao.base.utils.aiImageProcessPointsCost
 import com.shifenmiao.common.handle.navigation.AppNavigationRegistry
 import com.shifenmiao.common.handle.navigation.AppNavigationTargetType
+import com.shifenmiao.common.utils.BaseUtils
+import com.shifenmiao.imagegeneration.loader.ImageGenerationLoader
+import com.shifenmiao.imagegeneration.model.ImageGenerationRequest
+import com.shifenmiao.imagegeneration.service.ImageGenerationManager
 import com.shifenmiao.model.ai.ToolParameterProperty
 import com.shifenmiao.model.ai.ToolParameters
 import com.shifenmiao.model.ai.tool.ToolCategory
 import com.shifenmiao.model.ai.tool.ToolRiskLevel
+import com.shifenmiao.storage.TokenStorage
 import com.t8rin.imagetoolbox.core.settings.domain.ThemeSettingService
 import com.t8rin.imagetoolbox.core.settings.domain.model.AppThemePreset
 import com.t8rin.imagetoolbox.core.settings.domain.model.GradientBackgroundStyle
@@ -20,6 +28,9 @@ import javax.inject.Inject
 
 class ThemeSettingTool @Inject constructor(
     private val themeSettingService: ThemeSettingService,
+    private val imageGenerationManager: ImageGenerationManager,
+    private val imageGenerationLoader: ImageGenerationLoader,
+    private val loginChecker: AgentToolLoginChecker,
     private val gson: Gson,
     private val textProvider: AgentToolTextProvider,
 ) : AgentTool {
@@ -43,6 +54,9 @@ class ThemeSettingTool @Inject constructor(
     override val riskLevel: ToolRiskLevel = ToolRiskLevel.SENSITIVE
 
     override val parallelizable: Boolean = false
+
+    // background_prompt 触发文生图,通常要十几秒到一分多钟,超时放宽到 3 分钟
+    override val executionTimeoutMs: Long = 180_000L
 
     override val sortOrder: Int = -72
 
@@ -115,6 +129,15 @@ class ThemeSettingTool @Inject constructor(
             "glass_alpha" to ToolParameterProperty(
                 type = "number",
                 description = textProvider.string(R.string.agent_tool_theme_setting_param_glass_alpha),
+            ),
+            "background_image" to ToolParameterProperty(
+                type = "string",
+                description = textProvider.string(R.string.agent_tool_theme_setting_param_background_image),
+                enum = listOf("clear"),
+            ),
+            "background_prompt" to ToolParameterProperty(
+                type = "string",
+                description = textProvider.string(R.string.agent_tool_theme_setting_param_background_prompt),
             ),
         ),
         required = listOf("action"),
@@ -219,8 +242,14 @@ class ThemeSettingTool @Inject constructor(
                 message = textProvider.string(R.string.agent_tool_theme_setting_no_fields),
             )
         }
+        // 背景图先单独解析:background_prompt 需要挂起调用文生图管线,
+        // 产物 file:// URI 注入 buildThemeChange 统一应用
+        val background = when (val resolved = resolveBackground(params)) {
+            is BackgroundResolution.Failed -> return resolved.result
+            is BackgroundResolution.Resolved -> resolved
+        }
         val current = themeSettingService.getCurrentTheme()
-        when (val change = buildThemeChange(current, params)) {
+        when (val change = buildThemeChange(current, params, background)) {
             is ThemeChangeResult.Invalid -> return change.result
             is ThemeChangeResult.NoOp -> return errorResult(
                 action = "set",
@@ -242,9 +271,95 @@ class ThemeSettingTool @Inject constructor(
         }
     }
 
+    /**
+     * 解析背景图字段(在 buildThemeChange 之前调用):
+     * - background_image="clear" → 清除背景;
+     * - background_prompt 非空 → 文生图(计费门控同 generate_image 工具:
+     *   代理路由需登录+积分,自备 Key 直连免费),产物为本地 file:// URI;
+     * - 两者同传时 prompt 优先。
+     */
+    private suspend fun resolveBackground(params: ThemeSettingParams): BackgroundResolution {
+        val prompt = params.background_prompt?.trim().orEmpty()
+        if (prompt.isNotEmpty()) {
+            val config = imageGenerationManager.getActiveConfig()
+                ?: return BackgroundResolution.Failed(
+                    errorResult(
+                        action = "set",
+                        reasonCode = "no_image_config",
+                        message = textProvider.string(R.string.agent_tool_generate_image_no_config),
+                    )
+                )
+            val isProxyRoute = !config.hasDirectConfig
+            val pointsCost = aiImageProcessPointsCost()
+            if (isProxyRoute) {
+                if (!loginChecker.isLoggedIn()) {
+                    return BackgroundResolution.Failed(
+                        errorResult(
+                            action = "set",
+                            reasonCode = "need_login",
+                            message = textProvider.string(R.string.agent_tool_generate_image_need_login),
+                        )
+                    )
+                }
+                if (!TokenStorage.canConsumePoints(pointsCost)) {
+                    return BackgroundResolution.Failed(
+                        errorResult(
+                            action = "set",
+                            reasonCode = "no_points",
+                            message = textProvider.string(R.string.agent_tool_generate_image_no_points),
+                        )
+                    )
+                }
+            }
+            return imageGenerationLoader.load(
+                ImageGenerationRequest(prompt = prompt, outputSize = BACKGROUND_OUTPUT_SIZE)
+            ).fold(
+                onSuccess = { image ->
+                    // 与 generate_image / text-card 一致:仅非缓存结果扣积分,失败不扣
+                    if (isProxyRoute && !image.fromCache) {
+                        BaseUtils.consumePoints(
+                            degree = pointsCost,
+                            desc = title,
+                            source = POINTS_SOURCE,
+                            showToast = true,
+                        )
+                    }
+                    BackgroundResolution.Resolved(imageUri = Uri.fromFile(image.file).toString())
+                },
+                onFailure = { error ->
+                    BackgroundResolution.Failed(
+                        errorResult(
+                            action = "set",
+                            reasonCode = "background_generate_failed",
+                            message = textProvider.string(
+                                R.string.agent_tool_generate_image_failed,
+                                error.message
+                                    ?: textProvider.string(R.string.agent_tool_unknown_error),
+                            ),
+                        )
+                    )
+                },
+            )
+        }
+        if (params.background_image?.trim()?.lowercase() == "clear") {
+            return BackgroundResolution.Resolved(cleared = true)
+        }
+        return BackgroundResolution.Resolved()
+    }
+
+    private sealed interface BackgroundResolution {
+        data class Resolved(
+            val imageUri: String? = null,
+            val cleared: Boolean = false,
+        ) : BackgroundResolution
+
+        data class Failed(val result: AgentToolResult) : BackgroundResolution
+    }
+
     private fun buildThemeChange(
         current: AppThemePreset,
         params: ThemeSettingParams,
+        background: BackgroundResolution.Resolved,
     ): ThemeChangeResult {
         var next = current
         val changed = mutableListOf<String>()
@@ -379,6 +494,15 @@ class ThemeSettingTool @Inject constructor(
                 )
             )
             OptionalAlpha.Absent -> Unit
+        }
+
+        if (background.cleared) {
+            next = next.copy(customBackgroundImageUri = null)
+            changed += "backgroundImage"
+        }
+        background.imageUri?.let { uri ->
+            next = next.copy(customBackgroundImageUri = uri)
+            changed += "backgroundImage"
         }
 
         if (changed.isEmpty()) return ThemeChangeResult.NoOp
@@ -532,6 +656,7 @@ class ThemeSettingTool @Inject constructor(
             "meshGradient" to theme.isMeshGradientBackgroundEnabled,
             "gradientStyle" to theme.gradientBackgroundStyle.name,
             "glassAlpha" to theme.glassBaseAlpha,
+            "backgroundImage" to theme.customBackgroundImageUri,
         )
     }
 
@@ -549,6 +674,8 @@ class ThemeSettingTool @Inject constructor(
         val mesh_gradient: String? = null,
         val gradient_style: String? = null,
         val glass_alpha: Double? = null,
+        val background_image: String? = null,
+        val background_prompt: String? = null,
     ) {
         fun isEmpty(): Boolean = preset_id.isNullOrBlank()
             && preset_name.isNullOrBlank()
@@ -562,6 +689,8 @@ class ThemeSettingTool @Inject constructor(
             && mesh_gradient.isNullOrBlank()
             && gradient_style.isNullOrBlank()
             && glass_alpha == null
+            && background_image.isNullOrBlank()
+            && background_prompt.isNullOrBlank()
     }
 
     private companion object {
@@ -576,5 +705,11 @@ class ThemeSettingTool @Inject constructor(
             "0xRRGGBB",
             "0xAARRGGBB",
         )
+
+        /** AI 生成背景积分消耗来源标识 */
+        const val POINTS_SOURCE = "agent_theme_background"
+
+        /** AI 生成背景输出尺寸(竖屏,符合服务商 512–2048 限制) */
+        const val BACKGROUND_OUTPUT_SIZE = "1080*1920"
     }
 }

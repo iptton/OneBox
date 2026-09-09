@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -55,6 +56,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
@@ -66,6 +68,8 @@ import androidx.compose.ui.unit.dp
 import com.shifenmiao.base.manager.DeleteConfirmationManager
 import com.shifenmiao.base.ui.AdvancedDeleteConfirmDialog
 import com.shifenmiao.base.ui.button.ConfirmButton
+import com.shifenmiao.base.utils.ActionUtils
+import com.shifenmiao.base.utils.aiImageProcessPointsCost
 import com.shifenmiao.common.ui.BottomSaveCancelBar
 import com.shifenmiao.common.ui.BaseScreen
 import com.shifenmiao.theme.AppTheme
@@ -79,6 +83,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelection
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.editor.AiGenerateImageSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSegmentedButtonRow
@@ -108,6 +113,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFeatures
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDarkMode
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineImage
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAiImage
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSettingsSuggest
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineVisibility
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineLightMode
@@ -123,6 +129,7 @@ fun ThemeSettingsScreen(
     val editingDraft by component.editingDraft.collectAsState()
     val allThemes by component.allThemes.collectAsState()
     val editMode by component.editMode.collectAsState()
+    val isGeneratingImage by component.isGeneratingImage.collectAsState()
     val activeThemeId = LocalSettingsState.current.activeThemeId
     var showExitConfirmDialog by remember { mutableStateOf(false) }
     var pendingDeletePreset by remember { mutableStateOf<AppThemePreset?>(null) }
@@ -287,6 +294,16 @@ fun ThemeSettingsScreen(
                     customBackgroundImageUri = draft.customBackgroundImageUri,
                     onBackgroundUriChange = { component.updateDraftCustomBackgroundUri(it) },
                     onOverlayAlphaChanged = { overlayAlphaDirty = true },
+                    isGeneratingImage = isGeneratingImage,
+                    onGenerateBackground = { prompt, onSuccess ->
+                        // 登录 + 积分预检:通过后才真正生成(同 text-card AI 生图)
+                        ActionUtils.ensureLoginAndCheckPoints(
+                            source = ThemeSettingsComponent.POINTS_SOURCE,
+                            point = aiImageProcessPointsCost(),
+                        ) {
+                            component.generateBackgroundImage(prompt, onSuccess = onSuccess)
+                        }
+                    },
                 )
             }
         }
@@ -947,6 +964,8 @@ private fun CustomBackgroundCard(
     customBackgroundImageUri: String?,
     onBackgroundUriChange: (String?) -> Unit,
     onOverlayAlphaChanged: () -> Unit = {},
+    isGeneratingImage: Boolean = false,
+    onGenerateBackground: (prompt: String, onStarted: () -> Unit) -> Unit = { _, _ -> },
 ) {
     val settingsManager = LocalSettingsManager.current
     val settingsState = LocalSettingsState.current
@@ -963,6 +982,7 @@ private fun CustomBackgroundCard(
     val hasCustomBg = customBackgroundImageUri != null
     var previewAspectRatio by remember(customBackgroundImageUri) { mutableFloatStateOf(16f / 9f) }
     var imageLoadFailed by remember(customBackgroundImageUri) { mutableStateOf(false) }
+    var showAiGenerateSheet by remember { mutableStateOf(false) }
 
     GlassCard(
         modifier = Modifier.fillMaxWidth(),
@@ -1018,70 +1038,30 @@ private fun CustomBackgroundCard(
                 }
             }
 
-            if (!hasCustomBg) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(OneBoxDesignSystem.compactBadgeShape)
-                        .glassBackground(
-                            style = GlassStyle.Thin,
-                            shape = OneBoxDesignSystem.compactBadgeShape,
-                        )
-                        .clickable { imagePicker.pickImage() }
-                        .padding(horizontal = OneBoxDesignSystem.itemSpacing, vertical = OneBoxDesignSystem.compactSpacing),
-                    horizontalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.compactSpacing),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineImage,
-                        contentDescription = null,
-                        modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                    Text(
-                        text = stringResource(R.string.custom_background_pick),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                }
+            // 操作入口:两格宫格;生成中 AI 格显示进度并禁用重复点击
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.compactSpacing),
+            ) {
+                BackgroundActionTile(
+                    modifier = Modifier.weight(1f),
+                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineImage,
+                    label = stringResource(R.string.custom_background_pick),
+                    onClick = { imagePicker.pickImage() },
+                )
+                BackgroundActionTile(
+                    modifier = Modifier.weight(1f),
+                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAiImage,
+                    label = stringResource(
+                        if (isGeneratingImage) R.string.custom_background_ai_generating
+                        else R.string.custom_background_ai_generate
+                    ),
+                    loading = isGeneratingImage,
+                    onClick = { showAiGenerateSheet = true },
+                )
             }
 
             if (hasCustomBg) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(OneBoxDesignSystem.compactBadgeShape)
-                        .glassBackground(
-                            style = GlassStyle.Thin,
-                            shape = OneBoxDesignSystem.compactBadgeShape,
-                        )
-                        .clickable { imagePicker.pickImage() }
-                        .padding(horizontal = OneBoxDesignSystem.itemSpacing, vertical = OneBoxDesignSystem.compactSpacing),
-                    horizontalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.compactSpacing),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineImage,
-                        contentDescription = null,
-                        modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                    Text(
-                        text = stringResource(R.string.custom_background_pick),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.weight(1f),
-                    )
-                    Icon(
-                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Delete,
-                        contentDescription = stringResource(R.string.custom_background_clear),
-                        modifier = Modifier
-                            .size(16.dp)
-                            .clickable { onBackgroundUriChange(null) },
-                        tint = MaterialTheme.colorScheme.error.copy(alpha = 0.6f),
-                    )
-                }
-
                 GlassSurface(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -1187,6 +1167,75 @@ private fun CustomBackgroundCard(
                 )
             }
         }
+    }
+
+    // AI 生成背景弹层(文生图;登录/积分预检在 onGenerateBackground 内完成)
+    AiGenerateImageSheet(
+        visible = showAiGenerateSheet,
+        title = stringResource(R.string.custom_background_ai_title),
+        editTitle = stringResource(R.string.custom_background_ai_title),
+        promptHint = stringResource(R.string.custom_background_ai_hint),
+        editPromptHint = stringResource(R.string.custom_background_ai_hint),
+        generateLabel = stringResource(
+            if (isGeneratingImage) R.string.custom_background_ai_generating
+            else R.string.custom_background_ai_action
+        ),
+        pointsHint = stringResource(
+            R.string.custom_background_ai_points_hint,
+            aiImageProcessPointsCost(),
+        ),
+        emptyHint = stringResource(R.string.custom_background_ai_empty),
+        currentLabel = "",
+        historyLabel = "",
+        isGenerating = isGeneratingImage,
+        editImage = null,
+        onGenerate = { prompt ->
+            onGenerateBackground(prompt) { showAiGenerateSheet = false }
+        },
+        onDismiss = { showAiGenerateSheet = false },
+    )
+}
+
+/** 自定义背景操作宫格:玻璃小块,图标在上文案在下,loading 时图标换转圈 */
+@Composable
+private fun BackgroundActionTile(
+    icon: ImageVector,
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    loading: Boolean = false,
+) {
+    Column(
+        modifier = modifier
+            .clip(OneBoxDesignSystem.compactBadgeShape)
+            .glassBackground(
+                style = GlassStyle.Thin,
+                shape = OneBoxDesignSystem.compactBadgeShape,
+            )
+            .clickable(enabled = !loading, onClick = onClick)
+            .padding(vertical = OneBoxDesignSystem.itemSpacing),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.microSpacing),
+    ) {
+        if (loading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(18.dp),
+                strokeWidth = 2.dp,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        } else {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp),
+                tint = MaterialTheme.colorScheme.primary,
+            )
+        }
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.primary,
+        )
     }
 }
 

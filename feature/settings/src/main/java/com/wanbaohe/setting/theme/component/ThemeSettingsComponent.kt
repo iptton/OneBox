@@ -1,15 +1,24 @@
 package com.wanbaohe.setting.theme.component
 
+import android.net.Uri
 import com.arkivanov.decompose.ComponentContext
+import com.shifenmiao.base.utils.aiImageProcessPointsCost
+import com.shifenmiao.common.utils.BaseUtils
+import com.shifenmiao.imagegeneration.loader.ImageGenerationLoader
+import com.shifenmiao.imagegeneration.model.ImageGenerationRequest
 import com.shifenmiao.interfaces.singleton.AppContext
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineInfo
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.settings.domain.ThemeSettingService
 import com.t8rin.imagetoolbox.core.settings.domain.model.AppThemePreset
 import com.t8rin.imagetoolbox.core.settings.domain.model.GradientBackgroundStyle
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.theme.localizedName
+import com.wanbaohe.settings.R
 import com.shifenmiao.core.R as CoreR
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -59,6 +68,7 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val themeSettingService: ThemeSettingService,
+    private val imageGenerationLoader: ImageGenerationLoader,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -73,6 +83,10 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
 
     private val _events = Channel<ThemeSettingsEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
+
+    /** AI 生成背景图进行中(弹层据此禁用重复提交) */
+    private val _isGeneratingImage = MutableStateFlow(false)
+    val isGeneratingImage: StateFlow<Boolean> = _isGeneratingImage
 
     val allThemes: StateFlow<List<AppThemePreset>> = themeSettingService.observeThemes()
         .stateIn(componentScope, SharingStarted.Lazily, themeSettingService.themesSnapshot)
@@ -198,6 +212,60 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
     fun updateDraftNightMode(nightMode: NightMode) {
         _editingDraft.value = _editingDraft.value?.copy(nightMode = nightMode)
         applyDraftLive()
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  AI 生成背景图
+    // ══════════════════════════════════════════════════════════
+
+    /**
+     * AI 生成背景图:文生图(竖屏输出),成功后写入草稿并实时预览。
+     * 登录与积分预检由调用方(UI 层 ActionUtils.ensureLoginAndCheckPoints)完成;
+     * 仅非缓存结果(!fromCache)扣积分,失败 toast 不扣。
+     * 生成耗时约数十秒,期间以 [isGeneratingImage] 驱动 UI 进度反馈,
+     * [onSuccess] 仅在真正生成成功后回调(UI 据此关闭弹层)。
+     */
+    fun generateBackgroundImage(prompt: String, onSuccess: () -> Unit = {}) {
+        val trimmed = prompt.trim()
+        if (trimmed.isEmpty()) {
+            AppToastHost.showToast(
+                message = AppContext.getString(R.string.custom_background_ai_empty),
+                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineInfo,
+                duration = ToastDuration.Short,
+            )
+            return
+        }
+        if (_isGeneratingImage.value) {
+            AppToastHost.showToast(
+                message = AppContext.getString(R.string.custom_background_ai_running),
+                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineInfo,
+                duration = ToastDuration.Short,
+            )
+            return
+        }
+        componentScope.launch {
+            _isGeneratingImage.value = true
+            imageGenerationLoader.load(
+                ImageGenerationRequest(
+                    prompt = trimmed,
+                    outputSize = BACKGROUND_OUTPUT_SIZE,
+                )
+            ).onSuccess { image ->
+                updateDraftCustomBackgroundUri(Uri.fromFile(image.file).toString())
+                if (!image.fromCache) {
+                    BaseUtils.consumePoints(
+                        degree = aiImageProcessPointsCost(),
+                        desc = AppContext.getString(R.string.custom_background_ai_generate),
+                        source = POINTS_SOURCE,
+                        showToast = true,
+                    )
+                }
+                onSuccess()
+            }.onFailure { error ->
+                AppToastHost.showFailureToast(throwable = error)
+            }
+            _isGeneratingImage.value = false
+        }
     }
 
     // ══════════════════════════════════════════════════════════
@@ -349,6 +417,12 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
         private const val DEFAULT_TERTIARY = -8367522
         private const val DEFAULT_SURFACE = -591619
         const val DEFAULT_THEME_NAME = "自定义主题"
+
+        /** AI 生成背景积分消耗来源标识 */
+        const val POINTS_SOURCE = "theme_background_generate"
+
+        /** AI 生成背景输出尺寸(竖屏,符合服务商 512–2048 限制) */
+        private const val BACKGROUND_OUTPUT_SIZE = "1080*1920"
 
         private fun randomHarmoniousColor(): Int {
             val hue = Random.nextFloat() * 360f

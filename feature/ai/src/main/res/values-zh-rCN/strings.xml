@@ -136,7 +136,7 @@
     <string name="agent_tool_view_note_failed">获取笔记失败: %1$s</string>
 
     <string name="agent_tool_theme_setting_title">主题设置</string>
-    <string name="agent_tool_theme_setting_summary">读取 / 切换 / 微调当前主题（配色、日夜模式、玻璃质感、渐变背景）</string>
+    <string name="agent_tool_theme_setting_summary">读取 / 切换 / 微调当前主题（配色、日夜模式、玻璃质感、渐变背景、AI 生成背景图）</string>
     <string name="agent_tool_theme_setting_param_action">操作类型。list=读取当前主题；set=修改当前主题的若干字段；apply=切换到预设主题。**仅 action 必填**</string>
     <string name="agent_tool_theme_setting_param_preset_id">预设主题 ID（来自 list 响应的 builtinPresets[i].id），与 preset_name 二选一。apply 专用</string>
     <string name="agent_tool_theme_setting_param_preset_name">预设主题名（模糊匹配，支持中文名如"樱花粉"，或英文 id/拼音，大小写不敏感）。apply 专用</string>
@@ -150,6 +150,8 @@
     <string name="agent_tool_theme_setting_param_mesh_gradient">网格渐变背景。值同 glass（"true" / "false"）。可选</string>
     <string name="agent_tool_theme_setting_param_gradient_style">渐变背景风格名。**必须**从 list 响应的 gradientStyles 中选取（区分大小写）。可选</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">玻璃透明度基准值。**数字类型**（非字符串），范围 [0.1, 1.0]，默认 1.0。越小越透。可选</string>
+    <string name="agent_tool_theme_setting_param_background_image">自定义背景图。唯一取值："clear"——清除当前背景图、恢复纯色背景。可选</string>
+    <string name="agent_tool_theme_setting_param_background_prompt">按文字描述 AI 生成背景图并设为自定义背景（文生图，可能耗时数十秒；代理路由消耗积分）。与 background_image 同传时以本参数为准。可选</string>
     <string name="agent_tool_theme_setting_failed">主题设置失败：%1$s</string>
     <string name="agent_tool_theme_setting_unknown_action">未知操作：%1$s。应为 list / set / apply 之一</string>
     <string name="agent_tool_theme_setting_missing_action">缺少 action 参数</string>

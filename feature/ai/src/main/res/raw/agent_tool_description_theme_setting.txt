@@ -20,6 +20,9 @@ action="set" 的字段（全部可选）：
 - mesh_gradient："true" 或 "false" —— 网格渐变背景
 - gradient_style：`gradientStyles` 数组中的名字，如 "Lavender"、"Sunset"、"Ocean"
 - glass_alpha：0.1 ~ 1.0 的浮点数 —— 玻璃透明度基准值，默认 1.0
+- background_image：唯一取值 "clear" —— 清除自定义背景图，恢复纯色背景
+- background_prompt：文字描述，AI 生成背景图并设为自定义背景（文生图，竖屏，
+  可能耗时数十秒；代理路由消耗积分）。与 background_image 同传时以本参数为准
 
 示例：
 - "当前主题是什么" → {"action": "list"}
@@ -28,6 +31,8 @@ action="set" 的字段（全部可选）：
 - "主色改成蓝色" → {"action": "set", "primary": "#3B82F6"}
 - "更清透一点" → {"action": "set", "glass_alpha": 0.75}
 - "打开网格渐变，风格用薰衣草" → {"action": "set", "mesh_gradient": "true", "gradient_style": "Lavender"}
+- "生成一张星空背景" → {"action": "set", "background_prompt": "深邃星空，银河，深蓝色调"}
+- "清除背景图" → {"action": "set", "background_image": "clear"}
 
 错误响应会带 `reasonCode`（如 "invalid_color"、"unknown_style"、"unknown_preset"）
 和 `message`，部分错误还会带 `validOptions` 供下次自纠。

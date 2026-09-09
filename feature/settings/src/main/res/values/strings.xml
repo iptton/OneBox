@@ -84,6 +84,14 @@
     <string name="custom_background_pick">Pick Background Image</string>
     <string name="custom_background_clear">Clear</string>
     <string name="custom_background_overlay_alpha">Overlay Opacity</string>
+    <string name="custom_background_ai_generate">Generate with AI</string>
+    <string name="custom_background_ai_title">AI Background Image</string>
+    <string name="custom_background_ai_hint">Describe the background, e.g. Misty forest at dawn</string>
+    <string name="custom_background_ai_action">Generate</string>
+    <string name="custom_background_ai_points_hint">%1$d points per generation</string>
+    <string name="custom_background_ai_empty">Please enter a description</string>
+    <string name="custom_background_ai_running">Generation in progress, please wait</string>
+    <string name="custom_background_ai_generating">Generating…</string>
 
     <string name="ai_feature_settings_heading">AI Feature Toggles</string>
     <string name="ai_feature_settings_desc">Centrally manage the preference toggles used in AI conversations. Future AI-related toggles will be collected here.</string>
