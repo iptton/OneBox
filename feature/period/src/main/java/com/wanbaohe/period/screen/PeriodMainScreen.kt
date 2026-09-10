@@ -1,13 +1,16 @@
 package com.wanbaohe.period.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,7 +45,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineAiChat
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAutoFix
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBarChart
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineFilterAlt
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronLeft
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronRight
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineGpsFixed
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineKeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineKeyboardArrowUp
@@ -72,7 +77,10 @@ import com.wanbaohe.period.screen.component.periodShortDate
 import com.wanbaohe.period.screen.component.periodWeekday
 import com.wanbaohe.period.screen.component.symptomIcon
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.format.TextStyle
+import java.time.temporal.WeekFields
+import java.util.Locale
 
 @Composable
 fun PeriodMainScreen(
@@ -91,31 +99,11 @@ fun PeriodMainScreen(
         ),
         onGoBack = component.onGoBack,
         actions = {
-            IconButton(onClick = { component.setFilterPeriodOnly(!uiState.filterPeriodOnly) }) {
-                Icon(
-                    imageVector = Icons.Outlined.LineFilterAlt,
-                    contentDescription = stringResource(R.string.period_filter_period),
-                    tint = if (uiState.filterPeriodOnly) {
-                        colors.accent
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    },
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .padding(end = 12.dp)
-                    .size(34.dp)
-                    .clip(CircleShape)
-                    .background(colors.accent)
-                    .clickable(onClick = component::openAddRecord),
-                contentAlignment = Alignment.Center,
-            ) {
+            IconButton(onClick = component::openAddRecord) {
                 Icon(
                     imageVector = Icons.Outlined.Add,
                     contentDescription = stringResource(R.string.period_add),
-                    tint = colors.onAccent,
-                    modifier = Modifier.size(20.dp),
+                    tint = colors.accent,
                 )
             }
         },
@@ -146,6 +134,11 @@ fun PeriodMainScreen(
                                 colors = colors,
                                 groups = uiState.monthGroups,
                                 today = uiState.today,
+                                calendarMonth = uiState.calendarMonth,
+                                calendarPeriodDays = uiState.calendarPeriodDays,
+                                calendarRecordIds = uiState.calendarRecordIds,
+                                onCalendarMonthChange = component::onCalendarMonthChange,
+                                onCalendarDayClick = component::openCalendarDay,
                                 onRecordClick = component::openDetail,
                                 onToggleCollapse = component::toggleMonthCollapse,
                             )
@@ -290,6 +283,11 @@ private fun PeriodRecordList(
     colors: PeriodColors,
     groups: List<PeriodMonthGroup>,
     today: LocalDate,
+    calendarMonth: YearMonth,
+    calendarPeriodDays: Set<LocalDate>,
+    calendarRecordIds: Map<LocalDate, String>,
+    onCalendarMonthChange: (Long) -> Unit,
+    onCalendarDayClick: (LocalDate) -> Unit,
     onRecordClick: (String) -> Unit,
     onToggleCollapse: (String) -> Unit,
 ) {
@@ -298,6 +296,17 @@ private fun PeriodRecordList(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
+        item(key = "calendar") {
+            PeriodCalendarCard(
+                colors = colors,
+                month = calendarMonth,
+                periodDays = calendarPeriodDays,
+                recordIds = calendarRecordIds,
+                today = today,
+                onMonthChange = onCalendarMonthChange,
+                onDayClick = onCalendarDayClick,
+            )
+        }
         groups.forEach { group ->
             item(key = "header_${group.yearMonth}") {
                 MonthGroupHeader(
@@ -356,6 +365,132 @@ private fun MonthGroupHeader(
             modifier = Modifier
                 .padding(start = 4.dp)
                 .size(20.dp),
+        )
+    }
+}
+
+// ── 月历 ─────────────────────────────────────────
+
+@Composable
+private fun PeriodCalendarCard(
+    colors: PeriodColors,
+    month: YearMonth,
+    periodDays: Set<LocalDate>,
+    recordIds: Map<LocalDate, String>,
+    today: LocalDate,
+    onMonthChange: (Long) -> Unit,
+    onDayClick: (LocalDate) -> Unit,
+) {
+    val locale = Locale.getDefault()
+    val firstDayOfWeek = WeekFields.of(locale).firstDayOfWeek
+    GlassCard(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(12.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = { onMonthChange(-1) }) {
+                    Icon(
+                        imageVector = Icons.Outlined.LineChevronLeft,
+                        contentDescription = stringResource(R.string.period_calendar_prev),
+                        tint = colors.onSurfaceVariant,
+                    )
+                }
+                Text(
+                    text = month.periodMonthTitle(),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = colors.onSurface,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f),
+                )
+                IconButton(onClick = { onMonthChange(1) }) {
+                    Icon(
+                        imageVector = Icons.Outlined.LineChevronRight,
+                        contentDescription = stringResource(R.string.period_calendar_next),
+                        tint = colors.onSurfaceVariant,
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Row(modifier = Modifier.fillMaxWidth()) {
+                (0..6).forEach { offset ->
+                    Text(
+                        text = firstDayOfWeek.plus(offset.toLong())
+                            .getDisplayName(TextStyle.SHORT, locale),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = colors.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            val leadingBlanks =
+                (month.atDay(1).dayOfWeek.value - firstDayOfWeek.value + 7) % 7
+            val daysInMonth = month.lengthOfMonth()
+            val rowCount = (leadingBlanks + daysInMonth + 6) / 7
+            Column(modifier = Modifier.fillMaxWidth()) {
+                for (row in 0 until rowCount) {
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        for (col in 0..6) {
+                            val dayNumber = row * 7 + col - leadingBlanks + 1
+                            if (dayNumber in 1..daysInMonth) {
+                                val date = month.atDay(dayNumber)
+                                CalendarDayCell(
+                                    date = date,
+                                    isPeriodDay = date in periodDays,
+                                    isToday = date == today,
+                                    hasRecord = recordIds.containsKey(date),
+                                    colors = colors,
+                                    onClick = { onDayClick(date) },
+                                )
+                            } else {
+                                Spacer(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .aspectRatio(1f),
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RowScope.CalendarDayCell(
+    date: LocalDate,
+    isPeriodDay: Boolean,
+    isToday: Boolean,
+    hasRecord: Boolean,
+    colors: PeriodColors,
+    onClick: () -> Unit,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .weight(1f)
+            .aspectRatio(1f)
+            .padding(2.dp)
+            .clip(CircleShape)
+            .background(if (isPeriodDay) colors.accentSoft else Color.Transparent)
+            .then(
+                if (isToday) Modifier.border(1.dp, colors.accent, CircleShape) else Modifier
+            )
+            .clickable(enabled = hasRecord, onClick = onClick),
+    ) {
+        Text(
+            text = date.dayOfMonth.toString(),
+            style = MaterialTheme.typography.bodySmall,
+            fontWeight = if (isPeriodDay || isToday) FontWeight.SemiBold else FontWeight.Normal,
+            color = if (isPeriodDay || isToday) colors.accent else colors.onSurface,
+        )
+        Box(
+            modifier = Modifier
+                .size(4.dp)
+                .clip(CircleShape)
+                .background(if (hasRecord) colors.accent else Color.Transparent),
         )
     }
 }

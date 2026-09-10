@@ -27,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -174,11 +173,7 @@ private fun HeroCard(colors: PeriodColors, state: PeriodDetailUi) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(colors.accent, colors.accent.copy(alpha = 0.82f))
-                )
-            )
+            .background(colors.accentContainer)
             .padding(20.dp),
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -187,7 +182,7 @@ private fun HeroCard(colors: PeriodColors, state: PeriodDetailUi) {
                     text = "${state.recordDate.periodFullDate()} " +
                         state.recordDate.periodWeekday(TextStyle.FULL),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = colors.onAccent.copy(alpha = 0.9f),
+                    color = colors.onAccentContainer.copy(alpha = 0.85f),
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -196,7 +191,7 @@ private fun HeroCard(colors: PeriodColors, state: PeriodDetailUi) {
                     } ?: stringResource(R.string.period_cycle_day_unknown),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
-                    color = colors.onAccent,
+                    color = colors.onAccentContainer,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 HeroStatusBadge(colors = colors, status = state.status)
@@ -205,19 +200,19 @@ private fun HeroCard(colors: PeriodColors, state: PeriodDetailUi) {
                     Text(
                         text = stringResource(R.string.period_next_label),
                         style = MaterialTheme.typography.labelMedium,
-                        color = colors.onAccent.copy(alpha = 0.85f),
+                        color = colors.onAccentContainer.copy(alpha = 0.75f),
                     )
                     Text(
                         text = "${next.periodShortDate()} ${next.periodWeekday()}",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
-                        color = colors.onAccent,
+                        color = colors.onAccentContainer,
                     )
                     state.daysUntilNext?.let { days ->
                         Text(
                             text = stringResource(R.string.period_days_until, days),
                             style = MaterialTheme.typography.bodySmall,
-                            color = colors.onAccent.copy(alpha = 0.85f),
+                            color = colors.onAccentContainer.copy(alpha = 0.75f),
                         )
                     }
                 }
@@ -226,13 +221,13 @@ private fun HeroCard(colors: PeriodColors, state: PeriodDetailUi) {
                 modifier = Modifier
                     .size(88.dp)
                     .clip(CircleShape)
-                    .background(colors.onAccent.copy(alpha = 0.18f)),
+                    .background(colors.accent.copy(alpha = 0.16f)),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.Outlined.LineWaterDrop,
                     contentDescription = null,
-                    tint = colors.onAccent,
+                    tint = colors.accent,
                     modifier = Modifier.size(44.dp),
                 )
             }
@@ -253,7 +248,7 @@ private fun HeroStatusBadge(colors: PeriodColors, status: PeriodStatus) {
         style = MaterialTheme.typography.labelMedium,
         modifier = Modifier
             .clip(RoundedCornerShape(50))
-            .background(colors.onAccent.copy(alpha = 0.2f))
+            .background(colors.accent)
             .padding(horizontal = 12.dp, vertical = 4.dp),
     )
 }

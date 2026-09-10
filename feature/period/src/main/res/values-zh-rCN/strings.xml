@@ -9,13 +9,10 @@
     <string name="period_tab_stats">数据</string>
     <string name="period_search">搜索</string>
     <string name="period_search_hint">搜索备注或症状</string>
-    <string name="period_filter_period">仅经期</string>
     <string name="period_add">添加</string>
     <string name="period_save">保存</string>
     <string name="period_cancel">取消</string>
     <string name="period_delete">删除</string>
-    <string name="period_yes">是</string>
-    <string name="period_no">否</string>
     <string name="period_loading">加载中…</string>
     <string name="period_saved">已保存</string>
     <string name="period_record_added">已记录</string>
@@ -36,19 +33,19 @@
     <string name="period_short_date_pattern">M月d日</string>
     <string name="period_note_counter">%1$d/%2$d</string>
     <string name="period_symptoms_multi_hint">（可多选）</string>
-    <string name="period_status_hint">经期中不用选开始/结束，直接记录当天的流量和症状即可</string>
     <string name="period_cycle_day">周期第 %1$d 天</string>
     <string name="period_cycle_day_unknown">周期第 — 天</string>
     <string name="period_status_period">经期中</string>
     <string name="period_status_ovulation">排卵期</string>
     <string name="period_status_normal">正常</string>
     <string name="period_status_start">开始</string>
+    <string name="period_status_mid">经期中</string>
     <string name="period_status_end">结束</string>
+    <string name="period_calendar_prev">上个月</string>
+    <string name="period_calendar_next">下个月</string>
 
     <string name="period_field_date">日期</string>
     <string name="period_field_status">经期状态</string>
-    <string name="period_field_is_start">经期开始</string>
-    <string name="period_field_is_end">经期结束</string>
     <string name="period_field_flow">流量强度</string>
     <string name="period_field_symptoms">症状</string>
     <string name="period_field_mood">心情</string>

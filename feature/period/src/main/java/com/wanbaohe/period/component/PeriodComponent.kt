@@ -10,6 +10,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.wanbaohe.period.R
+import com.wanbaohe.period.model.PeriodCalculations
 import com.wanbaohe.period.model.PeriodMonthGroup
 import com.wanbaohe.period.model.PeriodStatsRange
 import com.wanbaohe.period.model.PeriodTab
@@ -45,12 +46,13 @@ class PeriodComponent @AssistedInject internal constructor(
     val uiState: StateFlow<PeriodUiState> = _uiState
 
     private val searchQuery = MutableStateFlow("")
-    private val filterPeriodOnly = MutableStateFlow(false)
     private val statsRange = MutableStateFlow(PeriodStatsRange.SIX_MONTHS)
+    private val calendarMonth = MutableStateFlow(YearMonth.now())
 
     init {
         observeRecords()
         observeStats()
+        observeCalendar()
     }
 
     fun switchTab(tab: PeriodTab) {
@@ -78,9 +80,12 @@ class PeriodComponent @AssistedInject internal constructor(
         if (!_uiState.value.isSearchActive) searchQuery.value = ""
     }
 
-    fun setFilterPeriodOnly(enabled: Boolean) {
-        filterPeriodOnly.value = enabled
-        _uiState.update { it.copy(filterPeriodOnly = enabled) }
+    fun onCalendarMonthChange(deltaMonths: Long) {
+        calendarMonth.update { it.plusMonths(deltaMonths) }
+    }
+
+    fun openCalendarDay(date: java.time.LocalDate) {
+        _uiState.value.calendarRecordIds[date]?.let(::openDetail)
     }
 
     fun toggleMonthCollapse(yearMonthKey: String) {
@@ -119,10 +124,8 @@ class PeriodComponent @AssistedInject internal constructor(
         combine(
             service.observeAll(),
             searchQuery,
-            filterPeriodOnly,
-        ) { records, query, periodOnly ->
-            val filtered = records.asSequence()
-                .filter { !periodOnly || it.status.name == "PERIOD" }
+        ) { records, query ->
+            records.asSequence()
                 .filter {
                     if (query.isBlank()) {
                         true
@@ -132,13 +135,34 @@ class PeriodComponent @AssistedInject internal constructor(
                     }
                 }
                 .toList()
-            filtered
         }
             .onEach { list ->
                 _uiState.update { state ->
                     state.copy(
                         records = list,
                         monthGroups = buildMonthGroups(list, state.collapsedMonths),
+                    )
+                }
+            }
+            .launchIn(componentScope)
+    }
+
+    private fun observeCalendar() {
+        combine(service.observeAll(), calendarMonth) { records, month -> records to month }
+            .onEach { (records, month) ->
+                val starts = records.filter { it.isPeriodStart }.map { it.recordDate }
+                val ends = records.filter { it.isPeriodEnd }.map { it.recordDate }
+                val avgPeriod = PeriodCalculations.averagePeriodDays(starts, ends)
+                val periodDays = (1..month.lengthOfMonth())
+                    .asSequence()
+                    .map { month.atDay(it) }
+                    .filter { PeriodCalculations.isInPeriodWindow(it, starts, avgPeriod) }
+                    .toSet()
+                _uiState.update {
+                    it.copy(
+                        calendarMonth = month,
+                        calendarPeriodDays = periodDays,
+                        calendarRecordIds = records.associate { r -> r.recordDate to r.id },
                     )
                 }
             }

@@ -15,6 +15,7 @@ data class PeriodColors(
     val accentSoft: Color,
     val accentContainer: Color,
     val onAccent: Color,
+    val onAccentContainer: Color,
     val background: Color,
     val surface: Color,
     val onSurface: Color,
@@ -29,8 +30,9 @@ fun periodColors(): PeriodColors {
     return PeriodColors(
         accent = scheme.tertiary,
         accentSoft = scheme.tertiary.copy(alpha = 0.12f),
-        accentContainer = scheme.tertiary.copy(alpha = 0.20f),
+        accentContainer = scheme.tertiaryContainer,
         onAccent = scheme.onTertiary,
+        onAccentContainer = scheme.onTertiaryContainer,
         background = scheme.background,
         surface = scheme.surface,
         onSurface = scheme.onSurface,

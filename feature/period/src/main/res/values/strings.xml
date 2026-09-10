@@ -9,13 +9,10 @@
     <string name="period_tab_stats">Data</string>
     <string name="period_search">Search</string>
     <string name="period_search_hint">Search notes or symptoms</string>
-    <string name="period_filter_period">Period only</string>
     <string name="period_add">Add</string>
     <string name="period_save">Save</string>
     <string name="period_cancel">Cancel</string>
     <string name="period_delete">Delete</string>
-    <string name="period_yes">Yes</string>
-    <string name="period_no">No</string>
     <string name="period_loading">Loading…</string>
     <string name="period_saved">Saved</string>
     <string name="period_record_added">Record added</string>
@@ -36,19 +33,19 @@
     <string name="period_short_date_pattern">MMM d</string>
     <string name="period_note_counter">%1$d/%2$d</string>
     <string name="period_symptoms_multi_hint"> (multi-select)</string>
-    <string name="period_status_hint">No start or end today? Just log flow and symptoms below.</string>
     <string name="period_cycle_day">Cycle day %1$d</string>
     <string name="period_cycle_day_unknown">Cycle day —</string>
     <string name="period_status_period">Period</string>
     <string name="period_status_ovulation">Ovulation</string>
     <string name="period_status_normal">Normal</string>
     <string name="period_status_start">Start</string>
+    <string name="period_status_mid">Period</string>
     <string name="period_status_end">End</string>
+    <string name="period_calendar_prev">Previous month</string>
+    <string name="period_calendar_next">Next month</string>
 
     <string name="period_field_date">Date</string>
     <string name="period_field_status">Period status</string>
-    <string name="period_field_is_start">Period start</string>
-    <string name="period_field_is_end">Period end</string>
     <string name="period_field_flow">Flow</string>
     <string name="period_field_symptoms">Symptoms</string>
     <string name="period_field_mood">Mood</string>

@@ -41,9 +41,11 @@ data class PeriodUiState(
     val statsRange: PeriodStatsRange = PeriodStatsRange.SIX_MONTHS,
     val searchQuery: String = "",
     val isSearchActive: Boolean = false,
-    val filterPeriodOnly: Boolean = false,
     val collapsedMonths: Set<String> = emptySet(),
     val today: LocalDate = LocalDate.now(),
+    val calendarMonth: java.time.YearMonth = java.time.YearMonth.now(),
+    val calendarPeriodDays: Set<LocalDate> = emptySet(),
+    val calendarRecordIds: Map<LocalDate, String> = emptyMap(),
 )
 
 /** 编辑/新增表单状态 */
@@ -59,7 +61,6 @@ data class PeriodEditorState(
     val note: String = "",
     val showDatePicker: Boolean = false,
     val showDeleteConfirm: Boolean = false,
-    val showCelebration: Boolean = false,
     val isSaving: Boolean = false,
 )
 

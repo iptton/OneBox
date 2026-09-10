@@ -14,6 +14,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -49,7 +51,10 @@ class PeriodDetailComponent @AssistedInject internal constructor(
     val uiState: StateFlow<PeriodDetailUi> = _uiState
 
     init {
-        load()
+        // 订阅数据流:从编辑页返回、或 Agent 改动数据时自动刷新
+        service.observeAll()
+            .onEach { load() }
+            .launchIn(componentScope)
     }
 
     fun openEdit() {
@@ -62,7 +67,12 @@ class PeriodDetailComponent @AssistedInject internal constructor(
 
     private fun load() {
         componentScope.launch {
-            val view = service.getRecordUi(recordId) ?: return@launch
+            val view = service.getRecordUi(recordId)
+            if (view == null) {
+                // 记录已被删除(如 Agent 删除),退出详情页
+                if (_uiState.value.isLoaded) onGoBack()
+                return@launch
+            }
             val ctx = service.getCycleContext()
             val today = LocalDate.now()
             val next = ctx.nextPeriodStart

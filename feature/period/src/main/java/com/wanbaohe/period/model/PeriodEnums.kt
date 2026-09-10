@@ -77,3 +77,10 @@ enum class PeriodStatus {
     OVULATION,
     NORMAL,
 }
+
+/** 编辑页「经期状态」三选一：开始 / 经期中 / 结束(经期中 = 开始、结束标记都不置位) */
+enum class PeriodDayStatus {
+    START,
+    MID,
+    END,
+}

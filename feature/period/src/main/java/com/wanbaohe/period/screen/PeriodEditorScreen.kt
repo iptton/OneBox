@@ -3,7 +3,6 @@ package com.wanbaohe.period.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -30,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,19 +39,15 @@ import com.t8rin.imagetoolbox.core.resources.icons.Check
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronRight
-import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodCramps
-import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodInsomnia
-import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodMoodSwings
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineWaterDrop
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSegmentedButtonRow
-import com.t8rin.snowfall.snowfall
-import com.t8rin.snowfall.types.FlakeType
 import com.wanbaohe.period.R
 import com.wanbaohe.period.component.PeriodEditorComponent
 import com.wanbaohe.period.model.PeriodColors
+import com.wanbaohe.period.model.PeriodDayStatus
 import com.wanbaohe.period.model.PeriodFlow
 import com.wanbaohe.period.model.PeriodMood
 import com.wanbaohe.period.model.PeriodSymptom
@@ -86,30 +80,6 @@ fun PeriodEditorScreen(
                 )
             }
         },
-        foreground = {
-            if (state.showCelebration) {
-                val scheme = MaterialTheme.colorScheme
-                val painters = listOf(
-                    rememberVectorPainter(Icons.Outlined.LineWaterDrop),
-                    rememberVectorPainter(Icons.Outlined.LinePeriodCramps),
-                    rememberVectorPainter(Icons.Outlined.LinePeriodMoodSwings),
-                    rememberVectorPainter(Icons.Outlined.LinePeriodInsomnia),
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .snowfall(
-                            type = FlakeType.Custom(painters),
-                            colors = listOf(
-                                scheme.tertiary,
-                                scheme.primary,
-                                scheme.secondary,
-                            ),
-                            density = 0.03,
-                        )
-                )
-            }
-        },
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -125,47 +95,28 @@ fun PeriodEditorScreen(
                     onClick = component::toggleDatePicker,
                 )
 
-                if (state.isEditing) {
-                    PeriodFormSection(title = stringResource(R.string.period_field_status)) {
-                        YesNoRow(
-                            label = stringResource(R.string.period_field_is_start),
-                            value = state.isPeriodStart,
-                            onChange = component::onPeriodStartToggle,
+                PeriodFormSection(title = stringResource(R.string.period_field_status)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        StatusPill(
+                            label = stringResource(R.string.period_status_start),
+                            selected = state.isPeriodStart,
+                            onClick = { component.onStatusSelect(PeriodDayStatus.START) },
                             colors = colors,
+                            modifier = Modifier.weight(1f),
                         )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        YesNoRow(
-                            label = stringResource(R.string.period_field_is_end),
-                            value = state.isPeriodEnd,
-                            onChange = component::onPeriodEndToggle,
+                        StatusPill(
+                            label = stringResource(R.string.period_status_mid),
+                            selected = !state.isPeriodStart && !state.isPeriodEnd,
+                            onClick = { component.onStatusSelect(PeriodDayStatus.MID) },
                             colors = colors,
+                            modifier = Modifier.weight(1f),
                         )
-                    }
-                } else {
-                    PeriodFormSection(title = stringResource(R.string.period_field_status)) {
-                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                            StatusPill(
-                                label = stringResource(R.string.period_status_start),
-                                selected = state.isPeriodStart,
-                                onClick = { component.onPeriodStartToggle(!state.isPeriodStart) },
-                                colors = colors,
-                                filled = true,
-                                modifier = Modifier.weight(1f),
-                            )
-                            StatusPill(
-                                label = stringResource(R.string.period_status_end),
-                                selected = state.isPeriodEnd,
-                                onClick = { component.onPeriodEndToggle(!state.isPeriodEnd) },
-                                colors = colors,
-                                filled = false,
-                                modifier = Modifier.weight(1f),
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = stringResource(R.string.period_status_hint),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = colors.onSurfaceVariant,
+                        StatusPill(
+                            label = stringResource(R.string.period_status_end),
+                            selected = state.isPeriodEnd,
+                            onClick = { component.onStatusSelect(PeriodDayStatus.END) },
+                            colors = colors,
+                            modifier = Modifier.weight(1f),
                         )
                     }
                 }
@@ -359,47 +310,13 @@ private fun DatePickerCard(
     }
 }
 
-@Composable
-private fun YesNoRow(
-    label: String,
-    value: Boolean,
-    onChange: (Boolean) -> Unit,
-    colors: PeriodColors,
-) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.titleSmall,
-            color = colors.onSurface,
-            modifier = Modifier.weight(1f),
-        )
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            listOf(false to stringResource(R.string.period_no), true to stringResource(R.string.period_yes))
-                .forEach { (flag, text) ->
-                    val selected = value == flag
-                    Text(
-                        text = text,
-                        color = if (selected) colors.onAccent else colors.onSurface,
-                        style = MaterialTheme.typography.labelLarge,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(50))
-                            .background(if (selected) colors.accent else colors.accentSoft)
-                            .clickable { onChange(flag) }
-                            .padding(horizontal = 18.dp, vertical = 8.dp),
-                    )
-                }
-        }
-    }
-}
-
-/** 新增页的「开始 / 结束」大胶囊：开始实心水滴，结束空心水滴 */
+/** 「经期开始 / 经期中 / 经期结束」三选一胶囊 */
 @Composable
 private fun StatusPill(
     label: String,
     selected: Boolean,
     onClick: () -> Unit,
     colors: PeriodColors,
-    filled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -414,11 +331,7 @@ private fun StatusPill(
         Icon(
             imageVector = Icons.Outlined.LineWaterDrop,
             contentDescription = null,
-            tint = when {
-                selected -> colors.onAccent
-                filled -> colors.accent
-                else -> colors.onSurfaceVariant
-            },
+            tint = if (selected) colors.onAccent else colors.accent,
             modifier = Modifier.size(18.dp),
         )
         Spacer(modifier = Modifier.width(6.dp))

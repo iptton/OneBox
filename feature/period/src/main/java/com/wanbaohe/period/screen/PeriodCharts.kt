@@ -75,7 +75,11 @@ fun CycleTrendChart(
         val gridColor = colors.onSurfaceVariant.copy(alpha = 0.2f)
         val avgColor = colors.chartLine.copy(alpha = 0.45f)
 
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 4.dp),
+        ) {
             Column(
                 modifier = Modifier.height(180.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
@@ -211,7 +215,9 @@ fun SymptomDonutChart(
     val slices = counts.entries.take(palette.size)
 
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
