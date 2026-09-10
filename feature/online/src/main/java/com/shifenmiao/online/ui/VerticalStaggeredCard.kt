@@ -28,6 +28,7 @@ import com.shifenmiao.database.item.entity.ItemWithCategoriesAndStats
 import com.shifenmiao.interfaces.singleton.AppContext
 import com.shifenmiao.model.ListItemType
 import com.shifenmiao.online.component.ItemListComponent
+import com.shifenmiao.storage.AppSharedStorage
 import com.shifenmiao.theme.AppTheme
 import com.shifenmiao.base.provider.LocalDataDraftHelper
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.LocalOnNavigate
@@ -44,6 +45,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineUnlock
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineRemove
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFavoriteFilled
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAddToHome
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineLaunchEntry
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineVerticalAlignTop
 
 @Composable
@@ -114,6 +116,7 @@ fun VerticalStaggeredCard(
     val addToHomeScreenLabel = stringResource(R.string.add_to_home_screen)
     val lockLabel = stringResource(R.string.item_action_lock)
     val unlockLabel = stringResource(R.string.item_action_unlock)
+    val startEntryLabel = stringResource(R.string.item_action_start_entry)
 
     val cardActions = remember(
         item,
@@ -132,6 +135,7 @@ fun VerticalStaggeredCard(
         addToHomeScreenLabel,
         lockLabel,
         unlockLabel,
+        startEntryLabel,
         itemListComponent,
         dataDraftHelper,
         onNavigator,
@@ -258,6 +262,25 @@ fun VerticalStaggeredCard(
             }
 
             if (ListItemType.NORMAL == ListItemType.fromId(item.listType)) {
+                // 仅「应用」类条目提供:一键设为 App 启动入口,下次冷启动直达
+                item.miniProgramId.toIntOrNull()
+                    ?.let { id -> Screen.entries.find { it.id == id } }
+                    ?.let { screen ->
+                        add(
+                            CardAction(
+                                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLaunchEntry,
+                                contentDescription = startEntryLabel,
+                                onClick = {
+                                    AppSharedStorage.saveStartEntryScreenId(screen.id)
+                                    scope.launch {
+                                        AppToastHost.showToast(
+                                            AppContext.getString(R.string.start_entry_set_toast, title)
+                                        )
+                                    }
+                                }
+                            )
+                        )
+                    }
                 add(
                     CardAction(
                         icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAddToHome,

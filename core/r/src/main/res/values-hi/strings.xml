@@ -998,6 +998,8 @@
     <string name="save_as_pdf">PDF के रूप में सहेजें</string>
     <string name="home_qr_code">QR कोड</string>
     <string name="add_to_home_screen">शॉर्टकट बनाएं</string>
+    <string name="item_action_start_entry">लॉन्च</string>
+    <string name="start_entry_set_toast">लॉन्च एंट्री के रूप में सेट किया गया। अगली बार लॉन्च पर %1$s सीधे खुलेगा</string>
     <string name="cannot_create_shortcut">शॉर्टकट निर्माण समर्थित नहीं है।</string>
     <string name="pdf_export_prepare">PDF निर्यात तैयार हो रहा है...</string>
     <string name="pdf_export_failure">PDF निर्यात विफल: %s</string>

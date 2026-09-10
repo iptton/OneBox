@@ -1168,6 +1168,8 @@
     <string name="save_as_pdf">保存为PDF</string>
     <string name="home_qr_code">二维码</string>
     <string name="add_to_home_screen">桌面</string>
+    <string name="item_action_start_entry">启动</string>
+    <string name="start_entry_set_toast">已设为启动入口,下次启动将直接进入「%1$s」</string>
     <string name="cannot_create_shortcut">不支持创建快捷方式</string>
     <string name="pdf_export_prepare">正在准备PDF导出...</string>
     <string name="pdf_export_failure">PDF导出失败: %s</string>
