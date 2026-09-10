@@ -1692,4 +1692,7 @@ Tipp: Wenn du „Für immer ausblenden“ wählst, kannst du mich später unter 
     <string name="robot_status_waiting_confirmation">Bestätigung ausstehend</string>
     <string name="robot_status_waiting_input">Antwort ausstehend</string>
     <string name="robot_status_waiting_llm">Antwortet</string>
-<string name="household_items">Artikelverwaltung</string></resources>
+<string name="household_items">Artikelverwaltung</string>    <string name="household_items_description">Behalten Sie im Blick, wo Dinge zu Hause aufbewahrt werden – mit Verfallsdatum und Notizen.</string>
+    <string name="ai_detect_title">KI-Detektor</string>
+    <string name="ai_detect_description">Erkennen Sie, ob Texte oder Bilder KI-generiert sind.</string>
+</resources>

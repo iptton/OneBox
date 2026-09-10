@@ -1692,4 +1692,7 @@
     <string name="robot_status_waiting_confirmation">Onay bekliyor</string>
     <string name="robot_status_waiting_input">Cevap bekliyor</string>
     <string name="robot_status_waiting_llm">Yanıtlıyor</string>
-<string name="household_items">Eşya Yöneticisi</string></resources>
+<string name="household_items">Eşya Yöneticisi</string>    <string name="household_items_description">Eşyalarınızın evde nerede olduğunu son kullanma tarihi ve notlarla kaydedin.</string>
+    <string name="ai_detect_title">Yapay Zeka Dedektörü</string>
+    <string name="ai_detect_description">Metin veya görsellerin yapay zeka tarafından üretilip üretilmediğini tespit edin.</string>
+</resources>

@@ -1692,4 +1692,7 @@ Dica: se escolher \"Ocultar para sempre\", você poderá me trazer de volta depo
     <string name="robot_status_waiting_confirmation">Aguardando confirmação</string>
     <string name="robot_status_waiting_input">Aguardando resposta</string>
     <string name="robot_status_waiting_llm">Respondendo</string>
-<string name="household_items">Gerenciador de Itens</string></resources>
+<string name="household_items">Gerenciador de Itens</string>    <string name="household_items_description">Lembre-se de onde as coisas estão guardadas em casa, com datas de validade e notas.</string>
+    <string name="ai_detect_title">Detector de IA</string>
+    <string name="ai_detect_description">Detecte se textos ou imagens foram gerados por IA.</string>
+</resources>

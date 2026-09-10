@@ -1692,4 +1692,7 @@
     <string name="robot_status_waiting_confirmation">Ожидание подтверждения</string>
     <string name="robot_status_waiting_input">Ожидание ответа</string>
     <string name="robot_status_waiting_llm">Отвечает</string>
-<string name="household_items">Управление вещами</string></resources>
+<string name="household_items">Управление вещами</string>    <string name="household_items_description">Помните, где что лежит дома: сроки годности и заметки.</string>
+    <string name="ai_detect_title">AI-детектор</string>
+    <string name="ai_detect_description">Определяйте, создан ли текст или изображение с помощью ИИ.</string>
+</resources>

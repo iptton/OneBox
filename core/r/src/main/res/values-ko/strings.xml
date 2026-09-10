@@ -1692,4 +1692,7 @@
     <string name="robot_status_waiting_confirmation">확인 대기 중</string>
     <string name="robot_status_waiting_input">답변 대기 중</string>
     <string name="robot_status_waiting_llm">응답 중</string>
-<string name="household_items">물품 관리</string></resources>
+<string name="household_items">물품 관리</string>    <string name="household_items_description">유통기한과 메모와 함께 물건 보관 위치를 기록하세요.</string>
+    <string name="ai_detect_title">AI 감지기</string>
+    <string name="ai_detect_description">텍스트나 이미지가 AI로 생성되었는지 감지합니다.</string>
+</resources>

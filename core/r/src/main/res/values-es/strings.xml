@@ -1692,4 +1692,7 @@ Consejo: si eliges «Ocultar para siempre», podrás devolverme más tarde en Aj
     <string name="robot_status_waiting_confirmation">Pendiente de confirmación</string>
     <string name="robot_status_waiting_input">Pendiente de respuesta</string>
     <string name="robot_status_waiting_llm">Respondiendo</string>
-<string name="household_items">Gestor de artículos</string></resources>
+<string name="household_items">Gestor de artículos</string>    <string name="household_items_description">Recuerda dónde guardas las cosas en casa, con fechas de caducidad y notas.</string>
+    <string name="ai_detect_title">Detector de IA</string>
+    <string name="ai_detect_description">Detecta si un texto o una imagen fueron generados por IA.</string>
+</resources>

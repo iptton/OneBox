@@ -1692,4 +1692,7 @@
     <string name="robot_status_waiting_confirmation">पुष्टि लंबित</string>
     <string name="robot_status_waiting_input">उत्तर लंबित</string>
     <string name="robot_status_waiting_llm">उत्तर दे रहा है</string>
-<string name="household_items">आइटम प्रबंधन</string></resources>
+<string name="household_items">आइटम प्रबंधन</string>    <string name="household_items_description">घर में चीज़ें कहाँ रखी हैं याद रखें, एक्सपायरी तारीख और नोट्स के साथ।</string>
+    <string name="ai_detect_title">AI डिटेक्टर</string>
+    <string name="ai_detect_description">पता लगाएं कि टेक्स्ट या इमेज AI द्वारा बनाई गई है या नहीं।</string>
+</resources>
