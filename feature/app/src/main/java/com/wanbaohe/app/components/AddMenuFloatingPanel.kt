@@ -47,6 +47,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineAiChat
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBlessingWall
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCheckCircleOutline
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCodeEditor
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineDrawerCabinet
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineFavorite
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMarkdownEdit
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMarkupLayers
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTextCard
@@ -101,7 +103,7 @@ private fun addMenuItemContentColor(theme: AddMenuItemTheme): Color = when (them
  * 底部导航栏 ADD 按钮的可展开浮动面板。
  *
  * 点击 ADD 按钮后，在底部导航栏上方弹出一个毛玻璃面板，
- * 显示 2×2 网格的快捷操作入口（二维码、记事本、待办事项、智能体），
+ * 以每行 3 个的网格展示快捷操作入口（扫一扫、记事本、待办事项、家庭物品、健康记录等），
  * 中间有菱形指示器连接面板与 ADD 按钮。
  *
  * 背景遮罩跟随全局玻璃设置：
@@ -120,6 +122,8 @@ private fun addMenuItemContentColor(theme: AddMenuItemTheme): Color = when (them
  * @param onNavigateToBlessingWall  导航到祈福墙
  * @param onNavigateToImageCreation 导航到图片创作
  * @param onNavigateToTextCard 导航到文字卡片
+ * @param onNavigateToHouseholdItems 导航到家庭物品
+ * @param onNavigateToRecordCenter 导航到健康记录
  */
 @Composable
 fun AddMenuFloatingPanel(
@@ -139,6 +143,8 @@ fun AddMenuFloatingPanel(
     onNavigateToBlessingWall: () -> Unit,
     onNavigateToImageCreation: () -> Unit,
     onNavigateToTextCard: () -> Unit,
+    onNavigateToHouseholdItems: () -> Unit,
+    onNavigateToRecordCenter: () -> Unit,
 ) {
     val visibleState = remember { MutableTransitionState(false) }
     visibleState.targetState = expanded
@@ -314,6 +320,22 @@ fun AddMenuFloatingPanel(
                     onClick = {
                         onDismiss()
                         onNavigateToTextCard()
+                    }
+                ),
+                AddMenuItem(
+                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDrawerCabinet,
+                    label = CoreR.string.household_items,
+                    onClick = {
+                        onDismiss()
+                        onNavigateToHouseholdItems()
+                    }
+                ),
+                AddMenuItem(
+                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite,
+                    label = CoreR.string.record_center,
+                    onClick = {
+                        onDismiss()
+                        onNavigateToRecordCenter()
                     }
                 ),
             )

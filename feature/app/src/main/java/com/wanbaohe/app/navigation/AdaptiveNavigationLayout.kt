@@ -463,6 +463,14 @@ private fun QuickCreateFloatingPanel(
             onDismiss()
             rootComponent.navigateToNew(Screen.TextCard)
         },
+        onNavigateToHouseholdItems = {
+            onDismiss()
+            rootComponent.navigateToNew(Screen.HouseholdItems())
+        },
+        onNavigateToRecordCenter = {
+            onDismiss()
+            rootComponent.navigateToNew(Screen.RecordCenter())
+        },
     )
 }
 
