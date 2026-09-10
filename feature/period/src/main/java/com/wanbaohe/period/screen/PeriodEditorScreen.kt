@@ -3,6 +3,7 @@ package com.wanbaohe.period.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,11 +41,16 @@ import com.t8rin.imagetoolbox.core.resources.icons.Check
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronRight
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodCramps
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodInsomnia
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodMoodSwings
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineWaterDrop
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSegmentedButtonRow
+import com.t8rin.snowfall.snowfall
+import com.t8rin.snowfall.types.FlakeType
 import com.wanbaohe.period.R
 import com.wanbaohe.period.component.PeriodEditorComponent
 import com.wanbaohe.period.model.PeriodColors
@@ -76,6 +83,30 @@ fun PeriodEditorScreen(
                     imageVector = Icons.Outlined.Check,
                     contentDescription = stringResource(R.string.period_save),
                     tint = colors.accent,
+                )
+            }
+        },
+        foreground = {
+            if (state.showCelebration) {
+                val scheme = MaterialTheme.colorScheme
+                val painters = listOf(
+                    rememberVectorPainter(Icons.Outlined.LineWaterDrop),
+                    rememberVectorPainter(Icons.Outlined.LinePeriodCramps),
+                    rememberVectorPainter(Icons.Outlined.LinePeriodMoodSwings),
+                    rememberVectorPainter(Icons.Outlined.LinePeriodInsomnia),
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .snowfall(
+                            type = FlakeType.Custom(painters),
+                            colors = listOf(
+                                scheme.tertiary,
+                                scheme.primary,
+                                scheme.secondary,
+                            ),
+                            density = 0.03,
+                        )
                 )
             }
         },
@@ -116,7 +147,7 @@ fun PeriodEditorScreen(
                             StatusPill(
                                 label = stringResource(R.string.period_status_start),
                                 selected = state.isPeriodStart,
-                                onClick = { component.onPeriodStartToggle(true) },
+                                onClick = { component.onPeriodStartToggle(!state.isPeriodStart) },
                                 colors = colors,
                                 filled = true,
                                 modifier = Modifier.weight(1f),
@@ -124,12 +155,18 @@ fun PeriodEditorScreen(
                             StatusPill(
                                 label = stringResource(R.string.period_status_end),
                                 selected = state.isPeriodEnd,
-                                onClick = { component.onPeriodEndToggle(true) },
+                                onClick = { component.onPeriodEndToggle(!state.isPeriodEnd) },
                                 colors = colors,
                                 filled = false,
                                 modifier = Modifier.weight(1f),
                             )
                         }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = stringResource(R.string.period_status_hint),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = colors.onSurfaceVariant,
+                        )
                     }
                 }
 

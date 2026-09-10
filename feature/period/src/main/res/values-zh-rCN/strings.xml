@@ -36,6 +36,7 @@
     <string name="period_short_date_pattern">M月d日</string>
     <string name="period_note_counter">%1$d/%2$d</string>
     <string name="period_symptoms_multi_hint">（可多选）</string>
+    <string name="period_status_hint">经期中不用选开始/结束，直接记录当天的流量和症状即可</string>
     <string name="period_cycle_day">周期第 %1$d 天</string>
     <string name="period_cycle_day_unknown">周期第 — 天</string>
     <string name="period_status_period">经期中</string>

@@ -59,6 +59,7 @@ data class PeriodEditorState(
     val note: String = "",
     val showDatePicker: Boolean = false,
     val showDeleteConfirm: Boolean = false,
+    val showCelebration: Boolean = false,
     val isSaving: Boolean = false,
 )
 

@@ -30,19 +30,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineBlurOn
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCheckCircleOutline
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCircle
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineEmojiFace
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineFavorite
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineHealing
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineHourglass
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineMoon
-import com.t8rin.imagetoolbox.core.resources.icons.line.LinePsychology
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineRain
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineRestaurant
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodAcne
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodAppetite
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodBackPain
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodBreastTender
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodCramps
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodEdema
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodFatigue
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodHeadache
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodInsomnia
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodMoodSwings
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePeriodNausea
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineWaterDrop
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineWaves
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.wanbaohe.period.R
 import com.wanbaohe.period.model.PeriodColors
@@ -93,17 +94,17 @@ fun flowLabel(flow: PeriodFlow): String = when (flow) {
 }
 
 fun symptomIcon(symptom: PeriodSymptom): ImageVector = when (symptom) {
-    PeriodSymptom.ABDOMINAL_PAIN -> Icons.Outlined.LineWaterDrop
-    PeriodSymptom.HEADACHE -> Icons.Outlined.LinePsychology
-    PeriodSymptom.BACK_PAIN -> Icons.Outlined.LineHealing
-    PeriodSymptom.MOOD_SWINGS -> Icons.Outlined.LineEmojiFace
-    PeriodSymptom.BREAST_TENDERNESS -> Icons.Outlined.LineFavorite
-    PeriodSymptom.FATIGUE -> Icons.Outlined.LineHourglass
-    PeriodSymptom.NAUSEA -> Icons.Outlined.LineWaves
-    PeriodSymptom.INSOMNIA -> Icons.Outlined.LineMoon
-    PeriodSymptom.APPETITE_CHANGE -> Icons.Outlined.LineRestaurant
-    PeriodSymptom.ACNE -> Icons.Outlined.LineBlurOn
-    PeriodSymptom.EDEMA -> Icons.Outlined.LineRain
+    PeriodSymptom.ABDOMINAL_PAIN -> Icons.Outlined.LinePeriodCramps
+    PeriodSymptom.HEADACHE -> Icons.Outlined.LinePeriodHeadache
+    PeriodSymptom.BACK_PAIN -> Icons.Outlined.LinePeriodBackPain
+    PeriodSymptom.MOOD_SWINGS -> Icons.Outlined.LinePeriodMoodSwings
+    PeriodSymptom.BREAST_TENDERNESS -> Icons.Outlined.LinePeriodBreastTender
+    PeriodSymptom.FATIGUE -> Icons.Outlined.LinePeriodFatigue
+    PeriodSymptom.NAUSEA -> Icons.Outlined.LinePeriodNausea
+    PeriodSymptom.INSOMNIA -> Icons.Outlined.LinePeriodInsomnia
+    PeriodSymptom.APPETITE_CHANGE -> Icons.Outlined.LinePeriodAppetite
+    PeriodSymptom.ACNE -> Icons.Outlined.LinePeriodAcne
+    PeriodSymptom.EDEMA -> Icons.Outlined.LinePeriodEdema
 }
 
 // ── 日期格式化 ─────────────────────────────────────

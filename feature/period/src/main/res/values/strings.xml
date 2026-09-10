@@ -36,6 +36,7 @@
     <string name="period_short_date_pattern">MMM d</string>
     <string name="period_note_counter">%1$d/%2$d</string>
     <string name="period_symptoms_multi_hint"> (multi-select)</string>
+    <string name="period_status_hint">No start or end today? Just log flow and symptoms below.</string>
     <string name="period_cycle_day">Cycle day %1$d</string>
     <string name="period_cycle_day_unknown">Cycle day —</string>
     <string name="period_status_period">Period</string>

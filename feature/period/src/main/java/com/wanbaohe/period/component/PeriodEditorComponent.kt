@@ -125,6 +125,8 @@ class PeriodEditorComponent @AssistedInject internal constructor(
                             if (state.isEditing) R.string.period_saved else R.string.period_record_added
                         )
                     )
+                    _editorState.update { it.copy(showCelebration = true) }
+                    kotlinx.coroutines.delay(CELEBRATION_MILLIS)
                     onGoBack()
                 }
                 .onFailure {
@@ -175,5 +177,6 @@ class PeriodEditorComponent @AssistedInject internal constructor(
 
     companion object {
         const val NOTE_MAX_LENGTH = 200
+        const val CELEBRATION_MILLIS = 1800L
     }
 }
