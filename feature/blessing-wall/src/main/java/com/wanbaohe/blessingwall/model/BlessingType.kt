@@ -5,6 +5,14 @@ enum class BlessingType(val key: String) {
     WEALTH_GOD("wealthGod"),
     GUANYIN("guanyin"),
     INCENSE("incense"),
+    HAMSA("hamsa"),
+    CUPID("cupid"),
+    CLOVER("clover"),
+    ANGEL("angel"),
+    LUCKY_CAT("luckyCat"),
+    DREAMCATCHER("dreamcatcher"),
+    WISHBONE("wishbone"),
+    HORSESHOE("horseshoe"),
     ;
 
     companion object {

@@ -30,7 +30,8 @@ import kotlinx.serialization.Serializable
 data class BlessingWallTabText(
     /**
      * tab 类型标识，对应客户端 BlessingType.key：
-     * woodenFish / wealthGod / guanyin / incense
+     * woodenFish / wealthGod / guanyin / incense /
+     * hamsa / cupid / clover / angel / luckyCat / dreamcatcher / wishbone / horseshoe
      */
     val type: String? = null,
     val title: String? = null,

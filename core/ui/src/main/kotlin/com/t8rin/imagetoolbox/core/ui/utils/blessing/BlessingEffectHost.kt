@@ -45,6 +45,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.PI
+import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
@@ -53,6 +54,14 @@ enum class BlessingEffectType(val durationMs: Long) {
     WealthGod(2_200L),
     Guanyin(2_000L),
     Incense(2_000L),
+    Hamsa(2_000L),
+    Cupid(2_100L),
+    Clover(2_000L),
+    Angel(2_000L),
+    LuckyCat(2_200L),
+    Dreamcatcher(2_100L),
+    Wishbone(1_800L),
+    Horseshoe(2_000L),
 }
 
 @Stable
@@ -142,9 +151,29 @@ fun BlessingEffectHost(
     FullscreenPopup(placeAboveAll = true) {
         key(trigger) {
             when (type) {
-                BlessingEffectType.WealthGod -> WealthGodEffect()
+                BlessingEffectType.WealthGod,
+                BlessingEffectType.LuckyCat,
+                BlessingEffectType.Horseshoe,
+                -> WealthGodEffect()
                 BlessingEffectType.Guanyin -> GuanyinEffect()
                 BlessingEffectType.Incense -> IncenseEffect()
+                BlessingEffectType.Hamsa -> RingGlowEffect(color = MaterialTheme.colorScheme.primary)
+                BlessingEffectType.Angel -> RingGlowEffect(color = MaterialTheme.colorScheme.tertiary)
+                BlessingEffectType.Cupid -> FloatingShapeEffect(
+                    color = MaterialTheme.colorScheme.error,
+                    shape = FloatingShape.Heart,
+                )
+                BlessingEffectType.Clover -> FloatingShapeEffect(
+                    color = MaterialTheme.colorScheme.tertiary,
+                    shape = FloatingShape.Leaf,
+                )
+                BlessingEffectType.Dreamcatcher -> FloatingShapeEffect(
+                    color = MaterialTheme.colorScheme.secondary,
+                    shape = FloatingShape.Star,
+                )
+                BlessingEffectType.Wishbone -> SparkleBurstEffect(
+                    color = MaterialTheme.colorScheme.primary,
+                )
                 BlessingEffectType.WoodenFish -> Unit
             }
         }
@@ -330,6 +359,148 @@ private fun GuanyinEffect() {
                     size = Size(16.dp.toPx(), 30.dp.toPx()),
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun RingGlowEffect(color: Color) {
+    val progress = remember { Animatable(0f) }
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        progress.animateTo(1f, tween(durationMillis = 1_900, easing = LinearEasing))
+    }
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val center = Offset(size.width / 2f, size.height * 0.48f)
+        repeat(5) { ring ->
+            val phase = (progress.value * 1.6f - ring * 0.16f).coerceIn(0f, 1f)
+            drawCircle(
+                color = color.copy(alpha = (1f - phase) * 0.22f),
+                radius = size.minDimension * (0.06f + phase * 0.48f),
+                center = center,
+            )
+        }
+        repeat(18) { index ->
+            val phase = (progress.value * 1.4f - index * 0.04f).coerceIn(0f, 1f)
+            val angle = index * 20f
+            val radius = size.minDimension * (0.12f + phase * 0.34f)
+            val x = center.x + radius * sin(angle * PI / 180.0).toFloat()
+            val y = center.y + radius * cos(angle * PI / 180.0).toFloat()
+            drawCircle(
+                color = color.copy(alpha = sin(phase * PI).toFloat() * 0.55f),
+                radius = 3.dp.toPx(),
+                center = Offset(x, y),
+            )
+        }
+    }
+}
+
+private enum class FloatingShape { Heart, Leaf, Star }
+
+@Composable
+private fun FloatingShapeEffect(color: Color, shape: FloatingShape) {
+    val particles = remember(shape) {
+        List(28) {
+            FloatingParticleSpec(
+                sizeDp = Random.nextInt(from = 14, until = 28),
+                horizontalVelocity = Random.nextFloat() * 1.2f - 0.6f,
+                verticalVelocity = -(0.35f + Random.nextFloat() * 0.35f),
+                delayMs = Random.nextLong(from = 0L, until = 180L),
+                durationMs = Random.nextInt(from = 1_300, until = 1_800),
+                rotation = Random.nextInt(from = 0, until = 360).toFloat(),
+            )
+        }
+    }
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val density = LocalDensity.current
+        val widthPx = with(density) { maxWidth.toPx() }
+        val heightPx = with(density) { maxHeight.toPx() }
+        particles.forEachIndexed { index, particle ->
+            val progress = remember(index, particle) { Animatable(0f) }
+            androidx.compose.runtime.LaunchedEffect(index, particle) {
+                delay(particle.delayMs)
+                progress.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(particle.durationMs, easing = LinearEasing),
+                )
+            }
+            val particleSize = particle.sizeDp.dp
+            Canvas(
+                modifier = Modifier
+                    .size(particleSize)
+                    .graphicsLayer {
+                        val particleSizePx = with(density) { particleSize.toPx() }
+                        val time = progress.value
+                        translationX = widthPx / 2f - particleSizePx / 2f +
+                                widthPx * particle.horizontalVelocity * time
+                        // verticalVelocity is negative: particles should rise from mid-screen
+                        translationY = heightPx * 0.58f - particleSizePx / 2f +
+                                heightPx * particle.verticalVelocity * time
+                        rotationZ = particle.rotation * time
+                        alpha = sin(time * PI).toFloat().coerceIn(0f, 0.85f)
+                    },
+            ) {
+                val w = size.width
+                val h = size.height
+                when (shape) {
+                    FloatingShape.Heart -> {
+                        val path = Path().apply {
+                            moveTo(w * 0.5f, h * 0.85f)
+                            cubicTo(w * 0.05f, h * 0.45f, w * 0.15f, h * 0.05f, w * 0.5f, h * 0.28f)
+                            cubicTo(w * 0.85f, h * 0.05f, w * 0.95f, h * 0.45f, w * 0.5f, h * 0.85f)
+                            close()
+                        }
+                        drawPath(path, color)
+                    }
+                    FloatingShape.Leaf -> drawOval(
+                        color = color.copy(alpha = 0.85f),
+                        topLeft = Offset(w * 0.2f, h * 0.05f),
+                        size = Size(w * 0.6f, h * 0.9f),
+                    )
+                    FloatingShape.Star -> {
+                        val cx = w / 2f
+                        val cy = h / 2f
+                        drawCircle(color = color, radius = w * 0.18f, center = Offset(cx, cy))
+                        drawCircle(
+                            color = color.copy(alpha = 0.55f),
+                            radius = w * 0.38f,
+                            center = Offset(cx, cy),
+                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 1.5.dp.toPx()),
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+private data class FloatingParticleSpec(
+    val sizeDp: Int,
+    val horizontalVelocity: Float,
+    val verticalVelocity: Float,
+    val delayMs: Long,
+    val durationMs: Int,
+    val rotation: Float,
+)
+
+@Composable
+private fun SparkleBurstEffect(color: Color) {
+    val progress = remember { Animatable(0f) }
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        progress.animateTo(1f, tween(durationMillis = 1_700, easing = LinearEasing))
+    }
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val center = Offset(size.width / 2f, size.height * 0.5f)
+        repeat(24) { index ->
+            val phase = (progress.value * 1.3f - index * 0.025f).coerceIn(0f, 1f)
+            val angle = (index * 15f + phase * 20f) * PI / 180.0
+            val radius = size.minDimension * phase * 0.42f
+            val x = center.x + radius * cos(angle).toFloat()
+            val y = center.y + radius * sin(angle).toFloat()
+            drawCircle(
+                color = color.copy(alpha = sin(phase * PI).toFloat() * 0.7f),
+                radius = (2.5f + (index % 3) * 1.5f).dp.toPx(),
+                center = Offset(x, y),
+            )
         }
     }
 }

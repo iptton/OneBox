@@ -388,6 +388,14 @@ private fun tabTitleFallback(type: BlessingType): String = stringResource(
         BlessingType.WEALTH_GOD -> R.string.blessing_tab_wealth_god
         BlessingType.GUANYIN -> R.string.blessing_tab_guanyin
         BlessingType.INCENSE -> R.string.blessing_tab_incense
+        BlessingType.HAMSA -> R.string.blessing_tab_hamsa
+        BlessingType.CUPID -> R.string.blessing_tab_cupid
+        BlessingType.CLOVER -> R.string.blessing_tab_clover
+        BlessingType.ANGEL -> R.string.blessing_tab_angel
+        BlessingType.LUCKY_CAT -> R.string.blessing_tab_lucky_cat
+        BlessingType.DREAMCATCHER -> R.string.blessing_tab_dreamcatcher
+        BlessingType.WISHBONE -> R.string.blessing_tab_wishbone
+        BlessingType.HORSESHOE -> R.string.blessing_tab_horseshoe
     }
 )
 
@@ -398,6 +406,14 @@ private fun tabSubtitleFallback(type: BlessingType): String = stringResource(
         BlessingType.WEALTH_GOD -> R.string.blessing_subtitle_wealth_god
         BlessingType.GUANYIN -> R.string.blessing_subtitle_guanyin
         BlessingType.INCENSE -> R.string.blessing_subtitle_incense
+        BlessingType.HAMSA -> R.string.blessing_subtitle_hamsa
+        BlessingType.CUPID -> R.string.blessing_subtitle_cupid
+        BlessingType.CLOVER -> R.string.blessing_subtitle_clover
+        BlessingType.ANGEL -> R.string.blessing_subtitle_angel
+        BlessingType.LUCKY_CAT -> R.string.blessing_subtitle_lucky_cat
+        BlessingType.DREAMCATCHER -> R.string.blessing_subtitle_dreamcatcher
+        BlessingType.WISHBONE -> R.string.blessing_subtitle_wishbone
+        BlessingType.HORSESHOE -> R.string.blessing_subtitle_horseshoe
     }
 )
 
@@ -406,4 +422,12 @@ private fun blessingTypeEmoji(type: BlessingType): String = when (type) {
     BlessingType.WEALTH_GOD -> "💰"
     BlessingType.GUANYIN -> "🌸"
     BlessingType.INCENSE -> "🕯"
+    BlessingType.HAMSA -> "🧿"
+    BlessingType.CUPID -> "💘"
+    BlessingType.CLOVER -> "🍀"
+    BlessingType.ANGEL -> "😇"
+    BlessingType.LUCKY_CAT -> "🐱"
+    BlessingType.DREAMCATCHER -> "🌙"
+    BlessingType.WISHBONE -> "🦴"
+    BlessingType.HORSESHOE -> "🌟"
 }

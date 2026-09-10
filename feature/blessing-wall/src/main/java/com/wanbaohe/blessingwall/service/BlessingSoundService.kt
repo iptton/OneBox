@@ -62,12 +62,8 @@ class BlessingSoundService @Inject constructor(
 
     suspend fun playBlessingAudio(type: BlessingType, text: String) {
         if (!_soundEnabled.value || text.isBlank()) return
-        val tag = when (type) {
-            BlessingType.WEALTH_GOD -> TAG_WEALTH_GOD
-            BlessingType.GUANYIN -> TAG_GUANYIN
-            BlessingType.INCENSE -> TAG_INCENSE
-            BlessingType.WOODEN_FISH -> return
-        }
+        if (type == BlessingType.WOODEN_FISH) return
+        val tag = "blessing-${type.key}"
         runCatching {
             val cached = ttsService.getAudioByTextAndTag(text, tag)
             if (cached != null) {
@@ -82,8 +78,5 @@ class BlessingSoundService @Inject constructor(
     private companion object {
         const val PREFS_NAME = "blessing_wall_settings"
         const val KEY_SOUND_ENABLED = "sound_enabled"
-        const val TAG_WEALTH_GOD = "blessing-wealth-god"
-        const val TAG_GUANYIN = "blessing-guanyin"
-        const val TAG_INCENSE = "blessing-incense"
     }
 }

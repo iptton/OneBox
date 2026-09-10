@@ -10,6 +10,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.wanbaohe.blessingwall.model.BlessingType
+import com.wanbaohe.blessingwall.model.BlessingWallOrder
 import com.wanbaohe.blessingwall.service.BlessingService
 import com.wanbaohe.blessingwall.service.BlessingSoundService
 import dagger.assisted.Assisted
@@ -41,8 +42,8 @@ class BlessingWallComponent @AssistedInject internal constructor(
     /** 历史模式：展示过去日期的数据，页面只读。 */
     val isHistoryMode: Boolean = targetDate != blessingService.todayString()
 
-    /** 初始展示的 tab 页下标。 */
-    val initialPage: Int = BlessingType.fromKey(initialType.orEmpty())?.ordinal ?: 0
+    /** 初始展示的 tab 页下标（按渠道展示顺序，而非 enum ordinal）。 */
+    val initialPage: Int = BlessingWallOrder.indexOfKey(initialType)
 
     private val _uiState = MutableStateFlow(BlessingWallUiState())
     val uiState = _uiState.asStateFlow()

@@ -23,6 +23,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -75,6 +78,7 @@ import com.wanbaohe.blessingwall.R
 import com.wanbaohe.blessingwall.component.BlessingWallComponent
 import com.wanbaohe.blessingwall.model.BlessingTabCustomization
 import com.wanbaohe.blessingwall.model.BlessingType
+import com.wanbaohe.blessingwall.model.BlessingWallOrder
 import com.wanbaohe.blessingwall.model.resolveTabText
 import kotlinx.coroutines.launch
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineHistory
@@ -93,57 +97,154 @@ fun BlessingWallScreen(component: BlessingWallComponent) {
     val uiState by component.uiState.collectAsState()
     val soundEnabled by component.soundEnabled.collectAsState()
     val isHistoryMode = component.isHistoryMode
+    val pageCount = BlessingType.entries.size
     val pagerState = rememberPagerState(
-        initialPage = component.initialPage,
-        pageCount = { 4 },
+        initialPage = component.initialPage.coerceIn(0, pageCount - 1),
+        pageCount = { pageCount },
     )
+    val pagerScope = rememberCoroutineScope()
 
-    val types = BlessingType.entries
-    val pageTitles = listOf(
-        stringResource(R.string.blessing_tab_wooden_fish),
-        stringResource(R.string.blessing_tab_wealth_god),
-        stringResource(R.string.blessing_tab_guanyin),
-        stringResource(R.string.blessing_tab_incense),
+    val allPageConfigs = listOf(
+        BlessingPageConfig(
+            type = BlessingType.WOODEN_FISH,
+            imageRes = R.drawable.blessing_wooden_fish,
+            tabIconRes = R.drawable.blessing_tab_wooden_fish,
+            title = R.string.blessing_tab_wooden_fish,
+            subtitle = R.string.blessing_subtitle_wooden_fish,
+            buttonText = R.string.blessing_btn_wooden_fish,
+            statTitle = R.string.blessing_stat_wooden_fish,
+            effectType = BlessingEffectType.WoodenFish,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTouchApp,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.WEALTH_GOD,
+            imageRes = R.drawable.blessing_wealth_god,
+            tabIconRes = R.drawable.blessing_tab_wealth_god,
+            title = R.string.blessing_tab_wealth_god,
+            subtitle = R.string.blessing_subtitle_wealth_god,
+            buttonText = R.string.blessing_btn_wealth_god,
+            statTitle = R.string.blessing_stat_wealth_god,
+            effectType = BlessingEffectType.WealthGod,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.GUANYIN,
+            imageRes = R.drawable.blessing_guanyin,
+            tabIconRes = R.drawable.blessing_tab_guanyin,
+            title = R.string.blessing_tab_guanyin,
+            subtitle = R.string.blessing_subtitle_guanyin,
+            buttonText = R.string.blessing_btn_guanyin,
+            statTitle = R.string.blessing_stat_guanyin,
+            effectType = BlessingEffectType.Guanyin,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.INCENSE,
+            imageRes = R.drawable.blessing_incense,
+            tabIconRes = R.drawable.blessing_tab_incense,
+            title = R.string.blessing_tab_incense,
+            subtitle = R.string.blessing_subtitle_incense,
+            buttonText = R.string.blessing_btn_incense,
+            statTitle = R.string.blessing_stat_incense,
+            effectType = BlessingEffectType.Incense,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMeditation,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.HAMSA,
+            imageRes = R.drawable.blessing_hamsa,
+            tabIconRes = R.drawable.blessing_tab_hamsa,
+            title = R.string.blessing_tab_hamsa,
+            subtitle = R.string.blessing_subtitle_hamsa,
+            buttonText = R.string.blessing_btn_hamsa,
+            statTitle = R.string.blessing_stat_hamsa,
+            effectType = BlessingEffectType.Hamsa,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.CUPID,
+            imageRes = R.drawable.blessing_cupid,
+            tabIconRes = R.drawable.blessing_tab_cupid,
+            title = R.string.blessing_tab_cupid,
+            subtitle = R.string.blessing_subtitle_cupid,
+            buttonText = R.string.blessing_btn_cupid,
+            statTitle = R.string.blessing_stat_cupid,
+            effectType = BlessingEffectType.Cupid,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.CLOVER,
+            imageRes = R.drawable.blessing_clover,
+            tabIconRes = R.drawable.blessing_tab_clover,
+            title = R.string.blessing_tab_clover,
+            subtitle = R.string.blessing_subtitle_clover,
+            buttonText = R.string.blessing_btn_clover,
+            statTitle = R.string.blessing_stat_clover,
+            effectType = BlessingEffectType.Clover,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.ANGEL,
+            imageRes = R.drawable.blessing_angel,
+            tabIconRes = R.drawable.blessing_tab_angel,
+            title = R.string.blessing_tab_angel,
+            subtitle = R.string.blessing_subtitle_angel,
+            buttonText = R.string.blessing_btn_angel,
+            statTitle = R.string.blessing_stat_angel,
+            effectType = BlessingEffectType.Angel,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.LUCKY_CAT,
+            imageRes = R.drawable.blessing_lucky_cat,
+            tabIconRes = R.drawable.blessing_tab_lucky_cat,
+            title = R.string.blessing_tab_lucky_cat,
+            subtitle = R.string.blessing_subtitle_lucky_cat,
+            buttonText = R.string.blessing_btn_lucky_cat,
+            statTitle = R.string.blessing_stat_lucky_cat,
+            effectType = BlessingEffectType.LuckyCat,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.DREAMCATCHER,
+            imageRes = R.drawable.blessing_dreamcatcher,
+            tabIconRes = R.drawable.blessing_tab_dreamcatcher,
+            title = R.string.blessing_tab_dreamcatcher,
+            subtitle = R.string.blessing_subtitle_dreamcatcher,
+            buttonText = R.string.blessing_btn_dreamcatcher,
+            statTitle = R.string.blessing_stat_dreamcatcher,
+            effectType = BlessingEffectType.Dreamcatcher,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTouchApp,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.WISHBONE,
+            imageRes = R.drawable.blessing_wishbone,
+            tabIconRes = R.drawable.blessing_tab_wishbone,
+            title = R.string.blessing_tab_wishbone,
+            subtitle = R.string.blessing_subtitle_wishbone,
+            buttonText = R.string.blessing_btn_wishbone,
+            statTitle = R.string.blessing_stat_wishbone,
+            effectType = BlessingEffectType.Wishbone,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic,
+        ),
+        BlessingPageConfig(
+            type = BlessingType.HORSESHOE,
+            imageRes = R.drawable.blessing_horseshoe,
+            tabIconRes = R.drawable.blessing_tab_horseshoe,
+            title = R.string.blessing_tab_horseshoe,
+            subtitle = R.string.blessing_subtitle_horseshoe,
+            buttonText = R.string.blessing_btn_horseshoe,
+            statTitle = R.string.blessing_stat_horseshoe,
+            effectType = BlessingEffectType.Horseshoe,
+            actionIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTouchApp,
+        ),
     )
-    val pageSubtitles = listOf(
-        stringResource(R.string.blessing_subtitle_wooden_fish),
-        stringResource(R.string.blessing_subtitle_wealth_god),
-        stringResource(R.string.blessing_subtitle_guanyin),
-        stringResource(R.string.blessing_subtitle_incense),
-    )
-    val buttonTexts = listOf(
-        stringResource(R.string.blessing_btn_wooden_fish),
-        stringResource(R.string.blessing_btn_wealth_god),
-        stringResource(R.string.blessing_btn_guanyin),
-        stringResource(R.string.blessing_btn_incense),
-    )
-    val statTitles = listOf(
-        stringResource(R.string.blessing_stat_wooden_fish),
-        stringResource(R.string.blessing_stat_wealth_god),
-        stringResource(R.string.blessing_stat_guanyin),
-        stringResource(R.string.blessing_stat_incense),
-    )
-    val imageResources = listOf(
-        R.drawable.blessing_wooden_fish,
-        R.drawable.blessing_wealth_god,
-        R.drawable.blessing_guanyin,
-        R.drawable.blessing_incense,
-    )
-    val actionIcons = listOf(
-        com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTouchApp,
-        com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic,
-        com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite,
-        com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMeditation,
-    )
-    val effectTypes = listOf(
-        BlessingEffectType.WoodenFish,
-        BlessingEffectType.WealthGod,
-        BlessingEffectType.Guanyin,
-        BlessingEffectType.Incense,
-    )
+    val pageConfigs = remember(allPageConfigs) {
+        val orderedTypes = BlessingWallOrder.types()
+        allPageConfigs.sortedBy { orderedTypes.indexOf(it.type) }
+    }
     val isBlessingEffectActive = AppToastHost.blessingEffectState.isActive
     val colorScheme = MaterialTheme.colorScheme
-    val palettes = listOf(
+    val basePalettes = listOf(
         BlessingPalette(
             buttonContainer = colorScheme.primaryContainer,
             buttonContent = colorScheme.onPrimaryContainer,
@@ -165,6 +266,7 @@ fun BlessingWallScreen(component: BlessingWallComponent) {
             accent = colorScheme.onSurface,
         ),
     )
+    val palettes = pageConfigs.mapIndexed { index, _ -> basePalettes[index % basePalettes.size] }
     val selectedPalette = palettes[pagerState.currentPage]
 
     LaunchedEffect(pagerState.currentPage) {
@@ -195,26 +297,46 @@ fun BlessingWallScreen(component: BlessingWallComponent) {
                     .fillMaxWidth()
                     .weight(1f)
             ) { page ->
-                val type = types[page]
-                val effectType = effectTypes[page]
+                val config = pageConfigs[page]
+                val type = config.type
+                val effectType = config.effectType
                 val count = uiState.todayCounts[type] ?: 0
                 val customization = uiState.tabCustomizations[type] ?: BlessingTabCustomization()
                 val remoteText = uiState.remoteTabTexts[type]
-                val pageTitle = resolveTabText(customization.title, remoteText?.title, pageTitles[page])
+                val pageTitle = resolveTabText(
+                    customization.title,
+                    remoteText?.title,
+                    stringResource(config.title),
+                )
+                val pageSubtitle = resolveTabText(
+                    customization.subtitle,
+                    remoteText?.subtitle,
+                    stringResource(config.subtitle),
+                )
+                val pageButtonText = resolveTabText(
+                    null,
+                    remoteText?.buttonText,
+                    stringResource(config.buttonText),
+                )
+                val pageStatTitle = resolveTabText(
+                    null,
+                    remoteText?.statTitle,
+                    stringResource(config.statTitle),
+                )
                 BlessingPage(
-                    imageRes = imageResources[page],
+                    imageRes = config.imageRes,
                     title = pageTitle,
-                    subtitle = resolveTabText(customization.subtitle, remoteText?.subtitle, pageSubtitles[page]),
-                    actionIcon = actionIcons[page],
+                    subtitle = pageSubtitle,
+                    actionIcon = config.actionIcon,
                     palette = palettes[page],
-                    buttonText = resolveTabText(null, remoteText?.buttonText, buttonTexts[page]),
-                    statTitle = resolveTabText(null, remoteText?.statTitle, statTitles[page]),
+                    buttonText = pageButtonText,
+                    statTitle = pageStatTitle,
                     count = count,
                     wish = uiState.wishes[type].orEmpty(),
                     customization = customization,
                     isWoodenFish = effectType == BlessingEffectType.WoodenFish,
                     isBlessEnabled = effectType == BlessingEffectType.WoodenFish ||
-                            !isBlessingEffectActive,
+                        !isBlessingEffectActive,
                     onBless = {
                         AppToastHost.showBlessingEffect(effectType).also { accepted ->
                             if (accepted) component.onBless(type, pageTitle)
@@ -231,29 +353,98 @@ fun BlessingWallScreen(component: BlessingWallComponent) {
                 )
             }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                repeat(4) { index ->
-                    val isSelected = index == pagerState.currentPage
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .size(if (isSelected) 10.dp else 8.dp)
-                            .clip(CircleShape)
-                            .background(
-                                if (isSelected) {
-                                    selectedPalette.accent
-                                } else {
-                                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                                }
-                            )
+            BlessingBottomTabBar(
+                pageConfigs = pageConfigs,
+                selectedIndex = pagerState.currentPage,
+                palette = selectedPalette,
+                tabTitle = { index ->
+                    val config = pageConfigs[index]
+                    val type = config.type
+                    resolveTabText(
+                        uiState.tabCustomizations[type]?.title,
+                        uiState.remoteTabTexts[type]?.title,
+                        stringResource(config.title),
                     )
-                }
+                },
+                onTabSelected = { index ->
+                    pagerScope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                },
+            )
+        }
+    }
+}
+
+@Composable
+private fun BlessingBottomTabBar(
+    pageConfigs: List<BlessingPageConfig>,
+    selectedIndex: Int,
+    palette: BlessingPalette,
+    tabTitle: @Composable (Int) -> String,
+    onTabSelected: (Int) -> Unit,
+) {
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(selectedIndex) {
+        listState.animateScrollToItem(selectedIndex)
+    }
+
+    LazyRow(
+        state = listState,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(72.dp),
+        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(18.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        items(pageConfigs.size) { index ->
+            val isSelected = index == selectedIndex
+            val title = tabTitle(index)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable { onTabSelected(index) }
+                    .padding(horizontal = 6.dp, vertical = 4.dp),
+            ) {
+                Image(
+                    painter = painterResource(pageConfigs[index].tabIconRes),
+                    contentDescription = null,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .size(30.dp)
+                        .graphicsLayer {
+                            alpha = if (isSelected) 1f else 0.55f
+                        },
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = title,
+                    color = if (isSelected) {
+                        palette.accent
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.72f)
+                    },
+                    fontSize = 12.sp,
+                    fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
+                    maxLines = 1,
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Box(
+                    modifier = Modifier
+                        .width(20.dp)
+                        .height(3.dp)
+                        .background(
+                            color = if (isSelected) {
+                                palette.accent
+                            } else {
+                                Color.Transparent
+                            },
+                            shape = RoundedCornerShape(50),
+                        ),
+                )
             }
         }
     }
@@ -437,7 +628,6 @@ private fun BlessingPage(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = title,
             color = palette.accent,
@@ -689,6 +879,18 @@ private data class BlessingPalette(
     val buttonContainer: Color,
     val buttonContent: Color,
     val accent: Color,
+)
+
+private data class BlessingPageConfig(
+    val type: BlessingType,
+    val imageRes: Int,
+    val tabIconRes: Int,
+    val title: Int,
+    val subtitle: Int,
+    val buttonText: Int,
+    val statTitle: Int,
+    val effectType: BlessingEffectType,
+    val actionIcon: ImageVector,
 )
 
 private val ACTION_CARD_WIDTH = 280.dp
