@@ -22,6 +22,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,6 +32,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -56,8 +58,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.flatGlassContainer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
@@ -89,12 +89,10 @@ internal fun ColorMixing(
         ColorRowSelector(
             value = colorToMix,
             onValueChange = { colorToMix = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .flatGlassContainer(
-                    shape = ShapeDefaults.large
-                ),
-            title = stringResource(R.string.color_to_mix)
+            modifier = Modifier.fillMaxWidth(),
+            icon = null,
+            title = stringResource(R.string.color_to_mix),
+            defaultColors = ColorToolsDefaultColors
         )
         Spacer(modifier = Modifier.height(16.dp))
         VariationSlider(
@@ -104,83 +102,88 @@ internal fun ColorMixing(
         Spacer(modifier = Modifier.height(16.dp))
         Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            mixedColors.forEachIndexed { index, color ->
-                val boxColor by animateColorAsState(color)
-                val contentColor = boxColor.inverse(
-                    fraction = { cond ->
-                        if (cond) 0.8f
-                        else 0.5f
-                    },
-                    darkMode = boxColor.luminance() < 0.3f
-                )
-                Box(
-                    modifier = Modifier
-                        .heightIn(min = 100.dp)
-                        .fillMaxWidth()
-                        .clip(
-                            ShapeDefaults.byIndex(
-                                index = index,
-                                size = mixedColors.size
-                            )
+            mixedColors.chunked(2).forEach { rowColors ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    rowColors.forEach { color ->
+                        val boxColor by animateColorAsState(color)
+                        val contentColor = boxColor.inverse(
+                            fraction = { cond ->
+                                if (cond) 0.8f
+                                else 0.5f
+                            },
+                            darkMode = boxColor.luminance() < 0.3f
                         )
-                        .transparencyChecker()
-                        .background(boxColor)
-                        .hapticsClickable {
-                            Clipboard.copy(
-                                text = getFormattedColor(color),
-                                message = R.string.color_copied
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .heightIn(min = 100.dp)
+                                .clip(MaterialTheme.shapes.medium)
+                                .transparencyChecker()
+                                .background(boxColor)
+                                .hapticsClickable {
+                                    Clipboard.copy(
+                                        text = getFormattedColor(color),
+                                        message = R.string.color_copied
+                                    )
+                                }
+                        ) {
+                            Icon(
+                                imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.ContentCopy,
+                                contentDescription = stringResource(R.string.copy),
+                                tint = contentColor,
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(8.dp)
+                                    .size(28.dp)
+                                    .background(
+                                        color = boxColor.copy(alpha = 1f),
+                                        shape = MaterialTheme.shapes.medium
+                                    )
+                                    .padding(4.dp)
+                            )
+
+                            Text(
+                                text = color.toHex(),
+                                color = contentColor,
+                                modifier = Modifier
+                                    .align(Alignment.BottomStart)
+                                    .padding(8.dp)
+                                    .background(
+                                        color = boxColor.copy(alpha = 1f),
+                                        shape = MaterialTheme.shapes.medium
+                                    )
+                                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                                fontSize = 12.sp
+                            )
+
+                            Text(
+                                text = remember(color) {
+                                    derivedStateOf {
+                                        ColorNameParser.parseColorName(color)
+                                    }
+                                }.value,
+                                color = contentColor,
+                                modifier = Modifier
+                                    .align(Alignment.BottomEnd)
+                                    .padding(8.dp)
+                                    .background(
+                                        color = boxColor.copy(alpha = 1f),
+                                        shape = MaterialTheme.shapes.medium
+                                    )
+                                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                                fontSize = 12.sp
                             )
                         }
-                ) {
-                    Icon(
-                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.ContentCopy,
-                        contentDescription = stringResource(R.string.copy),
-                        tint = contentColor,
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(4.dp)
-                            .size(28.dp)
-                            .background(
-                                color = boxColor.copy(alpha = 1f),
-                                shape = ShapeDefaults.mini
-                            )
-                            .padding(2.dp)
-                    )
-
-                    Text(
-                        text = color.toHex(),
-                        color = contentColor,
-                        modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .padding(4.dp)
-                            .background(
-                                color = boxColor.copy(alpha = 1f),
-                                shape = ShapeDefaults.mini
-                            )
-                            .padding(horizontal = 4.dp),
-                        fontSize = 12.sp
-                    )
-
-                    Text(
-                        text = remember(color) {
-                            derivedStateOf {
-                                ColorNameParser.parseColorName(color)
-                            }
-                        }.value,
-                        color = contentColor,
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(4.dp)
-                            .background(
-                                color = boxColor.copy(alpha = 1f),
-                                shape = ShapeDefaults.mini
-                            )
-                            .padding(horizontal = 4.dp),
-                        fontSize = 12.sp
-                    )
+                    }
+                    if (rowColors.size == 1) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
                 }
             }
         }

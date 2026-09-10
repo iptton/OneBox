@@ -23,10 +23,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -48,6 +46,7 @@ import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorHistogram
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorInfo
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorMixing
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorShading
+import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorToolsDefaultColors
 import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsComponent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -56,12 +55,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineAreaChart
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBarChart
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBlender
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineInfo
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineTheme
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.flatGlassContainer
 import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavItem
 import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavigationBar
 import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavigationBarStyle
@@ -95,18 +91,15 @@ fun ColorToolsContent(
         onGoBack = component.onGoBack,
         showNavigationBarsPadding = false
     ) {
-        Spacer(modifier = Modifier.height(12.dp))
         ColorRowSelector(
             value = selectedColor,
             onValueChange = component::updateSelectedColor,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .flatGlassContainer(
-                    shape = ShapeDefaults.large
-                ),
-            icon = Icons.Outlined.LineTheme,
-            title = stringResource(R.string.selected_color)
+                .padding(horizontal = 16.dp),
+            icon = null,
+            title = stringResource(R.string.selected_color),
+            defaultColors = ColorToolsDefaultColors
         )
         AnimatedContent(
             targetState = selectedTab,

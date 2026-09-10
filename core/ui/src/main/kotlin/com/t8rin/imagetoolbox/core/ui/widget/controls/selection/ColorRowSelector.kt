@@ -99,7 +99,7 @@ fun ColorRowSelector(
                 text = title,
                 iconEndPadding = 14.dp,
                 modifier = Modifier.padding(
-                    top = 12.dp,
+                    top = 0.dp,
                     start = contentHorizontalPadding,
                     end = contentHorizontalPadding
                 )

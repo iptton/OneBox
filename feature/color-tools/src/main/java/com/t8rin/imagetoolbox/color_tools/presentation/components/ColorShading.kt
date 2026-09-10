@@ -29,10 +29,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -54,7 +54,6 @@ import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 
@@ -114,7 +113,7 @@ internal fun ColorShading(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(text = stringResource(title))
-                    data.forEachIndexed { index, color ->
+                    data.forEach { color ->
                         val boxColor by animateColorAsState(color)
                         val contentColor = boxColor.inverse(
                             fraction = { cond ->
@@ -127,12 +126,7 @@ internal fun ColorShading(
                             modifier = Modifier
                                 .heightIn(min = 100.dp)
                                 .fillMaxWidth()
-                                .clip(
-                                    ShapeDefaults.byIndex(
-                                        index = index,
-                                        size = data.size
-                                    )
-                                )
+                                .clip(MaterialTheme.shapes.medium)
                                 .transparencyChecker()
                                 .background(boxColor)
                                 .hapticsClickable {
@@ -148,13 +142,13 @@ internal fun ColorShading(
                                 tint = contentColor,
                                 modifier = Modifier
                                     .align(Alignment.TopEnd)
-                                    .padding(4.dp)
+                                    .padding(8.dp)
                                     .size(28.dp)
                                     .background(
                                         color = boxColor.copy(alpha = 1f),
-                                        shape = ShapeDefaults.mini
+                                        shape = MaterialTheme.shapes.medium
                                     )
-                                    .padding(2.dp)
+                                    .padding(4.dp)
                             )
 
                             Text(
@@ -162,14 +156,12 @@ internal fun ColorShading(
                                 color = contentColor,
                                 modifier = Modifier
                                     .align(Alignment.BottomStart)
-                                    .padding(4.dp)
+                                    .padding(8.dp)
                                     .background(
                                         color = boxColor.copy(alpha = 1f),
-                                        shape = RoundedCornerShape(
-                                            8.dp
-                                        )
+                                        shape = MaterialTheme.shapes.medium
                                     )
-                                    .padding(horizontal = 4.dp),
+                                    .padding(horizontal = 8.dp, vertical = 4.dp),
                                 fontSize = 12.sp
                             )
                         }

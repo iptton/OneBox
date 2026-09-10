@@ -55,7 +55,6 @@ import com.smarttoolfactory.colorpicker.util.hexRegexSingleChar
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTextFieldContainer
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlin.math.roundToInt
 import android.graphics.Color as AndroidColor
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
@@ -217,13 +216,13 @@ private fun ColorEditableField(
     GlassTextFieldContainer(
         modifier = modifier,
         isFocused = isFocused,
-        shape = ShapeDefaults.small,
+        shape = MaterialTheme.shapes.medium,
         borderWidth = 0.dp,
         contentPadding = PaddingValues(
             start = 16.dp,
-            top = 6.dp,
-            end = 4.dp,
-            bottom = 6.dp
+            top = 10.dp,
+            end = 8.dp,
+            bottom = 10.dp
         )
     ) {
         Column(

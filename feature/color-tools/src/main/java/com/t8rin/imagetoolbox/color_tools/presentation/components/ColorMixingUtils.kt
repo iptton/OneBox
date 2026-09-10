@@ -20,6 +20,27 @@ package com.t8rin.imagetoolbox.color_tools.presentation.components
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 
+internal val ColorToolsDefaultColors by lazy {
+    listOf(
+        Color(0xFF6B8E9F),
+        Color(0xFF22B8CF),
+        Color(0xFF52C41A),
+        Color(0xFF9CCC65),
+        Color(0xFFFFE066),
+        Color(0xFFFF9A00),
+        Color(0xFFFF6B4A),
+        Color(0xFFF8130D),
+        Color(0xFFFC50A6),
+        Color(0xFF7B2BEC),
+        Color(0xFF005FFF),
+        Color(0xFF59CBF0),
+        Color(0xFF07DDC3),
+        Color.White,
+        Color(0xFF333333),
+        Color.Black,
+    )
+}
+
 fun Color.mixWith(
     color: Color,
     variations: Int,

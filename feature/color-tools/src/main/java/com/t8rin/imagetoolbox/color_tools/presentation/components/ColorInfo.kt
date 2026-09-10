@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -53,7 +54,6 @@ import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -80,7 +80,7 @@ internal fun ColorInfo(
             modifier = Modifier
                 .heightIn(min = 80.dp)
                 .fillMaxWidth()
-                .clip(ShapeDefaults.default)
+                .clip(MaterialTheme.shapes.medium)
                 .transparencyChecker()
                 .background(boxColor)
                 .hapticsClickable {
@@ -96,13 +96,13 @@ internal fun ColorInfo(
                 tint = contentColor,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(4.dp)
+                    .padding(8.dp)
                     .size(28.dp)
                     .background(
                         color = boxColor.copy(alpha = 1f),
-                        shape = ShapeDefaults.mini
+                        shape = MaterialTheme.shapes.medium
                     )
-                    .padding(2.dp)
+                    .padding(4.dp)
             )
 
             Text(
@@ -110,12 +110,12 @@ internal fun ColorInfo(
                 color = contentColor,
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(4.dp)
+                    .padding(8.dp)
                     .background(
                         color = boxColor.copy(alpha = 1f),
-                        shape = ShapeDefaults.mini
+                        shape = MaterialTheme.shapes.medium
                     )
-                    .padding(horizontal = 4.dp),
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
                 fontSize = 12.sp
             )
 
@@ -128,12 +128,12 @@ internal fun ColorInfo(
                 color = contentColor,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(4.dp)
+                    .padding(8.dp)
                     .background(
                         color = boxColor.copy(alpha = 1f),
-                        shape = ShapeDefaults.mini
+                        shape = MaterialTheme.shapes.medium
                     )
-                    .padding(horizontal = 4.dp),
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
                 fontSize = 12.sp
             )
         }

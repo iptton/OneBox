@@ -31,12 +31,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.MaterialTheme
 import com.t8rin.histogram.HistogramType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.glass.glassRegular
 import com.t8rin.imagetoolbox.core.ui.widget.image.HistogramChart
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @Composable
 internal fun ColorHistogram() {
@@ -51,7 +51,7 @@ internal fun ColorHistogram() {
                 imageUri = it
             },
             subtitle = stringResource(R.string.image_for_histogram),
-            shape = ShapeDefaults.default
+            shape = MaterialTheme.shapes.medium
         )
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -62,33 +62,33 @@ internal fun ColorHistogram() {
                     .padding(top = 16.dp)
                     .fillMaxWidth()
                     .height(250.dp)
-                    .glassRegular(shape = ShapeDefaults.pressed),
+                    .glassRegular(shape = MaterialTheme.shapes.medium),
                 initialType = HistogramType.RGB,
                 onSwapType = null,
                 linesThickness = 1.dp,
-                bordersShape = ShapeDefaults.pressed
+                bordersShape = MaterialTheme.shapes.medium
             )
             HistogramChart(
                 model = imageUri,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(250.dp)
-                    .glassRegular(shape = ShapeDefaults.pressed),
+                    .glassRegular(shape = MaterialTheme.shapes.medium),
                 initialType = HistogramType.Brightness,
                 onSwapType = null,
                 linesThickness = 1.dp,
-                bordersShape = ShapeDefaults.pressed
+                bordersShape = MaterialTheme.shapes.medium
             )
             HistogramChart(
                 model = imageUri,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(250.dp)
-                    .glassRegular(shape = ShapeDefaults.pressed),
+                    .glassRegular(shape = MaterialTheme.shapes.medium),
                 initialType = HistogramType.Camera,
                 onSwapType = null,
                 linesThickness = 1.dp,
-                bordersShape = ShapeDefaults.pressed
+                bordersShape = MaterialTheme.shapes.medium
             )
         }
     }

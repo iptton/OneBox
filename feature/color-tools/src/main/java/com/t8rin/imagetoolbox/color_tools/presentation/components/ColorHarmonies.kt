@@ -59,7 +59,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 
@@ -121,7 +120,7 @@ internal fun ColorHarmonies(
                     modifier = Modifier
                         .heightIn(min = 120.dp)
                         .weight(1f)
-                        .clip(ShapeDefaults.mini)
+                        .clip(MaterialTheme.shapes.medium)
                         .transparencyChecker()
                         .background(boxColor)
                         .hapticsClickable {
@@ -137,13 +136,13 @@ internal fun ColorHarmonies(
                         tint = contentColor,
                         modifier = Modifier
                             .align(Alignment.TopEnd)
-                            .padding(4.dp)
+                            .padding(8.dp)
                             .size(28.dp)
                             .background(
                                 color = boxColor.copy(alpha = 1f),
-                                shape = ShapeDefaults.mini
+                                shape = MaterialTheme.shapes.medium
                             )
-                            .padding(2.dp)
+                            .padding(4.dp)
                     )
 
                     Text(
@@ -151,12 +150,12 @@ internal fun ColorHarmonies(
                         color = contentColor,
                         modifier = Modifier
                             .align(Alignment.BottomStart)
-                            .padding(4.dp)
+                            .padding(8.dp)
                             .background(
                                 color = boxColor.copy(alpha = 1f),
-                                shape = ShapeDefaults.mini
+                                shape = MaterialTheme.shapes.medium
                             )
-                            .padding(horizontal = 4.dp),
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
                         fontSize = 12.sp
                     )
                 }
