@@ -79,7 +79,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.defaultQrColors
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxDesignSystem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import kotlin.math.roundToInt
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineDarkMode
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCircle
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCodeEditor
 import com.t8rin.imagetoolbox.core.resources.icons.line.LinePhotoSizeLarge
@@ -87,7 +86,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineShuffle
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineViewColumn
 import com.t8rin.imagetoolbox.core.resources.icons.line.LinePadding
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineRoundedCorner
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineLightMode
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTableRows
 
 @Composable
@@ -125,15 +123,8 @@ internal fun QrParamsSelector(
                             )
                         )
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .glassBackground(
-                            style = OneBoxDesignSystem.rowGlassStyle,
-                            shape = ShapeDefaults.top,
-                            borderWidth = 0.dp
-                        ),
-                    title = stringResource(R.string.dark_color),
-                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDarkMode
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(R.string.dark_color)
                 )
                 ColorRowSelector(
                     value = value.backgroundColor ?: bg,
@@ -144,15 +135,8 @@ internal fun QrParamsSelector(
                             )
                         )
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .glassBackground(
-                            style = OneBoxDesignSystem.rowGlassStyle,
-                            shape = ShapeDefaults.bottom,
-                            borderWidth = 0.dp
-                        ),
-                    title = stringResource(R.string.light_color),
-                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLightMode
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(R.string.light_color)
                 )
             }
         AnimatedVisibility(

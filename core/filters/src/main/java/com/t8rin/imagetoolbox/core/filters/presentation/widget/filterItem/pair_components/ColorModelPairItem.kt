@@ -64,7 +64,6 @@ internal fun ColorModelPairItem(
                     onFilterChange(color1.toModel() to color2.toModel())
                 },
                 allowScroll = !previewOnly,
-                icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
                 contentHorizontalPadding = 0.dp
             )
@@ -77,7 +76,6 @@ internal fun ColorModelPairItem(
                     onFilterChange(color1.toModel() to color2.toModel())
                 },
                 allowScroll = !previewOnly,
-                icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
                 contentHorizontalPadding = 0.dp
             )

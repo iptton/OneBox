@@ -54,7 +54,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.ImageTooltip
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.restrict
@@ -224,14 +223,11 @@ internal fun DrawContentNoDataControls(
                     ColorRowSelector(
                         value = sheetBackgroundColor,
                         onValueChange = { sheetBackgroundColor = it },
-                        icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.BackgroundColor,
-                        modifier = Modifier
-                            .padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                bottom = 16.dp
-                            )
-                            .flatGlassContainer(ShapeDefaults.extraLarge)
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 16.dp
+                        )
                     )
                 }
             }

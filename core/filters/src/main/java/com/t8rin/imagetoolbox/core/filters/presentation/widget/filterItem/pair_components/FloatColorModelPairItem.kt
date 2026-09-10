@@ -83,7 +83,6 @@ internal fun FloatColorModelPairItem(
                 onFilterChange(sliderState1 to color1.toModel())
             },
             allowScroll = !previewOnly,
-            icon = null,
             defaultColors = ColorSelectionRowDefaults.colorList,
             contentHorizontalPadding = 0.dp,
             modifier = Modifier.padding(start = 4.dp)

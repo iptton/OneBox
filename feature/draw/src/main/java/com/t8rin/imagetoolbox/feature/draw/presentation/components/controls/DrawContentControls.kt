@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
@@ -161,12 +160,7 @@ internal fun DrawContentControls(
             ColorRowSelector(
                 value = component.backgroundColor,
                 onValueChange = component::updateBackgroundColor,
-                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.BackgroundColor,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .flatGlassContainer(
-                        shape = ShapeDefaults.extraLarge
-                    )
+                modifier = Modifier.fillMaxWidth()
             )
         }
         AnimatedVisibility(

@@ -101,7 +101,6 @@ internal fun NumberColorModelColorModelTripleItem(
                     )
                 },
                 allowScroll = !previewOnly,
-                icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
                 contentHorizontalPadding = 0.dp
             )
@@ -120,7 +119,6 @@ internal fun NumberColorModelColorModelTripleItem(
                     )
                 },
                 allowScroll = !previewOnly,
-                icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
                 contentHorizontalPadding = 0.dp
             )

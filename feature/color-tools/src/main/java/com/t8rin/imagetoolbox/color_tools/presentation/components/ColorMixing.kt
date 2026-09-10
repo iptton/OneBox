@@ -91,8 +91,7 @@ internal fun ColorMixing(
             onValueChange = { colorToMix = it },
             modifier = Modifier.fillMaxWidth(),
             icon = null,
-            title = stringResource(R.string.color_to_mix),
-            defaultColors = ColorToolsDefaultColors
+            title = stringResource(R.string.color_to_mix)
         )
         Spacer(modifier = Modifier.height(16.dp))
         VariationSlider(

@@ -60,8 +60,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectio
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.flatGlassContainer
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
@@ -236,10 +234,7 @@ fun ImageStitchingContent(
                     value = Color(component.combiningParams.backgroundColor),
                     onValueChange = {
                         component.updateBackgroundSelector(it.toArgb())
-                    },
-                    modifier = Modifier.flatGlassContainer(
-                        shape = ShapeDefaults.extraLarge
-                    )
+                    }
                 )
                 QualitySelector(
                     imageFormat = component.imageInfo.imageFormat,

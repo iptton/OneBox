@@ -91,7 +91,6 @@ import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTune
-import com.t8rin.imagetoolbox.core.resources.icons.Highlighter
 import com.t8rin.imagetoolbox.core.resources.icons.line.LinePix
 
 @Composable
@@ -183,11 +182,7 @@ internal fun CompareScreenContent(
                                     )
                                 },
                                 allowAlpha = false,
-                                modifier = Modifier.flatGlassContainer(
-                                    shape = ShapeDefaults.top
-                                ),
-                                title = stringResource(R.string.highlight_color),
-                                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Highlighter
+                                title = stringResource(R.string.highlight_color)
                             )
                             Spacer(Modifier.height(4.dp))
                             DataSelector(

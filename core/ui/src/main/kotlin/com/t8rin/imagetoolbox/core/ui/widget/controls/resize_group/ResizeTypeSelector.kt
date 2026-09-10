@@ -269,11 +269,6 @@ fun ResizeTypeSelector(
                         )
                     } else {
                         ColorRowSelector(
-                            modifier = Modifier
-                                .container(
-                                    shape = ShapeDefaults.bottom,
-                                    color = MaterialTheme.colorScheme.surface
-                                ),
                             value = canvasColor,
                             onValueChange = {
                                 canvasColor = it
@@ -325,11 +320,6 @@ fun ResizeTypeSelector(
                         )
                     } else {
                         ColorRowSelector(
-                            modifier = Modifier
-                                .container(
-                                    shape = ShapeDefaults.bottom,
-                                    color = MaterialTheme.colorScheme.surface
-                                ),
                             value = canvasColor,
                             onValueChange = {
                                 canvasColor = it

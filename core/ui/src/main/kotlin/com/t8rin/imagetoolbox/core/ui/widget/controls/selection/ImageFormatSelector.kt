@@ -57,7 +57,6 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
-import com.t8rin.imagetoolbox.core.resources.icons.ImagesearchRoller
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
@@ -333,24 +332,9 @@ fun ImageFormatSelector(
             visible = showBackgroundSelector,
             modifier = Modifier.fillMaxWidth()
         ) {
-            val index = if (filteredFormats.size > 1 && enableItemsCardBackground) 2 else 1
             ColorRowSelector(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .then(
-                        if (enableItemsCardBackground) {
-                            Modifier
-                                .padding(horizontal = 8.dp)
-                                .container(
-                                    color = MaterialTheme.colorScheme.surface,
-                                    resultPadding = 0.dp,
-                                    shape = ShapeDefaults.byIndex(index, entriesSize),
-                                )
-                                .padding(8.dp)
-                        } else Modifier
-                    ),
+                modifier = Modifier.fillMaxWidth(),
                 value = settingsState.backgroundForNoAlphaImageFormats,
-                icon = Icons.Outlined.ImagesearchRoller,
                 onValueChange = {
                     scope.launch {
                         simpleSettingsInteractor.setBackgroundColorForNoAlphaFormats(

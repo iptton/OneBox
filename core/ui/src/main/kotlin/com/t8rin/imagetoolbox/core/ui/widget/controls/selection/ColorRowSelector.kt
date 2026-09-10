@@ -60,7 +60,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import kotlinx.coroutines.launch
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineTheme
 
 @Composable
 fun ColorRowSelector(
@@ -68,7 +67,7 @@ fun ColorRowSelector(
     onValueChange: (Color) -> Unit,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.background_color),
-    icon: ImageVector? = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTheme,
+    icon: ImageVector? = null,
     allowAlpha: Boolean = true,
     allowScroll: Boolean = true,
     defaultColors: List<Color> = defaultColorList,
@@ -203,11 +202,21 @@ fun ColorRowSelector(
 
 private val defaultColorList by lazy {
     listOf(
-        Color(0xFFFFFFFF),
-        Color(0xFF768484),
+        Color(0xFF6B8E9F),
+        Color(0xFF22B8CF),
+        Color(0xFF52C41A),
+        Color(0xFF9CCC65),
+        Color(0xFFFFE066),
+        Color(0xFFFF9A00),
+        Color(0xFFFF6B4A),
+        Color(0xFFF8130D),
+        Color(0xFFFC50A6),
+        Color(0xFF7B2BEC),
+        Color(0xFF005FFF),
+        Color(0xFF59CBF0),
+        Color(0xFF07DDC3),
+        Color.White,
         Color(0xFF333333),
-        Color(0xFF000000),
-    ).plus(
-        ColorSelectionRowDefaults.colorList.reversed().drop(4)
+        Color.Black,
     )
 }

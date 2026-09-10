@@ -76,7 +76,6 @@ import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMake
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -495,12 +494,7 @@ fun CollageMakerContent(
                     )
                 }
                 ColorRowSelector(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .flatGlassContainer(
-                            shape = ShapeDefaults.extraLarge
-                        ),
-                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.BackgroundColor,
+                    modifier = Modifier.fillMaxWidth(),
                     value = component.backgroundColor,
                     onValueChange = component::setBackgroundColor
                 )

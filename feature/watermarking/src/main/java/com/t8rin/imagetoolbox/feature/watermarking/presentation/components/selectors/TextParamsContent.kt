@@ -39,7 +39,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.flatGlassContainer
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkingType
 import com.t8rin.imagetoolbox.feature.watermarking.domain.digitalParams
@@ -105,10 +104,7 @@ internal fun TextParamsContent(
                         )
                     )
                 },
-                title = stringResource(R.string.text_color),
-                modifier = Modifier.flatGlassContainer(
-                    shape = ShapeDefaults.large
-                )
+                title = stringResource(R.string.text_color)
             )
             Spacer(modifier = Modifier.height(4.dp))
             ColorRowSelector(
@@ -122,10 +118,7 @@ internal fun TextParamsContent(
                         )
                     )
                 },
-                title = stringResource(R.string.background_color),
-                modifier = Modifier.flatGlassContainer(
-                    shape = ShapeDefaults.large
-                )
+                title = stringResource(R.string.background_color)
             )
         }
     }

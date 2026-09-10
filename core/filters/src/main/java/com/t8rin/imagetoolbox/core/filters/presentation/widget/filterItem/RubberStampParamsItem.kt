@@ -119,7 +119,6 @@ internal fun RubberStampParamsItem(
                     state.value = it.toArgb().toFloat()
                 },
                 allowScroll = !previewOnly,
-                icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
                 contentHorizontalPadding = 16.dp,
                 modifier = Modifier.padding(start = 4.dp)
@@ -133,7 +132,6 @@ internal fun RubberStampParamsItem(
                     state.value = it.toArgb().toFloat()
                 },
                 allowScroll = !previewOnly,
-                icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
                 contentHorizontalPadding = 16.dp,
                 modifier = Modifier.padding(start = 4.dp)

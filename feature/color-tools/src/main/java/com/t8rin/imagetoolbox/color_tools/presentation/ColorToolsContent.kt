@@ -46,7 +46,6 @@ import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorHistogram
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorInfo
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorMixing
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorShading
-import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorToolsDefaultColors
 import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsComponent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -98,8 +97,7 @@ fun ColorToolsContent(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             icon = null,
-            title = stringResource(R.string.selected_color),
-            defaultColors = ColorToolsDefaultColors
+            title = stringResource(R.string.selected_color)
         )
         AnimatedContent(
             targetState = selectedTab,

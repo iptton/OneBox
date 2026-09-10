@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -41,7 +40,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineTheme
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineGridOn
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineViewColumn
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTableRows
@@ -83,13 +81,7 @@ fun HelperGridParamsSelector(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
-                        .container(
-                            shape = ShapeDefaults.top,
-                            color = MaterialTheme.colorScheme.surface,
-                            resultPadding = 0.dp
-                        )
                         .padding(start = 4.dp),
-                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTheme,
                     title = stringResource(R.string.grid_color)
                 )
                 EnhancedSliderItem(

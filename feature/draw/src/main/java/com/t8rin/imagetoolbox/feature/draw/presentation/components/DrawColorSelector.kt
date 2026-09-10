@@ -24,11 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.BrushColor
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.flatGlassContainer
 
 @Composable
 fun DrawColorSelector(
@@ -43,14 +40,9 @@ fun DrawColorSelector(
     ColorRowSelector(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier
-            .flatGlassContainer(
-                shape = ShapeDefaults.extraLarge,
-                color = color
-            ),
+        modifier = modifier,
         title = titleText,
         allowAlpha = false,
-        icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.BrushColor,
         defaultColors = defaultColors
     )
 }
