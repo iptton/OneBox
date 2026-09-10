@@ -1,5 +1,6 @@
 package com.wanbaohe.householditems.component
 
+import androidx.annotation.StringRes
 import com.arkivanov.decompose.ComponentContext
 import com.shifenmiao.database.household.repo.HouseholdRepository
 import com.shifenmiao.interfaces.singleton.AppContext
@@ -135,7 +136,11 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
             }
             result.onSuccess {
                 hideItemEditor()
-                showSaveSuccessToast()
+                // 新建/编辑给不同反馈文案
+                showToast(
+                    if (editingId == null) R.string.household_item_added
+                    else R.string.household_saved
+                )
             }
         }
     }
@@ -169,7 +174,7 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         if (name.isBlank()) return
         componentScope.launch {
             service.addLocation(name, parentId, iconKey, HouseholdService.ACTOR_USER, HouseholdService.SOURCE_UI)
-                .onSuccess { showSaveSuccessToast() }
+                .onSuccess { showToast(R.string.household_location_added) }
         }
     }
 
@@ -177,7 +182,7 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         if (newName.isBlank()) return
         componentScope.launch {
             service.renameLocation(locationId, newName, iconKey, HouseholdService.ACTOR_USER, HouseholdService.SOURCE_UI)
-                .onSuccess { showSaveSuccessToast() }
+                .onSuccess { showToast(R.string.household_saved) }
         }
     }
 
@@ -192,8 +197,8 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
 
     // ─────────── 内部 ───────────
 
-    private fun showSaveSuccessToast() {
-        AppToastHost.showToast(AppContext.getString(com.shifenmiao.core.R.string.save_success))
+    private fun showToast(@StringRes resId: Int) {
+        AppToastHost.showToast(AppContext.getString(resId))
     }
 
     /** 外部跳转(EditItem):itemId = null 直接新建,否则加载物品进入编辑态。 */

@@ -67,6 +67,9 @@
     <string name="household_save">保存</string>
     <string name="household_cancel">取消</string>
     <string name="household_confirm">确定</string>
+    <string name="household_item_added">已添加物品</string>
+    <string name="household_location_added">已添加位置</string>
+    <string name="household_saved">已保存</string>
 
     <!-- 统计 tab -->
     <string name="household_stats_total_items">物品总数</string>

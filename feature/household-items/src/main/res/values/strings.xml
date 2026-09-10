@@ -67,6 +67,9 @@
     <string name="household_save">Save</string>
     <string name="household_cancel">Cancel</string>
     <string name="household_confirm">OK</string>
+    <string name="household_item_added">Item added</string>
+    <string name="household_location_added">Location added</string>
+    <string name="household_saved">Saved</string>
 
     <!-- 统计 tab -->
     <string name="household_stats_total_items">Total items</string>
