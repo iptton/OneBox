@@ -5,18 +5,18 @@
     <string name="household_tab_locations">Konumlar</string>
     <string name="household_tab_stats">İstatistikler</string>
     <string name="household_empty_guide_title">Henüz eşya yok</string>
-    <string name="household_empty_guide_message">Manuel ekleyin veya AI\'ın sizin için kaydetmesine izin verin</string>
+    <string name="household_empty_guide_message">Manuel ekleyin veya AI sizin için kaydetsin</string>
     <string name="household_add_manually">Manuel ekle</string>
-    <string name="household_add_with_ai">AI\'a kaydettir</string>
+    <string name="household_add_with_ai">AI\'dan kaydetmesini iste</string>
     <string name="household_ai_assist_title">Ev Asistanı</string>
-    <string name="household_ai_assist_prompt">Siz kullanıcının ev eşyası asistanısınız. Kullanıcı size bir eşya ve nerede saklandığını (isteğe bağlı olarak son kullanma tarihini) söylediğinde, add_household_item aracıyla kaydedin, örn. \"soğuk algınlığı ilacını yatak odası ilaç kutusuna koy, Haziran 2027\'de sona eriyor\". Kullanıcı bir şeyin nerede olduğunu sorduğunda, find_household_item ile arayın. Kullanıcı bir şeyi taşımak istediğinde, move_household_item kullanın. Kaydettikten sonra her işlemi kısaca onaylayın.</string>
+    <string name="household_ai_assist_prompt">Kullanıcının ev eşyası asistanısınız. Kullanıcı size bir eşya ve nerede saklandığını (ve isteğe bağlı olarak son kullanma tarihini) söylediğinde, add_household_item aracıyla kaydedin, örn. \"soğuk algınlığı ilacını yatak odasındaki ilaç kutusuna koy, Haziran 2027\'de sona eriyor\". Kullanıcı bir şeyin nerede olduğunu sorduğunda, find_household_item ile arayın. Kullanıcı bir şeyi taşımak istediğinde, move_household_item kullanın. Kaydettikten sonra her işlemi kısaca onaylayın.</string>
     <string name="household_search_hint">Ad, kategori veya not ara</string>
     <string name="household_expired_days">%1$d gün önce sona erdi</string>
     <string name="household_days_left">%1$d gün kaldı</string>
     <string name="household_expires_today">Bugün sona eriyor</string>
     <string name="household_add_item">Eşya ekle</string>
     <string name="household_manage_locations">Konumları yönet</string>
-    <string name="household_empty_items">Henüz eşya yok. Eklemek için +\'ya dokunun.</string>
+    <string name="household_empty_items">Henüz eşya yok. Eklemek için + simgesine dokunun.</string>
     <string name="household_empty_search">Eşleşen eşya yok</string>
     <string name="household_breadcrumb_home">Tümü</string>
     <string name="household_view_list">Liste görünümü</string>
@@ -31,17 +31,17 @@
     <string name="household_editor_name_hint">örn. Soğuk algınlığı ilacı</string>
     <string name="household_editor_category_label">Kategori</string>
     <string name="household_category_medicine">İlaç</string>
-    <string name="household_category_beauty">Güzellik ve Cilt Bakımı</string>
-    <string name="household_category_daily">Günlük Temel İhtiyaçlar</string>
-    <string name="household_category_food">Yiyecek ve İçecek</string>
+    <string name="household_category_beauty">Güzellik &amp; Cilt Bakımı</string>
+    <string name="household_category_daily">Günlük İhtiyaçlar</string>
+    <string name="household_category_food">Yiyecek &amp; İçecek</string>
     <string name="household_category_clothing">Giyim</string>
     <string name="household_category_digital">Elektronik</string>
     <string name="household_category_books">Kitaplar</string>
     <string name="household_category_stationery">Kırtasiye</string>
     <string name="household_category_home_goods">Ev Eşyaları</string>
     <string name="household_category_cleaning">Temizlik Malzemeleri</string>
-    <string name="household_category_baby">Bebek ve Çocuk</string>
-    <string name="household_category_sports">Spor ve Fitness</string>
+    <string name="household_category_baby">Bebek &amp; Çocuk</string>
+    <string name="household_category_sports">Spor &amp; Fitness</string>
     <string name="household_category_pet">Evcil Hayvan Malzemeleri</string>
     <string name="household_category_tools">Aletler</string>
     <string name="household_category_accessories">Aksesuarlar</string>
@@ -63,74 +63,85 @@
     <string name="household_save">Kaydet</string>
     <string name="household_cancel">İptal</string>
     <string name="household_confirm">Tamam</string>
+    <string name="household_item_added">Öğe eklendi</string>
+    <string name="household_location_added">Konum eklendi</string>
+    <string name="household_saved">Kaydedildi</string>
     <string name="household_stats_total_items">Toplam öğe</string>
     <string name="household_stats_location_count">Konumlar</string>
-    <string name="household_stats_expiring_soon">Yakında sona erecek</string>
+    <string name="household_stats_expiring_soon">Süresi yakında doluyor</string>
     <string name="household_stats_unit_item">öğe</string>
     <string name="household_stats_unit_location">toplam</string>
-    <string name="household_stats_added_this_month">Bu ay +%1$d</string>
+    <string name="household_stats_added_this_month">+%1$d bu ay</string>
     <string name="household_stats_category_share">Kategoriye göre</string>
-    <string name="household_stats_location_distribution">Konuma göre (öğeler)</string>
+    <string name="household_stats_location_distribution">Konuma göre (öğe)</string>
     <string name="household_stats_activity">Etkinlik özeti</string>
-    <string name="household_stats_recent_added">Yeni eklenenler</string>
-    <string name="household_stats_upcoming_expiry">Yakında sona erecek</string>
+    <string name="household_stats_recent_added">Son eklenenler</string>
+    <string name="household_stats_upcoming_expiry">Süresi yakında doluyor</string>
     <string name="household_stats_total_count">%1$d\ntoplam</string>
     <string name="household_stats_items_count">%1$d</string>
     <string name="household_stats_other">Diğer</string>
     <string name="household_stats_empty">Henüz veri yok</string>
+    <string name="household_stats_expire_prefix">%1$s, </string>
+    <string name="household_stats_expire_suffix"></string>
     <string name="household_locations_title">Konumları Yönet</string>
-    <string name="household_location_add_root">Üst düzey konum ekle</string>
+    <string name="household_location_add_root">Yeni Konum</string>
     <string name="household_location_add_child">Alt konum ekle</string>
     <string name="household_location_rename">Yeniden adlandır</string>
     <string name="household_location_delete">Sil</string>
     <string name="household_location_name_hint">Konum adı</string>
-    <string name="household_location_delete_blocked">Bu konumun alt konumları veya öğeleri var, önce bunları kaldırın</string>
+    <string name="household_location_pick_icon">Simge seç</string>
+    <string name="household_location_delete_blocked">Bu konumun alt konumları veya öğeleri var, önce onları kaldırın</string>
     <string name="household_locations_empty">Henüz konum yok</string>
     <string name="household_location_expand">Genişlet</string>
     <string name="household_location_collapse">Daralt</string>
     <string name="household_loc_home">Ev</string>
     <string name="household_loc_living_room">Oturma Odası</string>
-    <string name="household_loc_master_bedroom">Ana Yatak Odası</string>
+    <string name="household_loc_master_bedroom">Ebeveyn Yatak Odası</string>
     <string name="household_loc_second_bedroom">İkinci Yatak Odası</string>
     <string name="household_loc_kitchen">Mutfak</string>
     <string name="household_loc_bathroom">Banyo</string>
     <string name="household_loc_study">Çalışma Odası</string>
     <string name="household_loc_balcony">Balkon</string>
-    <string name="household_loc_storage_room">Depo Odası</string>
-    <string name="household_log_item_created">Eklenen öğe: %1$s</string>
-    <string name="household_log_item_updated">Güncellenen öğe: %1$s</string>
-    <string name="household_log_item_deleted">Silinen öğe: %1$s</string>
-    <string name="household_log_item_moved">Taşınan öğe: %1$s</string>
-    <string name="household_log_location_created">Eklenen konum: %1$s</string>
-    <string name="household_log_location_renamed">Yeniden adlandırılan konum: %1$s</string>
-    <string name="household_log_location_deleted">Silinen konum: %1$s</string>
+    <string name="household_loc_storage_room">Depo</string>
+    <string name="household_loc_company">Ofis</string>
+    <string name="household_loc_desk">Masa</string>
+    <string name="household_loc_meeting_room">Toplantı Odası</string>
+    <string name="household_loc_pantry">Kiler</string>
+    <string name="household_loc_locker">Dolap</string>
+    <string name="household_log_item_created">Öğe eklendi: %1$s</string>
+    <string name="household_log_item_updated">Öğe güncellendi: %1$s</string>
+    <string name="household_log_item_deleted">Öğe silindi: %1$s</string>
+    <string name="household_log_item_moved">Öğe taşındı: %1$s</string>
+    <string name="household_log_location_created">Konum eklendi: %1$s</string>
+    <string name="household_log_location_renamed">Konum yeniden adlandırıldı: %1$s</string>
+    <string name="household_log_location_deleted">Konum silindi: %1$s</string>
     <string name="agent_tool_add_household_item_title">Ev Eşyası Ekle</string>
-    <string name="agent_tool_add_household_item_summary">Depolama konumuyla birlikte bir ev eşyası kaydedin</string>
-    <string name="agent_tool_add_household_item_description">Bir ev eşyası kaydedin: ad, depolama konumu yolu (eksikse seviye seviye otomatik oluşturulur), isteğe bağlı kategori, son kullanma tarihi ve not.</string>
-    <string name="agent_tool_add_household_item_param_name">Eşya adı, örn. \"Soğuk ilacı\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Depolama konumu yolu, bölümler \"/\" veya \"&gt;\" ile ayrılır, örn. \"Yatak Odası/Gardırop/Üst çekmece\". Eksikse otomatik oluşturulur</string>
+    <string name="agent_tool_add_household_item_summary">Bir ev eşyasını saklama konumuyla birlikte kaydedin</string>
+    <string name="agent_tool_add_household_item_description">Bir ev eşyası kaydedin: ad, saklama konumu yolu (eksikse seviye seviye otomatik oluşturulur), isteğe bağlı kategori, son kullanma tarihi ve not.</string>
+    <string name="agent_tool_add_household_item_param_name">Öğe adı, örn. \"Soğuk algınlığı ilacı\"</string>
+    <string name="agent_tool_add_household_item_param_location_path">Saklama konumu yolu, bölümler \"/\" veya \"&gt;\" ile ayrılır, örn. \"Yatak Odası/Gardırop/Üst çekmece\". Eksikse otomatik oluşturulur</string>
     <string name="agent_tool_add_household_item_param_category">Kategori, serbest metin, örn. İlaç / Küçük eşyalar / Büyük eşyalar</string>
     <string name="agent_tool_add_household_item_param_expire_date">Son kullanma tarihi, yyyy-MM-dd, isteğe bağlı</string>
     <string name="agent_tool_add_household_item_param_note">İsteğe bağlı not</string>
-    <string name="agent_tool_add_household_item_failed">Eşya eklenemedi: %1$s</string>
+    <string name="agent_tool_add_household_item_failed">Öğe eklenemedi: %1$s</string>
     <string-array name="agent_tool_add_household_item_keywords">
         <item>ev</item>
-        <item>eşya</item>
+        <item>öğe</item>
         <item>depolama</item>
-        <item>eşya ekle</item>
+        <item>öğe ekle</item>
     </string-array>
     <string-array name="agent_tool_add_household_item_examples">
-        <item>Soğuk ilacını yatak odasındaki ilaç kutusuna kaydet, Haziran 2027\'de sona eriyor</item>
-        <item>Yedek şarj cihazını çalışma odası masasının çekmecesine ekle</item>
+        <item>Yatak odasındaki ilaç kutusuna soğuk algınlığı ilacını kaydet, Haziran 2027\'de sona eriyor</item>
+        <item>Yedek şarj cihazını çalışma masası çekmecesine ekle</item>
     </string-array>
     <string name="agent_tool_find_household_item_title">Ev Eşyası Bul</string>
-    <string name="agent_tool_find_household_item_summary">Bir ev eşyasının nerede saklandığını bulun</string>
-    <string name="agent_tool_find_household_item_description">Ev eşyalarını ad, kategori veya nota göre bulanık arama yapar. Her eşleşmeyi tam konum yolu, son kullanma durumu ve notuyla döndürür.</string>
-    <string name="agent_tool_find_household_item_param_query">Arama anahtar kelimesi, ad, kategori ve notla eşleştirilir</string>
-    <string name="agent_tool_find_household_item_empty">Eşleşen eşya bulunamadı</string>
-    <string name="agent_tool_find_household_item_failed">Eşya bulunamadı: %1$s</string>
+    <string name="agent_tool_find_household_item_summary">Bir ev eşyasının nerede saklandığını bul</string>
+    <string name="agent_tool_find_household_item_description">Ev eşyalarını ad, kategori veya nota göre bulanık ara. Her eşleşmeyi tam konum yolu, son kullanma durumu ve notuyla birlikte döndürür.</string>
+    <string name="agent_tool_find_household_item_param_query">Ad, kategori ve notla eşleştirilen arama anahtar kelimesi</string>
+    <string name="agent_tool_find_household_item_empty">Eşleşen öğe bulunamadı</string>
+    <string name="agent_tool_find_household_item_failed">Öğe bulunamadı: %1$s</string>
     <string-array name="agent_tool_find_household_item_keywords">
-        <item>ev eşyası</item>
+        <item>ev</item>
         <item>bul</item>
         <item>nerede</item>
         <item>konum</item>
@@ -141,25 +152,25 @@
     </string-array>
     <string name="agent_tool_move_household_item_title">Ev Eşyasını Taşı</string>
     <string name="agent_tool_move_household_item_summary">Bir ev eşyasının saklama konumunu değiştir</string>
-    <string name="agent_tool_move_household_item_description">Bir ev eşyasını yeni bir saklama konumu yoluna taşır. Eşya bulanık adla bulunur; konum yolu eksikse seviye seviye oluşturulur.</string>
-    <string name="agent_tool_move_household_item_param_name">Eşya adı, bulanık eşleştirilir</string>
+    <string name="agent_tool_move_household_item_description">Bir ev eşyasını yeni bir saklama konumu yoluna taşı. Öğe bulanık adla bulunur; konum yolu eksikse seviye seviye oluşturulur.</string>
+    <string name="agent_tool_move_household_item_param_name">Öğe adı, bulanık eşleştirildi</string>
     <string name="agent_tool_move_household_item_param_location_path">Yeni saklama konumu yolu, bölümler \"/\" veya \"&gt;\" ile ayrılır</string>
-    <string name="agent_tool_move_household_item_not_found">Eşya bulunamadı: %1$s</string>
-    <string name="agent_tool_move_household_item_failed">Eşya taşınamadı: %1$s</string>
+    <string name="agent_tool_move_household_item_not_found">Öğe bulunamadı: %1$s</string>
+    <string name="agent_tool_move_household_item_failed">Öğe taşınamadı: %1$s</string>
     <string-array name="agent_tool_move_household_item_keywords">
-        <item>ev eşyası</item>
+        <item>ev</item>
         <item>taşı</item>
-        <item>yerini değiştir</item>
+        <item>taşı</item>
     </string-array>
     <string-array name="agent_tool_move_household_item_examples">
-        <item>Soğuk algınlığı ilacını oturma odası çekmecesine taşı</item>
+        <item>Soğuk algınlığı ilacını oturma odasındaki çekmeceye taşı</item>
     </string-array>
     <string name="agent_tool_household_label_name">Ad</string>
     <string name="agent_tool_household_label_location">Konum</string>
     <string name="agent_tool_household_label_category">Kategori</string>
-    <string name="agent_tool_household_label_expiry">Son kullanma</string>
+    <string name="agent_tool_household_label_expiry">Son kullanma tarihi</string>
     <string name="agent_tool_household_label_note">Not</string>
-    <string name="agent_tool_household_expiry_expired">%1$d gün önce sona erdi</string>
+    <string name="agent_tool_household_expiry_expired">%1$d gün önce süresi doldu</string>
     <string name="agent_tool_household_expiry_days_left">%1$d gün kaldı</string>
     <string name="agent_tool_household_expiry_today">Bugün sona eriyor</string>
     <string name="agent_tool_household_expiry_none">Son kullanma tarihi yok</string>

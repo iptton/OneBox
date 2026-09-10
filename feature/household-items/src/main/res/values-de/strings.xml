@@ -2,27 +2,27 @@
 <resources>
     <string name="household_title">Haushaltsgegenstände</string>
     <string name="household_tab_list">Gegenstände</string>
-    <string name="household_tab_locations">Standorte</string>
+    <string name="household_tab_locations">Orte</string>
     <string name="household_tab_stats">Statistiken</string>
     <string name="household_empty_guide_title">Noch keine Gegenstände</string>
-    <string name="household_empty_guide_message">Fügen Sie einen manuell hinzu oder lassen Sie ihn von der KI aufzeichnen</string>
+    <string name="household_empty_guide_message">Füge einen manuell hinzu oder lass KI ihn für dich erfassen</string>
     <string name="household_add_manually">Manuell hinzufügen</string>
-    <string name="household_add_with_ai">KI aufzeichnen lassen</string>
+    <string name="household_add_with_ai">KI bitten zu erfassen</string>
     <string name="household_ai_assist_title">Haushaltsassistent</string>
-    <string name="household_ai_assist_prompt">Sie sind der Haushaltsgegenstands-Assistent des Benutzers. Wenn der Benutzer Ihnen einen Gegenstand und dessen Aufbewahrungsort nennt (und optional das Ablaufdatum), zeichnen Sie ihn mit dem Tool add_household_item auf, z. B. \"Lege die Erkältungsmedizin in die Medikamentenbox im Schlafzimmer, Ablauf Juni 2027\". Wenn der Benutzer fragt, wo etwas ist, suchen Sie es mit find_household_item. Wenn der Benutzer etwas verschieben möchte, verwenden Sie move_household_item. Bestätigen Sie jede Aktion kurz nach der Aufzeichnung.</string>
+    <string name="household_ai_assist_prompt">Du bist der Haushaltsgegenstands-Assistent des Nutzers. Wenn der Nutzer dir einen Gegenstand und seinen Aufbewahrungsort (und optional sein Ablaufdatum) nennt, erfasse ihn mit dem Tool add_household_item, z. B. \"stell die Erkältungsmedizin in die Medikamentenbox im Schlafzimmer, läuft im Juni 2027 ab\". Wenn der Nutzer fragt, wo etwas ist, suche es mit find_household_item. Wenn der Nutzer etwas verschieben möchte, verwende move_household_item. Bestätige jede Aktion kurz nach dem Erfassen.</string>
     <string name="household_search_hint">Name, Kategorie oder Notiz suchen</string>
-    <string name="household_expired_days">Vor %1$d Tagen abgelaufen</string>
-    <string name="household_days_left">Noch %1$d Tage</string>
+    <string name="household_expired_days">Vor %1$d T. abgelaufen</string>
+    <string name="household_days_left">Noch %1$d T.</string>
     <string name="household_expires_today">Läuft heute ab</string>
     <string name="household_add_item">Gegenstand hinzufügen</string>
-    <string name="household_manage_locations">Standorte verwalten</string>
-    <string name="household_empty_items">Noch keine Gegenstände. Tippen Sie auf +, um einen hinzuzufügen.</string>
+    <string name="household_manage_locations">Orte verwalten</string>
+    <string name="household_empty_items">Noch keine Gegenstände. Tippe auf +, um einen hinzuzufügen.</string>
     <string name="household_empty_search">Keine passenden Gegenstände</string>
     <string name="household_breadcrumb_home">Alle</string>
     <string name="household_view_list">Listenansicht</string>
     <string name="household_view_grid">Rasteransicht</string>
-    <string name="household_uncategorized">Ohne Kategorie</string>
-    <string name="household_no_location">Kein Standort</string>
+    <string name="household_uncategorized">Nicht kategorisiert</string>
+    <string name="household_no_location">Kein Ort</string>
     <string name="household_delete_item">Löschen</string>
     <string name="household_edit_item">Bearbeiten</string>
     <string name="household_editor_add_title">Gegenstand hinzufügen</string>
@@ -30,10 +30,10 @@
     <string name="household_editor_name_label">Name</string>
     <string name="household_editor_name_hint">z. B. Erkältungsmedizin</string>
     <string name="household_editor_category_label">Kategorie</string>
-    <string name="household_category_medicine">Medikamente</string>
-    <string name="household_category_beauty">Schönheit &amp; Hautpflege</string>
-    <string name="household_category_daily">Täglicher Bedarf</string>
-    <string name="household_category_food">Lebensmittel &amp; Getränke</string>
+    <string name="household_category_medicine">Medizin</string>
+    <string name="household_category_beauty">Beauty &amp; Körperpflege</string>
+    <string name="household_category_daily">Alltagsbedarf</string>
+    <string name="household_category_food">Essen &amp; Trinken</string>
     <string name="household_category_clothing">Kleidung</string>
     <string name="household_category_digital">Elektronik</string>
     <string name="household_category_books">Bücher</string>
@@ -43,12 +43,12 @@
     <string name="household_category_baby">Baby &amp; Kinder</string>
     <string name="household_category_sports">Sport &amp; Fitness</string>
     <string name="household_category_pet">Tierbedarf</string>
-    <string name="household_category_tools">Werkzeug</string>
+    <string name="household_category_tools">Werkzeuge</string>
     <string name="household_category_accessories">Accessoires</string>
     <string name="household_category_other">Sonstiges</string>
-    <string name="household_category_small_legacy">Kleine Artikel</string>
-    <string name="household_category_big_legacy">Große Artikel</string>
-    <string name="household_category_custom_hint">Eigene Kategorie</string>
+    <string name="household_category_small_legacy">Kleine Gegenstände</string>
+    <string name="household_category_big_legacy">Große Gegenstände</string>
+    <string name="household_category_custom_hint">Benutzerdefinierte Kategorie</string>
     <string name="household_editor_location_label">Standort</string>
     <string name="household_editor_location_none">Kein Standort</string>
     <string name="household_editor_location_pick">Standort wählen</string>
@@ -63,40 +63,51 @@
     <string name="household_save">Speichern</string>
     <string name="household_cancel">Abbrechen</string>
     <string name="household_confirm">OK</string>
-    <string name="household_stats_total_items">Gesamtanzahl</string>
-    <string name="household_stats_location_count">Standorte</string>
+    <string name="household_item_added">Artikel hinzugefügt</string>
+    <string name="household_location_added">Ort hinzugefügt</string>
+    <string name="household_saved">Gespeichert</string>
+    <string name="household_stats_total_items">Artikel gesamt</string>
+    <string name="household_stats_location_count">Orte</string>
     <string name="household_stats_expiring_soon">Läuft bald ab</string>
     <string name="household_stats_unit_item">Artikel</string>
     <string name="household_stats_unit_location">gesamt</string>
     <string name="household_stats_added_this_month">+%1$d diesen Monat</string>
     <string name="household_stats_category_share">Nach Kategorie</string>
-    <string name="household_stats_location_distribution">Nach Standort (Artikel)</string>
+    <string name="household_stats_location_distribution">Nach Ort (Artikel)</string>
     <string name="household_stats_activity">Aktivitätsübersicht</string>
     <string name="household_stats_recent_added">Kürzlich hinzugefügt</string>
     <string name="household_stats_upcoming_expiry">Läuft bald ab</string>
-    <string name="household_stats_total_count">%1$d\ninsgesamt</string>
+    <string name="household_stats_total_count">%1$d\ngesamt</string>
     <string name="household_stats_items_count">%1$d</string>
     <string name="household_stats_other">Sonstiges</string>
     <string name="household_stats_empty">Noch keine Daten</string>
-    <string name="household_locations_title">Standorte verwalten</string>
-    <string name="household_location_add_root">Top-Level-Standort hinzufügen</string>
-    <string name="household_location_add_child">Unterstandort hinzufügen</string>
+    <string name="household_stats_expire_prefix">%1$s, </string>
+    <string name="household_stats_expire_suffix"></string>
+    <string name="household_locations_title">Orte verwalten</string>
+    <string name="household_location_add_root">Neuer Ort</string>
+    <string name="household_location_add_child">Unterort hinzufügen</string>
     <string name="household_location_rename">Umbenennen</string>
     <string name="household_location_delete">Löschen</string>
-    <string name="household_location_name_hint">Standortname</string>
-    <string name="household_location_delete_blocked">Dieser Standort hat Unterstandorte oder Artikel, entfernen Sie diese zuerst</string>
-    <string name="household_locations_empty">Noch keine Standorte</string>
+    <string name="household_location_name_hint">Ortsname</string>
+    <string name="household_location_pick_icon">Symbol wählen</string>
+    <string name="household_location_delete_blocked">Dieser Ort hat Unterorte oder Artikel, entferne diese zuerst</string>
+    <string name="household_locations_empty">Noch keine Orte</string>
     <string name="household_location_expand">Erweitern</string>
     <string name="household_location_collapse">Einklappen</string>
     <string name="household_loc_home">Zuhause</string>
     <string name="household_loc_living_room">Wohnzimmer</string>
-    <string name="household_loc_master_bedroom">Hauptschlafzimmer</string>
+    <string name="household_loc_master_bedroom">Elternschlafzimmer</string>
     <string name="household_loc_second_bedroom">Zweites Schlafzimmer</string>
     <string name="household_loc_kitchen">Küche</string>
     <string name="household_loc_bathroom">Badezimmer</string>
     <string name="household_loc_study">Arbeitszimmer</string>
     <string name="household_loc_balcony">Balkon</string>
     <string name="household_loc_storage_room">Abstellraum</string>
+    <string name="household_loc_company">Büro</string>
+    <string name="household_loc_desk">Schreibtisch</string>
+    <string name="household_loc_meeting_room">Besprechungsraum</string>
+    <string name="household_loc_pantry">Vorratskammer</string>
+    <string name="household_loc_locker">Schließfach</string>
     <string name="household_log_item_created">Artikel hinzugefügt: %1$s</string>
     <string name="household_log_item_updated">Artikel aktualisiert: %1$s</string>
     <string name="household_log_item_deleted">Artikel gelöscht: %1$s</string>
@@ -104,58 +115,58 @@
     <string name="household_log_location_created">Ort hinzugefügt: %1$s</string>
     <string name="household_log_location_renamed">Ort umbenannt: %1$s</string>
     <string name="household_log_location_deleted">Ort gelöscht: %1$s</string>
-    <string name="agent_tool_add_household_item_title">Haushaltsgegenstand hinzufügen</string>
-    <string name="agent_tool_add_household_item_summary">Erfassen Sie einen Haushaltsgegenstand mit seinem Aufbewahrungsort</string>
-    <string name="agent_tool_add_household_item_description">Erfassen Sie einen Haushaltsgegenstand: Name, Aufbewahrungsort-Pfad (wird bei Fehlen automatisch Ebene für Ebene erstellt), optionale Kategorie, Verfallsdatum und Notiz.</string>
+    <string name="agent_tool_add_household_item_title">Haushaltsartikel hinzufügen</string>
+    <string name="agent_tool_add_household_item_summary">Erfasse einen Haushaltsartikel mit seinem Aufbewahrungsort</string>
+    <string name="agent_tool_add_household_item_description">Erfasse einen Haushaltsartikel: Name, Aufbewahrungspfad (wird bei Fehlen Ebene für Ebene automatisch erstellt), optionale Kategorie, Ablaufdatum und Notiz.</string>
     <string name="agent_tool_add_household_item_param_name">Artikelname, z. B. \"Erkältungsmedizin\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Aufbewahrungsort-Pfad, Segmente durch \"/\" oder \"&gt;\" getrennt, z. B. \"Schlafzimmer/Kleiderschrank/Oberste Schublade\". Wird automatisch erstellt, falls nicht vorhanden</string>
+    <string name="agent_tool_add_household_item_param_location_path">Aufbewahrungspfad, Segmente getrennt durch \"/\" oder \"&gt;\", z. B. \"Schlafzimmer/Kleiderschrank/Obere Schublade\". Wird bei Fehlen automatisch erstellt</string>
     <string name="agent_tool_add_household_item_param_category">Kategorie, Freitext, z. B. Medizin / Kleinteile / Große Gegenstände</string>
-    <string name="agent_tool_add_household_item_param_expire_date">Verfallsdatum, JJJJ-MM-TT, optional</string>
+    <string name="agent_tool_add_household_item_param_expire_date">Ablaufdatum, JJJJ-MM-TT, optional</string>
     <string name="agent_tool_add_household_item_param_note">Optionale Notiz</string>
-    <string name="agent_tool_add_household_item_failed">Fehler beim Hinzufügen des Artikels: %1$s</string>
+    <string name="agent_tool_add_household_item_failed">Artikel konnte nicht hinzugefügt werden: %1$s</string>
     <string-array name="agent_tool_add_household_item_keywords">
         <item>Haushalt</item>
-        <item>Gegenstand</item>
-        <item>Aufbewahrung</item>
+        <item>Artikel</item>
+        <item>Lagerort</item>
         <item>Artikel hinzufügen</item>
     </string-array>
     <string-array name="agent_tool_add_household_item_examples">
-        <item>Erfassen Sie die Erkältungsmedizin in der Medikamentenbox im Schlafzimmer, Verfallsdatum Juni 2027</item>
-        <item>Fügen Sie das Ersatzladegerät in die Schreibtischschublade im Arbeitszimmer hinzu</item>
+        <item>Erfasse das Erkältungsmittel in der Medikamentenbox im Schlafzimmer, Ablauf Juni 2027</item>
+        <item>Lege das Ersatzladegerät in die Schreibtischschublade im Arbeitszimmer</item>
     </string-array>
-    <string name="agent_tool_find_household_item_title">Haushaltsgegenstand finden</string>
-    <string name="agent_tool_find_household_item_summary">Finden, wo ein Haushaltsgegenstand aufbewahrt wird</string>
-    <string name="agent_tool_find_household_item_description">Durchsucht Haushaltsgegenstände unscharf nach Name, Kategorie oder Notiz. Gibt jeden Treffer mit vollständigem Aufbewahrungspfad, Ablaufstatus und Notiz zurück.</string>
+    <string name="agent_tool_find_household_item_title">Haushaltsartikel finden</string>
+    <string name="agent_tool_find_household_item_summary">Finde heraus, wo ein Haushaltsartikel aufbewahrt wird</string>
+    <string name="agent_tool_find_household_item_description">Durchsuche Haushaltsartikel unscharf nach Name, Kategorie oder Notiz. Gibt jeden Treffer mit seinem vollständigen Lagerortpfad, Ablaufstatus und Notiz zurück.</string>
     <string name="agent_tool_find_household_item_param_query">Suchbegriff, abgeglichen mit Name, Kategorie und Notiz</string>
-    <string name="agent_tool_find_household_item_empty">Keine passenden Gegenstände gefunden</string>
-    <string name="agent_tool_find_household_item_failed">Gegenstand nicht gefunden: %1$s</string>
+    <string name="agent_tool_find_household_item_empty">Keine passenden Artikel gefunden</string>
+    <string name="agent_tool_find_household_item_failed">Artikel konnte nicht gefunden werden: %1$s</string>
     <string-array name="agent_tool_find_household_item_keywords">
         <item>Haushalt</item>
         <item>finden</item>
         <item>wo ist</item>
-        <item>Standort</item>
+        <item>Lagerort</item>
     </string-array>
     <string-array name="agent_tool_find_household_item_examples">
-        <item>Wo ist die Erkältungsmedizin?</item>
+        <item>Wo ist das Erkältungsmittel?</item>
         <item>Finde das Ersatzladegerät</item>
     </string-array>
-    <string name="agent_tool_move_household_item_title">Haushaltsgegenstand verschieben</string>
-    <string name="agent_tool_move_household_item_summary">Den Aufbewahrungsort eines Haushaltsgegenstands ändern</string>
-    <string name="agent_tool_move_household_item_description">Verschiebt einen Haushaltsgegenstand zu einem neuen Aufbewahrungspfad. Der Gegenstand wird per unscharfem Namen gefunden; der Pfad wird bei Bedarf Ebene für Ebene erstellt.</string>
-    <string name="agent_tool_move_household_item_param_name">Gegenstandsname, unscharf abgeglichen</string>
-    <string name="agent_tool_move_household_item_param_location_path">Neuer Aufbewahrungspfad, Segmente durch \"/\" oder \"&gt;\" getrennt</string>
-    <string name="agent_tool_move_household_item_not_found">Gegenstand nicht gefunden: %1$s</string>
-    <string name="agent_tool_move_household_item_failed">Verschieben fehlgeschlagen: %1$s</string>
+    <string name="agent_tool_move_household_item_title">Haushaltsartikel verschieben</string>
+    <string name="agent_tool_move_household_item_summary">Ändere den Lagerort eines Haushaltsartikels</string>
+    <string name="agent_tool_move_household_item_description">Verschiebe einen Haushaltsartikel an einen neuen Lagerortpfad. Der Artikel wird per unscharfem Namen gefunden; der Lagerortpfad wird Ebene für Ebene erstellt, falls er fehlt.</string>
+    <string name="agent_tool_move_household_item_param_name">Artikelname, unscharf abgeglichen</string>
+    <string name="agent_tool_move_household_item_param_location_path">Neuer Lagerortpfad, Segmente getrennt durch \"/\" oder \"&gt;\"</string>
+    <string name="agent_tool_move_household_item_not_found">Artikel nicht gefunden: %1$s</string>
+    <string name="agent_tool_move_household_item_failed">Artikel konnte nicht verschoben werden: %1$s</string>
     <string-array name="agent_tool_move_household_item_keywords">
         <item>Haushalt</item>
         <item>verschieben</item>
-        <item>umlagern</item>
+        <item>Umlagern</item>
     </string-array>
     <string-array name="agent_tool_move_household_item_examples">
-        <item>Verschiebe die Erkältungsmedizin in die Wohnzimmerschublade</item>
+        <item>Die Erkältungsmedizin in die Wohnzimmerschublade legen</item>
     </string-array>
     <string name="agent_tool_household_label_name">Name</string>
-    <string name="agent_tool_household_label_location">Standort</string>
+    <string name="agent_tool_household_label_location">Ort</string>
     <string name="agent_tool_household_label_category">Kategorie</string>
     <string name="agent_tool_household_label_expiry">Ablaufdatum</string>
     <string name="agent_tool_household_label_note">Notiz</string>
@@ -164,6 +175,6 @@
     <string name="agent_tool_household_expiry_today">Läuft heute ab</string>
     <string name="agent_tool_household_expiry_none">Kein Ablaufdatum</string>
     <string name="agent_tool_household_open_link">Haushaltsgegenstände öffnen</string>
-    <string name="agent_tool_household_edit_link">Artikel anzeigen</string>
+    <string name="agent_tool_household_edit_link">Artikel ansehen</string>
     <string name="agent_tool_household_unknown_error">Unbekannter Fehler</string>
 </resources>

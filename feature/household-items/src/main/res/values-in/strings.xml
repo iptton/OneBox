@@ -5,22 +5,22 @@
     <string name="household_tab_locations">Lokasi</string>
     <string name="household_tab_stats">Statistik</string>
     <string name="household_empty_guide_title">Belum ada barang</string>
-    <string name="household_empty_guide_message">Tambahkan secara manual, atau biarkan AI mencatatnya untuk Anda</string>
+    <string name="household_empty_guide_message">Tambahkan manual, atau biarkan AI mencatatnya untuk Anda</string>
     <string name="household_add_manually">Tambah manual</string>
-    <string name="household_add_with_ai">Minta AI untuk mencatat</string>
+    <string name="household_add_with_ai">Minta AI mencatat</string>
     <string name="household_ai_assist_title">Asisten Rumah Tangga</string>
-    <string name="household_ai_assist_prompt">Anda adalah asisten barang rumah tangga pengguna. Saat pengguna memberi tahu Anda barang dan tempat penyimpanannya (dan opsional tanggal kedaluwarsa), catat dengan alat add_household_item, misalnya \"taruh obat flu di kotak obat kamar tidur, kedaluwarsa Juni 2027\". Saat pengguna bertanya di mana sesuatu berada, cari dengan find_household_item. Saat pengguna ingin memindahkan sesuatu, gunakan move_household_item. Konfirmasi setiap tindakan secara singkat setelah mencatat.</string>
+    <string name="household_ai_assist_prompt">Anda adalah asisten barang rumah tangga pengguna. Saat pengguna memberi tahu Anda suatu barang dan tempat penyimpanannya (dan opsional tanggal kedaluwarsanya), catat dengan alat add_household_item, misalnya \"taruh obat flu di kotak obat kamar tidur, kedaluwarsa Juni 2027\". Saat pengguna bertanya di mana suatu barang, cari dengan find_household_item. Saat pengguna ingin memindahkan sesuatu, gunakan move_household_item. Konfirmasi setiap tindakan secara singkat setelah mencatat.</string>
     <string name="household_search_hint">Cari nama, kategori, atau catatan</string>
     <string name="household_expired_days">Kedaluwarsa %1$d hari lalu</string>
-    <string name="household_days_left">%1$d hari lagi</string>
+    <string name="household_days_left">Sisa %1$d hari</string>
     <string name="household_expires_today">Kedaluwarsa hari ini</string>
     <string name="household_add_item">Tambah barang</string>
     <string name="household_manage_locations">Kelola lokasi</string>
-    <string name="household_empty_items">Belum ada barang. Ketuk + untuk menambahkan.</string>
+    <string name="household_empty_items">Belum ada barang. Ketuk + untuk menambah.</string>
     <string name="household_empty_search">Tidak ada barang yang cocok</string>
     <string name="household_breadcrumb_home">Semua</string>
     <string name="household_view_list">Tampilan daftar</string>
-    <string name="household_view_grid">Tampilan grid</string>
+    <string name="household_view_grid">Tampilan kisi</string>
     <string name="household_uncategorized">Tanpa kategori</string>
     <string name="household_no_location">Tanpa lokasi</string>
     <string name="household_delete_item">Hapus</string>
@@ -38,7 +38,7 @@
     <string name="household_category_digital">Elektronik</string>
     <string name="household_category_books">Buku</string>
     <string name="household_category_stationery">Alat Tulis</string>
-    <string name="household_category_home_goods">Perlengkapan Rumah</string>
+    <string name="household_category_home_goods">Peralatan Rumah</string>
     <string name="household_category_cleaning">Perlengkapan Kebersihan</string>
     <string name="household_category_baby">Bayi &amp; Anak</string>
     <string name="household_category_sports">Olahraga &amp; Kebugaran</string>
@@ -78,25 +78,33 @@
     <string name="household_stats_items_count">%1$d</string>
     <string name="household_stats_other">Lainnya</string>
     <string name="household_stats_empty">Belum ada data</string>
+    <string name="household_stats_expire_prefix">%1$s, </string>
+    <string name="household_stats_expire_suffix"></string>
     <string name="household_locations_title">Kelola Lokasi</string>
-    <string name="household_location_add_root">Tambah lokasi tingkat atas</string>
-    <string name="household_location_add_child">Tambah anak</string>
-    <string name="household_location_rename">Ubah nama</string>
+    <string name="household_location_add_root">Lokasi Baru</string>
+    <string name="household_location_add_child">Tambah sub-lokasi</string>
+    <string name="household_location_rename">Ganti nama</string>
     <string name="household_location_delete">Hapus</string>
     <string name="household_location_name_hint">Nama lokasi</string>
+    <string name="household_location_pick_icon">Pilih ikon</string>
     <string name="household_location_delete_blocked">Lokasi ini memiliki sub-lokasi atau item, hapus terlebih dahulu</string>
     <string name="household_locations_empty">Belum ada lokasi</string>
     <string name="household_location_expand">Perluas</string>
     <string name="household_location_collapse">Ciutkan</string>
     <string name="household_loc_home">Beranda</string>
     <string name="household_loc_living_room">Ruang Tamu</string>
-    <string name="household_loc_master_bedroom">Kamar Tidur Utama</string>
-    <string name="household_loc_second_bedroom">Kamar Tidur Kedua</string>
+    <string name="household_loc_master_bedroom">Kamar Utama</string>
+    <string name="household_loc_second_bedroom">Kamar Kedua</string>
     <string name="household_loc_kitchen">Dapur</string>
     <string name="household_loc_bathroom">Kamar Mandi</string>
     <string name="household_loc_study">Ruang Belajar</string>
     <string name="household_loc_balcony">Balkon</string>
-    <string name="household_loc_storage_room">Ruang Penyimpanan</string>
+    <string name="household_loc_storage_room">Gudang</string>
+    <string name="household_loc_company">Kantor</string>
+    <string name="household_loc_desk">Meja Kerja</string>
+    <string name="household_loc_meeting_room">Ruang Rapat</string>
+    <string name="household_loc_pantry">Pantry</string>
+    <string name="household_loc_locker">Loker</string>
     <string name="household_log_item_created">Item ditambahkan: %1$s</string>
     <string name="household_log_item_updated">Item diperbarui: %1$s</string>
     <string name="household_log_item_deleted">Item dihapus: %1$s</string>
@@ -104,51 +112,51 @@
     <string name="household_log_location_created">Lokasi ditambahkan: %1$s</string>
     <string name="household_log_location_renamed">Lokasi diganti nama: %1$s</string>
     <string name="household_log_location_deleted">Lokasi dihapus: %1$s</string>
-    <string name="agent_tool_add_household_item_title">Tambah Item Rumah Tangga</string>
-    <string name="agent_tool_add_household_item_summary">Catat item rumah tangga beserta lokasi penyimpanannya</string>
-    <string name="agent_tool_add_household_item_description">Catat item rumah tangga: nama, jalur lokasi penyimpanan (dibuat otomatis level demi level jika tidak ada), kategori opsional, tanggal kedaluwarsa, dan catatan.</string>
-    <string name="agent_tool_add_household_item_param_name">Nama item, mis. \"Obat flu\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Jalur lokasi penyimpanan, segmen dipisahkan dengan \"/\" atau \"&gt;\", mis. \"Kamar Tidur/Lemari/Laci Atas\". Dibuat otomatis jika tidak ada</string>
+    <string name="agent_tool_add_household_item_title">Tambah Barang Rumah Tangga</string>
+    <string name="agent_tool_add_household_item_summary">Catat barang rumah tangga beserta lokasi penyimpanannya</string>
+    <string name="agent_tool_add_household_item_description">Catat barang rumah tangga: nama, jalur lokasi penyimpanan (dibuat otomatis tingkat demi tingkat jika belum ada), kategori opsional, tanggal kedaluwarsa, dan catatan.</string>
+    <string name="agent_tool_add_household_item_param_name">Nama barang, mis. \"Obat flu\"</string>
+    <string name="agent_tool_add_household_item_param_location_path">Jalur lokasi penyimpanan, segmen dipisahkan dengan \"/\" atau \"&gt;\", mis. \"Kamar Tidur/Lemari/Laci atas\". Dibuat otomatis jika belum ada</string>
     <string name="agent_tool_add_household_item_param_category">Kategori, teks bebas, mis. Obat / Barang kecil / Barang besar</string>
     <string name="agent_tool_add_household_item_param_expire_date">Tanggal kedaluwarsa, yyyy-MM-dd, opsional</string>
     <string name="agent_tool_add_household_item_param_note">Catatan opsional</string>
     <string name="agent_tool_add_household_item_failed">Gagal menambahkan item: %1$s</string>
     <string-array name="agent_tool_add_household_item_keywords">
         <item>rumah tangga</item>
-        <item>item</item>
+        <item>barang</item>
         <item>penyimpanan</item>
-        <item>tambah item</item>
+        <item>tambah barang</item>
     </string-array>
     <string-array name="agent_tool_add_household_item_examples">
         <item>Catat obat flu di kotak obat kamar tidur, kedaluwarsa Juni 2027</item>
-        <item>Tambahkan pengisi daya cadangan ke laci meja ruang belajar</item>
+        <item>Tambahkan charger cadangan ke laci meja belajar</item>
     </string-array>
-    <string name="agent_tool_find_household_item_title">Cari Item Rumah Tangga</string>
-    <string name="agent_tool_find_household_item_summary">Temukan di mana barang rumah tangga disimpan</string>
+    <string name="agent_tool_find_household_item_title">Cari Barang Rumah Tangga</string>
+    <string name="agent_tool_find_household_item_summary">Cari di mana barang rumah tangga disimpan</string>
     <string name="agent_tool_find_household_item_description">Cari barang rumah tangga secara fuzzy berdasarkan nama, kategori, atau catatan. Mengembalikan setiap kecocokan dengan jalur lokasi lengkap, status kedaluwarsa, dan catatan.</string>
     <string name="agent_tool_find_household_item_param_query">Kata kunci pencarian, dicocokkan dengan nama, kategori, dan catatan</string>
     <string name="agent_tool_find_household_item_empty">Tidak ada barang yang cocok ditemukan</string>
     <string name="agent_tool_find_household_item_failed">Gagal menemukan barang: %1$s</string>
     <string-array name="agent_tool_find_household_item_keywords">
         <item>rumah tangga</item>
-        <item>temukan</item>
+        <item>cari</item>
         <item>di mana</item>
         <item>lokasi</item>
     </string-array>
     <string-array name="agent_tool_find_household_item_examples">
         <item>Di mana obat flu?</item>
-        <item>Temukan pengisi daya cadangan</item>
+        <item>Cari charger cadangan</item>
     </string-array>
     <string name="agent_tool_move_household_item_title">Pindahkan Barang Rumah Tangga</string>
     <string name="agent_tool_move_household_item_summary">Ubah lokasi penyimpanan barang rumah tangga</string>
-    <string name="agent_tool_move_household_item_description">Pindahkan barang rumah tangga ke jalur lokasi penyimpanan baru. Barang ditemukan berdasarkan nama fuzzy; jalur lokasi dibuat tingkat demi tingkat jika tidak ada.</string>
+    <string name="agent_tool_move_household_item_description">Pindahkan barang rumah tangga ke jalur lokasi penyimpanan baru. Barang ditemukan berdasarkan nama secara fuzzy; jalur lokasi dibuat tingkat demi tingkat jika belum ada.</string>
     <string name="agent_tool_move_household_item_param_name">Nama barang, dicocokkan secara fuzzy</string>
     <string name="agent_tool_move_household_item_param_location_path">Jalur lokasi penyimpanan baru, segmen dipisahkan dengan \"/\" atau \"&gt;\"</string>
     <string name="agent_tool_move_household_item_not_found">Barang tidak ditemukan: %1$s</string>
     <string name="agent_tool_move_household_item_failed">Gagal memindahkan barang: %1$s</string>
     <string-array name="agent_tool_move_household_item_keywords">
         <item>rumah tangga</item>
-        <item>pindahkan</item>
+        <item>pindah</item>
         <item>relokasi</item>
     </string-array>
     <string-array name="agent_tool_move_household_item_examples">

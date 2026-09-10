@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="household_title">家庭用品</string>
-    <string name="household_tab_list">物品</string>
+    <string name="household_tab_list">アイテム</string>
     <string name="household_tab_locations">場所</string>
     <string name="household_tab_stats">統計</string>
-    <string name="household_empty_guide_title">まだ物品がありません</string>
-    <string name="household_empty_guide_message">手動で追加するか、AIに記録させてください</string>
+    <string name="household_empty_guide_title">アイテムはまだありません</string>
+    <string name="household_empty_guide_message">手動で追加するか、AIに記録してもらいましょう</string>
     <string name="household_add_manually">手動で追加</string>
-    <string name="household_add_with_ai">AIに記録させる</string>
-    <string name="household_ai_assist_title">家庭用品アシスタント</string>
-    <string name="household_ai_assist_prompt">あなたはユーザーの家庭用品アシスタントです。ユーザーが物品とその保管場所（および任意で有効期限）を伝えたら、add_household_itemツールで記録してください。例：「風邪薬を寝室の薬箱に入れて、2027年6月に期限切れ」。ユーザーが何かの場所を尋ねたら、find_household_itemで検索してください。ユーザーが何かを移動したい場合は、move_household_itemを使用してください。各操作の後、簡単に確認してください。</string>
+    <string name="household_add_with_ai">AIに記録を依頼</string>
+    <string name="household_ai_assist_title">家庭アシスタント</string>
+    <string name="household_ai_assist_prompt">あなたはユーザーの家庭用品アシスタントです。ユーザーがアイテムとその保管場所（および任意で有効期限）を伝えたら、add_household_itemツールで記録してください。例：「風邪薬を寝室の薬箱に入れて、有効期限は2027年6月」。ユーザーが何かの場所を尋ねたら、find_household_itemで検索してください。ユーザーが物を移動したい場合は、move_household_itemを使用してください。記録後は各操作を簡潔に確認してください。</string>
     <string name="household_search_hint">名前、カテゴリ、メモを検索</string>
     <string name="household_expired_days">%1$d日前に期限切れ</string>
     <string name="household_days_left">残り%1$d日</string>
-    <string name="household_expires_today">今日期限切れ</string>
-    <string name="household_add_item">物品を追加</string>
+    <string name="household_expires_today">今日が期限</string>
+    <string name="household_add_item">アイテムを追加</string>
     <string name="household_manage_locations">場所を管理</string>
-    <string name="household_empty_items">まだ物品がありません。+をタップして追加してください。</string>
-    <string name="household_empty_search">一致する物品がありません</string>
+    <string name="household_empty_items">アイテムはまだありません。+をタップして追加してください。</string>
+    <string name="household_empty_search">一致するアイテムがありません</string>
     <string name="household_breadcrumb_home">すべて</string>
     <string name="household_view_list">リスト表示</string>
     <string name="household_view_grid">グリッド表示</string>
-    <string name="household_uncategorized">カテゴリなし</string>
-    <string name="household_no_location">場所なし</string>
+    <string name="household_uncategorized">未分類</string>
+    <string name="household_no_location">場所未設定</string>
     <string name="household_delete_item">削除</string>
     <string name="household_edit_item">編集</string>
-    <string name="household_editor_add_title">物品を追加</string>
-    <string name="household_editor_edit_title">物品を編集</string>
+    <string name="household_editor_add_title">アイテムを追加</string>
+    <string name="household_editor_edit_title">アイテムを編集</string>
     <string name="household_editor_name_label">名前</string>
     <string name="household_editor_name_hint">例：風邪薬</string>
     <string name="household_editor_category_label">カテゴリ</string>
@@ -35,8 +35,8 @@
     <string name="household_category_daily">日用品</string>
     <string name="household_category_food">食品・飲料</string>
     <string name="household_category_clothing">衣類</string>
-    <string name="household_category_digital">電化製品</string>
-    <string name="household_category_books">本</string>
+    <string name="household_category_digital">電子機器</string>
+    <string name="household_category_books">書籍</string>
     <string name="household_category_stationery">文房具</string>
     <string name="household_category_home_goods">家庭用品</string>
     <string name="household_category_cleaning">掃除用品</string>
@@ -50,53 +50,64 @@
     <string name="household_category_big_legacy">大物</string>
     <string name="household_category_custom_hint">カスタムカテゴリ</string>
     <string name="household_editor_location_label">場所</string>
-    <string name="household_editor_location_none">場所なし</string>
+    <string name="household_editor_location_none">場所未設定</string>
     <string name="household_editor_location_pick">場所を選択</string>
-    <string name="household_editor_expire_label">有効期限</string>
+    <string name="household_editor_expire_label">賞味期限</string>
     <string name="household_editor_expire_pick">日付を選択</string>
     <string name="household_editor_expire_clear">クリア</string>
     <string name="household_editor_photo_label">写真</string>
     <string name="household_editor_photo_add">写真を追加</string>
     <string name="household_editor_photo_remove">写真を削除</string>
     <string name="household_editor_note_label">メモ（任意）</string>
-    <string name="household_editor_note_hint">使用方法、仕様など</string>
+    <string name="household_editor_note_hint">用途、仕様など</string>
     <string name="household_save">保存</string>
     <string name="household_cancel">キャンセル</string>
     <string name="household_confirm">OK</string>
+    <string name="household_item_added">アイテムを追加しました</string>
+    <string name="household_location_added">場所を追加しました</string>
+    <string name="household_saved">保存しました</string>
     <string name="household_stats_total_items">アイテム合計</string>
     <string name="household_stats_location_count">場所</string>
-    <string name="household_stats_expiring_soon">まもなく期限切れ</string>
+    <string name="household_stats_expiring_soon">期限間近</string>
     <string name="household_stats_unit_item">アイテム</string>
     <string name="household_stats_unit_location">合計</string>
-    <string name="household_stats_added_this_month">今月+%1$d</string>
+    <string name="household_stats_added_this_month">今月 +%1$d</string>
     <string name="household_stats_category_share">カテゴリ別</string>
     <string name="household_stats_location_distribution">場所別（アイテム）</string>
-    <string name="household_stats_activity">アクティビティダイジェスト</string>
+    <string name="household_stats_activity">アクティビティ概要</string>
     <string name="household_stats_recent_added">最近追加</string>
-    <string name="household_stats_upcoming_expiry">まもなく期限切れ</string>
+    <string name="household_stats_upcoming_expiry">期限間近</string>
     <string name="household_stats_total_count">%1$d\n合計</string>
     <string name="household_stats_items_count">%1$d</string>
     <string name="household_stats_other">その他</string>
     <string name="household_stats_empty">データはまだありません</string>
+    <string name="household_stats_expire_prefix">%1$s, </string>
+    <string name="household_stats_expire_suffix"></string>
     <string name="household_locations_title">場所を管理</string>
-    <string name="household_location_add_root">トップレベルの場所を追加</string>
+    <string name="household_location_add_root">新しい場所</string>
     <string name="household_location_add_child">子を追加</string>
     <string name="household_location_rename">名前を変更</string>
     <string name="household_location_delete">削除</string>
-    <string name="household_location_name_hint">場所名</string>
+    <string name="household_location_name_hint">場所の名前</string>
+    <string name="household_location_pick_icon">アイコンを選択</string>
     <string name="household_location_delete_blocked">この場所にはサブ場所またはアイテムがあります。先に削除してください</string>
-    <string name="household_locations_empty">場所はまだありません</string>
+    <string name="household_locations_empty">場所がまだありません</string>
     <string name="household_location_expand">展開</string>
     <string name="household_location_collapse">折りたたむ</string>
-    <string name="household_loc_home">ホーム</string>
+    <string name="household_loc_home">家</string>
     <string name="household_loc_living_room">リビングルーム</string>
     <string name="household_loc_master_bedroom">主寝室</string>
-    <string name="household_loc_second_bedroom">次寝室</string>
+    <string name="household_loc_second_bedroom">第二寝室</string>
     <string name="household_loc_kitchen">キッチン</string>
-    <string name="household_loc_bathroom">浴室</string>
+    <string name="household_loc_bathroom">バスルーム</string>
     <string name="household_loc_study">書斎</string>
     <string name="household_loc_balcony">バルコニー</string>
     <string name="household_loc_storage_room">収納室</string>
+    <string name="household_loc_company">オフィス</string>
+    <string name="household_loc_desk">デスク</string>
+    <string name="household_loc_meeting_room">会議室</string>
+    <string name="household_loc_pantry">パントリー</string>
+    <string name="household_loc_locker">ロッカー</string>
     <string name="household_log_item_created">アイテムを追加しました: %1$s</string>
     <string name="household_log_item_updated">アイテムを更新しました: %1$s</string>
     <string name="household_log_item_deleted">アイテムを削除しました: %1$s</string>
@@ -104,66 +115,66 @@
     <string name="household_log_location_created">場所を追加しました: %1$s</string>
     <string name="household_log_location_renamed">場所の名前を変更しました: %1$s</string>
     <string name="household_log_location_deleted">場所を削除しました: %1$s</string>
-    <string name="agent_tool_add_household_item_title">家庭用品を追加</string>
-    <string name="agent_tool_add_household_item_summary">保管場所とともに家庭用品を記録します</string>
-    <string name="agent_tool_add_household_item_description">家庭用品を記録: 名前、保管場所のパス（存在しない場合はレベルごとに自動作成）、任意のカテゴリ、有効期限、メモ。</string>
-    <string name="agent_tool_add_household_item_param_name">アイテム名、例: 「風邪薬」</string>
-    <string name="agent_tool_add_household_item_param_location_path">保管場所のパス。セグメントは「/」または「&gt;」で区切ります。例: 「寝室/ワードローブ/上段引き出し」。存在しない場合は自動的に作成されます</string>
-    <string name="agent_tool_add_household_item_param_category">カテゴリ（自由記述）、例: 医薬品 / 小物 / 大型品</string>
-    <string name="agent_tool_add_household_item_param_expire_date">有効期限（yyyy-MM-dd、任意）</string>
+    <string name="agent_tool_add_household_item_title">家財アイテムを追加</string>
+    <string name="agent_tool_add_household_item_summary">家財アイテムを保管場所とともに記録</string>
+    <string name="agent_tool_add_household_item_description">家財アイテムを記録: 名前、保管場所のパス（存在しない場合は階層ごとに自動作成）、任意のカテゴリ、賞味期限、メモ。</string>
+    <string name="agent_tool_add_household_item_param_name">アイテム名、例:「風邪薬」</string>
+    <string name="agent_tool_add_household_item_param_location_path">保管場所のパス、セグメントは「/」または「&gt;」で区切る、例:「寝室/ワードローブ/上段引き出し」。存在しない場合は自動作成</string>
+    <string name="agent_tool_add_household_item_param_category">カテゴリ、自由記述、例: 薬 / 小物 / 大物</string>
+    <string name="agent_tool_add_household_item_param_expire_date">有効期限、yyyy-MM-dd、任意</string>
     <string name="agent_tool_add_household_item_param_note">任意のメモ</string>
     <string name="agent_tool_add_household_item_failed">アイテムの追加に失敗しました: %1$s</string>
     <string-array name="agent_tool_add_household_item_keywords">
         <item>家庭</item>
         <item>アイテム</item>
-        <item>保管</item>
+        <item>保管場所</item>
         <item>アイテムを追加</item>
     </string-array>
     <string-array name="agent_tool_add_household_item_examples">
-        <item>風邪薬を寝室の薬箱に記録し、2027年6月に期限切れ</item>
+        <item>寝室の薬箱に風邪薬を記録、2027年6月に期限切れ</item>
         <item>予備の充電器を書斎の机の引き出しに追加</item>
     </string-array>
-    <string name="agent_tool_find_household_item_title">家庭用品を検索</string>
-    <string name="agent_tool_find_household_item_summary">家庭用品の保管場所を探す</string>
-    <string name="agent_tool_find_household_item_description">家庭用品を名前、カテゴリ、メモで曖昧検索します。各一致品の完全な保管場所パス、期限ステータス、メモを返します。</string>
-    <string name="agent_tool_find_household_item_param_query">検索キーワード。名前、カテゴリ、メモと照合されます</string>
-    <string name="agent_tool_find_household_item_empty">一致する品目が見つかりません</string>
-    <string name="agent_tool_find_household_item_failed">品目を見つけられませんでした: %1$s</string>
+    <string name="agent_tool_find_household_item_title">家庭アイテムを検索</string>
+    <string name="agent_tool_find_household_item_summary">家庭アイテムの保管場所を検索</string>
+    <string name="agent_tool_find_household_item_description">名前、カテゴリ、メモで家庭アイテムをあいまい検索します。各一致項目について、完全な保管場所パス、有効期限の状態、メモを返します。</string>
+    <string name="agent_tool_find_household_item_param_query">検索キーワード。名前、カテゴリ、メモに対して一致します</string>
+    <string name="agent_tool_find_household_item_empty">一致するアイテムが見つかりません</string>
+    <string name="agent_tool_find_household_item_failed">アイテムの検索に失敗しました: %1$s</string>
     <string-array name="agent_tool_find_household_item_keywords">
-        <item>家庭用品</item>
-        <item>探す</item>
-        <item>どこにある</item>
+        <item>家庭</item>
+        <item>検索</item>
+        <item>どこ</item>
         <item>場所</item>
     </string-array>
     <string-array name="agent_tool_find_household_item_examples">
-        <item>風邪薬はどこにありますか？</item>
-        <item>予備の充電器を探す</item>
+        <item>風邪薬はどこですか？</item>
+        <item>予備の充電器を検索</item>
     </string-array>
-    <string name="agent_tool_move_household_item_title">家庭用品を移動</string>
-    <string name="agent_tool_move_household_item_summary">家庭用品の保管場所を変更する</string>
-    <string name="agent_tool_move_household_item_description">家庭用品を新しい保管場所パスに移動します。品目は曖昧な名前で特定され、場所パスは不足している場合はレベルごとに作成されます。</string>
-    <string name="agent_tool_move_household_item_param_name">品目名（曖昧一致）</string>
+    <string name="agent_tool_move_household_item_title">家庭アイテムを移動</string>
+    <string name="agent_tool_move_household_item_summary">家庭アイテムの保管場所を変更</string>
+    <string name="agent_tool_move_household_item_description">家庭アイテムを新しい保管場所パスに移動します。アイテムはあいまいな名前で特定され、保管場所パスが存在しない場合はレベルごとに作成されます。</string>
+    <string name="agent_tool_move_household_item_param_name">アイテム名、あいまい一致</string>
     <string name="agent_tool_move_household_item_param_location_path">新しい保管場所パス。セグメントは「/」または「&gt;」で区切ります</string>
-    <string name="agent_tool_move_household_item_not_found">品目が見つかりません: %1$s</string>
-    <string name="agent_tool_move_household_item_failed">品目の移動に失敗しました: %1$s</string>
+    <string name="agent_tool_move_household_item_not_found">アイテムが見つかりません: %1$s</string>
+    <string name="agent_tool_move_household_item_failed">アイテムの移動に失敗しました: %1$s</string>
     <string-array name="agent_tool_move_household_item_keywords">
-        <item>家庭用品</item>
+        <item>家庭</item>
         <item>移動</item>
-        <item>移す</item>
+        <item>移動</item>
     </string-array>
     <string-array name="agent_tool_move_household_item_examples">
-        <item>風邪薬をリビングの引き出しに移動</item>
+        <item>風邪薬をリビングの引き出しに移動する</item>
     </string-array>
     <string name="agent_tool_household_label_name">名前</string>
     <string name="agent_tool_household_label_location">場所</string>
     <string name="agent_tool_household_label_category">カテゴリ</string>
-    <string name="agent_tool_household_label_expiry">期限</string>
+    <string name="agent_tool_household_label_expiry">有効期限</string>
     <string name="agent_tool_household_label_note">メモ</string>
     <string name="agent_tool_household_expiry_expired">%1$d日前に期限切れ</string>
     <string name="agent_tool_household_expiry_days_left">残り%1$d日</string>
-    <string name="agent_tool_household_expiry_today">今日期限切れ</string>
+    <string name="agent_tool_household_expiry_today">今日が期限</string>
     <string name="agent_tool_household_expiry_none">有効期限なし</string>
-    <string name="agent_tool_household_open_link">家庭用品を開く</string>
+    <string name="agent_tool_household_open_link">生活用品を開く</string>
     <string name="agent_tool_household_edit_link">アイテムを表示</string>
     <string name="agent_tool_household_unknown_error">不明なエラー</string>
 </resources>
