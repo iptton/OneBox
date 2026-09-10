@@ -11,6 +11,7 @@ dependencies {
     api(projects.core.base)
     api(projects.core.model)
     api(projects.core.theme)
+    api(projects.core.storage)
     api(projects.core.database)
     api(projects.feature.common)
     implementation(projects.core.network)

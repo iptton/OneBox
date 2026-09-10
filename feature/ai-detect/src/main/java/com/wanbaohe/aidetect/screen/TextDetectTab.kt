@@ -25,9 +25,12 @@ import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
 import com.wanbaohe.aidetect.R
 import com.wanbaohe.aidetect.component.AiDetectComponent
 
-/** 文本检测 tab:多行输入框 + 检测按钮 + 结果卡片 */
+/** 文本检测 tab:多行输入框 + 检测按钮 + 结果卡片;[showDetectButton] 为 false 时检测按钮由底部栏提供 */
 @Composable
-fun TextDetectTab(component: AiDetectComponent) {
+fun TextDetectTab(
+    component: AiDetectComponent,
+    showDetectButton: Boolean = true,
+) {
     val state by component.textState.collectAsState()
 
     Column(
@@ -68,12 +71,14 @@ fun TextDetectTab(component: AiDetectComponent) {
                 }
             }
 
-            GlassButton(
-                onClick = component::detectText,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = state.input.isNotBlank() && !state.isDetecting,
-            ) {
-                Text(stringResource(R.string.ai_detect_button))
+            if (showDetectButton) {
+                GlassButton(
+                    onClick = component::detectText,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = state.input.isNotBlank() && !state.isDetecting,
+                ) {
+                    Text(stringResource(R.string.ai_detect_button))
+                }
             }
         } else {
             DetectResultCard(

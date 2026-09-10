@@ -2,8 +2,16 @@ package com.wanbaohe.aidetect.component
 
 import android.net.Uri
 import com.arkivanov.decompose.ComponentContext
+import com.shifenmiao.base.utils.ActionUtils
+import com.shifenmiao.common.utils.BaseUtils
+import com.shifenmiao.core.R
 import com.shifenmiao.database.aidetect.entity.AiDetectRecordEntity
 import com.shifenmiao.model.aidetect.AiDetectSegmentLabel
+import com.shifenmiao.model.ai.event.MainClickEvent
+import com.shifenmiao.model.ai.event.MainClickEventFrom
+import com.shifenmiao.model.ai.event.MainShowType
+import com.shifenmiao.model.event.AppEventBus
+import com.shifenmiao.storage.TokenStorage
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -109,7 +117,10 @@ class AiDetectComponent @AssistedInject internal constructor(
     fun detectText() {
         val input = _textState.value.input.trim()
         if (input.isEmpty() || _textState.value.isDetecting) return
+        withAiGate { doDetectText(input) }
+    }
 
+    private fun doDetectText(input: String) {
         _textState.update { it.copy(isDetecting = true) }
         componentScope.launch {
             service.detectText(input)
@@ -117,6 +128,7 @@ class AiDetectComponent @AssistedInject internal constructor(
                     _textState.update {
                         it.copy(isDetecting = false, result = result, isDetailExpanded = false)
                     }
+                    chargePoints(DETECT_DESC_TEXT)
                 }
                 .onFailure { error ->
                     _textState.update { it.copy(isDetecting = false) }
@@ -144,7 +156,10 @@ class AiDetectComponent @AssistedInject internal constructor(
     fun detectImage() {
         val uri = _imageState.value.selectedUri ?: return
         if (_imageState.value.isDetecting) return
+        withAiGate { doDetectImage(uri) }
+    }
 
+    private fun doDetectImage(uri: Uri) {
         _imageState.update { it.copy(isDetecting = true) }
         componentScope.launch {
             service.detectImage(uri)
@@ -152,6 +167,7 @@ class AiDetectComponent @AssistedInject internal constructor(
                     _imageState.update {
                         it.copy(isDetecting = false, result = result, isDetailExpanded = false)
                     }
+                    chargePoints(DETECT_DESC_IMAGE)
                 }
                 .onFailure { error ->
                     _imageState.update { it.copy(isDetecting = false) }
@@ -166,6 +182,44 @@ class AiDetectComponent @AssistedInject internal constructor(
 
     fun toggleImageDetail() {
         _imageState.update { it.copy(isDetailExpanded = !it.isDetailExpanded) }
+    }
+
+    // ── 登录与积分门控 ─────────────────────────────────────────────────────
+
+    /**
+     * AI 功能登录与积分规范(见 onebox-doc/AGENTS.md「AI 功能登录与积分规范」):
+     * 检测前登录门控 + 积分预估闸门, 未登录先弹登录(成功后重试检测),
+     * 积分不足 toast + 弹购买面板, 不发起请求。
+     */
+    private fun withAiGate(action: () -> Unit) {
+        if (!TokenStorage.isLogin()) {
+            ActionUtils.showLogin(source = AI_DETECT_SOURCE) { withAiGate(action) }
+            return
+        }
+        ActionUtils.checkPointsAndDo(
+            point = DETECT_POINTS,
+            onFailure = {
+                ActionUtils.showToast(R.string.no_points)
+                AppEventBus.emit(
+                    MainClickEvent(
+                        from = MainClickEventFrom.AI_DETECT,
+                        type = MainShowType.BUY_COFFEE,
+                    )
+                )
+            },
+            onSuccess = action,
+        )
+    }
+
+    /** 检测成功后扣减固定积分; 扣减失败静默(与其他一次性 AI 功能一致) */
+    private fun chargePoints(desc: String) {
+        runCatching {
+            BaseUtils.consumePoints(
+                degree = DETECT_POINTS,
+                desc = desc,
+                source = AI_DETECT_SOURCE,
+            )
+        }
     }
 
     // ── 历史 ─────────────────────────────────────────────────────────────
@@ -209,6 +263,14 @@ class AiDetectComponent @AssistedInject internal constructor(
 
     private fun Throwable.toDetectError(): AiDetectError =
         (this as? AiDetectException)?.error ?: AiDetectError.NETWORK
+
+    private companion object {
+        /** 单次检测固定扣减积分 */
+        const val DETECT_POINTS = 50
+        const val AI_DETECT_SOURCE = "AiDetect"
+        const val DETECT_DESC_TEXT = "AI文本检测"
+        const val DETECT_DESC_IMAGE = "AI图片检测"
+    }
 
     @AssistedFactory
     fun interface Factory {

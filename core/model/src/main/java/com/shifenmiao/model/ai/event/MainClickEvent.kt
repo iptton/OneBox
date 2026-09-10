@@ -20,4 +20,5 @@ enum class MainClickEventFrom(val value: String) {
     OCR_TASK_LIST("OcrTaskList"),
     POEM("Poem"),
     ICHING("IChing"),
+    AI_DETECT("AiDetect"),
 }

@@ -9,8 +9,13 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,12 +28,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.shifenmiao.common.ui.BaseScreen
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDescription
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineHistory
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineImageSearch
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineManageSearch
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassButton
 import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavItem
 import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavigationBar
 import com.wanbaohe.aidetect.R
@@ -72,7 +80,8 @@ fun AiDetectScreen(component: AiDetectComponent) {
 
 /**
  * 图片检测开关: 上游(腾讯 EdgeOne Makers 内置模型)免费档仅支持文本检测,
- * 图片检测需企业版专属方案, 未开通前隐藏图片 tab; 开通后置 true 即可恢复。
+ * 图片检测需企业版专属方案, 未开通前隐藏图片 tab, 底部 tab 栏替换为固定的开始检测按钮;
+ * 开通后置 true 即可恢复。
  * AgentTool detect_ai_image 不受影响(上游未开通时会透传 403 错误)。
  */
 private const val IS_IMAGE_DETECT_ENABLED = false
@@ -124,17 +133,49 @@ private fun AiDetectMainContent(component: AiDetectComponent) {
                     label = "ai_detect_tab_switch",
                 ) { tab ->
                     when (tab) {
-                        Screen.AiDetect.Type.TextDetect -> TextDetectTab(component)
+                        Screen.AiDetect.Type.TextDetect -> TextDetectTab(
+                            component = component,
+                            showDetectButton = IS_IMAGE_DETECT_ENABLED,
+                        )
+
                         Screen.AiDetect.Type.ImageDetect -> ImageDetectTab(component)
                     }
                 }
             }
 
-            AiDetectBottomBar(
-                currentTab = effectiveTab,
-                onSwitch = component::switchTo,
-            )
+            if (IS_IMAGE_DETECT_ENABLED) {
+                AiDetectBottomBar(
+                    currentTab = effectiveTab,
+                    onSwitch = component::switchTo,
+                )
+            } else {
+                AiDetectBottomDetectBar(component)
+            }
         }
+    }
+}
+
+/** 图片检测未开放时的底部栏: 固定的开始检测按钮(结果页不显示, 结果卡片自带重新检测) */
+@Composable
+private fun AiDetectBottomDetectBar(component: AiDetectComponent) {
+    val state by component.textState.collectAsState()
+    if (state.result != null) return
+
+    GlassButton(
+        onClick = component::detectText,
+        modifier = Modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .padding(16.dp),
+        enabled = state.input.isNotBlank() && !state.isDetecting,
+    ) {
+        Icon(
+            imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineManageSearch,
+            contentDescription = null,
+            modifier = Modifier.size(18.dp),
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(stringResource(R.string.ai_detect_button))
     }
 }
 
