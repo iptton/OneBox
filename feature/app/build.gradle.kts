@@ -84,6 +84,7 @@ dependencies {
     implementation(projects.feature.recordCenter)
     implementation(projects.feature.habitTracker)
     implementation(projects.feature.householdItems)
+    implementation(projects.feature.period)
     implementation(projects.feature.loanCalculator)
     implementation(projects.feature.lifetime)
     implementation(projects.feature.cameraWatermark)

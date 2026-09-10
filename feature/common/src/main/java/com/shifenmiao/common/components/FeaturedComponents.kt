@@ -39,6 +39,7 @@ import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStyle
 import com.t8rin.imagetoolbox.core.ui.widget.glass.glassBackground
+import com.t8rin.imagetoolbox.core.ui.widget.glass.tintedGlassContentColor
 import com.wanbaohe.com.string.TimeFormatter
 import com.t8rin.imagetoolbox.core.resources.icons.Edit
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
@@ -85,7 +86,10 @@ fun FeaturedCard(
     val theme = sectionThemeForIndex(effectiveIndex)
     val containerColor = sectionGradient(theme)
     val iconTint = sectionIconColor(theme)
-    val contentColor = sectionOnColor(theme)
+    // 玻璃管线会把 container 以低 alpha 混合页面底色(并叠高光),onPrimaryContainer 等
+    // 成对 onColor 只保证与不透明 container 的对比度,在部分主题/暗色/低对比度设置下会失效;
+    // 内容色改按混合后的有效底色自动选深/浅,保证任意主题切换下可读
+    val contentColor = tintedGlassContentColor(containerColor)
     val iconBgColor = sectionIconContainerColor(theme)
 
     GlassCard(

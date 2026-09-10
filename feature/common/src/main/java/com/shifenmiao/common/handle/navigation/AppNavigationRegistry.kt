@@ -276,6 +276,45 @@ object AppNavigationRegistry {
             ),
             AppNavigationTarget(
                 targetType = AppNavigationTargetType.SCREEN,
+                routeKey = Screen.Period().routeKey,
+                canonicalName = "screen.${Screen.Period().routeKey}",
+                title = "经期记录",
+                description = "打开经期记录模块，支持列表、统计、新增、编辑与详情",
+                aliases = listOf("period", "period_tracker", "menstruation", "cycle", "经期", "经期记录", "月经", "例假"),
+                deeplink = buildStructuredDeeplink(
+                    AppNavigationTargetType.SCREEN,
+                    Screen.Period().routeKey,
+                ),
+                screenBuilder = { params ->
+                    val type = params["type"].orEmpty()
+                    val recordId = params["record_id"]
+                        ?: params["recordId"]
+
+                    when {
+                        type.equals("add", ignoreCase = true) -> {
+                            Screen.Period(Screen.Period.Type.Add)
+                        }
+
+                        type.equals("edit", ignoreCase = true) &&
+                            !recordId.isNullOrBlank() -> {
+                            Screen.Period(Screen.Period.Type.Edit(recordId))
+                        }
+
+                        type.equals("detail", ignoreCase = true) &&
+                            !recordId.isNullOrBlank() -> {
+                            Screen.Period(Screen.Period.Type.Detail(recordId))
+                        }
+
+                        type.equals("stats", ignoreCase = true) -> {
+                            Screen.Period(Screen.Period.Type.Stats)
+                        }
+
+                        else -> Screen.Period()
+                    }
+                }
+            ),
+            AppNavigationTarget(
+                targetType = AppNavigationTargetType.SCREEN,
                 routeKey = "xiangqi_router",
                 canonicalName = "screen.xiangqi_router",
                 title = "象棋",

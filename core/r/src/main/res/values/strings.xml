@@ -1057,6 +1057,8 @@ Hint: If you choose "Hide Forever", you can bring me back later in Settings > Di
     <string name="bookkeeping_description">Track daily income and expenses with categorized summaries.</string>
     <string name="household_items">Item Manager</string>
     <string name="household_items_description">Remember where things are stored at home, with expiry dates and notes.</string>
+    <string name="period">Period Tracker</string>
+    <string name="period_description">Track menstrual cycles, symptoms and predictions.</string>
     <string name="record_center">Health Records</string>
     <string name="record_center_description">Track blood pressure, weight and more in one place.</string>
     <string name="habit_tracker">Habit Tracker</string>

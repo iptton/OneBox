@@ -1647,6 +1647,39 @@ sealed class Screen(
     }
 
     @Serializable
+    @SerialName("Period")
+    data class Period(
+        val type: Type? = null
+    ) : Screen(
+        id = 1102,
+        title = com.shifenmiao.core.R.string.period,
+        subtitle = com.shifenmiao.core.R.string.period_description,
+    ) {
+        @Serializable
+        sealed class Type {
+            @Serializable
+            @SerialName("PeriodAdd")
+            data object Add : Type()
+
+            @Serializable
+            @SerialName("PeriodEdit")
+            data class Edit(
+                val recordId: String,
+            ) : Type()
+
+            @Serializable
+            @SerialName("PeriodDetail")
+            data class Detail(
+                val recordId: String,
+            ) : Type()
+
+            @Serializable
+            @SerialName("PeriodStats")
+            data object Stats : Type()
+        }
+    }
+
+    @Serializable
     @SerialName("RecordCenter")
     data class RecordCenter(
         val type: Type? = null

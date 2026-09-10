@@ -593,6 +593,54 @@ class ActivityLogRecorder @Inject constructor(
         )
     }
 
+    /**
+     * 经期记录审计日志。
+     *
+     * @param entityId      记录 ID
+     * @param entityType    "PeriodRecord"
+     * @param actorType     USER / AGENT / SYSTEM
+     * @param actionType    CREATE / UPDATE / DELETE
+     * @param source        触发源（UI 路径 / AgentTool 名）
+     * @param title         标题
+     * @param description   详细描述（日期摘要等）
+     * @param appTitle      来源功能名（由调用方提供本地化文案）
+     * @param snapshot      实体 JSON 快照（可选）
+     */
+    suspend fun recordPeriod(
+        entityId: String,
+        entityType: String,
+        actorType: String,
+        actionType: String,
+        source: String,
+        title: String,
+        description: String,
+        appTitle: String,
+        snapshot: String? = null,
+        timestamp: Date = Date()
+    ) {
+        val payload = JSONObject().apply {
+            put("entityId", entityId)
+            put("entityType", entityType)
+            put("actorType", actorType)
+            put("actionType", actionType)
+            put("source", source)
+            if (snapshot != null) put("snapshot", snapshot)
+        }.toString()
+
+        repository.record(
+            ActivityLogEntry(
+                category = ActivityCategory.PERIOD,
+                title = title,
+                appTitle = appTitle,
+                description = description.ifEmpty { title },
+                screenRoute = "",
+                payload = payload,
+                dedupKey = "period_${timestamp.time}_${java.util.UUID.randomUUID()}",
+                createdAt = timestamp
+            )
+        )
+    }
+
     // ── 通用记录 ────────────────────────────────────
     /**
      * 通用记录方法 — 当上面没有覆盖到的类型时使用。

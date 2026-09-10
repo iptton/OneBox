@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="period_title">Period Tracker</string>
+    <string name="period_stats_title">Cycle Stats</string>
+    <string name="period_detail_title">Record Detail</string>
+    <string name="period_add_title">New Record</string>
+    <string name="period_edit_title">Edit Record</string>
+    <string name="period_tab_records">Records</string>
+    <string name="period_tab_stats">Data</string>
+    <string name="period_search">Search</string>
+    <string name="period_search_hint">Search notes or symptoms</string>
+    <string name="period_filter_period">Period only</string>
+    <string name="period_add">Add</string>
+    <string name="period_save">Save</string>
+    <string name="period_cancel">Cancel</string>
+    <string name="period_delete">Delete</string>
+    <string name="period_yes">Yes</string>
+    <string name="period_no">No</string>
+    <string name="period_loading">Loading…</string>
+    <string name="period_saved">Saved</string>
+    <string name="period_record_added">Record added</string>
+    <string name="period_deleted">Record deleted</string>
+    <string name="period_save_failed">Save failed</string>
+    <string name="period_toast_recorded">Period recorded</string>
+
+    <string name="period_empty_title">No records yet</string>
+    <string name="period_empty_subtitle">Tell AI how you feel and generate a record in one tap</string>
+    <string name="period_ai_quick_record">AI Quick Record</string>
+    <string name="period_manual_record">Manual Record</string>
+    <string name="period_empty_example">e.g. "My period started yesterday, mild cramps"</string>
+    <string name="period_ai_assist_title">Period Tracker Assistant</string>
+    <string name="period_ai_assist_prompt">You are the user\'s period tracker assistant. When the user describes period status, flow, symptoms or mood, record it with add_period_record (use yyyy-MM-dd for date). When the user asks about cycle length, next period or stats, use query_period_records. To correct a record, use update_period_record. To remove one, use delete_period_record. Confirm each action briefly after recording.</string>
+
+    <string name="period_record_count">%1$d records</string>
+    <string name="period_month_group_pattern">MMMM yyyy</string>
+    <string name="period_short_date_pattern">MMM d</string>
+    <string name="period_note_counter">%1$d/%2$d</string>
+    <string name="period_symptoms_multi_hint"> (multi-select)</string>
+    <string name="period_cycle_day">Cycle day %1$d</string>
+    <string name="period_cycle_day_unknown">Cycle day —</string>
+    <string name="period_status_period">Period</string>
+    <string name="period_status_ovulation">Ovulation</string>
+    <string name="period_status_normal">Normal</string>
+    <string name="period_status_start">Start</string>
+    <string name="period_status_end">End</string>
+
+    <string name="period_field_date">Date</string>
+    <string name="period_field_status">Period status</string>
+    <string name="period_field_is_start">Period start</string>
+    <string name="period_field_is_end">Period end</string>
+    <string name="period_field_flow">Flow</string>
+    <string name="period_field_symptoms">Symptoms</string>
+    <string name="period_field_mood">Mood</string>
+    <string name="period_field_note">Note</string>
+    <string name="period_note_hint">Optional note</string>
+    <string name="period_delete_record">Delete record</string>
+    <string name="period_delete_confirm_title">Delete this record?</string>
+    <string name="period_delete_confirm_message">This cannot be undone.</string>
+
+    <string name="period_flow_none">None</string>
+    <string name="period_flow_light">Light</string>
+    <string name="period_flow_medium">Medium</string>
+    <string name="period_flow_heavy">Heavy</string>
+
+    <string name="period_mood_very_happy">Great</string>
+    <string name="period_mood_happy">Good</string>
+    <string name="period_mood_normal">Okay</string>
+    <string name="period_mood_sad">Low</string>
+    <string name="period_mood_very_sad">Bad</string>
+
+    <string name="period_symptom_abdominal_pain">Cramps</string>
+    <string name="period_symptom_headache">Headache</string>
+    <string name="period_symptom_back_pain">Back pain</string>
+    <string name="period_symptom_mood_swings">Mood swings</string>
+    <string name="period_symptom_breast_tenderness">Breast tenderness</string>
+    <string name="period_symptom_fatigue">Fatigue</string>
+    <string name="period_symptom_nausea">Nausea</string>
+    <string name="period_symptom_insomnia">Insomnia</string>
+    <string name="period_symptom_appetite_change">Appetite change</string>
+    <string name="period_symptom_acne">Acne</string>
+    <string name="period_symptom_edema">Bloating</string>
+
+    <string name="period_stats_range_6m">Last 6 months</string>
+    <string name="period_stats_range_day">Day</string>
+    <string name="period_stats_range_week">Week</string>
+    <string name="period_stats_range_month">Month</string>
+    <string name="period_stats_avg_cycle">Avg cycle</string>
+    <string name="period_stats_avg_period">Avg period</string>
+    <string name="period_stats_next">Next period</string>
+    <string name="period_stats_vs_prev">vs last %1$+d d</string>
+    <string name="period_stats_vs_prev_na">—</string>
+    <string name="period_stats_trend_title">Cycle length trend</string>
+    <string name="period_stats_trend_empty">Need at least two cycle starts</string>
+    <string name="period_stats_symptom_title">Symptom distribution</string>
+    <string name="period_stats_symptom_empty">No symptom data yet</string>
+    <string name="period_stats_symptom_center">Total</string>
+    <string name="period_day_unit">d</string>
+    <string name="period_month_unit">M</string>
+
+    <string name="period_next_label">Next period</string>
+    <string name="period_days_until">In %1$d days</string>
+    <string name="period_timeline_title">Timeline</string>
+    <string name="period_timeline_start">Period start</string>
+    <string name="period_timeline_end">Expected period end</string>
+
+    <string name="period_log_record_created">Period record created</string>
+    <string name="period_log_record_updated">Period record updated</string>
+    <string name="period_log_record_deleted">Period record deleted</string>
+
+    <!-- Agent tools -->
+    <string name="agent_tool_add_period_record_title">Add period record</string>
+    <string name="agent_tool_add_period_record_summary">Record period start/end, flow, symptoms and mood</string>
+    <string name="agent_tool_add_period_record_description">Record a period entry: date (yyyy-MM-dd), optional is_period_start / is_period_end, flow_intensity (NONE/LIGHT/MEDIUM/HEAVY), symptoms array, mood (VERY_HAPPY/HAPPY/NORMAL/SAD/VERY_SAD) and note.</string>
+    <string name="agent_tool_add_period_record_failed">Failed to add period record: %1$s</string>
+    <string name="agent_tool_query_period_records_title">Query period records</string>
+    <string name="agent_tool_query_period_records_summary">Query records, cycle stats and next period prediction</string>
+    <string name="agent_tool_query_period_records_description">Query recent period records plus average cycle, average period length and next predicted start. Optional limit.</string>
+    <string name="agent_tool_query_period_records_empty">No period records yet.</string>
+    <string name="agent_tool_query_period_records_failed">Failed to query period records: %1$s</string>
+    <string name="agent_tool_update_period_record_title">Update period record</string>
+    <string name="agent_tool_update_period_record_summary">Update an existing period record by record_id</string>
+    <string name="agent_tool_update_period_record_description">Update a period record. Provide record_id and any fields to change (date, is_period_start, is_period_end, flow_intensity, symptoms, mood, note).</string>
+    <string name="agent_tool_update_period_record_failed">Failed to update period record: %1$s</string>
+    <string name="agent_tool_delete_period_record_title">Delete period record</string>
+    <string name="agent_tool_delete_period_record_summary">Delete a period record by record_id</string>
+    <string name="agent_tool_delete_period_record_description">Delete a period record permanently. Requires record_id and user confirmation.</string>
+    <string name="agent_tool_delete_period_record_done">Deleted period record %1$s</string>
+    <string name="agent_tool_delete_period_record_failed">Failed to delete period record: %1$s</string>
+
+    <string name="agent_tool_period_param_date">Record date, yyyy-MM-dd</string>
+    <string name="agent_tool_period_param_is_start">Whether this day is the period start</string>
+    <string name="agent_tool_period_param_is_end">Whether this day is the period end</string>
+    <string name="agent_tool_period_param_flow">Flow intensity: NONE, LIGHT, MEDIUM or HEAVY</string>
+    <string name="agent_tool_period_param_symptoms">Symptoms array, e.g. ABDOMINAL_PAIN, HEADACHE, FATIGUE</string>
+    <string name="agent_tool_period_param_mood">Mood: VERY_HAPPY, HAPPY, NORMAL, SAD or VERY_SAD</string>
+    <string name="agent_tool_period_param_note">Optional note</string>
+    <string name="agent_tool_period_param_record_id">Period record id</string>
+    <string name="agent_tool_period_param_limit">Max records to return (1-50)</string>
+    <string name="agent_tool_period_label_date">Date</string>
+    <string name="agent_tool_period_label_flow">Flow</string>
+    <string name="agent_tool_period_label_symptoms">Symptoms</string>
+    <string name="agent_tool_period_open_link">Open period tracker</string>
+    <string name="agent_tool_period_detail_link">Open record detail</string>
+    <string name="agent_tool_period_no_next">Not enough data</string>
+    <string name="agent_tool_period_unknown_error">Unknown error</string>
+
+    <string-array name="agent_tool_add_period_record_keywords">
+        <item>period</item>
+        <item>menstruation</item>
+        <item>cycle</item>
+        <item>经期</item>
+        <item>月经</item>
+        <item>例假</item>
+    </string-array>
+    <string-array name="agent_tool_add_period_record_examples">
+        <item>I started my period today with mild cramps</item>
+        <item>帮我记一下今天来月经了，流量中等</item>
+    </string-array>
+    <string-array name="agent_tool_query_period_records_keywords">
+        <item>cycle</item>
+        <item>next period</item>
+        <item>周期</item>
+        <item>预测</item>
+    </string-array>
+    <string-array name="agent_tool_query_period_records_examples">
+        <item>When is my next period?</item>
+        <item>我周期准不准？</item>
+    </string-array>
+    <string-array name="agent_tool_update_period_record_keywords">
+        <item>update period</item>
+        <item>修改经期记录</item>
+    </string-array>
+    <string-array name="agent_tool_update_period_record_examples">
+        <item>Update yesterday\'s record to heavy flow</item>
+        <item>把昨天的记录流量改成重</item>
+    </string-array>
+    <string-array name="agent_tool_delete_period_record_keywords">
+        <item>delete period</item>
+        <item>删除经期记录</item>
+    </string-array>
+    <string-array name="agent_tool_delete_period_record_examples">
+        <item>Delete the period record from yesterday</item>
+        <item>删掉昨天那条经期记录</item>
+    </string-array>
+</resources>

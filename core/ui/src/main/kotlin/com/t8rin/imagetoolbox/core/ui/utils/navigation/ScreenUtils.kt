@@ -83,6 +83,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineDocumentScanner
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDoorFront
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDraw
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineEditExif
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineFavorite
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFileBrowser
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFileTransfer
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFilters
@@ -337,6 +338,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is Screen.DeadPixelTest -> "DeadPixelTest"
     is Screen.Bookkeeping -> "Bookkeeping"
     is Screen.HouseholdItems -> "HouseholdItems"
+    is Screen.Period -> "Period"
     is Screen.HabitTracker -> "HabitTracker"
     is Screen.DiceRoller -> "DiceRoller"
     is Screen.IChingDivination -> "IChingDivination"
@@ -460,6 +462,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.DocConvertDocument -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFormatConversion
     is Screen.Bookkeeping -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBookkeeping
     is Screen.HouseholdItems -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDrawerCabinet
+    is Screen.Period -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite
     is Screen.HabitTracker -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCheckCircleOutline
     is Screen.Teleprompter -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTeleprompter
     is Screen.AiDetect -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineManageSearch
@@ -706,6 +709,7 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     Screen.Schedule(),
                     Screen.Bookkeeping(),
                     Screen.HouseholdItems(),
+                    Screen.Period(),
                     Screen.HabitTracker(),
                     Screen.LifeTime,
                     Screen.MarkdownEditor(),

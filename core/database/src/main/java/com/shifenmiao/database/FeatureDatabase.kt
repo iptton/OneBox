@@ -54,6 +54,8 @@ import com.shifenmiao.database.marktodo.entity.MarkTodoCategoryEntity
 import com.shifenmiao.database.marktodo.entity.MarkTodoTaskEntity
 import com.shifenmiao.database.ocr.dao.PaddleOcrTaskDao
 import com.shifenmiao.database.ocr.entity.PaddleOcrTaskEntity
+import com.shifenmiao.database.period.dao.PeriodRecordDao
+import com.shifenmiao.database.period.entity.PeriodRecordEntity
 import com.shifenmiao.database.poem.dao.PoemDao
 import com.shifenmiao.database.poem.entity.PoemEntity
 import com.shifenmiao.database.recent_access.dao.RecentAccessDao
@@ -136,8 +138,9 @@ import java.io.InputStreamReader
         HealthRecordEntity::class,
         HouseholdLocationEntity::class,
         HouseholdItemEntity::class,
+        PeriodRecordEntity::class,
     ],
-    version = 8,
+    version = 9,
     exportSchema = true
 )
 @TypeConverters(MarkTodoTypeConverters::class)
@@ -215,6 +218,8 @@ abstract class FeatureDatabase : RoomDatabase() {
     abstract fun householdLocationDao(): HouseholdLocationDao
 
     abstract fun householdItemDao(): HouseholdItemDao
+
+    abstract fun periodRecordDao(): PeriodRecordDao
 
     companion object {
         private val MIGRATION_1_2 = object : androidx.room.migration.Migration(1, 2) {
@@ -417,6 +422,31 @@ abstract class FeatureDatabase : RoomDatabase() {
             }
         }
 
+        // 经期记录表
+        private val MIGRATION_8_9 = object : androidx.room.migration.Migration(8, 9) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS `period_record` (
+                        `id` TEXT NOT NULL,
+                        `record_date` INTEGER NOT NULL,
+                        `is_period_start` INTEGER NOT NULL,
+                        `is_period_end` INTEGER NOT NULL,
+                        `flow_intensity` TEXT NOT NULL,
+                        `symptoms` TEXT NOT NULL,
+                        `mood` TEXT NOT NULL,
+                        `note` TEXT,
+                        `created_at` INTEGER NOT NULL,
+                        `updated_at` INTEGER NOT NULL,
+                        PRIMARY KEY(`id`)
+                    )
+                    """.trimIndent()
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_period_record_record_date` ON `period_record` (`record_date`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_period_record_is_period_start` ON `period_record` (`is_period_start`)")
+            }
+        }
+
         const val DB_NAME_PREFIX: String = "feature"
 
         // 语言切换后进程会冷重启（见 LocaleSwitchWatcher），Hilt @Singleton 注入的库实例
@@ -474,6 +504,7 @@ abstract class FeatureDatabase : RoomDatabase() {
                         MIGRATION_5_6,
                         MIGRATION_6_7,
                         MIGRATION_7_8,
+                        MIGRATION_8_9,
                     )
                     .fallbackToDestructiveMigration(true)
                     .addCallback(object : Callback() {

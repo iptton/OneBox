@@ -1118,6 +1118,8 @@
     <string name="bookkeeping_description">每日收支记录与分类统计</string>
     <string name="household_items">物品管理</string>
     <string name="household_items_description">记录物品放在家里什么位置，附保质期和备注</string>
+    <string name="period">经期记录</string>
+    <string name="period_description">记录经期周期、症状与预测</string>
     <string name="record_center">健康记录</string>
     <string name="record_center_description">统一记录和管理血压、体重等健康指标</string>
     <string name="habit_tracker">习惯打卡</string>

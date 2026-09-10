@@ -914,6 +914,7 @@ private fun recordSectionTheme(category: ActivityCategory): SectionTheme = when 
     ActivityCategory.HABIT -> SectionTheme.PRIMARY
     ActivityCategory.POEM -> SectionTheme.SECONDARY
     ActivityCategory.HOUSEHOLD -> SectionTheme.SECONDARY
+    ActivityCategory.PERIOD -> SectionTheme.SECONDARY
     ActivityCategory.OTHER -> SectionTheme.SURFACE
 }
 
@@ -936,6 +937,7 @@ private fun recordCategoryIcon(category: ActivityCategory): ImageVector = when (
     ActivityCategory.HABIT -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCheckCircleOutline
     ActivityCategory.POEM -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBook
     ActivityCategory.HOUSEHOLD -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineStorage
+    ActivityCategory.PERIOD -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite
     ActivityCategory.OTHER -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineHistory
 }
 

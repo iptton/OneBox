@@ -61,6 +61,9 @@ enum class ActivityCategory {
     /** 家庭物品（新增/编辑/删除/移动物品，新增/重命名/删除位置） */
     HOUSEHOLD,
 
+    /** 经期记录（新增/编辑/删除） */
+    PERIOD,
+
     /** 其他 / 通用 */
     OTHER;
 

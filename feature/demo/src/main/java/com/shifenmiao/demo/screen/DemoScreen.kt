@@ -57,6 +57,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineCasino
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCheckCircleOutline
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCloudStorage
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDashboardCustomize
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineFavorite
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFileOpen
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineGrid4x4
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineImportExport
@@ -781,6 +782,7 @@ private fun demoNavigationEntries(): List<DemoNavigationEntry> = listOf(
     DemoNavigationEntry("记账本", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBookkeeping) { Screen.Bookkeeping() },
     DemoNavigationEntry("习惯打卡", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCheckCircleOutline) { Screen.HabitTracker() },
     DemoNavigationEntry("物品管理", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDrawerCabinet) { Screen.HouseholdItems() },
+    DemoNavigationEntry("经期记录", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFavorite) { Screen.Period() },
     DemoNavigationEntry("贷款计算器", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAccountBalance) { Screen.LoanCalculator },
     DemoNavigationEntry("投骰子", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCasino) { Screen.DiceRoller },
     DemoNavigationEntry(getString(R.string.iching_divination_title), com.t8rin.imagetoolbox.core.resources.Icons.Outlined.TaijiBagua) { Screen.IChingDivination() },

@@ -1,0 +1,598 @@
+package com.wanbaohe.period.screen
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import com.shifenmiao.common.ui.BaseScreen
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.icons.Add
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAiChat
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAutoFix
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineBarChart
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineFilterAlt
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineGpsFixed
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineKeyboardArrowDown
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineKeyboardArrowUp
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineWaterDrop
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineWoman
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedButton
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSearchTextField
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSegmentedButtonRow
+import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavItem
+import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavigationBar
+import com.wanbaohe.period.R
+import com.wanbaohe.period.component.PeriodComponent
+import com.wanbaohe.period.model.PeriodColors
+import com.wanbaohe.period.model.PeriodFlow
+import com.wanbaohe.period.model.PeriodMood
+import com.wanbaohe.period.model.PeriodMonthGroup
+import com.wanbaohe.period.model.PeriodRecordUi
+import com.wanbaohe.period.model.PeriodStatsRange
+import com.wanbaohe.period.model.PeriodStatsUi
+import com.wanbaohe.period.model.PeriodTab
+import com.wanbaohe.period.model.periodColors
+import com.wanbaohe.period.screen.component.PeriodMoodFace
+import com.wanbaohe.period.screen.component.PeriodStatCard
+import com.wanbaohe.period.screen.component.PeriodStatusBadge
+import com.wanbaohe.period.screen.component.periodMonthTitle
+import com.wanbaohe.period.screen.component.periodShortDate
+import com.wanbaohe.period.screen.component.periodWeekday
+import com.wanbaohe.period.screen.component.symptomIcon
+import java.time.LocalDate
+import java.time.format.TextStyle
+
+@Composable
+fun PeriodMainScreen(
+    component: PeriodComponent,
+) {
+    val uiState by component.uiState.collectAsState()
+    val colors = periodColors()
+
+    BaseScreen(
+        title = stringResource(
+            if (uiState.selectedTab == PeriodTab.STATS) {
+                R.string.period_stats_title
+            } else {
+                R.string.period_title
+            }
+        ),
+        onGoBack = component.onGoBack,
+        actions = {
+            IconButton(onClick = { component.setFilterPeriodOnly(!uiState.filterPeriodOnly) }) {
+                Icon(
+                    imageVector = Icons.Outlined.LineFilterAlt,
+                    contentDescription = stringResource(R.string.period_filter_period),
+                    tint = if (uiState.filterPeriodOnly) {
+                        colors.accent
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    },
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .padding(end = 12.dp)
+                    .size(34.dp)
+                    .clip(CircleShape)
+                    .background(colors.accent)
+                    .clickable(onClick = component::openAddRecord),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Add,
+                    contentDescription = stringResource(R.string.period_add),
+                    tint = colors.onAccent,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+        },
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            if (uiState.selectedTab == PeriodTab.RECORDS && uiState.records.isNotEmpty()) {
+                GlassSearchTextField(
+                    value = uiState.searchQuery,
+                    onValueChange = component::onSearchQueryChange,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    placeholder = stringResource(R.string.period_search_hint),
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            Box(modifier = Modifier.weight(1f)) {
+                when (uiState.selectedTab) {
+                    PeriodTab.RECORDS -> {
+                        if (uiState.records.isEmpty()) {
+                            PeriodEmptyState(
+                                colors = colors,
+                                onAiAssist = component::navigateToAiAssist,
+                                onManual = component::openAddRecord,
+                            )
+                        } else {
+                            PeriodRecordList(
+                                colors = colors,
+                                groups = uiState.monthGroups,
+                                today = uiState.today,
+                                onRecordClick = component::openDetail,
+                                onToggleCollapse = component::toggleMonthCollapse,
+                            )
+                        }
+                    }
+
+                    PeriodTab.STATS -> {
+                        PeriodStatsContent(
+                            colors = colors,
+                            stats = uiState.stats,
+                            range = uiState.statsRange,
+                            onRangeChange = component::setStatsRange,
+                        )
+                    }
+                }
+            }
+            PeriodBottomTabs(
+                selected = uiState.selectedTab,
+                onSelect = component::switchTab,
+            )
+        }
+    }
+}
+
+// ── 空状态 ─────────────────────────────────────────
+
+@Composable
+private fun PeriodEmptyState(
+    colors: PeriodColors,
+    onAiAssist: () -> Unit,
+    onManual: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(180.dp)
+                .clip(CircleShape)
+                .background(colors.accentSoft),
+            contentAlignment = Alignment.Center,
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(104.dp)
+                    .clip(CircleShape)
+                    .background(colors.accentContainer),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.LineWoman,
+                    contentDescription = null,
+                    tint = colors.accent,
+                    modifier = Modifier.size(52.dp),
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 18.dp, bottom = 18.dp)
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(colors.accent),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.LineAiChat,
+                    contentDescription = null,
+                    tint = colors.onAccent,
+                    modifier = Modifier.size(22.dp),
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = stringResource(R.string.period_empty_title),
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold,
+            color = colors.onSurface,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = stringResource(R.string.period_empty_subtitle),
+            style = MaterialTheme.typography.bodyMedium,
+            color = colors.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+        Button(
+            onClick = onAiAssist,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp),
+            shape = RoundedCornerShape(26.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colors.accent,
+                contentColor = colors.onAccent,
+            ),
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.LineAutoFix,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = stringResource(R.string.period_ai_quick_record),
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        GlassOutlinedButton(
+            onClick = onManual,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp),
+            contentColor = colors.accent,
+        ) {
+            Text(
+                text = stringResource(R.string.period_manual_record),
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = stringResource(R.string.period_empty_example),
+            style = MaterialTheme.typography.bodySmall,
+            color = colors.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+// ── 记录列表 ───────────────────────────────────────
+
+@Composable
+private fun PeriodRecordList(
+    colors: PeriodColors,
+    groups: List<PeriodMonthGroup>,
+    today: LocalDate,
+    onRecordClick: (String) -> Unit,
+    onToggleCollapse: (String) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        groups.forEach { group ->
+            item(key = "header_${group.yearMonth}") {
+                MonthGroupHeader(
+                    colors = colors,
+                    group = group,
+                    onClick = { onToggleCollapse(group.yearMonth.toString()) },
+                )
+            }
+            if (!group.isCollapsed) {
+                items(group.records, key = { it.id }) { record ->
+                    PeriodRecordCard(
+                        colors = colors,
+                        record = record,
+                        isToday = record.recordDate == today,
+                        onClick = { onRecordClick(record.id) },
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MonthGroupHeader(
+    colors: PeriodColors,
+    group: PeriodMonthGroup,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = group.yearMonth.periodMonthTitle(),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
+            color = colors.onSurface,
+            modifier = Modifier.weight(1f),
+        )
+        Text(
+            text = stringResource(R.string.period_record_count, group.records.size),
+            style = MaterialTheme.typography.bodySmall,
+            color = colors.onSurfaceVariant,
+        )
+        Icon(
+            imageVector = if (group.isCollapsed) {
+                Icons.Outlined.LineKeyboardArrowDown
+            } else {
+                Icons.Outlined.LineKeyboardArrowUp
+            },
+            contentDescription = null,
+            tint = colors.onSurfaceVariant,
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .size(20.dp),
+        )
+    }
+}
+
+@Composable
+private fun PeriodRecordCard(
+    colors: PeriodColors,
+    record: PeriodRecordUi,
+    isToday: Boolean,
+    onClick: () -> Unit,
+) {
+    GlassCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+    ) {
+        Row(
+            modifier = Modifier.padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(CircleShape)
+                    .background(if (isToday) colors.accent else colors.accentSoft),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = record.recordDate.dayOfMonth.toString(),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = if (isToday) colors.onAccent else colors.onSurface,
+                    )
+                    Text(
+                        text = record.recordDate.periodWeekday(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = if (isToday) colors.onAccent else colors.onSurfaceVariant,
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = record.cycleDay?.let {
+                        stringResource(R.string.period_cycle_day, it)
+                    } ?: stringResource(R.string.period_cycle_day_unknown),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = colors.onSurface,
+                )
+                Text(
+                    text = record.recordDate.periodShortDate(),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = colors.onSurfaceVariant,
+                )
+            }
+            Column(horizontalAlignment = Alignment.End) {
+                PeriodStatusBadge(status = record.status, colors = colors)
+                Spacer(modifier = Modifier.height(6.dp))
+                RecordIconRow(record = record, colors = colors)
+            }
+        }
+    }
+}
+
+@Composable
+private fun RecordIconRow(
+    record: PeriodRecordUi,
+    colors: PeriodColors,
+) {
+    val tint = MaterialTheme.colorScheme.onSurfaceVariant
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (record.flowIntensity != PeriodFlow.NONE) {
+            Icon(
+                imageVector = Icons.Outlined.LineWaterDrop,
+                contentDescription = null,
+                tint = colors.accent,
+                modifier = Modifier.size(16.dp),
+            )
+        }
+        record.symptoms.take(3).forEach { symptom ->
+            Icon(
+                imageVector = symptomIcon(symptom),
+                contentDescription = null,
+                tint = tint,
+                modifier = Modifier.size(16.dp),
+            )
+        }
+        if (record.mood != PeriodMood.NORMAL) {
+            PeriodMoodFace(
+                mood = record.mood,
+                color = tint,
+                modifier = Modifier.size(16.dp),
+            )
+        }
+    }
+}
+
+// ── 周期统计 ───────────────────────────────────────
+
+@Composable
+private fun PeriodStatsContent(
+    colors: PeriodColors,
+    stats: PeriodStatsUi,
+    range: PeriodStatsRange,
+    onRangeChange: (PeriodStatsRange) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        item {
+            val rangeOptions = listOf(
+                PeriodStatsRange.SIX_MONTHS to stringResource(R.string.period_stats_range_6m),
+                PeriodStatsRange.DAY to stringResource(R.string.period_stats_range_day),
+                PeriodStatsRange.WEEK to stringResource(R.string.period_stats_range_week),
+                PeriodStatsRange.MONTH to stringResource(R.string.period_stats_range_month),
+            )
+            GlassSegmentedButtonRow(
+                options = rangeOptions,
+                selectedOption = rangeOptions.first { it.first == range },
+                onOptionSelected = { onRangeChange(it.first) },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(it.second) },
+                selectedColor = colors.accent,
+                selectedContentColor = colors.onAccent,
+            )
+        }
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                PeriodStatCard(
+                    icon = Icons.Outlined.LineCalendar,
+                    title = stringResource(R.string.period_stats_avg_cycle),
+                    value = "${stats.averageCycleDays}",
+                    unit = stringResource(R.string.period_day_unit),
+                    subtitle = stats.cycleDelta?.let {
+                        stringResource(R.string.period_stats_vs_prev, it)
+                    } ?: stringResource(R.string.period_stats_vs_prev_na),
+                    colors = colors,
+                    modifier = Modifier.weight(1f),
+                )
+                PeriodStatCard(
+                    icon = Icons.Outlined.LineWaterDrop,
+                    title = stringResource(R.string.period_stats_avg_period),
+                    value = "${stats.averagePeriodDays}",
+                    unit = stringResource(R.string.period_day_unit),
+                    subtitle = stats.periodDelta?.let {
+                        stringResource(R.string.period_stats_vs_prev, it)
+                    } ?: stringResource(R.string.period_stats_vs_prev_na),
+                    colors = colors,
+                    modifier = Modifier.weight(1f),
+                )
+                PeriodStatCard(
+                    icon = Icons.Outlined.LineGpsFixed,
+                    title = stringResource(R.string.period_stats_next),
+                    value = stats.nextPeriodStart?.periodShortDate()
+                        ?: stringResource(R.string.period_stats_vs_prev_na),
+                    unit = "",
+                    subtitle = stats.nextPeriodStart?.periodWeekday(TextStyle.FULL)
+                        ?: stringResource(R.string.period_stats_vs_prev_na),
+                    colors = colors,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        }
+        item {
+            GlassCard(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = stringResource(R.string.period_stats_trend_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = colors.onSurface,
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    CycleTrendChart(
+                        points = stats.cycleTrend,
+                        averageDays = stats.averageCycleDays,
+                        colors = colors,
+                    )
+                }
+            }
+        }
+        item {
+            GlassCard(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = stringResource(R.string.period_stats_symptom_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = colors.onSurface,
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    SymptomDonutChart(
+                        counts = stats.symptomCounts,
+                        total = stats.symptomTotal,
+                        colors = colors,
+                    )
+                }
+            }
+        }
+    }
+}
+
+// ── 底部 tab ───────────────────────────────────────
+
+@Composable
+private fun PeriodBottomTabs(
+    selected: PeriodTab,
+    onSelect: (PeriodTab) -> Unit,
+) {
+    val recordsId = "records"
+    val statsId = "stats"
+    BottomNavigationBar(
+        items = listOf(
+            BottomNavItem(
+                id = recordsId,
+                label = stringResource(R.string.period_tab_records),
+                icon = Icons.Outlined.LineCalendar,
+            ),
+            BottomNavItem(
+                id = statsId,
+                label = stringResource(R.string.period_tab_stats),
+                icon = Icons.Outlined.LineBarChart,
+            ),
+        ),
+        selectedItemId = if (selected == PeriodTab.RECORDS) recordsId else statsId,
+        onItemClick = { item ->
+            onSelect(if (item.id == recordsId) PeriodTab.RECORDS else PeriodTab.STATS)
+        },
+    )
+}

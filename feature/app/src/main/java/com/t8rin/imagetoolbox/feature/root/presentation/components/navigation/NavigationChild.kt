@@ -1096,6 +1096,15 @@ sealed interface NavigationChild {
         }
     }
 
+    class Period(
+        private val component: com.wanbaohe.period.router.screenLogic.PeriodRouterComponent
+    ) : NavigationChild {
+        @Composable
+        override fun Content() {
+            com.wanbaohe.period.router.PeriodRouterScreen(component = component)
+        }
+    }
+
     class LifeTime(
         val lifeTimeComponent: LifeTimeComponent
     ) : NavigationChild {

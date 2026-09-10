@@ -42,6 +42,7 @@ object ActivityLogNavigator {
             ActivityCategory.TELEPROMPTER -> resolveTeleprompter(payload)
             ActivityCategory.HABIT -> resolveHabit(payload)
             ActivityCategory.HOUSEHOLD -> Screen.HouseholdItems()
+            ActivityCategory.PERIOD -> Screen.Period()
             ActivityCategory.POEM -> resolvePoem(payload)
             else -> resolveByScreenRoute(entry)
         }

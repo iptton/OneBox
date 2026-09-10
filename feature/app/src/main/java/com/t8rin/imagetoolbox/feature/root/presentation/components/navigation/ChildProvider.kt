@@ -1019,6 +1019,15 @@ class ChildProvider @Inject constructor(
             )
         )
 
+        is Screen.Period -> NavigationChild.Period(
+            lifeFactories.get().periodRouterComponentFactory(
+                componentContext = componentContext,
+                type = config.type,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo,
+            )
+        )
+
         is Screen.LifeTime -> NavigationChild.LifeTime(
             lifeTimeComponent = lifeFactories.get().lifeTimeComponentFactory(
                 componentContext = componentContext,
