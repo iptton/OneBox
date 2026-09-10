@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">OneBox</string>
     <string name="app_copyright">Copyright © 2024 OneBox</string>
@@ -194,7 +194,7 @@
     <string name="open_qq_group">QQグループを開いています。QQがインストールされていることを確認してください。</string>
     <string name="wechat_login">WeChatログイン</string>
     <string name="google_login">Googleログイン</string>
-    <string name="empty_string"></string>
+    <string name="empty_string" />
     <string name="navigate_back">戻る</string>
     <string name="default_user_name">ログイン / 登録</string>
     <string name="login_heading_text">ログイン</string>
@@ -616,7 +616,7 @@
     <string name="profile_invitation_code_hint">8文字の文字列</string>
     <string name="copy_invitation_code_hint">あなたの招待コード:</string>
     <string name="profile_invitation_code_same">自分の招待コードは使用できません。</string>
-    <string name="ai_prompt_suffix"></string>
+    <string name="ai_prompt_suffix" />
     <string name="ai_default_name">AIアシスタント</string>
     <string name="search_in_progress">検索中…</string>
     <string name="need_update_new_version">この機能を使用するには最新バージョンに更新してください。</string>
@@ -1690,4 +1690,4 @@
     <string name="robot_status_waiting_confirmation">確認待ち</string>
     <string name="robot_status_waiting_input">回答待ち</string>
     <string name="robot_status_waiting_llm">返信中</string>
-</resources>
+<string name="household_items">アイテム管理</string></resources>

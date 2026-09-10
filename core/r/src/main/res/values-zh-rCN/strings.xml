@@ -1116,7 +1116,7 @@
     <string name="schedule_description">独立事件域与同步基础设施，为后续 Google 日历接入做准备。</string>
     <string name="bookkeeping">记账本</string>
     <string name="bookkeeping_description">每日收支记录与分类统计</string>
-    <string name="household_items">家庭物品</string>
+    <string name="household_items">物品管理</string>
     <string name="household_items_description">记录物品放在家里什么位置，附保质期和备注</string>
     <string name="record_center">健康记录</string>
     <string name="record_center_description">统一记录和管理血压、体重等健康指标</string>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">OneBox</string>
     <string name="app_copyright">Copyright © 2024 OneBox</string>
@@ -194,7 +194,7 @@
     <string name="open_qq_group">Abrindo grupo QQ. Certifique-se de que o QQ está instalado.</string>
     <string name="wechat_login">Login com WeChat</string>
     <string name="google_login">Login com Google</string>
-    <string name="empty_string"></string>
+    <string name="empty_string" />
     <string name="navigate_back">Voltar</string>
     <string name="default_user_name">Entrar / Registrar</string>
     <string name="login_heading_text">Entrar</string>
@@ -616,7 +616,7 @@
     <string name="profile_invitation_code_hint">String de 8 caracteres</string>
     <string name="copy_invitation_code_hint">Seu código de convite:</string>
     <string name="profile_invitation_code_same">Você não pode usar seu próprio código de convite.</string>
-    <string name="ai_prompt_suffix"></string>
+    <string name="ai_prompt_suffix" />
     <string name="ai_default_name">Assistente de IA</string>
     <string name="search_in_progress">Pesquisando…</string>
     <string name="need_update_new_version">Atualize para a versão mais recente para usar este recurso.</string>
@@ -1690,4 +1690,4 @@ Dica: se escolher \"Ocultar para sempre\", você poderá me trazer de volta depo
     <string name="robot_status_waiting_confirmation">Aguardando confirmação</string>
     <string name="robot_status_waiting_input">Aguardando resposta</string>
     <string name="robot_status_waiting_llm">Respondendo</string>
-</resources>
+<string name="household_items">Gerenciador de Itens</string></resources>

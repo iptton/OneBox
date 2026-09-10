@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="household_title">घरेलू सामान</string>
-    <string name="household_tab_list">सामान</string>
+    <string name="household_title">आइटम मैनेजर</string>
+    <string name="household_tab_list">आइटम</string>
     <string name="household_tab_locations">स्थान</string>
-    <string name="household_tab_stats">आंकड़े</string>
-    <string name="household_empty_guide_title">अभी कोई सामान नहीं</string>
-    <string name="household_empty_guide_message">मैन्युअल रूप से जोड़ें, या AI से रिकॉर्ड करवाएं</string>
+    <string name="household_tab_stats">आँकड़े</string>
+    <string name="household_empty_guide_title">अभी कोई आइटम नहीं</string>
+    <string name="household_empty_guide_message">मैन्युअल रूप से जोड़ें, या AI से रिकॉर्ड करवाएँ</string>
     <string name="household_add_manually">मैन्युअल रूप से जोड़ें</string>
-    <string name="household_add_with_ai">AI से रिकॉर्ड करवाएं</string>
-    <string name="household_ai_assist_title">घरेलू सहायक</string>
-    <string name="household_ai_assist_prompt">आप उपयोगकर्ता के घरेलू सामान सहायक हैं। जब उपयोगकर्ता आपको कोई सामान और उसके भंडारण का स्थान बताए (और वैकल्पिक रूप से उसकी समाप्ति तिथि), तो उसे add_household_item टूल से रिकॉर्ड करें, जैसे \"सर्दी की दवा बेडरूम की दवा के डिब्बे में रखो, जून 2027 में समाप्त होती है\"। जब उपयोगकर्ता पूछे कि कोई चीज़ कहाँ है, तो find_household_item से खोजें। जब उपयोगकर्ता कुछ स्थानांतरित करना चाहे, तो move_household_item का उपयोग करें। रिकॉर्ड करने के बाद प्रत्येक क्रिया की संक्षेप में पुष्टि करें।</string>
+    <string name="household_add_with_ai">AI से रिकॉर्ड करने को कहें</string>
+    <string name="household_ai_assist_title">आइटम मैनेजर सहायक</string>
+    <string name="household_ai_assist_prompt">आप उपयोगकर्ता के घरेलू सामान सहायक हैं। जब उपयोगकर्ता आपको कोई आइटम और उसके भंडारण का स्थान बताए (और वैकल्पिक रूप से उसकी समाप्ति तिथि), तो उसे add_household_item टूल से रिकॉर्ड करें, जैसे \"ठंड की दवा को बेडरूम की दवा के डिब्बे में रखो, जून 2027 में समाप्त होती है\"। जब उपयोगकर्ता पूछे कि कोई चीज़ कहाँ है, तो find_household_item से खोजें। जब उपयोगकर्ता कुछ स्थानांतरित करना चाहे, तो move_household_item का उपयोग करें। रिकॉर्ड करने के बाद प्रत्येक क्रिया की संक्षेप में पुष्टि करें।</string>
     <string name="household_search_hint">नाम, श्रेणी या नोट खोजें</string>
     <string name="household_expired_days">%1$d दिन पहले समाप्त</string>
     <string name="household_days_left">%1$d दिन शेष</string>
     <string name="household_expires_today">आज समाप्त होता है</string>
-    <string name="household_add_item">सामान जोड़ें</string>
+    <string name="household_add_item">आइटम जोड़ें</string>
     <string name="household_manage_locations">स्थान प्रबंधित करें</string>
-    <string name="household_empty_items">अभी कोई सामान नहीं। जोड़ने के लिए + दबाएं।</string>
-    <string name="household_empty_search">कोई मेल खाता सामान नहीं</string>
+    <string name="household_empty_items">अभी कोई आइटम नहीं। जोड़ने के लिए + टैप करें।</string>
+    <string name="household_empty_search">कोई मेल खाता आइटम नहीं</string>
     <string name="household_breadcrumb_home">सभी</string>
     <string name="household_view_list">सूची दृश्य</string>
     <string name="household_view_grid">ग्रिड दृश्य</string>
     <string name="household_uncategorized">अवर्गीकृत</string>
     <string name="household_no_location">कोई स्थान नहीं</string>
-    <string name="household_delete_item">हटाएं</string>
+    <string name="household_delete_item">हटाएँ</string>
     <string name="household_edit_item">संपादित करें</string>
-    <string name="household_editor_add_title">सामान जोड़ें</string>
-    <string name="household_editor_edit_title">सामान संपादित करें</string>
+    <string name="household_editor_add_title">आइटम जोड़ें</string>
+    <string name="household_editor_edit_title">आइटम संपादित करें</string>
     <string name="household_editor_name_label">नाम</string>
-    <string name="household_editor_name_hint">जैसे सर्दी की दवा</string>
+    <string name="household_editor_name_hint">जैसे ठंड की दवा</string>
     <string name="household_editor_category_label">श्रेणी</string>
     <string name="household_category_medicine">दवा</string>
     <string name="household_category_beauty">सौंदर्य और त्वचा देखभाल</string>
@@ -43,7 +43,7 @@
     <string name="household_category_baby">शिशु और बच्चे</string>
     <string name="household_category_sports">खेल और फिटनेस</string>
     <string name="household_category_pet">पालतू सामान</string>
-    <string name="household_category_tools">औज़ार</string>
+    <string name="household_category_tools">औजार</string>
     <string name="household_category_accessories">एक्सेसरीज़</string>
     <string name="household_category_other">अन्य</string>
     <string name="household_category_small_legacy">छोटी वस्तुएँ</string>
@@ -106,7 +106,7 @@
     <string name="household_loc_company">कार्यालय</string>
     <string name="household_loc_desk">डेस्क</string>
     <string name="household_loc_meeting_room">बैठक कक्ष</string>
-    <string name="household_loc_pantry">पैंट्री</string>
+    <string name="household_loc_pantry">पेंट्री</string>
     <string name="household_loc_locker">लॉकर</string>
     <string name="household_log_item_created">आइटम जोड़ा गया: %1$s</string>
     <string name="household_log_item_updated">आइटम अपडेट किया गया: %1$s</string>
@@ -115,9 +115,9 @@
     <string name="household_log_location_created">स्थान जोड़ा गया: %1$s</string>
     <string name="household_log_location_renamed">स्थान का नाम बदला गया: %1$s</string>
     <string name="household_log_location_deleted">स्थान हटाया गया: %1$s</string>
-    <string name="agent_tool_add_household_item_title">घरेलू आइटम जोड़ें</string>
-    <string name="agent_tool_add_household_item_summary">घरेलू आइटम को उसके भंडारण स्थान के साथ रिकॉर्ड करें</string>
-    <string name="agent_tool_add_household_item_description">घरेलू आइटम रिकॉर्ड करें: नाम, भंडारण स्थान पथ (अनुपस्थित होने पर स्तर-दर-स्तर स्वतः बनाया जाता है), वैकल्पिक श्रेणी, समाप्ति तिथि और नोट।</string>
+    <string name="agent_tool_add_household_item_title">आइटम जोड़ें</string>
+    <string name="agent_tool_add_household_item_summary">आइटम को उसके भंडारण स्थान के साथ रिकॉर्ड करें</string>
+    <string name="agent_tool_add_household_item_description">आइटम रिकॉर्ड करें: नाम, भंडारण स्थान पथ (अनुपस्थित होने पर स्तर-दर-स्तर स्वतः बनाया जाता है), वैकल्पिक श्रेणी, समाप्ति तिथि और नोट।</string>
     <string name="agent_tool_add_household_item_param_name">आइटम का नाम, जैसे \"सर्दी की दवा\"</string>
     <string name="agent_tool_add_household_item_param_location_path">भंडारण स्थान पथ, खंड \"/\" या \"&gt;\" से अलग किए गए, जैसे \"शयनकक्ष/अलमारी/ऊपरी दराज\"। अनुपस्थित होने पर स्वतः बनाया जाता है</string>
     <string name="agent_tool_add_household_item_param_category">श्रेणी, मुक्त पाठ, जैसे दवा / छोटी वस्तुएँ / बड़ी वस्तुएँ</string>
@@ -134,10 +134,10 @@
         <item>बेडरूम की दवा पेटी में सर्दी की दवा दर्ज करें, जून 2027 में समाप्त होगी</item>
         <item>अतिरिक्त चार्जर को स्टडी डेस्क की दराज में जोड़ें</item>
     </string-array>
-    <string name="agent_tool_find_household_item_title">घरेलू आइटम खोजें</string>
-    <string name="agent_tool_find_household_item_summary">पता लगाएं कि घरेलू आइटम कहां रखा है</string>
-    <string name="agent_tool_find_household_item_description">नाम, श्रेणी या नोट से घरेलू आइटम खोजें। प्रत्येक मिलान के साथ उसका पूरा स्थान पथ, समाप्ति स्थिति और नोट लौटाता है।</string>
-    <string name="agent_tool_find_household_item_param_query">खोज कीवर्ड, नाम, श्रेणी और नोट से मिलान किया जाता है</string>
+    <string name="agent_tool_find_household_item_title">आइटम खोजें</string>
+    <string name="agent_tool_find_household_item_summary">पता लगाएं कि आइटम कहां रखा है</string>
+    <string name="agent_tool_find_household_item_description">नाम, श्रेणी या नोट से आइटम को फजी-खोजें। प्रत्येक मिलान को उसके पूर्ण स्थान पथ, समाप्ति स्थिति और नोट के साथ लौटाता है।</string>
+    <string name="agent_tool_find_household_item_param_query">खोज कीवर्ड, नाम, श्रेणी और नोट से मिलान किया गया</string>
     <string name="agent_tool_find_household_item_empty">कोई मेल खाता आइटम नहीं मिला</string>
     <string name="agent_tool_find_household_item_failed">आइटम खोजने में विफल: %1$s</string>
     <string-array name="agent_tool_find_household_item_keywords">
@@ -150,10 +150,10 @@
         <item>सर्दी की दवा कहां है?</item>
         <item>अतिरिक्त चार्जर खोजें</item>
     </string-array>
-    <string name="agent_tool_move_household_item_title">घरेलू आइटम ले जाएं</string>
-    <string name="agent_tool_move_household_item_summary">घरेलू आइटम का भंडारण स्थान बदलें</string>
-    <string name="agent_tool_move_household_item_description">घरेलू आइटम को नए भंडारण स्थान पथ पर ले जाएं। आइटम को अस्पष्ट नाम से खोजा जाता है; स्थान पथ अनुपस्थित होने पर स्तर-दर-स्तर बनाया जाता है।</string>
-    <string name="agent_tool_move_household_item_param_name">आइटम का नाम, अस्पष्ट मिलान</string>
+    <string name="agent_tool_move_household_item_title">आइटम ले जाएं</string>
+    <string name="agent_tool_move_household_item_summary">आइटम का भंडारण स्थान बदलें</string>
+    <string name="agent_tool_move_household_item_description">किसी आइटम को नए भंडारण स्थान पथ पर ले जाएं। आइटम फजी नाम से पाया जाता है; स्थान पथ अनुपस्थित होने पर स्तर-दर-स्तर बनाया जाता है।</string>
+    <string name="agent_tool_move_household_item_param_name">आइटम का नाम, फजी मिलान</string>
     <string name="agent_tool_move_household_item_param_location_path">नया भंडारण स्थान पथ, खंड \"/\" या \"&gt;\" से अलग किए गए</string>
     <string name="agent_tool_move_household_item_not_found">आइटम नहीं मिला: %1$s</string>
     <string name="agent_tool_move_household_item_failed">आइटम ले जाने में विफल: %1$s</string>
@@ -163,7 +163,7 @@
         <item>स्थानांतरित करें</item>
     </string-array>
     <string-array name="agent_tool_move_household_item_examples">
-        <item>ठंडी दवा को लिविंग रूम की दराज में रखें</item>
+        <item>ठंड की दवा को लिविंग रूम की दराज में रखें</item>
     </string-array>
     <string name="agent_tool_household_label_name">नाम</string>
     <string name="agent_tool_household_label_location">स्थान</string>
@@ -174,7 +174,7 @@
     <string name="agent_tool_household_expiry_days_left">%1$d दिन शेष</string>
     <string name="agent_tool_household_expiry_today">आज समाप्त हो रहा है</string>
     <string name="agent_tool_household_expiry_none">कोई समाप्ति तिथि नहीं</string>
-    <string name="agent_tool_household_open_link">घरेलू सामान खोलें</string>
+    <string name="agent_tool_household_open_link">आइटम मैनेजर खोलें</string>
     <string name="agent_tool_household_edit_link">आइटम देखें</string>
     <string name="agent_tool_household_unknown_error">अज्ञात त्रुटि</string>
 </resources>

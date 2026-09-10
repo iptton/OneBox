@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">OneBox</string>
     <string name="app_copyright">Авторские права © 2024 OneBox</string>
@@ -194,7 +194,7 @@
     <string name="open_qq_group">Открытие группы QQ. Убедитесь, что QQ установлен.</string>
     <string name="wechat_login">Вход через WeChat</string>
     <string name="google_login">Вход через Google</string>
-    <string name="empty_string"></string>
+    <string name="empty_string" />
     <string name="navigate_back">Назад</string>
     <string name="default_user_name">Вход / Регистрация</string>
     <string name="login_heading_text">Войти</string>
@@ -616,7 +616,7 @@
     <string name="profile_invitation_code_hint">Строка из 8 символов</string>
     <string name="copy_invitation_code_hint">Ваш пригласительный код:</string>
     <string name="profile_invitation_code_same">Вы не можете использовать свой собственный пригласительный код.</string>
-    <string name="ai_prompt_suffix"></string>
+    <string name="ai_prompt_suffix" />
     <string name="ai_default_name">ИИ-ассистент</string>
     <string name="search_in_progress">Поиск…</string>
     <string name="need_update_new_version">Обновите до последней версии, чтобы использовать эту функцию.</string>
@@ -1690,4 +1690,4 @@
     <string name="robot_status_waiting_confirmation">Ожидание подтверждения</string>
     <string name="robot_status_waiting_input">Ожидание ответа</string>
     <string name="robot_status_waiting_llm">Отвечает</string>
-</resources>
+<string name="household_items">Управление вещами</string></resources>

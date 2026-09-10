@@ -249,9 +249,9 @@ object AppNavigationRegistry {
                 targetType = AppNavigationTargetType.SCREEN,
                 routeKey = Screen.HouseholdItems().routeKey,
                 canonicalName = "screen.${Screen.HouseholdItems().routeKey}",
-                title = "家庭物品",
-                description = "打开家庭物品模块,支持直达指定物品的编辑页",
-                aliases = listOf("household", "household_items", "物品", "家庭物品", "收纳"),
+                title = "物品管理",
+                description = "打开物品管理模块,支持直达指定物品的编辑页",
+                aliases = listOf("household", "household_items", "物品", "物品管理", "家庭物品", "收纳"),
                 deeplink = buildStructuredDeeplink(
                     AppNavigationTargetType.SCREEN,
                     Screen.HouseholdItems().routeKey,

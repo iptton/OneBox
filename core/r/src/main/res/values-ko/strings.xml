@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">OneBox</string>
     <string name="app_copyright">Copyright © 2024 OneBox</string>
@@ -194,7 +194,7 @@
     <string name="open_qq_group">QQ 그룹을 여는 중입니다. QQ가 설치되어 있는지 확인하세요.</string>
     <string name="wechat_login">WeChat 로그인</string>
     <string name="google_login">Google 로그인</string>
-    <string name="empty_string"></string>
+    <string name="empty_string" />
     <string name="navigate_back">뒤로 가기</string>
     <string name="default_user_name">로그인 / 회원가입</string>
     <string name="login_heading_text">로그인</string>
@@ -616,7 +616,7 @@
     <string name="profile_invitation_code_hint">8자리 문자열</string>
     <string name="copy_invitation_code_hint">내 초대 코드:</string>
     <string name="profile_invitation_code_same">자신의 초대 코드는 사용할 수 없습니다.</string>
-    <string name="ai_prompt_suffix"></string>
+    <string name="ai_prompt_suffix" />
     <string name="ai_default_name">AI 어시스턴트</string>
     <string name="search_in_progress">검색 중…</string>
     <string name="need_update_new_version">이 기능을 사용하려면 최신 버전으로 업데이트하세요.</string>
@@ -1690,4 +1690,4 @@
     <string name="robot_status_waiting_confirmation">확인 대기 중</string>
     <string name="robot_status_waiting_input">답변 대기 중</string>
     <string name="robot_status_waiting_llm">응답 중</string>
-</resources>
+<string name="household_items">물품 관리</string></resources>

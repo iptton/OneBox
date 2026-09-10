@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="household_title">생활용품</string>
-    <string name="household_tab_list">물품</string>
+    <string name="household_title">아이템 관리</string>
+    <string name="household_tab_list">아이템</string>
     <string name="household_tab_locations">위치</string>
     <string name="household_tab_stats">통계</string>
-    <string name="household_empty_guide_title">아직 물품이 없습니다</string>
-    <string name="household_empty_guide_message">직접 추가하거나 AI가 대신 기록하게 하세요</string>
+    <string name="household_empty_guide_title">아이템이 아직 없습니다</string>
+    <string name="household_empty_guide_message">직접 추가하거나 AI가 기록하도록 하세요</string>
     <string name="household_add_manually">직접 추가</string>
     <string name="household_add_with_ai">AI에게 기록 요청</string>
-    <string name="household_ai_assist_title">생활 도우미</string>
-    <string name="household_ai_assist_prompt">당신은 사용자의 생활용품 도우미입니다. 사용자가 물품과 보관 위치(그리고 선택적으로 유통기한)를 알려주면 add_household_item 도구로 기록하세요. 예: \"감기약을 침실 약통에 넣어둬, 2027년 6월 만료\". 사용자가 물건이 어디 있는지 물으면 find_household_item으로 찾아보세요. 사용자가 물건을 옮기려 하면 move_household_item을 사용하세요. 기록 후 각 작업을 간단히 확인해 주세요.</string>
+    <string name="household_ai_assist_title">아이템 관리 도우미</string>
+    <string name="household_ai_assist_prompt">당신은 사용자의 생활용품 도우미입니다. 사용자가 아이템과 보관 위치(선택적으로 유통기한)를 알려주면 add_household_item 도구로 기록하세요. 예: \"감기약을 침실 약통에 넣어줘, 2027년 6월 만료\". 사용자가 어디 있는지 물으면 find_household_item으로 찾아보세요. 사용자가 옮기길 원하면 move_household_item을 사용하세요. 기록 후 각 작업을 간단히 확인해 주세요.</string>
     <string name="household_search_hint">이름, 카테고리 또는 메모 검색</string>
     <string name="household_expired_days">%1$d일 전 만료</string>
     <string name="household_days_left">%1$d일 남음</string>
     <string name="household_expires_today">오늘 만료</string>
-    <string name="household_add_item">물품 추가</string>
+    <string name="household_add_item">아이템 추가</string>
     <string name="household_manage_locations">위치 관리</string>
-    <string name="household_empty_items">아직 물품이 없습니다. +를 눌러 추가하세요.</string>
-    <string name="household_empty_search">일치하는 물품 없음</string>
+    <string name="household_empty_items">아이템이 아직 없습니다. +를 눌러 추가하세요.</string>
+    <string name="household_empty_search">일치하는 아이템 없음</string>
     <string name="household_breadcrumb_home">전체</string>
     <string name="household_view_list">목록 보기</string>
     <string name="household_view_grid">그리드 보기</string>
@@ -25,8 +25,8 @@
     <string name="household_no_location">위치 없음</string>
     <string name="household_delete_item">삭제</string>
     <string name="household_edit_item">편집</string>
-    <string name="household_editor_add_title">물품 추가</string>
-    <string name="household_editor_edit_title">물품 편집</string>
+    <string name="household_editor_add_title">아이템 추가</string>
+    <string name="household_editor_edit_title">아이템 편집</string>
     <string name="household_editor_name_label">이름</string>
     <string name="household_editor_name_hint">예: 감기약</string>
     <string name="household_editor_category_label">카테고리</string>
@@ -37,7 +37,7 @@
     <string name="household_category_clothing">의류</string>
     <string name="household_category_digital">전자제품</string>
     <string name="household_category_books">도서</string>
-    <string name="household_category_stationery">문구</string>
+    <string name="household_category_stationery">문구류</string>
     <string name="household_category_home_goods">생활용품</string>
     <string name="household_category_cleaning">청소용품</string>
     <string name="household_category_baby">유아 &amp; 아동</string>
@@ -46,8 +46,8 @@
     <string name="household_category_tools">공구</string>
     <string name="household_category_accessories">액세서리</string>
     <string name="household_category_other">기타</string>
-    <string name="household_category_small_legacy">소형 물품</string>
-    <string name="household_category_big_legacy">대형 물품</string>
+    <string name="household_category_small_legacy">소형 품목</string>
+    <string name="household_category_big_legacy">대형 품목</string>
     <string name="household_category_custom_hint">사용자 지정 카테고리</string>
     <string name="household_editor_location_label">위치</string>
     <string name="household_editor_location_none">위치 없음</string>
@@ -58,7 +58,7 @@
     <string name="household_editor_photo_label">사진</string>
     <string name="household_editor_photo_add">사진 추가</string>
     <string name="household_editor_photo_remove">사진 삭제</string>
-    <string name="household_editor_note_label">메모 (선택 사항)</string>
+    <string name="household_editor_note_label">메모 (선택)</string>
     <string name="household_editor_note_hint">용도, 사양 등</string>
     <string name="household_save">저장</string>
     <string name="household_cancel">취소</string>
@@ -115,51 +115,51 @@
     <string name="household_log_location_created">위치 추가됨: %1$s</string>
     <string name="household_log_location_renamed">위치 이름 변경됨: %1$s</string>
     <string name="household_log_location_deleted">위치 삭제됨: %1$s</string>
-    <string name="agent_tool_add_household_item_title">생활용품 추가</string>
-    <string name="agent_tool_add_household_item_summary">보관 위치와 함께 생활용품을 기록하세요</string>
-    <string name="agent_tool_add_household_item_description">생활용품 기록: 이름, 보관 위치 경로(없으면 단계별로 자동 생성), 선택적 카테고리, 유통기한 및 메모.</string>
+    <string name="agent_tool_add_household_item_title">항목 추가</string>
+    <string name="agent_tool_add_household_item_summary">보관 위치와 함께 항목 기록</string>
+    <string name="agent_tool_add_household_item_description">항목 기록: 이름, 보관 위치 경로(없으면 단계별로 자동 생성), 선택적 카테고리, 유통기한 및 메모.</string>
     <string name="agent_tool_add_household_item_param_name">항목 이름, 예: \"감기약\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">보관 위치 경로, 구분자는 \"/\" 또는 \"&gt;\", 예: \"침실/옷장/상단 서랍\". 없으면 자동 생성됨</string>
-    <string name="agent_tool_add_household_item_param_category">카테고리, 자유 입력, 예: 약 / 소형 물품 / 대형 물품</string>
+    <string name="agent_tool_add_household_item_param_location_path">보관 위치 경로, \"/\" 또는 \"&gt;\"로 구분된 세그먼트, 예: \"침실/옷장/상단 서랍\". 없으면 자동 생성됨</string>
+    <string name="agent_tool_add_household_item_param_category">카테고리, 자유 텍스트, 예: 약 / 소형 물품 / 대형 물품</string>
     <string name="agent_tool_add_household_item_param_expire_date">만료일, yyyy-MM-dd, 선택 사항</string>
     <string name="agent_tool_add_household_item_param_note">선택 메모</string>
     <string name="agent_tool_add_household_item_failed">항목 추가 실패: %1$s</string>
     <string-array name="agent_tool_add_household_item_keywords">
-        <item>household</item>
-        <item>item</item>
-        <item>storage</item>
+        <item>가정</item>
+        <item>항목</item>
+        <item>보관</item>
         <item>항목 추가</item>
     </string-array>
     <string-array name="agent_tool_add_household_item_examples">
-        <item>침실 약통에 감기약을 기록하고, 2027년 6월 만료</item>
-        <item>서재 책상 서랍에 여분 충전기를 추가</item>
+        <item>침실 약통에 감기약을 기록, 2027년 6월 만료</item>
+        <item>서재 책상 서랍에 여분 충전기 추가</item>
     </string-array>
-    <string name="agent_tool_find_household_item_title">가정용품 찾기</string>
-    <string name="agent_tool_find_household_item_summary">가정용품이 어디에 보관되어 있는지 찾기</string>
-    <string name="agent_tool_find_household_item_description">이름, 카테고리 또는 메모로 가정용품을 퍼지 검색합니다. 각 일치 항목의 전체 위치 경로, 만료 상태 및 메모를 반환합니다.</string>
+    <string name="agent_tool_find_household_item_title">항목 찾기</string>
+    <string name="agent_tool_find_household_item_summary">항목이 어디에 보관되어 있는지 찾기</string>
+    <string name="agent_tool_find_household_item_description">이름, 카테고리 또는 메모로 항목을 유사 검색합니다. 각 일치 항목의 전체 위치 경로, 만료 상태 및 메모를 반환합니다.</string>
     <string name="agent_tool_find_household_item_param_query">검색 키워드, 이름, 카테고리 및 메모와 일치</string>
     <string name="agent_tool_find_household_item_empty">일치하는 항목을 찾을 수 없음</string>
     <string name="agent_tool_find_household_item_failed">항목 찾기 실패: %1$s</string>
     <string-array name="agent_tool_find_household_item_keywords">
-        <item>household</item>
-        <item>find</item>
+        <item>가정</item>
+        <item>찾기</item>
         <item>어디에 있나요</item>
-        <item>location</item>
+        <item>위치</item>
     </string-array>
     <string-array name="agent_tool_find_household_item_examples">
         <item>감기약이 어디에 있나요?</item>
         <item>여분 충전기 찾기</item>
     </string-array>
-    <string name="agent_tool_move_household_item_title">가정용품 이동</string>
-    <string name="agent_tool_move_household_item_summary">가정용품의 보관 위치 변경</string>
-    <string name="agent_tool_move_household_item_description">가정용품을 새 보관 위치 경로로 이동합니다. 항목은 퍼지 이름으로 찾으며, 위치 경로는 누락된 경우 단계별로 생성됩니다.</string>
-    <string name="agent_tool_move_household_item_param_name">항목 이름, 퍼지 일치</string>
+    <string name="agent_tool_move_household_item_title">항목 이동</string>
+    <string name="agent_tool_move_household_item_summary">항목의 보관 위치 변경</string>
+    <string name="agent_tool_move_household_item_description">항목을 새 보관 위치 경로로 이동합니다. 항목은 유사 이름으로 찾으며, 위치 경로가 없으면 단계별로 생성됩니다.</string>
+    <string name="agent_tool_move_household_item_param_name">항목 이름, 유사 일치</string>
     <string name="agent_tool_move_household_item_param_location_path">새 보관 위치 경로, 세그먼트는 \"/\" 또는 \"&gt;\"로 구분</string>
     <string name="agent_tool_move_household_item_not_found">항목을 찾을 수 없음: %1$s</string>
     <string name="agent_tool_move_household_item_failed">항목 이동 실패: %1$s</string>
     <string-array name="agent_tool_move_household_item_keywords">
-        <item>household</item>
-        <item>move</item>
+        <item>가정</item>
+        <item>이동</item>
         <item>재배치</item>
     </string-array>
     <string-array name="agent_tool_move_household_item_examples">
@@ -174,7 +174,7 @@
     <string name="agent_tool_household_expiry_days_left">%1$d일 남음</string>
     <string name="agent_tool_household_expiry_today">오늘 만료</string>
     <string name="agent_tool_household_expiry_none">유통기한 없음</string>
-    <string name="agent_tool_household_open_link">생활용품 열기</string>
-    <string name="agent_tool_household_edit_link">항목 보기</string>
+    <string name="agent_tool_household_open_link">아이템 관리자 열기</string>
+    <string name="agent_tool_household_edit_link">아이템 보기</string>
     <string name="agent_tool_household_unknown_error">알 수 없는 오류</string>
 </resources>

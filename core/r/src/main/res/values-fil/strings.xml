@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">OneBox</string>
     <string name="app_copyright">Copyright © 2024 OneBox</string>
@@ -194,7 +194,7 @@
     <string name="open_qq_group">Binubuksan ang QQ group. Pakisiguraduhing naka-install ang QQ.</string>
     <string name="wechat_login">WeChat Login</string>
     <string name="google_login">Google Login</string>
-    <string name="empty_string"></string>
+    <string name="empty_string" />
     <string name="navigate_back">Bumalik</string>
     <string name="default_user_name">Mag-login / Magrehistro</string>
     <string name="login_heading_text">Mag-login</string>
@@ -616,7 +616,7 @@
     <string name="profile_invitation_code_hint">8-character na string</string>
     <string name="copy_invitation_code_hint">Ang iyong invite code:</string>
     <string name="profile_invitation_code_same">Hindi mo maaaring gamitin ang iyong sariling invite code.</string>
-    <string name="ai_prompt_suffix"></string>
+    <string name="ai_prompt_suffix" />
     <string name="ai_default_name">AI Assistant</string>
     <string name="search_in_progress">Naghahanap…</string>
     <string name="need_update_new_version">I-update sa pinakabagong bersyon para gamitin ang tampok na ito.</string>
@@ -1690,4 +1690,4 @@ Tip: kapag pinili mo ang \"Itago Magpakailanman\", maaari mo akong ibalik sa Mga
     <string name="robot_status_waiting_confirmation">Naghihintay ng kumpirmasyon</string>
     <string name="robot_status_waiting_input">Naghihintay ng sagot</string>
     <string name="robot_status_waiting_llm">Sumasagot</string>
-</resources>
+<string name="household_items">Pamamahala ng mga Item</string></resources>

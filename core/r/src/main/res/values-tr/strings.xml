@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">OneBox</string>
     <string name="app_copyright">Telif Hakkı © 2024 OneBox</string>
@@ -194,7 +194,7 @@
     <string name="open_qq_group">QQ grubu açılıyor. Lütfen QQ\'nun kurulu olduğundan emin olun.</string>
     <string name="wechat_login">WeChat ile Giriş</string>
     <string name="google_login">Google ile Giriş</string>
-    <string name="empty_string"></string>
+    <string name="empty_string" />
     <string name="navigate_back">Geri dön</string>
     <string name="default_user_name">Giriş Yap / Kayıt Ol</string>
     <string name="login_heading_text">Giriş Yap</string>
@@ -616,7 +616,7 @@
     <string name="profile_invitation_code_hint">8 karakterlik dize</string>
     <string name="copy_invitation_code_hint">Davet kodunuz:</string>
     <string name="profile_invitation_code_same">Kendi davet kodunuzu kullanamazsınız.</string>
-    <string name="ai_prompt_suffix"></string>
+    <string name="ai_prompt_suffix" />
     <string name="ai_default_name">AI Asistan</string>
     <string name="search_in_progress">Aranıyor…</string>
     <string name="need_update_new_version">Bu özelliği kullanmak için en son sürüme güncelleyin.</string>
@@ -1690,4 +1690,4 @@
     <string name="robot_status_waiting_confirmation">Onay bekliyor</string>
     <string name="robot_status_waiting_input">Cevap bekliyor</string>
     <string name="robot_status_waiting_llm">Yanıtlıyor</string>
-</resources>
+<string name="household_items">Eşya Yöneticisi</string></resources>

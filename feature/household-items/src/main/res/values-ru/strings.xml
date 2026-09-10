@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="household_title">Бытовые предметы</string>
-    <string name="household_tab_list">Предметы</string>
+    <string name="household_title">Менеджер вещей</string>
+    <string name="household_tab_list">Вещи</string>
     <string name="household_tab_locations">Места</string>
     <string name="household_tab_stats">Статистика</string>
-    <string name="household_empty_guide_title">Пока нет предметов</string>
+    <string name="household_empty_guide_title">Пока нет вещей</string>
     <string name="household_empty_guide_message">Добавьте вручную или позвольте ИИ записать за вас</string>
     <string name="household_add_manually">Добавить вручную</string>
     <string name="household_add_with_ai">Попросить ИИ записать</string>
-    <string name="household_ai_assist_title">Бытовой помощник</string>
-    <string name="household_ai_assist_prompt">Вы — помощник пользователя по бытовым предметам. Когда пользователь сообщает вам предмет и место его хранения (и, при желании, срок годности), запишите это с помощью инструмента add_household_item, например: «положи лекарство от простуды в аптечку в спальне, срок годности — июнь 2027». Когда пользователь спрашивает, где что-то находится, найдите это с помощью find_household_item. Когда пользователь хочет что-то переместить, используйте move_household_item. После записи кратко подтверждайте каждое действие.</string>
+    <string name="household_ai_assist_title">Помощник менеджера вещей</string>
+    <string name="household_ai_assist_prompt">Вы помощник пользователя по домашним вещам. Когда пользователь сообщает вам вещь и место её хранения (и, при желании, срок годности), запишите это с помощью инструмента add_household_item, например: «положи лекарство от простуды в аптечку в спальне, срок годности — июнь 2027». Когда пользователь спрашивает, где что-то находится, найдите это с помощью find_household_item. Когда пользователь хочет что-то переместить, используйте move_household_item. Кратко подтверждайте каждое действие после записи.</string>
     <string name="household_search_hint">Поиск по названию, категории или заметке</string>
     <string name="household_expired_days">Просрочено %1$d дн. назад</string>
     <string name="household_days_left">Осталось %1$d дн.</string>
     <string name="household_expires_today">Истекает сегодня</string>
-    <string name="household_add_item">Добавить предмет</string>
+    <string name="household_add_item">Добавить вещь</string>
     <string name="household_manage_locations">Управление местами</string>
-    <string name="household_empty_items">Пока нет предметов. Нажмите +, чтобы добавить.</string>
-    <string name="household_empty_search">Нет подходящих предметов</string>
+    <string name="household_empty_items">Пока нет вещей. Нажмите +, чтобы добавить.</string>
+    <string name="household_empty_search">Нет подходящих вещей</string>
     <string name="household_breadcrumb_home">Все</string>
     <string name="household_view_list">Список</string>
     <string name="household_view_grid">Сетка</string>
@@ -25,10 +25,10 @@
     <string name="household_no_location">Без места</string>
     <string name="household_delete_item">Удалить</string>
     <string name="household_edit_item">Изменить</string>
-    <string name="household_editor_add_title">Добавить предмет</string>
-    <string name="household_editor_edit_title">Изменить предмет</string>
+    <string name="household_editor_add_title">Добавить вещь</string>
+    <string name="household_editor_edit_title">Изменить вещь</string>
     <string name="household_editor_name_label">Название</string>
-    <string name="household_editor_name_hint">Например, лекарство от простуды</string>
+    <string name="household_editor_name_hint">напр. Лекарство от простуды</string>
     <string name="household_editor_category_label">Категория</string>
     <string name="household_category_medicine">Лекарства</string>
     <string name="household_category_beauty">Красота и уход</string>
@@ -40,9 +40,9 @@
     <string name="household_category_stationery">Канцтовары</string>
     <string name="household_category_home_goods">Товары для дома</string>
     <string name="household_category_cleaning">Чистящие средства</string>
-    <string name="household_category_baby">Для детей</string>
+    <string name="household_category_baby">Детские товары</string>
     <string name="household_category_sports">Спорт и фитнес</string>
-    <string name="household_category_pet">Зоотовары</string>
+    <string name="household_category_pet">Товары для питомцев</string>
     <string name="household_category_tools">Инструменты</string>
     <string name="household_category_accessories">Аксессуары</string>
     <string name="household_category_other">Другое</string>
@@ -63,17 +63,17 @@
     <string name="household_save">Сохранить</string>
     <string name="household_cancel">Отмена</string>
     <string name="household_confirm">ОК</string>
-    <string name="household_item_added">Товар добавлен</string>
+    <string name="household_item_added">Элемент добавлен</string>
     <string name="household_location_added">Местоположение добавлено</string>
     <string name="household_saved">Сохранено</string>
-    <string name="household_stats_total_items">Всего товаров</string>
+    <string name="household_stats_total_items">Всего элементов</string>
     <string name="household_stats_location_count">Местоположения</string>
     <string name="household_stats_expiring_soon">Скоро истекает</string>
-    <string name="household_stats_unit_item">товаров</string>
+    <string name="household_stats_unit_item">элементов</string>
     <string name="household_stats_unit_location">всего</string>
     <string name="household_stats_added_this_month">+%1$d в этом месяце</string>
     <string name="household_stats_category_share">По категории</string>
-    <string name="household_stats_location_distribution">По местоположению (товары)</string>
+    <string name="household_stats_location_distribution">По местоположению (элементы)</string>
     <string name="household_stats_activity">Сводка активности</string>
     <string name="household_stats_recent_added">Недавно добавленные</string>
     <string name="household_stats_upcoming_expiry">Скоро истекает</string>
@@ -90,7 +90,7 @@
     <string name="household_location_delete">Удалить</string>
     <string name="household_location_name_hint">Название местоположения</string>
     <string name="household_location_pick_icon">Выбрать значок</string>
-    <string name="household_location_delete_blocked">У этого местоположения есть подчинённые местоположения или товары, сначала удалите их</string>
+    <string name="household_location_delete_blocked">У этого местоположения есть подчинённые местоположения или элементы, сначала удалите их</string>
     <string name="household_locations_empty">Пока нет мест</string>
     <string name="household_location_expand">Развернуть</string>
     <string name="household_location_collapse">Свернуть</string>
@@ -117,53 +117,53 @@
     <string name="household_log_location_deleted">Удалено место: %1$s</string>
     <string name="agent_tool_add_household_item_title">Добавить предмет</string>
     <string name="agent_tool_add_household_item_summary">Записать предмет с местом хранения</string>
-    <string name="agent_tool_add_household_item_description">Записать предмет: название, путь хранения (создаётся по уровням при отсутствии), категория, срок годности и заметка.</string>
-    <string name="agent_tool_add_household_item_param_name">Название предмета, напр. \"Лекарство от простуды\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Путь хранения, сегменты через \"/\" или \"&gt;\", напр. \"Спальня/Шкаф/Верхний ящик\". Создаётся автоматически при отсутствии</string>
-    <string name="agent_tool_add_household_item_param_category">Категория, произвольный текст, напр. Лекарства / Мелочи / Крупные предметы</string>
+    <string name="agent_tool_add_household_item_description">Записать предмет: название, путь места хранения (создаётся автоматически по уровням при отсутствии), необязательная категория, срок годности и заметка.</string>
+    <string name="agent_tool_add_household_item_param_name">Название предмета, напр. «Лекарство от простуды»</string>
+    <string name="agent_tool_add_household_item_param_location_path">Путь места хранения, сегменты разделены «/» или «&gt;», напр. «Спальня/Шкаф/Верхний ящик». Создаётся автоматически при отсутствии</string>
+    <string name="agent_tool_add_household_item_param_category">Категория, произвольный текст, напр. Лекарства / Мелкие предметы / Крупные предметы</string>
     <string name="agent_tool_add_household_item_param_expire_date">Срок годности, гггг-ММ-дд, необязательно</string>
     <string name="agent_tool_add_household_item_param_note">Необязательная заметка</string>
     <string name="agent_tool_add_household_item_failed">Не удалось добавить предмет: %1$s</string>
     <string-array name="agent_tool_add_household_item_keywords">
-        <item>домашний</item>
+        <item>бытовой</item>
         <item>предмет</item>
         <item>хранение</item>
         <item>добавить предмет</item>
     </string-array>
     <string-array name="agent_tool_add_household_item_examples">
-        <item>Запиши лекарство от простуды в аптечку в спальне, срок годности — июнь 2027</item>
-        <item>Положи запасное зарядное устройство в ящик письменного стола в кабинете</item>
+        <item>Запиши холодное лекарство в аптечку в спальне, срок годности — июнь 2027</item>
+        <item>Добавь запасное зарядное устройство в ящик письменного стола в кабинете</item>
     </string-array>
-    <string name="agent_tool_find_household_item_title">Найти домашний предмет</string>
-    <string name="agent_tool_find_household_item_summary">Найти, где хранится домашний предмет</string>
-    <string name="agent_tool_find_household_item_description">Нечёткий поиск домашних предметов по названию, категории или заметке. Возвращает каждое совпадение с полным путём местоположения, статусом срока годности и заметкой.</string>
+    <string name="agent_tool_find_household_item_title">Найти предмет</string>
+    <string name="agent_tool_find_household_item_summary">Найти, где хранится предмет</string>
+    <string name="agent_tool_find_household_item_description">Нечёткий поиск предметов по названию, категории или заметке. Возвращает каждое совпадение с полным путём расположения, статусом срока годности и заметкой.</string>
     <string name="agent_tool_find_household_item_param_query">Ключевое слово для поиска, сопоставляется с названием, категорией и заметкой</string>
     <string name="agent_tool_find_household_item_empty">Совпадающие предметы не найдены</string>
     <string name="agent_tool_find_household_item_failed">Не удалось найти предмет: %1$s</string>
     <string-array name="agent_tool_find_household_item_keywords">
-        <item>домашний</item>
+        <item>бытовой</item>
         <item>найти</item>
         <item>где находится</item>
-        <item>местоположение</item>
+        <item>расположение</item>
     </string-array>
     <string-array name="agent_tool_find_household_item_examples">
-        <item>Где находится лекарство от простуды?</item>
+        <item>Где находится холодное лекарство?</item>
         <item>Найди запасное зарядное устройство</item>
     </string-array>
-    <string name="agent_tool_move_household_item_title">Переместить домашний предмет</string>
-    <string name="agent_tool_move_household_item_summary">Изменить место хранения домашнего предмета</string>
-    <string name="agent_tool_move_household_item_description">Переместить домашний предмет по новому пути местоположения. Предмет находится по нечёткому названию; путь местоположения создаётся уровень за уровнем, если отсутствует.</string>
+    <string name="agent_tool_move_household_item_title">Переместить предмет</string>
+    <string name="agent_tool_move_household_item_summary">Изменить место хранения предмета</string>
+    <string name="agent_tool_move_household_item_description">Переместить предмет в новый путь расположения. Предмет находится по нечёткому названию; путь расположения создаётся уровень за уровнем, если отсутствует.</string>
     <string name="agent_tool_move_household_item_param_name">Название предмета, нечёткое сопоставление</string>
-    <string name="agent_tool_move_household_item_param_location_path">Новый путь местоположения, сегменты разделены \"/\" или \"&gt;\"</string>
+    <string name="agent_tool_move_household_item_param_location_path">Новый путь расположения, сегменты разделены \"/\" или \"&gt;\"</string>
     <string name="agent_tool_move_household_item_not_found">Предмет не найден: %1$s</string>
     <string name="agent_tool_move_household_item_failed">Не удалось переместить предмет: %1$s</string>
     <string-array name="agent_tool_move_household_item_keywords">
-        <item>домашний</item>
+        <item>бытовой</item>
         <item>переместить</item>
         <item>переместить</item>
     </string-array>
     <string-array name="agent_tool_move_household_item_examples">
-        <item>Переместить лекарство от простуды в ящик в гостиной</item>
+        <item>Переместить лекарство от простуды в ящик гостиной</item>
     </string-array>
     <string name="agent_tool_household_label_name">Название</string>
     <string name="agent_tool_household_label_location">Местоположение</string>
@@ -173,8 +173,8 @@
     <string name="agent_tool_household_expiry_expired">Просрочено %1$d дн. назад</string>
     <string name="agent_tool_household_expiry_days_left">Осталось %1$d дн.</string>
     <string name="agent_tool_household_expiry_today">Истекает сегодня</string>
-    <string name="agent_tool_household_expiry_none">Без срока годности</string>
-    <string name="agent_tool_household_open_link">Открыть предметы быта</string>
-    <string name="agent_tool_household_edit_link">Просмотр предмета</string>
+    <string name="agent_tool_household_expiry_none">Нет срока годности</string>
+    <string name="agent_tool_household_open_link">Открыть менеджер предметов</string>
+    <string name="agent_tool_household_edit_link">Просмотреть предмет</string>
     <string name="agent_tool_household_unknown_error">Неизвестная ошибка</string>
 </resources>

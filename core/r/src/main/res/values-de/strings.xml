@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">OneBox</string>
     <string name="app_copyright">Copyright © 2024 OneBox</string>
@@ -194,7 +194,7 @@
     <string name="open_qq_group">QQ-Gruppe wird geöffnet. Bitte stellen Sie sicher, dass QQ installiert ist.</string>
     <string name="wechat_login">WeChat-Anmeldung</string>
     <string name="google_login">Google-Anmeldung</string>
-    <string name="empty_string"></string>
+    <string name="empty_string" />
     <string name="navigate_back">Zurück</string>
     <string name="default_user_name">Anmelden / Registrieren</string>
     <string name="login_heading_text">Anmelden</string>
@@ -616,7 +616,7 @@
     <string name="profile_invitation_code_hint">8-stellige Zeichenfolge</string>
     <string name="copy_invitation_code_hint">Ihr Einladungscode:</string>
     <string name="profile_invitation_code_same">Sie können Ihren eigenen Einladungscode nicht verwenden.</string>
-    <string name="ai_prompt_suffix"></string>
+    <string name="ai_prompt_suffix" />
     <string name="ai_default_name">KI-Assistent</string>
     <string name="search_in_progress">Suche…</string>
     <string name="need_update_new_version">Aktualisieren Sie auf die neueste Version, um diese Funktion zu nutzen.</string>
@@ -1690,4 +1690,4 @@ Tipp: Wenn du „Für immer ausblenden“ wählst, kannst du mich später unter 
     <string name="robot_status_waiting_confirmation">Bestätigung ausstehend</string>
     <string name="robot_status_waiting_input">Antwort ausstehend</string>
     <string name="robot_status_waiting_llm">Antwortet</string>
-</resources>
+<string name="household_items">Artikelverwaltung</string></resources>
