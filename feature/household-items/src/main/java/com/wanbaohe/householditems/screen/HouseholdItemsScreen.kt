@@ -170,17 +170,17 @@ private fun HouseholdBottomBar(
             icon = Icons.Outlined.LineViewList,
             contentDescription = stringResource(R.string.household_tab_list),
         ),
-        HouseholdTab.LOCATIONS to BottomNavItem(
-            id = HouseholdTab.LOCATIONS.name,
-            label = stringResource(R.string.household_tab_locations),
-            icon = Icons.Outlined.LineLocationOn,
-            contentDescription = stringResource(R.string.household_tab_locations),
-        ),
         HouseholdTab.STATS to BottomNavItem(
             id = HouseholdTab.STATS.name,
             label = stringResource(R.string.household_tab_stats),
             icon = Icons.Outlined.LinePieChart,
             contentDescription = stringResource(R.string.household_tab_stats),
+        ),
+        HouseholdTab.LOCATIONS to BottomNavItem(
+            id = HouseholdTab.LOCATIONS.name,
+            label = stringResource(R.string.household_tab_locations),
+            icon = Icons.Outlined.LineLocationOn,
+            contentDescription = stringResource(R.string.household_tab_locations),
         ),
     )
 
@@ -220,6 +220,7 @@ private fun ListTab(
                 items = uiState.items,
                 onItemClick = component::startEditItem,
                 onItemDelete = component::deleteItem,
+                onLocationTagClick = component::browseToLocation,
             )
 
             uiState.items.isEmpty() -> EmptyGuide(
@@ -243,6 +244,7 @@ private fun ListTab(
                 },
                 onItemClick = component::startEditItem,
                 onItemDelete = component::deleteItem,
+                onLocationTagClick = component::browseToLocation,
             )
         }
     }
@@ -307,6 +309,7 @@ private fun SearchResults(
     items: List<HouseholdItemUi>,
     onItemClick: (HouseholdItemUi) -> Unit,
     onItemDelete: (String) -> Unit,
+    onLocationTagClick: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -317,7 +320,12 @@ private fun SearchResults(
             item { EmptyHint(stringResource(R.string.household_empty_search)) }
         }
         items(items, key = { it.id }) { item ->
-            ItemRow(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
+            ItemRow(
+                item = item,
+                onClick = { onItemClick(item) },
+                onDelete = { onItemDelete(item.id) },
+                onLocationTagClick = onLocationTagClick,
+            )
         }
     }
 }
@@ -335,6 +343,7 @@ private fun BrowseContent(
     onDisplayModeToggle: () -> Unit,
     onItemClick: (HouseholdItemUi) -> Unit,
     onItemDelete: (String) -> Unit,
+    onLocationTagClick: (String) -> Unit,
 ) {
     val children = uiState.locations.filter { it.parentId == uiState.currentLocationId }
     // 子树过滤:根 = 全部物品;选中位置 = 该位置及所有后代位置的物品
@@ -389,7 +398,7 @@ private fun BrowseContent(
                         label = { Text(location.name) },
                         leadingIcon = {
                             Icon(
-                                imageVector = locationIcon(location.id),
+                                imageVector = locationIcon(location.iconKey, location.id),
                                 contentDescription = null,
                                 modifier = Modifier.size(18.dp),
                             )
@@ -406,6 +415,7 @@ private fun BrowseContent(
                 isEmpty = isEmpty,
                 onItemClick = onItemClick,
                 onItemDelete = onItemDelete,
+                onLocationTagClick = onLocationTagClick,
             )
 
             HouseholdDisplayMode.GRID -> ItemGridContent(
@@ -413,6 +423,7 @@ private fun BrowseContent(
                 isEmpty = isEmpty,
                 onItemClick = onItemClick,
                 onItemDelete = onItemDelete,
+                onLocationTagClick = onLocationTagClick,
             )
         }
     }
@@ -424,6 +435,7 @@ private fun ItemListContent(
     isEmpty: Boolean,
     onItemClick: (HouseholdItemUi) -> Unit,
     onItemDelete: (String) -> Unit,
+    onLocationTagClick: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -431,7 +443,12 @@ private fun ItemListContent(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(currentItems, key = { it.id }) { item ->
-            ItemRow(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
+            ItemRow(
+                item = item,
+                onClick = { onItemClick(item) },
+                onDelete = { onItemDelete(item.id) },
+                onLocationTagClick = onLocationTagClick,
+            )
         }
         if (isEmpty) {
             item(key = "empty") {
@@ -447,6 +464,7 @@ private fun ItemGridContent(
     isEmpty: Boolean,
     onItemClick: (HouseholdItemUi) -> Unit,
     onItemDelete: (String) -> Unit,
+    onLocationTagClick: (String) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -456,7 +474,12 @@ private fun ItemGridContent(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         gridItems(currentItems, key = { it.id }) { item ->
-            ItemCard(item = item, onClick = { onItemClick(item) }, onDelete = { onItemDelete(item.id) })
+            ItemCard(
+                item = item,
+                onClick = { onItemClick(item) },
+                onDelete = { onItemDelete(item.id) },
+                onLocationTagClick = onLocationTagClick,
+            )
         }
         if (isEmpty) {
             item(key = "empty", span = { GridItemSpan(2) }) {
@@ -534,6 +557,7 @@ internal fun ItemRow(
     item: HouseholdItemUi,
     onClick: () -> Unit,
     onDelete: () -> Unit,
+    onLocationTagClick: (String) -> Unit,
 ) {
     val isExpired = item.expiryStatus == ExpiryStatus.EXPIRED
     GlassCard(
@@ -571,13 +595,7 @@ internal fun ItemRow(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                Text(
-                    text = item.locationPath.ifBlank { stringResource(R.string.household_no_location) },
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                LocationTag(item = item, onClick = onLocationTagClick)
                 if (item.note.isNotBlank()) {
                     Text(
                         text = item.note,
@@ -653,6 +671,32 @@ private fun ItemOverflowMenu(
     }
 }
 
+/**
+ * 位置 tag:主题色淡底小圆角,点击按该位置过滤(面包屑定位);
+ * 无位置的物品不显示。嵌在卡片 onClick 内,子 clickable 优先消费点击,不冲突。
+ */
+@Composable
+private fun LocationTag(
+    item: HouseholdItemUi,
+    onClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val locationId = item.locationId ?: return
+    if (item.locationPath.isBlank()) return
+    Text(
+        text = item.locationPath,
+        style = MaterialTheme.typography.labelSmall,
+        color = MaterialTheme.colorScheme.primary,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        modifier = modifier
+            .clip(RoundedCornerShape(6.dp))
+            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.10f))
+            .clickable { onClick(locationId) }
+            .padding(horizontal = 6.dp, vertical = 2.dp),
+    )
+}
+
 /** 第三行信息:主题色圆点 + "分类 | 备注"(浅淡小字);都为空时不占位 */
 @Composable
 private fun CategoryNoteLine(item: HouseholdItemUi) {
@@ -677,12 +721,13 @@ private fun CategoryNoteLine(item: HouseholdItemUi) {
     }
 }
 
-/** 宫格卡片:缩略图上、名称/位置/保质期徽章下 */
+/** 宫格卡片:缩略图上、名称/位置 tag/保质期徽章下 */
 @Composable
 private fun ItemCard(
     item: HouseholdItemUi,
     onClick: () -> Unit,
     onDelete: () -> Unit,
+    onLocationTagClick: (String) -> Unit,
 ) {
     val isExpired = item.expiryStatus == ExpiryStatus.EXPIRED
     GlassCard(
@@ -716,12 +761,9 @@ private fun ItemCard(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                Text(
-                    text = item.locationPath.ifBlank { stringResource(R.string.household_no_location) },
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
+                LocationTag(
+                    item = item,
+                    onClick = onLocationTagClick,
                     modifier = Modifier.padding(top = 2.dp),
                 )
                 Row(

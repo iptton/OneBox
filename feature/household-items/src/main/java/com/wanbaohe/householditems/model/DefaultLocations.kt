@@ -5,7 +5,7 @@ import com.shifenmiao.interfaces.singleton.AppContext
 import com.wanbaohe.householditems.R
 
 /**
- * 预置储物位置:顶级「家」+ 8 个常用子位置。
+ * 预置储物位置:顶级「家」+「公司」,各带常用子位置。
  *
  * 首次进入页面且表为空时由 Component 播种(固定 id + upsert,幂等)。
  * 名称经 [localizedDefaultLocationName] 按当前 locale 解析;
@@ -14,6 +14,7 @@ import com.wanbaohe.householditems.R
 object DefaultLocations {
 
     const val ID_HOME = "loc_home"
+    const val ID_COMPANY = "loc_company"
 
     /** 每次调用重新解析名称(进程内切换语言后播种新库也能拿到正确语言) */
     fun all(): List<HouseholdLocationEntity> = listOf(
@@ -26,6 +27,11 @@ object DefaultLocations {
         location("loc_study", ID_HOME, 5),
         location("loc_balcony", ID_HOME, 6),
         location("loc_storage_room", ID_HOME, 7),
+        location(ID_COMPANY, parentId = null, sortOrder = 1),
+        location("loc_desk", ID_COMPANY, 0),
+        location("loc_meeting_room", ID_COMPANY, 1),
+        location("loc_pantry", ID_COMPANY, 2),
+        location("loc_locker", ID_COMPANY, 3),
     )
 
     private fun location(id: String, parentId: String?, sortOrder: Int) =
@@ -48,6 +54,11 @@ fun defaultLocationNameResId(id: String): Int? = when (id) {
     "loc_study" -> R.string.household_loc_study
     "loc_balcony" -> R.string.household_loc_balcony
     "loc_storage_room" -> R.string.household_loc_storage_room
+    "loc_company" -> R.string.household_loc_company
+    "loc_desk" -> R.string.household_loc_desk
+    "loc_meeting_room" -> R.string.household_loc_meeting_room
+    "loc_pantry" -> R.string.household_loc_pantry
+    "loc_locker" -> R.string.household_loc_locker
     else -> null
 }
 

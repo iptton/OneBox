@@ -84,6 +84,8 @@
     <string name="household_stats_items_count">%1$d 件</string>
     <string name="household_stats_other">其他</string>
     <string name="household_stats_empty">暂无数据</string>
+    <string name="household_stats_expire_prefix">%1$s 过期(</string>
+    <string name="household_stats_expire_suffix">)</string>
 
     <!-- 位置管理 -->
     <string name="household_locations_title">位置管理</string>
@@ -108,6 +110,11 @@
     <string name="household_loc_study">书房</string>
     <string name="household_loc_balcony">阳台</string>
     <string name="household_loc_storage_room">储物间</string>
+    <string name="household_loc_company">公司</string>
+    <string name="household_loc_desk">工位</string>
+    <string name="household_loc_meeting_room">会议室</string>
+    <string name="household_loc_pantry">茶水间</string>
+    <string name="household_loc_locker">储物柜</string>
 
     <!-- 活动日志 -->
     <string name="household_log_item_created">新增物品: %1$s</string>

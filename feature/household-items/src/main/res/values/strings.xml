@@ -84,6 +84,8 @@
     <string name="household_stats_items_count">%1$d</string>
     <string name="household_stats_other">Other</string>
     <string name="household_stats_empty">No data yet</string>
+    <string name="household_stats_expire_prefix">%1$s, </string>
+    <string name="household_stats_expire_suffix"></string>
 
     <!-- 位置管理 -->
     <string name="household_locations_title">Manage Locations</string>
@@ -108,6 +110,11 @@
     <string name="household_loc_study">Study</string>
     <string name="household_loc_balcony">Balcony</string>
     <string name="household_loc_storage_room">Storage Room</string>
+    <string name="household_loc_company">Office</string>
+    <string name="household_loc_desk">Desk</string>
+    <string name="household_loc_meeting_room">Meeting Room</string>
+    <string name="household_loc_pantry">Pantry</string>
+    <string name="household_loc_locker">Locker</string>
 
     <!-- 活动日志 -->
     <string name="household_log_item_created">Added item: %1$s</string>

@@ -1,7 +1,6 @@
 package com.wanbaohe.householditems.screen
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -305,12 +304,6 @@ private fun LocationTreeRow(
             .padding(start = INDENT_PER_DEPTH * depth, top = 3.dp, bottom = 3.dp),
         shape = RoundedCornerShape(14.dp),
         containerAlpha = GlassStyle.Medium.backgroundAlpha,
-        // 顶级行加 primary 描边突出层级
-        border = if (isTop) {
-            BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f))
-        } else {
-            null
-        },
     ) {
         Row(
             modifier = Modifier

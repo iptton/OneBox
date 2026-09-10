@@ -163,6 +163,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocSecondBedroom
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocStorageRoom
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocStudy
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFolderCustom
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineBusiness
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineDrawerCabinet
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMinus
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMovie
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSecurity
@@ -411,6 +413,11 @@ object IconRegistry {
         "LocBalcony" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocBalcony },
         "LocStorageRoom" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLocStorageRoom },
         "FolderCustom" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFolderCustom },
+        "LocCompany" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBusiness },
+        "LocDesk" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineWorkspaces },
+        "LocMeetingRoom" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineGroup },
+        "LocPantry" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCoffee },
+        "LocLocker" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDrawerCabinet },
     )
 
     // ── Material 标准图标 ──────────────────────────────────────

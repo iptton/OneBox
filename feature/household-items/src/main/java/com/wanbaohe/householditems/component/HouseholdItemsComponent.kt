@@ -89,6 +89,12 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
         _uiState.update { it.copy(currentLocationId = locationId) }
     }
 
+    /** 物品卡片位置 tag 点击:清掉搜索词并把面包屑定位到该位置(等价于逐级点进) */
+    fun browseToLocation(locationId: String) {
+        searchQuery.value = ""
+        _uiState.update { it.copy(searchQuery = "", currentLocationId = locationId) }
+    }
+
     /** 手动切换列表/宫格;覆盖系统默认(不持久化,页面存活期内有效)。 */
     fun setDisplayMode(mode: HouseholdDisplayMode) {
         _uiState.update { it.copy(displayModeOverride = mode) }

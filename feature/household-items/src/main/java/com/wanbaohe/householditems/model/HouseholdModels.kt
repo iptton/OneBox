@@ -106,8 +106,8 @@ fun subtreeLocationIds(locations: List<HouseholdLocationUi>, rootId: String?): S
 /** 主页底部 tab */
 enum class HouseholdTab {
     LIST,
-    LOCATIONS,
     STATS,
+    LOCATIONS,
 }
 
 /** 物品列表显示模式 */

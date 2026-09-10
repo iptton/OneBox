@@ -10,17 +10,20 @@ import com.t8rin.imagetoolbox.core.resources.icons.Spray
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBook
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBorderColor
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBuild
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineBusiness
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCatBaby
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCatBeauty
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCatBulky
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCatClothing
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCatMedicine
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCatSmallStuff
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineCoffee
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDevices
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDiamond
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDrawerCabinet
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDumbbell
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFolderCustom
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineGroup
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocBalcony
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocBathroom
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocHome
@@ -33,6 +36,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineLocStudy
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMore
 import com.t8rin.imagetoolbox.core.resources.icons.line.LinePets
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineRestaurant
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineWorkspaces
 import com.wanbaohe.householditems.R
 
 /**
@@ -48,6 +52,11 @@ fun locationIcon(locationId: String): ImageVector = when (locationId) {
     "loc_study" -> Icons.Outlined.LineLocStudy
     "loc_balcony" -> Icons.Outlined.LineLocBalcony
     "loc_storage_room" -> Icons.Outlined.LineLocStorageRoom
+    "loc_company" -> Icons.Outlined.LineBusiness
+    "loc_desk" -> Icons.Outlined.LineWorkspaces
+    "loc_meeting_room" -> Icons.Outlined.LineGroup
+    "loc_pantry" -> Icons.Outlined.LineCoffee
+    "loc_locker" -> Icons.Outlined.LineDrawerCabinet
     else -> Icons.Outlined.LineFolderCustom
 }
 

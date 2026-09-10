@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -33,9 +34,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAddCircleOutline
@@ -245,23 +250,21 @@ fun HouseholdStatsTab(
                     StatsEmptyHint()
                 } else {
                     ActivityGroup(
-                        icon = Icons.Outlined.LineAddCircleOutline,
                         title = stringResource(R.string.household_stats_recent_added),
                         tint = MaterialTheme.colorScheme.primary,
                     ) {
                         stats.recentAdded.forEach { item ->
-                            RecentAddedRow(item = item)
+                            RecentAddedRow(item = item, tint = MaterialTheme.colorScheme.primary)
                         }
                     }
                     if (stats.upcomingExpiry.isNotEmpty()) {
                         ActivityGroup(
-                            icon = Icons.Outlined.LineCalendarAlert,
                             title = stringResource(R.string.household_stats_upcoming_expiry),
                             tint = MaterialTheme.colorScheme.tertiary,
-                            modifier = Modifier.padding(top = 12.dp),
+                            modifier = Modifier.padding(top = 16.dp),
                         ) {
                             stats.upcomingExpiry.forEach { item ->
-                                UpcomingExpiryRow(item = item)
+                                UpcomingExpiryRow(item = item, tint = MaterialTheme.colorScheme.tertiary)
                             }
                         }
                     }
@@ -486,43 +489,37 @@ private fun LocationBarRow(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 动态摘要
+// 动态摘要:左侧竖直时间线(分组圆形描边图标 + 条目圆点串在线上)
+// 最近新增 = primary 系,即将过期 = tertiary 系;不硬编码 hex
 // ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
 private fun ActivityGroup(
-    icon: ImageVector,
     title: String,
     tint: Color,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
+    Column(modifier = modifier) {
+        // 分组标题:纯文字,与时间线条目内容(26dp gutter 之后)左对齐,只用空白分隔
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Bold,
+            color = tint,
+            modifier = Modifier.padding(start = 26.dp),
+        )
+        Column(
+            modifier = Modifier.padding(top = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                modifier = Modifier.size(16.dp),
-                tint = tint,
-            )
-            Text(
-                text = title,
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.SemiBold,
-                color = tint,
-            )
-        }
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             content()
         }
     }
 }
 
 @Composable
-private fun RecentAddedRow(item: HouseholdItemUi) {
+private fun RecentAddedRow(item: HouseholdItemUi, tint: Color) {
     val formatter = remember {
         DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT)
             .withLocale(Locale.getDefault())
@@ -530,48 +527,89 @@ private fun RecentAddedRow(item: HouseholdItemUi) {
     val timeText = remember(item.createdAt) {
         Instant.ofEpochMilli(item.createdAt).atZone(ZoneId.systemDefault()).format(formatter)
     }
-    ActivityRow(
+    TimelineEntryRow(
         item = item,
-        subtitle = listOf(item.locationPath, timeText)
-            .filter { it.isNotBlank() }
-            .joinToString(" · "),
-        subtitleColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        tint = tint,
+        subtitle = AnnotatedString(
+            listOf(item.locationPath, timeText)
+                .filter { it.isNotBlank() }
+                .joinToString("  |  "),
+        ),
     )
 }
 
 @Composable
-private fun UpcomingExpiryRow(item: HouseholdItemUi) {
+private fun UpcomingExpiryRow(item: HouseholdItemUi, tint: Color) {
     val days = item.daysToExpire ?: return
-    val expiryText = if (days == 0L) {
+    val dateFormatter = remember {
+        DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(Locale.getDefault())
+    }
+    val dateText = item.expireDate?.format(dateFormatter).orEmpty()
+    val prefix = stringResource(R.string.household_stats_expire_prefix, dateText)
+    val suffix = stringResource(R.string.household_stats_expire_suffix)
+    // 倒计时文案(剩余 N 天)整段彩色加粗高亮
+    val daysText = if (days == 0L) {
         stringResource(R.string.household_expires_today)
     } else {
         stringResource(R.string.household_days_left, days)
     }
-    ActivityRow(
+    TimelineEntryRow(
         item = item,
-        subtitle = listOf(item.locationPath, expiryText)
-            .filter { it.isNotBlank() }
-            .joinToString(" · "),
-        subtitleColor = MaterialTheme.colorScheme.tertiary,
+        tint = tint,
+        subtitle = buildAnnotatedString {
+            if (item.locationPath.isNotBlank()) {
+                append(item.locationPath)
+                append("  |  ")
+            }
+            append(prefix)
+            withStyle(SpanStyle(color = tint, fontWeight = FontWeight.Bold)) {
+                append(daysText)
+            }
+            append(suffix)
+        },
     )
 }
 
+/** 时间线条目:gutter(竖线 + 圆点)+ 圆角方形图标底 + 名称(加粗)+ 副标题 */
 @Composable
-private fun ActivityRow(
+private fun TimelineEntryRow(
     item: HouseholdItemUi,
-    subtitle: String,
-    subtitleColor: Color,
+    tint: Color,
+    subtitle: AnnotatedString,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
+        // 时间线 gutter:竖线贯通行高,圆点居中,相邻行的线自然连成一条
         Box(
             modifier = Modifier
-                .size(32.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceVariant),
+                .width(26.dp)
+                .fillMaxHeight(),
+        ) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .width(1.dp)
+                    .fillMaxHeight()
+                    .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.7f)),
+            )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .size(8.dp)
+                    .clip(CircleShape)
+                    .background(tint),
+            )
+        }
+        // 圆角方形图标底:分类图标(回退首字),颜色跟随分组
+        Box(
+            modifier = Modifier
+                .size(38.dp)
+                .clip(RoundedCornerShape(11.dp))
+                .background(tint.copy(alpha = 0.12f)),
             contentAlignment = Alignment.Center,
         ) {
             val icon = categoryIconOrNull(item.category)
@@ -579,28 +617,34 @@ private fun ActivityRow(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(19.dp),
+                    tint = tint,
                 )
             } else {
                 Text(
                     text = (item.category.ifBlank { item.name }).take(1),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = tint,
                 )
             }
         }
-        Column(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
             Text(
                 text = item.name,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
                 text = subtitle,
                 style = MaterialTheme.typography.labelSmall,
-                color = subtitleColor,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
