@@ -104,7 +104,10 @@ fun CodeEditorScreen(
                     content = content,
                     onSuccess = {
                         editorState.clearDraft()
-                        AppToastHost.showToast(context.getString(R.string.save_success))
+                        AppToastHost.showFileSuccessToast(
+                            uri = uri,
+                            message = context.getString(R.string.save_success)
+                        )
                         pendingAction?.invoke()
                         pendingAction = null
                     },
@@ -154,7 +157,10 @@ fun CodeEditorScreen(
                                 content = content,
                                 onSuccess = {
                                     editorState.clearDraft()
-                                    AppToastHost.showToast(context.getString(R.string.save_success))
+                                    AppToastHost.showFileSuccessToast(
+                                        uri = uiState.fileUri,
+                                        message = context.getString(R.string.save_success)
+                                    )
                                 },
                                 onFailure = { msg -> AppToastHost.showToast(msg) }
                             )

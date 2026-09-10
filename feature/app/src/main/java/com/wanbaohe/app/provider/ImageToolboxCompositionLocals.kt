@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.remember
@@ -74,6 +75,21 @@ fun ImageToolboxCompositionLocals(
             },
             contentRouter = component.contentRouter,
         )
+    }
+
+    // 注册全局文件打开处理器,供保存成功 Toast 的「打开」按钮使用
+    DisposableEffect(component, context) {
+        AppToastHost.fileOpenHandler = { uri ->
+            component.contentRouter.route(
+                uri = uri,
+                context = context,
+                onNavigate = component::navigateTo,
+                fallbackToExternal = true
+            )
+        }
+        onDispose {
+            AppToastHost.fileOpenHandler = null
+        }
     }
 
     val values = remember(

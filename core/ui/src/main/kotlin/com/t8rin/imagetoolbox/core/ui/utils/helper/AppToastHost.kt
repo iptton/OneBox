@@ -18,14 +18,17 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.content.ActivityNotFoundException
+import android.net.Uri
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOff
+import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.ConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.ConfettiIntensity
 import com.t8rin.imagetoolbox.core.ui.utils.blessing.BlessingEffectHostState
 import com.t8rin.imagetoolbox.core.ui.utils.blessing.BlessingEffectType
+import com.t8rin.imagetoolbox.core.ui.widget.other.ActionToastVisuals
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.other.showFailureToast
@@ -37,6 +40,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFolderOff
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineSave
 
 data object AppToastHost {
 
@@ -103,6 +107,67 @@ data object AppToastHost {
             )
         }
     }
+
+    /**
+     * 全局文件打开处理器,由根界面组装时注册(ImageToolboxCompositionLocals),
+     * 内部走统一的 ContentRouter 决定打开方式。
+     */
+    @Volatile
+    var fileOpenHandler: ((Uri) -> Unit)? = null
+
+    fun showActionToast(
+        message: String,
+        actionLabel: String,
+        onAction: () -> Unit,
+        icon: ImageVector? = null,
+        duration: ToastDuration = ToastDuration.Long
+    ) {
+        scope.launch {
+            state.showToast(
+                ActionToastVisualsImpl(
+                    message = message,
+                    icon = icon,
+                    duration = duration,
+                    actionLabel = actionLabel,
+                    onAction = onAction
+                )
+            )
+        }
+    }
+
+    /**
+     * 文件保存成功提示:带「打开」按钮的快捷条,点击直接打开刚保存的文件。
+     * Uri 为空或打开处理器未注册时退化为普通成功提示。
+     */
+    fun showFileSuccessToast(
+        uri: Uri?,
+        message: String,
+        icon: ImageVector = Icons.Outlined.LineSave
+    ) {
+        val handler = fileOpenHandler
+        if (uri == null || handler == null) {
+            showToast(
+                message = message,
+                icon = icon,
+                duration = ToastDuration.Long
+            )
+            return
+        }
+        showActionToast(
+            message = message,
+            actionLabel = getString(R.string.open),
+            onAction = { handler(uri) },
+            icon = icon
+        )
+    }
+
+    private class ActionToastVisualsImpl(
+        override val message: String,
+        override val icon: ImageVector?,
+        override val duration: ToastDuration,
+        override val actionLabel: String,
+        override val onAction: () -> Unit
+    ) : ActionToastVisuals
 
     fun dismissToasts() {
         state.currentToastData?.dismiss()

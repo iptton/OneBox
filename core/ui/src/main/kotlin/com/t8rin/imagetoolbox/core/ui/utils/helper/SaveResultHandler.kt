@@ -84,10 +84,9 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
             is SaveResult.Success -> {
                 updateSaveResult(saveResult)
                 saveResult.message?.let {
-                    AppToastHost.showToast(
-                        message = it,
-                        icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSave,
-                        duration = ToastDuration.Long
+                    AppToastHost.showFileSuccessToast(
+                        uri = saveResult.fileUri?.takeIf(String::isNotBlank)?.toUri(),
+                        message = it
                     )
                 }
                 AppToastHost.showConfetti()
@@ -114,9 +113,9 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
 
             is SaveResult.Success -> {
                 updateSaveResult(saveResult)
-                AppToastHost.showToast(
-                    message = getString(R.string.saved_to_without_filename, ""),
-                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSave
+                AppToastHost.showFileSuccessToast(
+                    uri = saveResult.fileUri?.takeIf(String::isNotBlank)?.toUri(),
+                    message = getString(R.string.saved_to_without_filename, "")
                 )
                 AppToastHost.showConfetti()
             }
@@ -145,13 +144,12 @@ internal object SaveResultHandlerImpl : SaveResultHandler {
             if (done == 1) {
                 val saveResult = results.firstOfType<SaveResult.Success>()
                 val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
-                AppToastHost.showToast(
+                AppToastHost.showFileSuccessToast(
+                    uri = saveResult?.fileUri?.takeIf(String::isNotBlank)?.toUri(),
                     message = saveResult?.message ?: getString(
                         R.string.saved_to_without_filename,
                         savingPath
-                    ),
-                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSave,
-                    duration = ToastDuration.Long
+                    )
                 )
             } else {
                 val saveResult = results.firstOfType<SaveResult.Success>()

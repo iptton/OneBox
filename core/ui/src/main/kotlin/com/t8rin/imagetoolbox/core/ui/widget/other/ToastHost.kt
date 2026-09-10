@@ -39,17 +39,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
@@ -91,7 +92,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestStoragePe
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
 import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.modalsheet.FullscreenPopup
@@ -115,7 +115,9 @@ fun ToastHost(
     modifier: Modifier = Modifier.fillMaxSize(),
     alignment: Alignment = Alignment.BottomCenter,
     transitionSpec: AnimatedContentTransitionScope<ToastData?>.() -> ContentTransform = { ToastDefaults.transition },
-    toast: @Composable (ToastData) -> Unit = { Toast(it) },
+    toast: @Composable (ToastData) -> Unit = {
+        if (it.visuals is ActionToastVisuals) ActionToast(it) else Toast(it)
+    },
     enableSwipes: Boolean = true
 ) {
     val screenSize = LocalScreenSize.current
@@ -250,9 +252,6 @@ fun Toast(
     containerColor: Color = ToastDefaults.color,
     contentColor: Color = ToastDefaults.contentColor,
 ) {
-    val screenSize = LocalScreenSize.current
-    val sizeMin = screenSize.width.coerceAtMost(screenSize.height)
-
     Card(
         colors = CardDefaults.cardColors(
             containerColor = containerColor,
@@ -260,7 +259,7 @@ fun Toast(
         ),
         modifier = modifier
             .heightIn(min = 48.dp)
-            .widthIn(min = 0.dp, max = (sizeMin * 0.7f))
+            .fillMaxWidth()
             .autoElevatedBorder(
                 color = MaterialTheme.colorScheme
                     .outlineVariant(0.3f, contentColor)
@@ -298,6 +297,85 @@ fun Toast(
                 text = toastData.visuals.message,
                 textAlign = TextAlign.Center
             )
+        }
+    }
+}
+
+@Composable
+fun ActionToast(
+    toastData: ToastData,
+    modifier: Modifier = Modifier,
+    shape: Shape = ToastDefaults.shape,
+    containerColor: Color = ToastDefaults.color,
+    contentColor: Color = ToastDefaults.contentColor,
+) {
+    val visuals = toastData.visuals as? ActionToastVisuals
+    if (visuals == null) {
+        Toast(toastData = toastData, modifier = modifier, shape = shape)
+        return
+    }
+
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ),
+        modifier = modifier
+            .heightIn(min = 48.dp)
+            .fillMaxWidth()
+            .autoElevatedBorder(
+                color = MaterialTheme.colorScheme
+                    .outlineVariant(0.3f, contentColor)
+                    .copy(alpha = 0.92f),
+                shape = shape,
+                autoElevation = animateDpAsState(
+                    if (LocalSettingsState.current.drawContainerShadows) 6.dp
+                    else 0.dp
+                ).value
+            )
+            .alpha(0.95f),
+        shape = shape
+    ) {
+        Row(
+            modifier = Modifier.padding(
+                start = 16.dp,
+                top = 6.dp,
+                bottom = 6.dp,
+                end = 6.dp
+            ),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            toastData.visuals.icon?.let { icon ->
+                IconShapeContainer(
+                    containerColor = containerColor
+                        .blend(MaterialTheme.colorScheme.secondary, 0.5f)
+                        .blend(MaterialTheme.colorScheme.primaryContainer, 0.05f),
+                    contentColor = contentColor
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+            Text(
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.bodySmall,
+                text = visuals.message
+            )
+            TextButton(
+                onClick = {
+                    visuals.onAction()
+                    toastData.dismiss()
+                }
+            ) {
+                Text(
+                    text = visuals.actionLabel,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.inversePrimary
+                )
+            }
         }
     }
 }
@@ -422,6 +500,13 @@ interface ToastVisuals {
 
 @Stable
 @Immutable
+interface ActionToastVisuals : ToastVisuals {
+    val actionLabel: String
+    val onAction: () -> Unit
+}
+
+@Stable
+@Immutable
 open class ToastDuration(val time: kotlin.Long) {
     object Short : ToastDuration(3500L)
     object Long : ToastDuration(6500L)
@@ -458,7 +543,7 @@ object ToastDefaults {
         @Composable
         get() = MaterialTheme.colorScheme.inverseSurface.harmonizeWithPrimary()
 
-    val shape: Shape @Composable get() = AutoCornersShape(32.dp)
+    val shape: Shape @Composable get() = MaterialTheme.shapes.large
 }
 
 private fun ToastDuration.toMillis(
