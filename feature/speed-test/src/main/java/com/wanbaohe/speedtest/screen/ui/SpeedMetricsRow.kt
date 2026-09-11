@@ -1,16 +1,18 @@
 package com.wanbaohe.speedtest.screen.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shifenmiao.theme.AppTheme
-import com.t8rin.imagetoolbox.core.ui.widget.glass.glassThin
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.wanbaohe.speedtest.R
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDownload
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTimer
@@ -38,8 +40,8 @@ fun SpeedMetricsRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+            .padding(horizontal = 20.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         MetricCard(
             icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTimer,
@@ -69,45 +71,57 @@ private fun MetricCard(
     val primaryColor = AppTheme.colors.getPrimaryColor()
     val subtitleColor = AppTheme.colors.getOnInactiveContainerColor()
 
-    Row(
-        modifier = modifier
-            .glassThin(
-                color = AppTheme.colors.getContainerSurfaceColor(),
-                shape = RoundedCornerShape(16.dp),
-                borderWidth = 0.dp
-            )
-            .padding(horizontal = 14.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    GlassCard(
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        ),
+        containerAlpha = 0.92f,
+        borderWidth = 0.5.dp
     ) {
-        // 图标
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = primaryColor.copy(alpha = 0.75f),
-            modifier = Modifier.size(20.dp)
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // 图标
+            Box(
+                Modifier.size(32.dp).background(primaryColor.copy(alpha = 0.12f), RoundedCornerShape(10.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = primaryColor,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
 
-        Column {
-            Text(
-                text = label,
-                fontSize = 11.sp,
-                color = subtitleColor
-            )
-            Row(verticalAlignment = Alignment.Bottom) {
+            Column(Modifier.weight(1f)) {
                 Text(
-                    text = value,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = AppTheme.colors.getPrimaryTextColor()
-                )
-                Spacer(Modifier.size(3.dp))
-                Text(
-                    text = unit,
+                    text = label,
                     fontSize = 11.sp,
-                    color = subtitleColor,
-                    modifier = Modifier.padding(bottom = 3.dp)
+                    color = subtitleColor
                 )
+                Row(verticalAlignment = Alignment.Bottom) {
+                    Text(
+                        text = value,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = AppTheme.colors.getPrimaryTextColor(),
+                        modifier = Modifier.weight(1f, fill = false)
+                    )
+                    Spacer(Modifier.size(3.dp))
+                    Text(
+                        text = unit,
+                        fontSize = 10.sp,
+                        color = subtitleColor,
+                        modifier = Modifier.padding(bottom = 1.dp)
+                    )
+                }
             }
         }
     }

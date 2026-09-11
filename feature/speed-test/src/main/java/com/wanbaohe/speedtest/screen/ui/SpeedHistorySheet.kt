@@ -1,5 +1,6 @@
 package com.wanbaohe.speedtest.screen.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,8 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -22,7 +21,9 @@ import com.shifenmiao.theme.AppTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +42,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Close
  * @param visible    是否显示
  * @param records    历史列表
  * @param onClear    清除所有记录回调
+ * @param onSelectRecord 选择记录并展示结果
  * @param onDismiss  关闭回调
  */
 @Composable
@@ -48,6 +50,7 @@ fun SpeedHistorySheet(
     visible: Boolean,
     records: List<SpeedTestRecord>,
     onClear: () -> Unit,
+    onSelectRecord: (SpeedTestRecord) -> Unit,
     onDismiss: () -> Unit
 ) {
     EnhancedModalBottomSheet(
@@ -134,7 +137,7 @@ fun SpeedHistorySheet(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    items(records, key = { it.recordedAt }) { record ->
+                    items(records, key = { it.id }) { record ->
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -142,6 +145,8 @@ fun SpeedHistorySheet(
                                     color = AppTheme.colors.getContainerSurfaceColor(),
                                     shape = RoundedCornerShape(12.dp)
                                 )
+                                .clip(RoundedCornerShape(12.dp))
+                                .clickable(role = Role.Button) { onSelectRecord(record) }
                                 .padding(horizontal = 16.dp, vertical = 12.dp)
                         ) {
                             SpeedHistoryItem(record = record)

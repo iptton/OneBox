@@ -8,10 +8,13 @@ import com.wanbaohe.speedtest.data.SpeedTestConfig
 import com.wanbaohe.speedtest.data.SpeedTestConfigRepository
 import com.wanbaohe.speedtest.data.SpeedTestRepository
 import com.wanbaohe.speedtest.domain.SpeedTestPhase
+import com.wanbaohe.speedtest.domain.SpeedTestRecord
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -63,30 +66,38 @@ class SpeedTestComponent @AssistedInject internal constructor(
         if (_uiState.value.status == SpeedTestStatus.MEASURING) return
         testJob?.cancel()
         val networkType = networkHelper.getCurrentNetworkType()
+        val config = _uiState.value.config
         _uiState.value = _uiState.value.copy(
             status = SpeedTestStatus.MEASURING,
             liveMbps = 0f, progress = 0f, result = null,
+            latencyMs = -1, measuringLatency = true, testConfig = config,
             networkType = networkType, errorMsg = null
         )
         testJob = componentScope.launch {
-            repository.startTest(_uiState.value.config, networkType).collect { phase ->
+            repository.startTest(config, networkType).collect { phase ->
+                currentCoroutineContext().ensureActive()
                 when (phase) {
                     is SpeedTestPhase.MeasuringLatency -> {}
                     is SpeedTestPhase.Downloading ->
                         _uiState.value = _uiState.value.copy(
-                            liveMbps = phase.liveMbps, progress = phase.progress
+                            liveMbps = phase.liveMbps, progress = phase.progress,
+                            latencyMs = phase.latencyMs, measuringLatency = false
                         )
                     is SpeedTestPhase.Done -> {
                         repository.saveRecord(phase.record)
+                        currentCoroutineContext().ensureActive()
                         _uiState.value = _uiState.value.copy(
                             status = SpeedTestStatus.DONE,
                             result = phase.record,
+                            latencyMs = phase.record.latencyMs, measuringLatency = false,
                             liveMbps = phase.record.downloadMbps, progress = 1f
                         )
                     }
                     is SpeedTestPhase.Error ->
                         _uiState.value = _uiState.value.copy(
-                            status = SpeedTestStatus.IDLE, errorMsg = phase.message
+                            status = SpeedTestStatus.IDLE, errorMsg = phase.message,
+                            liveMbps = 0f, progress = 0f, latencyMs = -1,
+                            measuringLatency = false, testConfig = null
                         )
                 }
             }
@@ -97,14 +108,20 @@ class SpeedTestComponent @AssistedInject internal constructor(
     fun cancelTest() {
         testJob?.cancel()
         _uiState.value = _uiState.value.copy(
-            status = SpeedTestStatus.IDLE, liveMbps = 0f, progress = 0f, errorMsg = null
+            status = SpeedTestStatus.IDLE, liveMbps = 0f, progress = 0f, errorMsg = null,
+            latencyMs = -1, measuringLatency = false, testConfig = null, result = null
         )
     }
 
     /** 重新测速（清除上次结果后立即开始） */
     fun restartTest() {
-        _uiState.value = _uiState.value.copy(status = SpeedTestStatus.IDLE, result = null)
         startTest()
+    }
+
+    fun refreshNetwork() {
+        if (_uiState.value.status == SpeedTestStatus.IDLE) {
+            _uiState.value = _uiState.value.copy(networkType = networkHelper.getCurrentNetworkType())
+        }
     }
 
     /** 打开 Wi-Fi 设置 */
@@ -113,6 +130,23 @@ class SpeedTestComponent @AssistedInject internal constructor(
     /** 清除所有历史记录 */
     fun clearHistory() {
         componentScope.launch { repository.clearHistory() }
+    }
+
+    /** 查看历史结果，停止当前测速，但不重复写入记录或更改测速配置。 */
+    fun selectHistoryRecord(record: SpeedTestRecord) {
+        testJob?.cancel()
+        testJob = null
+        _uiState.value = _uiState.value.copy(
+            status = SpeedTestStatus.DONE,
+            result = record,
+            networkType = record.networkType,
+            latencyMs = record.latencyMs,
+            liveMbps = record.downloadMbps,
+            progress = 1f,
+            measuringLatency = false,
+            testConfig = null,
+            errorMsg = null
+        )
     }
 
     // ── 配置管理 ─────────────────────────────────────────────────────────────

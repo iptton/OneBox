@@ -28,6 +28,10 @@
     <string name="speed_test_start">开始测速</string>
     <string name="speed_test_estimated_data">预计消耗%1$dMB流量</string>
     <string name="speed_test_measuring">正在测速…</string>
+    <string name="speed_test_measuring_latency">正在测量延迟…</string>
+    <string name="speed_test_stop">停止测速</string>
+    <string name="speed_test_stop_hint">点击停止测速，未完成的结果不会保存</string>
+    <string name="speed_test_reference_scale">下载速度参考 · 非用户排名</string>
 
     <!-- ── 单位 ── -->
     <string name="speed_test_unit_mbps">Mbps</string>

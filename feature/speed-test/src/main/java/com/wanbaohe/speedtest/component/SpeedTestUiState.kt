@@ -14,6 +14,10 @@ data class SpeedTestUiState(
     val liveMbps: Float = 0f,
     /** 下载进度 0~1，仅 MEASURING 时有意义 */
     val progress: Float = 0f,
+    val latencyMs: Int = -1,
+    val measuringLatency: Boolean = false,
+    /** 本轮测速使用的配置，不随设置变更而改变。 */
+    val testConfig: SpeedTestConfig? = null,
     /** 最终测速结果，仅 DONE 时非空 */
     val result: SpeedTestRecord? = null,
     /** 历史记录列表 */

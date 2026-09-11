@@ -6,7 +6,11 @@ sealed class SpeedTestPhase {
     data object MeasuringLatency : SpeedTestPhase()
 
     /** 下载测速中，liveMbps = 实时速度，progress = 0~1 */
-    data class Downloading(val liveMbps: Float, val progress: Float) : SpeedTestPhase()
+    data class Downloading(
+        val liveMbps: Float,
+        val progress: Float,
+        val latencyMs: Int = -1
+    ) : SpeedTestPhase()
 
     /** 测速完成 */
     data class Done(val record: SpeedTestRecord) : SpeedTestPhase()

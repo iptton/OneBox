@@ -28,6 +28,10 @@
     <string name="speed_test_start">Start</string>
     <string name="speed_test_estimated_data">Will use about %1$d MB of data</string>
     <string name="speed_test_measuring">Testing…</string>
+    <string name="speed_test_measuring_latency">Measuring latency…</string>
+    <string name="speed_test_stop">Stop test</string>
+    <string name="speed_test_stop_hint">Tap to stop; partial results are not saved</string>
+    <string name="speed_test_reference_scale">Download speed reference · not a user ranking</string>
 
     <!-- Units -->
     <string name="speed_test_unit_mbps">Mbps</string>
