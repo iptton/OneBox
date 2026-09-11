@@ -162,8 +162,9 @@ abstract class AppDatabase : RoomDatabase() {
          * v8 易经卜卦解读 prompt 丰富化(引卦辞/爻辞/易传原文), 需重刷覆盖旧版。
          * v9 Agent 创建 prompt 注册 ImagePicker/FilePicker 组件, 需重刷覆盖旧版。
          * v10 Agent 创建 prompt 注册 FolderPicker/RangeSlider/Rating 组件, 需重刷覆盖旧版。
+         * v11 Agent 工作模式 prompt 修正发现工具描述(discover(scope=all) → discover_tools(keywords)), 需重刷覆盖旧版。
          */
-        private const val SYSTEM_PRESET_VERSION = 10
+        private const val SYSTEM_PRESET_VERSION = 11
 
         /**
          * v1 → v2：同步主键从 (source, remote_id) 全局切换为 (source, document_id)。
