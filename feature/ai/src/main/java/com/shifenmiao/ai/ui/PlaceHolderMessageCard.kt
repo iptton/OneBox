@@ -10,7 +10,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -20,7 +19,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Edit
@@ -41,12 +42,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -207,11 +205,7 @@ private fun PromptWorkCard(
     }
     val expanded = expandedState.value
     val updatedAtText = updatedAtMillis?.takeIf { it > 0L }?.let(::formatPromptUpdatedAt)
-    val screenHeightDp = LocalConfiguration.current.screenHeightDp
-    val collapsedMaxHeight = (screenHeightDp / 2).dp
-    val screenHeightPx = with(LocalDensity.current) { screenHeightDp.dp.toPx() }
-    var expandedContentHeightPx by remember(promptId) { mutableIntStateOf(0) }
-    val showBottomActions = expanded && expandedContentHeightPx > screenHeightPx
+    val collapsedMaxHeight = (LocalConfiguration.current.screenHeightDp / 2).dp
 
     CustomChatCard(
         isHuman = false,
@@ -246,13 +240,6 @@ private fun PromptWorkCard(
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                if (message.isNotBlank()) {
-                    CardActionIcon(
-                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.ContentCopy,
-                        contentDescription = stringResource(R.string.copy),
-                        onClick = { Clipboard.copy(message) }
-                    )
-                }
                 if (isEditable && promptId != null) {
                     CardActionIcon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Edit,
@@ -283,14 +270,6 @@ private fun PromptWorkCard(
                         onClick = onPushToRemote
                     )
                 }
-                if (message.isNotBlank()) {
-                    CardActionIcon(
-                        imageVector = if (expanded) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore,
-                        contentDescription = null,
-                        iconSize = 22.dp,
-                        onClick = { expandedState.value = !expandedState.value }
-                    )
-                }
             }
 
             if (message.isBlank()) {
@@ -299,41 +278,38 @@ private fun PromptWorkCard(
                     style = MaterialTheme.typography.bodyMedium,
                     color = AppTheme.colors.getPrimaryTextColor()
                 )
-            } else if (expanded) {
-                Column(
-                    modifier = Modifier.onGloballyPositioned { coordinates ->
-                        expandedContentHeightPx = coordinates.size.height
-                    }
-                ) {
-                    RichMarkdown(content = message)
-                }
-                if (showBottomActions) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
-                    ) {
-                        CardActionIcon(
-                            imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.ContentCopy,
-                            contentDescription = stringResource(R.string.copy),
-                            onClick = { Clipboard.copy(message) }
-                        )
-                        CardActionIcon(
-                            imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess,
-                            contentDescription = null,
-                            iconSize = 22.dp,
-                            onClick = { expandedState.value = false }
-                        )
-                    }
-                }
             } else {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(max = collapsedMaxHeight)
-                        .clipToBounds()
-                ) {
+                if (expanded) {
                     RichMarkdown(content = message)
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = collapsedMaxHeight)
+                            .verticalScroll(
+                                state = rememberScrollState(),
+                                enabled = false
+                            )
+                    ) {
+                        RichMarkdown(content = message)
+                    }
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
+                ) {
+                    CardActionIcon(
+                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.ContentCopy,
+                        contentDescription = stringResource(R.string.copy),
+                        onClick = { Clipboard.copy(message) }
+                    )
+                    CardActionIcon(
+                        imageVector = if (expanded) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore,
+                        contentDescription = null,
+                        iconSize = 22.dp,
+                        onClick = { expandedState.value = !expandedState.value }
+                    )
                 }
             }
         }
