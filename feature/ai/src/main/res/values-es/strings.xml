@@ -112,6 +112,14 @@
     <string name="agent_tool_create_note_opened">Nota guardada y abierta</string>
     <string name="agent_tool_create_note_not_opened">Nota guardada; el usuario eligió no abrirla</string>
     <string name="agent_tool_create_note_failed">Error al guardar la nota: %1$s</string>
+    <string name="agent_tool_create_prompt_description">Crea un prompt de IA local (persona de chat/prompt de sistema). Proporciona un requisito en lenguaje natural; la herramienta usa IA para generar una plantilla de prompt completa (título, descripción, prompt de sistema, marcador de entrada) y la guarda fijada en la biblioteca local de prompts del usuario. Opcionalmente pasa un nombre de categoría; se crea automáticamente si no existe.</string>
+    <string name="agent_tool_create_prompt_title">Crear prompt</string>
+    <string name="agent_tool_create_prompt_summary">Genera y guarda un prompt de IA local a partir de una descripción de requisitos</string>
+    <string name="agent_tool_create_prompt_param_requirement">Requisito en lenguaje natural que describe el prompt a crear; cuanto más específico, mejor, p. ej.: un asistente de escritura académica que pula el lenguaje de artículos</string>
+    <string name="agent_tool_create_prompt_param_category">Nombre de categoría (opcional); se crea automáticamente si no existe, p. ej.: Escritura, Programación, Traducción</string>
+    <string name="agent_tool_create_prompt_requirement_required">Falta el parámetro obligatorio requirement (descripción del prompt a crear)</string>
+    <string name="agent_tool_create_prompt_success">¡Prompt creado con éxito!\nTítulo: %1$s\nID: %2$d\nCategoría: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">Error al crear el prompt: %1$s</string>
     <string name="agent_tool_view_note_description">Ver el contenido de una nota. Proporciona un ID de nota para obtener el título, la descripción y el cuerpo.</string>
     <string name="agent_tool_view_note_title">Ver nota</string>
     <string name="agent_tool_view_note_summary">Leer el título, la descripción y el cuerpo de una nota</string>

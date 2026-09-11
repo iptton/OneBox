@@ -125,6 +125,14 @@
     <string name="agent_tool_create_note_opened">笔记已保存并打开</string>
     <string name="agent_tool_create_note_not_opened">笔记已保存，用户选择暂不打开</string>
     <string name="agent_tool_create_note_failed">保存笔记失败: %1$s</string>
+    <string name="agent_tool_create_prompt_description">创建一个本地 AI 提示词（聊天角色/系统提示词）。传入自然语言需求描述，工具会调用 AI 生成完整的提示词模板（标题、说明、系统提示词、输入占位提示）并保存到用户的本地提示词库，自动置顶。可选传入分类名，不存在时自动创建。当用户希望助手直接帮他创建/撰写提示词时使用本工具。</string>
+    <string name="agent_tool_create_prompt_title">创建提示词</string>
+    <string name="agent_tool_create_prompt_summary">根据需求描述用 AI 生成并保存一条本地提示词</string>
+    <string name="agent_tool_create_prompt_param_requirement">对要创建的提示词的需求描述，越具体越好，例如：一个帮我润色论文语言的学术写作助手</string>
+    <string name="agent_tool_create_prompt_param_category">分类名（可选），不存在时自动创建，如：写作、编程、翻译</string>
+    <string name="agent_tool_create_prompt_requirement_required">缺少必填参数 requirement（对要创建的提示词的需求描述）</string>
+    <string name="agent_tool_create_prompt_success">提示词创建成功！\n标题: %1$s\nID: %2$d\n分类: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">创建提示词失败: %1$s</string>
 
     <string name="agent_tool_view_note_description">查看笔记内容。提供笔记 ID 即可获取笔记的标题、描述和内容。</string>
     <string name="agent_tool_view_note_title">查看笔记</string>
@@ -952,4 +960,51 @@
     <string name="agent_tool_automate_ui_task_failed">任务在第 %1$d 步失败：%2$s</string>
     <string name="agent_tool_automate_ui_task_step_limit">任务在 %1$d 步后停止（已达上限）。最后操作：%2$s</string>
     <string name="agent_tool_automate_ui_task_no_activity">当前没有可用的 Activity。请确保从普通页面打开聊天。</string>
+
+    <string name="agent_tool_font_scale_setting_title">字体大小</string>
+    <string name="agent_tool_font_scale_setting_summary">读取或修改 App 字体缩放比例(0.45–1.5,或跟随系统字体大小)</string>
+    <string name="agent_tool_font_scale_setting_param_action">操作类型。get=读取当前字体缩放;set=修改。**仅 action 必填**</string>
+    <string name="agent_tool_font_scale_setting_param_scale">字体缩放比例。0.45 ~ 1.5 的数值字符串(1.0 为默认),或 "system" / "default" 表示跟随系统。仅 set 使用</string>
+    <string name="agent_tool_font_scale_setting_failed">字体大小设置失败:%1$s</string>
+    <string name="agent_tool_font_scale_setting_unknown_action">未知操作:%1$s,必须是 get / set 之一</string>
+    <string name="agent_tool_font_scale_setting_missing_action">缺少 action 参数</string>
+    <string name="agent_tool_font_scale_setting_missing_scale">set 操作需要 scale 参数(0.45 ~ 1.5,或 "system")</string>
+    <string name="agent_tool_font_scale_setting_out_of_range">无效的缩放比例:%1$s,必须是 0.45 ~ 1.5 的数值,或 "system" / "default"</string>
+    <string name="agent_tool_font_scale_setting_get_message">已读取当前字体缩放</string>
+    <string name="agent_tool_font_scale_setting_set_message">字体缩放已设为 %1$s</string>
+    <string name="agent_tool_font_scale_setting_set_system_message">字体大小已设为跟随系统</string>
+    <string name="agent_tool_font_scale_setting_effective_hint">字体缩放在页面创建时应用,重新打开页面或重启 App 后完全生效</string>
+    <string name="agent_tool_font_scale_setting_deeplink_label">显示设置</string>
+    <string name="agent_tool_font_scale_setting_deeplink_guidance">点击前往显示设置微调字体大小</string>
+
+    <string name="agent_tool_night_mode_setting_title">日夜间模式</string>
+    <string name="agent_tool_night_mode_setting_summary">读取或切换日间 / 夜间 / 跟随系统模式(即时生效)</string>
+    <string name="agent_tool_night_mode_setting_param_action">操作类型。get=读取当前模式;set=切换模式。**仅 action 必填**</string>
+    <string name="agent_tool_night_mode_setting_param_mode">日夜间模式。Light(日间)/ Dark(夜间)/ System(跟随系统),大小写不敏感。仅 set 使用</string>
+    <string name="agent_tool_night_mode_setting_failed">日夜间模式设置失败:%1$s</string>
+    <string name="agent_tool_night_mode_setting_unknown_action">未知操作:%1$s,必须是 get / set 之一</string>
+    <string name="agent_tool_night_mode_setting_missing_action">缺少 action 参数</string>
+    <string name="agent_tool_night_mode_setting_missing_mode">set 操作需要 mode 参数(Light / Dark / System)</string>
+    <string name="agent_tool_night_mode_setting_invalid_mode">无效的模式:%1$s,必须是 Light / Dark / System 之一</string>
+    <string name="agent_tool_night_mode_setting_get_message">当前日夜间模式:%1$s</string>
+    <string name="agent_tool_night_mode_setting_set_message">已切换到 %1$s 模式</string>
+    <string name="agent_tool_night_mode_setting_deeplink_label">显示设置</string>
+    <string name="agent_tool_night_mode_setting_deeplink_guidance">点击前往显示设置切换日夜间模式</string>
+
+    <string name="agent_tool_start_entry_setting_title">启动入口</string>
+    <string name="agent_tool_start_entry_setting_summary">查看或设置 App 冷启动后直达的页面(下次冷启动生效)</string>
+    <string name="agent_tool_start_entry_setting_param_action">操作类型。list=列出全部候选页面;get=读取当前启动入口;set=修改。**仅 action 必填**</string>
+    <string name="agent_tool_start_entry_setting_param_screen_id">启动入口页面 id。list 响应 candidates[i].id 的数字 id,或 "default" / "home" 恢复默认首页。仅 set 使用</string>
+    <string name="agent_tool_start_entry_setting_failed">启动入口设置失败:%1$s</string>
+    <string name="agent_tool_start_entry_setting_unknown_action">未知操作:%1$s,必须是 list / get / set 之一</string>
+    <string name="agent_tool_start_entry_setting_missing_action">缺少 action 参数</string>
+    <string name="agent_tool_start_entry_setting_missing_screen_id">set 操作需要 screen_id 参数(list 返回的候选 id,或 "default")</string>
+    <string name="agent_tool_start_entry_setting_invalid_screen_id">无效的 screen_id:%1$s,必须是数字候选 id,或 "default" / "home"</string>
+    <string name="agent_tool_start_entry_setting_unknown_screen_id">未知的 screen_id:%1$s,请先调用 list 获取合法候选 id</string>
+    <string name="agent_tool_start_entry_setting_list_message">已读取启动入口候选列表</string>
+    <string name="agent_tool_start_entry_setting_get_message">已读取当前启动入口</string>
+    <string name="agent_tool_start_entry_setting_set_message">启动入口已设为:%1$s</string>
+    <string name="agent_tool_start_entry_setting_effective_hint">启动入口仅在下次冷启动时生效</string>
+    <string name="agent_tool_start_entry_setting_deeplink_label">显示设置</string>
+    <string name="agent_tool_start_entry_setting_deeplink_guidance">点击前往显示设置选择启动入口</string>
 </resources>

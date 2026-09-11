@@ -112,6 +112,14 @@
     <string name="agent_tool_create_note_opened">Na-save at nabuksan ang note</string>
     <string name="agent_tool_create_note_not_opened">Na-save ang note; pinili ng user na huwag buksan</string>
     <string name="agent_tool_create_note_failed">Nabigo ang pag-save ng note: %1$s</string>
+    <string name="agent_tool_create_prompt_description">Gumagawa ng lokal na AI prompt (chat persona/system prompt). Magbigay ng pangangailangan sa natural na wika; gagamit ang tool ng AI para bumuo ng kumpletong prompt template (pamagat, paglalarawan, system prompt, input placeholder) at ise-save ito na naka-pin sa lokal na prompt library ng user. Opsyonal na magpasa ng category name; awtomatikong gagawin kung wala pa.</string>
+    <string name="agent_tool_create_prompt_title">Gumawa ng Prompt</string>
+    <string name="agent_tool_create_prompt_summary">Bumuo at mag-save ng lokal na AI prompt mula sa paglalarawan ng pangangailangan</string>
+    <string name="agent_tool_create_prompt_param_requirement">Paglalarawan ng pangangailangan sa natural na wika para sa prompt na gagawin; mas detalyado mas mainam, hal.: academic writing assistant na nagpapalinis ng wika ng papel</string>
+    <string name="agent_tool_create_prompt_param_category">Pangalan ng kategorya (opsyonal); awtomatikong gagawin kung wala pa, hal.: Pagsulat, Coding, Pagsasalin</string>
+    <string name="agent_tool_create_prompt_requirement_required">Kulang ang kinakailangang parameter na requirement (paglalarawan ng prompt na gagawin)</string>
+    <string name="agent_tool_create_prompt_success">Matagumpay na nagawa ang prompt!\nPamagat: %1$s\nID: %2$d\nKategorya: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">Nabigo ang paggawa ng prompt: %1$s</string>
     <string name="agent_tool_view_note_description">Tingnan ang nilalaman ng isang note. Magbigay ng note ID upang makuha ang pamagat, paglalarawan, at nilalaman ng katawan.</string>
     <string name="agent_tool_view_note_title">Tingnan ang Note</string>
     <string name="agent_tool_view_note_summary">Basahin ang pamagat, paglalarawan, at nilalaman ng katawan ng isang note</string>

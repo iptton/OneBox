@@ -112,6 +112,14 @@
     <string name="agent_tool_create_note_opened">Catatan disimpan dan dibuka</string>
     <string name="agent_tool_create_note_not_opened">Catatan disimpan; pengguna memilih untuk tidak membuka</string>
     <string name="agent_tool_create_note_failed">Gagal menyimpan catatan: %1$s</string>
+    <string name="agent_tool_create_prompt_description">Membuat prompt AI lokal (persona chat/prompt sistem). Berikan kebutuhan dalam bahasa alami; tool menggunakan AI untuk membuat template prompt lengkap (judul, deskripsi, prompt sistem, placeholder input) dan menyimpannya ter-pin di pustaka prompt lokal pengguna. Opsional berikan nama kategori; dibuat otomatis jika belum ada.</string>
+    <string name="agent_tool_create_prompt_title">Buat Prompt</string>
+    <string name="agent_tool_create_prompt_summary">Buat dan simpan prompt AI lokal dari deskripsi kebutuhan</string>
+    <string name="agent_tool_create_prompt_param_requirement">Deskripsi kebutuhan dalam bahasa alami untuk prompt yang akan dibuat; makin spesifik makin baik, mis.: asisten penulisan akademik yang memoles bahasa makalah</string>
+    <string name="agent_tool_create_prompt_param_category">Nama kategori (opsional); dibuat otomatis jika belum ada, mis.: Menulis, Coding, Terjemahan</string>
+    <string name="agent_tool_create_prompt_requirement_required">Parameter wajib requirement tidak ada (deskripsi prompt yang akan dibuat)</string>
+    <string name="agent_tool_create_prompt_success">Prompt berhasil dibuat!\nJudul: %1$s\nID: %2$d\nKategori: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">Gagal membuat prompt: %1$s</string>
     <string name="agent_tool_view_note_description">Lihat konten catatan. Berikan ID catatan untuk mendapatkan judul, deskripsi, dan isi.</string>
     <string name="agent_tool_view_note_title">Lihat Catatan</string>
     <string name="agent_tool_view_note_summary">Baca judul, deskripsi, dan isi catatan</string>

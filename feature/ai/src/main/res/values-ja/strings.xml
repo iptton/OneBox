@@ -112,6 +112,14 @@
     <string name="agent_tool_create_note_opened">ノートが保存され、開かれました</string>
     <string name="agent_tool_create_note_not_opened">ノートが保存されましたが、ユーザーは開かないことを選択しました</string>
     <string name="agent_tool_create_note_failed">ノートの保存に失敗しました: %1$s</string>
+    <string name="agent_tool_create_prompt_description">ローカル AI プロンプト(チャットペルソナ/システムプロンプト)を作成します。自然言語で要件を渡すと、AI が完全なプロンプトテンプレート(タイトル、説明、システムプロンプト、入力プレースホルダー)を生成し、ユーザーのローカルプロンプトライブラリにピン留めして保存します。任意でカテゴリ名を渡せます。存在しない場合は自動作成されます。</string>
+    <string name="agent_tool_create_prompt_title">プロンプト作成</string>
+    <string name="agent_tool_create_prompt_summary">要件の説明からローカル AI プロンプトを生成して保存</string>
+    <string name="agent_tool_create_prompt_param_requirement">作成するプロンプトの要件を自然言語で記述。具体的なほど良い。例:論文の言葉遣いを磨く学術ライティングアシスタント</string>
+    <string name="agent_tool_create_prompt_param_category">カテゴリ名(任意)。存在しない場合は自動作成。例:ライティング、コーディング、翻訳</string>
+    <string name="agent_tool_create_prompt_requirement_required">必須パラメータ requirement がありません(作成するプロンプトの説明)</string>
+    <string name="agent_tool_create_prompt_success">プロンプトを作成しました!\nタイトル: %1$s\nID: %2$d\nカテゴリ: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">プロンプトの作成に失敗しました: %1$s</string>
     <string name="agent_tool_view_note_description">ノートの内容を表示します。ノートIDを指定すると、タイトル、説明、本文を取得します。</string>
     <string name="agent_tool_view_note_title">ノートを表示</string>
     <string name="agent_tool_view_note_summary">ノートのタイトル、説明、本文を読み取ります</string>

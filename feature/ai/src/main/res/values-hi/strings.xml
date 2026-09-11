@@ -112,6 +112,14 @@
     <string name="agent_tool_create_note_opened">नोट सहेजा गया और खोला गया</string>
     <string name="agent_tool_create_note_not_opened">नोट सहेजा गया; उपयोगकर्ता ने खोलना नहीं चुना</string>
     <string name="agent_tool_create_note_failed">नोट सहेजने में विफल: %1$s</string>
+    <string name="agent_tool_create_prompt_description">स्थानीय AI प्रॉम्प्ट (चैट पर्सोना/सिस्टम प्रॉम्प्ट) बनाता है। प्राकृतिक भाषा में आवश्यकता विवरण दें; टूल AI से पूरा प्रॉम्प्ट टेम्पलेट (शीर्षक, विवरण, सिस्टम प्रॉम्प्ट, इनपुट प्लेसहोल्डर) बनाकर उपयोगकर्ता की स्थानीय प्रॉम्प्ट लाइब्रेरी में पिन करके सहेजता है। वैकल्पिक रूप से श्रेणी नाम दें; मौजूद न होने पर अपने आप बन जाती है।</string>
+    <string name="agent_tool_create_prompt_title">प्रॉम्प्ट बनाएं</string>
+    <string name="agent_tool_create_prompt_summary">आवश्यकता विवरण से स्थानीय AI प्रॉम्प्ट बनाएं और सहेजें</string>
+    <string name="agent_tool_create_prompt_param_requirement">बनाए जाने वाले प्रॉम्प्ट का प्राकृतिक भाषा में आवश्यकता विवरण; जितना विशिष्ट उतना बेहतर, जैसे: पेपर की भाषा परिष्कृत करने वाला अकादमिक लेखन सहायक</string>
+    <string name="agent_tool_create_prompt_param_category">श्रेणी नाम (वैकल्पिक); मौजूद न होने पर अपने आप बन जाता है, जैसे: लेखन, कोडिंग, अनुवाद</string>
+    <string name="agent_tool_create_prompt_requirement_required">आवश्यक पैरामीटर requirement गायब है (बनाए जाने वाले प्रॉम्प्ट का विवरण)</string>
+    <string name="agent_tool_create_prompt_success">प्रॉम्प्ट सफलतापूर्वक बनाया गया!\nशीर्षक: %1$s\nID: %2$d\nश्रेणी: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">प्रॉम्प्ट बनाने में विफल: %1$s</string>
     <string name="agent_tool_view_note_description">नोट की सामग्री देखें। शीर्षक, विवरण और मुख्य सामग्री प्राप्त करने के लिए नोट आईडी प्रदान करें।</string>
     <string name="agent_tool_view_note_title">नोट देखें</string>
     <string name="agent_tool_view_note_summary">नोट का शीर्षक, विवरण और मुख्य सामग्री पढ़ें</string>

@@ -65,6 +65,12 @@
         <item>当前时区是什么</item>
     </string-array>
 
+    <string-array name="agent_tool_create_prompt_examples">
+        <item>帮我创建一个提示词</item>
+        <item>写一个论文润色助手的提示词</item>
+        <item>创建一个翻译专家的系统提示词</item>
+    </string-array>
+
     <string-array name="agent_tool_get_device_info_keywords">
         <item>设备</item>
         <item>手机</item>
@@ -951,6 +957,50 @@
     <string-array name="agent_tool_automate_ui_task_examples">
         <item>{"taskDescription": "search for weather in Beijing"}</item>
         <item>{"taskDescription": "open the settings page and turn on dark mode", "maxSteps": 15}</item>
+    </string-array>
+
+    <string-array name="agent_tool_font_scale_setting_keywords">
+        <item>font</item>
+        <item>font size</item>
+        <item>font scale</item>
+        <item>text size</item>
+        <item>typeface</item>
+        <item>display size</item>
+    </string-array>
+    <string-array name="agent_tool_font_scale_setting_examples">
+        <item>What is my current font size</item>
+        <item>Make the font bigger</item>
+        <item>Set the font scale to 1.2</item>
+        <item>Follow the system font size</item>
+    </string-array>
+
+    <string-array name="agent_tool_night_mode_setting_keywords">
+        <item>night mode</item>
+        <item>dark mode</item>
+        <item>light mode</item>
+        <item>dark theme</item>
+        <item>follow system</item>
+    </string-array>
+    <string-array name="agent_tool_night_mode_setting_examples">
+        <item>Switch to dark mode</item>
+        <item>Turn on night mode</item>
+        <item>Is dark mode on</item>
+        <item>Follow the system night mode</item>
+    </string-array>
+
+    <string-array name="agent_tool_start_entry_setting_keywords">
+        <item>start entry</item>
+        <item>start page</item>
+        <item>home page</item>
+        <item>launch page</item>
+        <item>startup screen</item>
+        <item>default page</item>
+    </string-array>
+    <string-array name="agent_tool_start_entry_setting_examples">
+        <item>Which pages can be the start page</item>
+        <item>What is my current start entry</item>
+        <item>Set the start page to notes</item>
+        <item>Restore the default start page</item>
     </string-array>
 </resources>
 

@@ -112,6 +112,14 @@
     <string name="agent_tool_create_note_opened">Nota salva e aberta</string>
     <string name="agent_tool_create_note_not_opened">Nota salva; usuário optou por não abrir</string>
     <string name="agent_tool_create_note_failed">Falha ao salvar a nota: %1$s</string>
+    <string name="agent_tool_create_prompt_description">Cria um prompt de IA local (persona de chat/prompt de sistema). Forneça um requisito em linguagem natural; a ferramenta usa IA para gerar um modelo de prompt completo (título, descrição, prompt de sistema, placeholder de entrada) e o salva fixado na biblioteca local de prompts do usuário. Opcionalmente passe um nome de categoria; ela é criada automaticamente se não existir.</string>
+    <string name="agent_tool_create_prompt_title">Criar prompt</string>
+    <string name="agent_tool_create_prompt_summary">Gera e salva um prompt de IA local a partir da descrição do requisito</string>
+    <string name="agent_tool_create_prompt_param_requirement">Requisito em linguagem natural descrevendo o prompt a criar; quanto mais específico melhor, ex.: um assistente de escrita acadêmica que refina a linguagem de artigos</string>
+    <string name="agent_tool_create_prompt_param_category">Nome da categoria (opcional); criada automaticamente se não existir, ex.: Escrita, Programação, Tradução</string>
+    <string name="agent_tool_create_prompt_requirement_required">Parâmetro obrigatório requirement ausente (descrição do prompt a criar)</string>
+    <string name="agent_tool_create_prompt_success">Prompt criado com sucesso!\nTítulo: %1$s\nID: %2$d\nCategoria: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">Falha ao criar o prompt: %1$s</string>
     <string name="agent_tool_view_note_description">Visualizar o conteúdo de uma nota. Forneça um ID de nota para obter o título, a descrição e o corpo do conteúdo.</string>
     <string name="agent_tool_view_note_title">Visualizar Nota</string>
     <string name="agent_tool_view_note_summary">Ler o título, a descrição e o corpo do conteúdo de uma nota</string>

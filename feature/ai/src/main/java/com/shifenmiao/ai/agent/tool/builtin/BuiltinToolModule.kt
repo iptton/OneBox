@@ -78,6 +78,11 @@ object BuiltinToolModule {
 
     @Provides
     @IntoMap
+    @StringKey("create_prompt")
+    fun provideCreatePromptTool(tool: CreatePromptTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
     @StringKey("view_note")
     fun provideViewNoteTool(tool: ViewNoteTool): AgentTool = tool
 
@@ -85,6 +90,21 @@ object BuiltinToolModule {
     @IntoMap
     @StringKey("theme_setting")
     fun provideThemeSettingTool(tool: ThemeSettingTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
+    @StringKey("font_scale_setting")
+    fun provideFontScaleSettingTool(tool: FontScaleSettingTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
+    @StringKey("night_mode_setting")
+    fun provideNightModeSettingTool(tool: NightModeSettingTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
+    @StringKey("start_entry_setting")
+    fun provideStartEntrySettingTool(tool: StartEntrySettingTool): AgentTool = tool
 
     @Provides
     @IntoMap

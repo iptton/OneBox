@@ -112,6 +112,14 @@
     <string name="agent_tool_create_note_opened">Not kaydedildi ve açıldı</string>
     <string name="agent_tool_create_note_not_opened">Not kaydedildi; kullanıcı açmamayı seçti</string>
     <string name="agent_tool_create_note_failed">Not kaydedilemedi: %1$s</string>
+    <string name="agent_tool_create_prompt_description">Yerel bir AI istemi (sohbet personası/sistem istemi) oluşturur. Doğal dilde bir gereksinim girin; araç, AI kullanarak eksiksiz bir istem şablonu (başlık, açıklama, sistem istemi, giriş yer tutucusu) oluşturur ve kullanıcının yerel istem kitaplığına sabitlenmiş olarak kaydeder. İsteğe bağlı olarak kategori adı geçin; yoksa otomatik oluşturulur.</string>
+    <string name="agent_tool_create_prompt_title">İstem Oluştur</string>
+    <string name="agent_tool_create_prompt_summary">Gereksinim açıklamasından yerel AI istemi oluşturur ve kaydeder</string>
+    <string name="agent_tool_create_prompt_param_requirement">Oluşturulacak istem için doğal dilde gereksinim açıklaması; ne kadar spesifik olursa o kadar iyi, örn.: makale dilini cilalayan akademik yazım asistanı</string>
+    <string name="agent_tool_create_prompt_param_category">Kategori adı (isteğe bağlı); yoksa otomatik oluşturulur, örn.: Yazı, Kodlama, Çeviri</string>
+    <string name="agent_tool_create_prompt_requirement_required">Gerekli requirement parametresi eksik (oluşturulacak istemin açıklaması)</string>
+    <string name="agent_tool_create_prompt_success">İstem başarıyla oluşturuldu!\nBaşlık: %1$s\nID: %2$d\nKategori: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">İstem oluşturulamadı: %1$s</string>
     <string name="agent_tool_view_note_description">Bir notun içeriğini görüntüleyin. Başlık, açıklama ve gövde içeriğini almak için bir not kimliği sağlayın.</string>
     <string name="agent_tool_view_note_title">Notu Görüntüle</string>
     <string name="agent_tool_view_note_summary">Bir notun başlığını, açıklamasını ve gövde içeriğini okuyun</string>

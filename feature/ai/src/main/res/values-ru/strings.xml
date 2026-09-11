@@ -112,6 +112,14 @@
     <string name="agent_tool_create_note_opened">Заметка сохранена и открыта</string>
     <string name="agent_tool_create_note_not_opened">Заметка сохранена; пользователь решил не открывать</string>
     <string name="agent_tool_create_note_failed">Не удалось сохранить заметку: %1$s</string>
+    <string name="agent_tool_create_prompt_description">Создаёт локальный AI-промпт (чат-персона/системный промпт). Передайте требование на естественном языке; инструмент с помощью ИИ сгенерирует полный шаблон промпта (заголовок, описание, системный промпт, плейсхолдер ввода) и сохранит его закреплённым в локальной библиотеке промптов пользователя. При желании передайте название категории; если её нет, она создаётся автоматически.</string>
+    <string name="agent_tool_create_prompt_title">Создать промпт</string>
+    <string name="agent_tool_create_prompt_summary">Генерирует и сохраняет локальный AI-промпт по описанию требования</string>
+    <string name="agent_tool_create_prompt_param_requirement">Описание требования к создаваемому промпту на естественном языке; чем конкретнее, тем лучше, например: ассистент академического письма, полирующий язык статей</string>
+    <string name="agent_tool_create_prompt_param_category">Название категории (необязательно); создаётся автоматически, если отсутствует, например: Письмо, Кодинг, Перевод</string>
+    <string name="agent_tool_create_prompt_requirement_required">Отсутствует обязательный параметр requirement (описание создаваемого промпта)</string>
+    <string name="agent_tool_create_prompt_success">Промпт успешно создан!\nЗаголовок: %1$s\nID: %2$d\nКатегория: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">Не удалось создать промпт: %1$s</string>
     <string name="agent_tool_view_note_description">Просмотр содержимого заметки. Укажите ID заметки, чтобы получить название, описание и основной текст.</string>
     <string name="agent_tool_view_note_title">Просмотр заметки</string>
     <string name="agent_tool_view_note_summary">Чтение названия, описания и основного текста заметки</string>

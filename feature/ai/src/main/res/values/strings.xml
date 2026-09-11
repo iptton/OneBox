@@ -125,6 +125,14 @@
     <string name="agent_tool_create_note_opened">Note saved and opened</string>
     <string name="agent_tool_create_note_not_opened">Note saved; user chose not to open</string>
     <string name="agent_tool_create_note_failed">Note saving failed: %1$s</string>
+    <string name="agent_tool_create_prompt_description">Create a local AI prompt (chat persona/system prompt). Provide a natural-language requirement describing the desired prompt; the tool uses AI to generate a complete prompt template (title, description, system prompt, input placeholder) and saves it pinned to the top of the user\'s local prompt library. Optionally pass a category name; it is auto-created if missing. Use this tool when the user wants the assistant to write/create a prompt for them directly.</string>
+    <string name="agent_tool_create_prompt_title">Create Prompt</string>
+    <string name="agent_tool_create_prompt_summary">Generate and save a local AI prompt from a requirement description</string>
+    <string name="agent_tool_create_prompt_param_requirement">Natural-language requirement describing the prompt to create; the more specific the better, e.g.: an academic writing assistant that polishes paper language</string>
+    <string name="agent_tool_create_prompt_param_category">Category name (optional); auto-created if it does not exist, e.g.: Writing, Coding, Translation</string>
+    <string name="agent_tool_create_prompt_requirement_required">Missing required parameter requirement (description of the prompt to create)</string>
+    <string name="agent_tool_create_prompt_success">Prompt created successfully!\nTitle: %1$s\nID: %2$d\nCategory: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">Failed to create prompt: %1$s</string>
 
     <string name="agent_tool_view_note_description">View a note\'s content. Provide a note ID to get the title, description, and body content.</string>
     <string name="agent_tool_view_note_title">View Note</string>
@@ -952,4 +960,51 @@
     <string name="agent_tool_automate_ui_task_failed">Task failed at step %1$d: %2$s</string>
     <string name="agent_tool_automate_ui_task_step_limit">Task stopped after %1$d steps (limit reached). Last action: %2$s</string>
     <string name="agent_tool_automate_ui_task_no_activity">No Activity is currently available. Make sure you open chat from a normal page.</string>
+
+    <string name="agent_tool_font_scale_setting_title">Font Size</string>
+    <string name="agent_tool_font_scale_setting_summary">Read or change the app font scale (0.45–1.5, or follow the system font size)</string>
+    <string name="agent_tool_font_scale_setting_param_action">Action type. get=read current font scale; set=change it. **Only action is required**</string>
+    <string name="agent_tool_font_scale_setting_param_scale">Font scale. Numeric string in range 0.45 ~ 1.5 (1.0 = default), or "system" / "default" to follow the system font size. set only</string>
+    <string name="agent_tool_font_scale_setting_failed">Font scale setting failed: %1$s</string>
+    <string name="agent_tool_font_scale_setting_unknown_action">Unknown action: %1$s. Must be one of get / set</string>
+    <string name="agent_tool_font_scale_setting_missing_action">Missing action parameter</string>
+    <string name="agent_tool_font_scale_setting_missing_scale">set action requires the scale parameter (0.45 ~ 1.5, or "system")</string>
+    <string name="agent_tool_font_scale_setting_out_of_range">Invalid scale: %1$s. Must be a number in range 0.45 ~ 1.5, or "system" / "default"</string>
+    <string name="agent_tool_font_scale_setting_get_message">Current font scale read</string>
+    <string name="agent_tool_font_scale_setting_set_message">Font scale set to %1$s</string>
+    <string name="agent_tool_font_scale_setting_set_system_message">Font scale set to follow the system font size</string>
+    <string name="agent_tool_font_scale_setting_effective_hint">The font scale applies when pages are created; it fully takes effect after reopening pages or restarting the app</string>
+    <string name="agent_tool_font_scale_setting_deeplink_label">Display Settings</string>
+    <string name="agent_tool_font_scale_setting_deeplink_guidance">Tap to fine-tune the font size in display settings</string>
+
+    <string name="agent_tool_night_mode_setting_title">Night Mode</string>
+    <string name="agent_tool_night_mode_setting_summary">Read or switch Light / Dark / System night mode (takes effect immediately)</string>
+    <string name="agent_tool_night_mode_setting_param_action">Action type. get=read current mode; set=switch mode. **Only action is required**</string>
+    <string name="agent_tool_night_mode_setting_param_mode">Night mode. Light (day) / Dark (night) / System (follow system), case-insensitive. set only</string>
+    <string name="agent_tool_night_mode_setting_failed">Night mode setting failed: %1$s</string>
+    <string name="agent_tool_night_mode_setting_unknown_action">Unknown action: %1$s. Must be one of get / set</string>
+    <string name="agent_tool_night_mode_setting_missing_action">Missing action parameter</string>
+    <string name="agent_tool_night_mode_setting_missing_mode">set action requires the mode parameter (Light / Dark / System)</string>
+    <string name="agent_tool_night_mode_setting_invalid_mode">Invalid night mode: %1$s. Must be one of Light / Dark / System</string>
+    <string name="agent_tool_night_mode_setting_get_message">Current night mode: %1$s</string>
+    <string name="agent_tool_night_mode_setting_set_message">Night mode switched to %1$s</string>
+    <string name="agent_tool_night_mode_setting_deeplink_label">Display Settings</string>
+    <string name="agent_tool_night_mode_setting_deeplink_guidance">Tap to switch night mode in display settings</string>
+
+    <string name="agent_tool_start_entry_setting_title">Start Entry</string>
+    <string name="agent_tool_start_entry_setting_summary">View or change the page the app opens into after a cold start (takes effect on next cold start)</string>
+    <string name="agent_tool_start_entry_setting_param_action">Action type. list=list all candidate pages; get=read current start entry; set=change it. **Only action is required**</string>
+    <string name="agent_tool_start_entry_setting_param_screen_id">Start entry page id. Numeric id from the list response candidates[i].id, or "default" / "home" to restore the default home page. set only</string>
+    <string name="agent_tool_start_entry_setting_failed">Start entry setting failed: %1$s</string>
+    <string name="agent_tool_start_entry_setting_unknown_action">Unknown action: %1$s. Must be one of list / get / set</string>
+    <string name="agent_tool_start_entry_setting_missing_action">Missing action parameter</string>
+    <string name="agent_tool_start_entry_setting_missing_screen_id">set action requires the screen_id parameter (a candidate id from list, or "default")</string>
+    <string name="agent_tool_start_entry_setting_invalid_screen_id">Invalid screen_id: %1$s. Must be a numeric candidate id, or "default" / "home"</string>
+    <string name="agent_tool_start_entry_setting_unknown_screen_id">Unknown screen_id: %1$s. Call list first to get valid candidate ids</string>
+    <string name="agent_tool_start_entry_setting_list_message">Start entry candidates read</string>
+    <string name="agent_tool_start_entry_setting_get_message">Current start entry read</string>
+    <string name="agent_tool_start_entry_setting_set_message">Start entry set to: %1$s</string>
+    <string name="agent_tool_start_entry_setting_effective_hint">The start entry only takes effect on the next cold start of the app</string>
+    <string name="agent_tool_start_entry_setting_deeplink_label">Display Settings</string>
+    <string name="agent_tool_start_entry_setting_deeplink_guidance">Tap to pick a start entry in display settings</string>
 </resources>

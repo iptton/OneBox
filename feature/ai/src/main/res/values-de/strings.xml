@@ -112,6 +112,14 @@
     <string name="agent_tool_create_note_opened">Notiz gespeichert und geöffnet</string>
     <string name="agent_tool_create_note_not_opened">Notiz gespeichert; Benutzer hat sich gegen Öffnen entschieden</string>
     <string name="agent_tool_create_note_failed">Speichern der Notiz fehlgeschlagen: %1$s</string>
+    <string name="agent_tool_create_prompt_description">Erstellt einen lokalen KI-Prompt (Chat-Persona/System-Prompt). Übergib eine Anforderung in natürlicher Sprache; das Tool erzeugt per KI eine vollständige Prompt-Vorlage (Titel, Beschreibung, System-Prompt, Eingabe-Platzhalter) und speichert sie angepinnt in der lokalen Prompt-Bibliothek des Nutzers. Optional einen Kategorienamen übergeben; nicht vorhandene Kategorien werden automatisch erstellt.</string>
+    <string name="agent_tool_create_prompt_title">Prompt erstellen</string>
+    <string name="agent_tool_create_prompt_summary">Lokalen KI-Prompt aus einer Anforderungsbeschreibung generieren und speichern</string>
+    <string name="agent_tool_create_prompt_param_requirement">Anforderungsbeschreibung in natürlicher Sprache für den zu erstellenden Prompt; je konkreter, desto besser, z. B.: ein akademischer Schreibassistent, der Papersprache poliert</string>
+    <string name="agent_tool_create_prompt_param_category">Kategoriename (optional); wird automatisch erstellt, falls nicht vorhanden, z. B.: Schreiben, Programmieren, Übersetzung</string>
+    <string name="agent_tool_create_prompt_requirement_required">Erforderlicher Parameter requirement fehlt (Beschreibung des zu erstellenden Prompts)</string>
+    <string name="agent_tool_create_prompt_success">Prompt erfolgreich erstellt!\nTitel: %1$s\nID: %2$d\nKategorie: %3$s</string>
+    <string name="agent_tool_create_prompt_failed">Prompt konnte nicht erstellt werden: %1$s</string>
     <string name="agent_tool_view_note_description">Inhalt einer Notiz anzeigen. Geben Sie eine Notiz-ID an, um Titel, Beschreibung und Textinhalt zu erhalten.</string>
     <string name="agent_tool_view_note_title">Notiz anzeigen</string>
     <string name="agent_tool_view_note_summary">Titel, Beschreibung und Textinhalt einer Notiz lesen</string>

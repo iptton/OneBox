@@ -14,6 +14,11 @@
         <item>今天几号</item>
         <item>当前时区是什么</item>
     </string-array>
+    <string-array name="agent_tool_create_prompt_examples">
+        <item>帮我创建一个提示词</item>
+        <item>写一个论文润色助手的提示词</item>
+        <item>创建一个翻译专家的系统提示词</item>
+    </string-array>
 
     <string-array name="agent_tool_get_device_info_keywords">
         <item>设备</item>
@@ -924,5 +929,49 @@
     <string-array name="agent_tool_automate_ui_task_examples">
         <item>{"taskDescription": "search for weather in Beijing"}</item>
         <item>{"taskDescription": "open the settings page and turn on dark mode", "maxSteps": 15}</item>
+    </string-array>
+
+    <string-array name="agent_tool_font_scale_setting_keywords">
+        <item>字体</item>
+        <item>字体大小</item>
+        <item>字号</item>
+        <item>文字大小</item>
+        <item>字体缩放</item>
+        <item>显示大小</item>
+    </string-array>
+    <string-array name="agent_tool_font_scale_setting_examples">
+        <item>当前字体大小是多少</item>
+        <item>把字体调大一点</item>
+        <item>字体缩放设为 1.2</item>
+        <item>跟随系统字体大小</item>
+    </string-array>
+
+    <string-array name="agent_tool_night_mode_setting_keywords">
+        <item>夜间模式</item>
+        <item>深色模式</item>
+        <item>日间模式</item>
+        <item>暗色</item>
+        <item>跟随系统</item>
+    </string-array>
+    <string-array name="agent_tool_night_mode_setting_examples">
+        <item>切换到夜间模式</item>
+        <item>打开深色模式</item>
+        <item>现在是夜间模式吗</item>
+        <item>日夜间跟随系统</item>
+    </string-array>
+
+    <string-array name="agent_tool_start_entry_setting_keywords">
+        <item>启动入口</item>
+        <item>启动页</item>
+        <item>首页</item>
+        <item>默认页面</item>
+        <item>打开直达</item>
+        <item>冷启动</item>
+    </string-array>
+    <string-array name="agent_tool_start_entry_setting_examples">
+        <item>启动页可以设成哪些页面</item>
+        <item>现在的启动入口是什么</item>
+        <item>把启动页设为记事本</item>
+        <item>恢复默认启动页</item>
     </string-array>
 </resources>
