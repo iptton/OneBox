@@ -24,13 +24,13 @@ import com.shifenmiao.base.ui.icon.IconAvatar
 import com.shifenmiao.common.components.sectionGradient
 import com.shifenmiao.common.components.sectionIconColor
 import com.shifenmiao.common.components.sectionIconContainerColor
-import com.shifenmiao.common.components.sectionOnColor
 import com.shifenmiao.common.components.sectionThemeForIndex
 import com.shifenmiao.lifetime.R
 import com.shifenmiao.lifetime.domain.model.CountdownStatus
 import com.shifenmiao.lifetime.util.countdownStatusLabel
 import com.shifenmiao.lifetime.util.localizedPresetEventName
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
+import com.t8rin.imagetoolbox.core.ui.widget.glass.tintedGlassContentColor
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxDesignSystem
 
 /**
@@ -57,7 +57,7 @@ fun CountdownEventCard(
     val containerColor = sectionGradient(theme)
     val accent = sectionIconColor(theme)
     val iconBg = sectionIconContainerColor(theme)
-    val contentColor = sectionOnColor(theme)
+    val contentColor = tintedGlassContentColor(containerColor)
 
     GlassCard(
         modifier = modifier

@@ -38,17 +38,18 @@ import com.shifenmiao.base.ui.icon.IconAvatar
 import com.shifenmiao.common.components.sectionGradient
 import com.shifenmiao.common.components.sectionIconColor
 import com.shifenmiao.common.components.sectionIconContainerColor
-import com.shifenmiao.common.components.sectionOnColor
 import com.shifenmiao.common.components.sectionThemeForIndex
 import com.shifenmiao.lifetime.R
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
+import com.t8rin.imagetoolbox.core.ui.widget.glass.tintedGlassContentColor
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxDesignSystem
 
 /**
  * 频率事件卡片（点击翻转显示「已完成 / 待完成」）—— 竖屏比例 (2:3 高宽比)。
  *
  * 主题色：按 [themeIndex] 在 PRIMARY / SECONDARY / TERTIARY / SURFACE 中轮转。
- * 容器使用 [sectionGradient]（低 alpha），文字使用 [sectionOnColor]，图标使用 [sectionIconColor]。
+ * 容器使用 [sectionGradient]（低 alpha），文字经 [tintedGlassContentColor] 按混合后的有效底色
+ * 自动选深/浅（玻璃混合后成对 onColor 对比度不可靠），图标使用 [sectionIconColor]。
  *
  * 底部进度条：根据 [progress]（0~1）显示"已过人生比例"。
  */
@@ -74,7 +75,7 @@ fun FrequencyEventCard(
 
     val theme = sectionThemeForIndex(themeIndex)
     val containerColor = sectionGradient(theme)
-    val onContainerColor = sectionOnColor(theme)
+    val onContainerColor = tintedGlassContentColor(containerColor)
     val iconTint = sectionIconColor(theme)
     val iconContainer = sectionIconContainerColor(theme)
 

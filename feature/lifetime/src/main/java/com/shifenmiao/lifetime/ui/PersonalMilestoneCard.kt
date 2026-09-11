@@ -21,11 +21,11 @@ import com.shifenmiao.base.ui.icon.IconAvatar
 import com.shifenmiao.common.components.sectionGradient
 import com.shifenmiao.common.components.sectionIconColor
 import com.shifenmiao.common.components.sectionIconContainerColor
-import com.shifenmiao.common.components.sectionOnColor
 import com.shifenmiao.common.components.sectionThemeForIndex
 import com.shifenmiao.lifetime.domain.model.MilestoneStatus
 import com.shifenmiao.lifetime.util.milestoneStatusLabel
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
+import com.t8rin.imagetoolbox.core.ui.widget.glass.tintedGlassContentColor
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxDesignSystem
 import java.time.LocalDate
 
@@ -52,7 +52,7 @@ fun PersonalMilestoneCard(
     val containerColor = sectionGradient(theme)
     val iconTint = sectionIconColor(theme)
     val iconBg = sectionIconContainerColor(theme)
-    val contentColor = sectionOnColor(theme)
+    val contentColor = tintedGlassContentColor(containerColor)
 
     GlassCard(
         modifier = modifier
