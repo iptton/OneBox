@@ -4,9 +4,11 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.ComponentContext
 import com.shifenmiao.common.ai.AIPromptExecutor
+import com.shifenmiao.interfaces.singleton.AppContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.wanbaohe.com.color.ColorGenerator
+import com.wanbaohe.decisionwheel.R
 import com.wanbaohe.decisionwheel.data.WheelRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -41,6 +43,7 @@ class DecisionWheelEditorComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted private val wheelId: String,
     @Assisted private val onGoBack: () -> Unit,
+    @Assisted("onOpenAiAssistant") private val onOpenAiAssistant: (String) -> Unit,
     private val repository: WheelRepository,
     private val aiPromptExecutor: AIPromptExecutor,
     dispatchersHolder: DispatchersHolder
@@ -222,6 +225,26 @@ class DecisionWheelEditorComponent @AssistedInject internal constructor(
         clearAiState()
     }
 
+    /**
+     * 带着填充词跳到 AI 助手 Tab。
+     *
+     * 和弹窗里那次"直接生成"是两条路：弹窗是就地拿一批候选，这里是让人去跟模型多轮聊
+     * （比如"再加点便宜的""把烧烤换成火锅"）。填充词带上转盘名和现有选项，
+     * 免得用户到了那边还得从头描述一遍自己在干嘛。
+     */
+    fun openAiAssistant() {
+        val title = _uiState.value.title.ifBlank {
+            AppContext.getString(R.string.ai_assistant_fallback_topic)
+        }
+        val existing = _uiState.value.options
+            .takeIf { it.isNotEmpty() }
+            ?.joinToString("、") { it.name }
+            ?: AppContext.getString(R.string.ai_assistant_no_options)
+        // AppContext.getString 只带一个占位符，这里两个参数只能自己 format
+        val template = AppContext.getString(R.string.ai_assistant_filler)
+        onOpenAiAssistant(String.format(java.util.Locale.getDefault(), template, title, existing))
+    }
+
     fun clearAiState() {
         _uiState.update {
             it.copy(aiGenerating = false, aiSuggestions = emptyList(), aiError = null)
@@ -306,7 +329,8 @@ class DecisionWheelEditorComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             wheelId: String,
-            onGoBack: () -> Unit
+            onGoBack: () -> Unit,
+            @Assisted("onOpenAiAssistant") onOpenAiAssistant: (String) -> Unit
         ): DecisionWheelEditorComponent
     }
 }

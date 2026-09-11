@@ -49,6 +49,7 @@ import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAssistant
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAutoFix
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSave
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTheme
@@ -211,6 +212,24 @@ fun DecisionWheelEditorScreen(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(stringResource(R.string.ai_create_options))
+                }
+
+                // 弹窗里那次是"就地生成一批"，这个是把人送去 AI 助手继续聊
+                GlassTonalButton(
+                    onClick = component::openAiAssistant,
+                    colors = AppTheme.colors.getSurfaceContainerButtonColors(),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(44.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.LineAssistant,
+                        contentDescription = stringResource(R.string.ai_assistant_action),
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(stringResource(R.string.ai_assistant_action))
                 }
             }
         }

@@ -11,12 +11,17 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.shifenmiao.database.decision_wheel.entity.WheelHistoryEntity
+import com.shifenmiao.interfaces.singleton.AppContext
+import com.shifenmiao.model.ai.AIConversationEntryType
+import com.shifenmiao.model.ai.Conversation
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.wanbaohe.com.color.ColorGenerator
 import com.wanbaohe.decisionwheel.data.DecisionWheelPresetsProvider
 import com.wanbaohe.decisionwheel.data.WheelRepository
 import com.wanbaohe.decisionwheel.data.WheelSettingsHolder
+import com.wanbaohe.decisionwheel.R
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -140,6 +145,24 @@ class DecisionWheelRouterComponent @AssistedInject internal constructor(
         navigation.pop()
     }
 
+    /**
+     * 带填充词跳到 AI 助手 Tab。
+     *
+     * 与经期 / 笔记 / 记账等模块走同一条路：构造一个 ASSISTANT 会话，
+     * 把填充词塞进 [Conversation.template]，AI 助手页会预填到输入框。
+     */
+    fun openAiAssistant(prompt: String) {
+        onNavigate(
+            Screen.AITabChatScreen(
+                Conversation(
+                    entryType = AIConversationEntryType.ASSISTANT,
+                    title = AppContext.getString(R.string.ai_assistant_title),
+                    template = prompt
+                )
+            )
+        )
+    }
+
     private fun handleSpinNavigation(destination: SpinDestination) {
         when (destination) {
             SpinDestination.Editor -> openEditor()
@@ -158,7 +181,8 @@ class DecisionWheelRouterComponent @AssistedInject internal constructor(
             editorFactory(
                 componentContext = context,
                 wheelId = route.wheelId,
-                onGoBack = ::navigateBack
+                onGoBack = ::navigateBack,
+                onOpenAiAssistant = ::openAiAssistant
             )
         )
 

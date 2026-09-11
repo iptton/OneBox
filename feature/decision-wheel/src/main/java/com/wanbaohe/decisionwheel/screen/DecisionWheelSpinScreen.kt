@@ -63,6 +63,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -261,7 +262,8 @@ fun DecisionWheelSpinScreen(
                         items = options.map {
                             DecisionWheelItem(
                                 label = it.name,
-                                color = if (it.enabled) it.color else mutedOptionColor(it.color)
+                                color = it.color,
+                                enabled = it.enabled
                             )
                         },
                         rotation = displayRotation,
@@ -553,13 +555,13 @@ private fun Modifier.wheelDrag(
 /**
  * 被移除（抽后移除）的扇区显示为低饱和灰，但仍留在盘面上保持扇区角度不变。
  */
-private fun mutedOptionColor(color: Color): Color {
-    val hsv = FloatArray(3)
-    android.graphics.Color.colorToHSV(color.toArgb(), hsv)
-    hsv[1] = hsv[1] * 0.12f
-    hsv[2] = 0.55f + hsv[2] * 0.15f
-    return Color(android.graphics.Color.HSVToColor(hsv))
-}
+/**
+ * 已移除选项的统一灰。
+ *
+ * 和盘面扇区用同一个值：下面 chip 灰、上面扇区也灰，用户才对得上号。
+ * 早先是"保留原色、把饱和度压到 12%"，在浅底上几乎看不出来，等于没提示。
+ */
+private val removedOptionColor = Color(0xFF9E9E9E)
 
 @Composable
 private fun OptionsPreview(
@@ -588,7 +590,7 @@ private fun OptionChip(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val baseColor = if (option.enabled) option.color else mutedOptionColor(option.color)
+    val baseColor = if (option.enabled) option.color else removedOptionColor
     val background by animateColorAsState(
         targetValue = if (isSelected) baseColor else baseColor.copy(alpha = 0.92f),
         animationSpec = tween(durationMillis = 200),
@@ -621,9 +623,10 @@ private fun OptionChip(
         ) {
             Text(
                 text = option.name + if (option.weight != 1f) " ×${option.weight.trim()}" else "",
-                color = contentColor,
+                color = contentColor.copy(alpha = if (option.enabled) 1f else 0.65f),
                 fontSize = 14.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                textDecoration = if (option.enabled) null else TextDecoration.LineThrough
             )
         }
     }

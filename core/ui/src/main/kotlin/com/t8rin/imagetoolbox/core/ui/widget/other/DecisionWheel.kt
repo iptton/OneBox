@@ -55,7 +55,14 @@ import com.t8rin.imagetoolbox.core.resources.icons.PlayCircle
 @Immutable
 data class DecisionWheelItem(
     val label: String,
-    val color: Color
+    val color: Color,
+    /**
+     * false 表示该选项已被"抽后移除"摘掉。
+     *
+     * 盘面上仍然保留它的扇区（去掉会改变扇区角度、把结果计算全打乱），但整个扇区置灰、
+     * 文字加删除线 —— 只降饱和度的话用户根本分不清"颜色淡"和"已被抽走"。
+     */
+    val enabled: Boolean = true
 )
 
 /**
@@ -111,12 +118,15 @@ fun DecisionWheelCanvas(
         val center = Offset(size.width / 2, size.height / 2)
 
         val sectorAngle = 360f / items.size
+        // 被移除扇区的灰。用中性灰而不是"原色降饱和"：后者在浅色盘面上几乎看不出差别。
+        val removedSectorColor = Color(0xFF9E9E9E)
 
         rotate(degrees = rotation, pivot = center) {
             items.forEachIndexed { index, item ->
                 val startAngle = index * sectorAngle - 90f
 
-                val backgroundColor = item.color
+                // 被移除的扇区统一画成灰：颜色语义在这里比"保留原色降低饱和"清楚得多
+                val backgroundColor = if (item.enabled) item.color else removedSectorColor
                 val contentColor = ColorGenerator.contentColorFor(backgroundColor)
 
                 val isSelected = selectedIndex == index
@@ -153,9 +163,11 @@ fun DecisionWheelCanvas(
 
                 drawContext.canvas.nativeCanvas.apply {
                     val paint = android.graphics.Paint().apply {
-                        color = contentColor.toArgb()
+                        color = contentColor.copy(alpha = if (item.enabled) 1f else 0.62f).toArgb()
                         textSize = 40f
                         textAlign = android.graphics.Paint.Align.CENTER
+                        // 删除线是"这个已经出局了"最不需要解释的表达
+                        isStrikeThruText = !item.enabled
                     }
                     drawText(item.label, textX, textY + 15f, paint)
                 }

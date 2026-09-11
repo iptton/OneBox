@@ -2,6 +2,7 @@ package com.shifenmiao.database.decision_wheel.dao
 
 import androidx.room.*
 import com.shifenmiao.database.decision_wheel.entity.WheelEntity
+import com.shifenmiao.database.decision_wheel.entity.WheelWithOptions
 import com.shifenmiao.database.decision_wheel.entity.WheelHistoryEntity
 import com.shifenmiao.database.decision_wheel.entity.WheelOptionEntity
 import kotlinx.coroutines.flow.Flow
@@ -19,14 +20,22 @@ interface WheelDao {
     @Delete
     suspend fun deleteWheel(wheel: WheelEntity)
 
+    /**
+     * 转盘列表（含选项）。
+     *
+     * 必须用 @Relation：Room 只对 SQL 里出现的表做失效追踪，而抽后移除 / 全部恢复
+     * 改的是 wheel_options。只查 decision_wheels 的话这些改动永远推不到界面上。
+     */
+    @Transaction
     @Query("SELECT * FROM decision_wheels ORDER BY lastUsedAt DESC")
-    fun getAllWheels(): Flow<List<WheelEntity>>
+    fun observeWheelsWithOptions(): Flow<List<WheelWithOptions>>
 
     @Query("SELECT * FROM decision_wheels WHERE id = :wheelId")
     suspend fun getWheelById(wheelId: String): WheelEntity?
 
+    @Transaction
     @Query("SELECT * FROM decision_wheels ORDER BY lastUsedAt DESC LIMIT :limit")
-    fun getRecentWheels(limit: Int = 5): Flow<List<WheelEntity>>
+    fun observeRecentWheelsWithOptions(limit: Int = 5): Flow<List<WheelWithOptions>>
 
     @Query("UPDATE decision_wheels SET lastUsedAt = :timestamp, useCount = useCount + 1 WHERE id = :wheelId")
     suspend fun updateWheelUsage(wheelId: String, timestamp: Long)

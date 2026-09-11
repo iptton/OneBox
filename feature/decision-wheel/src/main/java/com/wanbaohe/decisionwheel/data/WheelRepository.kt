@@ -23,11 +23,8 @@ class WheelRepository @Inject constructor(
      * 获取所有转盘配置
      */
     fun getAllWheels(): Flow<List<DecisionWheel>> {
-        return wheelDao.getAllWheels().map { entities ->
-            entities.map { entity ->
-                val options = wheelDao.getOptionsByWheelId(entity.id)
-                entity.toDomain(options)
-            }
+        return wheelDao.observeWheelsWithOptions().map { list ->
+            list.map { it.wheel.toDomain(it.options.byPosition()) }
         }
     }
 
@@ -35,11 +32,8 @@ class WheelRepository @Inject constructor(
      * 获取最近使用的转盘
      */
     fun getRecentWheels(limit: Int = 5): Flow<List<DecisionWheel>> {
-        return wheelDao.getRecentWheels(limit).map { entities ->
-            entities.map { entity ->
-                val options = wheelDao.getOptionsByWheelId(entity.id)
-                entity.toDomain(options)
-            }
+        return wheelDao.observeRecentWheelsWithOptions(limit).map { list ->
+            list.map { it.wheel.toDomain(it.options.byPosition()) }
         }
     }
 
@@ -157,6 +151,13 @@ class WheelRepository @Inject constructor(
         wheelDao.clearAllHistory()
     }
 }
+
+/**
+ * @Relation 回传的选项顺序由 Room 自己决定（通常是主键/rowid 序），
+ * 而扇区顺序必须跟 position 一致，否则每次刷新扇区都会重排。
+ */
+private fun List<WheelOptionEntity>.byPosition(): List<WheelOptionEntity> =
+    sortedBy { it.position }
 
 // 扩展函数：实体转领域模型
 private fun WheelEntity.toDomain(options: List<WheelOptionEntity>): DecisionWheel {
