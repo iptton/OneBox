@@ -159,6 +159,12 @@
     <string name="lifetime_preset_name_national_memorial_day">Pambansang Araw ng Pag-alaala</string>
     <string name="lifetime_preset_name_christmas_eve">Bisperas ng Pasko</string>
     <string name="lifetime_preset_name_christmas">Pasko</string>
+    <string name="lifetime_preset_name_halloween">Halloween</string>
+    <string name="lifetime_preset_name_thanksgiving">Araw ng Pasasalamat</string>
+    <string name="lifetime_preset_name_black_friday">Black Friday</string>
+    <string name="lifetime_preset_name_mothers_day">Araw ng mga Ina</string>
+    <string name="lifetime_preset_name_fathers_day">Araw ng mga Ama</string>
+    <string name="lifetime_preset_name_new_years_eve">Bisperas ng Bagong Taon</string>
     <string name="lifetime_preset_name_eating">Mga pagkain</string>
     <string name="lifetime_preset_name_sleeping">Pagtulog</string>
     <string name="lifetime_preset_name_journaling">Pagsusulat ng journal</string>

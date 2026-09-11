@@ -66,7 +66,6 @@ feature/lifetime/
 ### 1. Domain Layer (领域层)
 **LifeTimeCalculator.kt**
 - `calculatePastTime()`: 计算已度过的时间
-- `calculateFestivals()`: 计算已度过的节日次数
 - `calculateRemainingLife()`: 计算剩余生命时间和进度
 
 ### 2. Data Layer (数据层)

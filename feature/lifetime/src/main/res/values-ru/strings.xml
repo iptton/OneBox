@@ -159,6 +159,12 @@
     <string name="lifetime_preset_name_national_memorial_day">День национальной памяти</string>
     <string name="lifetime_preset_name_christmas_eve">Сочельник</string>
     <string name="lifetime_preset_name_christmas">Рождество</string>
+    <string name="lifetime_preset_name_halloween">Хэллоуин</string>
+    <string name="lifetime_preset_name_thanksgiving">День благодарения</string>
+    <string name="lifetime_preset_name_black_friday">Чёрная пятница</string>
+    <string name="lifetime_preset_name_mothers_day">День матери</string>
+    <string name="lifetime_preset_name_fathers_day">День отца</string>
+    <string name="lifetime_preset_name_new_years_eve">Канун Нового года</string>
     <string name="lifetime_preset_name_eating">Приемы пищи</string>
     <string name="lifetime_preset_name_sleeping">Сон</string>
     <string name="lifetime_preset_name_journaling">Дневник</string>

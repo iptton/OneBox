@@ -159,6 +159,12 @@
     <string name="lifetime_preset_name_national_memorial_day">国家追悼日</string>
     <string name="lifetime_preset_name_christmas_eve">クリスマスイブ</string>
     <string name="lifetime_preset_name_christmas">クリスマス</string>
+    <string name="lifetime_preset_name_halloween">ハロウィン</string>
+    <string name="lifetime_preset_name_thanksgiving">感謝祭</string>
+    <string name="lifetime_preset_name_black_friday">ブラックフライデー</string>
+    <string name="lifetime_preset_name_mothers_day">母の日</string>
+    <string name="lifetime_preset_name_fathers_day">父の日</string>
+    <string name="lifetime_preset_name_new_years_eve">大晦日</string>
     <string name="lifetime_preset_name_eating">食事</string>
     <string name="lifetime_preset_name_sleeping">睡眠</string>
     <string name="lifetime_preset_name_journaling">日記</string>

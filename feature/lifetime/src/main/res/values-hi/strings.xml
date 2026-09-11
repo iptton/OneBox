@@ -159,6 +159,12 @@
     <string name="lifetime_preset_name_national_memorial_day">राष्ट्रीय स्मृति दिवस</string>
     <string name="lifetime_preset_name_christmas_eve">क्रिसमस की पूर्व संध्या</string>
     <string name="lifetime_preset_name_christmas">क्रिसमस</string>
+    <string name="lifetime_preset_name_halloween">हैलोवीन</string>
+    <string name="lifetime_preset_name_thanksgiving">थैंक्सगिविंग</string>
+    <string name="lifetime_preset_name_black_friday">ब्लैक फ्राइडे</string>
+    <string name="lifetime_preset_name_mothers_day">मातृ दिवस</string>
+    <string name="lifetime_preset_name_fathers_day">पितृ दिवस</string>
+    <string name="lifetime_preset_name_new_years_eve">नए साल की शाम</string>
     <string name="lifetime_preset_name_eating">भोजन</string>
     <string name="lifetime_preset_name_sleeping">नींद</string>
     <string name="lifetime_preset_name_journaling">जर्नलिंग</string>

@@ -189,7 +189,7 @@ interface Factory {
 A: 当前默认是 100 岁。可以在 `LifeTimeCalculator` 中修改 `EXPECTED_LIFESPAN_YEARS` 常量，或者在 UI 中添加设置选项。
 
 ### Q: 如何添加更多节日？
-A: 在 `LifeTimeCalculator.calculateFestivals()` 方法中添加更多节日的计算逻辑。
+A: 节日倒数日由 `data/holiday/LunarHolidayProvider` 提供（按语言分流：中文为农历+公历中国节日，非中文为国际节日），中文环境的节日表来自共享模块 `feature/calendar` 的 `LunarCalendarCalculator`，国际节日补充条目在 `LunarHolidayProvider` 内维护；新增节日的展示名需在 `util/PresetDisplayNames.kt` 与各 locale 的 `lifetime_preset_name_*` 字符串资源中补充映射。
 
 ### Q: 数据存储在哪里？
 A: 使用 DataStore，数据存储在 `datastore/lifetime_preferences.preferences_pb`。

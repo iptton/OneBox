@@ -159,6 +159,12 @@
     <string name="lifetime_preset_name_national_memorial_day">Ulusal Anma Günü</string>
     <string name="lifetime_preset_name_christmas_eve">Noel Arifesi</string>
     <string name="lifetime_preset_name_christmas">Noel</string>
+    <string name="lifetime_preset_name_halloween">Cadılar Bayramı</string>
+    <string name="lifetime_preset_name_thanksgiving">Şükran Günü</string>
+    <string name="lifetime_preset_name_black_friday">Kara Cuma</string>
+    <string name="lifetime_preset_name_mothers_day">Anneler Günü</string>
+    <string name="lifetime_preset_name_fathers_day">Babalar Günü</string>
+    <string name="lifetime_preset_name_new_years_eve">Yılbaşı Gecesi</string>
     <string name="lifetime_preset_name_eating">Öğünler</string>
     <string name="lifetime_preset_name_sleeping">Uyku</string>
     <string name="lifetime_preset_name_journaling">Günlük</string>

@@ -159,6 +159,12 @@
     <string name="lifetime_preset_name_national_memorial_day">Hari Peringatan Nasional</string>
     <string name="lifetime_preset_name_christmas_eve">Malam Natal</string>
     <string name="lifetime_preset_name_christmas">Natal</string>
+    <string name="lifetime_preset_name_halloween">Halloween</string>
+    <string name="lifetime_preset_name_thanksgiving">Hari Pengucapan Syukur</string>
+    <string name="lifetime_preset_name_black_friday">Black Friday</string>
+    <string name="lifetime_preset_name_mothers_day">Hari Ibu</string>
+    <string name="lifetime_preset_name_fathers_day">Hari Ayah</string>
+    <string name="lifetime_preset_name_new_years_eve">Malam Tahun Baru</string>
     <string name="lifetime_preset_name_eating">Makan</string>
     <string name="lifetime_preset_name_sleeping">Tidur</string>
     <string name="lifetime_preset_name_journaling">Menulis Jurnal</string>

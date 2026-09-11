@@ -11,6 +11,7 @@ import com.shifenmiao.lifetime.domain.CountdownCalculator
 import com.shifenmiao.lifetime.domain.PersonalMilestoneCalculator
 import com.shifenmiao.lifetime.domain.model.CountdownStatus
 import com.shifenmiao.lifetime.domain.model.MilestoneStatus
+import com.shifenmiao.lifetime.util.presetEventNameRes
 import com.shifenmiao.model.ai.ToolParameterProperty
 import com.shifenmiao.model.ai.ToolParameters
 import com.shifenmiao.model.ai.tool.ToolCategory
@@ -129,7 +130,7 @@ class QueryLifeEventsTool @Inject constructor(
 
     private fun countdownJson(status: CountdownStatus): JSONObject = JSONObject().apply {
         put("id", status.event.id)
-        put("name", status.event.name)
+        put("name", displayName(status.event.name, status.event.isPreset))
         status.nextOccurrence?.let { put("targetDate", it.toString()) }
         put("daysUntil", status.daysUntil)
         put("isToday", status.isToday)
@@ -161,7 +162,7 @@ class QueryLifeEventsTool @Inject constructor(
             if (countdowns.isNotEmpty()) {
                 appendLine("## ${textProvider.string(R.string.agent_tool_lifetime_section_countdown)}")
                 countdowns.forEachIndexed { index, status ->
-                    appendLine("${index + 1}. ${sanitizeMarkdownText(status.event.name)} — ${countdownTimeText(status)} (id: ${status.event.id})")
+                    appendLine("${index + 1}. ${sanitizeMarkdownText(displayName(status.event.name, status.event.isPreset))} — ${countdownTimeText(status)} (id: ${status.event.id})")
                 }
                 appendLine()
             }
@@ -174,6 +175,16 @@ class QueryLifeEventsTool @Inject constructor(
             }
             appendLine("- ${buildMarkdownLink(textProvider.string(R.string.agent_tool_lifetime_open_link), deeplink)}")
         }.trimEnd()
+    }
+
+    /**
+     * 预置（节日）条目以中文 name 入库，返回给 AI 前映射为当前语言；
+     * 用户自建条目与表外取值原样返回。
+     */
+    private fun displayName(name: String, isPreset: Boolean): String {
+        if (!isPreset) return name
+        val resId = presetEventNameRes(name) ?: return name
+        return textProvider.string(resId)
     }
 
     private fun countdownTimeText(status: CountdownStatus): String {

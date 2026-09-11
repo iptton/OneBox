@@ -159,6 +159,12 @@
     <string name="lifetime_preset_name_national_memorial_day">국가 추모일</string>
     <string name="lifetime_preset_name_christmas_eve">크리스마스 이브</string>
     <string name="lifetime_preset_name_christmas">크리스마스</string>
+    <string name="lifetime_preset_name_halloween">할로윈</string>
+    <string name="lifetime_preset_name_thanksgiving">추수감사절</string>
+    <string name="lifetime_preset_name_black_friday">블랙 프라이데이</string>
+    <string name="lifetime_preset_name_mothers_day">어머니의 날</string>
+    <string name="lifetime_preset_name_fathers_day">아버지의 날</string>
+    <string name="lifetime_preset_name_new_years_eve">새해 전야</string>
     <string name="lifetime_preset_name_eating">식사</string>
     <string name="lifetime_preset_name_sleeping">수면</string>
     <string name="lifetime_preset_name_journaling">일기 쓰기</string>

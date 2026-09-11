@@ -20,13 +20,6 @@ data class LifeTimeData(
 )
 
 @Immutable
-data class FestivalCount(
-    val springFestival: Int = 0,
-    val midAutumn: Int = 0,
-    val christmas: Int = 0
-)
-
-@Immutable
 data class RemainingLifeData(
     val years: Long = 0,
     val months: Long = 0,
@@ -34,19 +27,7 @@ data class RemainingLifeData(
     val hours: Long = 0,
     val minutes: Long = 0,
     val seconds: Long = 0,
-    val progress: Float = 0f,
-    val remainingSpringFestivals: Int = 0,
-    val remainingSunrises: Long = 0
-)
-
-@Immutable
-data class MilestoneCheck(
-    val label: String,
-    val targetValue: Long,
-    val unit: String,
-    val isReached: Boolean,
-    val progress: Float,
-    val dateReached: LocalDate? = null
+    val progress: Float = 0f
 )
 
 class LifeTimeCalculator {
@@ -76,25 +57,6 @@ class LifeTimeCalculator {
                 totalHours = hours,
                 totalMinutes = minutes,
                 totalSeconds = seconds
-            )
-        }
-
-        fun calculateFestivals(birthDate: LocalDate): FestivalCount {
-            val now = LocalDate.now()
-            val years = ChronoUnit.YEARS.between(birthDate, now)
-
-            val springFestival = years.toInt()
-            val midAutumn = years.toInt()
-
-            var christmas = years.toInt()
-            if (now.monthValue < 12 || (now.monthValue == 12 && now.dayOfMonth < 25)) {
-                christmas--
-            }
-
-            return FestivalCount(
-                springFestival = maxOf(0, springFestival),
-                midAutumn = maxOf(0, midAutumn),
-                christmas = maxOf(0, christmas)
             )
         }
 
@@ -130,9 +92,6 @@ class LifeTimeCalculator {
                 0f
             }
 
-            val remainingSpringFestivals = years.toInt()
-            val remainingSunrises = days
-
             return RemainingLifeData(
                 years = years,
                 months = months,
@@ -140,30 +99,7 @@ class LifeTimeCalculator {
                 hours = hours,
                 minutes = minutes,
                 seconds = seconds,
-                progress = progress,
-                remainingSpringFestivals = maxOf(0, remainingSpringFestivals),
-                remainingSunrises = maxOf(0, remainingSunrises)
-            )
-        }
-
-        fun calculateMilestones(birthDate: LocalDate): List<MilestoneCheck> {
-            val now = LocalDate.now()
-            val totalDays = ChronoUnit.DAYS.between(birthDate, now)
-            val totalHours = ChronoUnit.HOURS.between(birthDate.atStartOfDay(), now.atStartOfDay())
-            val totalWeeks = ChronoUnit.WEEKS.between(birthDate, now)
-            val totalMonths = ChronoUnit.MONTHS.between(birthDate, now)
-
-            return listOf(
-                MilestoneCheck("100天", 100, "天", totalDays >= 100, (totalDays.toFloat() / 100).coerceIn(0f, 1f)),
-                MilestoneCheck("1000天", 1000, "天", totalDays >= 1000, (totalDays.toFloat() / 1000).coerceIn(0f, 1f)),
-                MilestoneCheck("5000天", 5000, "天", totalDays >= 5000, (totalDays.toFloat() / 5000).coerceIn(0f, 1f)),
-                MilestoneCheck("10000天", 10000, "天", totalDays >= 10000, (totalDays.toFloat() / 10000).coerceIn(0f, 1f)),
-                MilestoneCheck("10000小时", 10000, "小时", totalHours >= 10000, (totalHours.toFloat() / 10000).coerceIn(0f, 1f)),
-                MilestoneCheck("100000小时", 100000, "小时", totalHours >= 100000, (totalHours.toFloat() / 100000).coerceIn(0f, 1f)),
-                MilestoneCheck("100周", 100, "周", totalWeeks >= 100, (totalWeeks.toFloat() / 100).coerceIn(0f, 1f)),
-                MilestoneCheck("1000周", 1000, "周", totalWeeks >= 1000, (totalWeeks.toFloat() / 1000).coerceIn(0f, 1f)),
-                MilestoneCheck("100月", 100, "月", totalMonths >= 100, (totalMonths.toFloat() / 100).coerceIn(0f, 1f)),
-                MilestoneCheck("500月", 500, "月", totalMonths >= 500, (totalMonths.toFloat() / 500).coerceIn(0f, 1f)),
+                progress = progress
             )
         }
     }

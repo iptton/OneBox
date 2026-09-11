@@ -6,6 +6,7 @@ import com.shifenmiao.lifetime.domain.model.FrequencyEvent
 import com.shifenmiao.lifetime.domain.model.FrequencyType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,41 +38,7 @@ class FrequencyEventRepository @Inject constructor(
      */
     suspend fun initializePresetEvents() {
         if (dao.getPresetEventsCount() == 0) {
-            val presetEvents = listOf(
-                // 传统节日（推荐，默认启用）
-                FrequencyEventEntity(
-                    name = "春节",
-                    iconKey = "Celebration",
-                    frequencyType = FrequencyType.YEARLY.name,
-                    timesPerPeriod = 1,
-                    unit = "次",
-                    sortOrder = 1,
-                    isPreset = true,
-                    isRecommended = true,
-                    isEnabled = true
-                ),
-                FrequencyEventEntity(
-                    name = "中秋节",
-                    iconKey = "Nightlight",
-                    frequencyType = FrequencyType.YEARLY.name,
-                    timesPerPeriod = 1,
-                    unit = "次",
-                    sortOrder = 2,
-                    isPreset = true,
-                    isRecommended = true,
-                    isEnabled = true
-                ),
-                FrequencyEventEntity(
-                    name = "圣诞节",
-                    iconKey = "Star",
-                    frequencyType = FrequencyType.YEARLY.name,
-                    timesPerPeriod = 1,
-                    unit = "次",
-                    sortOrder = 3,
-                    isPreset = true,
-                    isRecommended = false,
-                    isEnabled = false
-                ),
+            val presetEvents = presetHolidayEvents() + listOf(
                 // 日常活动（推荐的默认启用）
                 FrequencyEventEntity(
                     name = "吃饭",
@@ -152,6 +119,88 @@ class FrequencyEventRepository @Inject constructor(
                 )
             )
             dao.insertEvents(presetEvents)
+        }
+    }
+
+    /**
+     * 预置节日事件，按系统语言分流：
+     * 中文用传统节日（春节/中秋/圣诞），非中文换成国际节日（圣诞/元旦/万圣节）
+     */
+    private fun presetHolidayEvents(): List<FrequencyEventEntity> {
+        return if (Locale.getDefault().language == "zh") {
+            listOf(
+                // 传统节日（推荐，默认启用）
+                FrequencyEventEntity(
+                    name = "春节",
+                    iconKey = "Celebration",
+                    frequencyType = FrequencyType.YEARLY.name,
+                    timesPerPeriod = 1,
+                    unit = "次",
+                    sortOrder = 1,
+                    isPreset = true,
+                    isRecommended = true,
+                    isEnabled = true
+                ),
+                FrequencyEventEntity(
+                    name = "中秋节",
+                    iconKey = "Nightlight",
+                    frequencyType = FrequencyType.YEARLY.name,
+                    timesPerPeriod = 1,
+                    unit = "次",
+                    sortOrder = 2,
+                    isPreset = true,
+                    isRecommended = true,
+                    isEnabled = true
+                ),
+                FrequencyEventEntity(
+                    name = "圣诞节",
+                    iconKey = "Star",
+                    frequencyType = FrequencyType.YEARLY.name,
+                    timesPerPeriod = 1,
+                    unit = "次",
+                    sortOrder = 3,
+                    isPreset = true,
+                    isRecommended = false,
+                    isEnabled = false
+                )
+            )
+        } else {
+            listOf(
+                // 国际节日（推荐的默认启用）
+                FrequencyEventEntity(
+                    name = "圣诞节",
+                    iconKey = "Star",
+                    frequencyType = FrequencyType.YEARLY.name,
+                    timesPerPeriod = 1,
+                    unit = "次",
+                    sortOrder = 1,
+                    isPreset = true,
+                    isRecommended = true,
+                    isEnabled = true
+                ),
+                FrequencyEventEntity(
+                    name = "元旦",
+                    iconKey = "Flag",
+                    frequencyType = FrequencyType.YEARLY.name,
+                    timesPerPeriod = 1,
+                    unit = "次",
+                    sortOrder = 2,
+                    isPreset = true,
+                    isRecommended = true,
+                    isEnabled = true
+                ),
+                FrequencyEventEntity(
+                    name = "万圣节",
+                    iconKey = "Star",
+                    frequencyType = FrequencyType.YEARLY.name,
+                    timesPerPeriod = 1,
+                    unit = "次",
+                    sortOrder = 3,
+                    isPreset = true,
+                    isRecommended = false,
+                    isEnabled = false
+                )
+            )
         }
     }
 

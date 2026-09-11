@@ -508,7 +508,7 @@
 
 ### 12.2 工程注意
 
-- `LifeTimeCalculator.calculateMilestones()` 当前返回固定 10 个里程碑，删除后需同步清理 `MilestoneCheck` 的使用。
+- ~~`LifeTimeCalculator.calculateMilestones()` 当前返回固定 10 个里程碑,删除后需同步清理 `MilestoneCheck` 的使用。~~（已执行:`calculateMilestones`/`MilestoneCheck` 及 `calculateFestivals`/`FestivalCount` 已删除）
 - `FrequencyEvent` 的 `ONE_TIME` 类型当前在 UI 中未充分利用，P1 可扩展为"一次性事件/倒计时"。
 - `LifeTimeComponent` 中的 `LifeTimeTab` 枚举可废弃，但建议保留 1 个版本后删除，避免状态序列化兼容问题。
 

@@ -20,7 +20,6 @@
 │  │  - currentTab: LifeTimeTab                           │   │
 │  │  - pastTimeData: LifeTimeData                        │   │
 │  │  - remainingLifeData: RemainingLifeData              │   │
-│  │  - festivalCount: FestivalCount                      │   │
 │  └──────────────────────────────────────────────────────┘   │
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │  实时更新协程: while(isActive) { update(); delay(1s) } │   │
@@ -32,9 +31,6 @@
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │  calculatePastTime(birthDate)                        │   │
 │  │    → LifeTimeData (年/月/日/时/分/秒)                 │   │
-│  ├──────────────────────────────────────────────────────┤   │
-│  │  calculateFestivals(birthDate)                       │   │
-│  │    → FestivalCount (春节/中秋/圣诞)                   │   │
 │  ├──────────────────────────────────────────────────────┤   │
 │  │  calculateRemainingLife(birthDate, expectedAge)      │   │
 │  │    → RemainingLifeData (剩余时间 + 进度)              │   │
@@ -104,7 +100,6 @@ UI 重组 (Recomposition)
             └→ startRealTimeUpdate()
                └→ 每秒循环:
                   ├─ calculatePastTime()
-                  ├─ calculateFestivals()
                   ├─ calculateRemainingLife()
                   └─ emit 新 State → UI 更新
 ```

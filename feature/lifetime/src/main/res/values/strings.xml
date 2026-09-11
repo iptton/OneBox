@@ -167,6 +167,12 @@
     <string name="lifetime_preset_name_national_memorial_day">National Memorial Day</string>
     <string name="lifetime_preset_name_christmas_eve">Christmas Eve</string>
     <string name="lifetime_preset_name_christmas">Christmas</string>
+    <string name="lifetime_preset_name_halloween">Halloween</string>
+    <string name="lifetime_preset_name_thanksgiving">Thanksgiving</string>
+    <string name="lifetime_preset_name_black_friday">Black Friday</string>
+    <string name="lifetime_preset_name_mothers_day">Mother\'s Day</string>
+    <string name="lifetime_preset_name_fathers_day">Father\'s Day</string>
+    <string name="lifetime_preset_name_new_years_eve">New Year\'s Eve</string>
     <string name="lifetime_preset_name_eating">Meals</string>
     <string name="lifetime_preset_name_sleeping">Sleep</string>
     <string name="lifetime_preset_name_journaling">Journaling</string>
@@ -220,14 +226,14 @@
         <item>countdown</item>
         <item>days matter</item>
         <item>anniversary</item>
-        <item>倒数日</item>
-        <item>倒计时</item>
-        <item>纪念日</item>
+        <item>days left</item>
+        <item>deadline</item>
+        <item>big day</item>
     </string-array>
     <string-array name="agent_tool_add_countdown_event_examples">
         <item>Add a countdown: New Year 2027-01-01</item>
-        <item>帮我建一个倒数日:高考 2027-06-07</item>
-        <item>添加倒数日 结婚纪念日 2026-10-01</item>
+        <item>Add a countdown: college entrance exam 2027-06-07</item>
+        <item>Add a countdown: wedding anniversary 2026-10-01</item>
     </string-array>
 
     <string name="agent_tool_add_life_milestone_title">Add Life Milestone</string>
@@ -242,14 +248,14 @@
         <item>milestone</item>
         <item>goal</item>
         <item>life event</item>
-        <item>里程碑</item>
-        <item>人生事件</item>
-        <item>目标</item>
+        <item>achievement</item>
+        <item>target</item>
+        <item>plan</item>
     </string-array>
     <string-array name="agent_tool_add_life_milestone_examples">
         <item>Record a milestone: first marathon on 2026-11-15</item>
-        <item>记录一个里程碑:跑完第一次马拉松 2026-11-15</item>
-        <item>添加人生里程碑 买房 2027-05-01</item>
+        <item>Record a milestone: ran my first marathon 2026-11-15</item>
+        <item>Add a life milestone: buy a house 2027-05-01</item>
     </string-array>
 
     <string name="agent_tool_query_life_events_title">Query Life Events</string>
@@ -263,15 +269,15 @@
         <item>countdown</item>
         <item>milestone</item>
         <item>query</item>
-        <item>倒数日</item>
-        <item>里程碑</item>
-        <item>还有几天</item>
+        <item>list events</item>
+        <item>upcoming</item>
+        <item>how many days left</item>
     </string-array>
     <string-array name="agent_tool_query_life_events_examples">
         <item>What countdowns do I have?</item>
-        <item>我还有哪些倒数日?</item>
-        <item>列出所有人生里程碑</item>
-        <item>距离下一个倒数日还有几天</item>
+        <item>Which countdowns do I still have?</item>
+        <item>List all my life milestones</item>
+        <item>How many days until the next countdown?</item>
     </string-array>
 
     <string name="agent_tool_delete_lifetime_entry_title">Delete Life Event</string>
@@ -290,13 +296,11 @@
         <item>remove</item>
         <item>countdown</item>
         <item>milestone</item>
-        <item>删除</item>
-        <item>倒数日</item>
-        <item>里程碑</item>
+        <item>erase</item>
+        <item>by id</item>
     </string-array>
     <string-array name="agent_tool_delete_lifetime_entry_examples">
         <item>Delete the countdown with id 3</item>
-        <item>删除 id 为 3 的倒数日</item>
-        <item>删掉里程碑 5</item>
+        <item>Delete milestone 5</item>
     </string-array>
 </resources>

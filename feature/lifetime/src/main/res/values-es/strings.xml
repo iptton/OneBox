@@ -159,6 +159,12 @@
     <string name="lifetime_preset_name_national_memorial_day">Día de Conmemoración Nacional</string>
     <string name="lifetime_preset_name_christmas_eve">Nochebuena</string>
     <string name="lifetime_preset_name_christmas">Navidad</string>
+    <string name="lifetime_preset_name_halloween">Halloween</string>
+    <string name="lifetime_preset_name_thanksgiving">Día de Acción de Gracias</string>
+    <string name="lifetime_preset_name_black_friday">Black Friday</string>
+    <string name="lifetime_preset_name_mothers_day">Día de la Madre</string>
+    <string name="lifetime_preset_name_fathers_day">Día del Padre</string>
+    <string name="lifetime_preset_name_new_years_eve">Nochevieja</string>
     <string name="lifetime_preset_name_eating">Comidas</string>
     <string name="lifetime_preset_name_sleeping">Sueño</string>
     <string name="lifetime_preset_name_journaling">Diario</string>

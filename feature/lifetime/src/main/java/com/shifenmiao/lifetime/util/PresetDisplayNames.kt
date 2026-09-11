@@ -17,57 +17,72 @@ import com.shifenmiao.lifetime.domain.model.MilestoneStatus
 
 /**
  * 预置事件/节日展示名：按播种时的中文 name 映射到字符串资源。
- * 映射表覆盖 [com.shifenmiao.lifetime.data.FrequencyEventRepository] 的 10 个预置频率事件
- * 与 feature:calendar 的 SOLAR_FESTIVALS / LUNAR_FESTIVALS 全部节日名。
+ * 映射表覆盖 [com.shifenmiao.lifetime.data.FrequencyEventRepository] 的预置频率事件、
+ * feature:calendar 的 SOLAR_FESTIVALS / LUNAR_FESTIVALS 全部节日名，
+ * 以及 LunarHolidayProvider 为非中文环境自建的国际节日（万圣节/感恩节/黑色星期五/母亲节/父亲节/跨年夜）。
  */
 @Composable
 fun localizedPresetEventName(name: String, isPreset: Boolean): String {
     if (!isPreset) return name
-    return when (name) {
-        "春节" -> stringResource(R.string.lifetime_preset_name_spring_festival)
-        "元宵节" -> stringResource(R.string.lifetime_preset_name_lantern_festival)
-        "龙抬头" -> stringResource(R.string.lifetime_preset_name_longtaitou)
-        "上巳节" -> stringResource(R.string.lifetime_preset_name_shangsi)
-        "端午节" -> stringResource(R.string.lifetime_preset_name_dragon_boat)
-        "七夕" -> stringResource(R.string.lifetime_preset_name_qixi)
-        "中元节" -> stringResource(R.string.lifetime_preset_name_zhongyuan)
-        "中秋节" -> stringResource(R.string.lifetime_preset_name_mid_autumn)
-        "重阳节" -> stringResource(R.string.lifetime_preset_name_double_ninth)
-        "寒衣节" -> stringResource(R.string.lifetime_preset_name_hanyi)
-        "下元节" -> stringResource(R.string.lifetime_preset_name_xiayuan)
-        "腊八节" -> stringResource(R.string.lifetime_preset_name_laba)
-        "小年" -> stringResource(R.string.lifetime_preset_name_little_new_year)
-        "除夕" -> stringResource(R.string.lifetime_preset_name_chinese_new_years_eve)
-        "元旦" -> stringResource(R.string.lifetime_preset_name_new_years_day)
-        "情人节" -> stringResource(R.string.lifetime_preset_name_valentines)
-        "妇女节" -> stringResource(R.string.lifetime_preset_name_womens_day)
-        "植树节" -> stringResource(R.string.lifetime_preset_name_arbor_day)
-        "消费者权益日" -> stringResource(R.string.lifetime_preset_name_consumer_rights_day)
-        "愚人节" -> stringResource(R.string.lifetime_preset_name_april_fools)
-        "地球日" -> stringResource(R.string.lifetime_preset_name_earth_day)
-        "劳动节" -> stringResource(R.string.lifetime_preset_name_labor_day)
-        "青年节" -> stringResource(R.string.lifetime_preset_name_youth_day)
-        "护士节" -> stringResource(R.string.lifetime_preset_name_nurses_day)
-        "儿童节" -> stringResource(R.string.lifetime_preset_name_childrens_day)
-        "环境日" -> stringResource(R.string.lifetime_preset_name_environment_day)
-        "建党节" -> stringResource(R.string.lifetime_preset_name_party_founding_day)
-        "建军节" -> stringResource(R.string.lifetime_preset_name_army_day)
-        "抗战胜利" -> stringResource(R.string.lifetime_preset_name_victory_day)
-        "教师节" -> stringResource(R.string.lifetime_preset_name_teachers_day)
-        "国庆节" -> stringResource(R.string.lifetime_preset_name_national_day)
-        "光棍节" -> stringResource(R.string.lifetime_preset_name_singles_day)
-        "国家公祭日" -> stringResource(R.string.lifetime_preset_name_national_memorial_day)
-        "平安夜" -> stringResource(R.string.lifetime_preset_name_christmas_eve)
-        "圣诞节" -> stringResource(R.string.lifetime_preset_name_christmas)
-        "吃饭" -> stringResource(R.string.lifetime_preset_name_eating)
-        "睡觉" -> stringResource(R.string.lifetime_preset_name_sleeping)
-        "写日记" -> stringResource(R.string.lifetime_preset_name_journaling)
-        "运动" -> stringResource(R.string.lifetime_preset_name_exercise)
-        "看书" -> stringResource(R.string.lifetime_preset_name_reading)
-        "看电影" -> stringResource(R.string.lifetime_preset_name_movies)
-        "旅行" -> stringResource(R.string.lifetime_preset_name_travel)
-        else -> name
-    }
+    val resId = presetEventNameRes(name) ?: return name
+    return stringResource(resId)
+}
+
+/**
+ * 预置事件/节日中文 name → 字符串资源 id 的映射表（非 Composable）。
+ * 供展示层 Composable 与 AI 工具（AgentToolTextProvider）等非 Compose 场景复用；
+ * 表外取值返回 null，调用方回退展示数据库中的原始值。
+ */
+fun presetEventNameRes(name: String): Int? = when (name) {
+    "春节" -> R.string.lifetime_preset_name_spring_festival
+    "元宵节" -> R.string.lifetime_preset_name_lantern_festival
+    "龙抬头" -> R.string.lifetime_preset_name_longtaitou
+    "上巳节" -> R.string.lifetime_preset_name_shangsi
+    "端午节" -> R.string.lifetime_preset_name_dragon_boat
+    "七夕" -> R.string.lifetime_preset_name_qixi
+    "中元节" -> R.string.lifetime_preset_name_zhongyuan
+    "中秋节" -> R.string.lifetime_preset_name_mid_autumn
+    "重阳节" -> R.string.lifetime_preset_name_double_ninth
+    "寒衣节" -> R.string.lifetime_preset_name_hanyi
+    "下元节" -> R.string.lifetime_preset_name_xiayuan
+    "腊八节" -> R.string.lifetime_preset_name_laba
+    "小年" -> R.string.lifetime_preset_name_little_new_year
+    "除夕" -> R.string.lifetime_preset_name_chinese_new_years_eve
+    "元旦" -> R.string.lifetime_preset_name_new_years_day
+    "情人节" -> R.string.lifetime_preset_name_valentines
+    "妇女节" -> R.string.lifetime_preset_name_womens_day
+    "植树节" -> R.string.lifetime_preset_name_arbor_day
+    "消费者权益日" -> R.string.lifetime_preset_name_consumer_rights_day
+    "愚人节" -> R.string.lifetime_preset_name_april_fools
+    "地球日" -> R.string.lifetime_preset_name_earth_day
+    "劳动节" -> R.string.lifetime_preset_name_labor_day
+    "青年节" -> R.string.lifetime_preset_name_youth_day
+    "护士节" -> R.string.lifetime_preset_name_nurses_day
+    "儿童节" -> R.string.lifetime_preset_name_childrens_day
+    "环境日" -> R.string.lifetime_preset_name_environment_day
+    "建党节" -> R.string.lifetime_preset_name_party_founding_day
+    "建军节" -> R.string.lifetime_preset_name_army_day
+    "抗战胜利" -> R.string.lifetime_preset_name_victory_day
+    "教师节" -> R.string.lifetime_preset_name_teachers_day
+    "国庆节" -> R.string.lifetime_preset_name_national_day
+    "光棍节" -> R.string.lifetime_preset_name_singles_day
+    "国家公祭日" -> R.string.lifetime_preset_name_national_memorial_day
+    "平安夜" -> R.string.lifetime_preset_name_christmas_eve
+    "圣诞节" -> R.string.lifetime_preset_name_christmas
+    "万圣节" -> R.string.lifetime_preset_name_halloween
+    "感恩节" -> R.string.lifetime_preset_name_thanksgiving
+    "黑色星期五" -> R.string.lifetime_preset_name_black_friday
+    "母亲节" -> R.string.lifetime_preset_name_mothers_day
+    "父亲节" -> R.string.lifetime_preset_name_fathers_day
+    "跨年夜" -> R.string.lifetime_preset_name_new_years_eve
+    "吃饭" -> R.string.lifetime_preset_name_eating
+    "睡觉" -> R.string.lifetime_preset_name_sleeping
+    "写日记" -> R.string.lifetime_preset_name_journaling
+    "运动" -> R.string.lifetime_preset_name_exercise
+    "看书" -> R.string.lifetime_preset_name_reading
+    "看电影" -> R.string.lifetime_preset_name_movies
+    "旅行" -> R.string.lifetime_preset_name_travel
+    else -> null
 }
 
 /**
