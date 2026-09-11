@@ -64,7 +64,9 @@ fun DecisionWheelSettingsScreen(
                 )
             }
 
-            OneBoxSectionCard {
+            OneBoxSectionCard(
+                verticalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.settingRowSpacing)
+            ) {
                 ToggleSetting(
                     title = stringResource(R.string.settings_sound),
                     subtitle = stringResource(R.string.settings_sound_note),

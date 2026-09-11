@@ -49,6 +49,8 @@ object OneBoxDesignSystem {
     val sectionSpacing: Dp = 20.dp
     val blockSpacing: Dp = 16.dp
     val itemSpacing: Dp = 12.dp
+    /** 设置类列表行间距：比 [itemSpacing] 松，因为每行都带副标题，挤在一起读不清 */
+    val settingRowSpacing: Dp = 24.dp
     val compactSpacing: Dp = 8.dp
     val microSpacing: Dp = 4.dp
 

@@ -69,6 +69,15 @@ interface WheelDao {
     @Query("UPDATE wheel_options SET enabled = 1 WHERE wheelId = :wheelId")
     suspend fun resetOptionsEnabled(wheelId: String)
 
+    /**
+     * 清掉所有转盘上的"已移除"标记。
+     *
+     * 关掉"抽后移除"时要清全部而不只是当前转盘 —— 只清当前的话，切到别的转盘
+     * 还是一堆灰扇区，而恢复入口又只在开关打开时才显示，等于无解。
+     */
+    @Query("UPDATE wheel_options SET enabled = 1")
+    suspend fun resetAllOptionsEnabled()
+
     // History operations
     @Insert
     suspend fun insertHistory(history: WheelHistoryEntity): Long

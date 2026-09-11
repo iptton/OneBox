@@ -129,6 +129,35 @@ class DecisionWheelEditorComponent @AssistedInject internal constructor(
         }
     }
 
+    /**
+     * 手动放回 / 摘掉单个选项。
+     *
+     * "抽后移除"抽走的选项会一直保持 disabled，而主页只有"全部恢复"一个入口、
+     * 且它只在开关打开时才显示。编辑页是唯一能单独处理某一条的地方，不露出来
+     * 用户要么全量恢复、要么 rebuild 转盘。
+     */
+    fun setOptionEnabled(optionId: String, enabled: Boolean) {
+        _uiState.update {
+            it.copy(
+                options = it.options.map { o ->
+                    if (o.id == optionId) o.copy(enabled = enabled) else o
+                },
+                dirty = true
+            )
+        }
+    }
+
+    /** 放回所有被"抽后移除"摘掉的选项 */
+    fun restoreAllOptions() {
+        if (_uiState.value.options.none { !it.enabled }) return
+        _uiState.update {
+            it.copy(
+                options = it.options.map { o -> if (o.enabled) o else o.copy(enabled = true) },
+                dirty = true
+            )
+        }
+    }
+
     /** 返回 false 表示已达下限（至少保留 2 项），UI 应提示而不是弹确认框 */
     fun removeOption(optionId: String): Boolean {
         val current = _uiState.value.options

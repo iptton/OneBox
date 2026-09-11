@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineSave
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTheme
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTextButton
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxDesignSystem
 import com.wanbaohe.decisionwheel.R
@@ -62,6 +63,12 @@ import com.wanbaohe.decisionwheel.component.DecisionWheelEditorComponent
 import com.wanbaohe.decisionwheel.component.WheelOption
 import com.wanbaohe.decisionwheel.ui.DecisionWheelPalettePickerSheet
 import kotlinx.coroutines.delay
+
+/**
+ * 与盘面上"已被抽后移除摘掉"的扇区同一个灰。
+ * 编辑页和主页必须用同一个颜色，否则用户得靠猜才能把两边对上号。
+ */
+private val removedOptionColor = Color(0xFF9E9E9E)
 
 @Composable
 fun DecisionWheelEditorScreen(
@@ -111,9 +118,11 @@ fun DecisionWheelEditorScreen(
                 colors = AppTheme.colors.getOutlinedTextFieldColors()
             )
 
+            val removedCount = uiState.options.count { !it.enabled }
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -121,6 +130,23 @@ fun DecisionWheelEditorScreen(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
+
+                // 被"抽后移除"摘掉的选项在这里是看不见的：它们跟正常选项长得一模一样，
+                // 保存后仍然是灰扇区。不放个入口，用户只能回主页点"全部恢复"。
+                if (removedCount > 0) {
+                    GlassTextButton(
+                        onClick = component::restoreAllOptions,
+                        modifier = Modifier.height(32.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.restore_all_action),
+                            fontSize = 13.sp
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
                 GlassTonalButton(
                     onClick = { showPaletteSheet = true },
                     colors = AppTheme.colors.getSurfaceContainerButtonColors(),
@@ -157,7 +183,8 @@ fun DecisionWheelEditorScreen(
                             }
                         },
                         onMoveUp = { component.moveOption(index, index - 1) },
-                        onMoveDown = { component.moveOption(index, index + 1) }
+                        onMoveDown = { component.moveOption(index, index + 1) },
+                        onRestore = { component.setOptionEnabled(option.id, true) }
                     )
                 }
             }
@@ -291,7 +318,8 @@ private fun OptionEditRow(
     onWeightChange: (Float) -> Unit,
     onDelete: () -> Unit,
     onMoveUp: () -> Unit,
-    onMoveDown: () -> Unit
+    onMoveDown: () -> Unit,
+    onRestore: () -> Unit
 ) {
     var draftName by remember(option.id) { mutableStateOf(option.name) }
 
@@ -357,6 +385,19 @@ private fun OptionEditRow(
                     weight = option.weight,
                     onChange = onWeightChange
                 )
+
+                if (!option.enabled) {
+                    GlassTextButton(
+                        onClick = onRestore,
+                        modifier = Modifier.height(30.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.option_removed_badge),
+                            fontSize = 12.sp,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.weight(1f))
 

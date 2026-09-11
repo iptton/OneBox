@@ -146,6 +146,8 @@
     <string name="ai_engine_not_configured">还没配置 AI 引擎，先去设置里配一个</string>
     <string name="ai_add_count">添加这 %1$d 个</string>
     <string name="ai_assistant_action">AI 助手</string>
+    <string name="option_removed_badge">已移除 · 放回</string>
+    <string name="option_removed_hint">被「抽后移除」抽走了，放回前它一直是灰的，也不会再被抽到</string>
     <string name="ai_assistant_title">决策转盘选项</string>
     <string name="ai_assistant_filler">我在做一个叫「%1$s」的决策转盘，目前的选项是：%2$s。帮我一起想想更合适的选项，最后给我一个每行一个的最终清单。</string>
     <string name="ai_assistant_fallback_topic">我的转盘</string>

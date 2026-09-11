@@ -116,6 +116,11 @@ class WheelRepository @Inject constructor(
         wheelDao.resetOptionsEnabled(wheelId)
     }
 
+    /** 关掉"抽后移除"时用：所有转盘一起把选项放回去 */
+    suspend fun resetAllOptionsEnabled() {
+        wheelDao.resetAllOptionsEnabled()
+    }
+
     /**
      * 获取转盘历史记录
      */

@@ -150,8 +150,12 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
 
     private fun restoreRemovedIfDisabled() {
         if (settingsHolder.current().removeOnSpin) return
-        val wheel = _uiState.value.currentWheel ?: return
-        if (wheel.options.any { !it.enabled }) restoreRemovedOptions()
+        // 按"全部转盘"判定而不是当前转盘：只清当前的话，切到别的转盘仍是灰扇区。
+        // 判空是必须的 —— 无脑 UPDATE 会再次触发本 Flow，形成死循环。
+        val hasRemoved = _uiState.value.wheels.any { w -> w.options.any { !it.enabled } }
+        if (hasRemoved) {
+            componentScope.launch { repository.resetAllOptionsEnabled() }
+        }
     }
 
     /**

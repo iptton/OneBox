@@ -145,6 +145,8 @@
     <string name="ai_engine_not_configured">No AI engine configured yet, set one up first</string>
     <string name="ai_add_count">Add these %1$d</string>
     <string name="ai_assistant_action">AI Assistant</string>
+    <string name="option_removed_badge">Removed · Put back</string>
+    <string name="option_removed_hint">Removed by "remove after spin"; it stays grey until you put it back</string>
     <string name="ai_assistant_title">Decision Wheel Options</string>
     <string name="ai_assistant_filler">I am building a decision wheel called \"%1$s\", current options: %2$s. Help me think through better options, then tell me the final list with one per line.</string>
     <string name="ai_assistant_fallback_topic">my wheel</string>
