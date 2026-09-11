@@ -117,9 +117,9 @@
     <string name="household_log_location_deleted">Naburang lokasyon: %1$s</string>
     <string name="agent_tool_add_household_item_title">Magdagdag ng Item</string>
     <string name="agent_tool_add_household_item_summary">Magtala ng item kasama ang lokasyon nito</string>
-    <string name="agent_tool_add_household_item_description">Magtala ng item: pangalan, path ng lokasyon (awtomatikong gagawin bawat antas kung wala), opsyonal na kategorya, petsa ng pag-expire at tala.</string>
+    <string name="agent_tool_add_household_item_description">Mag-record ng item: pangalan, path ng lokasyon, opsyonal na kategorya, expiry date at note. Ang mga existing na lokasyon na may parehong pangalan (kahit naka-nest) ay gagamitin muli; ang mga nawawalang level ay awtomatikong gagawin.</string>
     <string name="agent_tool_add_household_item_param_name">Pangalan ng item, hal. \"Gamot sa sipon\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Path ng lokasyon, mga segment na pinaghihiwalay ng \"/\" o \"&gt;\", hal. \"Silid-tulugan/Kabinet/Pinakataas na drawer\". Awtomatikong gagawin kung wala</string>
+    <string name="agent_tool_add_household_item_param_location_path">Path ng lokasyon, mga segment na pinaghihiwalay ng "/" o "&gt;", hal. "Bahay/Kuwarto/Medicine box". Ang mga existing na lokasyon na may parehong pangalan ay gagamitin muli; ang mga nawawala ay gagawin</string>
     <string name="agent_tool_add_household_item_param_category">Kategorya, malayang teksto, hal. Gamot / Maliliit na bagay / Malalaking bagay</string>
     <string name="agent_tool_add_household_item_param_expire_date">Petsa ng pag-expire, yyyy-MM-dd, opsyonal</string>
     <string name="agent_tool_add_household_item_param_note">Opsyonal na tala</string>

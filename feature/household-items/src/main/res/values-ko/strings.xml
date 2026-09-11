@@ -117,9 +117,9 @@
     <string name="household_log_location_deleted">위치 삭제됨: %1$s</string>
     <string name="agent_tool_add_household_item_title">항목 추가</string>
     <string name="agent_tool_add_household_item_summary">보관 위치와 함께 항목 기록</string>
-    <string name="agent_tool_add_household_item_description">항목 기록: 이름, 보관 위치 경로(없으면 단계별로 자동 생성), 선택적 카테고리, 유통기한 및 메모.</string>
+    <string name="agent_tool_add_household_item_description">물건을 기록합니다: 이름, 보관 위치 경로, 선택적 분류, 유통기한, 메모. 같은 이름의 기존 위치(중첩된 계층 포함)는 재사용하고, 없는 단계만 자동으로 만듭니다.</string>
     <string name="agent_tool_add_household_item_param_name">항목 이름, 예: \"감기약\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">보관 위치 경로, \"/\" 또는 \"&gt;\"로 구분된 세그먼트, 예: \"침실/옷장/상단 서랍\". 없으면 자동 생성됨</string>
+    <string name="agent_tool_add_household_item_param_location_path">보관 위치 경로. "/" 또는 "&gt;"로 구분합니다(예: "집/안방/약상자"). 같은 이름의 기존 위치는 재사용하고, 없는 것만 새로 만듭니다</string>
     <string name="agent_tool_add_household_item_param_category">카테고리, 자유 텍스트, 예: 약 / 소형 물품 / 대형 물품</string>
     <string name="agent_tool_add_household_item_param_expire_date">만료일, yyyy-MM-dd, 선택 사항</string>
     <string name="agent_tool_add_household_item_param_note">선택 메모</string>

@@ -117,9 +117,9 @@
     <string name="household_log_location_deleted">Ubicación eliminada: %1$s</string>
     <string name="agent_tool_add_household_item_title">Añadir artículo</string>
     <string name="agent_tool_add_household_item_summary">Registra un artículo con su ubicación de almacenamiento</string>
-    <string name="agent_tool_add_household_item_description">Registra un artículo: nombre, ruta de ubicación de almacenamiento (se crea automáticamente nivel por nivel si falta), categoría opcional, fecha de caducidad y nota.</string>
+    <string name="agent_tool_add_household_item_description">Registra un artículo: nombre, ruta de ubicación, categoría opcional, fecha de caducidad y nota. Las ubicaciones existentes con el mismo nombre (incluso anidadas) se reutilizan; los niveles que falten se crean automáticamente.</string>
     <string name="agent_tool_add_household_item_param_name">Nombre del artículo, p. ej. \"Medicamento para el resfriado\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Ruta de ubicación de almacenamiento, segmentos separados por \"/\" o \"&gt;\", p. ej. \"Dormitorio/Armario/Cajón superior\". Se crea automáticamente si falta</string>
+    <string name="agent_tool_add_household_item_param_location_path">Ruta de ubicación, segmentos separados por "/" o "&gt;", ej. "Casa/Dormitorio/Botiquín". Las ubicaciones existentes con el mismo nombre se reutilizan; las que falten se crean</string>
     <string name="agent_tool_add_household_item_param_category">Categoría, texto libre, p. ej. Medicamentos / Artículos pequeños / Artículos grandes</string>
     <string name="agent_tool_add_household_item_param_expire_date">Fecha de caducidad, aaaa-MM-dd, opcional</string>
     <string name="agent_tool_add_household_item_param_note">Nota opcional</string>

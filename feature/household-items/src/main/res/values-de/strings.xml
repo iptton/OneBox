@@ -117,9 +117,9 @@
     <string name="household_log_location_deleted">Ort gelöscht: %1$s</string>
     <string name="agent_tool_add_household_item_title">Artikel hinzufügen</string>
     <string name="agent_tool_add_household_item_summary">Artikel mit seinem Aufbewahrungsort erfassen</string>
-    <string name="agent_tool_add_household_item_description">Artikel erfassen: Name, Aufbewahrungspfad (wird bei Fehlen Ebene für Ebene automatisch erstellt), optionale Kategorie, Ablaufdatum und Notiz.</string>
+    <string name="agent_tool_add_household_item_description">Erfasst einen Gegenstand: Name, Aufbewahrungspfad, optional Kategorie, Ablaufdatum und Notiz. Vorhandene Orte mit gleichem Namen (auch verschachtelte) werden wiederverwendet; fehlende Ebenen werden automatisch erstellt.</string>
     <string name="agent_tool_add_household_item_param_name">Artikelname, z. B. \"Erkältungsmedizin\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Aufbewahrungspfad, Segmente getrennt durch \"/\" oder \"&gt;\", z. B. \"Schlafzimmer/Kleiderschrank/Obere Schublade\". Wird bei Fehlen automatisch erstellt</string>
+    <string name="agent_tool_add_household_item_param_location_path">Aufbewahrungspfad, Segmente getrennt durch "/" oder "&gt;", z. B. "Zuhause/Schlafzimmer/Medizinschrank". Vorhandene Orte mit gleichem Namen werden wiederverwendet; fehlende werden erstellt</string>
     <string name="agent_tool_add_household_item_param_category">Kategorie, Freitext, z. B. Medizin / Kleinteile / Große Gegenstände</string>
     <string name="agent_tool_add_household_item_param_expire_date">Ablaufdatum, JJJJ-MM-TT, optional</string>
     <string name="agent_tool_add_household_item_param_note">Optionale Notiz</string>

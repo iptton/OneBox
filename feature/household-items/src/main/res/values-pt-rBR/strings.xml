@@ -117,9 +117,9 @@
     <string name="household_log_location_deleted">Local excluído: %1$s</string>
     <string name="agent_tool_add_household_item_title">Adicionar Item</string>
     <string name="agent_tool_add_household_item_summary">Registre um item com seu local de armazenamento</string>
-    <string name="agent_tool_add_household_item_description">Registre um item: nome, caminho do local de armazenamento (criado automaticamente nível por nível se não existir), categoria opcional, data de validade e observação.</string>
+    <string name="agent_tool_add_household_item_description">Registra um item: nome, caminho do local de armazenamento, categoria opcional, validade e observação. Locais existentes com o mesmo nome (mesmo aninhados) são reutilizados; níveis ausentes são criados automaticamente.</string>
     <string name="agent_tool_add_household_item_param_name">Nome do item, ex.: \"Remédio para resfriado\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Caminho do local de armazenamento, segmentos separados por \"/\" ou \"&gt;\", ex.: \"Quarto/Guarda-roupa/Gaveta superior\". Criado automaticamente se não existir</string>
+    <string name="agent_tool_add_household_item_param_location_path">Caminho do local, segmentos separados por "/" ou "&gt;", ex.: "Casa/Quarto/Caixa de remédios". Locais existentes com o mesmo nome são reutilizados; os ausentes são criados</string>
     <string name="agent_tool_add_household_item_param_category">Categoria, texto livre, ex.: Remédio / Itens pequenos / Itens grandes</string>
     <string name="agent_tool_add_household_item_param_expire_date">Data de validade, aaaa-MM-dd, opcional</string>
     <string name="agent_tool_add_household_item_param_note">Observação opcional</string>

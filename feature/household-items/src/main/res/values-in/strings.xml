@@ -117,9 +117,9 @@
     <string name="household_log_location_deleted">Lokasi dihapus: %1$s</string>
     <string name="agent_tool_add_household_item_title">Tambah Item</string>
     <string name="agent_tool_add_household_item_summary">Catat item beserta lokasi penyimpanannya</string>
-    <string name="agent_tool_add_household_item_description">Catat item: nama, jalur lokasi penyimpanan (dibuat otomatis tingkat demi tingkat jika belum ada), kategori opsional, tanggal kedaluwarsa, dan catatan.</string>
+    <string name="agent_tool_add_household_item_description">Catat barang: nama, jalur lokasi penyimpanan, kategori opsional, tanggal kedaluwarsa, dan catatan. Lokasi dengan nama yang sama (termasuk yang bersarang) akan dipakai ulang; level yang belum ada dibuat otomatis.</string>
     <string name="agent_tool_add_household_item_param_name">Nama item, mis. \"Obat flu\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Jalur lokasi penyimpanan, segmen dipisahkan dengan \"/\" atau \"&gt;\", mis. \"Kamar Tidur/Lemari/Laci Atas\". Dibuat otomatis jika belum ada</string>
+    <string name="agent_tool_add_household_item_param_location_path">Jalur lokasi penyimpanan, segmen dipisah "/" atau "&gt;", mis. "Rumah/Kamar tidur/Kotak obat". Lokasi dengan nama yang sama dipakai ulang; yang belum ada dibuat</string>
     <string name="agent_tool_add_household_item_param_category">Kategori, teks bebas, mis. Obat / Barang kecil / Barang besar</string>
     <string name="agent_tool_add_household_item_param_expire_date">Tanggal kedaluwarsa, yyyy-MM-dd, opsional</string>
     <string name="agent_tool_add_household_item_param_note">Catatan opsional</string>

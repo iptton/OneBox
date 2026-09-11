@@ -117,9 +117,9 @@
     <string name="household_log_location_deleted">Konum silindi: %1$s</string>
     <string name="agent_tool_add_household_item_title">Öğe Ekle</string>
     <string name="agent_tool_add_household_item_summary">Bir öğeyi saklama konumuyla kaydet</string>
-    <string name="agent_tool_add_household_item_description">Bir öğe kaydet: ad, saklama konumu yolu (eksikse seviye seviye otomatik oluşturulur), isteğe bağlı kategori, son kullanma tarihi ve not.</string>
+    <string name="agent_tool_add_household_item_description">Bir eşya kaydeder: ad, konum yolu, isteğe bağlı kategori, son kullanma tarihi ve not. Aynı ada sahip mevcut konumlar (iç içe olanlar dahil) yeniden kullanılır; eksik düzeyler otomatik oluşturulur.</string>
     <string name="agent_tool_add_household_item_param_name">Öğe adı, örn. \"Soğuk algınlığı ilacı\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Saklama konumu yolu, bölümler \"/\" veya \"&gt;\" ile ayrılır, örn. \"Yatak Odası/Gardırop/Üst çekmece\". Eksikse otomatik oluşturulur</string>
+    <string name="agent_tool_add_household_item_param_location_path">Konum yolu, bölümler "/" veya "&gt;" ile ayrılır, örn. "Ev/Yatak odası/İlaç kutusu". Aynı ada sahip mevcut konumlar yeniden kullanılır; eksik olanlar oluşturulur</string>
     <string name="agent_tool_add_household_item_param_category">Kategori, serbest metin, örn. İlaç / Küçük eşyalar / Büyük eşyalar</string>
     <string name="agent_tool_add_household_item_param_expire_date">Son kullanma tarihi, yyyy-MM-dd, isteğe bağlı</string>
     <string name="agent_tool_add_household_item_param_note">İsteğe bağlı not</string>

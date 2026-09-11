@@ -117,9 +117,9 @@
     <string name="household_log_location_deleted">Удалено место: %1$s</string>
     <string name="agent_tool_add_household_item_title">Добавить предмет</string>
     <string name="agent_tool_add_household_item_summary">Записать предмет с местом хранения</string>
-    <string name="agent_tool_add_household_item_description">Записать предмет: название, путь места хранения (создаётся автоматически по уровням при отсутствии), необязательная категория, срок годности и заметка.</string>
+    <string name="agent_tool_add_household_item_description">Записывает предмет: название, путь к месту хранения, необязательные категорию, срок годности и заметку. Существующие места с тем же именем (в том числе вложенные) используются повторно; отсутствующие уровни создаются автоматически.</string>
     <string name="agent_tool_add_household_item_param_name">Название предмета, напр. «Лекарство от простуды»</string>
-    <string name="agent_tool_add_household_item_param_location_path">Путь места хранения, сегменты разделены «/» или «&gt;», напр. «Спальня/Шкаф/Верхний ящик». Создаётся автоматически при отсутствии</string>
+    <string name="agent_tool_add_household_item_param_location_path">Путь к месту хранения, сегменты через "/" или "&gt;", например "Дом/Спальня/Аптечка". Существующие места с тем же именем используются повторно; отсутствующие создаются</string>
     <string name="agent_tool_add_household_item_param_category">Категория, произвольный текст, напр. Лекарства / Мелкие предметы / Крупные предметы</string>
     <string name="agent_tool_add_household_item_param_expire_date">Срок годности, гггг-ММ-дд, необязательно</string>
     <string name="agent_tool_add_household_item_param_note">Необязательная заметка</string>

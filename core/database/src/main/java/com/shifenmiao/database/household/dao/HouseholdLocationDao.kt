@@ -37,6 +37,9 @@ interface HouseholdLocationDao {
     )
     suspend fun getByNameAndParent(name: String, parentId: String?): HouseholdLocationEntity?
 
+    @Query("SELECT * FROM household_location WHERE name = :name")
+    suspend fun getByName(name: String): List<HouseholdLocationEntity>
+
     @Query("SELECT COUNT(*) FROM household_location WHERE parent_id = :id")
     suspend fun countChildren(id: String): Int
 

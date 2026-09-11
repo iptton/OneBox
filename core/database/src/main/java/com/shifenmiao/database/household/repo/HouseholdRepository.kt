@@ -69,15 +69,20 @@ class HouseholdRepository @Inject constructor(
             var parentId: String? = null
             var location: HouseholdLocationEntity? = null
             path.forEach { name ->
-                location = locationDao.getByNameAndParent(name, parentId) ?: run {
-                    val created = HouseholdLocationEntity(
-                        id = UUID.randomUUID().toString(),
-                        name = name,
-                        parentId = parentId,
-                    )
-                    locationDao.upsert(created)
-                    created
-                }
+                location = locationDao.getByNameAndParent(name, parentId)
+                    // 当前父级下没有同名位置时,全局按名称找唯一匹配并复用,
+                    // 避免在已有层级(如「家/主卧」)之外重复新建同名位置;
+                    // 无匹配或有歧义(多个同名)时才在当前父级下新建
+                    ?: locationDao.getByName(name).singleOrNull()
+                    ?: run {
+                        val created = HouseholdLocationEntity(
+                            id = UUID.randomUUID().toString(),
+                            name = name,
+                            parentId = parentId,
+                        )
+                        locationDao.upsert(created)
+                        created
+                    }
                 parentId = location!!.id
             }
             location ?: throw IllegalArgumentException("path must not be empty")

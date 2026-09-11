@@ -132,9 +132,9 @@
     <!-- AI 工具:add_household_item -->
     <string name="agent_tool_add_household_item_title">Add Item</string>
     <string name="agent_tool_add_household_item_summary">Record an item with its storage location</string>
-    <string name="agent_tool_add_household_item_description">Record an item: name, storage location path (auto-created level by level if missing), optional category, expiry date and note.</string>
+    <string name="agent_tool_add_household_item_description">Record an item: name, storage location path, optional category, expiry date and note. Existing same-name locations (even nested ones) are reused; missing levels are created automatically.</string>
     <string name="agent_tool_add_household_item_param_name">Item name, e.g. "Cold medicine"</string>
-    <string name="agent_tool_add_household_item_param_location_path">Storage location path, segments separated by "/" or ">", e.g. "Bedroom/Wardrobe/Top drawer". Created automatically if missing</string>
+    <string name="agent_tool_add_household_item_param_location_path">Storage location path, segments separated by "/" or "&gt;", e.g. "Home/Bedroom/Medicine box". Existing same-name locations are reused; missing ones are created</string>
     <string name="agent_tool_add_household_item_param_category">Category, free text, e.g. Medicine / Small items / Large items</string>
     <string name="agent_tool_add_household_item_param_expire_date">Expiry date, yyyy-MM-dd, optional</string>
     <string name="agent_tool_add_household_item_param_note">Optional note</string>

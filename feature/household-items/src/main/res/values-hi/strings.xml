@@ -117,9 +117,9 @@
     <string name="household_log_location_deleted">स्थान हटाया गया: %1$s</string>
     <string name="agent_tool_add_household_item_title">आइटम जोड़ें</string>
     <string name="agent_tool_add_household_item_summary">आइटम को उसके भंडारण स्थान के साथ रिकॉर्ड करें</string>
-    <string name="agent_tool_add_household_item_description">आइटम रिकॉर्ड करें: नाम, भंडारण स्थान पथ (अनुपस्थित होने पर स्तर-दर-स्तर स्वतः बनाया जाता है), वैकल्पिक श्रेणी, समाप्ति तिथि और नोट।</string>
+    <string name="agent_tool_add_household_item_description">कोई वस्तु दर्ज करें: नाम, स्थान पथ, वैकल्पिक श्रेणी, समाप्ति तिथि और नोट। समान नाम वाले मौजूदा स्थानों (नेस्टेड भी) का पुनः उपयोग होता है; अनुपस्थित स्तर अपने आप बन जाते हैं।</string>
     <string name="agent_tool_add_household_item_param_name">आइटम का नाम, जैसे \"सर्दी की दवा\"</string>
-    <string name="agent_tool_add_household_item_param_location_path">भंडारण स्थान पथ, खंड \"/\" या \"&gt;\" से अलग किए गए, जैसे \"शयनकक्ष/अलमारी/ऊपरी दराज\"। अनुपस्थित होने पर स्वतः बनाया जाता है</string>
+    <string name="agent_tool_add_household_item_param_location_path">स्थान पथ, खंड "/" या "&gt;" से अलग, जैसे "घर/शयनकक्ष/दवा बॉक्स"। समान नाम वाले मौजूदा स्थानों का पुनः उपयोग होता है; अनुपस्थित बनाए जाते हैं</string>
     <string name="agent_tool_add_household_item_param_category">श्रेणी, मुक्त पाठ, जैसे दवा / छोटी वस्तुएँ / बड़ी वस्तुएँ</string>
     <string name="agent_tool_add_household_item_param_expire_date">समाप्ति तिथि, yyyy-MM-dd, वैकल्पिक</string>
     <string name="agent_tool_add_household_item_param_note">वैकल्पिक नोट</string>
