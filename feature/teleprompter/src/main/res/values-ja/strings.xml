@@ -57,5 +57,5 @@
     <string name="teleprompter_empty_go_ai">AIに書いてもらう</string>
     <string name="teleprompter_ai_assist_title">台本アシスタント</string>
     <string name="teleprompter_ai_assist_prompt">あなたはテレプロンプター用台本アシスタントです。シーン・尺・テーマが伝えられたら manage_teleprompter で原稿を作成/更新してください。</string>
-    <string name="teleprompter_ai_assist_fill_in">テレプロンプター用の30秒のオープニング原稿を書いて</string>
+    <string name="teleprompter_ai_assist_fill_in">30秒のオープニング原稿を書いてテレプロンプターに保存して</string>
 </resources>

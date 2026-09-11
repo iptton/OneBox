@@ -208,5 +208,5 @@
     <string name="record_center_add_manually_description">Wert und Zeit anpassen</string>
     <string name="record_center_ai_assist_title">Gesundheitsdaten-Assistent</string>
     <string name="record_center_ai_assist_prompt">Du bist der Gesundheitsdaten-Assistent. Beschreibt der Nutzer Gesundheitsdaten, erfasse sie mit add_health_record.</string>
-    <string name="record_center_ai_assist_fill_in">Mein Blutdruck ist heute 120/80, bitte erfasse das</string>
+    <string name="record_center_ai_assist_fill_in">Mein Blutdruck ist heute 120/80, speichere es in meinen Gesundheitsdaten</string>
 </resources>

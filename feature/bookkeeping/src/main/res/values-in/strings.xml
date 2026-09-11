@@ -171,5 +171,5 @@
     <string name="bookkeeping_created_content_hint">Catatan baru akan muncul di sini</string>
     <string name="bookkeeping_ai_assist_title">Asisten Pembukuan</string>
     <string name="bookkeeping_ai_assist_prompt">Anda adalah asisten pembukuan pengguna. Saat pengguna mendeskripsikan pemasukan atau pengeluaran dalam bahasa alami, catat dengan add_bookkeeping_record.</string>
-    <string name="bookkeeping_ai_assist_fill_in">Makan siang harganya 28, catat ke kategori makan</string>
+    <string name="bookkeeping_ai_assist_fill_in">Makan siang 28, catat sebagai pengeluaran makan</string>
 </resources>

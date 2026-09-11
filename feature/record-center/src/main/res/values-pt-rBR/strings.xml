@@ -208,5 +208,5 @@
     <string name="record_center_add_manually_description">Personalize valor e horário</string>
     <string name="record_center_ai_assist_title">Assistente de registros de saúde</string>
     <string name="record_center_ai_assist_prompt">Você é o assistente de registros de saúde. Quando o usuário descrever dados de saúde, registre com add_health_record.</string>
-    <string name="record_center_ai_assist_fill_in">Minha pressão arterial hoje é 120/80, por favor registre</string>
+    <string name="record_center_ai_assist_fill_in">Minha pressão hoje é 120/80, salve nos meus registros de saúde</string>
 </resources>

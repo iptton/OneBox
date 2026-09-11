@@ -171,5 +171,5 @@
     <string name="bookkeeping_created_content_hint">Seus novos registros aparecerão aqui</string>
     <string name="bookkeeping_ai_assist_title">Assistente de contabilidade</string>
     <string name="bookkeeping_ai_assist_prompt">Você é o assistente de contabilidade do usuário. Quando ele descrever receitas ou despesas em linguagem natural, registre com add_bookkeeping_record.</string>
-    <string name="bookkeeping_ai_assist_fill_in">O almoço custou 28, registre em alimentação</string>
+    <string name="bookkeeping_ai_assist_fill_in">O almoço custou 28, registre como despesa de alimentação</string>
 </resources>

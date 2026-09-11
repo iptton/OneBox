@@ -171,5 +171,5 @@
     <string name="bookkeeping_created_content_hint">새 기록이 여기에 표시됩니다</string>
     <string name="bookkeeping_ai_assist_title">가계부 도우미</string>
     <string name="bookkeeping_ai_assist_prompt">당신은 사용자의 가계부 도우미입니다. 사용자가 자연어로 수입/지출을 말하면 add_bookkeeping_record로 기록하세요.</string>
-    <string name="bookkeeping_ai_assist_fill_in">점심에 28 썼어, 식비로 기록해줘</string>
+    <string name="bookkeeping_ai_assist_fill_in">점심 28 썼어, 식비로 기록해 줘</string>
 </resources>

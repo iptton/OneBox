@@ -208,5 +208,5 @@
     <string name="record_center_add_manually_description">I-customize ang halaga at oras</string>
     <string name="record_center_ai_assist_title">Health Record Assistant</string>
     <string name="record_center_ai_assist_prompt">Ikaw ang health record assistant. Kapag naglarawan ang user ng health data, i-record gamit ang add_health_record.</string>
-    <string name="record_center_ai_assist_fill_in">Ang blood pressure ko ngayon ay 120/80, pakirecord</string>
+    <string name="record_center_ai_assist_fill_in">Ang presyon ko ngayon ay 120/80, i-save ito sa health records ko</string>
 </resources>

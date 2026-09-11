@@ -105,7 +105,6 @@ class TeleprompterComponent @AssistedInject internal constructor(
                 com.shifenmiao.model.ai.Conversation(
                     entryType = com.shifenmiao.model.ai.AIConversationEntryType.ASSISTANT,
                     title = com.shifenmiao.interfaces.singleton.AppContext.getString(R.string.teleprompter_ai_assist_title),
-                    prompt = com.shifenmiao.interfaces.singleton.AppContext.getString(R.string.teleprompter_ai_assist_prompt),
                     template = com.shifenmiao.interfaces.singleton.AppContext.getString(R.string.teleprompter_ai_assist_fill_in),
                 )
             )

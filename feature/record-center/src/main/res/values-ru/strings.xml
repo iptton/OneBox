@@ -208,5 +208,5 @@
     <string name="record_center_add_manually_description">Настройте значение и время</string>
     <string name="record_center_ai_assist_title">Помощник по записям здоровья</string>
     <string name="record_center_ai_assist_prompt">Ты помощник по записям здоровья. Когда пользователь описывает данные, запиши через add_health_record.</string>
-    <string name="record_center_ai_assist_fill_in">Сегодня моё давление 120/80, запиши, пожалуйста</string>
+    <string name="record_center_ai_assist_fill_in">Моё давление сегодня 120/80, сохрани в моих записях о здоровье</string>
 </resources>

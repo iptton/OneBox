@@ -57,5 +57,5 @@
     <string name="teleprompter_empty_go_ai">Mit KI schreiben</string>
     <string name="teleprompter_ai_assist_title">Teleprompter-Skript-Assistent</string>
     <string name="teleprompter_ai_assist_prompt">Du bist der Teleprompter-Skript-Assistent. Erstelle oder aktualisiere Skripte mit manage_teleprompter.</string>
-    <string name="teleprompter_ai_assist_fill_in">Schreibe ein 30-sekündiges Eröffnungsskript für meinen Teleprompter</string>
+    <string name="teleprompter_ai_assist_fill_in">Schreibe ein 30-sekündiges Eröffnungsskript und speichere es im Teleprompter</string>
 </resources>

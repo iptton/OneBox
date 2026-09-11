@@ -208,5 +208,5 @@
     <string name="record_center_add_manually_description">मान और समय अनुकूलित करें</string>
     <string name="record_center_ai_assist_title">स्वास्थ्य रिकॉर्ड सहायक</string>
     <string name="record_center_ai_assist_prompt">आप स्वास्थ्य रिकॉर्ड सहायक हैं। जब उपयोगकर्ता स्वास्थ्य डेटा बताए, तो add_health_record से दर्ज करें।</string>
-    <string name="record_center_ai_assist_fill_in">आज मेरा रक्तचाप 120/80 है, कृपया दर्ज करें</string>
+    <string name="record_center_ai_assist_fill_in">मेरा ब्लड प्रेशर आज 120/80 है, इसे मेरे स्वास्थ्य रिकॉर्ड में सहेजें</string>
 </resources>

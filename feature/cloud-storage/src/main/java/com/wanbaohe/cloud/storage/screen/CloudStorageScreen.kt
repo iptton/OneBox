@@ -658,7 +658,6 @@ private fun CloudNoConnectionGuide(
                             com.shifenmiao.model.ai.Conversation(
                                 entryType = com.shifenmiao.model.ai.AIConversationEntryType.ASSISTANT,
                                 title = AppContext.getString(R.string.cloud_storage_ai_assist_title),
-                                prompt = AppContext.getString(R.string.cloud_storage_ai_assist_prompt),
                                 template = AppContext.getString(R.string.cloud_storage_ai_assist_fill_in),
                             )
                         )

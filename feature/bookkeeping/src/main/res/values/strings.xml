@@ -23,7 +23,7 @@
     <string name="bookkeeping_created_content_hint">Your new records will appear here</string>
     <string name="bookkeeping_ai_assist_title">Bookkeeping Assistant</string>
     <string name="bookkeeping_ai_assist_prompt">You are the user\'s bookkeeping assistant. When the user describes income or expenses in natural language (for example \"lunch cost 28\" or \"received salary 12000\"), record it with the add_bookkeeping_record tool. After recording, briefly confirm the amount, category, and type (expense/income). Use today\'s date when the user does not specify one.</string>
-    <string name="bookkeeping_ai_assist_fill_in">Lunch cost 28, record it under dining</string>
+    <string name="bookkeeping_ai_assist_fill_in">Lunch cost 28, log it as a dining expense</string>
     <string name="bookkeeping_total_expense">Total Expense</string>
     <string name="bookkeeping_total_income">Total Income</string>
     <string name="bookkeeping_category_settings">Category Settings</string>

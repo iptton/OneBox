@@ -57,5 +57,5 @@
     <string name="teleprompter_empty_go_ai">Tulis dengan AI</string>
     <string name="teleprompter_ai_assist_title">Asisten Naskah Teleprompter</string>
     <string name="teleprompter_ai_assist_prompt">Anda asisten naskah teleprompter. Saat pengguna mendeskripsikan adegan, durasi atau topik, buat/perbarui naskah dengan manage_teleprompter.</string>
-    <string name="teleprompter_ai_assist_fill_in">Tulis naskah pembuka 30 detik untuk teleprompter saya</string>
+    <string name="teleprompter_ai_assist_fill_in">Tulis naskah pembuka 30 detik dan simpan ke teleprompter</string>
 </resources>

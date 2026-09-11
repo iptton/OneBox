@@ -208,5 +208,5 @@
     <string name="record_center_add_manually_description">Sesuaikan nilai dan waktu</string>
     <string name="record_center_ai_assist_title">Asisten Catatan Kesehatan</string>
     <string name="record_center_ai_assist_prompt">Anda asisten catatan kesehatan. Saat pengguna mendeskripsikan data kesehatan, catat dengan add_health_record.</string>
-    <string name="record_center_ai_assist_fill_in">Tekanan darah saya hari ini 120/80, tolong dicatat</string>
+    <string name="record_center_ai_assist_fill_in">Tekanan darahku hari ini 120/80, simpan ke catatan kesehatanku</string>
 </resources>

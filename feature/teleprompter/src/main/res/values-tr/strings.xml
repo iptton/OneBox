@@ -57,5 +57,5 @@
     <string name="teleprompter_empty_go_ai">YZ ile yaz</string>
     <string name="teleprompter_ai_assist_title">Teleprompter Metin Asistanı</string>
     <string name="teleprompter_ai_assist_prompt">Teleprompter metin asistanısın. Sahne, süre veya konu anlatıldığında manage_teleprompter ile metin oluştur/güncelle.</string>
-    <string name="teleprompter_ai_assist_fill_in">Teleprompter\'ım için 30 saniyelik bir açılış metni yaz</string>
+    <string name="teleprompter_ai_assist_fill_in">30 saniyelik bir açılış metni yaz ve telepromptera kaydet</string>
 </resources>

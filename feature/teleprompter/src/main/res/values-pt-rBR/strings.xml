@@ -57,5 +57,5 @@
     <string name="teleprompter_empty_go_ai">Escrever com IA</string>
     <string name="teleprompter_ai_assist_title">Assistente de roteiros de teleprompter</string>
     <string name="teleprompter_ai_assist_prompt">Você é o assistente de roteiros. Quando o usuário descrever cena, duração ou tema, crie ou atualize com manage_teleprompter.</string>
-    <string name="teleprompter_ai_assist_fill_in">Escreva um roteiro de abertura de 30 segundos para meu teleprompter</string>
+    <string name="teleprompter_ai_assist_fill_in">Escreva um roteiro de abertura de 30 segundos e salve-o no teleprompter</string>
 </resources>

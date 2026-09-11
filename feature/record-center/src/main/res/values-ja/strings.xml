@@ -208,5 +208,5 @@
     <string name="record_center_add_manually_description">数値と時間を自由に設定</string>
     <string name="record_center_ai_assist_title">健康記録アシスタント</string>
     <string name="record_center_ai_assist_prompt">あなたは健康記録アシスタントです。ユーザーが健康データを伝えたら、add_health_record で記録してください。</string>
-    <string name="record_center_ai_assist_fill_in">今日の血圧は120/80です。記録して</string>
+    <string name="record_center_ai_assist_fill_in">今日の血圧は120/80、健康記録に保存して</string>
 </resources>

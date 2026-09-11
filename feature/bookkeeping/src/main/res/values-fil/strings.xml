@@ -171,5 +171,5 @@
     <string name="bookkeeping_created_content_hint">Dito lalabas ang mga bagong tala</string>
     <string name="bookkeeping_ai_assist_title">Bookkeeping Assistant</string>
     <string name="bookkeeping_ai_assist_prompt">Ikaw ang bookkeeping assistant ng user. Kapag inilarawan ang kita o gastos sa natural na wika, i-record gamit ang add_bookkeeping_record.</string>
-    <string name="bookkeeping_ai_assist_fill_in">Tanghalian ay nagkakahalagang 28, i-record sa dining</string>
+    <string name="bookkeeping_ai_assist_fill_in">Ang tanghalian ay 28, i-log ito bilang gastos sa pagkain</string>
 </resources>

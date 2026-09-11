@@ -789,7 +789,14 @@ class ChildProvider @Inject constructor(
         is Screen.AITabChatScreen -> NavigationChild.AITabChatScreen(
             appComponent = appComponent,
             // 复用全局单例：流式输出在 Tab 切换期间不中断
-            aiChatComponent = this.globalAIChatComponent
+            aiChatComponent = this.globalAIChatComponent.apply {
+                // 空态引导等入口带入会话参数时，开启引导会话并预填输入框；
+                // 底部 Tab 正常打开（默认参数）不影响当前会话。
+                val guide = config.conversation
+                if (guide.title.isNotBlank() || !guide.template.isNullOrBlank()) {
+                    startGuidedConversation(guide)
+                }
+            }
         )
 
         is Screen.AIHistoryCenter -> NavigationChild.AIHistoryCenter(

@@ -345,27 +345,32 @@ open class AIChatComponent @AssistedInject internal constructor(
 
     override fun initReady() {
         maybeCleanupOldToolTasks()
-        applyEmptyStateFillIn()
         loadMessages()
     }
 
     /**
-     * 空态引导进入时，把填充词填进输入框；填入后清空 template，
-     * 避免发送时再拼接一次导致重复。
-     *
-     * 仅处理 ASSISTANT + 显式 system prompt 的场景；
-     * 提示词模板（PROMPT）仍保留发送时静默拼接 template 的原行为。
+     * 空态引导进入 AI 助手 Tab：全局单例组件不走导航参数构造，
+     * 由调用方把引导会话参数应用进来——开启新会话并把填充词预填到输入框
+     * （template 仅作填充词，置空避免发送时重复拼接）。
+     * 不传系统 prompt：Agent 工作模式根据输入文案自行发现并使用工具。
      */
-    private fun applyEmptyStateFillIn() {
-        val source = initialConversation
-        if (!AiUtils.isAssistant(source)) return
-        if (source.prompt.isBlank()) return
-        val fillIn = source.template?.trim().orEmpty()
-        if (fillIn.isEmpty()) return
-        if (chatInputComponent.chatInputState.value.inputText.isNotBlank()) return
-        chatInputComponent.onInputTextChange(fillIn)
-        if (!_conversation.value.template.isNullOrBlank()) {
-            _conversation.value = _conversation.value.copy(template = null)
+    fun startGuidedConversation(guide: Conversation) {
+        componentScope.launch {
+            val fillIn = guide.template?.trim().orEmpty()
+            clearMessages()
+            _conversation.value = _conversation.value.copy(
+                id = Date().time.toString(),
+                title = guide.title,
+                titleSource = com.shifenmiao.model.ai.AIConversationTitleSource.SYSTEM,
+                template = null,
+            )
+            clearCurrentQuestionAndAnswer()
+            loadMessages()
+            hideHistory()
+            hideFailureUI()
+            if (fillIn.isNotEmpty()) {
+                chatInputComponent.onInputTextChange(fillIn)
+            }
         }
     }
 

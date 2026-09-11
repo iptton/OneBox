@@ -200,7 +200,6 @@ class RecordListComponent @AssistedInject internal constructor(
                 com.shifenmiao.model.ai.Conversation(
                     entryType = com.shifenmiao.model.ai.AIConversationEntryType.ASSISTANT,
                     title = AppContext.getString(R.string.record_center_ai_assist_title),
-                    prompt = AppContext.getString(R.string.record_center_ai_assist_prompt),
                     template = AppContext.getString(R.string.record_center_ai_assist_fill_in),
                 )
             )

@@ -171,5 +171,5 @@
     <string name="bookkeeping_created_content_hint">新しい記録はここに表示されます</string>
     <string name="bookkeeping_ai_assist_title">家計簿アシスタント</string>
     <string name="bookkeeping_ai_assist_prompt">あなたはユーザーの家計簿アシスタントです。自然言語で収入や支出を伝えられたら、add_bookkeeping_record で記録してください。</string>
-    <string name="bookkeeping_ai_assist_fill_in">昼食に28かかったので、食費として記録して</string>
+    <string name="bookkeeping_ai_assist_fill_in">昼食に28かかった、食費として記録して</string>
 </resources>

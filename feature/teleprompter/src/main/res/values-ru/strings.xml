@@ -57,5 +57,5 @@
     <string name="teleprompter_empty_go_ai">Написать с ИИ</string>
     <string name="teleprompter_ai_assist_title">Помощник по сценариям</string>
     <string name="teleprompter_ai_assist_prompt">Ты помощник по сценариям телесуфлёра. При описании сцены, длительности или темы создай/обнови сценарий через manage_teleprompter.</string>
-    <string name="teleprompter_ai_assist_fill_in">Напиши 30-секундный вступительный сценарий для моего телесуфлёра</string>
+    <string name="teleprompter_ai_assist_fill_in">Напиши 30-секундный вступительный текст и сохрани его в телесуфлёр</string>
 </resources>

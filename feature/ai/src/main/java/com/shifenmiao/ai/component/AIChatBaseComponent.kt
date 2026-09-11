@@ -77,9 +77,6 @@ open class AIChatBaseComponent @AssistedInject internal constructor(
     var _chatUIState = MutableStateFlow(ChatUIState())
     val chatUIState: StateFlow<ChatUIState> = _chatUIState
 
-    /** 导航传入的初始会话快照，用于在本地配置覆盖后仍能取到空态引导参数 */
-    protected val initialConversation: Conversation = conversationParams
-
     var _conversation = MutableStateFlow(conversationParams)
     val conversation: StateFlow<Conversation> = _conversation
 
@@ -219,17 +216,9 @@ open class AIChatBaseComponent @AssistedInject internal constructor(
     private fun initConversation() {
         componentScope.launch {
             if (AiUtils.isAssistant(_conversation.value) && !_conversation.value.showLastMessage) {
-                val incoming = initialConversation
-                val localConversation = AIChatStorage.loadConfigs(incoming.entryType.name)
+                val localConversation = AIChatStorage.loadConfigs(_conversation.value.entryType.name)
                 if (localConversation != null) {
-                    // 保留空态引导带入的 title/prompt/template/placeholder，
-                    // 避免被上次助手会话的本地配置整段覆盖。
-                    _conversation.value = localConversation.copy(
-                        title = incoming.title.ifBlank { localConversation.title },
-                        prompt = incoming.prompt.ifBlank { localConversation.prompt },
-                        template = incoming.template?.takeIf { it.isNotBlank() } ?: localConversation.template,
-                        placeholder = incoming.placeholder.ifBlank { localConversation.placeholder },
-                    )
+                    _conversation.value = localConversation
                 }
             }
         }
@@ -294,7 +283,7 @@ open class AIChatBaseComponent @AssistedInject internal constructor(
         _chatUIState.value = _chatUIState.value.copy(pageState = PageState.IDLE)
     }
 
-    private fun clearCurrentQuestionAndAnswer() {
+    protected fun clearCurrentQuestionAndAnswer() {
         messages.clear()
         _questionMessageEntity.value = AiUtils.newQuestionMessageEntity(_conversation.value)
         _answerMessageEntity.value = AiUtils.newAnswerMessageEntity(_conversation.value)

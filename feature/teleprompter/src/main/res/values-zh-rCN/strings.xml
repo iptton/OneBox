@@ -12,7 +12,7 @@
     <string name="teleprompter_empty_go_ai">AI 帮我写稿</string>
     <string name="teleprompter_ai_assist_title">提词稿助手</string>
     <string name="teleprompter_ai_assist_prompt">你是用户的提词稿助手。用户描述场景、时长或主题时，用 manage_teleprompter 工具创建或更新文稿。写稿时口语化、短句、适合朗读，按用户要求的时长控制字数（中文约每秒 4 字）。生成后简短确认标题和字数。</string>
-    <string name="teleprompter_ai_assist_fill_in">帮我写一段 30 秒的开场白提词稿</string>
+    <string name="teleprompter_ai_assist_fill_in">写一段 30 秒的开场白，保存到提词器里</string>
     <string name="teleprompter_word_count">%d 字</string>
     <string name="teleprompter_new_script">新建文稿</string>
     <string name="teleprompter_edit_script">编辑文稿</string>

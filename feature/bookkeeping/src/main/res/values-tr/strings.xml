@@ -171,5 +171,5 @@
     <string name="bookkeeping_created_content_hint">Yeni kayıtlar burada görünecek</string>
     <string name="bookkeeping_ai_assist_title">Muhasebe Asistanı</string>
     <string name="bookkeeping_ai_assist_prompt">Kullanıcının muhasebe asistanısın. Doğal dille gelir veya gider anlatıldığında add_bookkeeping_record ile kaydet.</string>
-    <string name="bookkeeping_ai_assist_fill_in">Öğle yemeği 28 tuttu, yemek kategorisine kaydet</string>
+    <string name="bookkeeping_ai_assist_fill_in">Öğle yemeği 28 tuttu, yemek gideri olarak kaydet</string>
 </resources>

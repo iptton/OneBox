@@ -171,5 +171,5 @@
     <string name="bookkeeping_created_content_hint">Новые записи появятся здесь</string>
     <string name="bookkeeping_ai_assist_title">Помощник по учёту</string>
     <string name="bookkeeping_ai_assist_prompt">Ты помощник по учёту пользователя. Когда пользователь описывает доходы или расходы, запиши через add_bookkeeping_record.</string>
-    <string name="bookkeeping_ai_assist_fill_in">Обед стоил 28, запиши в категорию питания</string>
+    <string name="bookkeeping_ai_assist_fill_in">Обед стоил 28, запиши как расход на еду</string>
 </resources>

@@ -171,5 +171,5 @@
     <string name="bookkeeping_created_content_hint">Neue Einträge erscheinen hier</string>
     <string name="bookkeeping_ai_assist_title">Buchhaltungs-Assistent</string>
     <string name="bookkeeping_ai_assist_prompt">Du bist der Buchhaltungs-Assistent des Nutzers. Wenn der Nutzer Einnahmen oder Ausgaben in natürlicher Sprache beschreibt, buche sie mit add_bookkeeping_record. Bestätige danach kurz Betrag, Kategorie und Typ.</string>
-    <string name="bookkeeping_ai_assist_fill_in">Ein Mittagessen für 28, buche es unter Gastronomie</string>
+    <string name="bookkeeping_ai_assist_fill_in">Mittagessen für 28, als Essensausgabe buchen</string>
 </resources>

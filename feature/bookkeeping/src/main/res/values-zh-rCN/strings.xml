@@ -23,7 +23,7 @@
     <string name="bookkeeping_created_content_hint">记账后会显示在这里</string>
     <string name="bookkeeping_ai_assist_title">记账助手</string>
     <string name="bookkeeping_ai_assist_prompt">你是用户的记账助手。用户用自然语言描述收支时（例如「午饭花了 28 块」「收到工资 12000」），用 add_bookkeeping_record 工具帮他记账。记完后简短确认金额、分类和类型（支出/入账）。用户未说明日期时按今天记。</string>
-    <string name="bookkeeping_ai_assist_fill_in">午饭花了 28 块，记到餐饮</string>
+    <string name="bookkeeping_ai_assist_fill_in">午饭花了 28 块，帮我记一笔餐饮支出</string>
     <string name="bookkeeping_total_expense">总支出</string>
     <string name="bookkeeping_total_income">总入账</string>
     <string name="bookkeeping_category_settings">分类设置</string>

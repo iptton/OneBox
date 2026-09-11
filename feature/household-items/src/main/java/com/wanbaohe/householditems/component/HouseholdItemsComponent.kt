@@ -153,14 +153,14 @@ class HouseholdItemsComponent @AssistedInject internal constructor(
 
     // ─────────── AI 帮我记 ───────────
 
-    /** 空态引导:跳转 AI 聊天,prompt 为系统指令,引导用户用自然语言记物品。 */
+    /** 空态引导:跳转 AI 助手 Tab,预填示例文案,Agent 模式根据输入调用工具记物品。 */
     fun navigateToAiAssist() {
         onNavigate(
             Screen.AITabChatScreen(
                 Conversation(
                     entryType = AIConversationEntryType.ASSISTANT,
                     title = AppContext.getString(R.string.household_ai_assist_title),
-                    prompt = AppContext.getString(R.string.household_ai_assist_prompt),
+                    template = AppContext.getString(R.string.household_ai_assist_fill_in),
                 )
             )
         )

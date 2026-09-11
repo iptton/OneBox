@@ -208,5 +208,5 @@
     <string name="record_center_add_manually_description">Değer ve saati özelleştirin</string>
     <string name="record_center_ai_assist_title">Sağlık Kaydı Asistanı</string>
     <string name="record_center_ai_assist_prompt">Kullanıcının sağlık kaydı asistanısın. Sağlık verisi anlatıldığında add_health_record ile kaydet.</string>
-    <string name="record_center_ai_assist_fill_in">Bugün tansiyonum 120/80, lütfen kaydet</string>
+    <string name="record_center_ai_assist_fill_in">Tansiyonum bugün 120/80, sağlık kayıtlarıma kaydet</string>
 </resources>

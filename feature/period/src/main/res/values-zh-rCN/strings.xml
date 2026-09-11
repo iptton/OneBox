@@ -26,7 +26,7 @@
     <string name="period_manual_record">手动记录</string>
     <string name="period_empty_example">例如：“我昨天来月经了，腹痛有点明显”</string>
     <string name="period_ai_assist_title">经期记录助手</string>
-    <string name="period_ai_assist_fill_in">我昨天来月经了，腹痛有点明显</string>
+    <string name="period_ai_assist_fill_in">昨天来月经了，腹痛明显，帮我记录一下</string>
     <string name="period_ai_assist_prompt">你是用户的经期记录助手。用户描述经期状态、流量、症状或心情时，用 add_period_record 工具记录（日期用 yyyy-MM-dd）。用户询问周期长度、下次经期或统计时，用 query_period_records 回答。需要修正记录时用 update_period_record，删除记录时用 delete_period_record。每次记录后简短确认。</string>
 
     <string name="period_record_count">%1$d 条记录</string>
