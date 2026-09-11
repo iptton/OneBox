@@ -25,6 +25,7 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
@@ -50,7 +51,10 @@ import com.shifenmiao.database.decision_wheel.entity.WheelHistoryEntity
 import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
+import com.t8rin.imagetoolbox.core.ui.widget.glass.glassMedium
+import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxDesignSystem
 import com.wanbaohe.decisionwheel.R
 import com.wanbaohe.decisionwheel.component.DecisionWheelRouterComponent
 import java.text.SimpleDateFormat
@@ -239,7 +243,7 @@ private fun SwipeToDeleteHistoryRow(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(OneBoxDesignSystem.listRowShape)
                     .background(backgroundColor)
                     .padding(end = 20.dp),
                 contentAlignment = Alignment.CenterEnd
@@ -260,12 +264,14 @@ private fun SwipeToDeleteHistoryRow(
 private fun HistoryRow(record: WheelHistoryEntity) {
     val formatter = remember { SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()) }
 
-    Surface(
+    GlassCard(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        tonalElevation = 0.dp,
-        shadowElevation = 0.dp
+        shape = OneBoxDesignSystem.listRowShape,
+        containerAlpha = OneBoxDesignSystem.sectionGlassStyle.backgroundAlpha,
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        )
     ) {
         Row(
             modifier = Modifier
@@ -278,7 +284,10 @@ private fun HistoryRow(record: WheelHistoryEntity) {
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surfaceContainerLow),
+                    .glassMedium(
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

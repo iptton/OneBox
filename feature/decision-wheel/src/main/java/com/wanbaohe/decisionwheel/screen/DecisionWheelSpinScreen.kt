@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -73,6 +74,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Refresh
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineChangeCircle
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.BasicEnhancedAlertDialog
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTextButton
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
 import com.t8rin.imagetoolbox.core.ui.widget.other.DecisionWheelCanvas
 import com.t8rin.imagetoolbox.core.ui.widget.other.DecisionWheelItem
@@ -237,7 +239,7 @@ fun DecisionWheelSpinScreen(
             )
 
             // 指针自身还向上探出 8dp，这里的留白要把它一并算进去，否则盘顶会贴着标题
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             if (options.size >= 2) {
                 Box(
@@ -298,15 +300,16 @@ fun DecisionWheelSpinScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                FilledTonalButton(
+                GlassTonalButton(
                     onClick = component::openEditor,
                     modifier = Modifier.height(48.dp),
+                    shape = RoundedCornerShape(12.dp),
                     colors = AppTheme.colors.getSurfaceContainerButtonColors()
                 ) {
                     Icon(
@@ -319,12 +322,28 @@ fun DecisionWheelSpinScreen(
                 }
             }
 
-            if (uiState.activeCount == 0 && options.isNotEmpty()) {
+            // 转盘要 2 个以上未抽中的选项才转得动。剩 1 个时点中间按钮是没反应的，
+            // 不写清楚用户只会以为 App 卡了。
+            if (options.size >= 2 && uiState.activeCount < 2) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = stringResource(R.string.all_options_drawn),
+                    text = stringResource(
+                        if (uiState.activeCount == 0) R.string.all_options_drawn
+                        else R.string.not_enough_active_options
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error
+                )
+            }
+
+            // 只有"抽后移除"开着时才解释这件事：关着的时候盘面不会有灰扇区，
+            // 冒出一行"已移除 N 个"纯属把没用到的功能怼到用户脸上。
+            val removedCount = options.count { !it.enabled }
+            if (removedCount > 0 && settings.removeOnSpin) {
+                Spacer(modifier = Modifier.height(8.dp))
+                RemovedOptionsBar(
+                    removedCount = removedCount,
+                    onRestoreAll = component::restoreRemovedOptions
                 )
             }
 
@@ -346,8 +365,7 @@ fun DecisionWheelSpinScreen(
         remaining = uiState.activeCount,
         removeOnSpin = settings.removeOnSpin,
         onDismiss = component::dismissResult,
-        onSpinAgain = { requestSpin() },
-        onRestoreAll = component::restoreRemovedOptions
+        onSpinAgain = { requestSpin() }
     )
 }
 
@@ -362,8 +380,7 @@ private fun ResultDialog(
     remaining: Int,
     removeOnSpin: Boolean,
     onDismiss: () -> Unit,
-    onSpinAgain: () -> Unit,
-    onRestoreAll: () -> Unit
+    onSpinAgain: () -> Unit
 ) {
     BasicEnhancedAlertDialog(
         visible = visible && option != null,
@@ -420,7 +437,7 @@ private fun ResultDialog(
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     FilledTonalButton(
@@ -443,20 +460,36 @@ private fun ResultDialog(
                         Text(stringResource(R.string.spin_again_action))
                     }
                 }
-
-                if (removeOnSpin) {
-                    Text(
-                        text = stringResource(R.string.restore_all_options),
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.clickable(
-                            onClick = onRestoreAll,
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() }
-                        )
-                    )
-                }
             }
+        }
+    }
+}
+
+/**
+ * 被移除选项的恢复入口。
+ *
+ * "已移除 N 个选项 + 全部恢复"：带上数量的上下文，比弹窗底部那句没头没尾的
+ * "恢复全部选项"好懂得多，也不用进弹窗才能点。
+ */
+@Composable
+private fun RemovedOptionsBar(
+    removedCount: Int,
+    onRestoreAll: () -> Unit
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            text = stringResource(R.string.removed_options_count, removedCount),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        GlassTextButton(
+            onClick = onRestoreAll,
+            contentPadding = PaddingValues(horizontal = 10.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.restore_all_action),
+                style = MaterialTheme.typography.labelLarge
+            )
         }
     }
 }

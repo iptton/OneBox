@@ -21,8 +21,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -45,7 +45,9 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.Check
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
+import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxDesignSystem
 import com.wanbaohe.decisionwheel.R
 import com.wanbaohe.decisionwheel.component.DecisionWheel
 import com.wanbaohe.decisionwheel.component.DecisionWheelRouterComponent
@@ -137,15 +139,16 @@ private fun WheelRow(
     onDuplicate: () -> Unit,
     onDelete: () -> Unit
 ) {
-    Surface(
-        shape = RoundedCornerShape(12.dp),
-        color = if (isCurrent) MaterialTheme.colorScheme.primaryContainer
-        else MaterialTheme.colorScheme.surfaceVariant,
-        tonalElevation = 0.dp,
-        shadowElevation = 0.dp,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
+    GlassCard(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        shape = OneBoxDesignSystem.listRowShape,
+        containerAlpha = OneBoxDesignSystem.sectionGlassStyle.backgroundAlpha,
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isCurrent) MaterialTheme.colorScheme.primaryContainer
+            else MaterialTheme.colorScheme.surfaceContainer
+        )
     ) {
         Row(
             modifier = Modifier

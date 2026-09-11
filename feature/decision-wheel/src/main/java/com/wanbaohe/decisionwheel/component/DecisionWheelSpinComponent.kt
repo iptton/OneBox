@@ -95,6 +95,7 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
     init {
         initWheel()
         observeWheels()
+        observeSettings()
         // 后台预热音效（下载到本地缓存），首次旋转基本已就绪，避免第一下没声音
         componentScope.launch { ALL_SOUNDS.forEach { audioPlayer.warmUp(it) } }
         componentContext.lifecycle.doOnDestroy {
@@ -129,8 +130,28 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
                         currentWheelId = if (stillExists) it.currentWheelId else wheels.firstOrNull()?.id
                     )
                 }
+                restoreRemovedIfDisabled()
             }
         }
+    }
+
+    /**
+     * 关掉"抽后移除"就把之前摘掉的选项全部放回。
+     *
+     * 不做这一步会留下一种无解状态：盘面上一堆灰扇区永远抽不到，界面上又没有恢复入口
+     * （入口只在开关打开时才显示），用户只能一个个转盘删掉重建。这里顺手把历史遗留的
+     * 禁用项也一并清掉，老版本切过开关的用户升级后能自动恢复。
+     */
+    private fun observeSettings() {
+        componentScope.launch {
+            settingsHolder.settings.collect { restoreRemovedIfDisabled() }
+        }
+    }
+
+    private fun restoreRemovedIfDisabled() {
+        if (settingsHolder.current().removeOnSpin) return
+        val wheel = _uiState.value.currentWheel ?: return
+        if (wheel.options.any { !it.enabled }) restoreRemovedOptions()
     }
 
     /**

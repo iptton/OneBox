@@ -3,6 +3,7 @@ package com.wanbaohe.decisionwheel.component
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.ComponentContext
+import com.shifenmiao.common.ai.AIPromptExecutor
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.wanbaohe.com.color.ColorGenerator
@@ -27,7 +28,13 @@ data class WheelEditorUiState(
     val options: List<WheelOption> = emptyList(),
     val loading: Boolean = true,
     val dirty: Boolean = false,
-    val canSave: Boolean = false
+    val canSave: Boolean = false,
+    /** AI 正在生成选项 */
+    val aiGenerating: Boolean = false,
+    /** AI 返回并解析出来的候选选项；为空表示还没生成或没解析出东西 */
+    val aiSuggestions: List<String> = emptyList(),
+    /** 上次生成失败的原因；null 表示没失败 */
+    val aiError: String? = null
 )
 
 class DecisionWheelEditorComponent @AssistedInject internal constructor(
@@ -35,6 +42,7 @@ class DecisionWheelEditorComponent @AssistedInject internal constructor(
     @Assisted private val wheelId: String,
     @Assisted private val onGoBack: () -> Unit,
     private val repository: WheelRepository,
+    private val aiPromptExecutor: AIPromptExecutor,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -173,6 +181,53 @@ class DecisionWheelEditorComponent @AssistedInject internal constructor(
         }
     }
 
+    // ─── AI 生成选项 ────────────────────────────────────────────────────────
+
+    /**
+     * 让当前引擎的模型按用户描述列出候选选项。
+     *
+     * 结果只先放进 [WheelEditorUiState.aiSuggestions] 供用户在弹窗里过一眼，
+     * 确认后才 [applyAiSuggestions] 落进草稿 —— AI 会胡说，加之前人得看一眼。
+     */
+    fun requestAiOptions(input: String) {
+        val prompt = input.trim()
+        if (prompt.isBlank() || _uiState.value.aiGenerating) return
+        componentScope.launch {
+            _uiState.update {
+                it.copy(aiGenerating = true, aiError = null, aiSuggestions = emptyList())
+            }
+            val result = aiPromptExecutor.execute(
+                input = prompt,
+                systemPrompt = AI_SYSTEM_PROMPT
+            )
+            val names = parseOptionNames(result.content)
+            _uiState.update {
+                it.copy(
+                    aiGenerating = false,
+                    aiSuggestions = names,
+                    aiError = if (names.isEmpty()) {
+                        result.errorMessage?.takeIf { msg -> msg.isNotBlank() }
+                            ?: "empty result"
+                    } else null
+                )
+            }
+        }
+    }
+
+    /** 把 AI 候选一次性加进草稿。 */
+    fun applyAiSuggestions() {
+        val names = _uiState.value.aiSuggestions
+        if (names.isEmpty()) return
+        names.forEach { addOption(it) }
+        clearAiState()
+    }
+
+    fun clearAiState() {
+        _uiState.update {
+            it.copy(aiGenerating = false, aiSuggestions = emptyList(), aiError = null)
+        }
+    }
+
     fun save() {
         val state = _uiState.value
         if (!state.canSave) return
@@ -195,6 +250,56 @@ class DecisionWheelEditorComponent @AssistedInject internal constructor(
         kotlin.math.abs(a.red - b.red) < 0.01f &&
             kotlin.math.abs(a.green - b.green) < 0.01f &&
             kotlin.math.abs(a.blue - b.blue) < 0.01f
+
+    /**
+     * 从模型回复里抠出选项名。
+     *
+     * 不要指望模型乖乖输出 JSON —— 它更爱给你 "1. 火锅\n2. 烧烤" 或者一行逗号串。
+     * 所以这里按行拆、削掉常见的列表前缀，单行结果再退一步按逗号拆，
+     * 最后去重截断。宁可少收两个，也不要把"好的，以下是"当成选项加进盘面。
+     */
+    private fun parseOptionNames(raw: String): List<String> {
+        if (raw.isBlank()) return emptyList()
+
+        val parsed = linkedSetOf<String>()
+        raw.replace("\r", "\n").split("\n").forEach { line ->
+            var text = line.trim().trim('`')
+            text = text.replaceFirst(LIST_PREFIX, "")
+            text = text.trim()
+                .trim('"', '“', '”', '「', '」', '\'', ',', '，', '。', '：', ':')
+                .take(MAX_OPTION_LENGTH)
+            if (text.isNotBlank()) parsed.add(text)
+        }
+
+        if (parsed.size == 1) {
+            val single = parsed.first()
+            if (single.contains("，") || single.contains(",")) {
+                parsed.clear()
+                single.split("，", ",").forEach { part ->
+                    val cleaned = part.trim().trim('、', '。', '"', ' ').take(MAX_OPTION_LENGTH)
+                    if (cleaned.isNotBlank()) parsed.add(cleaned)
+                }
+            }
+        }
+
+        return parsed.take(MAX_AI_OPTIONS)
+    }
+
+    companion object {
+        private const val MAX_AI_OPTIONS = 20
+        private const val MAX_OPTION_LENGTH = 24
+
+        /** 匹配 "1." "2、" "- " "• " "* " 这类列表前缀 */
+        private val LIST_PREFIX = Regex("^([0-9]{1,2}\\s*[.、)．:]\\s*|[-•*·]\\s*)")
+
+        private val AI_SYSTEM_PROMPT = """
+你是一个决策转盘的选项生成器。用户会描述一个场景，你只负责给出候选选项。
+要求：
+1. 每行一个选项，不要编号、不要加引号、不要 Markdown、不要任何解释。
+2. 给 6-12 个，彼此差异明显，单个选项控制在 8 个字以内。
+3. 只输出选项本身，其他一个字都不要写。
+""".trimIndent()
+    }
 
     @AssistedFactory
     fun interface Factory {

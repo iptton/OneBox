@@ -130,8 +130,21 @@
 
     <!-- Spin: draw-until-empty -->
     <string name="all_options_drawn">所有选项都已抽完</string>
-    <string name="remaining_options">还剩 %1$d 个选项</string>
-    <string name="restore_all_options">恢复全部选项</string>
+    <string name="not_enough_active_options">至少要 2 个未抽中的选项才能转，先恢复或添加几个</string>
+    <string name="remaining_options">还剩 %1$d 个选项可参与下一轮</string>
+    <string name="removed_options_count">已移除 %1$d 个选项（抽后移除已开启）</string>
+    <string name="restore_all_action">全部恢复</string>
+
+    <!-- Editor: AI 创建选项 -->
+    <string name="ai_create_options">AI 创建</string>
+    <string name="ai_create_title">让 AI 帮你列选项</string>
+    <string name="ai_create_hint">描述一下这个转盘要抽什么，AI 直接给你一堆候选</string>
+    <string name="ai_create_filler">帮我生成 8 个「%1$s」的候选选项</string>
+    <string name="ai_create_fallback_topic">今天吃什么</string>
+    <string name="ai_generating">AI 正在生成…</string>
+    <string name="ai_create_failed">没生成出来，换个说法再试</string>
+    <string name="ai_engine_not_configured">还没配置 AI 引擎，先去设置里配一个</string>
+    <string name="ai_add_count">添加这 %1$d 个</string>
 
     <!-- History -->
     <string name="history_filter_all">全部转盘</string>

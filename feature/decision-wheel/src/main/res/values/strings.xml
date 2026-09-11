@@ -129,8 +129,21 @@
 
     <!-- Spin: draw-until-empty -->
     <string name="all_options_drawn">All options have been drawn</string>
-    <string name="remaining_options">%1$d options left</string>
-    <string name="restore_all_options">Restore all options</string>
+    <string name="not_enough_active_options">Needs at least 2 active options to spin — restore or add a few</string>
+    <string name="remaining_options">%1$d options left for the next spin</string>
+    <string name="removed_options_count">%1$d options removed (remove-after-spin on)</string>
+    <string name="restore_all_action">Restore all</string>
+
+    <!-- Editor: AI generated options -->
+    <string name="ai_create_options">AI create</string>
+    <string name="ai_create_title">Let AI list the options</string>
+    <string name="ai_create_hint">Describe what this wheel is for, AI returns a pile of candidates</string>
+    <string name="ai_create_filler">Give me 8 candidates for \"%1$s\"</string>
+    <string name="ai_create_fallback_topic">what to eat today</string>
+    <string name="ai_generating">AI is generating…</string>
+    <string name="ai_create_failed">Nothing usable came back, try rephrasing</string>
+    <string name="ai_engine_not_configured">No AI engine configured yet, set one up first</string>
+    <string name="ai_add_count">Add these %1$d</string>
 
     <!-- History -->
     <string name="history_filter_all">All wheels</string>
