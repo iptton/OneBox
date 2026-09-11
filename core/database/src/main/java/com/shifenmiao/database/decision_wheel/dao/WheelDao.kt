@@ -53,6 +53,13 @@ interface WheelDao {
     @Query("DELETE FROM wheel_options WHERE wheelId = :wheelId")
     suspend fun deleteOptionsByWheelId(wheelId: String)
 
+    // 抽后移除：只翻转启用标记，不走全量重插（重插会重置 enabled）
+    @Query("UPDATE wheel_options SET enabled = :enabled WHERE id = :optionId")
+    suspend fun updateOptionEnabled(optionId: String, enabled: Boolean)
+
+    @Query("UPDATE wheel_options SET enabled = 1 WHERE wheelId = :wheelId")
+    suspend fun resetOptionsEnabled(wheelId: String)
+
     // History operations
     @Insert
     suspend fun insertHistory(history: WheelHistoryEntity): Long
@@ -63,8 +70,14 @@ interface WheelDao {
     @Query("SELECT * FROM wheel_history ORDER BY timestamp DESC LIMIT :limit")
     fun getAllHistory(limit: Int = 50): Flow<List<WheelHistoryEntity>>
 
+    @Query("SELECT * FROM wheel_history ORDER BY timestamp DESC")
+    fun observeAllHistory(): Flow<List<WheelHistoryEntity>>
+
     @Query("DELETE FROM wheel_history WHERE wheelId = :wheelId")
     suspend fun deleteHistoryByWheelId(wheelId: String)
+
+    @Query("DELETE FROM wheel_history WHERE id = :historyId")
+    suspend fun deleteHistoryById(historyId: Long)
 
     @Query("DELETE FROM wheel_history")
     suspend fun clearAllHistory()

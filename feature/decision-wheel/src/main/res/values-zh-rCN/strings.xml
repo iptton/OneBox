@@ -109,6 +109,7 @@
     <!-- Settings - Decision Wheel -->
     <string name="wheel_settings_title">转盘设置</string>
     <string name="wheel_settings">设置</string>
+    <string name="wheel_tab">转盘</string>
     <string name="wheel_settings_duration">旋转时间</string>
     <string name="wheel_settings_duration_value">%1$d ms</string>
     <string name="wheel_settings_speed">旋转速度</string>
@@ -120,6 +121,31 @@
     <!-- Edit wheel / option deletion -->
     <string name="delete_option_confirm">确定要删除该选项吗？</string>
     <string name="delete_option_min_two_tip">至少保留两个选项</string>
+
+    <!-- Editor: weight / undo / copy -->
+    <string name="option_weight">权重</string>
+    <string name="undo">撤销</string>
+    <string name="option_removed">已移除「%1$s」</string>
+    <string name="wheel_copy_suffix">（副本）</string>
+
+    <!-- Spin: draw-until-empty -->
+    <string name="all_options_drawn">所有选项都已抽完</string>
+    <string name="remaining_options">还剩 %1$d 个选项</string>
+    <string name="restore_all_options">恢复全部选项</string>
+
+    <!-- History -->
+    <string name="history_filter_all">全部转盘</string>
+    <string name="clear_history_confirm">确定清空全部历史记录吗？</string>
+    <string name="no_wheels">还没有转盘</string>
+    <string name="duplicate">复制</string>
+
+    <!-- Settings -->
+    <string name="settings_sound">音效</string>
+    <string name="settings_sound_note">旋转时播放循环音乐，出结果时播放一段揭示音</string>
+    <string name="settings_haptics">触感反馈</string>
+    <string name="settings_haptics_note">指针每经过一个扇区时轻微震动一下</string>
+    <string name="settings_remove_on_spin">抽后移除</string>
+    <string name="settings_remove_on_spin_note">抽中的选项不再参与下一次旋转</string>
 
     <!-- Presets - Who Pays -->
     <string name="preset_who_pays">今天谁请客</string>

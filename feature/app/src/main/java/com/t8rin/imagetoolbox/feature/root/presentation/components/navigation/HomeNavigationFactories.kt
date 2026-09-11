@@ -21,7 +21,7 @@ import com.wanbaohe.app.component.ActivityLogComponent
 import com.wanbaohe.app.component.FavoriteComponent
 import com.wanbaohe.blog.logic.BlogComponent
 import com.wanbaohe.blog.logic.CreateFeedbackComponent
-import com.wanbaohe.decisionwheel.component.DecisionWheelComponent
+import com.wanbaohe.decisionwheel.component.DecisionWheelRouterComponent
 import com.wanbaohe.file.browser.screenLogic.FileBrowserComponent
 import com.wanbaohe.file_transfer.screenLogic.FileTransferComponent
 import com.wanbaohe.profile.viewmodel.PayComponent
@@ -45,7 +45,7 @@ class HomeNavigationFactories @Inject constructor(
     val editPromptComponentFactory: EditPromptComponent.Factory,
     val noteItemComponentFactory: NoteItemComponent.Factory,
     val previewHtmlComponentFactory: PreviewHtmlComponent.Factory,
-    val decisionWheelComponentFactory: DecisionWheelComponent.Factory,
+    val decisionWheelRouterComponentFactory: DecisionWheelRouterComponent.Factory,
     val fileTransferComponentFactory: FileTransferComponent.Factory,
     val reorderableComponentFactory: ReorderableComponent.Factory,
     val fileBrowserComponentFactory: FileBrowserComponent.Factory,

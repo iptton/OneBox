@@ -222,8 +222,8 @@ import com.wanbaohe.measurement.screen.MeasurementScreen
 import com.wanbaohe.cloud.storage.screenLogic.CloudStorageComponent
 import com.wanbaohe.deadpixeltest.component.DeadPixelTestComponent
 import com.wanbaohe.deadpixeltest.screen.DeadPixelTestScreen
-import com.wanbaohe.decisionwheel.component.DecisionWheelComponent
-import com.wanbaohe.decisionwheel.screen.DecisionWheelScreen
+import com.wanbaohe.decisionwheel.component.DecisionWheelRouterComponent
+import com.wanbaohe.decisionwheel.screen.DecisionWheelRouterScreen
 import com.wanbaohe.diceroller.component.DiceRollerComponent
 import com.wanbaohe.diceroller.screen.DiceRollerScreen
 import com.wanbaohe.iching.component.IChingDivinationComponent
@@ -928,15 +928,11 @@ sealed interface NavigationChild {
     }
 
     class DecisionWheel(
-        val decisionWheelComponent: DecisionWheelComponent,
-        val appComponent: AppComponent
+        val decisionWheelComponent: DecisionWheelRouterComponent
     ) : NavigationChild {
         @Composable
         override fun Content() {
-            DecisionWheelScreen(
-                decisionWheelComponent = decisionWheelComponent,
-                appComponent = appComponent
-            )
+            DecisionWheelRouterScreen(router = decisionWheelComponent)
         }
     }
 

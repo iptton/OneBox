@@ -423,6 +423,11 @@ abstract class FeatureDatabase : RoomDatabase() {
         }
 
         // 经期记录表
+        //
+        // 注意：v9 尚未发布（已发布的最高 tag 1.3.9 对应 version = 4），因此本迁移是"草稿"，
+        // 发版前可以继续往里追加改动。与之相关的决策转盘字段改造（weight/enabled/wheelTitle + 索引）
+        // 也一并并入此处，避免为了同一个未发布版本再叠一层 9→10。
+        // 先例见 commit 9506c641「poem 表迁移合并为单步(v4 未发布)」。
         private val MIGRATION_8_9 = object : androidx.room.migration.Migration(8, 9) {
             override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
                 db.execSQL(
@@ -444,6 +449,24 @@ abstract class FeatureDatabase : RoomDatabase() {
                 )
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_period_record_record_date` ON `period_record` (`record_date`)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_period_record_is_period_start` ON `period_record` (`is_period_start`)")
+
+                // 决策转盘：选项权重与启用标记（抽后移除）
+                db.execSQL("ALTER TABLE `wheel_options` ADD COLUMN `weight` REAL NOT NULL DEFAULT 1.0")
+                db.execSQL("ALTER TABLE `wheel_options` ADD COLUMN `enabled` INTEGER NOT NULL DEFAULT 1")
+
+                // 决策转盘：历史冗余转盘标题，避免转盘删除后历史无归属
+                db.execSQL("ALTER TABLE `wheel_history` ADD COLUMN `wheelTitle` TEXT NOT NULL DEFAULT ''")
+                db.execSQL(
+                    """
+                    UPDATE `wheel_history` SET `wheelTitle` = COALESCE(
+                        (SELECT `title` FROM `decision_wheels` WHERE `decision_wheels`.`id` = `wheel_history`.`wheelId`),
+                        ''
+                    )
+                    """.trimIndent()
+                )
+
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_wheel_options_wheelId` ON `wheel_options` (`wheelId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_wheel_history_wheelId` ON `wheel_history` (`wheelId`)")
             }
         }
 

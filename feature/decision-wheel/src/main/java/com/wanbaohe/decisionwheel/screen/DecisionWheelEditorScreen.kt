@@ -1,0 +1,435 @@
+package com.wanbaohe.decisionwheel.screen
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.shifenmiao.common.ui.BaseScreen
+import com.shifenmiao.theme.AppTheme
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.icons.Add
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineSave
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineTheme
+import com.wanbaohe.decisionwheel.R
+import com.wanbaohe.decisionwheel.component.DecisionWheelEditorComponent
+import com.wanbaohe.decisionwheel.component.WheelOption
+import com.wanbaohe.decisionwheel.ui.DecisionWheelPalettePickerSheet
+import kotlinx.coroutines.delay
+
+@Composable
+fun DecisionWheelEditorScreen(
+    component: DecisionWheelEditorComponent
+) {
+    val uiState by component.uiState.collectAsState()
+    var showAddDialog by remember { mutableStateOf(false) }
+    var showPaletteSheet by remember { mutableStateOf(false) }
+    var undoMessage by remember { mutableStateOf<String?>(null) }
+    val removedTip = stringResource(R.string.option_removed)
+
+    val baseColor = uiState.options.firstOrNull { it.color != Color.Unspecified }?.color
+        ?: AppTheme.colorScheme.primary
+
+    BaseScreen(
+        title = stringResource(R.string.edit_wheel),
+        onGoBack = component::goBack,
+        actions = {
+            IconButton(
+                onClick = component::save,
+                enabled = uiState.canSave
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.LineSave,
+                    contentDescription = stringResource(R.string.save),
+                    tint = if (uiState.canSave) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            OutlinedTextField(
+                value = uiState.title,
+                onValueChange = component::updateTitle,
+                label = { Text(stringResource(R.string.wheel_title)) },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                shape = AppTheme.shapes.getMediumShape(),
+                colors = AppTheme.colors.getOutlinedTextFieldColors()
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.options_list_count, uiState.options.size),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                FilledTonalButton(
+                    onClick = { showPaletteSheet = true },
+                    colors = AppTheme.colors.getSurfaceContainerButtonColors(),
+                    modifier = Modifier
+                        .height(36.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.LineTheme,
+                        contentDescription = stringResource(R.string.palette_scheme),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(stringResource(R.string.palette_scheme), fontSize = 13.sp)
+                }
+            }
+
+            // 选项列表：固定高度 + 内部滚动，避免与外层 verticalScroll 冲突
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 420.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                itemsIndexed(uiState.options, key = { _, option -> option.id }) { index, option ->
+                    OptionEditRow(
+                        option = option,
+                        canDelete = uiState.options.size > 2,
+                        canMoveUp = index > 0,
+                        canMoveDown = index < uiState.options.lastIndex,
+                        onRename = { component.renameOption(option.id, it) },
+                        onWeightChange = { component.setWeight(option.id, it) },
+                        onDelete = {
+                            if (component.removeOption(option.id)) {
+                                undoMessage = removedTip.format(option.name)
+                            }
+                        },
+                        onMoveUp = { component.moveOption(index, index - 1) },
+                        onMoveDown = { component.moveOption(index, index + 1) }
+                    )
+                }
+            }
+
+            FilledTonalButton(
+                onClick = { showAddDialog = true },
+                colors = AppTheme.colors.getSecondaryContainerButtonColors(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(44.dp)
+                    .clip(RoundedCornerShape(12.dp))
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Add,
+                    contentDescription = stringResource(R.string.add_option),
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(stringResource(R.string.add_option))
+            }
+
+            AnimatedVisibility(visible = undoMessage != null) {
+                UndoBar(
+                    text = undoMessage.orEmpty(),
+                    onUndo = {
+                        component.undoRemove()
+                        undoMessage = null
+                    },
+                    onDismiss = {
+                        component.consumeUndo()
+                        undoMessage = null
+                    }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+
+    if (showAddDialog) {
+        AddOptionDialog(
+            onDismiss = { showAddDialog = false },
+            onAdd = { name ->
+                component.addOption(name)
+                showAddDialog = false
+            }
+        )
+    }
+
+    DecisionWheelPalettePickerSheet(
+        visible = showPaletteSheet,
+        onDismiss = { showPaletteSheet = false },
+        initialBaseColor = baseColor,
+        previewCount = uiState.options.size,
+        onConfirm = { color ->
+            component.applyPalette(color)
+            showPaletteSheet = false
+        }
+    )
+}
+
+@Composable
+private fun OptionEditRow(
+    option: WheelOption,
+    canDelete: Boolean,
+    canMoveUp: Boolean,
+    canMoveDown: Boolean,
+    onRename: (String) -> Unit,
+    onWeightChange: (Float) -> Unit,
+    onDelete: () -> Unit,
+    onMoveUp: () -> Unit,
+    onMoveDown: () -> Unit
+) {
+    var draftName by remember(option.id) { mutableStateOf(option.name) }
+
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clip(CircleShape)
+                        .background(option.color)
+                )
+
+                OutlinedTextField(
+                    value = draftName,
+                    onValueChange = {
+                        draftName = it
+                        if (it.isNotBlank()) onRename(it)
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(52.dp),
+                    singleLine = true,
+                    shape = AppTheme.shapes.getMediumShape(),
+                    colors = AppTheme.colors.getOutlinedTextFieldColors(),
+                    textStyle = MaterialTheme.typography.bodyMedium
+                )
+
+                IconButton(onClick = onDelete, enabled = canDelete) {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = stringResource(R.string.delete),
+                        tint = if (canDelete) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.option_weight),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                WeightStepper(
+                    weight = option.weight,
+                    onChange = onWeightChange
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                IconButton(onClick = onMoveUp, enabled = canMoveUp, modifier = Modifier.size(32.dp)) {
+                    Text("▲", fontSize = 12.sp, color = if (canMoveUp) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                IconButton(onClick = onMoveDown, enabled = canMoveDown, modifier = Modifier.size(32.dp)) {
+                    Text("▼", fontSize = 12.sp, color = if (canMoveDown) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun WeightStepper(
+    weight: Float,
+    onChange: (Float) -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        IconButton(
+            onClick = { onChange(weight - 0.5f) },
+            modifier = Modifier.size(28.dp)
+        ) {
+            Text("−", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+        }
+        Text(
+            text = weight.trimText(),
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.width(36.dp),
+            textAlign = TextAlign.Center
+        )
+        IconButton(
+            onClick = { onChange(weight + 0.5f) },
+            modifier = Modifier.size(28.dp)
+        ) {
+            Text("+", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@Composable
+private fun UndoBar(
+    text: String,
+    onUndo: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    LaunchedEffect(text) {
+        delay(5000)
+        onDismiss()
+    }
+
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.secondaryContainer,
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = stringResource(R.string.undo),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.clickable(
+                    onClick = onUndo,
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                )
+            )
+        }
+    }
+}
+
+@Composable
+private fun AddOptionDialog(
+    onDismiss: () -> Unit,
+    onAdd: (String) -> Unit
+) {
+    var name by remember { mutableStateOf("") }
+
+    androidx.compose.material3.AlertDialog(
+        containerColor = AppTheme.colors.getContainerSurfaceColor(),
+        onDismissRequest = onDismiss,
+        title = {
+            Text(text = stringResource(R.string.add_new_option), fontWeight = FontWeight.Bold)
+        },
+        text = {
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text(stringResource(R.string.option_name)) },
+                placeholder = { Text(stringResource(R.string.option_placeholder)) },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                shape = AppTheme.shapes.getMediumShape(),
+                colors = AppTheme.colors.getOutlinedTextFieldColors()
+            )
+        },
+        confirmButton = {
+            FilledTonalButton(
+                onClick = { if (name.isNotBlank()) onAdd(name) },
+                enabled = name.isNotBlank(),
+                colors = AppTheme.colors.getPrimaryButtonColors(),
+                modifier = Modifier
+                    .height(40.dp)
+                    .clip(RoundedCornerShape(12.dp))
+            ) {
+                Text(stringResource(R.string.add))
+            }
+        },
+        dismissButton = {
+            FilledTonalButton(
+                onClick = onDismiss,
+                colors = AppTheme.colors.getSurfaceContainerButtonColors(),
+                modifier = Modifier
+                    .height(40.dp)
+                    .clip(RoundedCornerShape(12.dp))
+            ) {
+                Text(stringResource(R.string.cancel))
+            }
+        }
+    )
+}
+
+private fun Float.trimText(): String =
+    if (this % 1f == 0f) toInt().toString() else String.format(java.util.Locale.US, "%.1f", this)

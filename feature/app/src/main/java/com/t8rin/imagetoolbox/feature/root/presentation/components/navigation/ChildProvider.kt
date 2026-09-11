@@ -159,7 +159,7 @@ import com.wanbaohe.cloud.storage.screenLogic.CloudStorageComponent
 import com.wanbaohe.compass.component.CompassComponent
 import com.wanbaohe.measurement.component.MeasurementComponent
 import com.wanbaohe.deadpixeltest.component.DeadPixelTestComponent
-import com.wanbaohe.decisionwheel.component.DecisionWheelComponent
+import com.wanbaohe.decisionwheel.component.DecisionWheelRouterComponent
 import com.wanbaohe.passwordvault.router.screenLogic.PasswordVaultRouterComponent
 import com.wanbaohe.a2ui.viewModel.A2uiComponent
 import com.wanbaohe.diceroller.component.DiceRollerComponent
@@ -929,10 +929,11 @@ class ChildProvider @Inject constructor(
         )
 
         is Screen.DecisionWheelScreen -> NavigationChild.DecisionWheel(
-            decisionWheelComponent = homeFactories.decisionWheelComponentFactory(
+            decisionWheelComponent = homeFactories.decisionWheelRouterComponentFactory(
                 componentContext = componentContext,
-            ),
-            appComponent = appComponent
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
         )
 
         is Screen.FileTransfer -> NavigationChild.FileTransfer(

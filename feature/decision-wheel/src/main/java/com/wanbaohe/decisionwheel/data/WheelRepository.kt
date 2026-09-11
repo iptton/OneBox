@@ -94,15 +94,32 @@ class WheelRepository @Inject constructor(
 
     /**
      * 保存转盘结果历史
+     *
+     * [wheelTitle] 冗余落库，因为转盘被删除后历史仍需有归属可读。
      */
-    suspend fun saveHistory(wheelId: String, selectedOption: WheelOption) {
+    suspend fun saveHistory(wheelId: String, wheelTitle: String, selectedOption: WheelOption) {
         val history = WheelHistoryEntity(
             wheelId = wheelId,
+            wheelTitle = wheelTitle,
             selectedOptionId = selectedOption.id,
             selectedOptionName = selectedOption.name,
             timestamp = System.currentTimeMillis()
         )
         wheelDao.insertHistory(history)
+    }
+
+    /**
+     * 抽后移除：翻转单个选项的启用标记。
+     */
+    suspend fun setOptionEnabled(optionId: String, enabled: Boolean) {
+        wheelDao.updateOptionEnabled(optionId, enabled)
+    }
+
+    /**
+     * 恢复转盘上所有被移除的选项。
+     */
+    suspend fun resetOptionsEnabled(wheelId: String) {
+        wheelDao.resetOptionsEnabled(wheelId)
     }
 
     /**
@@ -120,6 +137,20 @@ class WheelRepository @Inject constructor(
     }
 
     /**
+     * 获取所有历史记录（不截断）
+     */
+    fun observeAllHistory(): Flow<List<WheelHistoryEntity>> {
+        return wheelDao.observeAllHistory()
+    }
+
+    /**
+     * 删除单条历史记录
+     */
+    suspend fun deleteHistory(historyId: Long) {
+        wheelDao.deleteHistoryById(historyId)
+    }
+
+    /**
      * 清除历史记录
      */
     suspend fun clearHistory() {
@@ -133,7 +164,8 @@ private fun WheelEntity.toDomain(options: List<WheelOptionEntity>): DecisionWhee
         id = id,
         title = title,
         options = options.map { it.toDomain() },
-        createdAt = createdAt
+        createdAt = createdAt,
+        lastUsedAt = lastUsedAt
     )
 }
 
@@ -141,7 +173,9 @@ private fun WheelOptionEntity.toDomain(): WheelOption {
     return WheelOption(
         id = id,
         name = name,
-        color = Color(android.graphics.Color.parseColor(colorHex))
+        color = Color(android.graphics.Color.parseColor(colorHex)),
+        weight = weight,
+        enabled = enabled
     )
 }
 
@@ -151,7 +185,8 @@ private fun DecisionWheel.toEntity(): WheelEntity {
         id = id,
         title = title,
         createdAt = createdAt,
-        lastUsedAt = System.currentTimeMillis()
+        // 保留原值：编辑转盘不应把它顶到"最近使用"最前，只有真的转过才更新
+        lastUsedAt = lastUsedAt
     )
 }
 
@@ -161,7 +196,9 @@ private fun WheelOption.toEntity(wheelId: String, position: Int): WheelOptionEnt
         wheelId = wheelId,
         name = name,
         colorHex = String.format("#%08X", color.toArgb()),
-        position = position
+        position = position,
+        weight = weight,
+        enabled = enabled
     )
 }
 

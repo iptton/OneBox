@@ -37,6 +37,11 @@ class DecisionWheelPresetsProvider(
     )
 
     /**
+     * Returns the localized suffix used when duplicating a wheel.
+     */
+    fun copyTitleSuffix(): String = getString(R.string.wheel_copy_suffix)
+
+    /**
      * Returns the full list of preset wheel definitions as localized strings.
      */
     fun presets(): List<PresetDefinitionLocalized> = listOf(
