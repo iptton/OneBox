@@ -1597,6 +1597,10 @@
     <string name="minesweeper_title">扫雷</string>
     <string name="minesweeper_description">经典的扫雷游戏，锻炼你的逻辑思维与推理能力。</string>
 
+    <string name="ad_watch_title">广告看看看</string>
+    <string name="ad_watch_description">看激励广告赚积分。</string>
+    <string name="ad_watch_earn_entry">看广告赚积分</string>
+
     <string name="survive_30s_screen_title">撑30秒赚积分</string>
     <string name="survive_30s_screen_description">拖动小球躲避障碍，坚持30秒即为胜利！</string>
     <string name="web_browser_title">浏览器</string>

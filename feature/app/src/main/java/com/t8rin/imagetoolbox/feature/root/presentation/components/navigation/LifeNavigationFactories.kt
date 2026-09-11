@@ -79,6 +79,7 @@ class LifeNavigationFactories @Inject constructor(
     val xiangqiRouterComponentFactory: XiangqiRouterComponent.Factory,
     val deadPixelTestComponentFactory: DeadPixelTestComponent.Factory,
     val minesweeperComponentFactory: com.wanbaohe.minesweeper.component.MinesweeperComponent.Factory,
+    val adWatchComponentFactory: com.wanbaohe.adwatch.component.AdWatchComponent.Factory,
     val altitudeComponentFactory: AltitudeComponent.Factory,
     val compassComponentFactory: CompassComponent.Factory,
     val speedTestComponentFactory: SpeedTestComponent.Factory,

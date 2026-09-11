@@ -25,12 +25,7 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
         tools:node="remove" />
-
-    <!-- App 无广告, 移除 Firebase Analytics 合并进来的广告 ID 权限,
-         避免 Play 要求填写 Advertising ID 声明; Firebase 会回退到 app-instance ID -->
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
-    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" tools:node="remove" />
-    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" tools:node="remove" />
+    <!-- google 渠道已接入 AdMob 激励广告(feature/ad-watch), 保留广告 ID 权限 -->
 
     <application
         android:label="@string/app_launcher_name"
@@ -50,6 +45,12 @@
         <service
             android:name="com.wanbaohe.app.service.FloatingRobotService"
             tools:node="remove" />
+
+        <!-- AdMob 激励广告(feature/ad-watch) -->
+        <!-- TODO(发布前): 替换为 AdMob 后台申请的正式 App ID, 当前为 Google 官方测试 App ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
 
     </application>
 

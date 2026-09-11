@@ -1532,6 +1532,10 @@ Hint: If you choose "Hide Forever", you can bring me back later in Settings > Di
     <string name="minesweeper_title">Minesweeper</string>
     <string name="minesweeper_description">Classic minesweeper — test your logic and reasoning.</string>
 
+    <string name="ad_watch_title">Ad Watch</string>
+    <string name="ad_watch_description">Watch rewarded ads to earn points.</string>
+    <string name="ad_watch_earn_entry">Watch ads to earn points</string>
+
     <string name="survive_30s_screen_title">Survive 30 Seconds</string>
     <string name="survive_30s_screen_description">Drag the ball to dodge obstacles. Survive 30 seconds to win!</string>
     <string name="web_browser_title">Browser</string>

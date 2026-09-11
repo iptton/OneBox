@@ -80,6 +80,7 @@ dependencies {
     implementation(projects.feature.cloudStorage)
     implementation(projects.feature.marktodo)
     implementation(projects.feature.minesweeper)
+    implementation(projects.feature.adWatch)
     implementation(projects.feature.bookkeeping)
     implementation(projects.feature.recordCenter)
     implementation(projects.feature.habitTracker)

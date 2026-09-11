@@ -1,0 +1,119 @@
+package com.wanbaohe.adwatch.ads
+
+import android.app.Activity
+import android.content.Context
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import java.util.concurrent.atomic.AtomicBoolean
+import javax.inject.Inject
+import javax.inject.Singleton
+
+/**
+ * google 渠道真实实现: 封装 MobileAds 懒初始化 + RewardedAd 加载/展示。
+ * 仅 src/google 编译, 其余渠道见 src/nogms 的同签名 stub。
+ */
+@Singleton
+class GmsRewardedAdController @Inject constructor(
+    @ApplicationContext private val context: Context,
+) : RewardedAdController {
+
+    private val _status = MutableStateFlow(RewardedAdStatus.IDLE)
+    override val status: StateFlow<RewardedAdStatus> = _status.asStateFlow()
+
+    override val isSupported: Boolean = true
+
+    private var rewardedAd: RewardedAd? = null
+    private val sdkInitialized = AtomicBoolean(false)
+    private var loading = false
+
+    override fun preload() {
+        if (rewardedAd != null || loading) return
+        loading = true
+        _status.value = RewardedAdStatus.LOADING
+        ensureSdkInitialized {
+            RewardedAd.load(
+                context,
+                AdWatchAds.REWARDED_AD_UNIT_ID,
+                AdRequest.Builder().build(),
+                object : RewardedAdLoadCallback() {
+                    override fun onAdLoaded(ad: RewardedAd) {
+                        rewardedAd = ad
+                        loading = false
+                        _status.value = RewardedAdStatus.READY
+                    }
+
+                    override fun onAdFailedToLoad(error: LoadAdError) {
+                        rewardedAd = null
+                        loading = false
+                        _status.value = RewardedAdStatus.FAILED
+                    }
+                },
+            )
+        }
+    }
+
+    private fun ensureSdkInitialized(onReady: () -> Unit) {
+        if (sdkInitialized.get()) {
+            onReady()
+            return
+        }
+        MobileAds.initialize(context) {
+            sdkInitialized.set(true)
+            onReady()
+        }
+    }
+
+    override fun show(
+        activity: Activity,
+        onEarned: () -> Unit,
+        onClosed: () -> Unit,
+        onError: () -> Unit,
+    ) {
+        val ad = rewardedAd
+        if (ad == null) {
+            onError()
+            preload()
+            return
+        }
+        ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+                rewardedAd = null
+                _status.value = RewardedAdStatus.IDLE
+                onClosed()
+                preload()
+            }
+
+            override fun onAdFailedToShowFullScreenContent(error: AdError) {
+                rewardedAd = null
+                _status.value = RewardedAdStatus.FAILED
+                onError()
+            }
+        }
+        _status.value = RewardedAdStatus.LOADING
+        ad.show(activity) { onEarned() }
+    }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RewardedAdModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindRewardedAdController(
+        impl: GmsRewardedAdController
+    ): RewardedAdController
+}

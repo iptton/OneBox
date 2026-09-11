@@ -81,7 +81,11 @@ fun BuyCoffeeDialogModalSheet(
         BuyCoffeeBody(
             modifier = Modifier.background(MaterialTheme.colorScheme.surface),
             loginComponent = loginComponent,
-            payComponent = payComponent
+            payComponent = payComponent,
+            onNavigateToAdWatch = {
+                appComponent.hideBuyCoffeeDialogModalSheet()
+                appComponent.onNavigate(com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AdWatch)
+            }
         ) {
             NeedCoffeeTextInfo()
         }

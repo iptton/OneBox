@@ -1201,6 +1201,13 @@ class ChildProvider @Inject constructor(
             )
         )
 
+        is Screen.AdWatch -> NavigationChild.AdWatch(
+            component = lifeFactories.get().adWatchComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack
+            )
+        )
+
         is Screen.LoanCalculator -> NavigationChild.LoanCalculator(
             appComponent = appComponent
         )

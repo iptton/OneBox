@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ad_watch_title">Ad Watch</string>
+    <string name="ad_watch_desc">Earn %1$d points for each ad you watch\nSwipe up or down for the next one</string>
+    <string name="ad_watch_button">Watch to earn %1$d points</string>
+    <string name="ad_watch_remaining_today">%1$d left today</string>
+    <string name="ad_watch_daily_limit_reached">Daily limit reached, come back tomorrow</string>
+    <string name="ad_watch_loading">Loading ad…</string>
+    <string name="ad_watch_load_failed">Failed to load ad</string>
+    <string name="ad_watch_retry">Retry</string>
+    <string name="ad_watch_ad_not_ready">Ad is not ready yet, please try again later</string>
+</resources>

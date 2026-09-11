@@ -1875,6 +1875,14 @@ sealed class Screen(
     )
 
     @Serializable
+    @SerialName("AdWatch")
+    data object AdWatch : Screen(
+        id = 1095,
+        title = com.shifenmiao.core.R.string.ad_watch_title,
+        subtitle = com.shifenmiao.core.R.string.ad_watch_description,
+    )
+
+    @Serializable
     @SerialName("DisplaySettings")
     data object DisplaySettings : Screen(
         id = -22,

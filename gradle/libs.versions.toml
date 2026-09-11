@@ -71,6 +71,7 @@ uiautomator = "2.4.0"
 androidxMacroBenchmark = "1.5.0-rc01"
 quickie = "1.18.1"
 playServicesAuth = "21.6.0"
+playServicesAds = "25.4.0"
 playReview = "2.0.2"
 places = "5.3.0"
 squircle-shape = "5.3.0"
@@ -321,6 +322,7 @@ androidx-compose-foundation-layout = { group = "androidx.compose.foundation", na
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 androidx-compose-animation-core = { group = "androidx.compose.animation", name = "animation-core", version.ref = "animationCore" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
 play-review = { module = "com.google.android.play:review", version.ref = "playReview" }
 places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }

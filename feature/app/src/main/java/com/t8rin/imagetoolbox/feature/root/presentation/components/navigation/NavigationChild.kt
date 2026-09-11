@@ -779,7 +779,8 @@ sealed interface NavigationChild {
             loginComponent = loginComponent,
             payComponent = payComponent,
             onGoBack = appComponent.onGoBack,
-            onNavigateToVipLevel = { appComponent.onNavigate(Screen.VipLevel()) }
+            onNavigateToVipLevel = { appComponent.onNavigate(Screen.VipLevel()) },
+            onNavigateToAdWatch = { appComponent.onNavigate(Screen.AdWatch) }
         )
     }
 
@@ -1314,6 +1315,15 @@ sealed interface NavigationChild {
         @Composable
         override fun Content() {
             com.wanbaohe.minesweeper.screen.MinesweeperScreen(component = component)
+        }
+    }
+
+    class AdWatch(
+        val component: com.wanbaohe.adwatch.component.AdWatchComponent
+    ) : NavigationChild {
+        @Composable
+        override fun Content() {
+            com.wanbaohe.adwatch.screen.AdWatchScreen(component = component)
         }
     }
 

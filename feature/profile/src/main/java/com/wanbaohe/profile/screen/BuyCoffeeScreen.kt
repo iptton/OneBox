@@ -63,6 +63,7 @@ import com.wanbaohe.profile.viewmodel.PayComponent
 import kotlinx.coroutines.launch
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineWorkspacePremium
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineShoppingCheckout
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronRight
 
 @Composable
 fun BuyCoffeeScreen(
@@ -71,12 +72,14 @@ fun BuyCoffeeScreen(
     payComponent: PayComponent,
     onGoBack: () -> Unit = {},
     onNavigateToVipLevel: () -> Unit = {},
+    onNavigateToAdWatch: () -> Unit = {},
 ) {
     BuyCoffeeContainer(
         loginComponent = loginComponent,
         payComponent = payComponent,
         onGoBack = onGoBack,
         onNavigateToVipLevel = onNavigateToVipLevel,
+        onNavigateToAdWatch = onNavigateToAdWatch,
     )
     BackHandler {
         appComponent.onGoBack()
@@ -89,6 +92,7 @@ fun BuyCoffeeContainer(
     payComponent: PayComponent,
     onGoBack: () -> Unit,
     onNavigateToVipLevel: () -> Unit = {},
+    onNavigateToAdWatch: () -> Unit = {},
 ) {
     BaseScreen(
         title = stringResource(id = R.string.buy_coffee_title),
@@ -100,6 +104,7 @@ fun BuyCoffeeContainer(
             loginComponent = loginComponent,
             payComponent = payComponent,
             onNavigateToVipLevel = onNavigateToVipLevel,
+            onNavigateToAdWatch = onNavigateToAdWatch,
         )
     }
 }
@@ -110,6 +115,7 @@ fun ColumnScope.BuyCoffeeBody(
     loginComponent: LoginComponent,
     payComponent: PayComponent,
     onNavigateToVipLevel: () -> Unit = {},
+    onNavigateToAdWatch: () -> Unit = {},
     topContent: @Composable LazyItemScope.() -> Unit = {
         AppTextInfo()
     }
@@ -207,8 +213,37 @@ fun ColumnScope.BuyCoffeeBody(
             }
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingNormal))
         }
+        if (payComponent.gmsEnabled) {
+            // 「看广告赚积分」入口: 仅 google 渠道(广告 SDK 仅 google 渠道携带)
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = AppTheme.dimens.paddingNormal)
+                        .glassRegular(
+                            shape = RoundedCornerShape(16.dp),
+                            color = MaterialTheme.colorScheme.surfaceContainerHigh
+                        )
+                        .clickable { onNavigateToAdWatch() }
+                        .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.ad_watch_earn_entry),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    Icon(
+                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronRight,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(18.dp),
+                    )
+                }
+            }
+        }
         item {
-            // 支付方式标题 + 分隔线, 卡片与上下元素拉开行距
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

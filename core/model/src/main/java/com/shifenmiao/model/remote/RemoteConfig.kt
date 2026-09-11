@@ -255,6 +255,14 @@ data class RemoteConfig(
     val survive30sWinPoints: Int? = 300,
 
     /**
+     * 「广告看看看」单次激励广告观看奖励积分。
+     *
+     * 远端可动态调整；默认 `null` 表示服务端未下发，
+     * 消费端(feature/ad-watch)回退到本地默认 50 分。
+     */
+    val adWatchRewardPoints: Int? = null,
+
+    /**
      * 祈福墙各 tab 文案，远程下发。
      *
      * 出于合规（宗教类文案）考虑，APK 内置仅为中性兜底文案；
@@ -337,6 +345,7 @@ data class RemoteConfig(
         canSetAiToken = mergeField(net.canSetAiToken, canSetAiToken),
         aigcSubjectUscc = mergeField(net.aigcSubjectUscc, aigcSubjectUscc) { !it.isNullOrBlank() },
         survive30sWinPoints = mergeField(net.survive30sWinPoints, survive30sWinPoints),
+        adWatchRewardPoints = mergeField(net.adWatchRewardPoints, adWatchRewardPoints),
         blessingWallTabTexts = mergeField(net.blessingWallTabTexts, blessingWallTabTexts),
         voiceInput = mergeField(net.voiceInput, voiceInput)
     )
@@ -396,6 +405,7 @@ data class RemoteConfig(
                 canSetAiToken == other.canSetAiToken &&
                 aigcSubjectUscc == other.aigcSubjectUscc &&
                 survive30sWinPoints == other.survive30sWinPoints &&
+                adWatchRewardPoints == other.adWatchRewardPoints &&
                 blessingWallTabTexts == other.blessingWallTabTexts &&
                 voiceInput == other.voiceInput
     }
@@ -441,6 +451,7 @@ data class RemoteConfig(
             canSetAiToken,
             aigcSubjectUscc,
             survive30sWinPoints,
+            adWatchRewardPoints,
             blessingWallTabTexts,
             voiceInput
         )

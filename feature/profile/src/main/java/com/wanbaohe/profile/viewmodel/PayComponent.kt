@@ -72,6 +72,9 @@ class PayComponent @AssistedInject internal constructor(
     /** 是否 Google Play Billing 渠道(决定充值 UI 展示 Play 商品而非人民币档位) */
     val playBillingEnabled: Boolean = channelConfig.enablePlayBilling
 
+    /** 是否 GMS 渠道(google): 决定「看广告赚积分」入口是否展示(广告 SDK 仅 google 渠道携带) */
+    val gmsEnabled: Boolean = channelConfig.enableGms
+
     /** Play 商品目录(后端 productId/points + Play 本地化价格) */
     private val _playProducts = MutableStateFlow<List<PlayProduct>>(emptyList())
     val playProducts: StateFlow<List<PlayProduct>> = _playProducts
