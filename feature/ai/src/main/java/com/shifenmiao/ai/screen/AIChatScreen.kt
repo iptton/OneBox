@@ -343,8 +343,7 @@ fun ChatContent(
                 onExitTextSelectionMode = onExitTextSelectionMode,
                 onSuggestionClick = { suggestion ->
                     chatInputComponent.onInputTextChange(suggestion)
-                },
-                onShowToolCenter = { showToolCenter = true }
+                }
             )
             NewChatInput(
                 chatUIState = chatUIState,
@@ -450,7 +449,6 @@ fun ChatMessagesList(
     onEnterTextSelectionMode: () -> Unit = {},
     onExitTextSelectionMode: () -> Unit = {},
     onSuggestionClick: (String) -> Unit,
-    onShowToolCenter: () -> Unit = {},
     chatInputComponent: ChatInputComponent
 ) {
     val codeBlockClickListener = rememberCodeBlockClickListener(
@@ -555,7 +553,6 @@ fun ChatMessagesList(
                             PlaceHolderMessageCard(
                                 conversation = conversation,
                                 onSuggestionClick = onSuggestionClick,
-                                onShowToolCenter = onShowToolCenter,
                                 onPushToRemote = {
                                     aiChatComponent.pushPromptToRemote(
                                         onSuccess = {
