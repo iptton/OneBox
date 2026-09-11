@@ -332,7 +332,7 @@ private fun <T : ManageableItem> CategoryGridCell(
                                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                                 contentDescription = stringResource(R.string.cancel),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(16.dp),
+                                modifier = Modifier.size(22.dp),
                             )
                         }
                     } else if (canModify) {
@@ -474,7 +474,7 @@ fun <T : ManageableItem> CategoryItemRow(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                             contentDescription = stringResource(R.string.cancel),
                             tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                            modifier = Modifier.size(14.dp)
+                            modifier = Modifier.size(18.dp)
                         )
                     }
                 } else {

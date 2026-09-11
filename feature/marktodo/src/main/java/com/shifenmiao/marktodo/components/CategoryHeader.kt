@@ -77,7 +77,7 @@ fun CategoryHeader(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronRight,
                 contentDescription = null,
                 tint = contentColor.copy(alpha = 0.7f),
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(26.dp)
             )
         }
     }

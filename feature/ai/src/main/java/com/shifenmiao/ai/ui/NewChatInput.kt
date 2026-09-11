@@ -355,7 +355,7 @@ private fun StandardInputSection(
                         else
                             stringResource(R.string.nav_add),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(if (inputState.value.inputMore) 20.dp else 24.dp)
+                        modifier = Modifier.size(if (inputState.value.inputMore) 26.dp else 24.dp)
                     )
                 }
             }
@@ -473,7 +473,7 @@ private fun SelectedSystemPromptChip(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                     contentDescription = stringResource(R.string.clear),
                     tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.size(12.dp)
+                    modifier = Modifier.size(16.dp)
                 )
             }
         }
@@ -582,7 +582,7 @@ private fun AttachmentItem(
                                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                                 contentDescription = null,
                                 tint = Color.White,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(26.dp)
                             )
                         }
                     }
@@ -632,7 +632,7 @@ private fun AttachmentItem(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                 contentDescription = stringResource(R.string.delete),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(12.dp)
+                modifier = Modifier.size(16.dp)
             )
         }
     }

@@ -576,7 +576,7 @@ fun ImageCollapsibleSaveBar(
                             R.string.common_expand
                         ),
                         modifier = Modifier
-                            .size(16.dp)
+                            .size(22.dp)
                             .rotate(arrowRotation),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )

@@ -94,7 +94,7 @@ fun PoemHistorySheet(
                                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineClear,
                                 contentDescription = stringResource(R.string.poem_clear_history),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(18.dp),
+                                modifier = Modifier.size(24.dp),
                             )
                         }
                     }

@@ -90,7 +90,7 @@ fun WeekSelector(
                 imageVector = Icons.Outlined.LineArrowDropDown,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                modifier = Modifier.size(14.dp),
+                modifier = Modifier.size(18.dp),
             )
         }
 

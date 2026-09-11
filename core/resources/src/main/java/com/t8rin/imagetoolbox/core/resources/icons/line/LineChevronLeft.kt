@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
+import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -36,6 +37,7 @@ val Icons.Outlined.LineChevronLeft: ImageVector by lazy(LazyThreadSafetyMode.NON
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
+        group(pivotX = 12f, pivotY = 12f, scaleX = 0.75f, scaleY = 0.75f) {
         path(fill = SolidColor(Color.Black)) {
             moveTo(16.64f, 1.11f)
             curveTo(16.66f, 1.11f, 16.66f, 1.11f, 16.76f, 1.11f)
@@ -211,6 +213,7 @@ val Icons.Outlined.LineChevronLeft: ImageVector by lazy(LazyThreadSafetyMode.NON
             curveTo(16.05f, 1.47f, 16.08f, 1.44f, 16.11f, 1.42f)
             curveTo(16.41f, 1.11f, 16.41f, 1.11f, 16.64f, 1.11f)
             close()
+        }
         }
     }.build()
 }

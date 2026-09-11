@@ -57,7 +57,7 @@ fun GlassSearchTextField(
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                         contentDescription = null,
-                        modifier = Modifier.size(18.dp),
+                        modifier = Modifier.size(24.dp),
                     )
                 }
             }

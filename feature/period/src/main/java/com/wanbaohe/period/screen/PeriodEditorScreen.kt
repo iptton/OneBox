@@ -304,7 +304,7 @@ private fun DatePickerCard(
                 imageVector = Icons.Outlined.LineChevronRight,
                 contentDescription = null,
                 tint = colors.onSurfaceVariant,
-                modifier = Modifier.size(18.dp),
+                modifier = Modifier.size(24.dp),
             )
         }
     }

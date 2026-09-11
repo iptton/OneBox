@@ -745,7 +745,7 @@ private fun CommentInputBar(
                     onClick = onCancelReply
                 ) {
                     Icon(
-                        modifier = Modifier.size(14.dp),
+                        modifier = Modifier.size(18.dp),
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                         contentDescription = AppContext.getString(
                             com.shifenmiao.core.R.string.comment_cancel_reply,
@@ -927,7 +927,7 @@ private fun PendingImageChip(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onError,
-                    modifier = Modifier.size(20.dp),
+                    modifier = Modifier.size(26.dp),
                 )
             }
         }
@@ -946,7 +946,7 @@ private fun PendingImageChip(
                     contentDescription = null,
                     tint = Color.White,
                     modifier = Modifier
-                        .size(14.dp)
+                        .size(18.dp)
                         .background(
                             Color.Black.copy(alpha = 0.55f),
                             shape = CircleShape,

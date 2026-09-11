@@ -534,7 +534,7 @@ private fun AuspiciousDayCard(
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f),
                         modifier = Modifier
-                            .size(16.dp)
+                            .size(22.dp)
                             .padding(top = 2.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))

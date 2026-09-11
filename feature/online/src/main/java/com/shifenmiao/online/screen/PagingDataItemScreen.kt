@@ -306,7 +306,7 @@ private fun ChipFilterRow(
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                     contentDescription = closeLabel,
-                    modifier = Modifier.size(18.dp),
+                    modifier = Modifier.size(24.dp),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }

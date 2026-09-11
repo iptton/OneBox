@@ -120,7 +120,7 @@ fun BrowserTopBar(
                             Icon(
                                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineClear,
                                 contentDescription = stringResource(R.string.browser_clear),
-                                modifier = Modifier.size(18.dp)
+                                modifier = Modifier.size(24.dp)
                             )
                         }
                     }

@@ -149,7 +149,7 @@ private fun DateRangeChip(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineKeyboardArrowDown,
                 contentDescription = null,
                 tint = contentColor,
-                modifier = Modifier.size(16.dp),
+                modifier = Modifier.size(22.dp),
             )
         },
         shape = shape,

@@ -679,7 +679,7 @@ fun RobotReasoningHeader(
                     }
                 }
                 Icon(
-                    modifier = Modifier.size(9.dp),
+                    modifier = Modifier.size(12.dp),
                     imageVector = if (expanded) {
                         com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess
                     } else {

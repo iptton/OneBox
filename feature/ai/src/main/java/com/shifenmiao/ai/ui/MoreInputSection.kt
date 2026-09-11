@@ -352,7 +352,7 @@ private fun ModelSelectorChip(
             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineKeyboardArrowDown,
             contentDescription = "Select model",
             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.85f),
-            modifier = Modifier.size(14.dp)
+            modifier = Modifier.size(18.dp)
         )
     }
 }

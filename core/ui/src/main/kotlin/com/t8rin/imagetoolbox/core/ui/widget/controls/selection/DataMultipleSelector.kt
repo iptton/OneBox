@@ -114,7 +114,7 @@ fun <T : Any> DataMultipleSelector(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineKeyboardArrowDown,
                         contentDescription = "Expand",
                         modifier = Modifier
-                            .size(14.dp)
+                            .size(18.dp)
                             .rotate(rotation)
                     )
                 }
@@ -152,7 +152,7 @@ fun <T : Any> DataMultipleSelector(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        modifier = Modifier.size(12.dp),
+                        modifier = Modifier.size(16.dp),
                         imageVector = if (showManageIcon) {
                             com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close
                         } else {
@@ -260,7 +260,7 @@ fun <T : Any> DataMultipleSelector(
                                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                                     contentDescription = null,
                                     modifier = Modifier
-                                        .size(14.dp)
+                                        .size(18.dp)
                                         .clickable {
                                             onDeleteChange(entry)
                                         }

@@ -364,7 +364,7 @@ private fun MonthGroupHeader(
             tint = colors.onSurfaceVariant,
             modifier = Modifier
                 .padding(start = 4.dp)
-                .size(20.dp),
+                .size(26.dp),
         )
     }
 }

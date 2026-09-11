@@ -22,8 +22,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -57,9 +55,10 @@ import com.wanbaohe.bookkeeping.model.BookkeepingRecordType
 import com.wanbaohe.bookkeeping.model.CategoriesGrouped
 import com.wanbaohe.bookkeeping.screen.sheet.CategoryPickerSheet
 import java.time.LocalDate
-import com.t8rin.imagetoolbox.core.resources.icons.ArrowUpward
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCalendar
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBackspace
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineKeyboardArrowDown
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineKeyboardArrowUp
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineNote
 
 @Composable
@@ -490,7 +489,8 @@ private fun KeypadCollapseBar(
                 maxLines = 1,
             )
             Icon(
-                imageVector = if (expanded) Icons.Outlined.KeyboardArrowDown else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.ArrowUpward,
+                imageVector = if (expanded) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineKeyboardArrowDown
+                else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineKeyboardArrowUp,
                 contentDescription = toggleLabel,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )

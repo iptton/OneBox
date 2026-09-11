@@ -226,7 +226,7 @@ private fun SheetHeader(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                 contentDescription = stringResource(id = R.string.button_close),
-                modifier = Modifier.size(22.dp),
+                modifier = Modifier.size(30.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

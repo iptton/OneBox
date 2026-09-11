@@ -10,14 +10,17 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Edit
@@ -38,10 +41,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.halilibo.richtext.ui.material3.RichMarkdown
 import com.shifenmiao.ai.component.AIChatComponent
@@ -62,7 +71,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.LocalOnNavigate
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSurface
-import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalIconButton
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -82,7 +90,6 @@ private const val CHAT_QUICK_START_REFRESH_THRESHOLD = 8
 fun PlaceHolderMessageCard(
     conversation: Conversation,
     onSuggestionClick: (String) -> Unit = {},
-    onShowToolCenter: () -> Unit = {},
     onPushToRemote: () -> Unit = {},
     appComponent: AppComponent,
     aiChatComponent: AIChatComponent,
@@ -133,10 +140,6 @@ fun PlaceHolderMessageCard(
                 updatedAtMillis = promptCardState.updatedAtMillis,
                 isEditable = !promptCardState.isSystemPrompt &&
                         (promptCardState.source != Source.REMOTE || LoginUtils.isAdmin()),
-                currentModelTitle = currentAIModel.title.ifBlank { currentAIModel.name },
-                enabledToolCount = toolCenterUiState.enabledToolNames.size,
-                onModelClick = { chatInputComponent.showModelPicker() },
-                onToolClick = onShowToolCenter,
                 onPushToRemote = onPushToRemote,
                 emptyStateText = if (conversation.promptId != null) {
                     stringResource(R.string.ai_prompt_placeholder_loading_desc)
@@ -157,7 +160,7 @@ fun PlaceHolderMessageCard(
                 ) {
                     Text(
                         text = stringResource(id = R.string.ai_chat_placeholder_title),
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.bodyLarge,
                         color = AppTheme.colors.getPrimaryTextColor()
                     )
                     Text(
@@ -193,10 +196,6 @@ private fun PromptWorkCard(
     promptBadgeLabel: String?,
     updatedAtMillis: Long?,
     isEditable: Boolean,
-    currentModelTitle: String,
-    enabledToolCount: Int,
-    onModelClick: () -> Unit,
-    onToolClick: () -> Unit,
     onPushToRemote: () -> Unit = {},
     emptyStateText: String,
 ) {
@@ -207,11 +206,12 @@ private fun PromptWorkCard(
         mutableStateOf(false)
     }
     val expanded = expandedState.value
-    val previewText = message.lineSequence()
-        .map(String::trim)
-        .filter(String::isNotBlank)
-        .joinToString(separator = " ")
     val updatedAtText = updatedAtMillis?.takeIf { it > 0L }?.let(::formatPromptUpdatedAt)
+    val screenHeightDp = LocalConfiguration.current.screenHeightDp
+    val collapsedMaxHeight = (screenHeightDp / 2).dp
+    val screenHeightPx = with(LocalDensity.current) { screenHeightDp.dp.toPx() }
+    var expandedContentHeightPx by remember(promptId) { mutableIntStateOf(0) }
+    val showBottomActions = expanded && expandedContentHeightPx > screenHeightPx
 
     CustomChatCard(
         isHuman = false,
@@ -247,22 +247,16 @@ private fun PromptWorkCard(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 if (message.isNotBlank()) {
-                    GlassTonalIconButton(
-                        onClick = { Clipboard.copy(message) },
-                        modifier = Modifier
-                            .size(32.dp)
-                            .padding(end = 2.dp)
-                    ) {
-                        Icon(
-                            imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.ContentCopy,
-                            contentDescription = stringResource(R.string.copy),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(16.dp)
-                        )
-                    }
+                    CardActionIcon(
+                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.ContentCopy,
+                        contentDescription = stringResource(R.string.copy),
+                        onClick = { Clipboard.copy(message) }
+                    )
                 }
                 if (isEditable && promptId != null) {
-                    GlassTonalIconButton(
+                    CardActionIcon(
+                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Edit,
+                        contentDescription = stringResource(R.string.edit),
                         onClick = {
                             coroutineScope.launch {
                                 val safePromptId = promptId
@@ -278,47 +272,24 @@ private fun PromptWorkCard(
                                     )
                                 onNavigate(Screen.CreateAIChatPrompt(draftId = draftId))
                             }
-                        },
-                        modifier = Modifier
-                            .size(32.dp)
-                            .padding(end = 2.dp)
-                    ) {
-                        Icon(
-                            imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Edit,
-                            contentDescription = stringResource(R.string.edit),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(16.dp)
-                        )
-                    }
+                        }
+                    )
                 }
                 val showPushButton = LoginUtils.isAdmin()
                 if (showPushButton && promptId != null) {
-                    GlassTonalIconButton(
-                        onClick = onPushToRemote,
-                        modifier = Modifier
-                            .size(32.dp)
-                            .padding(end = 2.dp)
-                    ) {
-                        Icon(
-                            imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCloudUpload,
-                            contentDescription = stringResource(R.string.prompt_push_to_remote),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(16.dp)
-                        )
-                    }
+                    CardActionIcon(
+                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCloudUpload,
+                        contentDescription = stringResource(R.string.prompt_push_to_remote),
+                        onClick = onPushToRemote
+                    )
                 }
                 if (message.isNotBlank()) {
-                    GlassTonalIconButton(
-                        onClick = { expandedState.value = !expandedState.value },
-                        modifier = Modifier.size(32.dp)
-                    ) {
-                        Icon(
-                            imageVector = if (expanded) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(16.dp)
-                        )
-                    }
+                    CardActionIcon(
+                        imageVector = if (expanded) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore,
+                        contentDescription = null,
+                        iconSize = 22.dp,
+                        onClick = { expandedState.value = !expandedState.value }
+                    )
                 }
             }
 
@@ -329,28 +300,64 @@ private fun PromptWorkCard(
                     color = AppTheme.colors.getPrimaryTextColor()
                 )
             } else if (expanded) {
-                Column {
+                Column(
+                    modifier = Modifier.onGloballyPositioned { coordinates ->
+                        expandedContentHeightPx = coordinates.size.height
+                    }
+                ) {
                     RichMarkdown(content = message)
                 }
+                if (showBottomActions) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
+                    ) {
+                        CardActionIcon(
+                            imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.ContentCopy,
+                            contentDescription = stringResource(R.string.copy),
+                            onClick = { Clipboard.copy(message) }
+                        )
+                        CardActionIcon(
+                            imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess,
+                            contentDescription = null,
+                            iconSize = 22.dp,
+                            onClick = { expandedState.value = false }
+                        )
+                    }
+                }
             } else {
-                Text(
-                    text = previewText,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = AppTheme.colors.getPrimaryTextColor(),
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = collapsedMaxHeight)
+                        .clipToBounds()
+                ) {
+                    RichMarkdown(content = message)
+                }
             }
-
-            Spacer(modifier = Modifier.height(AppTheme.dimens.spaceNormal))
-            ChatSessionStatusBar(
-                currentModelTitle = currentModelTitle,
-                enabledToolCount = enabledToolCount,
-                onModelClick = onModelClick,
-                onToolClick = onToolClick
-            )
         }
     }
+}
+
+@Composable
+private fun CardActionIcon(
+    imageVector: ImageVector,
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    iconSize: Dp = 18.dp,
+    onClick: () -> Unit
+) {
+    Icon(
+        imageVector = imageVector,
+        contentDescription = contentDescription,
+        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = modifier
+            .clip(CircleShape)
+            .clickable(onClick = onClick)
+            .padding(6.dp)
+            .size(iconSize)
+    )
 }
 
 private fun formatPromptUpdatedAt(timestamp: Long): String {
@@ -361,9 +368,7 @@ private fun formatPromptUpdatedAt(timestamp: Long): String {
 @Composable
 private fun ChatSessionStatusBar(
     currentModelTitle: String,
-    enabledToolCount: Int? = null,
     onModelClick: () -> Unit,
-    onToolClick: (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
@@ -377,15 +382,6 @@ private fun ChatSessionStatusBar(
             value = currentModelTitle,
             onClick = onModelClick
         )
-        if(enabledToolCount != null && onToolClick != null) {
-            StatusCapsule(
-                modifier = Modifier.weight(1f),
-                title = stringResource(R.string.ai_chat_status_tools),
-                value = stringResource(R.string.ai_chat_status_tools_count, enabledToolCount),
-                highlighted = enabledToolCount > 0,
-                onClick = onToolClick
-            )
-        }
     }
 }
 

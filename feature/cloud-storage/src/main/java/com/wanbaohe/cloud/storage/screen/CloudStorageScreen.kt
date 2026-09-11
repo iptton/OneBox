@@ -152,7 +152,7 @@ fun CloudStorageScreen(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(20.dp),
+                        modifier = Modifier.size(26.dp),
                     )
                 }
             } else {
@@ -229,7 +229,7 @@ fun CloudStorageScreen(
                                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore,
                                     contentDescription = stringResource(R.string.cloud_storage_bucket_sheet_title),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.size(18.dp),
+                                    modifier = Modifier.size(24.dp),
                                 )
                             }
                             Spacer(modifier = Modifier.weight(1f))

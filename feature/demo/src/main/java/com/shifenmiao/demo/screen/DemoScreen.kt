@@ -105,7 +105,7 @@ fun DemoScreen(
                         Icon(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(22.dp)
                         )
                     }
                 },
@@ -137,7 +137,7 @@ fun DemoScreen(
                         Icon(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(22.dp)
                         )
                     }
                 },
@@ -166,7 +166,7 @@ fun DemoScreen(
                         Icon(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(22.dp)
                         )
                     }
                 },

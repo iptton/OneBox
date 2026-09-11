@@ -114,7 +114,7 @@ fun ReasoningCollapseSection(
                     },
                     contentDescription = null,
                     tint = contentColor,
-                    modifier = Modifier.size(12.dp),
+                    modifier = Modifier.size(16.dp),
                 )
             }
             if (expanded) {

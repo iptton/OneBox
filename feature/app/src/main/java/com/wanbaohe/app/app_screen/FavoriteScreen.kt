@@ -884,7 +884,7 @@ private fun ActivityLogCardContent(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronRight,
                 contentDescription = null,
-                modifier = Modifier.size(9.dp),
+                modifier = Modifier.size(12.dp),
                 tint = MaterialTheme.colorScheme.outline
             )
         }

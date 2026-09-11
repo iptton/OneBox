@@ -193,7 +193,7 @@ private fun ImageThumbnail(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                 contentDescription = stringResource(R.string.common_delete),
                 tint = Color.White,
-                modifier = Modifier.size(12.dp)
+                modifier = Modifier.size(16.dp)
             )
         }
     }

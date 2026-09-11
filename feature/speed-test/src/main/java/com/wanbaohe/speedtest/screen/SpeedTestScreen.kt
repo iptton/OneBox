@@ -394,7 +394,7 @@ private fun MeasuringContent(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                 contentDescription = stringResource(R.string.speed_test_cancel),
                 tint = MaterialTheme.colorScheme.onErrorContainer,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(26.dp)
             )
         }
 

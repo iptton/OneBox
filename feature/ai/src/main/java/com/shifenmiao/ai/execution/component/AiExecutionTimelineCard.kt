@@ -160,7 +160,7 @@ fun AiExecutionTimelineCard(
                             imageVector = if (isExpanded) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(12.dp)
+                            modifier = Modifier.size(16.dp)
                         )
                     }
                 }
@@ -499,7 +499,7 @@ private fun ToolCallDetailPanel(
                 imageVector = if (isExpanded) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(8.dp)
+                modifier = Modifier.size(10.dp)
             )
         }
         if (isExpanded) {
@@ -631,7 +631,7 @@ private fun StepStatusNode(status: ExecutionStepStatus) {
             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.error,
-            modifier = Modifier.size(18.dp)
+            modifier = Modifier.size(24.dp)
         )
 
         ExecutionStepStatus.PENDING -> Box(

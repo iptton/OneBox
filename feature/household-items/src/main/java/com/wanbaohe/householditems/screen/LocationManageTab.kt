@@ -331,7 +331,7 @@ private fun LocationTreeRow(
                             if (collapsed) R.string.household_location_expand
                             else R.string.household_location_collapse
                         ),
-                        modifier = Modifier.size(18.dp),
+                        modifier = Modifier.size(24.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }

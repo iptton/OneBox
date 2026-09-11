@@ -1,9 +1,15 @@
 package com.wanbaohe.a2ui.catalog.builtin.input
 
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.icons.Add
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineMinus
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStepper
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStyle
 import com.wanbaohe.a2ui.catalog.A2uiComponentRenderer
 import com.wanbaohe.a2ui.catalog.A2uiRenderContext
 import com.wanbaohe.a2ui.domain.model.A2uiComponent
@@ -42,6 +48,21 @@ class StepperRenderer @Inject constructor() : A2uiComponentRenderer {
             valueRange = min..max,
             step = step,
             enabled = enabled,
+            buttonStyle = GlassStyle.Transparent,
+            minusIcon = {
+                Icon(
+                    imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMinus,
+                    contentDescription = "decrease",
+                    modifier = Modifier.size(18.dp),
+                )
+            },
+            plusIcon = {
+                Icon(
+                    imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Add,
+                    contentDescription = "increase",
+                    modifier = Modifier.size(18.dp),
+                )
+            },
         )
     }
 }

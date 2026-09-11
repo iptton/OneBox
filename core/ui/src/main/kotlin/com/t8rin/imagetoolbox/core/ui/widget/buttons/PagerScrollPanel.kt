@@ -67,7 +67,7 @@ fun PagerScrollPanel(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronLeft,
                 contentDescription = null,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(26.dp)
             )
         }
 

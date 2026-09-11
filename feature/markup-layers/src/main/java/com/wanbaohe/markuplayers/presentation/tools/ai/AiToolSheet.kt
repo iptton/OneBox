@@ -157,7 +157,7 @@ private fun AiFeatureCard(
                 imageVector = Icons.Outlined.LineChevronRight,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(18.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
         // 单次消耗积分角标(值跟随远程配置)

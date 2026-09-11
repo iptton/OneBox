@@ -79,7 +79,7 @@ internal fun AIModelSelectorChip(
             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineKeyboardArrowDown,
             contentDescription = stringResource(R.string.create_ai_common_model_selector),
             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.85f),
-            modifier = Modifier.size(14.dp)
+            modifier = Modifier.size(18.dp)
         )
     }
 }
@@ -149,7 +149,7 @@ internal fun EditableMetaSection(
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                         contentDescription = stringResource(R.string.cancel),
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(26.dp)
                     )
                 }
                 IconButton(

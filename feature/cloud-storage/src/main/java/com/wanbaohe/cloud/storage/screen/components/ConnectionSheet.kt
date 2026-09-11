@@ -240,7 +240,7 @@ private fun SecretField(
                         Icon(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                             contentDescription = stringResource(R.string.cloud_storage_clear_field),
-                            modifier = Modifier.size(18.dp),
+                            modifier = Modifier.size(24.dp),
                         )
                     }
                 }
@@ -291,7 +291,7 @@ private fun ClearableField(
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                         contentDescription = stringResource(R.string.cloud_storage_clear_field),
-                        modifier = Modifier.size(18.dp),
+                        modifier = Modifier.size(24.dp),
                     )
                 }
             }

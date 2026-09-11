@@ -184,7 +184,7 @@ private fun CalendarCard(
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineArrowDropDown,
                         contentDescription = null,
-                        modifier = Modifier.size(16.dp),
+                        modifier = Modifier.size(22.dp),
                     )
                 }
                 IconButton(onClick = onNextMonth, colors = AppTheme.colors.iconButtonColors()) {

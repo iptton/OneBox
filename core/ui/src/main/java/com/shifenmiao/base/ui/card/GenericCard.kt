@@ -225,7 +225,7 @@ private fun ActionGridOverlay(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                     contentDescription = stringResource(com.shifenmiao.core.R.string.close),
                     tint = contentColor,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(22.dp)
                 )
             }
         }

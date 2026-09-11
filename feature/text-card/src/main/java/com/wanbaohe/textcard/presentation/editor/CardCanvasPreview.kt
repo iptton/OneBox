@@ -444,7 +444,7 @@ private fun ElementBox(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                     contentDescription = stringResource(R.string.textcard_delete_selected),
                     tint = MaterialTheme.colorScheme.onError,
-                    modifier = Modifier.size(14.dp)
+                    modifier = Modifier.size(18.dp)
                 )
             }
         }

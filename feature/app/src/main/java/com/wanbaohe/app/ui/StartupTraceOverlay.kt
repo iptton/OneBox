@@ -135,7 +135,7 @@ fun StartupTraceOverlay(
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                         contentDescription = stringResource(R.string.close),
-                        modifier = Modifier.size(16.dp),
+                        modifier = Modifier.size(22.dp),
                     )
                 }
             }

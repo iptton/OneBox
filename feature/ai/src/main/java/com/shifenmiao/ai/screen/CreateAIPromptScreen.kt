@@ -546,7 +546,7 @@ private fun PromptInputSection(
                         Icon(
                             com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Close,
                             contentDescription = null,
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(24.dp)
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(stringResource(R.string.create_ai_chat_prompt_cancel))

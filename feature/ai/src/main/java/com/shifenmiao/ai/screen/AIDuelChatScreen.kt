@@ -776,7 +776,7 @@ private fun DuelRoleConfigSection(
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronRight,
                         contentDescription = null,
-                        modifier = Modifier.size(10.dp)
+                        modifier = Modifier.size(14.dp)
                     )
                 }
             }
@@ -855,7 +855,7 @@ private fun DuelRoleConfigSection(
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronRight,
                         contentDescription = null,
-                        modifier = Modifier.size(12.dp),
+                        modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }

@@ -90,7 +90,7 @@ fun DraftsCarousel(
                 Icon(
                     if (expanded) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore,
                     contentDescription = if (expanded) collapseContentDescription else expandContentDescription,
-                    modifier = Modifier.size(20.dp),
+                    modifier = Modifier.size(26.dp),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }

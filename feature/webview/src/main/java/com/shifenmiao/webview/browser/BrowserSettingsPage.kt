@@ -449,7 +449,7 @@ private fun SettingsItem(
         Icon(
             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronRight,
             contentDescription = null,
-            modifier = Modifier.size(20.dp),
+            modifier = Modifier.size(26.dp),
             tint = MaterialTheme.colorScheme.outlineVariant
         )
     }
