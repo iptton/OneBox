@@ -1,0 +1,20 @@
+日夜间模式设置工具:读取或切换 App 的日间 / 夜间 / 跟随系统模式。
+
+这是只负责日夜间模式的独立窄入口;若要同时改主题颜色、玻璃效果、渐变背景等,
+请改用 theme_setting 工具。
+
+两个 action:
+- get:读取当前模式,响应 `nightMode` 为 "Light" / "Dark" / "System" 之一。
+- set:切换模式。`mode` 接受 "Light"(日间) / "Dark"(夜间) / "System"(跟随系统),
+  大小写不敏感,也识别中文"日间 / 夜间 / 跟随系统"。
+
+设置后全局即时生效,无需重启。
+
+示例:
+- "现在是夜间模式吗" → {"action": "get"}
+- "切换到夜间模式" → {"action": "set", "mode": "Dark"}
+- "打开深色模式" → {"action": "set", "mode": "Dark"}
+- "跟随系统" → {"action": "set", "mode": "System"}
+
+错误响应带 `reasonCode`("invalid_night_mode"、"missing_mode" 等)与 `message`,
+并附 `validOptions.nightModes` 供下次自纠。

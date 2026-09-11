@@ -1,0 +1,20 @@
+Night mode setting tool: read or switch the app's Light / Dark / System mode.
+
+This is a dedicated narrow entry for night mode only. To also change theme colors,
+glass effects or gradient backgrounds, use the theme_setting tool instead.
+
+Two actions:
+- get: read the current mode. Response `nightMode` is one of "Light" / "Dark" / "System".
+- set: switch mode. `mode` accepts "Light" (day) / "Dark" (night) / "System"
+  (follow system), case-insensitive; Chinese "日间 / 夜间 / 跟随系统" is also recognized.
+
+Changes take effect immediately across the whole app; no restart needed.
+
+Examples:
+- "is dark mode on" → {"action": "get"}
+- "switch to dark mode" → {"action": "set", "mode": "Dark"}
+- "turn on night mode" → {"action": "set", "mode": "Dark"}
+- "follow the system" → {"action": "set", "mode": "System"}
+
+Error responses carry `reasonCode` (e.g. "invalid_night_mode", "missing_mode")
+and `message`, plus `validOptions.nightModes` to help you self-correct.

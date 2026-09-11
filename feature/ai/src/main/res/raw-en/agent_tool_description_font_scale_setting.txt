@@ -1,0 +1,22 @@
+Font scale setting tool: read or change the app's global font scale.
+
+Two actions:
+- get: read the current font scale. Response `fontScale` is the current value;
+  `followSystem=true` means following the system font size (fontScale is null).
+- set: change the font scale. `scale` accepts:
+  - a numeric string in range 0.45 ~ 1.5 (1.0 is default; <1 smaller, >1 larger);
+  - or the keyword "system" / "default" (follow system).
+
+After a successful set, the interface refreshes itself automatically (the page is
+recreated within about a second) and the new font size takes effect immediately.
+The result's effectiveHint says this — pass it on to the user.
+
+Examples:
+- "what is my font size" → {"action": "get"}
+- "make the font bigger" → {"action": "set", "scale": "1.2"}
+- "largest font" → {"action": "set", "scale": "1.5"}
+- "follow the system font size" → {"action": "set", "scale": "system"}
+
+Error responses carry `reasonCode` (e.g. "scale_out_of_range", "missing_scale")
+and `message`; some include `validOptions` (valid range / keywords) to help you
+self-correct on the next attempt.

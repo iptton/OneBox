@@ -140,6 +140,7 @@ abstract class ComposeActivity : AppCompatActivity() {
             newOverride.fontScale = it
             AppTheme.fontScale = it
         }
+        appliedFontScale = settingsState.fontScale
         applyOverrideConfiguration(newOverride)
         super.attachBaseContext(newBase)
         StartupTrace.mark("ComposeActivity.attachBaseContext.exit")
@@ -160,6 +161,13 @@ abstract class ComposeActivity : AppCompatActivity() {
                 .settingsState
                 .onEach { state ->
                     _settingsState.update { state }
+                    // 字体缩放只能在 attachBaseContext 里应用, DataStore 值与已应用值
+                    // 不一致时(如 AI Agent 工具或设置页写入)自动 recreate 使其即时生效;
+                    // 冷启动首个 emit 与 attachBaseContext 的 MMKV 快照一致, 不会误触发
+                    if (state.fontScale != appliedFontScale) {
+                        appliedFontScale = state.fontScale
+                        recreate()
+                    }
                     handleSystemBarsBehavior()
                     handleSecureMode()
                     updateFirebaseParams()
@@ -337,6 +345,9 @@ abstract class ComposeActivity : AppCompatActivity() {
     }
 
     private var recreationJob: Job? by smartJob()
+
+    // attachBaseContext 实际应用的字体缩放(null = 跟随系统), 用于检测运行期变更
+    private var appliedFontScale: Float? = null
 
     override fun recreate() {
         recreationJob = activityScope.launch {

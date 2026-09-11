@@ -1,0 +1,20 @@
+字体大小(字体缩放)设置工具:读取或修改 App 全局字体缩放比例。
+
+两个 action:
+- get:读取当前字体缩放。响应 `fontScale` 为当前值;`followSystem=true` 表示跟随系统
+  (此时 fontScale 为 null,实际大小由系统设置决定)。
+- set:设置字体缩放。`scale` 接受:
+  - 数值字符串,范围 0.45 ~ 1.5(1.0 为默认大小,小于 1 缩小,大于 1 放大);
+  - 或关键字 "system" / "default"(跟随系统)。
+
+设置后界面会自动刷新(约 1 秒内重建页面),字体大小立即生效,
+结果中的 effectiveHint 已包含此说明,回复用户时请告知。
+
+示例:
+- "当前字体大小" → {"action": "get"}
+- "字体调大一点" → {"action": "set", "scale": "1.2"}
+- "字体调到最大" → {"action": "set", "scale": "1.5"}
+- "跟随系统字体大小" → {"action": "set", "scale": "system"}
+
+错误响应带 `reasonCode`("scale_out_of_range"、"missing_scale" 等)与 `message`,
+部分错误带 `validOptions`(合法范围 / 关键字)供下次自纠。

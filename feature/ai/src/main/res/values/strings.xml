@@ -973,7 +973,7 @@
     <string name="agent_tool_font_scale_setting_get_message">Current font scale read</string>
     <string name="agent_tool_font_scale_setting_set_message">Font scale set to %1$s</string>
     <string name="agent_tool_font_scale_setting_set_system_message">Font scale set to follow the system font size</string>
-    <string name="agent_tool_font_scale_setting_effective_hint">The font scale applies when pages are created; it fully takes effect after reopening pages or restarting the app</string>
+    <string name="agent_tool_font_scale_setting_effective_hint">The new font scale has been applied; the interface will refresh automatically within a second</string>
     <string name="agent_tool_font_scale_setting_deeplink_label">Display Settings</string>
     <string name="agent_tool_font_scale_setting_deeplink_guidance">Tap to fine-tune the font size in display settings</string>
 

@@ -1,0 +1,22 @@
+启动入口设置工具:查看或设置 App 冷启动后直达的页面(替代默认首页)。
+
+三个 action:
+- list:列出全部可设为启动页的候选页面,响应 `candidates` 为
+  [{"id", "title"} ...](id 是 set 时要用的数字),并附当前设置
+  `currentScreenId` 与 `isDefault`(是否默认首页)。
+- get:读取当前启动入口,响应 `current` 为 {"id", "title"},`isDefault` 表示默认首页。
+- set:设置启动入口。`screen_id` 接受:
+  - 候选页面的数字 id(来自 list 响应 candidates[i].id),如 "12";
+  - 或关键字 "default" / "home"(恢复默认首页)。
+
+重要:启动入口只在冷启动建栈时读取,**设置后仅下次冷启动生效**,
+结果中的 effectiveHint 已包含此说明,回复用户时请告知。
+
+示例:
+- "启动页可以设成哪些页面" → {"action": "list"}
+- "现在的启动入口是什么" → {"action": "get"}
+- "把启动页设为记事本" → 先 list 找到记事本的 id,再 {"action": "set", "screen_id": "<id>"}
+- "恢复默认启动页" → {"action": "set", "screen_id": "default"}
+
+错误响应带 `reasonCode`("unknown_screen_id"、"invalid_screen_id" 等)与
+`message`。遇到 unknown_screen_id 时应先调 list 获取合法 id 再重试。

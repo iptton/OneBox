@@ -973,7 +973,7 @@
     <string name="agent_tool_font_scale_setting_get_message">已读取当前字体缩放</string>
     <string name="agent_tool_font_scale_setting_set_message">字体缩放已设为 %1$s</string>
     <string name="agent_tool_font_scale_setting_set_system_message">字体大小已设为跟随系统</string>
-    <string name="agent_tool_font_scale_setting_effective_hint">字体缩放在页面创建时应用,重新打开页面或重启 App 后完全生效</string>
+    <string name="agent_tool_font_scale_setting_effective_hint">新的字体大小已应用,界面会在约 1 秒内自动刷新生效</string>
     <string name="agent_tool_font_scale_setting_deeplink_label">显示设置</string>
     <string name="agent_tool_font_scale_setting_deeplink_guidance">点击前往显示设置微调字体大小</string>
 

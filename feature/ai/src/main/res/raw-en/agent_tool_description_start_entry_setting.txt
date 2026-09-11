@@ -1,0 +1,27 @@
+Start entry setting tool: view or change which page the app opens directly into
+after a cold start (instead of the default home page).
+
+Three actions:
+- list: list every page that can be a start entry. Response `candidates` is
+  [{"id", "title"}, ...] (the numeric id is what `set` needs), plus the current
+  `currentScreenId` and `isDefault` (whether it's the default home page).
+- get: read the current start entry. Response `current` is {"id", "title"};
+  `isDefault` means the default home page.
+- set: change the start entry. `screen_id` accepts:
+  - a candidate's numeric id (from list response candidates[i].id), e.g. "12";
+  - or the keyword "default" / "home" (restore the default home page).
+
+Important: the start entry is only read when the cold-start navigation stack is
+built, so changes **only take effect on the next cold start**. The result's
+effectiveHint says this — pass it on to the user.
+
+Examples:
+- "which pages can be the start page" → {"action": "list"}
+- "what is my current start entry" → {"action": "get"}
+- "set the start page to notes" → first call list to find the notes page id,
+  then {"action": "set", "screen_id": "<id>"}
+- "restore the default start page" → {"action": "set", "screen_id": "default"}
+
+Error responses carry `reasonCode` (e.g. "unknown_screen_id",
+"invalid_screen_id") and `message`. On unknown_screen_id, call list first to
+get valid ids, then retry.
