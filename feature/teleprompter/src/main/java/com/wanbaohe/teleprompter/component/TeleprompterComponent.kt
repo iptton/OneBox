@@ -5,6 +5,7 @@ import com.shifenmiao.database.teleprompter.entity.TeleprompterScriptEntity
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.wanbaohe.teleprompter.R
 import com.wanbaohe.teleprompter.service.TeleprompterService
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -95,6 +96,20 @@ class TeleprompterComponent @AssistedInject internal constructor(
             originalContent = "",
         )
         _currentPage.value = Page.EDITOR
+    }
+
+    /** 空态引导:跳转 AI 聊天,用自然语言生成提词稿。 */
+    fun navigateToAiAssist() {
+        onNavigate(
+            Screen.AITabChatScreen(
+                com.shifenmiao.model.ai.Conversation(
+                    entryType = com.shifenmiao.model.ai.AIConversationEntryType.ASSISTANT,
+                    title = com.shifenmiao.interfaces.singleton.AppContext.getString(R.string.teleprompter_ai_assist_title),
+                    prompt = com.shifenmiao.interfaces.singleton.AppContext.getString(R.string.teleprompter_ai_assist_prompt),
+                    template = com.shifenmiao.interfaces.singleton.AppContext.getString(R.string.teleprompter_ai_assist_fill_in),
+                )
+            )
+        )
     }
 
     fun onEditScript(script: TeleprompterScriptEntity) {

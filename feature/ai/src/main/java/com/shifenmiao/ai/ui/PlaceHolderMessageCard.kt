@@ -416,7 +416,11 @@ fun ChatQuickStartSection(
         stringResource(R.string.ai_chat_quick_start_9),
         stringResource(R.string.ai_chat_quick_start_10),
         stringResource(R.string.ai_chat_quick_start_11),
-        stringResource(R.string.ai_chat_quick_start_12)
+        stringResource(R.string.ai_chat_quick_start_12),
+        stringResource(R.string.ai_chat_quick_start_13),
+        stringResource(R.string.ai_chat_quick_start_14),
+        stringResource(R.string.ai_chat_quick_start_15),
+        stringResource(R.string.ai_chat_quick_start_16),
     )
     val starters = RemoteConfigStorage.getRemoteConfig()
         .chatQuickStartPrompts

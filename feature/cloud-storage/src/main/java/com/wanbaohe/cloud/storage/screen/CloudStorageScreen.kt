@@ -56,7 +56,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.shifenmiao.base.ui.empty.EmptyStateGuide
+import com.shifenmiao.base.ui.empty.EmptyStateGuideAction
 import com.shifenmiao.common.ui.BaseScreen
+import com.shifenmiao.interfaces.singleton.AppContext
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxBottomActionBar
@@ -84,6 +87,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineFolder
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineExpandMore
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineWarning
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCloudUpload
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAutoFix
 
 @Composable
 fun CloudStorageScreen(
@@ -277,13 +281,9 @@ fun CloudStorageScreen(
             }
 
             if (currentConnection == null) {
-                CloudStatePlaceholder(
-                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCloudStorage,
-                    title = stringResource(R.string.cloud_storage_no_connection_title),
-                    desc = stringResource(R.string.cloud_storage_no_connection_desc),
-                    actionText = stringResource(R.string.cloud_storage_no_connection_action),
-                    onActionClick = { showConnectionSheet = true },
-                    modifier = Modifier.weight(1f)
+                CloudNoConnectionGuide(
+                    onAddManually = { showConnectionSheet = true },
+                    modifier = Modifier.weight(1f),
                 )
             } else {
                 FilesContent(
@@ -629,4 +629,45 @@ private fun CloudStatePlaceholder(
 private fun copyToClipboard(context: Context, text: String) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     clipboard.setPrimaryClip(ClipData.newPlainText("cloud-storage-url", text))
+}
+
+@Composable
+private fun CloudNoConnectionGuide(
+    onAddManually: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val onNavigate = com.t8rin.imagetoolbox.core.ui.utils.navigation.LocalOnNavigate.current
+    EmptyStateGuide(
+        icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCloudStorage,
+        title = stringResource(R.string.cloud_storage_no_connection_title),
+        description = stringResource(R.string.cloud_storage_no_connection_desc),
+        actions = listOf(
+            EmptyStateGuideAction(
+                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Add,
+                title = stringResource(R.string.cloud_storage_no_connection_action),
+                description = stringResource(R.string.cloud_storage_add_manually_desc),
+                onClick = onAddManually,
+            ),
+            EmptyStateGuideAction(
+                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
+                title = stringResource(R.string.cloud_storage_ai_assist_title),
+                description = stringResource(R.string.cloud_storage_ai_assist_fill_in),
+                onClick = {
+                    onNavigate(
+                        com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AITabChatScreen(
+                            com.shifenmiao.model.ai.Conversation(
+                                entryType = com.shifenmiao.model.ai.AIConversationEntryType.ASSISTANT,
+                                title = AppContext.getString(R.string.cloud_storage_ai_assist_title),
+                                prompt = AppContext.getString(R.string.cloud_storage_ai_assist_prompt),
+                                template = AppContext.getString(R.string.cloud_storage_ai_assist_fill_in),
+                            )
+                        )
+                    )
+                },
+                emphasized = true,
+            ),
+        ),
+        footerHint = stringResource(R.string.cloud_storage_no_connection_desc),
+        modifier = modifier,
+    )
 }

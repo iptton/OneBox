@@ -32,6 +32,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.shifenmiao.base.ui.empty.EmptyStateGuide
+import com.shifenmiao.base.ui.empty.EmptyStateGuideAction
 import com.shifenmiao.common.ui.BaseScreen
 import com.wanbaohe.teleprompter.R
 import com.wanbaohe.teleprompter.component.TeleprompterComponent
@@ -39,6 +41,8 @@ import com.wanbaohe.teleprompter.ui.ScriptCard
 
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.resources.icons.Add
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineTeleprompter
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAutoFix
 
 /**
  * 文稿列表页 (Script Library)
@@ -72,19 +76,27 @@ fun TeleprompterListScreen(
                 CircularProgressIndicator()
             }
         } else if (state.scripts.isEmpty()) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(32.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.teleprompter_empty),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center,
-                )
-            }
+            EmptyStateGuide(
+                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTeleprompter,
+                title = stringResource(R.string.teleprompter_empty_title),
+                description = stringResource(R.string.teleprompter_empty_description),
+                actions = listOf(
+                    EmptyStateGuideAction(
+                        icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Add,
+                        title = stringResource(R.string.teleprompter_new_script),
+                        description = stringResource(R.string.teleprompter_empty_manual_desc),
+                        onClick = { component.onNewScript() },
+                    ),
+                    EmptyStateGuideAction(
+                        icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
+                        title = stringResource(R.string.teleprompter_empty_go_ai),
+                        description = stringResource(R.string.teleprompter_empty_ai_desc),
+                        onClick = component::navigateToAiAssist,
+                        emphasized = true,
+                    ),
+                ),
+                footerHint = stringResource(R.string.teleprompter_empty),
+            )
         } else {
             // 统计头
             Row(

@@ -201,4 +201,12 @@
     <string name="agent_tool_record_center_open_link">Sağlık Kayıtlarını Aç</string>
     <string name="agent_tool_record_center_field_optional"> (isteğe bağlı)</string>
     <string name="agent_tool_record_center_unknown_error">bilinmeyen hata</string>
+    <string name="record_center_empty_title">Henüz sağlık kaydı yok</string>
+
+    <string name="record_center_empty_description">Elle ekleyin veya yapay zekâya durumunuzu anlatın</string>
+    <string name="record_center_add_manually">Elle ekle</string>
+    <string name="record_center_add_manually_description">Değer ve saati özelleştirin</string>
+    <string name="record_center_ai_assist_title">Sağlık Kaydı Asistanı</string>
+    <string name="record_center_ai_assist_prompt">Kullanıcının sağlık kaydı asistanısın. Sağlık verisi anlatıldığında add_health_record ile kaydet.</string>
+    <string name="record_center_ai_assist_fill_in">Bugün tansiyonum 120/80, lütfen kaydet</string>
 </resources>

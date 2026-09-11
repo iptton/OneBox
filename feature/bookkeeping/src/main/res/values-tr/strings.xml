@@ -161,4 +161,15 @@
     <string name="bookkeeping_cat_creditcard">Kredi Kartı Ödemesi</string>
     <string name="bookkeeping_cat_transfer_out">Transfer</string>
     <string name="bookkeeping_cat_excl_other">Diğer</string>
+    <string name="bookkeeping_empty_title">Henüz kayıt yok</string>
+
+    <string name="bookkeeping_empty_description">Elle bir giriş ekleyin veya yapay zekâya ihtiyacınızı söyleyin.</string>
+    <string name="bookkeeping_add_manually">Kayıt ekle</string>
+    <string name="bookkeeping_add_manually_description">Kategori ve tutarı özelleştirin</string>
+    <string name="bookkeeping_add_with_ai">YZ kaydetsin</string>
+    <string name="bookkeeping_add_with_ai_description">Gelir veya gideri anlatın, YZ giriş oluştursun</string>
+    <string name="bookkeeping_created_content_hint">Yeni kayıtlar burada görünecek</string>
+    <string name="bookkeeping_ai_assist_title">Muhasebe Asistanı</string>
+    <string name="bookkeeping_ai_assist_prompt">Kullanıcının muhasebe asistanısın. Doğal dille gelir veya gider anlatıldığında add_bookkeeping_record ile kaydet.</string>
+    <string name="bookkeeping_ai_assist_fill_in">Öğle yemeği 28 tuttu, yemek kategorisine kaydet</string>
 </resources>

@@ -201,4 +201,12 @@
     <string name="agent_tool_record_center_open_link">Abrir Registros de Saúde</string>
     <string name="agent_tool_record_center_field_optional"> (opcional)</string>
     <string name="agent_tool_record_center_unknown_error">erro desconhecido</string>
+    <string name="record_center_empty_title">Ainda não há registros de saúde</string>
+
+    <string name="record_center_empty_description">Adicione manualmente ou conte à IA como você está</string>
+    <string name="record_center_add_manually">Adicionar manualmente</string>
+    <string name="record_center_add_manually_description">Personalize valor e horário</string>
+    <string name="record_center_ai_assist_title">Assistente de registros de saúde</string>
+    <string name="record_center_ai_assist_prompt">Você é o assistente de registros de saúde. Quando o usuário descrever dados de saúde, registre com add_health_record.</string>
+    <string name="record_center_ai_assist_fill_in">Minha pressão arterial hoje é 120/80, por favor registre</string>
 </resources>

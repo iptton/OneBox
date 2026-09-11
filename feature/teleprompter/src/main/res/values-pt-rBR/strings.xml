@@ -49,4 +49,13 @@
     <string name="agent_tool_manage_teleprompter_deeplink_guidance_edit">Abrir o editor para este roteiro</string>
     <string name="agent_tool_manage_teleprompter_deeplink_label_play">Reproduzir Roteiro</string>
     <string name="agent_tool_manage_teleprompter_deeplink_guidance_play">Iniciar a reprodução do teleprompter agora</string>
+    <string name="teleprompter_empty_title">Ainda não há roteiros</string>
+
+    <string name="teleprompter_empty_description">Crie um manualmente ou peça à IA para redigir</string>
+    <string name="teleprompter_empty_manual_desc">Começar com um roteiro em branco</string>
+    <string name="teleprompter_empty_ai_desc">Descreva a cena e a duração</string>
+    <string name="teleprompter_empty_go_ai">Escrever com IA</string>
+    <string name="teleprompter_ai_assist_title">Assistente de roteiros de teleprompter</string>
+    <string name="teleprompter_ai_assist_prompt">Você é o assistente de roteiros. Quando o usuário descrever cena, duração ou tema, crie ou atualize com manage_teleprompter.</string>
+    <string name="teleprompter_ai_assist_fill_in">Escreva um roteiro de abertura de 30 segundos para meu teleprompter</string>
 </resources>

@@ -115,6 +115,7 @@ class PeriodComponent @AssistedInject internal constructor(
                     entryType = AIConversationEntryType.ASSISTANT,
                     title = AppContext.getString(R.string.period_ai_assist_title),
                     prompt = AppContext.getString(R.string.period_ai_assist_prompt),
+                    template = AppContext.getString(R.string.period_ai_assist_fill_in),
                 )
             )
         )

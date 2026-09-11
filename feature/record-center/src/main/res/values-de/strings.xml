@@ -201,4 +201,12 @@
     <string name="agent_tool_record_center_open_link">Gesundheitsdaten öffnen</string>
     <string name="agent_tool_record_center_field_optional"> (optional)</string>
     <string name="agent_tool_record_center_unknown_error">unbekannter Fehler</string>
+    <string name="record_center_empty_title">Noch keine Gesundheitsdaten</string>
+
+    <string name="record_center_empty_description">Füge manuell einen Eintrag hinzu oder erzähle es der KI</string>
+    <string name="record_center_add_manually">Manuell hinzufügen</string>
+    <string name="record_center_add_manually_description">Wert und Zeit anpassen</string>
+    <string name="record_center_ai_assist_title">Gesundheitsdaten-Assistent</string>
+    <string name="record_center_ai_assist_prompt">Du bist der Gesundheitsdaten-Assistent. Beschreibt der Nutzer Gesundheitsdaten, erfasse sie mit add_health_record.</string>
+    <string name="record_center_ai_assist_fill_in">Mein Blutdruck ist heute 120/80, bitte erfasse das</string>
 </resources>

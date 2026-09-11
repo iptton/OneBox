@@ -49,4 +49,13 @@
     <string name="agent_tool_manage_teleprompter_deeplink_guidance_edit">Bu senaryo için düzenleyiciyi aç</string>
     <string name="agent_tool_manage_teleprompter_deeplink_label_play">Senaryoyu Oynat</string>
     <string name="agent_tool_manage_teleprompter_deeplink_guidance_play">Teleprompter oynatımını şimdi başlat</string>
+    <string name="teleprompter_empty_title">Henüz metin yok</string>
+
+    <string name="teleprompter_empty_description">Elle oluşturun veya yapay zekâya yazdırın</string>
+    <string name="teleprompter_empty_manual_desc">Boş metinden başlayın</string>
+    <string name="teleprompter_empty_ai_desc">Sahneyi ve süreyi anlatın</string>
+    <string name="teleprompter_empty_go_ai">YZ ile yaz</string>
+    <string name="teleprompter_ai_assist_title">Teleprompter Metin Asistanı</string>
+    <string name="teleprompter_ai_assist_prompt">Teleprompter metin asistanısın. Sahne, süre veya konu anlatıldığında manage_teleprompter ile metin oluştur/güncelle.</string>
+    <string name="teleprompter_ai_assist_fill_in">Teleprompter\'ım için 30 saniyelik bir açılış metni yaz</string>
 </resources>

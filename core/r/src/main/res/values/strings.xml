@@ -593,7 +593,7 @@
     <string name="ai_prompt_placeholder_loading_desc">Loading this prompt. If it still does not appear after a while, the prompt may have been deleted or failed to sync.</string>
     <string name="ai_prompt_placeholder_missing_desc">This prompt is missing a valid link, so its original content cannot be shown right now. You can go back and try again or edit the prompt again.</string>
     <string name="ai_prompt_system_read_only_desc">System prompts can be copied, but they cannot be edited directly.</string>
-    <string name="ai_chat_quick_start_1">Record one of today\'s expenses for me and organize it into the right category</string>
+    <string name="ai_chat_quick_start_1">Lunch cost 28, record it under dining</string>
     <string name="ai_chat_quick_start_2">Turn this requirement into a note and a practical task list</string>
     <string name="ai_chat_quick_start_3">Read the QR code or barcode in this image and explain what it is</string>
     <string name="ai_chat_quick_start_4">Check this file\'s hash and help me confirm whether it has changed</string>
@@ -601,8 +601,14 @@
     <string name="ai_chat_quick_start_6">Search the local files for related content first, then summarize the key findings</string>
     <string name="ai_chat_quick_start_7">Search the web for this topic and turn the result into a concise conclusion</string>
     <string name="ai_chat_quick_start_8">Open the right screen for this task, then tell me the next step if needed</string>
-    <string name="ai_chat_quick_start_9">Add an SMB share for the media directory on 192.168.1.10 with username admin and password xxx</string>
-    <string name="ai_chat_quick_start_10">After connecting to this SMB share, browse the media directory and surface the most recently updated files</string>
+    <string name="ai_chat_quick_start_9">Help me add an Aliyun OSS connection to back up photos</string>
+    <string name="ai_chat_quick_start_10">Help me create a tech-style color theme</string>
+    <string name="ai_chat_quick_start_11">Generate a famous Xiangqi endgame puzzle</string>
+    <string name="ai_chat_quick_start_12">Convert images into a PDF</string>
+    <string name="ai_chat_quick_start_13">My blood pressure is 120/80 today, please record it</string>
+    <string name="ai_chat_quick_start_14">My period started yesterday with noticeable cramps</string>
+    <string name="ai_chat_quick_start_15">Write a 30-second opening script for my teleprompter</string>
+    <string name="ai_chat_quick_start_16">Help me put together a weekend trip guide webpage</string>
     <string name="ai_chat_jump_to_latest_streaming">New content being generated, tap to go to bottom</string>
     <string name="ai_chat_jump_to_latest_message">New message, tap to view</string>
     <string name="ai_chat_message_limit_notice">Only the last 50 messages are shown. Older messages are archived.</string>
@@ -1725,10 +1731,6 @@ Hint: If you choose "Hide Forever", you can bring me back later in Settings > Di
     <string name="ai_chat_engine_unavailable_dialog_message_overseas">No AI engine is available. Please configure an API token in engine settings, or switch to an engine with an available proxy, before sending.</string>
     <string name="ai_chat_engine_unavailable_banner_action">Open settings</string>
     <string name="ai_chat_empty_response_error">The model returned nothing to display. Try again — if it keeps failing, switch engines or check protocol compatibility.</string>
-
-    <!-- AI quick starts -->
-    <string name="ai_chat_quick_start_11">Generate a famous Xiangqi endgame puzzle</string>
-    <string name="ai_chat_quick_start_12">Convert images into a PDF</string>
 
     <!-- AI content / execution details -->
     <string name="ai_content_notice_short">AI-generated</string>

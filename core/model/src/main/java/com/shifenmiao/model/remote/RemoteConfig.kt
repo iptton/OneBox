@@ -491,5 +491,9 @@ private fun defaultChatQuickStartPrompts(): List<String> = listOf(
     AppContext.getString(R.string.ai_chat_quick_start_10),
     AppContext.getString(R.string.ai_chat_quick_start_11),
     AppContext.getString(R.string.ai_chat_quick_start_12),
+    AppContext.getString(R.string.ai_chat_quick_start_13),
+    AppContext.getString(R.string.ai_chat_quick_start_14),
+    AppContext.getString(R.string.ai_chat_quick_start_15),
+    AppContext.getString(R.string.ai_chat_quick_start_16),
 )
 

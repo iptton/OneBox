@@ -201,4 +201,12 @@
     <string name="agent_tool_record_center_open_link">Buka Catatan Kesehatan</string>
     <string name="agent_tool_record_center_field_optional"> (opsional)</string>
     <string name="agent_tool_record_center_unknown_error">kesalahan tidak diketahui</string>
+    <string name="record_center_empty_title">Belum ada catatan kesehatan</string>
+
+    <string name="record_center_empty_description">Tambahkan manual, atau ceritakan kondisi Anda ke AI</string>
+    <string name="record_center_add_manually">Tambah manual</string>
+    <string name="record_center_add_manually_description">Sesuaikan nilai dan waktu</string>
+    <string name="record_center_ai_assist_title">Asisten Catatan Kesehatan</string>
+    <string name="record_center_ai_assist_prompt">Anda asisten catatan kesehatan. Saat pengguna mendeskripsikan data kesehatan, catat dengan add_health_record.</string>
+    <string name="record_center_ai_assist_fill_in">Tekanan darah saya hari ini 120/80, tolong dicatat</string>
 </resources>

@@ -201,4 +201,12 @@
     <string name="agent_tool_record_center_open_link">健康記録を開く</string>
     <string name="agent_tool_record_center_field_optional"> (任意)</string>
     <string name="agent_tool_record_center_unknown_error">不明なエラー</string>
+    <string name="record_center_empty_title">まだ健康記録がありません</string>
+
+    <string name="record_center_empty_description">手動で追加するか、AIに体調を伝えて記録してもらえます</string>
+    <string name="record_center_add_manually">手動で追加</string>
+    <string name="record_center_add_manually_description">数値と時間を自由に設定</string>
+    <string name="record_center_ai_assist_title">健康記録アシスタント</string>
+    <string name="record_center_ai_assist_prompt">あなたは健康記録アシスタントです。ユーザーが健康データを伝えたら、add_health_record で記録してください。</string>
+    <string name="record_center_ai_assist_fill_in">今日の血圧は120/80です。記録して</string>
 </resources>

@@ -345,7 +345,28 @@ open class AIChatComponent @AssistedInject internal constructor(
 
     override fun initReady() {
         maybeCleanupOldToolTasks()
+        applyEmptyStateFillIn()
         loadMessages()
+    }
+
+    /**
+     * 空态引导进入时，把填充词填进输入框；填入后清空 template，
+     * 避免发送时再拼接一次导致重复。
+     *
+     * 仅处理 ASSISTANT + 显式 system prompt 的场景；
+     * 提示词模板（PROMPT）仍保留发送时静默拼接 template 的原行为。
+     */
+    private fun applyEmptyStateFillIn() {
+        val source = initialConversation
+        if (!AiUtils.isAssistant(source)) return
+        if (source.prompt.isBlank()) return
+        val fillIn = source.template?.trim().orEmpty()
+        if (fillIn.isEmpty()) return
+        if (chatInputComponent.chatInputState.value.inputText.isNotBlank()) return
+        chatInputComponent.onInputTextChange(fillIn)
+        if (!_conversation.value.template.isNullOrBlank()) {
+            _conversation.value = _conversation.value.copy(template = null)
+        }
     }
 
     private fun maybeCleanupOldToolTasks() {

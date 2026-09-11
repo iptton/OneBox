@@ -41,6 +41,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.shifenmiao.common.ui.BaseScreen
 import com.shifenmiao.base.ui.StreamingMarkdownContent
+import com.shifenmiao.base.ui.empty.EmptyStateGuide
+import com.shifenmiao.base.ui.empty.EmptyStateGuideAction
 import com.shifenmiao.base.utils.ActionUtils
 import com.shifenmiao.base.utils.aiHealthInsightPointsCost
 import com.shifenmiao.database.recordcenter.entity.HealthRecordEntity
@@ -49,6 +51,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMagic
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAutoFix
 import com.t8rin.imagetoolbox.core.ui.widget.charts.LineTrendChart
 import com.t8rin.imagetoolbox.core.ui.widget.charts.TrendSeries
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
@@ -142,6 +145,7 @@ fun RecordListScreen(component: RecordListComponent) {
                     },
                     onEditRecord = component::navigateToEditRecord,
                     onDeleteRecord = { pendingDeleteRecordId = it },
+                    onAddRecord = component::navigateToAddRecord,
                     onGoAiChat = component::navigateToAiChat,
                 )
             }
@@ -207,6 +211,7 @@ private fun RecordListContent(
     onGenerateInsight: () -> Unit,
     onEditRecord: (String) -> Unit,
     onDeleteRecord: (String) -> Unit,
+    onAddRecord: () -> Unit,
     onGoAiChat: () -> Unit,
 ) {
     LazyColumn(
@@ -247,22 +252,28 @@ private fun RecordListContent(
 
         if (records.isEmpty()) {
             item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 32.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    Text(
-                        text = stringResource(R.string.record_center_empty),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    // 空态引导:去 AI 助手对话记录健康数据
-                    GlassTonalButton(onClick = onGoAiChat) {
-                        Text(text = stringResource(R.string.record_center_empty_go_ai))
-                    }
-                }
+                EmptyStateGuide(
+                    icon = definition.icon,
+                    title = stringResource(R.string.record_center_empty_title),
+                    description = stringResource(R.string.record_center_empty_description),
+                    actions = listOf(
+                        EmptyStateGuideAction(
+                            icon = Icons.Outlined.Add,
+                            title = stringResource(R.string.record_center_add_manually),
+                            description = stringResource(R.string.record_center_add_manually_description),
+                            onClick = onAddRecord,
+                        ),
+                        EmptyStateGuideAction(
+                            icon = Icons.Outlined.LineAutoFix,
+                            title = stringResource(R.string.record_center_empty_go_ai),
+                            description = stringResource(R.string.record_center_empty_description),
+                            onClick = onGoAiChat,
+                            emphasized = true,
+                        ),
+                    ),
+                    footerHint = stringResource(R.string.record_center_empty_description),
+                    modifier = Modifier.fillParentMaxSize(),
+                )
             }
         } else {
             items(

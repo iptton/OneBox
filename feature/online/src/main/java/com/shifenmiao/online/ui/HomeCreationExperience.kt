@@ -7,16 +7,13 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Edit
@@ -30,10 +27,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.shifenmiao.base.ui.empty.EmptyStateGuide
+import com.shifenmiao.base.ui.empty.EmptyStateGuideAction
 import com.shifenmiao.core.R
 import com.shifenmiao.model.ListItemType
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAgent
@@ -54,86 +52,53 @@ fun HomeEmptyState(
     onClearFilter: () -> Unit = {},
 ) {
     val typeName = listTypeDisplayName(listType)
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp, vertical = 32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Box(
-            modifier = Modifier
-                .size(112.dp)
-                .glassThin(
-                    shape = CircleShape,
-                    color = MaterialTheme.colorScheme.primaryContainer,
+    EmptyStateGuide(
+        icon = if (isFiltered) {
+            com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix
+        } else {
+            listTypeIcon(listType)
+        },
+        title = stringResource(
+            if (isFiltered) R.string.home_filter_empty_title else R.string.home_empty_title,
+            typeName,
+        ),
+        description = stringResource(
+            if (isFiltered) R.string.home_filter_empty_description
+            else R.string.home_empty_description,
+        ),
+        actions = if (isFiltered) {
+            listOf(
+                EmptyStateGuideAction(
+                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
+                    title = stringResource(R.string.home_clear_filter),
+                    description = stringResource(R.string.home_clear_filter_description),
+                    onClick = onClearFilter,
                 ),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                imageVector = if (isFiltered) {
-                    com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix
-                } else listTypeIcon(listType),
-                contentDescription = null,
-                modifier = Modifier.size(52.dp),
-                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.78f),
-            )
-        }
-        Spacer(Modifier.height(24.dp))
-        Text(
-            text = stringResource(
-                if (isFiltered) R.string.home_filter_empty_title else R.string.home_empty_title,
-                typeName,
-            ),
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center,
-        )
-        Spacer(Modifier.height(8.dp))
-        Text(
-            text = stringResource(
-                if (isFiltered) R.string.home_filter_empty_description
-                else R.string.home_empty_description,
-            ),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
-        Spacer(Modifier.height(28.dp))
-
-        if (isFiltered) {
-            CreationActionCard(
-                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
-                title = stringResource(R.string.home_clear_filter),
-                description = stringResource(R.string.home_clear_filter_description),
-                onClick = onClearFilter,
             )
         } else {
-            CreationActionCard(
-                icon = Icons.Outlined.Edit,
-                title = stringResource(R.string.home_create_manual),
-                description = stringResource(R.string.home_create_manual_description, typeName),
-                onClick = onManualCreate,
+            listOf(
+                EmptyStateGuideAction(
+                    icon = Icons.Outlined.Edit,
+                    title = stringResource(R.string.home_create_manual),
+                    description = stringResource(R.string.home_create_manual_description, typeName),
+                    onClick = onManualCreate,
+                ),
+                EmptyStateGuideAction(
+                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
+                    title = stringResource(R.string.home_create_with_ai),
+                    description = stringResource(R.string.home_create_with_ai_description, typeName),
+                    onClick = onAiCreate,
+                    emphasized = true,
+                ),
             )
-            Spacer(Modifier.height(12.dp))
-            CreationActionCard(
-                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
-                title = stringResource(R.string.home_create_with_ai),
-                description = stringResource(R.string.home_create_with_ai_description, typeName),
-                onClick = onAiCreate,
-                emphasized = true,
-            )
-            Spacer(Modifier.height(18.dp))
-            Text(
-                text = stringResource(R.string.home_created_content_hint),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.72f),
-                textAlign = TextAlign.Center,
-            )
-        }
-    }
+        },
+        footerHint = if (isFiltered) {
+            null
+        } else {
+            stringResource(R.string.home_created_content_hint)
+        },
+        modifier = modifier,
+    )
 }
 
 @Composable

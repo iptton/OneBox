@@ -38,6 +38,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.shifenmiao.base.ui.empty.EmptyStateGuide
+import com.shifenmiao.base.ui.empty.EmptyStateGuideAction
 import com.shifenmiao.common.ui.BaseScreen
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Add
@@ -171,109 +173,27 @@ private fun PeriodEmptyState(
     onAiAssist: () -> Unit,
     onManual: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Box(
-            modifier = Modifier
-                .size(180.dp)
-                .clip(CircleShape)
-                .background(colors.accentSoft),
-            contentAlignment = Alignment.Center,
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(104.dp)
-                    .clip(CircleShape)
-                    .background(colors.accentContainer),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.LineWoman,
-                    contentDescription = null,
-                    tint = colors.accent,
-                    modifier = Modifier.size(52.dp),
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(end = 18.dp, bottom = 18.dp)
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(colors.accent),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.LineAiChat,
-                    contentDescription = null,
-                    tint = colors.onAccent,
-                    modifier = Modifier.size(22.dp),
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            text = stringResource(R.string.period_empty_title),
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
-            color = colors.onSurface,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = stringResource(R.string.period_empty_subtitle),
-            style = MaterialTheme.typography.bodyMedium,
-            color = colors.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
-        Spacer(modifier = Modifier.height(32.dp))
-        Button(
-            onClick = onAiAssist,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
-            shape = RoundedCornerShape(26.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colors.accent,
-                contentColor = colors.onAccent,
+    EmptyStateGuide(
+        icon = Icons.Outlined.LineWoman,
+        title = stringResource(R.string.period_empty_title),
+        description = stringResource(R.string.period_empty_subtitle),
+        actions = listOf(
+            EmptyStateGuideAction(
+                icon = Icons.Outlined.LineAutoFix,
+                title = stringResource(R.string.period_ai_quick_record),
+                description = stringResource(R.string.period_empty_example),
+                onClick = onAiAssist,
+                emphasized = true,
             ),
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.LineAutoFix,
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = stringResource(R.string.period_ai_quick_record),
-                fontWeight = FontWeight.SemiBold,
-            )
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        GlassOutlinedButton(
-            onClick = onManual,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
-            contentColor = colors.accent,
-        ) {
-            Text(
-                text = stringResource(R.string.period_manual_record),
-                fontWeight = FontWeight.SemiBold,
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(R.string.period_empty_example),
-            style = MaterialTheme.typography.bodySmall,
-            color = colors.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
-    }
+            EmptyStateGuideAction(
+                icon = Icons.Outlined.Add,
+                title = stringResource(R.string.period_manual_record),
+                description = stringResource(R.string.period_manual_record),
+                onClick = onManual,
+            ),
+        ),
+        footerHint = stringResource(R.string.period_empty_example),
+    )
 }
 
 // ── 记录列表 ───────────────────────────────────────

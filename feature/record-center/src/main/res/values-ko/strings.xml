@@ -201,4 +201,12 @@
     <string name="agent_tool_record_center_open_link">건강 기록 열기</string>
     <string name="agent_tool_record_center_field_optional"> (선택 사항)</string>
     <string name="agent_tool_record_center_unknown_error">알 수 없는 오류</string>
+    <string name="record_center_empty_title">아직 건강 기록이 없습니다</string>
+
+    <string name="record_center_empty_description">직접 추가하거나 AI에게 컨디션을 말해 기록하세요</string>
+    <string name="record_center_add_manually">직접 추가</string>
+    <string name="record_center_add_manually_description">수치와 시간을 자유롭게 설정</string>
+    <string name="record_center_ai_assist_title">건강 기록 도우미</string>
+    <string name="record_center_ai_assist_prompt">당신은 건강 기록 도우미입니다. 사용자가 건강 데이터를 말하면 add_health_record로 기록하세요.</string>
+    <string name="record_center_ai_assist_fill_in">오늘 혈압이 120/80이야, 기록해줘</string>
 </resources>

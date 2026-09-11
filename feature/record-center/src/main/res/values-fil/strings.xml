@@ -201,4 +201,12 @@
     <string name="agent_tool_record_center_open_link">Buksan ang mga Rekord ng Kalusugan</string>
     <string name="agent_tool_record_center_field_optional"> (opsyonal)</string>
     <string name="agent_tool_record_center_unknown_error">hindi kilalang error</string>
+    <string name="record_center_empty_title">Wala pang health records</string>
+
+    <string name="record_center_empty_description">Magdagdag nang manu-mano, o sabihin sa AI ang nararamdaman mo</string>
+    <string name="record_center_add_manually">Magdagdag nang manu-mano</string>
+    <string name="record_center_add_manually_description">I-customize ang halaga at oras</string>
+    <string name="record_center_ai_assist_title">Health Record Assistant</string>
+    <string name="record_center_ai_assist_prompt">Ikaw ang health record assistant. Kapag naglarawan ang user ng health data, i-record gamit ang add_health_record.</string>
+    <string name="record_center_ai_assist_fill_in">Ang blood pressure ko ngayon ay 120/80, pakirecord</string>
 </resources>

@@ -49,4 +49,13 @@
     <string name="agent_tool_manage_teleprompter_deeplink_guidance_edit">Buksan ang editor para sa script na ito</string>
     <string name="agent_tool_manage_teleprompter_deeplink_label_play">I-play ang Script</string>
     <string name="agent_tool_manage_teleprompter_deeplink_guidance_play">Simulan ang teleprompter playback ngayon</string>
+    <string name="teleprompter_empty_title">Wala pang script</string>
+
+    <string name="teleprompter_empty_description">Gumawa nang manu-mano, o hilingin sa AI na sumulat</string>
+    <string name="teleprompter_empty_manual_desc">Magsimula sa blangkong script</string>
+    <string name="teleprompter_empty_ai_desc">Ilarawan ang eksena at haba</string>
+    <string name="teleprompter_empty_go_ai">Sumulat gamit ang AI</string>
+    <string name="teleprompter_ai_assist_title">Teleprompter Script Assistant</string>
+    <string name="teleprompter_ai_assist_prompt">Ikaw ang teleprompter script assistant. Kapag inilarawan ang eksena, haba o paksa, gumawa o mag-update gamit ang manage_teleprompter.</string>
+    <string name="teleprompter_ai_assist_fill_in">Sumulat ng 30-segundong opening script para sa aking teleprompter</string>
 </resources>

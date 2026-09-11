@@ -201,4 +201,12 @@
     <string name="agent_tool_record_center_open_link">Открыть записи о здоровье</string>
     <string name="agent_tool_record_center_field_optional"> (необязательно)</string>
     <string name="agent_tool_record_center_unknown_error">неизвестная ошибка</string>
+    <string name="record_center_empty_title">Записей здоровья пока нет</string>
+
+    <string name="record_center_empty_description">Добавьте вручную или расскажите ИИ о самочувствии</string>
+    <string name="record_center_add_manually">Добавить вручную</string>
+    <string name="record_center_add_manually_description">Настройте значение и время</string>
+    <string name="record_center_ai_assist_title">Помощник по записям здоровья</string>
+    <string name="record_center_ai_assist_prompt">Ты помощник по записям здоровья. Когда пользователь описывает данные, запиши через add_health_record.</string>
+    <string name="record_center_ai_assist_fill_in">Сегодня моё давление 120/80, запиши, пожалуйста</string>
 </resources>

@@ -26,6 +26,7 @@
     <string name="period_manual_record">Manual Record</string>
     <string name="period_empty_example">e.g. "My period started yesterday, mild cramps"</string>
     <string name="period_ai_assist_title">Period Tracker Assistant</string>
+    <string name="period_ai_assist_fill_in">My period started yesterday with noticeable cramps</string>
     <string name="period_ai_assist_prompt">You are the user\'s period tracker assistant. When the user describes period status, flow, symptoms or mood, record it with add_period_record (use yyyy-MM-dd for date). When the user asks about cycle length, next period or stats, use query_period_records. To correct a record, use update_period_record. To remove one, use delete_period_record. Confirm each action briefly after recording.</string>
 
     <string name="period_record_count">%1$d records</string>

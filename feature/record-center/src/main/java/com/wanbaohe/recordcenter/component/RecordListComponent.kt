@@ -195,7 +195,16 @@ class RecordListComponent @AssistedInject internal constructor(
 
     /** 空态引导:跳转 AI 助手,通过对话记录健康数据 */
     fun navigateToAiChat() {
-        onNavigate(Screen.AiChatScreen())
+        onNavigate(
+            Screen.AITabChatScreen(
+                com.shifenmiao.model.ai.Conversation(
+                    entryType = com.shifenmiao.model.ai.AIConversationEntryType.ASSISTANT,
+                    title = AppContext.getString(R.string.record_center_ai_assist_title),
+                    prompt = AppContext.getString(R.string.record_center_ai_assist_prompt),
+                    template = AppContext.getString(R.string.record_center_ai_assist_fill_in),
+                )
+            )
+        )
     }
 
     @AssistedFactory

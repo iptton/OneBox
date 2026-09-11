@@ -141,6 +141,20 @@ class BookkeepingComponent @AssistedInject internal constructor(
         ))
     }
 
+    /** 空态引导:跳转 AI 聊天,用自然语言记账。 */
+    fun navigateToAiAssist() {
+        onNavigate(
+            com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AITabChatScreen(
+                com.shifenmiao.model.ai.Conversation(
+                    entryType = com.shifenmiao.model.ai.AIConversationEntryType.ASSISTANT,
+                    title = AppContext.getString(R.string.bookkeeping_ai_assist_title),
+                    prompt = AppContext.getString(R.string.bookkeeping_ai_assist_prompt),
+                    template = AppContext.getString(R.string.bookkeeping_ai_assist_fill_in),
+                )
+            )
+        )
+    }
+
     fun onTypeChange(type: BookkeepingRecordType) {
         val categoryId = categoriesOfType(type).firstOrNull()?.id
         _uiState.value = recordEditor.changeType(_uiState.value, type, categoryId)

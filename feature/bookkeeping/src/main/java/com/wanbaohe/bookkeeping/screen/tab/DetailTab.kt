@@ -58,8 +58,12 @@ import com.wanbaohe.bookkeeping.screen.util.centsText
 import com.wanbaohe.bookkeeping.screen.util.recordLineSubtitle
 import com.wanbaohe.bookkeeping.screen.util.signedAmount
 import java.time.LocalDate
+import com.shifenmiao.base.ui.empty.EmptyStateGuide
+import com.shifenmiao.base.ui.empty.EmptyStateGuideAction
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Edit
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineAutoFix
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineBookkeeping
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 分类筛选状态
@@ -149,11 +153,36 @@ internal fun DetailTab(
 
         if (daySections.isEmpty()) {
             item {
-                Box(
-                    modifier = Modifier.fillMaxWidth().height(200.dp),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(text = stringResource(R.string.bookkeeping_no_records))
+                if (allRecords.isEmpty()) {
+                    EmptyStateGuide(
+                        icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBookkeeping,
+                        title = stringResource(R.string.bookkeeping_empty_title),
+                        description = stringResource(R.string.bookkeeping_empty_description),
+                        actions = listOf(
+                            EmptyStateGuideAction(
+                                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Edit,
+                                title = stringResource(R.string.bookkeeping_add_manually),
+                                description = stringResource(R.string.bookkeeping_add_manually_description),
+                                onClick = component::navigateToAddRecord,
+                            ),
+                            EmptyStateGuideAction(
+                                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
+                                title = stringResource(R.string.bookkeeping_add_with_ai),
+                                description = stringResource(R.string.bookkeeping_add_with_ai_description),
+                                onClick = component::navigateToAiAssist,
+                                emphasized = true,
+                            ),
+                        ),
+                        footerHint = stringResource(R.string.bookkeeping_created_content_hint),
+                        modifier = Modifier.fillParentMaxSize(),
+                    )
+                } else {
+                    Box(
+                        modifier = Modifier.fillMaxWidth().height(200.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(text = stringResource(R.string.bookkeeping_no_records))
+                    }
                 }
             }
         } else {

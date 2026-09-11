@@ -201,4 +201,12 @@
     <string name="agent_tool_record_center_open_link">स्वास्थ्य रिकॉर्ड खोलें</string>
     <string name="agent_tool_record_center_field_optional"> (वैकल्पिक)</string>
     <string name="agent_tool_record_center_unknown_error">अज्ञात त्रुटि</string>
+    <string name="record_center_empty_title">अभी कोई स्वास्थ्य रिकॉर्ड नहीं</string>
+
+    <string name="record_center_empty_description">मैन्युअल रूप से जोड़ें, या AI को बताएं कि आप कैसा महसूस कर रहे हैं</string>
+    <string name="record_center_add_manually">मैन्युअल रूप से जोड़ें</string>
+    <string name="record_center_add_manually_description">मान और समय अनुकूलित करें</string>
+    <string name="record_center_ai_assist_title">स्वास्थ्य रिकॉर्ड सहायक</string>
+    <string name="record_center_ai_assist_prompt">आप स्वास्थ्य रिकॉर्ड सहायक हैं। जब उपयोगकर्ता स्वास्थ्य डेटा बताए, तो add_health_record से दर्ज करें।</string>
+    <string name="record_center_ai_assist_fill_in">आज मेरा रक्तचाप 120/80 है, कृपया दर्ज करें</string>
 </resources>
