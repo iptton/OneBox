@@ -1,6 +1,7 @@
 package com.shifenmiao.ai.ui
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -9,7 +10,9 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -42,8 +45,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -63,6 +69,7 @@ import com.shifenmiao.model.ListItemType
 import com.shifenmiao.model.Source
 import com.shifenmiao.model.ai.AIConversationEntryType
 import com.shifenmiao.model.ai.Conversation
+import com.shifenmiao.storage.AppSharedStorage
 import com.shifenmiao.storage.RemoteConfigStorage
 import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -89,6 +96,7 @@ fun PlaceHolderMessageCard(
     conversation: Conversation,
     onSuggestionClick: (String) -> Unit = {},
     onPushToRemote: () -> Unit = {},
+    onContentHeightDelta: (Int) -> Unit = {},
     appComponent: AppComponent,
     aiChatComponent: AIChatComponent,
     chatInputComponent: ChatInputComponent
@@ -139,6 +147,7 @@ fun PlaceHolderMessageCard(
                 isEditable = !promptCardState.isSystemPrompt &&
                         (promptCardState.source != Source.REMOTE || LoginUtils.isAdmin()),
                 onPushToRemote = onPushToRemote,
+                onContentHeightDelta = onContentHeightDelta,
                 emptyStateText = if (conversation.promptId != null) {
                     stringResource(R.string.ai_prompt_placeholder_loading_desc)
                 } else {
@@ -195,29 +204,39 @@ private fun PromptWorkCard(
     updatedAtMillis: Long?,
     isEditable: Boolean,
     onPushToRemote: () -> Unit = {},
+    onContentHeightDelta: (Int) -> Unit = {},
     emptyStateText: String,
 ) {
     val onNavigate = LocalOnNavigate.current
     val dataDraftHelper: DataDraftHelper = LocalDataDraftHelper.current
     val coroutineScope = rememberCoroutineScope()
-    val expandedState = rememberSaveable(promptId) {
-        mutableStateOf(false)
+    val expanded by AppSharedStorage.isExpandedPrompt.collectAsState()
+    val toggleExpanded: () -> Unit = {
+        if (message.isNotBlank()) {
+            AppSharedStorage.saveIsExpandedPrompt(!expanded)
+        }
     }
-    val expanded = expandedState.value
     val updatedAtText = updatedAtMillis?.takeIf { it > 0L }?.let(::formatPromptUpdatedAt)
     val collapsedMaxHeight = (LocalConfiguration.current.screenHeightDp / 2).dp
+    var lastContentHeight by remember(promptId) { mutableIntStateOf(-1) }
 
     CustomChatCard(
         isHuman = false,
         showAvatar = false,
-        onClick = {
-            if (message.isNotBlank()) {
-                expandedState.value = !expandedState.value
-            }
-        }
+        onClick = toggleExpanded
     ) {
         Column(
-            modifier = Modifier.padding(AppTheme.dimens.paddingNormal),
+            modifier = Modifier
+                .padding(AppTheme.dimens.paddingNormal)
+                .animateContentSize()
+                .onGloballyPositioned { coordinates ->
+                    val newHeight = coordinates.size.height
+                    val previousHeight = lastContentHeight
+                    lastContentHeight = newHeight
+                    if (previousHeight >= 0 && newHeight != previousHeight) {
+                        onContentHeightDelta(newHeight - previousHeight)
+                    }
+                },
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimens.spaceSmall)
         ) {
             Row(
@@ -282,16 +301,36 @@ private fun PromptWorkCard(
                 if (expanded) {
                     RichMarkdown(content = message)
                 } else {
-                    Column(
+                    val previewScrollState = rememberScrollState()
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(max = collapsedMaxHeight)
-                            .verticalScroll(
-                                state = rememberScrollState(),
+                    ) {
+                        Column(
+                            modifier = Modifier.verticalScroll(
+                                state = previewScrollState,
                                 enabled = false
                             )
-                    ) {
-                        RichMarkdown(content = message)
+                        ) {
+                            RichMarkdown(content = message)
+                        }
+                        if (previewScrollState.maxValue > 0) {
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter)
+                                    .fillMaxWidth()
+                                    .height(56.dp)
+                                    .background(
+                                        Brush.verticalGradient(
+                                            colors = listOf(
+                                                Color.Transparent,
+                                                MaterialTheme.colorScheme.surfaceContainer
+                                            )
+                                        )
+                                    )
+                            )
+                        }
                     }
                 }
                 Row(
@@ -308,7 +347,7 @@ private fun PromptWorkCard(
                         imageVector = if (expanded) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore,
                         contentDescription = null,
                         iconSize = 22.dp,
-                        onClick = { expandedState.value = !expandedState.value }
+                        onClick = toggleExpanded
                     )
                 }
             }

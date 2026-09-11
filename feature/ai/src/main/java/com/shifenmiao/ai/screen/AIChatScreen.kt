@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -550,9 +551,15 @@ fun ChatMessagesList(
                     }
                     if (displayMessageUiModels.isEmpty()) {
                         item(key = "${fixedKeyPrefix}placeholder_message") {
+                            val placeholderScope = rememberCoroutineScope()
                             PlaceHolderMessageCard(
                                 conversation = conversation,
                                 onSuggestionClick = onSuggestionClick,
+                                onContentHeightDelta = { delta ->
+                                    placeholderScope.launch {
+                                        lazyListState.scrollBy(delta.toFloat())
+                                    }
+                                },
                                 onPushToRemote = {
                                     aiChatComponent.pushPromptToRemote(
                                         onSuccess = {
