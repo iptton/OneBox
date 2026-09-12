@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="record_center_title">健康記錄</string>
+    <string name="record_center_type_heart_rate_title">心率記錄</string>
+    <string name="record_center_type_heart_rate_desc">記錄和管理心率資料，監測心臟健康</string>
+    <string name="record_center_type_blood_pressure_title">血壓記錄</string>
+    <string name="record_center_type_blood_pressure_desc">記錄和管理血壓資料，追蹤血壓變化趨勢</string>
+    <string name="record_center_type_blood_glucose_title">血糖記錄</string>
+    <string name="record_center_type_blood_glucose_desc">記錄和管理血糖資料，幫助控制血糖水平</string>
+    <string name="record_center_type_weight_title">體重記錄</string>
+    <string name="record_center_type_weight_desc">記錄和管理體重資料，追蹤體重變化</string>
+    <string name="record_center_type_bmi_title">BMI記錄</string>
+    <string name="record_center_type_bmi_desc">記錄和管理BMI資料，評估體重健康狀況</string>
+    <string name="record_center_type_body_fat_title">體脂記錄</string>
+    <string name="record_center_type_body_fat_desc">記錄和管理體脂資料，了解身體成分變化</string>
+    <string name="record_center_type_uric_acid_title">尿酸記錄</string>
+    <string name="record_center_type_uric_acid_desc">記錄和管理尿酸資料，預防和控制痛風</string>
+    <string name="record_center_type_blood_lipid_title">血脂記錄</string>
+    <string name="record_center_type_blood_lipid_desc">記錄和管理血脂資料，監測血脂水平</string>
+    <string name="record_center_type_blood_oxygen_title">血氧記錄</string>
+    <string name="record_center_type_blood_oxygen_desc">記錄和管理血氧資料，監測呼吸循環系統健康</string>
+    <string name="record_center_type_body_temperature_title">體溫記錄</string>
+    <string name="record_center_type_body_temperature_desc">記錄和管理體溫資料，追蹤體溫變化</string>
+    <string name="record_center_type_sleep_duration_title">睡眠記錄</string>
+    <string name="record_center_type_sleep_duration_desc">記錄和管理睡眠時長，改善睡眠品質</string>
+    <string name="record_center_type_waist_circumference_title">腰圍記錄</string>
+    <string name="record_center_type_waist_circumference_desc">記錄和管理腰圍資料，關注腹部健康</string>
+    <string name="record_center_field_heart_rate_value">心率</string>
+    <string name="record_center_field_bp_systolic">收縮壓</string>
+    <string name="record_center_field_bp_diastolic">舒張壓</string>
+    <string name="record_center_field_glucose_value">血糖</string>
+    <string name="record_center_field_weight_value">體重</string>
+    <string name="record_center_field_bmi_value">BMI</string>
+    <string name="record_center_field_body_fat_value">體脂率</string>
+    <string name="record_center_field_uric_acid_value">尿酸</string>
+    <string name="record_center_field_lipid_total_cholesterol">總膽固醇</string>
+    <string name="record_center_field_lipid_triglyceride">三酸甘油酯</string>
+    <string name="record_center_field_lipid_ldl">低密度脂蛋白</string>
+    <string name="record_center_field_lipid_hdl">高密度脂蛋白</string>
+    <string name="record_center_field_blood_oxygen_value">血氧飽和度</string>
+    <string name="record_center_field_body_temperature_value">體溫</string>
+    <string name="record_center_field_sleep_duration_value">睡眠時長</string>
+    <string name="record_center_field_waist_circumference_value">腰圍</string>
+    <string name="record_center_ref_heart_rate">正常 60-100 bpm</string>
+    <string name="record_center_ref_blood_pressure">正常 90-140/60-90 mmHg</string>
+    <string name="record_center_ref_blood_glucose">空腹正常 3.9-6.1 mmol/L</string>
+    <string name="record_center_ref_bmi">正常 18.5-24</string>
+    <string name="record_center_ref_uric_acid">男 208-428 / 女 155-357 μmol/L</string>
+    <string name="record_center_ref_blood_lipid">總膽固醇 &lt;5.2 mmol/L</string>
+    <string name="record_center_ref_blood_oxygen">正常 95-100%</string>
+    <string name="record_center_ref_body_temperature">正常 36.0-37.3 °C</string>
+    <string name="record_center_ref_sleep_duration">建議 7-9 小時</string>
+    <string name="record_center_ref_waist_circumference">男 &lt;90 / 女 &lt;85 cm</string>
+    <string name="record_center_label_time">記錄時間</string>
+    <string name="record_center_label_note">備註</string>
+    <string name="record_center_action_save">儲存</string>
+    <string name="record_center_action_delete">刪除</string>
+    <string name="record_center_add_record">新增記錄</string>
+    <string name="record_center_edit_record">編輯記錄</string>
+    <string name="record_center_empty">暫無記錄</string>
+    <string name="record_center_stats_latest">最新</string>
+    <string name="record_center_stats_average">平均</string>
+    <string name="record_center_stats_max">最高</string>
+    <string name="record_center_stats_min">最低</string>
+    <string name="record_center_range_7d">近7天</string>
+    <string name="record_center_range_30d">近30天</string>
+    <string name="record_center_range_all">全部</string>
+    <string name="record_center_range_days">近%1$d天</string>
+    <string name="record_center_today">今天</string>
+    <string name="record_center_yesterday">昨天</string>
+    <string name="record_center_days_ago">%1$d天前</string>
+    <string name="record_center_delete_confirm_title">刪除記錄</string>
+    <string name="record_center_delete_confirm_message">確定刪除這筆記錄嗎？刪除後無法復原。</string>
+    <string name="record_center_confirm">確定</string>
+    <string name="record_center_cancel">取消</string>
+    <string name="record_center_save_success">已儲存</string>
+    <string name="record_center_range_all_label">全部記錄</string>
+    <string name="record_center_ai_insight">AI 解讀</string>
+    <string name="record_center_ai_insight_hint">讓 AI 幫你解讀這段時間的資料趨勢</string>
+    <string name="record_center_ai_insight_empty">先新增記錄，再產生解讀</string>
+    <string name="record_center_ai_insight_generate">產生解讀</string>
+    <string name="record_center_ai_insight_regenerate">重新解讀</string>
+    <string name="record_center_ai_insight_retry">重試</string>
+    <string name="record_center_ai_insight_loading">正在產生解讀…</string>
+    <string name="record_center_ai_insight_error">產生解讀失敗，請稍後重試</string>
+    <string name="record_center_ai_insight_points_hint">每次解讀消耗 %1$d 積分</string>
+    <string name="record_center_profile_title">基本資訊</string>
+    <string name="record_center_profile_hint">用於 AI 解讀更貼近你的情況</string>
+    <string name="record_center_profile_unset">未設定，點擊完善</string>
+    <string name="record_center_profile_gender_male">男</string>
+    <string name="record_center_profile_gender_female">女</string>
+    <string name="record_center_profile_field_gender">性別</string>
+    <string name="record_center_profile_field_age">年齡</string>
+    <string name="record_center_profile_field_height">身高 (cm)</string>
+    <string name="record_center_profile_field_weight">體重 (kg)</string>
+    <string name="record_center_profile_age_years">%1$d 歲</string>
+    <string name="record_center_profile_invalid">請輸入有效數值</string>
+    <string name="record_center_empty_go_ai">去 AI 助手記錄</string>
+    <string name="record_center_empty_title">還沒有健康記錄</string>
+    <string name="record_center_empty_description">你可以手動新增一筆，也可以告訴 AI 你的情況，讓它幫你快速記錄</string>
+    <string name="record_center_add_manually">手動新增</string>
+    <string name="record_center_add_manually_description">自訂數值和時間，精細化記錄</string>
+    <string name="record_center_ai_assist_title">健康記錄助手</string>
+    <string name="record_center_ai_assist_prompt">你是使用者的健康記錄助手。使用者用自然語言描述健康資料時（例如「今天血壓 120/80」「空腹血糖 5.2」），用 add_health_record 工具幫他記錄。記完後簡短確認類型、數值和時間。使用者未說明時間時按現在記。</string>
+    <string name="record_center_ai_assist_fill_in">今天血壓 120/80，幫我記到健康記錄裡</string>
+    <string name="record_center_cd_switch_to_grid">切換到網格檢視</string>
+    <string name="record_center_cd_switch_to_list">切換到列表檢視</string>
+    <string name="record_center_error_unknown_type">未知的記錄類型:%1$s</string>
+    <string name="record_center_error_missing_field">缺少必填欄位:%1$s</string>
+    <string name="record_center_error_unknown_field">不支援的欄位:%1$s</string>
+    <string name="record_center_error_out_of_range">%1$s 超出合理範圍(%2$s ~ %3$s)</string>
+    <string name="record_center_error_not_found">記錄不存在</string>
+    <string name="record_center_error_invalid_number">請輸入有效數字</string>
+    <string name="record_center_error_required">必填項</string>
+    <string name="record_center_error_out_of_range_short">超出範圍(%1$s ~ %2$s)</string>
+    <string name="record_center_log_created">新增健康記錄</string>
+    <string name="record_center_log_updated">更新健康記錄</string>
+    <string name="record_center_log_deleted">刪除健康記錄</string>
+    <string name="agent_tool_add_health_record_title">新增健康記錄</string>
+    <string name="agent_tool_add_health_record_summary">記錄血壓、心率、體重等健康資料</string>
+    <string name="agent_tool_add_health_record_description">新增健康記錄。單筆模式:頂層傳 record_type 和 values(可選 happened_at/note)。批次模式:傳 records 陣列一次新增多筆記錄,每項欄位同單筆模式,各條目獨立處理,部分失敗不影響其它條目。values 為 欄位名→數值 的 JSON 物件,欄位名和單位由 record_type 決定。支援的記錄類型及欄位:</string>
+    <string name="agent_tool_add_health_record_param_records">批次模式:記錄陣列,每項含 record_type 和 values(可選 happened_at/note);傳入後忽略頂層 record_type/values</string>
+    <string name="agent_tool_add_health_record_param_record_type">記錄類型，取列舉值之一</string>
+    <string name="agent_tool_add_health_record_param_values">欄位值，欄位名→數值的 JSON 物件，如 {\"systolic\": 120, \"diastolic\": 80}</string>
+    <string name="agent_tool_add_health_record_param_happened_at">測量發生的毫秒時間戳，預設目前時間</string>
+    <string name="agent_tool_add_health_record_param_note">備註，選填</string>
+    <string name="agent_tool_add_health_record_success">已儲存</string>
+    <string name="agent_tool_add_health_record_failed">新增健康記錄失敗:%1$s</string>
+    <string name="agent_tool_add_health_record_batch_empty">records 不能為空</string>
+    <string name="agent_tool_add_health_record_batch_success_count">成功 %1$d 筆</string>
+    <string name="agent_tool_add_health_record_batch_failure_count">失敗 %1$d 筆</string>
+    <string name="agent_tool_add_health_record_batch_section_success">成功記錄</string>
+    <string name="agent_tool_add_health_record_batch_section_failure">失敗記錄</string>
+    <string-array name="agent_tool_add_health_record_keywords">
+        <item>健康記錄</item>
+        <item>血壓</item>
+        <item>心率</item>
+        <item>體重</item>
+        <item>血糖</item>
+        <item>BMI</item>
+    </string-array>
+    <string-array name="agent_tool_add_health_record_examples">
+        <item>記一下血壓 120/80</item>
+        <item>記錄體重 65.5 公斤</item>
+        <item>新增一筆空腹血糖 5.6</item>
+    </string-array>
+    <string name="agent_tool_query_health_records_title">查詢健康記錄</string>
+    <string name="agent_tool_query_health_records_summary">查詢某類健康指標的近期記錄與統計</string>
+    <string name="agent_tool_query_health_records_description">查詢指定類型最近 N 天(預設 30 天)的健康記錄，並依圖表欄位給出平均/最高/最低統計。支援的記錄類型及欄位:</string>
+    <string name="agent_tool_query_health_records_param_record_type">記錄類型，取列舉值之一</string>
+    <string name="agent_tool_query_health_records_param_days">往前查詢的天數，預設 30</string>
+    <string name="agent_tool_query_health_records_empty">該時間段內暫無記錄</string>
+    <string name="agent_tool_query_health_records_failed">查詢健康記錄失敗:%1$s</string>
+    <string name="agent_tool_query_health_records_section_stats">統計</string>
+    <string name="agent_tool_query_health_records_section_records">記錄明細</string>
+    <string-array name="agent_tool_query_health_records_keywords">
+        <item>健康記錄</item>
+        <item>血壓歷史</item>
+        <item>體重趨勢</item>
+        <item>血糖統計</item>
+    </string-array>
+    <string-array name="agent_tool_query_health_records_examples">
+        <item>看看我這個月的血壓</item>
+        <item>最近 30 天體重變化怎麼樣</item>
+        <item>這週平均心率多少</item>
+    </string-array>
+    <string name="agent_tool_get_health_summary_title">健康資料總覽</string>
+    <string name="agent_tool_get_health_summary_summary">各類健康指標的最新數值</string>
+    <string name="agent_tool_get_health_summary_description">取得每種健康記錄類型最新的一筆資料，含單位與參考範圍。</string>
+    <string name="agent_tool_get_health_summary_empty">暫無健康記錄</string>
+    <string name="agent_tool_get_health_summary_failed">取得健康總覽失敗：%1$s</string>
+    <string-array name="agent_tool_get_health_summary_keywords">
+        <item>健康總覽</item>
+        <item>最新健康資料</item>
+        <item>健康概況</item>
+    </string-array>
+    <string-array name="agent_tool_get_health_summary_examples">
+        <item>給我看健康資料總覽</item>
+        <item>我最近的各項指標是多少</item>
+    </string-array>
+    <string name="agent_tool_record_center_open_link">開啟健康記錄</string>
+    <string name="agent_tool_record_center_field_optional">(選填)</string>
+    <string name="agent_tool_record_center_unknown_error">未知錯誤</string>
+</resources>

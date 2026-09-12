@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_2048_title">2048</string>
+    <string name="game_2048_current_score">目前分數</string>
+    <string name="game_2048_best_score">最高分數</string>
+    <string name="game_2048_new_game">新遊戲</string>
+    <string name="game_2048_game_over">遊戲結束</string>
+    <string name="game_2048_you_win">恭喜達成 2048！</string>
+    <string name="game_2048_no_moves">沒有可移動的方塊了</string>
+    <string name="game_2048_reached_2048">你可以繼續挑戰更高分數</string>
+    <string name="game_2048_continue">繼續遊戲</string>
+    <string name="game_2048_new_best_score">新紀錄！</string>
+</resources>

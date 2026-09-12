@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ad_watch_title">廣告看看看</string>
+    <string name="ad_watch_desc">每看完一則廣告可得 %1$d 積分\n上下滑動查看下一則</string>
+    <string name="ad_watch_button">觀看得 %1$d 積分</string>
+    <string name="ad_watch_remaining_today">今日剩餘 %1$d 次</string>
+    <string name="ad_watch_daily_limit_reached">今日次數已用完，明天再來吧</string>
+    <string name="ad_watch_loading">廣告載入中…</string>
+    <string name="ad_watch_load_failed">廣告載入失敗</string>
+    <string name="ad_watch_retry">重試</string>
+    <string name="ad_watch_ad_not_ready">廣告暫未就緒，請稍後再試</string>
+</resources>

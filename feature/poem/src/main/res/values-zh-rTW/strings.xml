@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="poem_page_title">中國古詩詞</string>
+    <string name="poem_latest">最新生成</string>
+    <string name="poem_generate">生成一首</string>
+    <string name="poem_generate_random">隨機生成</string>
+    <string name="poem_generating_pinyin">正在生成拼音…</string>
+    <string name="poem_ai_pinyin">AI 拼音</string>
+    <string name="poem_pinyin_done">拼音已生成</string>
+    <string name="poem_recite">詩朗誦</string>
+    <string name="poem_recite_stop">停止朗誦</string>
+    <string name="poem_search">搜尋</string>
+    <string name="poem_history">歷史</string>
+    <string name="poem_ai_insight">AI 解讀</string>
+    <string name="poem_favorite">收藏</string>
+    <string name="poem_favorited">已收藏</string>
+    <string name="poem_retry">重試</string>
+    <string name="poem_load_failed">載入失敗，請稍後重試</string>
+    <string name="poem_generating_insight">正在生成解讀…</string>
+    <string name="poem_generating_translation">正在生成翻譯…</string>
+    <string name="poem_insight_title">詩意解讀</string>
+    <string name="poem_translation_title">現代翻譯</string>
+    <string name="poem_regenerate">重新生成</string>
+    <string name="poem_insight_empty_hint">點擊生成詩意解讀，幫你理解詩句的深層含義</string>
+    <string name="poem_translation_empty_hint">點擊生成現代翻譯，幫你理解詩句的現代意思</string>
+    <string name="poem_generate_click">點擊生成</string>
+    <string name="poem_history_title">歷史記錄</string>
+    <string name="poem_clear_history">清空記錄</string>
+    <string name="poem_clear_history_confirm">確定清空歷史記錄嗎？已收藏的詩詞會保留。</string>
+    <string name="poem_confirm">確定</string>
+    <string name="poem_cancel">取消</string>
+    <string name="poem_empty_title">還沒有生成過詩詞</string>
+    <string name="poem_empty_subtitle">點擊下方按鈕開始</string>
+    <string name="poem_search_hint">搜尋詩句 / 詩人 / 關鍵字</string>
+    <string name="poem_filter_dynasty">朝代</string>
+    <string name="poem_filter_type">體裁</string>
+    <string name="poem_filter_author">詩人</string>
+    <string name="poem_filter_all">全部</string>
+    <string name="poem_search_results">搜尋結果</string>
+    <string name="poem_result_count">共 %1$d 首</string>
+    <string name="poem_search_empty">暫無搜尋結果</string>
+    <string name="poem_history_empty">暫無歷史記錄</string>
+    <string name="poem_favorites_only">只看收藏</string>
+    <string name="poem_delete">刪除</string>
+    <string name="agent_tool_search_poem_title">搜尋詩詞</string>
+    <string name="agent_tool_search_poem_summary">依關鍵字搜尋中國古詩詞</string>
+    <string name="agent_tool_search_poem_description">依關鍵字搜尋中國古詩詞，比對標題、詩人與詩句。3 個字元以上的關鍵字走全文搜尋；較短的關鍵字（如兩字詩人名）走篩選取樣近似。回傳詩詞 id、標題、詩人、朝代與節錄；用 get_poem_detail 傳 id 或標題可取全文。</string>
+    <string name="agent_tool_search_poem_param_query">搜尋關鍵字：詩句片段、詩名或詩人名</string>
+    <string name="agent_tool_search_poem_param_max_results">最多回傳筆數，1-20，預設 10</string>
+    <string name="agent_tool_search_poem_query_required">query 不能為空</string>
+    <string name="agent_tool_search_poem_empty">沒有找到與「%1$s」相關的詩詞</string>
+    <string name="agent_tool_search_poem_failed">搜尋詩詞失敗：%1$s</string>
+    <string-array name="agent_tool_search_poem_keywords">
+        <item>古詩</item>
+        <item>詩詞</item>
+        <item>詩句</item>
+        <item>詩人</item>
+        <item>poem</item>
+        <item>poetry</item>
+    </string-array>
+    <string-array name="agent_tool_search_poem_examples">
+        <item>搜尋寫月亮的詩</item>
+        <item>找幾首李白的詩</item>
+        <item>Search poems about autumn</item>
+    </string-array>
+    <string name="agent_tool_get_poem_detail_title">詩詞詳情</string>
+    <string name="agent_tool_get_poem_detail_summary">取得詩詞全文，含已生成的譯文與解讀</string>
+    <string name="agent_tool_get_poem_detail_description">取得一首中國古詩詞的全文；若之前生成過 AI 現代翻譯與詩意解讀，一併返回。可傳 poem_id（search_poem 結果中的 id）或詩詞標題，標題可搭配 author 消歧。線上取到的詩詞會寫入本地庫，詳情頁連結因此可用。</string>
+    <string name="agent_tool_get_poem_detail_param_poem_id">詩詞 id，即 search_poem 結果中的 id</string>
+    <string name="agent_tool_get_poem_detail_param_title">詩詞標題，不知道 poem_id 時使用</string>
+    <string name="agent_tool_get_poem_detail_param_author">詩人名，可選，搭配標題消歧</string>
+    <string name="agent_tool_get_poem_detail_id_or_title_required">請提供 poem_id 或 title</string>
+    <string name="agent_tool_get_poem_detail_not_found">未找到詩詞：%1$s</string>
+    <string name="agent_tool_get_poem_detail_failed">取得詩詞詳情失敗：%1$s</string>
+    <string-array name="agent_tool_get_poem_detail_keywords">
+        <item>詩詞詳情</item>
+        <item>全文</item>
+        <item>譯文</item>
+        <item>解讀</item>
+        <item>poem detail</item>
+    </string-array>
+    <string-array name="agent_tool_get_poem_detail_examples">
+        <item>把《靜夜思》的全文給我</item>
+        <item>取得 id 為 123 的詩詞</item>
+        <item>Show the full text of 靜夜思</item>
+    </string-array>
+    <string name="agent_tool_query_poem_favorites_title">收藏的詩詞</string>
+    <string name="agent_tool_query_poem_favorites_summary">查看本地收藏的詩詞</string>
+    <string name="agent_tool_query_poem_favorites_description">列出使用者本地收藏的詩詞，含 id、標題、詩人、朝代與節選。純本地查詢，不需要網路。</string>
+    <string name="agent_tool_query_poem_favorites_param_max_results">最多返回條數，1-50，預設 20</string>
+    <string name="agent_tool_query_poem_favorites_empty">還沒有收藏任何詩詞</string>
+    <string name="agent_tool_query_poem_favorites_failed">查詢收藏詩詞失敗：%1$s</string>
+    <string-array name="agent_tool_query_poem_favorites_keywords">
+        <item>收藏</item>
+        <item>詩詞收藏</item>
+        <item>favorite poems</item>
+        <item>favorites</item>
+    </string-array>
+    <string-array name="agent_tool_query_poem_favorites_examples">
+        <item>我收藏了哪些詩</item>
+        <item>List my favorite poems</item>
+    </string-array>
+    <string name="agent_tool_poem_open_detail_link">查看詩詞</string>
+    <string name="agent_tool_poem_open_search_link">開啟詩詞搜尋</string>
+    <string name="agent_tool_poem_open_home_link">開啟中國古詩詞</string>
+    <string name="agent_tool_poem_unknown_error">未知錯誤</string>
+</resources>

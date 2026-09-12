@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mini_program_jump_confirm">即將離開並跳轉到微信開啟？</string>
+    <string name="mini_program_redirecting">正在跳轉中…</string>
+</resources>

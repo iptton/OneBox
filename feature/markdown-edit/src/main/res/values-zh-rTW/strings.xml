@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="insert_code_block">插入程式碼區塊</string>
+    <string name="code_label">程式碼</string>
+    <string name="enter_code_hint">輸入程式碼...</string>
+    <string name="select_language">選擇語言:</string>
+    <string name="search_language">搜尋語言</string>
+    <string name="search_language_hint">輸入語言名稱...</string>
+    <string name="or_enter_image_url">或輸入網路圖片網址：</string>
+    <string name="image_description_label">圖片描述</string>
+    <string name="image_description_hint">圖片的文字說明</string>
+    <string name="image_url_label">圖片網址</string>
+    <string name="link_text_placeholder">顯示的文字</string>
+    <string name="resize_image">調整圖片大小</string>
+    <string name="width">寬度</string>
+    <string name="original_width">原始寬度: %1$dpx</string>
+    <string name="markdown_placeholder">輸入內容...</string>
+</resources>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="period_title">經期記錄</string>
+    <string name="period_stats_title">週期統計</string>
+    <string name="period_detail_title">記錄詳情</string>
+    <string name="period_add_title">新增記錄</string>
+    <string name="period_edit_title">編輯記錄</string>
+    <string name="period_tab_records">記錄</string>
+    <string name="period_tab_stats">資料</string>
+    <string name="period_search">搜尋</string>
+    <string name="period_search_hint">搜尋備註或症狀</string>
+    <string name="period_add">新增</string>
+    <string name="period_save">儲存</string>
+    <string name="period_cancel">取消</string>
+    <string name="period_delete">刪除</string>
+    <string name="period_loading">載入中…</string>
+    <string name="period_saved">已儲存</string>
+    <string name="period_record_added">已記錄</string>
+    <string name="period_deleted">記錄已刪除</string>
+    <string name="period_save_failed">儲存失敗</string>
+    <string name="period_toast_recorded">已記錄經期</string>
+    <string name="period_empty_title">還沒有記錄</string>
+    <string name="period_empty_subtitle">告訴 AI 你的情況，一鍵生成經期記錄</string>
+    <string name="period_ai_quick_record">AI 快速記錄</string>
+    <string name="period_manual_record">手動記錄</string>
+    <string name="period_empty_example">例如：「我昨天來月經了，腹痛有點明顯」</string>
+    <string name="period_ai_assist_title">經期記錄助手</string>
+    <string name="period_ai_assist_fill_in">昨天來月經了，腹痛明顯，幫我記錄一下</string>
+    <string name="period_ai_assist_prompt">你是使用者的經期記錄助手。使用者描述經期狀態、流量、症狀或心情時，用 add_period_record 工具記錄（日期用 yyyy-MM-dd）。使用者詢問週期長度、下次經期或統計時，用 query_period_records 回答。需要修正記錄時用 update_period_record，刪除記錄時用 delete_period_record。每次記錄後簡短確認。</string>
+    <string name="period_record_count">%1$d 筆記錄</string>
+    <string name="period_month_group_pattern">yyyy年M月</string>
+    <string name="period_short_date_pattern">M月d日</string>
+    <string name="period_note_counter">%1$d/%2$d</string>
+    <string name="period_symptoms_multi_hint">（可多選）</string>
+    <string name="period_cycle_day">週期第 %1$d 天</string>
+    <string name="period_cycle_day_unknown">週期第 — 天</string>
+    <string name="period_status_period">經期中</string>
+    <string name="period_status_ovulation">排卵期</string>
+    <string name="period_status_normal">正常</string>
+    <string name="period_status_start">開始</string>
+    <string name="period_status_mid">經期中</string>
+    <string name="period_status_end">結束</string>
+    <string name="period_calendar_prev">上個月</string>
+    <string name="period_calendar_next">下個月</string>
+    <string name="period_field_date">日期</string>
+    <string name="period_field_status">經期狀態</string>
+    <string name="period_field_flow">流量強度</string>
+    <string name="period_field_symptoms">症狀</string>
+    <string name="period_field_mood">心情</string>
+    <string name="period_field_note">備註</string>
+    <string name="period_note_hint">請輸入備註（可選）</string>
+    <string name="period_delete_record">刪除記錄</string>
+    <string name="period_delete_confirm_title">刪除這筆記錄？</string>
+    <string name="period_delete_confirm_message">刪除後無法復原。</string>
+    <string name="period_flow_none">無</string>
+    <string name="period_flow_light">輕</string>
+    <string name="period_flow_medium">中</string>
+    <string name="period_flow_heavy">重</string>
+    <string name="period_mood_very_happy">很開心</string>
+    <string name="period_mood_happy">開心</string>
+    <string name="period_mood_normal">一般</string>
+    <string name="period_mood_sad">難過</string>
+    <string name="period_mood_very_sad">很難過</string>
+    <string name="period_symptom_abdominal_pain">腹痛</string>
+    <string name="period_symptom_headache">頭痛</string>
+    <string name="period_symptom_back_pain">腰痛</string>
+    <string name="period_symptom_mood_swings">情緒波動</string>
+    <string name="period_symptom_breast_tenderness">乳房脹痛</string>
+    <string name="period_symptom_fatigue">疲勞</string>
+    <string name="period_symptom_nausea">噁心</string>
+    <string name="period_symptom_insomnia">失眠</string>
+    <string name="period_symptom_appetite_change">食慾變化</string>
+    <string name="period_symptom_acne">痘痘</string>
+    <string name="period_symptom_edema">水腫</string>
+    <string name="period_stats_range_6m">近 6 個月</string>
+    <string name="period_stats_range_day">日</string>
+    <string name="period_stats_range_week">週</string>
+    <string name="period_stats_range_month">月</string>
+    <string name="period_stats_avg_cycle">平均週期</string>
+    <string name="period_stats_avg_period">平均經期</string>
+    <string name="period_stats_next">下次預測</string>
+    <string name="period_stats_vs_prev">較上期 %1$+d 天</string>
+    <string name="period_stats_vs_prev_na">—</string>
+    <string name="period_stats_trend_title">週期長度趨勢</string>
+    <string name="period_stats_trend_empty">至少需要兩次經期開始記錄</string>
+    <string name="period_stats_symptom_title">症狀分布</string>
+    <string name="period_stats_symptom_empty">暫無症狀資料</string>
+    <string name="period_stats_symptom_center">症狀總次數</string>
+    <string name="period_day_unit">天</string>
+    <string name="period_month_unit">月</string>
+    <string name="period_next_label">下次預測</string>
+    <string name="period_days_until">距離 %1$d 天</string>
+    <string name="period_timeline_title">時間軸</string>
+    <string name="period_timeline_start">經期開始</string>
+    <string name="period_timeline_end">預計經期結束</string>
+    <string name="period_log_record_created">新增經期記錄</string>
+    <string name="period_log_record_updated">更新經期記錄</string>
+    <string name="period_log_record_deleted">刪除經期記錄</string>
+    <string name="agent_tool_add_period_record_title">新增經期記錄</string>
+    <string name="agent_tool_add_period_record_summary">記錄經期開始/結束、流量、症狀與心情</string>
+    <string name="agent_tool_add_period_record_description">記錄一筆經期：日期(yyyy-MM-dd)，可選 is_period_start / is_period_end，flow_intensity(NONE/LIGHT/MEDIUM/HEAVY)，症狀陣列，mood(VERY_HAPPY/HAPPY/NORMAL/SAD/VERY_SAD) 與備註。</string>
+    <string name="agent_tool_add_period_record_failed">新增經期記錄失敗：%1$s</string>
+    <string name="agent_tool_query_period_records_title">查詢經期記錄</string>
+    <string name="agent_tool_query_period_records_summary">查詢記錄、週期統計與下次預測</string>
+    <string name="agent_tool_query_period_records_description">查詢最近經期記錄，以及平均週期、平均經期長度與下次預測日期。可選 limit。</string>
+    <string name="agent_tool_query_period_records_empty">還沒有經期記錄。</string>
+    <string name="agent_tool_query_period_records_failed">查詢經期記錄失敗：%1$s</string>
+    <string name="agent_tool_update_period_record_title">更新經期記錄</string>
+    <string name="agent_tool_update_period_record_summary">依 record_id 更新既有經期記錄</string>
+    <string name="agent_tool_update_period_record_description">更新經期記錄。提供 record_id，以及需要修改的欄位（date、is_period_start、is_period_end、flow_intensity、symptoms、mood、note）。</string>
+    <string name="agent_tool_update_period_record_failed">更新經期記錄失敗：%1$s</string>
+    <string name="agent_tool_delete_period_record_title">刪除經期記錄</string>
+    <string name="agent_tool_delete_period_record_summary">依 record_id 刪除經期記錄</string>
+    <string name="agent_tool_delete_period_record_description">永久刪除一筆經期記錄。需要 record_id，且需要使用者確認。</string>
+    <string name="agent_tool_delete_period_record_done">已刪除經期記錄 %1$s</string>
+    <string name="agent_tool_delete_period_record_failed">刪除經期記錄失敗：%1$s</string>
+    <string name="agent_tool_period_param_date">記錄日期，yyyy-MM-dd</string>
+    <string name="agent_tool_period_param_is_start">該日是否為經期開始</string>
+    <string name="agent_tool_period_param_is_end">該日是否為經期結束</string>
+    <string name="agent_tool_period_param_flow">流量強度：NONE、LIGHT、MEDIUM 或 HEAVY</string>
+    <string name="agent_tool_period_param_symptoms">症狀陣列，如 ABDOMINAL_PAIN、HEADACHE、FATIGUE</string>
+    <string name="agent_tool_period_param_mood">心情：VERY_HAPPY、HAPPY、NORMAL、SAD 或 VERY_SAD</string>
+    <string name="agent_tool_period_param_note">可選備註</string>
+    <string name="agent_tool_period_param_record_id">經期記錄 id</string>
+    <string name="agent_tool_period_param_limit">最多回傳筆數（1-50）</string>
+    <string name="agent_tool_period_label_date">日期</string>
+    <string name="agent_tool_period_label_flow">流量</string>
+    <string name="agent_tool_period_label_symptoms">症狀</string>
+    <string name="agent_tool_period_open_link">開啟經期記錄</string>
+    <string name="agent_tool_period_detail_link">開啟記錄詳情</string>
+    <string name="agent_tool_period_no_next">資料不足</string>
+    <string name="agent_tool_period_unknown_error">未知錯誤</string>
+    <string-array name="agent_tool_add_period_record_keywords">
+        <item>period</item>
+        <item>menstruation</item>
+        <item>cycle</item>
+        <item>經期</item>
+        <item>月經</item>
+        <item>例假</item>
+    </string-array>
+    <string-array name="agent_tool_add_period_record_examples">
+        <item>I started my period today with mild cramps</item>
+        <item>幫我記一下今天來月經了，流量中等</item>
+    </string-array>
+    <string-array name="agent_tool_query_period_records_keywords">
+        <item>cycle</item>
+        <item>next period</item>
+        <item>週期</item>
+        <item>預測</item>
+    </string-array>
+    <string-array name="agent_tool_query_period_records_examples">
+        <item>When is my next period?</item>
+        <item>我週期準不準？</item>
+    </string-array>
+    <string-array name="agent_tool_update_period_record_keywords">
+        <item>update period</item>
+        <item>修改經期記錄</item>
+    </string-array>
+    <string-array name="agent_tool_update_period_record_examples">
+        <item>Update yesterday\'s record to heavy flow</item>
+        <item>把昨天的記錄流量改成重</item>
+    </string-array>
+    <string-array name="agent_tool_delete_period_record_keywords">
+        <item>delete period</item>
+        <item>刪除經期記錄</item>
+    </string-array>
+    <string-array name="agent_tool_delete_period_record_examples">
+        <item>Delete the period record from yesterday</item>
+        <item>刪掉昨天那筆經期記錄</item>
+    </string-array>
+</resources>

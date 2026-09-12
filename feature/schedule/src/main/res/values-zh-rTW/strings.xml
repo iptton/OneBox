@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="schedule_screen_title">日程中心</string>
+    <string name="schedule_sync_card_title">同步架構已就緒</string>
+    <string name="schedule_sync_card_description">該模組已拆出獨立事件域、同步游標與待辦橋接欄位，後續接入 Google 日曆時無需污染萬年曆與待辦模組。</string>
+    <string name="schedule_sync_ready">已記錄同步游標</string>
+    <string name="schedule_sync_not_connected">未連接帳號</string>
+    <string name="schedule_event_count_label">事件 %1$d 筆</string>
+    <string name="schedule_linked_task_chip">已綁定待辦上下文</string>
+    <string name="schedule_last_error_label">最近錯誤：%1$s</string>
+    <string name="schedule_action_card_title">先把本地事件域跑起來</string>
+    <string name="schedule_action_create_local">新增本地日程</string>
+    <string name="schedule_action_create_focus">按焦點日期建立事件</string>
+    <string name="schedule_action_open_todo">開啟待辦</string>
+    <string name="schedule_action_open_calendar">開啟萬年曆</string>
+    <string name="schedule_event_section_title">事件列表</string>
+    <string name="schedule_empty_title">還沒有日程事件</string>
+    <string name="schedule_empty_description">先建立本地事件，再逐步補齊 Google Calendar 帳號接入、增量同步與衝突處理。</string>
+    <string name="schedule_provider_local">本地</string>
+    <string name="schedule_provider_system">系統日曆</string>
+    <string name="schedule_provider_google">Google 日曆</string>
+    <string name="schedule_event_time_range">%1$s - %2$s</string>
+    <string name="schedule_status_local_only">僅本地</string>
+    <string name="schedule_status_pending_upload">待上傳</string>
+    <string name="schedule_status_synced">已同步</string>
+    <string name="schedule_status_pending_delete">待刪除</string>
+    <string name="schedule_status_conflict">有衝突</string>
+    <string name="schedule_status_failed">同步失敗</string>
+    <string name="schedule_linked_task_badge">任務橋接</string>
+    <string name="schedule_quick_event_title">新的本地日程</string>
+    <string name="schedule_focus_event_title">聚焦日程</string>
+    <string name="schedule_linked_task_description">關聯待辦：%1$s</string>
+    <string name="schedule_save_to_system_calendar">直接寫入系統行事曆</string>
+    <string name="schedule_export_to_system_calendar">加入系統行事曆</string>
+    <string name="schedule_system_calendar_unavailable">目前裝置沒有可用的行事曆應用程式</string>
+    <string name="schedule_no_writable_calendar">目前沒有可寫入的系統行事曆</string>
+    <string name="schedule_saved_to_system_calendar">已寫入系統行事曆</string>
+    <string name="schedule_save_to_system_calendar_failed">寫入系統行事曆失敗，請稍後再試</string>
+    <string name="schedule_calendar_permission_denied">需要行事曆權限才能直接寫入系統行事曆</string>
+    <string name="schedule_choose_calendar_title">選擇目標行事曆</string>
+    <string name="schedule_calendar_primary_badge">主行事曆</string>
+    <string name="schedule_dialog_close">關閉</string>
+    <string name="schedule_permission_dialog_title">需要行事曆權限</string>
+    <string name="schedule_permission_dialog_message">請在系統設定中開啟行事曆讀寫權限，才能直接寫入系統行事曆。</string>
+    <string name="schedule_open_settings">前往設定</string>
+    <string name="agent_tool_schedule_unknown_error">未知錯誤</string>
+    <string name="agent_tool_schedule_open_link">開啟行程</string>
+    <string name="agent_tool_schedule_label_start">開始</string>
+    <string name="agent_tool_schedule_label_end">結束</string>
+    <string name="agent_tool_schedule_label_all_day">全天活動</string>
+    <string name="agent_tool_schedule_label_location">地點</string>
+    <string name="agent_tool_schedule_invalid_datetime">時間「%1$s」格式錯誤，請使用 ISO 格式，例如 2026-09-10T14:00 或 2026-09-10。</string>
+    <string name="agent_tool_schedule_invalid_date">日期「%1$s」格式錯誤，請使用 yyyy-MM-dd，例如 2026-09-10。</string>
+    <string name="agent_tool_add_schedule_event_title">新增行程</string>
+    <string name="agent_tool_add_schedule_event_summary">建立一筆本機行程，支援標題、時間、備註與地點。</string>
+    <string name="agent_tool_add_schedule_event_description">建立一筆本機行程活動。title 與 start 必填；end 缺省時預設為開始時間後 1 小時（全天活動則為次日）。時間使用 ISO 格式字串：2026-09-10T14:00、2026-09-10T14:00:00+08:00，或純日期 2026-09-10。</string>
+    <string name="agent_tool_add_schedule_event_param_title">活動標題，必填。</string>
+    <string name="agent_tool_add_schedule_event_param_start">開始時間，ISO 格式，例如 2026-09-10T14:00；純日期表示當天 00:00。</string>
+    <string name="agent_tool_add_schedule_event_param_end">結束時間，ISO 格式，選填；缺省為開始時間後 1 小時，全天活動則為次日。</string>
+    <string name="agent_tool_add_schedule_event_param_all_day">是否為全天活動，預設 false。</string>
+    <string name="agent_tool_add_schedule_event_param_description">活動備註，選填。</string>
+    <string name="agent_tool_add_schedule_event_param_location">活動地點，選填。</string>
+    <string name="agent_tool_add_schedule_event_title_required">title 參數必填且不能為空。</string>
+    <string name="agent_tool_add_schedule_event_failed">新建日程失敗: %1$s</string>
+    <string-array name="agent_tool_add_schedule_event_keywords">
+        <item>日程</item>
+        <item>日曆</item>
+        <item>提醒</item>
+        <item>安排</item>
+        <item>schedule</item>
+        <item>calendar</item>
+        <item>新建日程</item>
+    </string-array>
+    <string-array name="agent_tool_add_schedule_event_examples">
+        <item>明天下午 3 點提醒我開會</item>
+        <item>建一個 9 月 20 日全天的日程:朋友婚禮</item>
+        <item>下週一 10:00 到 11:00 安排健身,地點在健身房</item>
+    </string-array>
+    <string name="agent_tool_query_schedule_events_title">查詢日程</string>
+    <string name="agent_tool_query_schedule_events_summary">按日期範圍查詢本地日程事件。</string>
+    <string name="agent_tool_query_schedule_events_description">查詢與指定日期範圍有交集的本地日程事件。start_date 預設為今天，end_date 預設為其後 6 天（即預設 7 天視窗）。最多回傳 50 筆，按開始時間升序，每筆包含 id、標題、時間、地點與備註；id 可傳給 delete_schedule_event 刪除。</string>
+    <string name="agent_tool_query_schedule_events_param_start_date">範圍開始日期，yyyy-MM-dd；預設為今天。</string>
+    <string name="agent_tool_query_schedule_events_param_end_date">範圍結束日期（含當天），yyyy-MM-dd；預設為 start_date 後 6 天。</string>
+    <string name="agent_tool_query_schedule_events_end_before_start">end_date 不能早於 start_date。</string>
+    <string name="agent_tool_query_schedule_events_empty">該範圍內沒有日程</string>
+    <string name="agent_tool_query_schedule_events_failed">查詢日程失敗: %1$s</string>
+    <string-array name="agent_tool_query_schedule_events_keywords">
+        <item>日程</item>
+        <item>日曆</item>
+        <item>安排</item>
+        <item>schedule</item>
+        <item>calendar</item>
+        <item>查日程</item>
+        <item>今天有什麼安排</item>
+    </string-array>
+    <string-array name="agent_tool_query_schedule_events_examples">
+        <item>我今天有什麼安排</item>
+        <item>看看這週的日程</item>
+        <item>查一下 9 月 10 日到 9 月 15 日的日程</item>
+    </string-array>
+    <string name="agent_tool_delete_schedule_event_title">刪除日程</string>
+    <string name="agent_tool_delete_schedule_event_summary">按事件 id 刪除一條本機日程。</string>
+    <string name="agent_tool_delete_schedule_event_description">按 event_id（通常來自 query_schedule_events 的查詢結果）刪除一條本機日程事件。刪除會連帶清除系統日曆等同步綁定且不可恢復，執行前需要使用者確認。</string>
+    <string name="agent_tool_delete_schedule_event_param_event_id">要刪除的事件 id，來自 query_schedule_events 的查詢結果。</string>
+    <string name="agent_tool_delete_schedule_event_id_required">event_id 參數必填。</string>
+    <string name="agent_tool_delete_schedule_event_not_found">未找到事件: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_deleted">已刪除: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_failed">刪除日程失敗: %1$s</string>
+    <string name="agent_tool_delete_schedule_event_confirm_title">刪除日程</string>
+    <string name="agent_tool_delete_schedule_event_confirm_presentation">永久刪除這條日程事件</string>
+    <string-array name="agent_tool_delete_schedule_event_keywords">
+        <item>日程</item>
+        <item>日曆</item>
+        <item>刪除日程</item>
+        <item>取消日程</item>
+        <item>schedule</item>
+        <item>delete event</item>
+    </string-array>
+    <string-array name="agent_tool_delete_schedule_event_examples">
+        <item>刪掉明天下午 3 點的會議</item>
+        <item>取消週五的健身安排</item>
+    </string-array>
+</resources>

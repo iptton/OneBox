@@ -181,6 +181,7 @@ android {
             localeFilters += listOf(
                 "en",        // 英文 (默认)
                 "zh-rCN",    // 简体中文
+                "zh-rTW",    // 繁体中文 (台湾; zh-HK/zh-Hant 靠 locale 回退命中)
                 "es",        // 西班牙语
                 "pt-rBR",    // 巴西葡萄牙语
                 "in",        // 印尼语
@@ -222,6 +223,7 @@ android {
             localeFilters += listOf(
                 "en",        // 英文 (默认)
                 "zh-rCN",    // 简体中文
+                "zh-rTW",    // 繁体中文 (台湾; zh-HK/zh-Hant 靠 locale 回退命中)
                 "es",        // 西班牙语
                 "pt-rBR",    // 巴西葡萄牙语
                 "in",        // 印尼语

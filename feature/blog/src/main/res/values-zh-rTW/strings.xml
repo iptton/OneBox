@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agent_tool_submit_feedback_title">提交回饋</string>
+    <string name="agent_tool_submit_feedback_summary">向開發團隊提交建議、問題回饋或功能請求</string>
+    <string name="agent_tool_submit_feedback_description">將使用者的建議、問題回饋或功能請求提交給開發團隊。無需登入。content 為必填的回饋內容;可選的聯絡方式會附在回饋內容末尾,便於開發者回訪。</string>
+    <string name="agent_tool_submit_feedback_param_content">回饋內容,必填,最長 2000 字。請詳細描述遇到的問題、建議或想要的功能。</string>
+    <string name="agent_tool_submit_feedback_param_contact">可選聯絡方式(信箱、QQ、微信等),便於開發者就回饋內容回訪。</string>
+    <string name="agent_tool_submit_feedback_success">回饋已提交成功,感謝你的回饋!開發團隊會盡快查看處理,你可以在回饋頁面查看回覆。</string>
+    <string name="agent_tool_submit_feedback_failed">回饋提交失敗:%1$s</string>
+    <string name="agent_tool_submit_feedback_error_empty_content">回饋內容不能為空</string>
+    <string name="agent_tool_submit_feedback_error_too_long">回饋內容超出長度限制(最長 %1$d 字)</string>
+    <string name="agent_tool_submit_feedback_contact_label">聯絡方式</string>
+    <string name="agent_tool_submit_feedback_unknown_error">未知錯誤</string>
+    <string name="agent_tool_submit_feedback_open_link">查看我的回饋</string>
+    <string-array name="agent_tool_submit_feedback_keywords">
+        <item>回饋</item>
+        <item>建議</item>
+        <item>意見</item>
+        <item>問題</item>
+        <item>功能請求</item>
+    </string-array>
+    <string-array name="agent_tool_submit_feedback_examples">
+        <item>幫我提交一個回饋:希望能支援夜間模式自動切換</item>
+        <item>我要回饋一個問題,掃碼功能偶爾閃退</item>
+        <item>提交回饋:建議增加批次重新命名功能,我的信箱是 test@example.com</item>
+    </string-array>
+</resources>

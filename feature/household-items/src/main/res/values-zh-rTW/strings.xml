@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="household_title">物品管理</string>
+    <string name="household_tab_list">物品</string>
+    <string name="household_tab_locations">位置</string>
+    <string name="household_tab_stats">統計</string>
+    <string name="household_empty_guide_title">還沒有記錄任何物品</string>
+    <string name="household_empty_guide_message">手動新增一件，或者讓 AI 幫你記</string>
+    <string name="household_add_manually">手動新增</string>
+    <string name="household_add_with_ai">AI 幫我記</string>
+    <string name="household_ai_assist_title">物品管理助手</string>
+    <string name="household_ai_assist_fill_in">把感冒藥記到主臥藥箱，2027年6月過期</string>
+    <string name="household_ai_assist_prompt">你是使用者的物品管理助手。使用者告訴你什麼物品放在哪裡(以及可選的保存期限)時，用 add_household_item 工具幫他記下來，例如\"把感冒藥放在主臥藥箱，2027年6月過期\"；使用者問東西在哪時用 find_household_item 查詢；使用者要挪東西時用 move_household_item。每次操作後簡短確認結果。</string>
+    <string name="household_search_hint">搜尋名稱、分類或備註</string>
+    <string name="household_expired_days">已過期 %1$d 天</string>
+    <string name="household_days_left">剩餘 %1$d 天</string>
+    <string name="household_expires_today">今天到期</string>
+    <string name="household_add_item">新增物品</string>
+    <string name="household_manage_locations">位置管理</string>
+    <string name="household_empty_items">暫無物品，點右下角 + 新增一個吧</string>
+    <string name="household_empty_search">沒有找到符合的物品</string>
+    <string name="household_breadcrumb_home">全部</string>
+    <string name="household_view_list">清單檢視</string>
+    <string name="household_view_grid">格狀檢視</string>
+    <string name="household_uncategorized">未分類</string>
+    <string name="household_no_location">未設定位置</string>
+    <string name="household_delete_item">刪除</string>
+    <string name="household_edit_item">編輯</string>
+    <string name="household_editor_add_title">新增物品</string>
+    <string name="household_editor_edit_title">編輯物品</string>
+    <string name="household_editor_name_label">名稱</string>
+    <string name="household_editor_name_hint">如：感冒藥</string>
+    <string name="household_editor_category_label">分類</string>
+    <string name="household_category_medicine">藥品</string>
+    <string name="household_category_beauty">護膚美妝</string>
+    <string name="household_category_daily">日用品</string>
+    <string name="household_category_food">食品飲料</string>
+    <string name="household_category_clothing">衣物</string>
+    <string name="household_category_digital">數位</string>
+    <string name="household_category_books">書籍</string>
+    <string name="household_category_stationery">文具</string>
+    <string name="household_category_home_goods">家居用品</string>
+    <string name="household_category_cleaning">清潔用品</string>
+    <string name="household_category_baby">母嬰用品</string>
+    <string name="household_category_sports">運動健身</string>
+    <string name="household_category_pet">寵物用品</string>
+    <string name="household_category_tools">工具</string>
+    <string name="household_category_accessories">飾品配件</string>
+    <string name="household_category_other">其他</string>
+    <string name="household_category_small_legacy">小東西</string>
+    <string name="household_category_big_legacy">大件</string>
+    <string name="household_category_custom_hint">自訂分類</string>
+    <string name="household_editor_location_label">位置</string>
+    <string name="household_editor_location_none">未設定位置</string>
+    <string name="household_editor_location_pick">選擇位置</string>
+    <string name="household_editor_expire_label">保存期限</string>
+    <string name="household_editor_expire_pick">選擇日期</string>
+    <string name="household_editor_expire_clear">清除</string>
+    <string name="household_editor_photo_label">圖片</string>
+    <string name="household_editor_photo_add">新增圖片</string>
+    <string name="household_editor_photo_remove">移除圖片</string>
+    <string name="household_editor_note_label">備註(選填)</string>
+    <string name="household_editor_note_hint">用途、規格等</string>
+    <string name="household_save">儲存</string>
+    <string name="household_cancel">取消</string>
+    <string name="household_confirm">確定</string>
+    <string name="household_item_added">已新增物品</string>
+    <string name="household_location_added">已新增位置</string>
+    <string name="household_saved">已儲存</string>
+    <string name="household_stats_total_items">物品總數</string>
+    <string name="household_stats_location_count">位置數量</string>
+    <string name="household_stats_expiring_soon">臨期物品</string>
+    <string name="household_stats_unit_item">件</string>
+    <string name="household_stats_unit_location">個</string>
+    <string name="household_stats_added_this_month">本月新增 +%1$d</string>
+    <string name="household_stats_category_share">按物品分類佔比</string>
+    <string name="household_stats_location_distribution">按位置分佈(件)</string>
+    <string name="household_stats_activity">動態摘要</string>
+    <string name="household_stats_recent_added">最近新增</string>
+    <string name="household_stats_upcoming_expiry">即將過期</string>
+    <string name="household_stats_total_count">%1$d\n總計</string>
+    <string name="household_stats_items_count">%1$d 件</string>
+    <string name="household_stats_other">其他</string>
+    <string name="household_stats_empty">暫無資料</string>
+    <string name="household_stats_expire_prefix">%1$s 過期(</string>
+    <string name="household_stats_expire_suffix">)</string>
+    <string name="household_locations_title">位置管理</string>
+    <string name="household_location_add_root">新建位置</string>
+    <string name="household_location_add_child">新增子級</string>
+    <string name="household_location_rename">重新命名</string>
+    <string name="household_location_delete">刪除</string>
+    <string name="household_location_name_hint">位置名稱</string>
+    <string name="household_location_pick_icon">選擇圖示</string>
+    <string name="household_location_delete_blocked">該位置下有子位置或物品，請先移除</string>
+    <string name="household_locations_empty">暫無位置</string>
+    <string name="household_location_expand">展開</string>
+    <string name="household_location_collapse">收合</string>
+    <string name="household_loc_home">家</string>
+    <string name="household_loc_living_room">客廳</string>
+    <string name="household_loc_master_bedroom">主臥</string>
+    <string name="household_loc_second_bedroom">次臥</string>
+    <string name="household_loc_kitchen">廚房</string>
+    <string name="household_loc_bathroom">衛浴</string>
+    <string name="household_loc_study">書房</string>
+    <string name="household_loc_balcony">陽台</string>
+    <string name="household_loc_storage_room">儲物間</string>
+    <string name="household_loc_company">公司</string>
+    <string name="household_loc_desk">工位</string>
+    <string name="household_loc_meeting_room">會議室</string>
+    <string name="household_loc_pantry">茶水間</string>
+    <string name="household_loc_locker">置物櫃</string>
+    <string name="household_log_item_created">新增物品：%1$s</string>
+    <string name="household_log_item_updated">更新物品：%1$s</string>
+    <string name="household_log_item_deleted">刪除物品：%1$s</string>
+    <string name="household_log_item_moved">移動物品：%1$s</string>
+    <string name="household_log_location_created">新增位置：%1$s</string>
+    <string name="household_log_location_renamed">重新命名位置：%1$s</string>
+    <string name="household_log_location_deleted">刪除位置：%1$s</string>
+    <string name="agent_tool_add_household_item_title">新增物品</string>
+    <string name="agent_tool_add_household_item_summary">記錄一件物品及其存放位置</string>
+    <string name="agent_tool_add_household_item_description">記錄一件物品：名稱、存放位置路徑、可選分類、保存期限和備註。已有同名位置（包括巢狀層級裡的）會直接沿用，不存在時才逐級建立。</string>
+    <string name="agent_tool_add_household_item_param_name">物品名稱，如「感冒藥」</string>
+    <string name="agent_tool_add_household_item_param_location_path">存放位置路徑，用「/」或「&gt;」分隔，如「家/主臥/藥箱」。已有同名位置會直接沿用，不存在時才建立</string>
+    <string name="agent_tool_add_household_item_param_category">分類,自由文字,如 藥品 / 小東西 / 大件</string>
+    <string name="agent_tool_add_household_item_param_expire_date">保存期限截止日期,yyyy-MM-dd,選填</string>
+    <string name="agent_tool_add_household_item_param_note">備註,選填</string>
+    <string name="agent_tool_add_household_item_failed">新增物品失敗: %1$s</string>
+    <string-array name="agent_tool_add_household_item_keywords">
+        <item>物品</item>
+        <item>物品管理</item>
+        <item>收納</item>
+        <item>記錄物品</item>
+    </string-array>
+    <string-array name="agent_tool_add_household_item_examples">
+        <item>幫我把感冒藥記在主臥藥箱,2027年6月過期</item>
+        <item>把備用充電線記在書房抽屜裡</item>
+    </string-array>
+    <string name="agent_tool_find_household_item_title">尋找物品</string>
+    <string name="agent_tool_find_household_item_summary">尋找物品放在家裡什麼位置</string>
+    <string name="agent_tool_find_household_item_description">按名稱、分類或備註模糊搜尋物品,回傳每個符合項目的完整位置路徑、保存期限狀態和備註。</string>
+    <string name="agent_tool_find_household_item_param_query">搜尋關鍵字,符合名稱、分類和備註</string>
+    <string name="agent_tool_find_household_item_empty">沒有找到符合的物品</string>
+    <string name="agent_tool_find_household_item_failed">尋找物品失敗: %1$s</string>
+    <string-array name="agent_tool_find_household_item_keywords">
+        <item>物品</item>
+        <item>尋找</item>
+        <item>在哪</item>
+        <item>位置</item>
+    </string-array>
+    <string-array name="agent_tool_find_household_item_examples">
+        <item>感冒藥在哪</item>
+        <item>備用充電線放哪了</item>
+    </string-array>
+    <string name="agent_tool_move_household_item_title">移動物品</string>
+    <string name="agent_tool_move_household_item_summary">修改物品的存放位置</string>
+    <string name="agent_tool_move_household_item_description">把一件物品移動到新的存放位置路徑。物品按名稱模糊符合;位置路徑不存在時自動逐級建立。</string>
+    <string name="agent_tool_move_household_item_param_name">物品名稱,模糊符合</string>
+    <string name="agent_tool_move_household_item_param_location_path">新的存放位置路徑,用 \"/\" 或 \"&gt;\" 分隔</string>
+    <string name="agent_tool_move_household_item_not_found">沒有找到物品: %1$s</string>
+    <string name="agent_tool_move_household_item_failed">移動物品失敗: %1$s</string>
+    <string-array name="agent_tool_move_household_item_keywords">
+        <item>物品</item>
+        <item>移動</item>
+        <item>挪到</item>
+    </string-array>
+    <string-array name="agent_tool_move_household_item_examples">
+        <item>把感冒藥挪到客廳抽屜</item>
+    </string-array>
+    <string name="agent_tool_household_label_name">名稱</string>
+    <string name="agent_tool_household_label_location">位置</string>
+    <string name="agent_tool_household_label_category">分類</string>
+    <string name="agent_tool_household_label_expiry">保存期限</string>
+    <string name="agent_tool_household_label_note">備註</string>
+    <string name="agent_tool_household_expiry_expired">已過期 %1$d 天</string>
+    <string name="agent_tool_household_expiry_days_left">剩餘 %1$d 天</string>
+    <string name="agent_tool_household_expiry_today">今天到期</string>
+    <string name="agent_tool_household_expiry_none">無保存期限</string>
+    <string name="agent_tool_household_open_link">開啟物品管理</string>
+    <string name="agent_tool_household_edit_link">查看物品</string>
+    <string name="agent_tool_household_unknown_error">未知錯誤</string>
+</resources>

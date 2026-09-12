@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_detect_text_tab">文字檢測</string>
+    <string name="ai_detect_image_tab">圖片檢測</string>
+    <string name="ai_detect_text_hint">貼上或輸入需要檢測的文字…</string>
+    <string name="ai_detect_button">開始檢測</string>
+    <string name="ai_detect_detecting">檢測中…</string>
+    <string name="ai_detect_upload_hint">點擊上傳或貼上圖片…</string>
+    <string name="ai_detect_upload_format">支援 JPG / PNG / WebP，尺寸大於 300×300，不超過 10MB</string>
+    <string name="ai_detect_change_image">更換圖片</string>
+    <string name="ai_detect_probability_label">AI 生成機率</string>
+    <string name="ai_detect_verdict_likely_ai">疑似 AI 生成</string>
+    <string name="ai_detect_verdict_maybe_ai">可能為 AI 生成</string>
+    <string name="ai_detect_verdict_likely_human">疑似人類創作</string>
+    <string name="ai_detect_recheck">重新檢測</string>
+    <string name="ai_detect_view_detail">查看詳情</string>
+    <string name="ai_detect_collapse_detail">收合詳情</string>
+    <string name="ai_detect_segment_human">人類</string>
+    <string name="ai_detect_segment_ai">AI</string>
+    <string name="ai_detect_segment_suspected">疑似 AI</string>
+    <string name="ai_detect_labels_ratio_title">標籤佔比</string>
+    <string name="ai_detect_image_confidence_detail">模型給出的該圖片 AI 生成置信度為 %1$d%%，數值越高越可能是 AI 生成。</string>
+    <string name="ai_detect_history">檢測歷史</string>
+    <string name="ai_detect_history_empty">暫無檢測記錄</string>
+    <string name="ai_detect_clear_all">清空</string>
+    <string name="ai_detect_clear_confirm">確認清空全部檢測記錄？</string>
+    <string name="ai_detect_confirm">確認</string>
+    <string name="ai_detect_cancel">取消</string>
+    <string name="ai_detect_delete">刪除</string>
+    <string name="ai_detect_type_text">文字</string>
+    <string name="ai_detect_type_image">圖片</string>
+    <string name="ai_detect_detail_title">檢測詳情</string>
+    <string name="ai_detect_error_image_too_large">圖片大小不能超過 10MB</string>
+    <string name="ai_detect_error_image_too_small">圖片尺寸需大於 300×300</string>
+    <string name="ai_detect_error_image_unreadable">無法讀取該圖片</string>
+    <string name="ai_detect_error_network">檢測失敗，請稍後重試</string>
+    <string name="agent_tool_detect_ai_text_title">AI 文字檢測</string>
+    <string name="agent_tool_detect_ai_text_summary">檢測一段文字是否疑似 AI 生成，回傳疑似 AI 佔比、判定結論與分段標籤</string>
+    <string name="agent_tool_detect_ai_text_param_text">待檢測的純文字內容</string>
+    <string name="agent_tool_detect_ai_text_error_args">參數錯誤：text 必須是非空字串</string>
+    <string name="agent_tool_detect_ai_image_title">AI 圖片檢測</string>
+    <string name="agent_tool_detect_ai_image_summary">檢測一張圖片是否疑似 AI 生成，回傳 AI 生成置信度與判定結論</string>
+    <string name="agent_tool_detect_ai_image_param_image_uri">待檢測圖片的 URI，支援 content:// 與 file://，可從對話附件或 browse_files 工具結果中取得</string>
+    <string name="agent_tool_detect_ai_image_error_args">參數錯誤：image_uri 必須是非空字串</string>
+</resources>

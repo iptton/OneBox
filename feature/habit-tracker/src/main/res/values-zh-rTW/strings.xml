@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="habit_title">打卡</string>
+    <string name="habit_tab_checkin">打卡</string>
+    <string name="habit_tab_stats">資料</string>
+    <string name="habit_add">新增習慣</string>
+    <string name="habit_summary_rate">打卡率</string>
+    <string name="habit_summary_done">已打卡</string>
+    <string name="habit_summary_missed">未打卡</string>
+    <string name="habit_today_section">今日打卡</string>
+    <string name="habit_edit_mode">編輯</string>
+    <string name="habit_edit_done">完成</string>
+    <string name="habit_empty_list">暫無習慣，點右上角 + 建立一個吧</string>
+    <string name="habit_delete_habit">刪除習慣</string>
+    <string-array name="habit_weekdays_short">
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+        <item>日</item>
+    </string-array>
+    <string name="habit_stats_week_trend">本週趨勢</string>
+    <string name="habit_stats_distribution">打卡分布</string>
+    <string name="habit_stats_rate_trend">打卡率趨勢</string>
+    <string name="habit_stats_not_started">未開始</string>
+    <string name="habit_stats_total_habits">總習慣</string>
+    <string name="habit_stats_empty">暫無資料</string>
+    <string name="habit_last_7_days">近 7 天</string>
+    <string name="habit_last_30_days">近 30 天</string>
+    <string name="habit_add_title">新增習慣</string>
+    <string name="habit_edit_title">編輯習慣</string>
+    <string name="habit_edit_name_label">習慣名稱</string>
+    <string name="habit_edit_name_hint">輸入習慣名稱</string>
+    <string name="habit_edit_icon_label">選擇圖示</string>
+    <string name="habit_edit_color_label">選擇顏色</string>
+    <string name="habit_edit_color_auto_hint">未選擇時自動使用主題色</string>
+    <string name="habit_edit_repeat_label">重複頻率</string>
+    <string name="habit_repeat_daily">每天</string>
+    <string name="habit_repeat_weekly">每週</string>
+    <string name="habit_repeat_monthly">每月</string>
+    <string name="habit_repeat_custom">自訂</string>
+    <string name="habit_repeat_daily_desc">每日重複執行</string>
+    <string name="habit_repeat_times_week_label">每週次數</string>
+    <string name="habit_repeat_times_month_label">每月次數</string>
+    <string name="habit_edit_reminder_label">提醒時間</string>
+    <string name="habit_edit_reminder_none">不提醒</string>
+    <string name="habit_edit_reminder_subtitle">在該時間提醒我打卡</string>
+    <string name="habit_edit_reminder_clear">清除</string>
+    <string name="habit_edit_note_label">備註(選填)</string>
+    <string name="habit_edit_note_hint">新增備註...</string>
+    <string name="habit_edit_stats_label">統計打卡資料</string>
+    <string name="habit_edit_stats_subtitle">開啟後將統計打卡率和連續打卡天數</string>
+    <string name="habit_save">儲存</string>
+    <string name="habit_name_required">請輸入習慣名稱</string>
+    <string name="habit_saved">已儲存</string>
+    <string name="habit_freq_daily">每日</string>
+    <string name="habit_freq_weekly_times">每週 %1$d 次</string>
+    <string name="habit_freq_monthly_times">每月 %1$d 次</string>
+    <string name="habit_preset_drink_water">每天八杯水</string>
+    <string name="habit_preset_wake_early">早起</string>
+    <string name="habit_preset_exercise">運動</string>
+    <string name="habit_preset_reading">閱讀</string>
+    <string name="habit_preset_meditation">冥想</string>
+    <string name="habit_preset_no_stay_up">不熬夜</string>
+    <string name="habit_notification_channel_name">習慣提醒</string>
+    <string name="habit_notification_channel_desc">每日習慣打卡提醒</string>
+    <string name="habit_notification_text">該打卡了:%1$s</string>
+    <string name="habit_streak_days">連續打卡 %1$d 天</string>
+    <string name="agent_tool_add_habit_title">新增習慣</string>
+    <string name="agent_tool_add_habit_summary">在習慣打卡中建立一個新習慣</string>
+    <string name="agent_tool_add_habit_description">在習慣打卡模組中建立新習慣。支援自訂名稱、圖示、重複頻率(每天 / 每週 N 次 / 每月 N 次 / 自訂星期幾)、可選的每日提醒時間和備註。</string>
+    <string name="agent_tool_add_habit_param_name">習慣名稱,如\"每天喝八杯水\"</string>
+    <string name="agent_tool_add_habit_param_icon">圖示鍵,可選:waterdrop(喝水)、sunrise(早起)、running(運動)、book(閱讀)、meditation(冥想)、moon(早睡)、toothbrush(刷牙)、pill(服藥)、fruit(水果)、writing(寫作)、piggybank(存錢)、dumbbell(健身)</string>
+    <string name="agent_tool_add_habit_param_repeat_type">重複類型:daily(每天)/ weekly_times(每週 N 次)/ monthly_times(每月 N 次)/ custom_weekdays(自訂星期幾)</string>
+    <string name="agent_tool_add_habit_param_repeat_target">每週或每月次數,1-30,僅 weekly_times / monthly_times 時有效</string>
+    <string name="agent_tool_add_habit_param_weekdays">自訂星期幾,1-7 的陣列(1=週一,7=週日),僅 custom_weekdays 時有效</string>
+    <string name="agent_tool_add_habit_param_remind_time">每日提醒時間,HH:mm(24 小時制),可選</string>
+    <string name="agent_tool_add_habit_param_note">備註,可選</string>
+    <string name="agent_tool_add_habit_success">習慣已建立</string>
+    <string name="agent_tool_add_habit_failed">建立習慣失敗:%1$s</string>
+    <string-array name="agent_tool_add_habit_keywords">
+        <item>習慣</item>
+        <item>打卡</item>
+        <item>新增習慣</item>
+        <item>建立習慣</item>
+    </string-array>
+    <string-array name="agent_tool_add_habit_examples">
+        <item>幫我新增一個每天喝八杯水的習慣</item>
+        <item>建立一個每週跑步 3 次的習慣</item>
+    </string-array>
+    <string name="agent_tool_check_in_habit_title">習慣打卡</string>
+    <string name="agent_tool_check_in_habit_summary">為指定習慣完成一天打卡</string>
+    <string name="agent_tool_check_in_habit_description">把某個習慣標記為指定日期已打卡(預設今天)。可用 habit_id 精確定位,或用 habit_name 模糊匹配。同一天重複打卡不會產生重複記錄。</string>
+    <string name="agent_tool_check_in_habit_param_habit_id">習慣 ID。已知時優先使用;否則用 habit_name 匹配</string>
+    <string name="agent_tool_check_in_habit_param_habit_name">習慣名稱,未提供 habit_id 時模糊匹配</string>
+    <string name="agent_tool_check_in_habit_param_date">打卡日期,yyyy-MM-dd,預設今天,不能是未來日期</string>
+    <string name="agent_tool_check_in_habit_success">打卡成功</string>
+    <string name="agent_tool_check_in_habit_already">該習慣當天已打卡</string>
+    <string name="agent_tool_check_in_habit_not_found">未找到習慣:%1$s</string>
+    <string name="agent_tool_check_in_habit_failed">打卡失敗:%1$s</string>
+    <string-array name="agent_tool_check_in_habit_keywords">
+        <item>習慣</item>
+        <item>打卡</item>
+        <item>完成</item>
+    </string-array>
+    <string-array name="agent_tool_check_in_habit_examples">
+        <item>今天的跑步習慣幫我打卡</item>
+        <item>把昨天的閱讀標記為已完成</item>
+    </string-array>
+    <string name="agent_tool_query_habits_title">查詢習慣</string>
+    <string name="agent_tool_query_habits_summary">查詢習慣清單、今日完成狀態和本週打卡率</string>
+    <string name="agent_tool_query_habits_description">查詢習慣清單:每個習慣今日的打卡狀態、每日習慣的連續打卡天數,以及本週整體打卡率。</string>
+    <string name="agent_tool_query_habits_section_today">今日</string>
+    <string name="agent_tool_query_habits_weekly_rate">本週打卡率</string>
+    <string name="agent_tool_query_habits_empty">還沒有建立任何習慣</string>
+    <string name="agent_tool_query_habits_failed">查詢習慣失敗:%1$s</string>
+    <string-array name="agent_tool_query_habits_keywords">
+        <item>習慣</item>
+        <item>打卡狀態</item>
+        <item>連續打卡</item>
+    </string-array>
+    <string-array name="agent_tool_query_habits_examples">
+        <item>今天還有哪些習慣沒打卡?</item>
+        <item>看看我本週的習慣打卡率</item>
+    </string-array>
+    <string name="agent_tool_habit_label_date">日期</string>
+    <string name="agent_tool_habit_label_repeat">頻率</string>
+    <string name="agent_tool_habit_label_reminder">提醒</string>
+    <string name="agent_tool_habit_label_name">名稱</string>
+    <string name="agent_tool_habit_open_link">開啟習慣打卡</string>
+    <string name="agent_tool_habit_edit_link">查看習慣</string>
+    <string name="agent_tool_unknown_error">未知錯誤</string>
+</resources>

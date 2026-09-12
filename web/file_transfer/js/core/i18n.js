@@ -1,19 +1,22 @@
 /**
  * i18n 文案加载与应用
  *
- * 支持 zh-CN / en / es / pt-BR / in / hi / ru / tr / ja / ko / fil / de，字典由服务端按语言下发（res/raw/i18n[_lang].json）。
+ * 支持 zh-CN / zh-TW / en / es / pt-BR / in / hi / ru / tr / ja / ko / fil / de，字典由服务端按语言下发（res/raw/i18n[_lang].json）。
  */
 
 const STORAGE_KEY = 'ft-lang';
 
 /**
  * 语言检测优先级：?lang= URL query > localStorage(ft-lang) > navigator.language
- * 规范化：zh* → zh-CN，es* → es，pt* → pt-BR，in/id* → in（印尼语），hi* → hi（印地语），ru* → ru（俄语），tr* → tr（土耳其语），ja* → ja（日语），ko* → ko（韩语），fil* → fil（菲律宾语），de* → de（德语），其余 → en（即未支持语言默认英文）
+ * 规范化：zh-TW/zh-HK/zh-Hant → zh-TW（繁体），其余 zh* → zh-CN（简体），es* → es，pt* → pt-BR，in/id* → in（印尼语），hi* → hi（印地语），ru* → ru（俄语），tr* → tr（土耳其语），ja* → ja（日语），ko* → ko（韩语），fil* → fil（菲律宾语），de* → de（德语），其余 → en（即未支持语言默认英文）
  */
 export function detectLang() {
   const normalize = (raw) => {
     const v = String(raw || '').toLowerCase();
-    if (v.startsWith('zh')) return 'zh-CN';
+    // 繁体优先判断：tw/hk/mo 地区与 Hant 脚本都归到 zh-TW 字典
+    if (v.startsWith('zh')) {
+      return /^zh-(tw|hk|mo)\b/.test(v) || v.includes('hant') ? 'zh-TW' : 'zh-CN';
+    }
     if (v.startsWith('es')) return 'es';
     if (v.startsWith('pt')) return 'pt-BR';
     // 印尼语: Android 用旧码 in, 浏览器 navigator.language 多为 id / id-ID

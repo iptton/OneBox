@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_launcher_name">萬寶盒</string>
+    <string name="app_name">萬寶盒</string>
+    <string name="default_folder">Documents/OneBox</string>
+    <string name="default_prefix">OneBox</string>
+</resources>

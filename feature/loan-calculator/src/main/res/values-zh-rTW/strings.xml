@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loan_calc_title">貸款計算器</string>
+    <string name="loan_calc_amount_label">貸款金額（元）</string>
+    <string name="loan_calc_amount_hint">請輸入金額</string>
+    <string name="loan_calc_term_label">貸款期數</string>
+    <string name="loan_calc_term_hint">選擇</string>
+    <string name="loan_calc_rate_label">年利率（%）</string>
+    <string name="loan_calc_rate_hint">請輸入年利率</string>
+    <string name="loan_calc_method_label">還款方式</string>
+    <string name="loan_calc_method_hint">選擇</string>
+    <string name="loan_calc_start">開始計算</string>
+    <string name="loan_calc_cancel">取消</string>
+    <string name="loan_method_equal_installment">等本等息</string>
+    <string name="loan_method_equal_installment_desc">月付、本金、利息每月相同</string>
+    <string name="loan_method_equal_payment">等額本息</string>
+    <string name="loan_method_equal_payment_desc">月付每月相同，本金逐月遞增，利息逐月遞減</string>
+    <string name="loan_method_equal_principal">等額本金</string>
+    <string name="loan_method_equal_principal_desc">月付每月遞減，本金每月相同，利息每月遞減</string>
+    <string name="loan_method_interest_first">先息後本</string>
+    <string name="loan_method_interest_first_desc">每月還固定利息，到期還全部本金</string>
+    <string name="loan_result_monthly_payment">月均還款</string>
+    <string name="loan_result_total_interest">總利息</string>
+    <string name="loan_result_total_repayment">還款總額</string>
+    <string name="loan_result_schedule_title">還款計畫</string>
+    <string name="loan_result_month">期次</string>
+    <string name="loan_result_monthly_col">月還款</string>
+    <string name="loan_result_principal_col">本金</string>
+    <string name="loan_result_interest_col">利息</string>
+    <string name="loan_result_remaining_col">剩餘本金</string>
+    <string name="loan_input_error_amount">請輸入有效的貸款金額</string>
+    <string name="loan_input_error_term">請選擇貸款期數</string>
+    <string name="loan_input_error_rate">請輸入有效的年利率</string>
+    <string name="loan_input_error_method">請選擇還款方式</string>
+    <string name="loan_term_months">%d 個月</string>
+    <string name="loan_term_years">%1$d 年（%2$d 個月）</string>
+    <string name="loan_term_picker_title">選擇貸款期數</string>
+</resources>

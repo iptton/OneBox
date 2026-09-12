@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lifetime_title">時光沙漏</string>
+    <string name="lifetime_loading">正在計算你的時光…</string>
+    <string name="lifetime_unit_years">年</string>
+    <string name="lifetime_unit_months">月</string>
+    <string name="lifetime_unit_days">天</string>
+    <string name="lifetime_unit_hours">小時</string>
+    <string name="lifetime_unit_minutes">分鐘</string>
+    <string name="lifetime_unit_seconds">秒</string>
+    <string name="lifetime_time_card_label">已走過的人生</string>
+    <string name="lifetime_remaining_time_label">還剩餘的人生</string>
+    <string name="lifetime_life_journey">人生旅程</string>
+    <string name="lifetime_progress_label">進度</string>
+    <string name="lifetime_remaining_estimate">預計還有 %1$d 年</string>
+    <string name="lifetime_milestone_section">紀念日</string>
+    <string name="lifetime_countdown_section">倒數日</string>
+    <string name="lifetime_frequency_section">時光頻率</string>
+    <string name="lifetime_add">新增</string>
+    <string name="lifetime_add_event">新增時光頻率</string>
+    <string name="lifetime_add_milestone">新增紀念日</string>
+    <string name="lifetime_edit_milestone">編輯紀念日</string>
+    <string name="lifetime_event_name_label">事件名稱</string>
+    <string name="lifetime_milestone_name_hint">紀念日名稱</string>
+    <string name="lifetime_event_name_placeholder">吃飯</string>
+    <string name="lifetime_choose_icon">選擇圖示</string>
+    <string name="lifetime_frequency_label">頻率</string>
+    <string name="lifetime_unit_label">單位</string>
+    <string name="lifetime_times_per_period">每個週期次數</string>
+    <string name="lifetime_add_to_timeline">記錄時光頻率</string>
+    <string name="lifetime_default_times_per_period">1</string>
+    <string name="lifetime_validation_event_name_required">請輸入事件名稱</string>
+    <string name="lifetime_validation_times_per_period_required">請輸入大於 0 的次數</string>
+    <string name="lifetime_validation_milestone_name_required">請輸入紀念日名稱</string>
+    <string name="lifetime_validation_milestone_target_date_required">請選擇目標日期</string>
+    <string name="lifetime_select_birthday">選擇出生日期</string>
+    <string name="lifetime_confirm">確認</string>
+    <string name="lifetime_cancel">取消</string>
+    <string name="lifetime_settings">設定起點</string>
+    <string name="lifetime_birth_date">出生日期</string>
+    <string name="lifetime_target_age">期望的人生長度</string>
+    <string name="lifetime_target_age_description">你期望的人生長度定義了「時光沙漏」的可視化範圍，代表你對充實人生的個人願景。</string>
+    <string name="lifetime_tap_to_change">點擊修改</string>
+    <string name="lifetime_update_settings">進入時光沙漏</string>
+    <string name="lifetime_hide_progress">隱藏人生進度</string>
+    <string name="lifetime_welcome_title">時光沙漏</string>
+    <string name="lifetime_welcome_subtitle">時間從不等人，但你可以記住它。</string>
+    <string name="lifetime_welcome_start">開始</string>
+    <string name="lifetime_demo_hint">演示資料 — 點擊設定你的真實出生日期</string>
+    <string name="lifetime_demo_action">去設定</string>
+    <string name="lifetime_empty_events_title">還沒有時光頻率</string>
+    <string name="lifetime_empty_events_subtitle">新增你關心的事情，比如吃飯、看書、旅行…</string>
+    <string name="lifetime_empty_milestones_title">還沒有紀念日</string>
+    <string name="lifetime_empty_milestones_subtitle">畢業 1000 天、30 歲生日… 記錄屬於你的重要時刻</string>
+    <string name="lifetime_empty_countdown_title">還沒有倒數日</string>
+    <string name="lifetime_empty_countdown_subtitle">系統已自動兜底未來 3 個月節日，新增你自己的重要日子</string>
+    <string name="lifetime_recommend_events_title">為你推薦以下時光頻率</string>
+    <string name="lifetime_event_date">事件日期</string>
+    <string name="lifetime_select_date">選擇日期</string>
+    <string name="lifetime_event_picker_title">選擇時光頻率</string>
+    <string name="lifetime_event_picker_add">新增</string>
+    <string name="lifetime_event_picker_recommended">推薦</string>
+    <string name="lifetime_event_picker_preset">預設事件</string>
+    <string name="lifetime_event_picker_custom">我的時光頻率</string>
+    <string name="lifetime_event_added">已新增</string>
+    <string name="lifetime_event_saved">時光頻率已新增</string>
+    <string name="lifetime_event_updated">時光頻率已更新</string>
+    <string name="lifetime_event_deleted">時光頻率已刪除</string>
+    <string name="lifetime_frequency_one_time">一次</string>
+    <string name="lifetime_frequency_daily">每天</string>
+    <string name="lifetime_frequency_weekly">每週</string>
+    <string name="lifetime_frequency_monthly">每月</string>
+    <string name="lifetime_frequency_yearly">每年</string>
+    <string name="lifetime_frequency_progress">已過人生 %1$d%%</string>
+    <string name="lifetime_card_flip_hint">點擊翻轉</string>
+    <string name="lifetime_completed_label">已完成</string>
+    <string name="lifetime_remaining_label">待完成</string>
+    <string name="lifetime_milestone_target_date">目標日期</string>
+    <string name="lifetime_milestone_target_days">目標天數</string>
+    <string name="lifetime_milestone_start_date">起始日期</string>
+    <string name="lifetime_milestone_note">備註</string>
+    <string name="lifetime_action_frequency_events">頻率事件</string>
+    <string name="lifetime_action_milestones">紀念日</string>
+    <string name="lifetime_action_countdown">倒數日</string>
+    <string name="lifetime_milestone_days_until">還有 %1$d 天</string>
+    <string name="lifetime_milestone_days_today">就是今天</string>
+    <string name="lifetime_milestone_days_past">已過去 %1$d 天</string>
+    <string name="lifetime_delete_confirm_title">確認刪除</string>
+    <string name="lifetime_delete_confirm_message">刪除後無法復原，確定要刪除這個紀念日嗎？</string>
+    <string name="lifetime_delete">刪除</string>
+    <string name="lifetime_note_placeholder">記錄這個紀念日對你的意義…</string>
+    <string name="lifetime_milestone_name_placeholder">畢業 1000 天</string>
+    <string name="lifetime_milestone_note_placeholder">選填，記錄這個紀念日的意義…</string>
+    <string name="lifetime_note_edit">編輯備註</string>
+    <string name="lifetime_note_delete">刪除備註</string>
+    <string name="lifetime_note_add">新增備註</string>
+    <string name="lifetime_note_dialog_title">備註</string>
+    <string name="lifetime_note_save">儲存</string>
+    <string name="lifetime_note_empty">暫無備註</string>
+    <string name="lifetime_insight_current_title">今日靈感</string>
+    <string name="lifetime_insight_refresh">換一則</string>
+    <string name="lifetime_insight_loading">AI 正在思考…</string>
+    <string name="lifetime_insight_empty">還沒有靈感，點擊「換一則」生成</string>
+    <string name="lifetime_insight_history_title">歷史靈感</string>
+    <string name="lifetime_insight_history_empty">暫無歷史</string>
+    <string name="lifetime_add_countdown">新增倒數日</string>
+    <string name="lifetime_countdown_detail_title">倒數日詳情</string>
+    <string name="lifetime_countdown_name_label">倒數日名稱</string>
+    <string name="lifetime_countdown_name_placeholder">發薪水、發年終獎金、紀念日…</string>
+    <string name="lifetime_countdown_target_date">目標日期</string>
+    <string name="lifetime_countdown_lunar_target">按農曆計算（每年自動滾動）</string>
+    <string name="lifetime_countdown_lunar_target_help">適用於農曆生日、傳統節日等每年循環的情境</string>
+    <string name="lifetime_countdown_note_placeholder">選填，記錄這個倒數日的意義…</string>
+    <string name="lifetime_countdown_holiday_badge">節日</string>
+    <string name="lifetime_countdown_holiday_hint">此倒數日由系統按農曆/國曆自動種入，每年生效。可刪除後手動新增。</string>
+    <string name="lifetime_event_picker_delete">刪除</string>
+    <string name="lifetime_date_ymd">%1$d 年 %2$d 月 %3$d 日</string>
+    <string name="lifetime_lunar_date">農曆 %1$s年 %2$s%3$s</string>
+    <string name="lifetime_frequency_value_label">%1$s%2$d%3$s</string>
+    <string name="lifetime_status_today">今天</string>
+    <string name="lifetime_status_days_until">還有 %1$d 天</string>
+    <string name="lifetime_status_days_past">已過 %1$d 天</string>
+    <string name="lifetime_status_months_until">還有 %1$d 個月</string>
+    <string name="lifetime_status_months_past">已過 %1$d 個月</string>
+    <string name="lifetime_status_years_until">還有 %1$d 年</string>
+    <string name="lifetime_status_years_past">已過 %1$d 年</string>
+    <string name="lifetime_preset_name_spring_festival">春節</string>
+    <string name="lifetime_preset_name_lantern_festival">元宵節</string>
+    <string name="lifetime_preset_name_longtaitou">龍抬頭</string>
+    <string name="lifetime_preset_name_shangsi">上巳節</string>
+    <string name="lifetime_preset_name_dragon_boat">端午節</string>
+    <string name="lifetime_preset_name_qixi">七夕</string>
+    <string name="lifetime_preset_name_zhongyuan">中元節</string>
+    <string name="lifetime_preset_name_mid_autumn">中秋節</string>
+    <string name="lifetime_preset_name_double_ninth">重陽節</string>
+    <string name="lifetime_preset_name_hanyi">寒衣節</string>
+    <string name="lifetime_preset_name_xiayuan">下元節</string>
+    <string name="lifetime_preset_name_laba">臘八節</string>
+    <string name="lifetime_preset_name_little_new_year">小年</string>
+    <string name="lifetime_preset_name_chinese_new_years_eve">除夕</string>
+    <string name="lifetime_preset_name_new_years_day">元旦</string>
+    <string name="lifetime_preset_name_valentines">情人節</string>
+    <string name="lifetime_preset_name_womens_day">婦女節</string>
+    <string name="lifetime_preset_name_arbor_day">植樹節</string>
+    <string name="lifetime_preset_name_consumer_rights_day">消費者權益日</string>
+    <string name="lifetime_preset_name_april_fools">愚人節</string>
+    <string name="lifetime_preset_name_earth_day">地球日</string>
+    <string name="lifetime_preset_name_labor_day">勞動節</string>
+    <string name="lifetime_preset_name_youth_day">青年節</string>
+    <string name="lifetime_preset_name_nurses_day">護士節</string>
+    <string name="lifetime_preset_name_childrens_day">兒童節</string>
+    <string name="lifetime_preset_name_environment_day">環境日</string>
+    <string name="lifetime_preset_name_party_founding_day">建黨節</string>
+    <string name="lifetime_preset_name_army_day">建軍節</string>
+    <string name="lifetime_preset_name_victory_day">抗戰勝利</string>
+    <string name="lifetime_preset_name_teachers_day">教師節</string>
+    <string name="lifetime_preset_name_national_day">國慶日</string>
+    <string name="lifetime_preset_name_singles_day">光棍節</string>
+    <string name="lifetime_preset_name_national_memorial_day">國家公祭日</string>
+    <string name="lifetime_preset_name_christmas_eve">平安夜</string>
+    <string name="lifetime_preset_name_christmas">聖誕節</string>
+    <string name="lifetime_preset_name_halloween">萬聖節</string>
+    <string name="lifetime_preset_name_thanksgiving">感恩節</string>
+    <string name="lifetime_preset_name_black_friday">黑色星期五</string>
+    <string name="lifetime_preset_name_mothers_day">母親節</string>
+    <string name="lifetime_preset_name_fathers_day">父親節</string>
+    <string name="lifetime_preset_name_new_years_eve">跨年夜</string>
+    <string name="lifetime_preset_name_eating">吃飯</string>
+    <string name="lifetime_preset_name_sleeping">睡覺</string>
+    <string name="lifetime_preset_name_journaling">寫日記</string>
+    <string name="lifetime_preset_name_exercise">運動</string>
+    <string name="lifetime_preset_name_reading">看書</string>
+    <string name="lifetime_preset_name_movies">看電影</string>
+    <string name="lifetime_preset_name_travel">旅行</string>
+    <string name="lifetime_event_unit_times">次</string>
+    <string name="lifetime_event_unit_meals">頓</string>
+    <string name="lifetime_event_unit_entries">篇</string>
+    <string name="lifetime_event_unit_books">本</string>
+    <string name="lifetime_event_unit_movies">部</string>
+    <string name="lifetime_event_unit_episodes">集</string>
+    <string name="lifetime_event_unit_km">公里</string>
+    <string name="lifetime_event_unit_meters">公尺</string>
+    <string name="lifetime_event_unit_steps">步</string>
+    <string name="lifetime_event_unit_minutes">分鐘</string>
+    <string name="lifetime_event_unit_hours">小時</string>
+    <string name="lifetime_event_unit_items">個</string>
+    <string name="lifetime_event_unit_cups">杯</string>
+    <string name="lifetime_event_unit_bottles">瓶</string>
+    <string name="lifetime_event_unit_packs">包</string>
+    <string name="lifetime_event_unit_boxes">盒</string>
+    <string name="agent_tool_lifetime_unknown_error">未知錯誤</string>
+    <string name="agent_tool_lifetime_open_link">開啟人生時間軸</string>
+    <string name="agent_tool_lifetime_invalid_date">日期「%1$s」格式錯誤，請使用 yyyy-MM-dd，例如 2026-12-31。</string>
+    <string name="agent_tool_lifetime_invalid_type">類型「%1$s」無效，請使用 countdown 或 milestone。</string>
+    <string name="agent_tool_lifetime_label_target_date">目標日期</string>
+    <string name="agent_tool_lifetime_label_note">備註</string>
+    <string name="agent_tool_lifetime_section_countdown">倒數日</string>
+    <string name="agent_tool_lifetime_section_milestone">人生里程碑</string>
+    <string name="agent_tool_lifetime_days_left">還剩 %1$d 天</string>
+    <string name="agent_tool_lifetime_days_ago">已過 %1$d 天</string>
+    <string name="agent_tool_lifetime_today">就是今天</string>
+    <string name="agent_tool_lifetime_reached">已達成</string>
+    <string name="agent_tool_lifetime_date_unknown">日期待定</string>
+    <string name="agent_tool_add_countdown_event_title">新建倒數日</string>
+    <string name="agent_tool_add_countdown_event_summary">建立一個帶名稱和目標日期的倒數日。</string>
+    <string name="agent_tool_add_countdown_event_description">在人生時間軸中建立一條倒數日。name 與 target_date 必填；目標日期為一次性的西曆日期（yyyy-MM-dd），不支援重複或農曆倒數日。note 可選。</string>
+    <string name="agent_tool_add_countdown_event_param_name">倒數日名稱，必填，例如「高考」。</string>
+    <string name="agent_tool_add_countdown_event_param_target_date">目標日期，yyyy-MM-dd，例如 2026-12-31。</string>
+    <string name="agent_tool_add_countdown_event_param_note">倒數日備註，可選。</string>
+    <string name="agent_tool_add_countdown_event_name_required">name 參數必填且不能為空。</string>
+    <string name="agent_tool_add_countdown_event_failed">新建倒數日失敗: %1$s</string>
+    <string-array name="agent_tool_add_countdown_event_keywords">
+        <item>countdown</item>
+        <item>days matter</item>
+        <item>anniversary</item>
+        <item>倒數日</item>
+        <item>倒數計時</item>
+        <item>紀念日</item>
+    </string-array>
+    <string-array name="agent_tool_add_countdown_event_examples">
+        <item>Add a countdown: New Year 2027-01-01</item>
+        <item>幫我建一個倒數日:高考 2027-06-07</item>
+        <item>新增倒數日 結婚紀念日 2026-10-01</item>
+    </string-array>
+    <string name="agent_tool_add_life_milestone_title">新增人生里程碑</string>
+    <string name="agent_tool_add_life_milestone_summary">記錄一個帶名稱和目標日期的人生里程碑。</string>
+    <string name="agent_tool_add_life_milestone_description">在人生時間軸中建立一條個人里程碑（如目標日、紀念日）。name 與 target_date（yyyy-MM-dd）必填；note 可選。</string>
+    <string name="agent_tool_add_life_milestone_param_name">里程碑名稱，必填，例如「第一次馬拉松」。</string>
+    <string name="agent_tool_add_life_milestone_param_target_date">目標日期，yyyy-MM-dd，例如 2027-05-01。</string>
+    <string name="agent_tool_add_life_milestone_param_note">里程碑備註，可選。</string>
+    <string name="agent_tool_add_life_milestone_name_required">name 參數必填且不能為空。</string>
+    <string name="agent_tool_add_life_milestone_failed">新增人生里程碑失敗: %1$s</string>
+    <string-array name="agent_tool_add_life_milestone_keywords">
+        <item>milestone</item>
+        <item>goal</item>
+        <item>life event</item>
+        <item>里程碑</item>
+        <item>人生事件</item>
+        <item>目標</item>
+    </string-array>
+    <string-array name="agent_tool_add_life_milestone_examples">
+        <item>Record a milestone: first marathon on 2026-11-15</item>
+        <item>記錄一個里程碑:跑完第一次馬拉松 2026-11-15</item>
+        <item>新增人生里程碑 買房 2027-05-01</item>
+    </string-array>
+    <string name="agent_tool_query_life_events_title">查詢人生事件</string>
+    <string name="agent_tool_query_life_events_summary">列出倒數日與人生里程碑，含剩餘天數。</string>
+    <string name="agent_tool_query_life_events_description">查詢人生時間軸中的倒數日和個人里程碑。type 過濾結果：countdown、milestone 或 all（預設）。limit 限制每類回傳筆數（預設 20，上限 50）。每筆包含 id（可傳給 delete_lifetime_entry）、名稱、目標日期與剩餘天數。</string>
+    <string name="agent_tool_query_life_events_param_type">條目類型過濾：countdown、milestone 或 all（預設）。</string>
+    <string name="agent_tool_query_life_events_param_limit">每類最多回傳筆數，1-50，預設 20。</string>
+    <string name="agent_tool_query_life_events_empty">暫無條目</string>
+    <string name="agent_tool_query_life_events_failed">查詢人生事件失敗: %1$s</string>
+    <string-array name="agent_tool_query_life_events_keywords">
+        <item>countdown</item>
+        <item>milestone</item>
+        <item>query</item>
+        <item>倒數日</item>
+        <item>里程碑</item>
+        <item>還有幾天</item>
+    </string-array>
+    <string-array name="agent_tool_query_life_events_examples">
+        <item>What countdowns do I have?</item>
+        <item>我還有哪些倒數日?</item>
+        <item>列出所有人生里程碑</item>
+        <item>距離下一個倒數日還有幾天</item>
+    </string-array>
+    <string name="agent_tool_delete_lifetime_entry_title">刪除人生事件</string>
+    <string name="agent_tool_delete_lifetime_entry_summary">按 id 刪除一條倒數日或人生里程碑。</string>
+    <string name="agent_tool_delete_lifetime_entry_description">刪除人生時間線中的一條倒數日或個人里程碑。type（countdown 或 milestone）與 id 必填；id 來自 query_life_events 的查詢結果。刪除不可逆。</string>
+    <string name="agent_tool_delete_lifetime_entry_param_type">條目類型：countdown 或 milestone。</string>
+    <string name="agent_tool_delete_lifetime_entry_param_id">條目 id，來自 query_life_events 的查詢結果。</string>
+    <string name="agent_tool_delete_lifetime_entry_id_required">id 參數必填且必須是數字。</string>
+    <string name="agent_tool_delete_lifetime_entry_not_found">未找到 id 為 %1$d 的條目。</string>
+    <string name="agent_tool_delete_lifetime_entry_deleted">已刪除「%1$s」。</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_title">刪除人生事件</string>
+    <string name="agent_tool_delete_lifetime_entry_confirm_presentation">刪除一條倒數日或人生里程碑，刪除後不可恢復。</string>
+    <string name="agent_tool_delete_lifetime_entry_failed">刪除人生事件失敗: %1$s</string>
+    <string-array name="agent_tool_delete_lifetime_entry_keywords">
+        <item>delete</item>
+        <item>remove</item>
+        <item>countdown</item>
+        <item>milestone</item>
+        <item>刪除</item>
+        <item>倒數日</item>
+        <item>里程碑</item>
+    </string-array>
+    <string-array name="agent_tool_delete_lifetime_entry_examples">
+        <item>Delete the countdown with id 3</item>
+        <item>刪除 id 為 3 的倒數日</item>
+        <item>刪掉里程碑 5</item>
+    </string-array>
+</resources>
