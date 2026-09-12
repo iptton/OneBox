@@ -66,6 +66,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.manageAppAllFile
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestPermissions
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionStatus
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.checkPermissions
+import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.markPermissionRequested
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -126,6 +127,7 @@ fun MediaPickerRootContentEmbeddable(
                 }
 
                 PermissionStatus.NOT_GIVEN -> {
+                    context.markPermissionRequested(permission)
                     ActivityCompat.requestPermissions(
                         context,
                         arrayOf(permission),

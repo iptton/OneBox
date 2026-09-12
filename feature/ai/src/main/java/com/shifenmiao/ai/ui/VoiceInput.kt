@@ -21,9 +21,10 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils
 import java.util.Locale
 
 /**
- * 语音输入:输入框为空时发送按钮切换为麦克风,点击后先申请录音权限,再按远程配置分流:
- * - `voiceInput.provider == "iflytek"`(远程下发):回调 [onShowIflytekSheet] 打开讯飞大模型识别面板;
+ * 语音输入:输入框为空时发送按钮切换为麦克风,点击后按远程配置分流:
+ * - `voiceInput.provider == "iflytek"`(远程下发):先申请录音权限,回调 [onShowIflytekSheet] 打开讯飞大模型识别面板;
  * - 其余(默认/回退):唤起系统语音识别界面(Google 渠道即 Google 语音输入),结果经 [onResult] 回填。
+ *   系统识别由系统服务持有录音权限,应用无需申请 RECORD_AUDIO(google 渠道 manifest 也未声明该权限)。
  */
 @Composable
 fun rememberVoiceInputLauncher(
@@ -46,22 +47,32 @@ fun rememberVoiceInputLauncher(
 
     return remember(context, recognitionLauncher, onResult, onShowIflytekSheet) {
         {
-            ContextUtils.requestPermissionAndExecute(
-                permissions = arrayOf(Manifest.permission.RECORD_AUDIO),
-                permissionRequest = PermissionRequest.MICROPHONE,
-                onGranted = {
-                    if (RemoteConfigStorage.getRemoteConfig().voiceInput?.provider == "iflytek") {
-                        onShowIflytekSheet()
-                    } else {
-                        launchSpeechRecognition(context) { intent ->
-                            recognitionLauncher.launch(intent)
-                        }
-                    }
+            if (RemoteConfigStorage.getRemoteConfig().voiceInput?.provider == "iflytek") {
+                ContextUtils.requestPermissionAndExecute(
+                    permissions = arrayOf(Manifest.permission.RECORD_AUDIO),
+                    permissionRequest = PermissionRequest.MICROPHONE,
+                    onGranted = onShowIflytekSheet
+                )
+            } else {
+                launchSpeechRecognition(context) { intent ->
+                    recognitionLauncher.launch(intent)
                 }
-            )
+            }
         }
     }
 }
+
+/** 系统语音识别是否可用(无 GMS / 去服务化的设备上不可用) */
+fun isSystemSpeechRecognitionAvailable(context: Context): Boolean =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        SpeechRecognizer.isRecognitionAvailable(context)
+    } else {
+        @Suppress("DEPRECATION")
+        context.packageManager.queryIntentActivities(
+            Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH),
+            0
+        ).isNotEmpty()
+    }
 
 private fun launchSpeechRecognition(
     context: Context,
@@ -78,13 +89,7 @@ private fun launchSpeechRecognition(
             context.getString(R.string.ai_input_voice_prompt)
         )
     }
-    val available = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        SpeechRecognizer.isRecognitionAvailable(context)
-    } else {
-        @Suppress("DEPRECATION")
-        context.packageManager.queryIntentActivities(intent, 0).isNotEmpty()
-    }
-    if (!available) {
+    if (!isSystemSpeechRecognitionAvailable(context)) {
         AppToastHost.showToast(R.string.ai_input_voice_unavailable)
         return
     }

@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionStatus
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.checkPermissions
+import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.markPermissionRequested
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.setPermissionsAllowed
 import kotlinx.coroutines.Dispatchers
@@ -177,6 +178,7 @@ object ContextUtils {
             onSuccess = onSuccess,
             onFailed = onFailed,
             onRequest = {
+                permissions.forEach { markPermissionRequested(it) }
                 ActivityCompat.requestPermissions(
                     this,
                     permissions,

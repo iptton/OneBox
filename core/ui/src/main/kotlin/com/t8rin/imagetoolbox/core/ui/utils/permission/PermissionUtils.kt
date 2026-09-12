@@ -17,11 +17,13 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.permission
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 object PermissionUtils {
@@ -37,20 +39,22 @@ object PermissionUtils {
         val permissionStatus: HashMap<String, PermissionStatus> = hashMapOf()
 
         permissions.forEach { permission ->
-            permissionPreference.setPermissionRequested(permission)
             if (hasPermissionAllowed(permission)) {
                 permissionPreference.setPermissionAllowed(permission)
                 permissionStatus[permission] = PermissionStatus.ALLOWED
             } else {
-                val permissionRequestCount =
-                    permissionPreference.permissionRequestCount(permission)
-                when {
-                    permissionRequestCount > 2 -> {
-                        permissionStatus[permission] = PermissionStatus.DENIED_PERMANENTLY
+                // 永久拒绝 = 之前真正发起过系统请求,且系统不再建议展示 rationale
+                // (用户勾选"不再询问")。未请求过时 rationale 同样为 false,需靠标记位区分。
+                val canShowRationale = (this as? Activity)?.let {
+                    ActivityCompat.shouldShowRequestPermissionRationale(it, permission)
+                } ?: true
+                permissionStatus[permission] = when {
+                    permissionPreference.wasPermissionRequested(permission) && !canShowRationale -> {
+                        PermissionStatus.DENIED_PERMANENTLY
                     }
 
                     else -> {
-                        permissionStatus[permission] = PermissionStatus.NOT_GIVEN
+                        PermissionStatus.NOT_GIVEN
                     }
                 }
             }
@@ -100,23 +104,27 @@ object PermissionUtils {
         }
     }
 
+    // 在真正发起系统权限请求前调用,标记"已请求过",供永久拒绝判定使用
+    fun Context.markPermissionRequested(permission: String) {
+        PermissionPreference(this).setPermissionRequested(permission)
+    }
+
 }
 
 
-// 使用 SharedPreferences 替代 DataStore+runBlocking，权限计数数据量极小，无需异步
+// 使用 SharedPreferences 替代 DataStore+runBlocking，权限标记数据量极小，无需异步
 private class PermissionPreference(private val context: Context) {
 
     private val prefs by lazy {
         context.getSharedPreferences("permissionPreference", Context.MODE_PRIVATE)
     }
 
-    fun permissionRequestCount(permission: String): Int {
-        return prefs.getInt(permission, 0)
+    fun wasPermissionRequested(permission: String): Boolean {
+        return prefs.getInt(permission, 0) > 0
     }
 
     fun setPermissionRequested(permission: String) {
-        val current = prefs.getInt(permission, 0)
-        prefs.edit().putInt(permission, current + 1).apply()
+        prefs.edit().putInt(permission, 1).apply()
     }
 
     fun setPermissionAllowed(permission: String) {

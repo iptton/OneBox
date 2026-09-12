@@ -279,7 +279,8 @@ private fun StandardInputSection(
         derivedStateOf { chatInputComponent.areAttachmentsReady() }
     }
     val sendDisabled = (textEmpty && !hasAttachments) || (hasAttachments && !attachmentsReady)
-    // 语音按钮开关:海外渠道(google/foss)始终启用(系统语音识别);
+    // 语音按钮开关:海外渠道(google/foss)走系统语音识别,仅在设备识别服务可用时启用
+    // (无 GMS / 去服务化设备直接隐藏麦克风,避免点击后才弹不可用提示);
     // 国内渠道由远程配置控制,未下发 voiceInput(provider=iflytek)时不显示麦克风,保持置灰发送按钮。
     // 订阅 rulesChanged,远程配置拉到后即时生效,无需重进页面。
     var remoteConfig by remember { mutableStateOf(RemoteConfigStorage.getRemoteConfig()) }
@@ -288,8 +289,13 @@ private fun StandardInputSection(
             remoteConfig = RemoteConfigStorage.getRemoteConfig()
         }
     }
-    val voiceInputEnabled = FlavorType.fromName().isOverseas ||
-        remoteConfig.voiceInput?.provider == "iflytek"
+    val context = LocalContext.current
+    val systemVoiceAvailable = remember { isSystemSpeechRecognitionAvailable(context) }
+    val voiceInputEnabled = when {
+        remoteConfig.voiceInput?.provider == "iflytek" -> true
+        FlavorType.fromName().isOverseas -> systemVoiceAvailable
+        else -> false
+    }
     val showVoice = textEmpty && !hasAttachments && voiceInputEnabled
     // 文本为空且无附件时,发送按钮切换为语音输入;识别结果回填输入框(已有文本则追加)
     val backfillRecognizedText: (String) -> Unit = remember(chatInputComponent) {
@@ -306,7 +312,6 @@ private fun StandardInputSection(
         onResult = backfillRecognizedText,
         onShowIflytekSheet = { showVoiceSheet = true }
     )
-    val context = LocalContext.current
     val voiceRecognizer = remember {
         EntryPointAccessors.fromApplication(
             context,
