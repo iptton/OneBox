@@ -198,14 +198,14 @@ private fun QuestionFormCard(
     onSubmit: suspend (PendingQuestion, List<QuestionAnswerDraft>) -> QuestionSubmitOutcome
 ) {
     val scope = rememberCoroutineScope()
-    // rpcId 为 remember 键:重连重放同 rpcId 不丢草稿
-    var selections by remember(pending.rpcId) { mutableStateOf<Map<String, Set<String>>>(emptyMap()) }
-    var customs by remember(pending.rpcId) { mutableStateOf<Map<String, String>>(emptyMap()) }
-    var validationFailure by remember(pending.rpcId) {
+    // eventId 为 remember 键:同一次待答请求(重连后 Host 重新发起也复用语义)不丢草稿
+    var selections by remember(pending.eventId) { mutableStateOf<Map<String, Set<String>>>(emptyMap()) }
+    var customs by remember(pending.eventId) { mutableStateOf<Map<String, String>>(emptyMap()) }
+    var validationFailure by remember(pending.eventId) {
         mutableStateOf<QuestionValidationFailure?>(null)
     }
-    var receiptError by remember(pending.rpcId) { mutableStateOf<String?>(null) }
-    var submitting by remember(pending.rpcId) { mutableStateOf(false) }
+    var receiptError by remember(pending.eventId) { mutableStateOf<String?>(null) }
+    var submitting by remember(pending.eventId) { mutableStateOf(false) }
 
     val badResponseText = stringResource(R.string.dsh_question_bad_response)
     val inlineError = validationFailure?.let { validationText(it) } ?: receiptError

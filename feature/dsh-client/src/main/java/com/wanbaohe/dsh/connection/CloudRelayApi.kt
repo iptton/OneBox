@@ -35,8 +35,10 @@ import kotlin.coroutines.resumeWithException
  *   → `{code:"123456", expiresIn:600}`,6 位一次性绑定码,
  *   用户把它输进 Mac 上的 dsh-connector CLI 完成绑定
  * - 中继端点:DSH 的 baseUri 设为 {backend}/dsh/relay 后,现有协议栈原样工作
- *   (POST {backend}/dsh/relay/api/<method>、WS …/api/events.mux|events.host,
- *   均由服务端隧道转到用户 Mac 的 dsh;agent 不在线 → 503)
+ *   (POST {backend}/dsh/relay/api/<method>、WS {backend}/dsh/relay/api/remote.mux,
+ *   均由服务端隧道转到用户 Mac 的 dsh;agent 不在线 → 503)。
+ *   注意:0.1.5 只有一条 mux(remote.mux),旧版的 events.mux/events.host 桥接路由已废弃,
+ *   Go 网关(strapi_go/internal/app/dshrelay)必须同步支持 remote.mux 才能用云端中继
  *
  * App JWT 不落盘进主机簿:每次请求时经 [currentAppToken] 现取
  * (登录态 token 优先,缺失时兜底游客 token)。

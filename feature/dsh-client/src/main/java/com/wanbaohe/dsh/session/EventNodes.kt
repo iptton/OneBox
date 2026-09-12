@@ -191,8 +191,11 @@ sealed class ChatNode {
 }
 
 /**
- * 提取输入对:事件 + 主机渲染意图(view 可选,仅作渲染增强)。
- * 历史回放(无 view)直接 [EventNodeInput](event) 即可。
+ * 提取输入对:事件(+ 历史遗留的渲染意图槽位)。
+ *
+ * **0.1.5 起协议不再下发 `view`**:旧版的 `session/event` 帧带主机算好的工具渲染意图,
+ * 新版把它换成了 `assistant-stream` 帧(进程内增量),工具卡完全按 `event.data` 提取。
+ * [view] 参数保留只为兼容旧调用点与历史测试输入,生产路径恒为 null。
  */
 class EventNodeInput(
     val event: SessionEvent,
@@ -205,7 +208,7 @@ class EventNodeInput(
     val viewMap: JsonObject? = (view as? JsonObject)?.get("view") as? JsonObject
 }
 
-/** 便捷入口:事件日志 + view 查找(SessionLog.viewFor)→ 节点列表(按 seq 升序,可重放) */
+/** 便捷入口:事件日志 → 节点列表(按 seq 升序,可重放) */
 fun extractNodes(
     events: List<SessionEvent>,
     viewFor: (Int) -> JsonElement? = { null }
@@ -224,7 +227,7 @@ fun extractNodes(inputs: List<EventNodeInput>): List<ChatNode> {
     var turnProduced = ArrayList<String>()
     for (input in sorted) {
         val event = input.event
-        if (event.type == EventAssistantChunk && chunkOf(event.data) != null) {
+        if (event.type == EventAssistantChunk && chunkOf(event.dataObject) != null) {
             continue // 折叠态由 foldChunks 统一产出
         }
         // 轮内记账:边界/首帧/用量喂给 turnMetrics;turn/end 时产出统计行
@@ -251,8 +254,8 @@ fun extractNodes(inputs: List<EventNodeInput>): List<ChatNode> {
                     PendingCall(
                         index = result.size,
                         callId = node.callId,
-                        turn = event.data.intOf("turn"),
-                        step = event.data.intOf("step")
+                        turn = event.dataObject.intOf("turn"),
+                        step = event.dataObject.intOf("step")
                     )
                 )
                 result.add(node)
@@ -281,8 +284,8 @@ fun extractNodes(inputs: List<EventNodeInput>): List<ChatNode> {
                 // (web interruption() 同款规则 —— 宿主在关闭前必已提交结果,
                 // 关闭时仍缺 = 永不再来,消灭「中断后永远转圈」)
                 if (event.type == EventStepEnd) {
-                    val t = event.data.intOf("turn")
-                    val s = event.data.intOf("step")
+                    val t = event.dataObject.intOf("turn")
+                    val s = event.dataObject.intOf("step")
                     // 字段齐全才做精确匹配;缺字段的 step 边界不结算(留给 turn 边界兜底)
                     if (t != null && s != null) {
                         settlePending(pending, result, turn = t, step = s, seq = event.seq)
@@ -318,14 +321,14 @@ private class TurnMetrics {
         when (event.type) {
             EventTurnStart -> reset(event.time)
             EventAssistantChunk -> {
-                val chunk = chunkOf(event.data) ?: return
+                val chunk = chunkOf(event.dataObject) ?: return
                 val hasText = (chunk.str("type") == "text-delta" &&
                     !chunk.str("text").isNullOrBlank()) || chunk.str("type") == "block-end"
                 if (hasText && firstChunk == null) firstChunk = event.time
             }
 
             EventAssistantMessage -> {
-                val usage = event.data["usage"] as? JsonObject
+                val usage = event.dataObject["usage"] as? JsonObject
                 outputTokens += usage?.intOf("outputTokens") ?: 0
             }
         }
@@ -429,9 +432,9 @@ private fun matchPending(pending: List<PendingCall>, callId: String?): Int {
 }
 
 private fun buildToolCall(event: SessionEvent, viewMap: JsonObject?): ChatNode.Tool {
-    val name = pick(event.data, viewMap, "toolName", "name", "tool", "tool_name") ?: "tool"
-    val callId = pick(event.data, viewMap, "callId", "call_id", "id")
-    val rawInput = pickValue(event.data, viewMap, "input", "args", "arguments")
+    val name = pick(event.dataObject, viewMap, "toolName", "name", "tool", "tool_name") ?: "tool"
+    val callId = pick(event.dataObject, viewMap, "callId", "call_id", "id")
+    val rawInput = pickValue(event.dataObject, viewMap, "input", "args", "arguments")
     // 线上 arguments 是 JSON 字符串:能解析就解码成结构(展示/摘要都更友好)
     val input = maybeDecodeJson(rawInput)
     val summary = viewMap.pickString("summary", "title", "label")
@@ -463,16 +466,16 @@ private fun producedPathsOfView(viewMap: JsonObject?): List<String> {
 }
 
 private fun buildToolResult(event: SessionEvent, viewMap: JsonObject?): ChatNode.Tool {
-    val name = pick(event.data, viewMap, "toolName", "name", "tool", "tool_name") ?: "tool"
-    val callId = pick(event.data, viewMap, "callId", "call_id", "id")
-        ?: resultCallId(event.data)
-    val output = pickValue(event.data, viewMap, "output", "result", "value", "data")
-        ?: resultText(event.data)?.let(::JsonPrimitive)
-    val isError = resultIsError(event.data)
-    val code = errorCodeOf(event.data, viewMap)
+    val name = pick(event.dataObject, viewMap, "toolName", "name", "tool", "tool_name") ?: "tool"
+    val callId = pick(event.dataObject, viewMap, "callId", "call_id", "id")
+        ?: resultCallId(event.dataObject)
+    val output = pickValue(event.dataObject, viewMap, "output", "result", "value", "data")
+        ?: resultText(event.dataObject)?.let(::JsonPrimitive)
+    val isError = resultIsError(event.dataObject)
+    val code = errorCodeOf(event.dataObject, viewMap)
     // error 文本:message 优先;isError 的输出提升仅限非中断结果(中断卡不显示
     // 红错误框,输出文本原样留在输出区 —— 对齐 web stopped 语义)
-    val error = errorOf(event.data, viewMap)
+    val error = errorOf(event.dataObject, viewMap)
         ?: if (isError && !isInterruptCode(code)) {
             (output as? JsonPrimitive)?.contentOrNull?.takeIf(String::isNotEmpty)
         } else {
@@ -534,8 +537,8 @@ private fun foldChunks(sorted: List<EventNodeInput>): List<ChatNode> {
     for (input in sorted) {
         val event = input.event
         if (event.type != EventAssistantChunk) continue
-        val chunk = chunkOf(event.data) ?: continue
-        val key = stepKeyOf(event.data) ?: continue
+        val chunk = chunkOf(event.dataObject) ?: continue
+        val key = stepKeyOf(event.dataObject) ?: continue
         val blocks = groups.getOrPut(key) { mutableListOf() }
         val meta = metas.getOrPut(key) { ChunkGroupMeta(event.seq, event.seq) }
         meta.lastSeq = event.seq
@@ -577,7 +580,7 @@ private fun foldChunks(sorted: List<EventNodeInput>): List<ChatNode> {
     for (input in sorted) {
         val event = input.event
         if (event.type == EventAssistantMessage) {
-            stepKeyOf(event.data)?.let(finalized::add)
+            stepKeyOf(event.dataObject)?.let(finalized::add)
             maxSettleSeq = event.seq
         } else if (event.type in SettleTypes) {
             maxSettleSeq = event.seq
@@ -699,7 +702,7 @@ private fun summarySeed(name: String, input: JsonElement?): JsonElement? {
 
 private fun nodesFor(event: SessionEvent): List<ChatNode> {
     val type = event.type
-    val data = event.data
+    val data = event.dataObject
     if (type == EventUserMessage) {
         // source.kind != 'user' 的注入上下文不进主聊天流(与 P2 行为一致;
         // Flutter 的 ContextRow 展示属后续阶段)
@@ -794,7 +797,9 @@ private fun nodesFor(event: SessionEvent): List<ChatNode> {
     // surfaceOp=='append' 但未被本提取器认识的情形,才显示兜底卡;
     // 其余未知类型一律不可见(web:未注册节点的类型根本不进时间线)
     if (type == EventUserMessage || type == EventAssistantMessage || type == "tool/result") {
-        if (event.surfaceOp == "append" && data.isNotEmpty()) {
+        // 0.1.5 的 surfaceOp 是 JsonValue('append' 或 {op:'replace',…}),不再是纯字符串
+        val isSurfaceAppend = (event.surfaceOp as? JsonPrimitive)?.contentOrNull == "append"
+        if (isSurfaceAppend && data.isNotEmpty()) {
             return listOf(ChatNode.Unknown(seq = event.seq, type = type, data = data, time = event.time))
         }
         return emptyList()
@@ -816,7 +821,7 @@ private fun retryReason(data: JsonObject): String? {
  * 文案不本地化(提取器是纯函数层):title 用语义键,UI 层映射 string resources。
  */
 private fun turnEndNodes(event: SessionEvent): List<ChatNode> {
-    val reason = event.data["reason"] as? JsonObject
+    val reason = event.dataObject["reason"] as? JsonObject
     return when (reason?.str("kind")) {
         "aborted" -> listOf(
             ChatNode.Notice(
@@ -1002,11 +1007,12 @@ private fun statusOf(code: String?, error: String?): ToolStatus = when {
 private fun errorOf(data: JsonObject, viewMap: JsonObject?): String? {
     for (src in listOf(viewMap, data)) {
         val error = src?.get("error") ?: continue
-        if (error is JsonPrimitive) {
-            error.contentOrNull?.takeIf(String::isNotEmpty)?.let { return it }
-        } else if (error is JsonObject) {
-            error.str("message")?.takeIf(String::isNotEmpty)?.let { return it }
+        val text = when (error) {
+            is JsonPrimitive -> error.contentOrNull
+            is JsonObject -> error.str("message")
+            else -> null
         }
+        if (!text.isNullOrEmpty()) return text
     }
     return null
 }
@@ -1015,16 +1021,17 @@ private fun errorOf(data: JsonObject, viewMap: JsonObject?): String? {
 private fun errorCodeOf(data: JsonObject, viewMap: JsonObject?): String? {
     for (src in listOf(data, viewMap)) {
         val error = src?.get("error") ?: continue
-        if (error is JsonObject) {
-            error.str("code")?.takeIf(String::isNotEmpty)?.let { return it }
-        } else if (error is JsonPrimitive) {
-            error.contentOrNull?.takeIf(String::isNotEmpty)?.let { return it }
+        val code = when (error) {
+            is JsonObject -> error.str("code")
+            is JsonPrimitive -> error.contentOrNull
+            else -> null
         }
+        if (!code.isNullOrEmpty()) return code
     }
     return null
 }
 
-/** 弹性取字符串:工具卡本质信息以 event.data 为准,view 仅兜底(渲染增强) */
+/** 弹性取字符串:工具卡本质信息以 event.dataObject 为准,view 仅兜底(渲染增强) */
 private fun pick(data: JsonObject, viewMap: JsonObject?, vararg keys: String): String? {
     for (key in keys) {
         data.str(key)?.takeIf(String::isNotEmpty)?.let { return it }

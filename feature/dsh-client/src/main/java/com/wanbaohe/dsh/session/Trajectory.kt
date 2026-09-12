@@ -165,7 +165,7 @@ object TrajectoryExtractor {
      * 无文本时按已知键(summary/text/message/reason/error)回退,最后紧凑 JSON 兜底。
      */
     fun fullSummary(event: SessionEvent): String {
-        val text = event.data.extractEventText().trim()
+        val text = event.dataObject.extractEventText().trim()
         if (text.isNotEmpty()) return text
         return fallbackText(event)
     }
@@ -175,7 +175,7 @@ object TrajectoryExtractor {
         truncate(fullSummary(event), max)
 
     private fun fallbackText(event: SessionEvent): String {
-        val data = event.data
+        val data = event.dataObject
         for (key in listOf("summary", "text", "message", "reason", "error")) {
             val v = data[key] ?: continue
             if (v is JsonPrimitive) {

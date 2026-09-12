@@ -45,8 +45,7 @@ import com.wanbaohe.dsh.session.commandNameOf
 import com.wanbaohe.dsh.wire.CarrierException
 import com.wanbaohe.dsh.wire.RpcBusinessException
 import com.wanbaohe.dsh.wire.model.GoalRef
-import com.wanbaohe.dsh.wire.model.RespondReceipt
-import com.wanbaohe.dsh.wire.model.SessionModelsValue
+import com.wanbaohe.dsh.wire.model.ModelCatalog
 import com.wanbaohe.dsh.wire.model.SessionSearchValue
 import com.wanbaohe.dsh.wire.model.SkillEntry
 import dagger.assisted.Assisted
@@ -387,9 +386,7 @@ class DshRootComponent @AssistedInject internal constructor(
             authHeaders = { if (isCloud) appTokenHeaders() else tokenProvider.authHeaders() },
             payloadCipher = cipher,
             // 云端中继 = 已鉴权远程(经 App 后端隧道,特权面开放)
-            authenticatedRemote = isCloud || entry.token != null,
-            // 云端中继(strapi_go dshrelay)WS 桥不带 /api 段(…/dsh/relay/events.mux)
-            wsPathPrefix = if (isCloud) "" else "/api"
+            authenticatedRemote = isCloud || entry.token != null
         )
         controller = newController
         val skillCatalog = SkillCatalog(apiClient)
@@ -479,13 +476,21 @@ class DshRootComponent @AssistedInject internal constructor(
         _uiState.value = _uiState.value.copy(page = DshPage.Chat)
     }
 
-    /** 选中会话:登记日志懒注册并装载历史尾页(幂等,seq 去重) */
+    /**
+     * 选中会话:打开 `session/follow` 流(0.1.5 的"进入会话")。
+     *
+     * 旧版这里是"拉 `session.history` 尾页";新版开流后首帧 snapshot 会一次性给出
+     * 历史 + 投影,之后的增量沿同一条流推送,因此这里只负责开流(幂等:同会话复用)。
+     */
     fun selectSession(sessionId: String) {
+        val previous = _chatState.value.selectedSessionId
         _chatState.value = _chatState.value.copy(selectedSessionId = sessionId, error = null)
         val store = _chatBundle.value?.sessionStore ?: return
+        // 切换会话时关掉上一个的流(每会话一条 follow 流,不做无界累积)
+        previous?.takeIf { it != sessionId }?.let(store::unfollow)
         componentScope.launch {
             try {
-                store.loadHistory(sessionId)
+                store.follow(sessionId)
             } catch (e: Throwable) {
                 _chatState.value = _chatState.value.copy(error = chatError(e))
             }
@@ -684,7 +689,7 @@ class DshRootComponent @AssistedInject internal constructor(
         }
     }
 
-    /** 向前补一页更早历史(无更早时 no-op) */
+    /** 向前补一页更早历史(走 `session/page`;`throughSeq` 未到手时 no-op) */
     fun loadOlderHistory() {
         val sessionId = _chatState.value.selectedSessionId ?: return
         val store = _chatBundle.value?.sessionStore ?: return
@@ -763,11 +768,11 @@ class DshRootComponent @AssistedInject internal constructor(
         }
     }
 
-    /** 模型目录(session.models):目录 + 当前选择 + routable;失败返回 null(对话框内自提示) */
-    suspend fun loadModelCatalog(sessionId: String): SessionModelsValue? {
+    /** 模型目录(session/modelCatalog):目录 + 默认选择 + 可路由 provider;失败返回 null(对话框内自提示) */
+    suspend fun loadModelCatalog(sessionId: String): ModelCatalog? {
         val store = _chatBundle.value?.sessionStore ?: return null
         return try {
-            store.sessionModels(sessionId)
+            store.modelCatalog(sessionId)
         } catch (e: CancellationException) {
             throw e
         } catch (_: Throwable) {
@@ -864,18 +869,18 @@ class DshRootComponent @AssistedInject internal constructor(
     // ───────────────────────────── 交互帧动作(审批/问答/队列) ─────────────────────────────
 
     /**
-     * 审批应答(允许一次/拒绝);null = 通道不可用或已失败(错误进一次性横幅)。
-     * not-pending 由 store 内部清场;bad-response 回执由调用方(UI)提示。
+     * 审批应答(允许一次/拒绝);false = 通道不可用或已失败(错误进一次性横幅)。
+     * 0.1.5 的应答走 `$events/result`,没有回执码:发出即视为已交付,重复/迟到应答由主机忽略。
      */
-    suspend fun respondApproval(approval: PendingApproval, allow: Boolean): RespondReceipt? {
-        val store = _chatBundle.value?.interactorStore ?: return null
+    suspend fun respondApproval(approval: PendingApproval, allow: Boolean): Boolean {
+        val store = _chatBundle.value?.interactorStore ?: return false
         return try {
             store.respondApproval(approval, allow)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Throwable) {
             _chatState.value = _chatState.value.copy(error = chatError(e))
-            null
+            false
         }
     }
 

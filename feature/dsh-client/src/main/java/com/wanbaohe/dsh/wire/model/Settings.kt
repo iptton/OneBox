@@ -72,16 +72,22 @@ data class CredentialsDescribeValue(
 
 // ───────────────────────────── llm ─────────────────────────────
 
-/** llm.providers 的可配置提供方视图;[active] = 适配器当前可路由 */
+/**
+ * `llm/listConfigurableProviders` 的提供方视图(0.1.5):
+ * 带**可直接使用的配置位置**(settingsNs + settingsPath),declared 表示该路由完全由
+ * 用户配置声明;0.1.5 不再下发 active,故这里可缺席(默认 false)。
+ */
 @Serializable
 data class ConfigurableProviderView(
     val provider: String,
-    val displayName: String,
-    val settingsNs: String,
-    val settingsPath: List<String>,
-    val active: Boolean,
+    val displayName: String = "",
+    val settingsNs: String = "",
+    val settingsPath: List<String> = emptyList(),
+    val active: Boolean = false,
     /** 自定义提供方(declared == true) */
-    val declared: Boolean? = null
+    val declared: Boolean? = null,
+    /** 配置诊断(供修复提示;unaffected 模型仍可用) */
+    val error: String? = null
 )
 
 @Serializable

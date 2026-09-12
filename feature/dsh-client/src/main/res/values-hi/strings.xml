@@ -7,6 +7,7 @@
     <string name="dsh_connecting">कनेक्ट हो रहा है…</string>
     <string name="dsh_connect_failed">कनेक्शन विफल: %1$s</string>
     <string name="dsh_describe_success">DSH %1$s से कनेक्ट हो गया</string>
+    <string name="dsh_wire_compat_note">केवल DSH %1 के साथ सत्यापित। DeepSeek Harness के अन्य संस्करण वायर प्रोटोकॉल बदल सकते हैं और समर्थित नहीं हैं।</string>
     <string name="dsh_provider">प्रोवाइडर: %1$s</string>
     <string name="dsh_model">मॉडल: %1$s</string>
     <!-- Connection status -->

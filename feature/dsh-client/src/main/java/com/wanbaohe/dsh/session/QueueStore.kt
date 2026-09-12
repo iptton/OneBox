@@ -3,11 +3,15 @@ package com.wanbaohe.dsh.session
 import com.wanbaohe.dsh.connection.ConnectionPhase
 import com.wanbaohe.dsh.connection.DshApiClient
 import com.wanbaohe.dsh.connection.DshConnectionController
-import com.wanbaohe.dsh.wire.MuxFrame
+import com.wanbaohe.dsh.wire.ControlFrame
+import com.wanbaohe.dsh.wire.DshEndpoints
+import com.wanbaohe.dsh.wire.DshJson
 import com.wanbaohe.dsh.wire.RpcBusinessException
 import com.wanbaohe.dsh.wire.RpcErrorCodes
 import com.wanbaohe.dsh.wire.model.QueueAction
 import com.wanbaohe.dsh.wire.model.QueueItem
+import com.wanbaohe.dsh.wire.model.SessionCancelRequest
+import com.wanbaohe.dsh.wire.model.SessionUpdateQueueRequest
 import com.wanbaohe.dsh.wire.model.TaskView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -17,18 +21,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.put
 
 /**
- * 队列/后台任务域 store(DSH-PROTOCOL §4/§5,对齐 Flutter interactor_store 的 queues
- * 与 job_store.dart)。
+ * 队列 / 后台任务域 store(DSH 0.1.5-rc.2)。
  *
- * - session/queue、session/jobs 均为**完整快照**帧:整帧收敛,直接替换该会话的本地列表
- * - 新代际(connecting)清场:host 在 mux open 后重推快照,保留旧快照会滞留幻影
- * - delete 按 MessageId 寻址(session.updateQueue kind:remove);被 claim 的删除 splice
+ * - 数据源是 `session/control` **全局一条流**的帧(旧版是 host 流的
+ *   `session/queue` / `session/jobs` 帧);帧带 sessionId,store 按会话分桶
+ * - queue / jobs 均为**完整快照**:整帧收敛,直接替换该会话的本地列表
+ * - 新代际(connecting)清场:主机重开后重推快照,保留旧快照会滞留幻影
+ * - delete 按 MessageId 寻址(`session/updateQueue` kind:remove);被 claim 的删除 splice
  *   赢竞态,后来者 queue-item-not-found —— 合法竞态结果,折叠为无害不重试
  * - cancel 只中止当前 turn,保留 pending inbox;FIFO 认领由主机驱动,客户端永不重发/提升
- * - jobs 本阶段只建模快照(P5 做 UI 弹层):排序照抄 web —— 活跃(running/stopping)在前
- *   按 startedAt 升序,终态在后按 finishedAt 降序,完全并列保留帧内顺序(稳定排序)
  *
  * 生命周期与连接实例绑定:由组件层创建并 [dispose](不做 @Singleton)。
  */
@@ -44,11 +50,13 @@ class QueueStore(
     )
 
     private val _queues = MutableStateFlow<Map<String, List<QueueItem>>>(emptyMap())
+
     /** 各会话待处理收件箱快照(sessionId → items,整帧替换) */
     val queues: StateFlow<Map<String, List<QueueItem>>> = _queues.asStateFlow()
 
     private val _jobs = MutableStateFlow<Map<String, List<TaskView>>>(emptyMap())
-    /** 各会话后台任务快照(sessionId → 已排序 jobs,整帧替换;P5 做 UI) */
+
+    /** 各会话后台任务快照(sessionId → 已排序 jobs,整帧替换) */
     val jobs: StateFlow<Map<String, List<TaskView>>> = _jobs.asStateFlow()
 
     @Volatile
@@ -58,7 +66,7 @@ class QueueStore(
     fun start() {
         if (started) return
         started = true
-        scope.launch { connection.muxFrames.collect(::onMuxFrame) }
+        scope.launch { connection.controlFrames.collect { event -> onControlFrame(event.sessionId, event.frame) } }
         scope.launch {
             connection.snapshots.collect { snapshot ->
                 if (snapshot.phase != ConnectionPhase.Connecting) return@collect
@@ -80,7 +88,7 @@ class QueueStore(
     /** 某会话当前排序后的任务列表(空会话返回空表) */
     fun jobsFor(sessionId: String): List<TaskView> = _jobs.value[sessionId].orEmpty()
 
-    /** 会话活跃任务数(running+stopping;P5 角标用) */
+    /** 会话活跃任务数(running+stopping) */
     fun activeJobCount(sessionId: String): Int =
         _jobs.value[sessionId].orEmpty().count { it.isActive }
 
@@ -89,30 +97,42 @@ class QueueStore(
      * (项刚被 claim 是合法竞态,本地不重试);其余错误上抛由调用方展示。
      */
     suspend fun delete(sessionId: String, itemId: String) {
+        val args = buildJsonObject {
+            put(
+                "request",
+                DshJson.encodeToJsonElement(
+                    SessionUpdateQueueRequest.serializer(),
+                    SessionUpdateQueueRequest(sessionId = sessionId, itemId = itemId, action = QueueAction.Remove)
+                )
+            )
+        }
         try {
-            api.sessionUpdateQueue(sessionId, itemId, QueueAction.Remove)
+            api.callRemote(DshEndpoints.SESSION_UPDATE_QUEUE, args)
         } catch (e: RpcBusinessException) {
-            if (e.error.code != RpcErrorCodes.QueueItemNotFound) throw e
+            if (e.error.code != RpcErrorCodes.SessionQueueItemNotFound) throw e
         }
     }
 
     /** 取消当前 turn(保留 pending inbox;客户端永不重发/提升排队消息) */
     suspend fun cancel(sessionId: String) {
-        api.sessionCancel(sessionId)
+        val args = buildJsonObject {
+            put(
+                "request",
+                DshJson.encodeToJsonElement(
+                    SessionCancelRequest.serializer(),
+                    SessionCancelRequest(sessionId = sessionId)
+                )
+            )
+        }
+        api.callRemote(DshEndpoints.SESSION_CANCEL, args)
     }
 
-    /** 快照帧折叠:整帧替换该会话列表(收敛语义) */
-    private fun onMuxFrame(frame: MuxFrame) {
+    /** 控制面帧折叠:整帧替换该会话列表(收敛语义) */
+    private fun onControlFrame(sessionId: String, frame: ControlFrame) {
         if (disposed) return
         when (frame) {
-            is MuxFrame.SessionQueue -> {
-                _queues.value = _queues.value + (frame.sessionId to frame.items)
-            }
-
-            is MuxFrame.SessionJobs -> {
-                _jobs.value = _jobs.value + (frame.sessionId to sortJobs(frame.jobs))
-            }
-
+            is ControlFrame.Queue -> _queues.value = _queues.value + (sessionId to frame.items)
+            is ControlFrame.Jobs -> _jobs.value = _jobs.value + (sessionId to sortJobs(frame.jobs))
             else -> Unit
         }
     }
@@ -134,13 +154,13 @@ class QueueStore(
 }
 
 /**
- * 任务耗时格式化(对齐 Flutter job_store.dart):>1h 停在小时("2h"),
- * 否则 "m:ss"(活跃行每秒走表刷新);负值(时钟回拨/畸形数据)钳到 0。
+ * 任务耗时格式化:>1h 停在小时("2h"),否则 "m:ss"(活跃行每秒走表刷新);
+ * 负值(时钟回拨/畸形数据)钳到 0。
  */
 fun formatJobDuration(ms: Long): String {
     val clamped = ms.coerceAtLeast(0)
     val hours = clamped / 3_600_000
-    if (hours >= 1) return "${hours}h"
+    if (hours >= 1) return hours.toString() + "h"
     val minutes = (clamped % 3_600_000) / 60_000
     val seconds = (clamped % 60_000) / 1_000
     return "%d:%02d".format(minutes, seconds)

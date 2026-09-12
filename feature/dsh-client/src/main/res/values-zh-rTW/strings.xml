@@ -6,6 +6,7 @@
     <string name="dsh_connecting">連接中…</string>
     <string name="dsh_connect_failed">連接失敗：%1$s</string>
     <string name="dsh_describe_success">已連接 DSH %1$s</string>
+    <string name="dsh_wire_compat_note">僅在 DSH %1 上驗證通過;其他 DeepSeek Harness 版本協定面可能已變更,不保證可用。</string>
     <string name="dsh_provider">服務商：%1$s</string>
     <string name="dsh_model">模型：%1$s</string>
     <string name="dsh_disconnect">中斷</string>

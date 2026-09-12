@@ -7,6 +7,7 @@
     <string name="dsh_connecting">Conectando…</string>
     <string name="dsh_connect_failed">Error de conexión: %1$s</string>
     <string name="dsh_describe_success">Conectado a DSH %1$s</string>
+    <string name="dsh_wire_compat_note">Verificado solo con DSH %1. Otras versiones de DeepSeek Harness pueden cambiar el protocolo y no son compatibles.</string>
     <string name="dsh_provider">Proveedor: %1$s</string>
     <string name="dsh_model">Modelo: %1$s</string>
     <!-- Connection status -->

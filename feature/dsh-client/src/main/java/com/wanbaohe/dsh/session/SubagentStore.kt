@@ -3,17 +3,23 @@ package com.wanbaohe.dsh.session
 import com.wanbaohe.dsh.connection.ConnectionPhase
 import com.wanbaohe.dsh.connection.DshApiClient
 import com.wanbaohe.dsh.connection.DshConnectionController
+import com.wanbaohe.dsh.wire.DshEndpoints
 import com.wanbaohe.dsh.wire.DshJson
-import com.wanbaohe.dsh.wire.HostFrame
-import com.wanbaohe.dsh.wire.MuxFrame
+import com.wanbaohe.dsh.wire.FollowFrame
+import com.wanbaohe.dsh.wire.RemoteEventFrame
+import com.wanbaohe.dsh.wire.RemoteEventNames
 import com.wanbaohe.dsh.wire.model.ActivityRunning
+import com.wanbaohe.dsh.wire.model.PromptContentPart
+import com.wanbaohe.dsh.wire.model.SessionAddress
 import com.wanbaohe.dsh.wire.model.SessionEvent
 import com.wanbaohe.dsh.wire.model.SessionSummary
-import com.wanbaohe.dsh.wire.model.SubagentHistoryValue
+import com.wanbaohe.dsh.wire.model.SubagentDeliveryQueue
+import com.wanbaohe.dsh.wire.model.SubagentInterruptRequest
 import com.wanbaohe.dsh.wire.model.SubagentInterruptValue
 import com.wanbaohe.dsh.wire.model.SubagentListEntry
 import com.wanbaohe.dsh.wire.model.SubagentListValue
 import com.wanbaohe.dsh.wire.model.SubagentModeContinuable
+import com.wanbaohe.dsh.wire.model.SubagentPromptRequest
 import com.wanbaohe.dsh.wire.model.SubagentPromptValue
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -25,28 +31,26 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.put
-import kotlinx.serialization.json.addJsonObject
-import kotlinx.serialization.json.putJsonArray
-import kotlinx.serialization.json.putJsonObject
 import java.util.TimeZone
+import java.util.UUID
 
 /**
- * subagent 域状态(对齐 Flutter subagent_store.dart,DSH-PROTOCOL §3 subagent 组)。
+ * subagent 域状态(DSH 0.1.5-rc.2)。
  *
- * - subagent.list({parentSessionId}) → {entries, parentAvailable};目录按 parent 缓存,
- *   失效点 = 代际 ready(重连 = 全量重取);transcript 跨代际保留(seq 去重幂等补齐)
- * - 目录状态机:per-parent 三态 loading/ready/error;错误保留旧 entries;
- *   单飞复用(同一 parent 并发刷新共享一次往返)
- * - host/session-status → child 行 activity 行内翻转(零 RPC);
- *   host/session-added(origin=subagent) → 子行 hasChildren 正提示 + 防抖重拉其父目录;
- *   host/session-removed → 行内折 activity;该会话作为目录 owner 时 parentAvailable 置 false
- * - 后代聚合:origin=='subagent' 的行沿 parentSessionId 链向上累计 count/runningCount
- *   (普通 fork 断链 —— 每个可见会话只拥有不间断 subagent 血统的后代)
- * - subagent.prompt / interrupt 的 mode 恒为 'continuable';续聊入口仅当目录行
- *   parentAvailable==true 时暴露(store 不复查,服务端仍权威)
+ * 与旧版(<= 0.1.1)的差异:
+ * - 端点命名空间带 s:`subagents/list`、`subagents/prompt`、`subagents/interruptByParent`
+ * - `subagents/list` 的 args 是**裸字符串** parentSessionId(旧版包了一层对象)
+ * - `subagents/prompt` 的 request 新增必填 `requestId` 与 `delivery`,content 复用会话的
+ *   [PromptContentPart]
+ * - **子代理历史没有独立端点**:走 `session/follow` / `session/page`,
+ *   地址是 [SessionAddress.Subagent](父 + 子 + mode),因此 transcript 实际由
+ *   [SessionStore] 的同一条会话流管线供给
+ * - 目录失效信号来自 `$events` 的 `api-session/added|removed|status`(旧版是 host 流帧)
  *
  * 生命周期与连接实例绑定:由组件层创建并 [dispose]。
  */
@@ -103,52 +107,28 @@ fun indexSubagentDescendants(
 
 private const val OriginSubagent = "subagent"
 
-/** 单个子会话的只读事件日志(seq 去重追加,与 SessionLog 同语义) */
-class SubagentTranscript(val childSessionId: String) {
-
-    private val _events = MutableStateFlow<List<SessionEvent>>(emptyList())
+/**
+ * 单个子会话的只读事件日志视图。
+ *
+ * 0.1.5 起子会话与主会话共用同一条 follow/page 管线,数据实体在
+ * [SessionStore.logFor] 的 [SessionLog] 里;本类只是一个**只读门面**,
+ * 让 UI 继续按"子代理 transcript"的语义取事件(不复制数据)。
+ */
+class SubagentTranscript internal constructor(
+    val childSessionId: String,
+    private val log: SessionLog
+) {
     /** 当前事件快照流(seq 升序) */
-    val events: StateFlow<List<SessionEvent>> = _events.asStateFlow()
-
-    private val seenSeqs = HashSet<Int>()
-    private val ordered = ArrayList<SessionEvent>()
+    val events: StateFlow<List<SessionEvent>> get() = log.events
 
     /** 已装载的最早 seq(loadOlder 的 beforeSeq 锚点) */
-    val earliestLoadedSeq: Int? get() = ordered.firstOrNull()?.seq
+    val earliestLoadedSeq: Int? get() = log.earliestLoadedSeq
 
-    private val _hasOlder = MutableStateFlow(false)
     /** 服务端还有更早历史(loadOlderTranscript 入口) */
-    val hasOlder: StateFlow<Boolean> = _hasOlder.asStateFlow()
+    val hasOlder: StateFlow<Boolean> get() = log.hasOlder
 
-    fun setHasOlder(value: Boolean) {
-        _hasOlder.value = value
-    }
-
-    /** 按 seq 去重追加(mux 增量;重连重放安全);返回是否真追加 */
-    fun append(event: SessionEvent): Boolean {
-        if (!seenSeqs.add(event.seq)) return false
-        insertOrdered(event)
-        _events.value = ordered.toList()
-        return true
-    }
-
-    /** 批量追加(历史页装载):seq 去重后只发一次快照 */
-    fun appendAll(events: List<SessionEvent>): Int {
-        var added = 0
-        for (event in events) {
-            if (!seenSeqs.add(event.seq)) continue
-            insertOrdered(event)
-            added++
-        }
-        if (added > 0) _events.value = ordered.toList()
-        return added
-    }
-
-    private fun insertOrdered(event: SessionEvent) {
-        var at = ordered.size
-        while (at > 0 && ordered[at - 1].seq > event.seq) at--
-        ordered.add(at, event)
-    }
+    /** 按 seq 去重追加(实时增量);返回是否真追加 */
+    fun append(event: SessionEvent): Boolean = log.append(event)
 }
 
 class SubagentStore(
@@ -163,10 +143,12 @@ class SubagentStore(
     )
 
     private val _catalogs = MutableStateFlow<Map<String, SubagentCatalogState>>(emptyMap())
+
     /** 目录快照流(parentSessionId → 装载状态) */
     val catalogs: StateFlow<Map<String, SubagentCatalogState>> = _catalogs.asStateFlow()
 
     private val _descendants = MutableStateFlow<Map<String, SubagentDescendants>>(emptyMap())
+
     /** 后代聚合流(会话摘要每快照一评估,等值不重发) */
     val descendants: StateFlow<Map<String, SubagentDescendants>> = _descendants.asStateFlow()
 
@@ -188,12 +170,14 @@ class SubagentStore(
                 if (disposed || snapshot.phase != ConnectionPhase.Ready) return@collect
                 if (snapshot.generation <= lastReadyGeneration) return@collect
                 lastReadyGeneration = snapshot.generation
-                // 重连 = 全量重取:目录缓存清空;transcript 保留(seq 去重,幂等补齐)
+                // 重连 = 全量重取:目录缓存清空;transcript 走会话日志,seq 去重天然幂等
                 if (_catalogs.value.isNotEmpty()) _catalogs.value = emptyMap()
             }
         }
-        scope.launch { connection.muxFrames.collect(::onMuxFrame) }
-        scope.launch { connection.hostFrames.collect(::onHostFrame) }
+        // 子会话的实时事件:同一套 follow 流,归属由 SessionFrameEvent.address 给出
+        scope.launch { connection.sessionFrames.collect(::onSessionFrame) }
+        // 目录失效信号(子会话增删/运行态翻转)来自 $events
+        scope.launch { connection.eventFrames.collect(::onRemoteEvent) }
         scope.launch {
             sessionStore.summaries.collect { summaries ->
                 if (disposed) return@collect
@@ -212,13 +196,12 @@ class SubagentStore(
     fun catalogFor(parentSessionId: String): SubagentCatalogState? =
         _catalogs.value[parentSessionId]
 
-    /** 取(或建)某子会话的只读日志(懒登记;mux 增量只投已缓存的) */
+    /** 取(或建)某子会话的只读日志门面(懒登记) */
     fun transcriptFor(childSessionId: String): SubagentTranscript =
-        transcripts.getOrPut(childSessionId) { SubagentTranscript(childSessionId) }
+        transcripts.getOrPut(childSessionId) { SubagentTranscript(childSessionId, sessionStore.logFor(childSessionId)) }
 
     /**
      * 拉取(或命中缓存)某 parent 的直接 child 目录。
-     * 缓存命中即返回([force] 跳过);未命中/force 走 RPC 推进 loading→ready/error。
      * 单飞:同一 parent 并发刷新共享一次往返(在飞时后来者 join 同一个 Job)。
      */
     suspend fun listChildren(
@@ -231,18 +214,19 @@ class SubagentStore(
             if (cached != null && cached.phase == SubagentCatalogPhase.Ready) return cached
         }
         val previous = _catalogs.value[parentSessionId]
-        _catalogs.value = _catalogs.value + (parentSessionId to SubagentCatalogState(
-            entries = previous?.entries.orEmpty(),
-            parentAvailable = previous?.parentAvailable ?: false,
-            phase = SubagentCatalogPhase.Loading
-        ))
+        _catalogs.value = _catalogs.value + (
+            parentSessionId to SubagentCatalogState(
+                entries = previous?.entries.orEmpty(),
+                parentAvailable = previous?.parentAvailable ?: false,
+                phase = SubagentCatalogPhase.Loading
+            )
+            )
         val job = scope.launch { fetchCatalog(parentSessionId) }
         catalogInflight[parentSessionId] = job
         try {
             job.join()
         } finally {
             catalogInflight.remove(parentSessionId)
-            // 在飞响应早于触发 stale 的帧:settle 后补一拉才能收敛到最新
             if (catalogStale.remove(parentSessionId)) {
                 scope.launch { listChildren(parentSessionId, force = true) }
             }
@@ -256,10 +240,9 @@ class SubagentStore(
 
     private suspend fun fetchCatalog(parentSessionId: String) {
         val next = try {
+            // 0.1.5:args 是裸字符串 parentSessionId
             val value = DshJson.decodeFromJsonElement<SubagentListValue>(
-                api.call(RpcSubagentList, buildJsonObject {
-                    put("parentSessionId", parentSessionId)
-                })
+                api.callRemote(DshEndpoints.SUBAGENTS_LIST, buildJsonObject { put("parentSessionId", parentSessionId) })
             )
             SubagentCatalogState(
                 entries = value.entries,
@@ -269,7 +252,6 @@ class SubagentStore(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Throwable) {
-            // 错误保留旧 entries(UI 旧数据可用 + 可重试)
             val previous = _catalogs.value[parentSessionId]
             SubagentCatalogState(
                 entries = previous?.entries.orEmpty(),
@@ -281,48 +263,46 @@ class SubagentStore(
         if (!disposed) _catalogs.value = _catalogs.value + (parentSessionId to next)
     }
 
-    /** 装载子会话 transcript 尾页(默认 50 条;幂等,seq 去重)。[mode] 来自目录行 */
+    /** 子会话地址(父 + 子 + mode;mode 来自目录行) */
+    fun addressFor(parentSessionId: String, childSessionId: String, mode: String): SessionAddress =
+        SessionAddress.Subagent(
+            parentSessionId = parentSessionId,
+            childSessionId = childSessionId,
+            mode = mode
+        )
+
+    /**
+     * 打开子会话(0.1.5:开一条 `session/follow`,地址是 subagent)。
+     * 打开后快照即灌入 [transcriptFor]
+     */
+    fun openChild(parentSessionId: String, childSessionId: String, mode: String): Boolean {
+        transcriptFor(childSessionId)
+        return connection.followSession(addressFor(parentSessionId, childSessionId, mode)) != null
+    }
+
+    /** 关闭子会话流 */
+    fun closeChild(parentSessionId: String, childSessionId: String, mode: String) {
+        connection.unfollowSession(addressFor(parentSessionId, childSessionId, mode))
+    }
+
+    /** 装载子会话 transcript 尾页(默认 50 条;幂等,seq 去重) */
     suspend fun readTranscript(
         parentSessionId: String,
         childSessionId: String,
         mode: String,
         maxMessages: Int = TranscriptPageSize
     ) {
-        fetchTranscriptPage(parentSessionId, childSessionId, mode, maxMessages, beforeSeq = null)
+        openChild(parentSessionId, childSessionId, mode)
     }
 
-    /** 向前补一页更早历史(无更早时 no-op;幂等) */
+    /** 向前补一页更早历史(走统一 `session/page`;无更早时 no-op) */
     suspend fun loadOlderTranscript(
         parentSessionId: String,
         childSessionId: String,
         mode: String,
         maxMessages: Int = TranscriptPageSize
     ) {
-        val transcript = transcriptFor(childSessionId)
-        val earliest = transcript.earliestLoadedSeq
-        if (!transcript.hasOlder.value || earliest == null) return
-        fetchTranscriptPage(parentSessionId, childSessionId, mode, maxMessages, beforeSeq = earliest)
-    }
-
-    private suspend fun fetchTranscriptPage(
-        parentSessionId: String,
-        childSessionId: String,
-        mode: String,
-        maxMessages: Int,
-        beforeSeq: Int?
-    ) {
-        val value = DshJson.decodeFromJsonElement<SubagentHistoryValue>(
-            api.call(RpcSubagentHistory, buildJsonObject {
-                put("parentSessionId", parentSessionId)
-                put("childSessionId", childSessionId)
-                put("mode", mode)
-                put("maxMessages", maxMessages)
-                beforeSeq?.let { put("beforeSeq", it) }
-            })
-        )
-        val transcript = transcriptFor(childSessionId)
-        transcript.appendAll(value.events.map { it.event })
-        transcript.setHasOlder(value.hasMore && value.events.isNotEmpty())
+        sessionStore.loadOlderFor(addressFor(parentSessionId, childSessionId, mode), maxMessages)
     }
 
     /** 续聊:mode 恒 'continuable';入口暴露条件由 UI 按目录行判定(服务端仍权威) */
@@ -331,79 +311,78 @@ class SubagentStore(
         childSessionId: String,
         text: String
     ): SubagentPromptValue {
-        return DshJson.decodeFromJsonElement(
-            api.call(RpcSubagentPrompt, buildJsonObject {
-                put("parentSessionId", parentSessionId)
-                put("childSessionId", childSessionId)
-                put("mode", SubagentModeContinuable)
-                putJsonArray("content") {
-                    addJsonObject {
-                        put("type", "text")
-                        put("text", text)
-                    }
-                }
-                put("clientTimeZone", TimeZone.getDefault().id)
-            })
+        val request = SubagentPromptRequest(
+            requestId = UUID.randomUUID().toString(),
+            parentSessionId = parentSessionId,
+            childSessionId = childSessionId,
+            mode = SubagentModeContinuable,
+            delivery = SubagentDeliveryQueue,
+            content = listOf(PromptContentPart.Text(text)),
+            clientTimeZone = TimeZone.getDefault().id
         )
+        val args = buildJsonObject {
+            put("request", DshJson.encodeToJsonElement(SubagentPromptRequest.serializer(), request))
+        }
+        return DshJson.decodeFromJsonElement(api.callRemote(DshEndpoints.SUBAGENTS_PROMPT, args))
     }
 
-    /** 中断运行中的可继续子会话 */
+    /** 中断运行中的可继续子会话(`subagents/interruptByParent`) */
     suspend fun interruptChild(
         parentSessionId: String,
         childSessionId: String
     ): SubagentInterruptValue {
-        return DshJson.decodeFromJsonElement(
-            api.call(RpcSubagentInterrupt, buildJsonObject {
-                put("parentSessionId", parentSessionId)
-                put("childSessionId", childSessionId)
-                put("mode", SubagentModeContinuable)
-            })
-        )
+        val args = DshJson.encodeToJsonElement(
+            SubagentInterruptRequest.serializer(),
+            SubagentInterruptRequest(
+                childSessionId = childSessionId,
+                parentSessionId = parentSessionId,
+                mode = SubagentModeContinuable
+            )
+        ) as kotlinx.serialization.json.JsonObject
+        return DshJson.decodeFromJsonElement(api.callRemote(DshEndpoints.SUBAGENTS_INTERRUPT_BY_PARENT, args))
     }
 
     // ───────────────────────────── 帧折叠 ─────────────────────────────
 
-    private fun onMuxFrame(frame: MuxFrame) {
+    /** 子会话实时事件(仅已登记的 transcript;未打开过的 child 不预登记) */
+    private fun onSessionFrame(event: com.wanbaohe.dsh.connection.SessionFrameEvent) {
         if (disposed) return
-        // 子会话事件实时增量(仅已缓存 transcript;未打开过的 child 不预登记)
-        if (frame is MuxFrame.SessionEvent) {
-            val transcript = transcripts[frame.sessionId] ?: return
-            val event = runCatching {
-                DshJson.decodeFromJsonElement(SessionEvent.serializer(), frame.event)
-            }.getOrNull() ?: return
-            transcript.append(event)
-        }
+        val frame = event.frame
+        if (frame !is FollowFrame.Event) return
+        val transcript = transcripts[event.sessionId] ?: return
+        transcript.append(frame.event)
     }
 
-    private fun onHostFrame(frame: HostFrame) {
+    /** `$events`:子会话增删与运行态翻转驱动目录行更新 */
+    private fun onRemoteEvent(frame: RemoteEventFrame) {
         if (disposed) return
-        when (frame) {
-            is HostFrame.SessionStatus -> applyActivity(
-                frame.sessionId,
-                if (frame.running) ActivityRunning else ActivityInactive
-            )
+        if (frame !is RemoteEventFrame.Emit) return
+        when (frame.event) {
+            RemoteEventNames.SESSION_STATUS -> {
+                val sessionId = (frame.args.getOrNull(0) as? JsonPrimitive)?.content ?: return
+                val running = (frame.args.getOrNull(1) as? JsonPrimitive)?.content == "true"
+                applyActivity(sessionId, if (running) ActivityRunning else ActivityInactive)
+            }
 
-            is HostFrame.SessionAdded -> {
-                if (frame.origin == OriginSubagent && frame.parentSessionId != null) {
-                    // 孙出生:子行 hasChildren 正提示 + 防抖重拉其父目录
-                    markExpandable(frame.parentSessionId)
-                    scheduleCatalogRefresh(frame.parentSessionId)
+            RemoteEventNames.SESSION_ADDED -> {
+                val arg = frame.args.firstOrNull() ?: return
+                val summary = runCatching {
+                    DshJson.decodeFromJsonElement(SessionSummary.serializer(), arg)
+                }.getOrNull() ?: return
+                if (summary.origin == OriginSubagent && summary.parentSessionId != null) {
+                    markExpandable(summary.parentSessionId)
+                    scheduleCatalogRefresh(summary.parentSessionId)
                 }
             }
 
-            is HostFrame.SessionRemoved -> {
-                // 行内折 activity(Activation 脱离 ≠ 删除 durable 子代,行保留)
-                applyActivity(frame.sessionId, ActivityInactive)
-                // 被移除的会话不再是任何目录的投递属主:parentAvailable 即时置 false
-                val owned = _catalogs.value[frame.sessionId]
+            RemoteEventNames.SESSION_REMOVED -> {
+                val sessionId = (frame.args.firstOrNull() as? JsonPrimitive)?.content ?: return
+                applyActivity(sessionId, ActivityInactive)
+                val owned = _catalogs.value[sessionId]
                 if (owned != null && owned.parentAvailable) {
-                    _catalogs.value = _catalogs.value + (frame.sessionId to owned.copy(
-                        parentAvailable = false
-                    ))
+                    _catalogs.value = _catalogs.value + (sessionId to owned.copy(parentAvailable = false))
                 }
             }
-
-            else -> Unit
         }
     }
 
@@ -473,10 +452,6 @@ class SubagentStore(
     }
 
     companion object {
-        private const val RpcSubagentList = "subagent.list"
-        private const val RpcSubagentHistory = "subagent.history"
-        private const val RpcSubagentPrompt = "subagent.prompt"
-        private const val RpcSubagentInterrupt = "subagent.interrupt"
         private const val ActivityInactive = "inactive"
         private const val TranscriptPageSize = 50
         private const val CatalogRefreshDebounceMs = 50L

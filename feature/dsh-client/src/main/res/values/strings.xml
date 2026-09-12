@@ -7,6 +7,8 @@
     <string name="dsh_connecting">Connecting…</string>
     <string name="dsh_connect_failed">Connection failed: %1$s</string>
     <string name="dsh_describe_success">Connected to DSH %1$s</string>
+    <!-- 兼容性声明:只声明"验证通过的版本",不承诺其他版本可用(协议面无向后兼容) -->
+    <string name="dsh_wire_compat_note">Verified against DSH %1$s only. Other DeepSeek Harness versions may change the wire protocol and are not supported.</string>
     <string name="dsh_provider">Provider: %1$s</string>
     <string name="dsh_model">Model: %1$s</string>
     <!-- Connection status -->

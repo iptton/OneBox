@@ -281,11 +281,9 @@ fun ChatScreen(component: DshRootComponent) {
         }
     ) {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-        // 顶栏标题:主机名(describe cwd 目录名;缺省回退会话名/页标题)+ 就绪绿色对勾徽章
-        val hostTitle = uiState.snapshot.describe?.cwd
-            ?.substringAfterLast('/')
-            ?.takeIf { it.isNotBlank() }
-            ?: selected?.let { sessionDisplayName(it) }
+        // 顶栏标题:0.1.5 起没有 host.describe.cwd(工作目录下沉到每会话),
+        // 因此优先用当前会话标题投影,其次会话 cwd 目录名,最后页标题
+        val hostTitle = selected?.let { sessionDisplayName(it) }
             ?: stringResource(R.string.dsh_chat_title)
         val isReady = uiState.snapshot.phase == ConnectionPhase.Ready
         BaseScreen(
@@ -422,8 +420,12 @@ fun ChatScreen(component: DshRootComponent) {
                 }
             }
 
-            // goal 面板:有 goal 投影时常驻;无目标时由顶栏入口打开(只露「新建目标」)
-            val goalProjection = selected?.projections?.values?.get("goal") as? JsonObject
+            // goal 面板:有 goal 投影时常驻;无目标时由顶栏入口打开(只露「新建目标」)。
+            // 0.1.5 的摘要行不带投影 → 从当前会话日志的投影格取(control baseline / follow 快照灌入)
+            val selectedLog = remember(chatState.selectedSessionId) {
+                chatState.selectedSessionId?.let { activeBundle.sessionStore.logFor(it) }
+            }
+            val goalProjection = selectedLog?.projections?.get("goal") as? JsonObject
             if (goalProjection != null || goalPanelOpen) {
                 GoalPanel(
                     projectionValue = goalProjection,
@@ -446,7 +448,6 @@ fun ChatScreen(component: DshRootComponent) {
             val approvals by activeBundle.interactorStore.approvals.collectAsState()
             val questions by activeBundle.interactorStore.questions.collectAsState()
             val queues by activeBundle.queueStore.queues.collectAsState()
-            val badResponseText = stringResource(R.string.dsh_respond_bad_response)
             InteractorSection(
                 approvals = approvals,
                 questions = questions,
@@ -454,10 +455,9 @@ fun ChatScreen(component: DshRootComponent) {
                 currentSessionId = chatState.selectedSessionId,
                 onApprovalRespond = { approval, allow ->
                     scope.launch {
-                        val receipt = component.respondApproval(approval, allow)
-                        if (receipt?.isMalformed == true) {
-                            component.showChatError(badResponseText)
-                        }
+                        // 0.1.5:应答经 $events/result 发出,没有 not-pending/bad-response 回执;
+                        // 发送失败(通道不可用/被拒)已由组件写进一次性横幅,这里不重复提示
+                        component.respondApproval(approval, allow)
                     }
                 },
                 onQuestionSubmit = { pending, drafts ->
@@ -987,10 +987,8 @@ private fun MessageList(
     val hasOlderFlow = remember(log) { log?.hasOlder ?: flowOf(false) }
     val hasOlder by hasOlderFlow.collectAsState(false)
 
-    // 事件日志 → 节点列表(纯函数产物;工具卡优先消费帧 view,缺席防御式从 data 提取)
-    val nodes = remember(events, log) {
-        log?.let { extractNodes(events, it::viewFor) }.orEmpty()
-    }
+    // 事件日志 → 节点列表(纯函数产物;0.1.5 起没有帧内 view,工具卡按 event.data 提取)
+    val nodes = remember(events) { extractNodes(events) }
 
     if (!hasSelected) {
         Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
@@ -1526,9 +1524,11 @@ private fun DeleteWorkspaceDialog(
     )
 }
 
-/** 会话显示名:投影标题 → cwd 目录名 → 未命名占位 */
+/**
+ * 会话显示名:title 投影(0.1.5 由 SessionStore 从 control baseline / follow 快照合并进摘要)
+ * → cwd 目录名 → 未命名占位。
+ */
 @Composable
 private fun sessionDisplayName(summary: SessionSummary): String =
     summary.displayTitle()
-        ?: summary.cwd?.substringAfterLast('/')?.takeIf { it.isNotBlank() }
         ?: stringResource(R.string.dsh_untitled_session)

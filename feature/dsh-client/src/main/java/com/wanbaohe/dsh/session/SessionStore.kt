@@ -3,24 +3,33 @@ package com.wanbaohe.dsh.session
 import com.wanbaohe.dsh.connection.ConnectionPhase
 import com.wanbaohe.dsh.connection.DshApiClient
 import com.wanbaohe.dsh.connection.DshConnectionController
+import com.wanbaohe.dsh.connection.SessionFrameEvent
 import com.wanbaohe.dsh.wire.CarrierException
+import com.wanbaohe.dsh.wire.ControlFrame
+import com.wanbaohe.dsh.wire.DshEndpoints
 import com.wanbaohe.dsh.wire.DshJson
-import com.wanbaohe.dsh.wire.HostFrame
-import com.wanbaohe.dsh.wire.MuxFrame
+import com.wanbaohe.dsh.wire.FollowFrame
+import com.wanbaohe.dsh.wire.RemoteEventFrame
+import com.wanbaohe.dsh.wire.RemoteEventNames
 import com.wanbaohe.dsh.wire.RpcBusinessException
-import com.wanbaohe.dsh.wire.model.HistoryEntry
 import com.wanbaohe.dsh.wire.model.ImageLimitsProjection
+import com.wanbaohe.dsh.wire.model.ModelCatalog
+import com.wanbaohe.dsh.wire.model.SessionAddress
+import com.wanbaohe.dsh.wire.model.SessionCreateRequest
 import com.wanbaohe.dsh.wire.model.SessionCreateValue
+import com.wanbaohe.dsh.wire.SessionEventEntry
 import com.wanbaohe.dsh.wire.model.SessionEvent
 import com.wanbaohe.dsh.wire.model.SessionForkValue
-import com.wanbaohe.dsh.wire.model.SessionHistoryValue
 import com.wanbaohe.dsh.wire.model.SessionListValue
-import com.wanbaohe.dsh.wire.model.SessionModelsValue
+import com.wanbaohe.dsh.wire.model.SessionPageRequest
+import com.wanbaohe.dsh.wire.model.SessionPageValue
 import com.wanbaohe.dsh.wire.model.SessionProjectionsBlock
 import com.wanbaohe.dsh.wire.model.SessionPromptRequest
 import com.wanbaohe.dsh.wire.model.SessionPromptValue
 import com.wanbaohe.dsh.wire.model.SessionRenameValue
+import com.wanbaohe.dsh.wire.model.SessionSearchRequest
 import com.wanbaohe.dsh.wire.model.SessionSearchValue
+import com.wanbaohe.dsh.wire.model.SessionSelectModelRequest
 import com.wanbaohe.dsh.wire.model.SessionSelectModelValue
 import com.wanbaohe.dsh.wire.model.SessionSummary
 import com.wanbaohe.dsh.wire.model.userSourceKind
@@ -37,39 +46,45 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
+import kotlinx.serialization.json.putJsonObject
+import java.util.UUID
 import java.util.TimeZone
 import kotlin.time.Duration.Companion.seconds
 
 /**
- * 单会话事件日志(对齐 Flutter SessionLog):
+ * 单会话事件日志(对齐 web 客户端的 Session journal):
  * seq 去重有序插入(重连重放天然安全)+ 投影水位 + hasOlder 翻页锚点。
  */
 class SessionLog(val sessionId: String) {
 
     private val _events = MutableStateFlow<List<SessionEvent>>(emptyList())
+
     /** 当前日志快照流(seq 升序) */
     val events: StateFlow<List<SessionEvent>> = _events.asStateFlow()
 
     private val seenSeqs = HashSet<Int>()
     private val ordered = ArrayList<SessionEvent>()
 
-    /** 主机算好的工具渲染意图(seq → view;实时 mux 帧 / 历史页条目携带,不落盘) */
-    private val viewBySeq = HashMap<Int, JsonElement>()
-
-    /** 取某事件的渲染意图(缺席返回 null,节点提取退化为防御式 data 提取) */
-    fun viewFor(seq: Int): JsonElement? = viewBySeq[seq]
-
     /** 投影单元值(高 seq 覆盖低 seq;标题走此通道) */
     val projections = mutableMapOf<String, JsonElement>()
 
-    /** 投影水位(日志级;overlay 侧另有 per-key seq) */
+    /** 投影水位(日志级) */
     var projectionWatermark = -1
 
+    /**
+     * follow 快照给出的日志切口:翻历史页时作为 `throughSeq` 必填参数。
+     * 0 表示尚未收到快照(此时不能翻页)。
+     */
+    @Volatile
+    var throughSeq: Int = 0
+
     private val _hasOlder = MutableStateFlow(false)
+
     /** 服务端还有更早历史(loadOlder 入口) */
     val hasOlder: StateFlow<Boolean> = _hasOlder.asStateFlow()
 
@@ -77,8 +92,7 @@ class SessionLog(val sessionId: String) {
     val earliestLoadedSeq: Int? get() = ordered.firstOrNull()?.seq
 
     /** 按 seq 去重追加;返回是否真追加 */
-    fun append(event: SessionEvent, view: JsonElement? = null): Boolean {
-        if (view != null) viewBySeq[event.seq] = view
+    fun append(event: SessionEvent): Boolean {
         if (!seenSeqs.add(event.seq)) return false
         insertOrdered(event)
         _events.value = ordered.toList()
@@ -86,10 +100,9 @@ class SessionLog(val sessionId: String) {
     }
 
     /** 批量追加(历史页装载):seq 去重后只发一次快照,避免逐条全屏重组 */
-    fun appendAll(entries: List<HistoryEntry>): Int {
+    fun appendAll(entries: List<SessionEventEntry>): Int {
         var added = 0
         for (entry in entries) {
-            entry.view?.let { viewBySeq[entry.event.seq] = it }
             if (!seenSeqs.add(entry.event.seq)) continue
             insertOrdered(entry.event)
             added++
@@ -117,14 +130,15 @@ class SessionLog(val sessionId: String) {
 }
 
 /**
- * 会话领域状态(对齐 Flutter session_store.dart,DSH-PROTOCOL §5)。
+ * 会话领域状态(DSH 0.1.5-rc.2 协议面)。
  *
- * - 代际 ready → 全量重取 session.list(无 since 续传);已积累日志按 seq 去重保留
- * - 同一时刻只允许一次 session.list 在飞(并发合并);拉取期间到达的变更帧登记重放
- * - 投影 overlay 四路汇入(list 行内基线 / history 尾页块 / projection 推送帧),
- *   单一规则「高 seq 覆盖低 seq」;list 行块是部分基线,缺席键不清 overlay
- * - 日志懒注册:只向「已打开」的会话日志投递 mux 事件(防内存无界增长)
- * - host/session-added、session-removed、session-status 折叠进摘要列表
+ * 与旧版(<= 0.1.1)的差异:
+ * - 事件不再来自全局 mux 流,而是**每会话一条 `session/follow` 流**;
+ *   打开会话 = [follow](开流,首帧 snapshot 一次性给出历史 + 投影)
+ * - 历史分页从 `session.history(sessionId,beforeSeq)` 改为
+ *   `session/page(address,throughSeq,beforeSeq)`,`throughSeq` 是快照切口
+ * - 摘要行不再带投影;`cwd` 仍在行内,标题等投影要打开会话(或读 control baseline)才有
+ * - 会话列表增量走 `$events` 的 `api-session/added|removed|status`
  *
  * 生命周期与连接实例绑定:由组件层创建并 [dispose](不做 @Singleton)。
  */
@@ -140,13 +154,14 @@ class SessionStore(
     )
 
     private val _summaries = MutableStateFlow<List<SessionSummary>>(emptyList())
+
     /** 会话摘要列表(已合并投影 overlay,标题为最新值) */
     val summaries: StateFlow<List<SessionSummary>> = _summaries.asStateFlow()
 
     private var rawSummaries: List<SessionSummary> = emptyList()
     private val logs = mutableMapOf<String, SessionLog>()
 
-    // 会话投影 overlay:list 行内块 / history 尾页块 / 推送帧四路汇入,高 seq 覆盖低 seq
+    /** 会话投影 overlay:follow 快照 / control baseline / projection 帧汇入,高 seq 覆盖低 seq */
     private val projectionValues = mutableMapOf<String, MutableMap<String, JsonElement>>()
     private val projectionSeqs = mutableMapOf<String, MutableMap<String, Int>>()
 
@@ -155,7 +170,7 @@ class SessionStore(
     private var started = false
     private var lastReadyGeneration = 0
 
-    /** 在飞的 session.list(并发合并:后续 refresh 共享同一次往返) */
+    /** 在飞的 session/list(并发合并:后续 refresh 共享同一次往返) */
     private var refreshJob: Job? = null
 
     /** 拉取在飞期间到达的变更(响应落地后按序重放,防快照盖回新状态) */
@@ -176,8 +191,9 @@ class SessionStore(
                 }
             }
         }
-        scope.launch { connection.muxFrames.collect(::onMuxFrame) }
-        scope.launch { connection.hostFrames.collect(::onHostFrame) }
+        scope.launch { connection.sessionFrames.collect(::onSessionFrame) }
+        scope.launch { connection.controlFrames.collect { event -> onControlProjection(event.sessionId, event.frame) } }
+        scope.launch { connection.eventFrames.collect(::onRemoteEvent) }
     }
 
     fun dispose() {
@@ -189,17 +205,31 @@ class SessionStore(
     fun logFor(sessionId: String): SessionLog =
         logs.getOrPut(sessionId) { SessionLog(sessionId) }
 
+    /**
+     * 打开会话流(0.1.5 的"进入会话"动作):开 `session/follow`,
+     * 首帧 snapshot 会把历史与投影一次性灌进日志。
+     * @return 是否成功开流(连接未就绪时为 false,走 [summaries] 的空态)
+     */
+    fun follow(sessionId: String): Boolean {
+        logFor(sessionId)
+        return connection.followSession(SessionAddress.Main(sessionId)) != null
+    }
+
+    /** 关闭会话流(离开会话时调用) */
+    fun unfollow(sessionId: String) {
+        connection.unfollowSession(SessionAddress.Main(sessionId))
+    }
+
     /** 全量重取会话列表;在飞时返回同一个 Job(共享往返) */
     fun refresh(): Job? {
         if (disposed) return null
         refreshJob?.let { if (it.isActive) return it }
         val job = scope.launch {
             try {
-                doRefresh()
+                refreshList()
             } catch (e: CancellationException) {
                 throw e
             } catch (_: Throwable) {
-                // 失败的拉取不落地基线:登记变更作废(帧到达时已直接折叠),下一代际重试
                 pendingMutations.clear()
             } finally {
                 refreshJob = null
@@ -209,24 +239,20 @@ class SessionStore(
         return job
     }
 
-    private suspend fun doRefresh() {
-        val value = api.call(RpcSessionList, buildJsonObject {})
+    private suspend fun refreshList() {
+        // 注意:session/list 的 wire 字段名是 **_request**(harness 端 list 的形参是
+        // 解构默认值,typert 记成 _request),传 {} 或 request 都会被判参数不匹配。
+        val value = api.callRemote(
+            DshEndpoints.SESSION_LIST,
+            buildJsonObject { put("_request", buildJsonObject {}) }
+        )
         val parsed = DshJson.decodeFromJsonElement<SessionListValue>(value)
         if (disposed) return
         rawSummaries = parsed.items
-        // 行内投影基线 seed 进 overlay(部分基线:可能滞后但不错,asOfSeq 标明多旧)
-        val alive = HashSet<String>()
-        for (summary in parsed.items) {
-            alive.add(summary.sessionId)
-            val block = summary.projections ?: continue
-            for ((key, item) in block.values) {
-                applyProjectionValue(summary.sessionId, key, item, block.asOfSeq)
-            }
-        }
-        // 已消失会话的 overlay 行回收(防长期增长)
+        val alive = parsed.items.mapTo(HashSet()) { it.sessionId }
+        // overlay 行回收(防长期增长);日志保留(已打开会话仍可看)
         projectionValues.keys.retainAll(alive)
         projectionSeqs.keys.retainAll(alive)
-        // 基线落地 → 重放拉取期间到达的变更;先清在飞标记,重放不得二次登记
         refreshJob = null
         val pending = pendingMutations.toList()
         pendingMutations.clear()
@@ -234,69 +260,65 @@ class SessionStore(
         emitSummaries()
     }
 
-    /** 装载历史尾页(beforeSeq 缺席 = 最新一页,附 projections 水位快照);幂等 */
-    suspend fun loadHistory(sessionId: String, maxMessages: Int = DefaultPageSize) {
-        fetchPage(sessionId, logFor(sessionId), maxMessages, beforeSeq = null)
-    }
-
-    /** 向前补一页更早历史(无更早时 no-op;幂等) */
+    /**
+     * 向前补一页更早历史(open 后调用;throughSeq 尚未到手时 no-op)。
+     * 0.1.5 的 `session/page` 要求 `throughSeq`(snapshot 切口)与可选 `beforeSeq`。
+     */
     suspend fun loadOlder(sessionId: String, maxMessages: Int = DefaultPageSize) {
         val log = logFor(sessionId)
         val earliest = log.earliestLoadedSeq
-        if (!log.hasOlder.value || earliest == null) return
-        fetchPage(sessionId, log, maxMessages, beforeSeq = earliest)
+        if (!log.hasOlder.value || earliest == null || log.throughSeq <= 0) return
+        fetchPage(SessionAddress.Main(sessionId), log, maxMessages, beforeSeq = earliest)
     }
 
+    /** 子代理历史补页(地址是 parent+child) */
+    suspend fun loadOlderFor(address: SessionAddress, maxMessages: Int = DefaultPageSize) {
+        val log = logFor(addressId(address))
+        val earliest = log.earliestLoadedSeq
+        if (!log.hasOlder.value || earliest == null || log.throughSeq <= 0) return
+        fetchPage(address, log, maxMessages, beforeSeq = earliest)
+    }
+
+    /** 打开一个子代理会话流(与主会话同形,地址不同) */
+    fun followAddress(address: SessionAddress): Boolean =
+        connection.followSession(address) != null
+
     /**
-     * 拉单页并落地,返回服务端 hasMore(空页视作无更多)。
-     * 超时/载波故障退避重试(共 3 次);业务错误(session-not-found 等)直接上抛。
+     * 拉一页历史并落地。超时/载波故障退避重试(共 3 次);业务错误直接上抛。
      */
     private suspend fun fetchPage(
-        sessionId: String,
+        address: SessionAddress,
         log: SessionLog,
         maxMessages: Int,
         beforeSeq: Int?
     ): Boolean {
-        val payload = buildJsonObject {
-            put("sessionId", sessionId)
-            put("maxMessages", maxMessages)
-            beforeSeq?.let { put("beforeSeq", it) }
+        val request = SessionPageRequest(
+            address = address,
+            throughSeq = log.throughSeq,
+            beforeSeq = beforeSeq,
+            maxMessages = maxMessages
+        )
+        val args = buildJsonObject {
+            put("request", DshJson.encodeToJsonElement(SessionPageRequest.serializer(), request))
         }
         var lastError: Throwable? = null
         for (attempt in 0 until HistoryAttempts) {
             try {
-                val value = api.call(RpcSessionHistory, payload, timeout = HistoryTimeout)
-                val parsed = DshJson.decodeFromJsonElement<SessionHistoryValue>(value)
-                log.appendAll(parsed.events)
-                val block = parsed.projections
-                var overlayChanged = false
-                if (block != null) {
+                val value = api.callRemote(DshEndpoints.SESSION_PAGE, args, timeout = HistoryTimeout)
+                val parsed = DshJson.decodeFromJsonElement<SessionPageValue>(value)
+                log.appendAll(parsed.records)
+                parsed.projections?.let { block ->
+                    var overlayChanged = false
                     for ((key, item) in block.values) {
                         log.projections[key] = item
-                        // 尾页块同样 seed overlay:打开冷会话,侧栏标题对齐持久化缓存值
-                        if (applyProjectionValue(sessionId, key, item, block.asOfSeq)) {
+                        if (applyProjectionValue(projectionKey(address), key, item, block.asOfSeq)) {
                             overlayChanged = true
                         }
                     }
-                    // 尾页块是全量基线:块中缺席且 seq 不高于切面的 overlay 键清除(防幻影键)
-                    val valuesMap = projectionValues[sessionId]
-                    val seqsMap = projectionSeqs[sessionId]
-                    if (valuesMap != null && seqsMap != null) {
-                        val dead = valuesMap.keys.filter { key ->
-                            !block.values.containsKey(key) && (seqsMap[key] ?: -1) <= block.asOfSeq
-                        }
-                        for (key in dead) {
-                            valuesMap.remove(key)
-                            seqsMap.remove(key)
-                            overlayChanged = true
-                        }
-                    }
-                    if (block.asOfSeq > log.projectionWatermark) {
-                        log.projectionWatermark = block.asOfSeq
-                    }
+                    if (overlayChanged) emitSummaries()
+                    if (block.asOfSeq > log.projectionWatermark) log.projectionWatermark = block.asOfSeq
                 }
-                if (overlayChanged) emitSummaries()
-                val hasOlder = parsed.hasMore && parsed.events.isNotEmpty()
+                val hasOlder = parsed.hasMore && parsed.records.isNotEmpty()
                 log.setHasOlder(hasOlder)
                 return hasOlder
             } catch (e: CancellationException) {
@@ -308,44 +330,40 @@ class SessionStore(
             }
             if (attempt < HistoryAttempts - 1) delay(HistoryBackoffMs[attempt])
         }
-        throw lastError ?: CarrierException("session.history 重试耗尽")
+        throw lastError ?: CarrierException("session/page 重试耗尽")
     }
 
     /**
-     * session.create:workspaceId 与 cwd 至多一个(双侧都发服务端会拒)。
-     * 创建后登记日志 + 合成 upsert(在飞拉取快照可能早于本次创建),并触发 refresh。
+     * session/create:workspaceId 与 cwd 至多一个(双侧都发服务端会拒)。
+     * 创建后登记日志 + 合成 upsert,并触发 refresh。
      */
     suspend fun createSession(
         workspaceId: String? = null,
         cwd: String? = null,
         agentPreset: String? = null
     ): SessionCreateValue {
-        val payload = buildJsonObject {
-            workspaceId?.let { put("workspaceId", it) }
-            cwd?.let { put("cwd", it) }
-            agentPreset?.let { put("agentPreset", it) }
+        val request = SessionCreateRequest(
+            workspaceId = workspaceId,
+            cwd = cwd,
+            agentPreset = agentPreset
+        )
+        val args = buildJsonObject {
+            put("request", DshJson.encodeToJsonElement(SessionCreateRequest.serializer(), request))
         }
         val value = DshJson.decodeFromJsonElement<SessionCreateValue>(
-            api.call(RpcSessionCreate, payload)
+            api.callRemote(DshEndpoints.SESSION_CREATE, args)
         )
         logFor(value.sessionId)
-        recordMutation {
-            mergeAddedFields(
-                sessionId = value.sessionId,
-                blank = true,
-                cwd = cwd,
-                agentPreset = value.agentPreset
-            )
-        }
+        recordMutation { mergeAddedFields(value.sessionId, blank = true, cwd = cwd) }
+        mergeAddedFields(value.sessionId, blank = true, cwd = cwd)
         refresh()
         return value
     }
 
     /**
-     * 发送 prompt([mode]:queue 排队 / steer 插话进运行中轮次;clientTimeZone IANA;
-     * rpcId 会进入 user/message 事件)。带图片时先做本地预拒(imageLimits 投影缺席
-     * 则跳过预检,服务端权威),content 为文本块 + base64 图片块(DSH-PROTOCOL §7)。
-     * steer 是 UI 前置语义,服务端仍可拒(steer-unavailable / agent-busy 上抛)。
+     * 发送 prompt(0.1.5 契约):`requestId` 必填(客户端 mint,用户消息的
+     * `source.rpcId` 会回显它),[`mode`] queue 排队 / steer 插话。
+     * 带图片时先做本地预拒(imageLimits 投影缺席则跳过预检,服务端权威)。
      */
     suspend fun prompt(
         sessionId: String,
@@ -359,86 +377,114 @@ class SessionStore(
             }
         }
         val request = SessionPromptRequest(
+            requestId = UUID.randomUUID().toString(),
             sessionId = sessionId,
             mode = mode,
             content = buildPromptContent(text, images),
             clientTimeZone = TimeZone.getDefault().id
         )
-        val payload = DshJson.encodeToJsonElement(request).jsonObject
-        return DshJson.decodeFromJsonElement(api.call(RpcSessionPrompt, payload))
+        val args = buildJsonObject {
+            put("request", DshJson.encodeToJsonElement(SessionPromptRequest.serializer(), request))
+        }
+        return DshJson.decodeFromJsonElement(api.callRemote(DshEndpoints.SESSION_PROMPT, args))
     }
 
-    /** session.models:目录 + 当前选择 + routable(prompt 前不可路由 → model-unavailable) */
-    suspend fun sessionModels(sessionId: String): SessionModelsValue {
-        val payload = buildJsonObject { put("sessionId", sessionId) }
-        return DshJson.decodeFromJsonElement(api.call(RpcSessionModels, payload))
+    /** session/modelCatalog:目录 + 默认选择(旧 `session.models` 已合并到目录面) */
+    suspend fun modelCatalog(sessionId: String? = null): ModelCatalog {
+        val value = api.callRemote(DshEndpoints.SESSION_MODEL_CATALOG)
+        return DshJson.decodeFromJsonElement(ModelCatalog.serializer(), value)
     }
 
-    /** session.selectModel:选择可与目录成员无关(服务端语义) */
+    /** session/selectModel:选择可与目录成员无关(服务端语义) */
     suspend fun selectModel(
         sessionId: String,
         provider: String,
         model: String,
         reasoningEffort: String? = null
     ): SessionSelectModelValue {
-        val payload = buildJsonObject {
-            put("sessionId", sessionId)
-            put("provider", provider)
-            put("model", model)
-            reasoningEffort?.let { put("reasoningEffort", it) }
+        val request = SessionSelectModelRequest(
+            sessionId = sessionId,
+            provider = provider,
+            model = model,
+            reasoningEffort = reasoningEffort
+        )
+        val args = buildJsonObject {
+            put("request", DshJson.encodeToJsonElement(SessionSelectModelRequest.serializer(), request))
         }
-        return DshJson.decodeFromJsonElement(api.call(RpcSessionSelectModel, payload))
+        return DshJson.decodeFromJsonElement(api.callRemote(DshEndpoints.SESSION_SELECT_MODEL, args))
     }
 
-    /** session.search:侧栏搜索(query ≤500 字符,分页 hasMore) */
+    /** session/search:侧栏搜索(query ≤500 字符,分页 hasMore) */
     suspend fun search(query: String): SessionSearchValue {
-        val payload = buildJsonObject { put("query", query) }
-        return DshJson.decodeFromJsonElement(api.call(RpcSessionSearch, payload))
+        val request = SessionSearchRequest(query = query)
+        val args = buildJsonObject {
+            put("request", DshJson.encodeToJsonElement(SessionSearchRequest.serializer(), request))
+        }
+        return DshJson.decodeFromJsonElement(api.callRemote(DshEndpoints.SESSION_SEARCH, args))
     }
 
     /**
-     * session.fork:atSeq 锚点映射到其后第一个 turn/end(turn 未闭合 → fork-unavailable)。
+     * session/fork:atSeq 锚点映射到其后第一个 turn/end(turn 未闭合 → fork-unavailable)。
      * fork 后登记日志 + 合成 upsert,并触发 refresh(新会话入列)。
      */
     suspend fun fork(sessionId: String, atSeq: Int? = null): SessionForkValue {
-        val payload = buildJsonObject {
-            put("sessionId", sessionId)
-            atSeq?.let { put("atSeq", it) }
+        val args = buildJsonObject {
+            putJsonObject("request") {
+                put("sessionId", sessionId)
+                atSeq?.let { put("atSeq", it) }
+            }
         }
         val value = DshJson.decodeFromJsonElement<SessionForkValue>(
-            api.call(RpcSessionFork, payload)
+            api.callRemote(DshEndpoints.SESSION_FORK, args)
         )
         logFor(value.sessionId)
-        recordMutation {
-            mergeAddedFields(sessionId = value.sessionId, blank = true)
-        }
+        recordMutation { mergeAddedFields(value.sessionId, blank = true) }
+        mergeAddedFields(value.sessionId, blank = true)
         refresh()
         return value
     }
 
     /**
-     * session.rename:响应回带的规范化 title+seq 先落本地格,
-     * 推送 session/projection 帧高 seq 覆盖(乱序安全,DSH-PROTOCOL §5/§7)。
+     * session/rename:响应回带的规范化 title+seq 先落本地格,
+     * 推送 projection 帧高 seq 覆盖(乱序安全)。
      */
     suspend fun rename(sessionId: String, title: String): SessionRenameValue {
-        val payload = buildJsonObject {
-            put("sessionId", sessionId)
-            put("title", title)
+        val args = buildJsonObject {
+            putJsonObject("request") {
+                put("sessionId", sessionId)
+                put("title", title)
+            }
         }
         val value = DshJson.decodeFromJsonElement<SessionRenameValue>(
-            api.call(RpcSessionRename, payload)
+            api.callRemote(DshEndpoints.SESSION_RENAME, args)
         )
-        // 显式用户动作 → 登记日志(懒注册例外);title 投影值是纯字符串
         val projected = JsonPrimitive(value.title)
         logFor(sessionId).applyProjection("title", projected, value.seq)
-        if (applyProjectionValue(sessionId, "title", projected, value.seq)) {
-            emitSummaries()
-        }
+        if (applyProjectionValue(sessionId, "title", projected, value.seq)) emitSummaries()
         refresh()
         return value
     }
 
-    /** 从日志投影水位取 imageLimits(未装载历史时为 null —— 预拒退化为服务端权威) */
+    /**
+     * 会话标题投影(0.1.5 的摘要行不再带投影)。
+     *
+     * 标题有两条来源:
+     * 1. control baseline / projection 推送帧 → 这里落进 overlay,**不必打开会话**就能拿到
+     *    (会话列表因此能显示 LLM 生成的标题,而不是 cwd 目录名)
+     * 2. 打开会话(follow 快照)→ 落在该会话的 [SessionLog].projections
+     */
+    fun titleOf(sessionId: String): String? {
+        val overlay = (projectionValues[sessionId]?.get("title") as? JsonPrimitive)?.contentOrNull
+        if (!overlay.isNullOrBlank()) return overlay
+        return (logs[sessionId]?.projections?.get("title") as? JsonPrimitive)
+            ?.contentOrNull
+            ?.takeIf { it.isNotBlank() }
+    }
+
+    /** 会话标题(同上;供 UI 顶层调用) */
+    fun titleFor(sessionId: String): String? = titleOf(sessionId)
+
+    /** 从日志投影水位取 imageLimits(未打开会话时为 null —— 预拒退化为服务端权威) */
     fun attachmentLimitsFor(sessionId: String): ImageLimitsProjection? {
         val raw = logs[sessionId]?.projections?.get("imageLimits") ?: return null
         return runCatching {
@@ -448,67 +494,81 @@ class SessionStore(
 
     // ───────────────────────────── 帧折叠 ─────────────────────────────
 
-    private fun onMuxFrame(frame: MuxFrame) {
-        when (frame) {
-            is MuxFrame.SessionEvent -> {
-                val event = runCatching {
-                    DshJson.decodeFromJsonElement(SessionEvent.serializer(), frame.event)
-                }.getOrNull() ?: return
-                // 懒注册:只向已打开的日志投递;未打开会话的历史打开时按页拉取
-                logs[frame.sessionId]?.append(event, frame.view)
-                // 活动折叠:任何客户端直发的用户消息推进摘要 updatedAt(侧栏时间数据源)
-                if (event.type == EventTypeUserMessage &&
-                    event.data.userSourceKind() == SourceKindUser
+    /** follow 帧(每会话一条流;归属由 [SessionFrameEvent] 给出) */
+    private fun onSessionFrame(event: SessionFrameEvent) {
+        when (val frame = event.frame) {
+            is FollowFrame.Snapshot -> {
+                val log = logFor(event.sessionId)
+                log.throughSeq = frame.cursor
+                log.appendAll(frame.records)
+                frame.projections?.let { block ->
+                    for ((key, item) in block.values) {
+                        log.projections[key] = item
+                        if (applyProjectionValue(event.sessionId, key, item, block.asOfSeq)) emitSummaries()
+                    }
+                    if (block.asOfSeq > log.projectionWatermark) log.projectionWatermark = block.asOfSeq
+                }
+                log.setHasOlder(frame.hasMore)
+                // 摘要行补齐会话头事实(摘要行本身不带 cwd 之外的头部字段)
+                mergeAddedFields(event.sessionId, blank = frame.header.isSeeded.not(), cwd = frame.header.cwd)
+            }
+
+            is FollowFrame.Event -> {
+                // 懒注册:只向已打开的日志投递;未打开会话的历史在打开时由快照给出
+                logs[event.sessionId]?.append(frame.event)
+                if (frame.event.type == EventTypeUserMessage &&
+                    frame.event.dataObject.userSourceKind() == SourceKindUser
                 ) {
-                    bumpActivity(frame.sessionId, event.time)
+                    bumpActivity(event.sessionId, frame.event.time)
                 }
             }
 
-            is MuxFrame.SessionProjection -> {
-                logs[frame.sessionId]?.applyProjection(frame.key, frame.value, frame.seq)
-                // overlay 无条件落地:标题投影对整个列表生效(未打开的会话也要演进)
-                if (applyProjectionValue(frame.sessionId, frame.key, frame.value, frame.seq)) {
-                    emitSummaries()
-                }
-            }
-
-            // subscribed 水位本阶段不折叠;queue/jobs 快照由 QueueStore 消费(P3)
-            else -> Unit
+            // 助手输出增量(进程内状态):由 Chat 层按需消费,不落日志
+            is FollowFrame.AssistantStream -> Unit
         }
     }
 
-    private fun onHostFrame(frame: HostFrame) {
-        when (frame) {
-            is HostFrame.SessionStatus -> applyStatusFlip(frame.sessionId, frame.running)
-            is HostFrame.SessionAdded -> {
-                recordMutation {
-                    mergeAddedFields(
-                        sessionId = frame.sessionId,
-                        blank = frame.blank,
-                        parentSessionId = frame.parentSessionId,
-                        origin = frame.origin,
-                        cwd = frame.cwd,
-                        agentPreset = frame.agentPreset
-                    )
-                }
-                mergeAddedFields(
-                    sessionId = frame.sessionId,
-                    blank = frame.blank,
-                    parentSessionId = frame.parentSessionId,
-                    origin = frame.origin,
-                    cwd = frame.cwd,
-                    agentPreset = frame.agentPreset
-                )
+    /** 控制面帧里的投影增量(全局一条 control 流) */
+    private fun onControlProjection(sessionId: String, frame: ControlFrame) {
+        if (frame !is ControlFrame.Projection) return
+        val value = frame.value ?: return
+        logs[sessionId]?.applyProjection(frame.key, value, frame.seq)
+        if (applyProjectionValue(sessionId, frame.key, value, frame.seq)) emitSummaries()
+    }
+
+    /** `$events` 转发事件:会话列表增量在此折叠 */
+    private fun onRemoteEvent(frame: RemoteEventFrame) {
+        if (frame !is RemoteEventFrame.Emit) return
+        when (frame.event) {
+            RemoteEventNames.SESSION_ADDED -> {
+                val arg = frame.args.firstOrNull() ?: return
+                val summary = runCatching {
+                    DshJson.decodeFromJsonElement(SessionSummary.serializer(), arg)
+                }.getOrNull() ?: return
+                recordMutation { upsertSummary(summary) }
+                upsertSummary(summary)
             }
 
-            is HostFrame.SessionRemoved -> removeSummary(frame.sessionId)
-            else -> Unit
+            RemoteEventNames.SESSION_REMOVED -> {
+                val arg = frame.args.firstOrNull() as? JsonPrimitive ?: return
+                val sessionId = arg.content
+                recordMutation { removeSummary(sessionId) }
+                removeSummary(sessionId)
+            }
+
+            RemoteEventNames.SESSION_STATUS -> {
+                val sessionId = (frame.args.getOrNull(0) as? JsonPrimitive)?.content ?: return
+                val running = (frame.args.getOrNull(1) as? JsonPrimitive)?.content == "true"
+                recordMutation { applyStatusFlip(sessionId, running) }
+                applyStatusFlip(sessionId, running)
+            }
+
+            RemoteEventNames.SESSION_ERROR -> Unit
         }
     }
 
     /** running 翻转:running=true 清 blank(首 turn 开跑即非空);同值重放零副作用 */
     private fun applyStatusFlip(sessionId: String, running: Boolean) {
-        recordMutation { applyStatusFlip(sessionId, running) }
         val idx = rawSummaries.indexOfFirst { it.sessionId == sessionId }
         if (idx < 0) return
         val old = rawSummaries[idx]
@@ -520,49 +580,52 @@ class SessionStore(
     }
 
     /** added/upsert 折叠:新会话入列;已存在的行只补缺失字段,绝不覆盖 refresh 数据 */
-    private fun mergeAddedFields(
-        sessionId: String,
-        blank: Boolean,
-        parentSessionId: String? = null,
-        origin: String? = null,
-        cwd: String? = null,
-        agentPreset: String? = null
-    ) {
-        val idx = rawSummaries.indexOfFirst { it.sessionId == sessionId }
+    private fun upsertSummary(summary: SessionSummary) {
+        val idx = rawSummaries.indexOfFirst { it.sessionId == summary.sessionId }
         if (idx < 0) {
-            rawSummaries = listOf(
-                SessionSummary(
-                    sessionId = sessionId,
-                    updatedAt = System.currentTimeMillis().toDouble(),
-                    running = false,
-                    blank = blank,
-                    parentSessionId = parentSessionId,
-                    origin = origin,
-                    cwd = cwd,
-                    agentPreset = agentPreset
-                )
-            ) + rawSummaries
+            rawSummaries = listOf(summary) + rawSummaries
             emitSummaries()
             return
         }
         val old = rawSummaries[idx]
         val merged = old.copy(
-            blank = old.blank && blank,
-            parentSessionId = old.parentSessionId ?: parentSessionId,
-            origin = old.origin ?: origin,
-            cwd = old.cwd ?: cwd,
-            agentPreset = old.agentPreset ?: agentPreset
+            updatedAt = maxOf(old.updatedAt, summary.updatedAt),
+            running = summary.running,
+            blank = old.blank && summary.blank,
+            parentSessionId = old.parentSessionId ?: summary.parentSessionId,
+            origin = old.origin ?: summary.origin,
+            cwd = old.cwd ?: summary.cwd
         )
-        if (merged == old) return // 竞态后到帧无新信息:零副作用
+        if (merged == old) return
         val next = rawSummaries.toMutableList()
         next[idx] = merged
         rawSummaries = next
         emitSummaries()
     }
 
+    /** mergeAddedFields:本地合成的会话行(create/fork 后立即入列) */
+    private fun mergeAddedFields(
+        sessionId: String,
+        blank: Boolean,
+        parentSessionId: String? = null,
+        origin: String? = null,
+        cwd: String? = null
+    ) {
+        upsertSummary(
+            SessionSummary(
+                sessionId = sessionId,
+                updatedAt = System.currentTimeMillis().toDouble(),
+                running = false,
+                blank = blank,
+                parentSessionId = parentSessionId,
+                origin = origin,
+                cwd = cwd
+            )
+        )
+    }
+
     /** session-removed:subagent 可 resume 只折 running;普通会话移出并回收 overlay */
     private fun removeSummary(sessionId: String) {
-        recordMutation { removeSummary(sessionId) }
         val idx = rawSummaries.indexOfFirst { it.sessionId == sessionId }
         if (idx < 0) return
         if (rawSummaries[idx].origin == OriginSubagent) {
@@ -577,7 +640,6 @@ class SessionStore(
 
     /** 活动时间推进:只前进不回退,重放零副作用 */
     private fun bumpActivity(sessionId: String, time: Double) {
-        recordMutation { bumpActivity(sessionId, time) }
         val idx = rawSummaries.indexOfFirst { it.sessionId == sessionId }
         if (idx < 0) return
         val old = rawSummaries[idx]
@@ -609,48 +671,33 @@ class SessionStore(
         return true
     }
 
-    /** 把 overlay 合并进摘要列表(overlay 键无条件胜出行块值,行块是部分基线) */
-    private fun projected(items: List<SessionSummary>): List<SessionSummary> {
-        if (projectionValues.isEmpty()) return items
-        return items.map(::mergeOne)
+    private fun projectionKey(address: SessionAddress): String = addressId(address)
+
+    private fun addressId(address: SessionAddress): String = when (address) {
+        is SessionAddress.Main -> address.sessionId
+        is SessionAddress.Subagent -> address.childSessionId
     }
 
-    private fun mergeOne(summary: SessionSummary): SessionSummary {
-        val overlay = projectionValues[summary.sessionId]
-        if (overlay.isNullOrEmpty()) return summary
-        val seqs = projectionSeqs[summary.sessionId].orEmpty()
-        val merged = summary.projections?.values.orEmpty() + overlay
-        var asOf = summary.projections?.asOfSeq ?: -1
-        for (key in overlay.keys) {
-            val seq = seqs[key] ?: -1
-            if (seq > asOf) asOf = seq
-        }
-        return summary.copy(
-            projections = SessionProjectionsBlock(asOfSeq = asOf, values = merged)
-        )
-    }
-
+    /**
+     * 发布摘要列表:把 title 投影(overlay / 会话日志)合并进行。
+     * 0.1.5 的列表行不带投影,标题来自 control baseline 或 follow 快照,
+     * 不合并的话列表只能显示 cwd 目录名。
+     */
     private fun emitSummaries() {
-        _summaries.value = projected(rawSummaries)
+        _summaries.value = rawSummaries.map { summary ->
+            val title = titleOf(summary.sessionId)
+            if (title == null || title == summary.title) summary else summary.copy(title = title)
+        }
     }
 
     companion object {
-        private const val RpcSessionList = "session.list"
-        private const val RpcSessionHistory = "session.history"
-        private const val RpcSessionCreate = "session.create"
-        private const val RpcSessionPrompt = "session.prompt"
-        private const val RpcSessionModels = "session.models"
-        private const val RpcSessionSelectModel = "session.selectModel"
-        private const val RpcSessionSearch = "session.search"
-        private const val RpcSessionFork = "session.fork"
-        private const val RpcSessionRename = "session.rename"
         private const val EventTypeUserMessage = "user/message"
         private const val SourceKindUser = "user"
         private const val OriginSubagent = "subagent"
         private const val DefaultPageSize = 50
         private const val HistoryAttempts = 3
 
-        /** session.prompt 的 mode 枚举(DSH-PROTOCOL §9 zod 实证):queue 排队 / steer 插话 */
+        /** prompt 的 mode 枚举:queue 排队 / steer 插话 */
         const val PromptModeQueue = "queue"
         const val PromptModeSteer = "steer"
 

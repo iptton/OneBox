@@ -72,6 +72,7 @@ import com.wanbaohe.dsh.component.DshUiState
 import com.wanbaohe.dsh.connection.ConnectionPhase
 import com.wanbaohe.dsh.connection.StoredHost
 import com.wanbaohe.dsh.ui.DshWordmark
+import com.wanbaohe.dsh.wire.WireCompat
 import com.wanbaohe.dsh.wire.model.HostInfo
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanQRCode
@@ -196,6 +197,20 @@ private fun ConnectScreen(component: DshRootComponent, uiState: DshUiState) {
 
             // 状态徽章:阶段 + 代际号 + 失败原因(401 附重配入口)
             StatusBadge(uiState = uiState, onReauth = component::reauthenticate)
+
+            // 协议兼容声明:未就绪时也明说「只在这个 Harness 版本上验证过」,
+            // 避免用户把版本不匹配误判成网络问题(0.1.5 起主机不再上报版本)
+            if (phase != ConnectionPhase.Ready) {
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = stringResource(
+                        R.string.dsh_wire_compat_note,
+                        WireCompat.VERIFIED_HARNESS_VERSION
+                    ),
+                    fontSize = 12.sp,
+                    color = AppTheme.colors.getOnInactiveContainerColor()
+                )
+            }
 
             // 就绪后:describe 信息 + 进入聊天页入口(自动进过一次后,退回连接页可再进)
             uiState.snapshot.describe?.let { describe ->
@@ -482,6 +497,19 @@ private fun HostInfoResult(info: HostInfo) {
             fontSize = 16.sp,
             fontWeight = FontWeight.SemiBold
         )
+        // 明示兼容范围:版本号是 App 侧的协议锚点(0.1.5 起主机不再上报版本)
+        Text(
+            text = stringResource(R.string.dsh_wire_compat_note, info.version),
+            fontSize = 12.sp,
+            color = AppTheme.colors.getOnInactiveContainerColor()
+        )
+        info.home?.let { home ->
+            Text(
+                text = home,
+                fontSize = 12.sp,
+                color = AppTheme.colors.getOnInactiveContainerColor()
+            )
+        }
         info.provider?.let {
             Text(
                 text = stringResource(R.string.dsh_provider, it),

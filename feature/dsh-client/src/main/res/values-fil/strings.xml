@@ -7,6 +7,7 @@
     <string name="dsh_connecting">Kumokonekta…</string>
     <string name="dsh_connect_failed">Hindi nagkonekta: %1$s</string>
     <string name="dsh_describe_success">Nakakonekta sa DSH %1$s</string>
+    <string name="dsh_wire_compat_note">Na-verify lamang sa DSH %1. Maaaring magbago ang wire protocol sa ibang bersyon ng DeepSeek Harness at hindi sinusuportahan.</string>
     <string name="dsh_provider">Provider: %1$s</string>
     <string name="dsh_model">Model: %1$s</string>
     <!-- Connection status -->

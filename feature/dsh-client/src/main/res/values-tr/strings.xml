@@ -7,6 +7,7 @@
     <string name="dsh_connecting">Bağlanıyor…</string>
     <string name="dsh_connect_failed">Bağlantı başarısız: %1$s</string>
     <string name="dsh_describe_success">DSH %1$s bağlantısı kuruldu</string>
+    <string name="dsh_wire_compat_note">Yalnızca DSH %1 ile doğrulandı. Diğer DeepSeek Harness sürümleri protokolü değiştirebilir ve desteklenmez.</string>
     <string name="dsh_provider">Sağlayıcı: %1$s</string>
     <string name="dsh_model">Model: %1$s</string>
     <!-- Connection status -->

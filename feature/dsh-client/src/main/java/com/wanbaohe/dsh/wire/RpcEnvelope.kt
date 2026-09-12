@@ -21,7 +21,13 @@ val DshJson: Json = Json {
 }
 
 /**
- * 上行信封(ClientRequest):`{type:'client-request', rpcId, method, payload}`。
+ * 上行信封(0.1.5 Connection `/api` 通道):
+ * `{type:'client-request', rpcId, method, payload}`。
+ *
+ * 两条硬约束(服务端会校验):
+ * - `method` 必须与 URL 路径上的端点名逐字一致(如都用 `session/list`)
+ * - `payload` 恒为 `{args:{…}}`,0.1.5 的 Remote 端点只接受这一个字段
+ *
  * rpcId 只由发起方 mint(UUID),响应永远回显、永不新造。
  */
 @Serializable
@@ -45,8 +51,7 @@ data class ClientRequest(
  * 下行信封(ServerResponse):`{type:'server-response', rpcId, result}`。
  *
  * 两级解析纪律:这里只解析到信封,result 保持 JsonObject 原样,
- * 由 [RpcResult.parse] 分流 ok/error;业务 value 再由调用方用
- * `DshJson.decodeFromJsonElement` 二次 parse。
+ * 由 [RpcResult.parse] 分流 ok/error;业务 value 再由调用方二次 parse。
  */
 @Serializable
 data class ServerResponse(
@@ -61,13 +66,11 @@ sealed interface RpcResult {
     /** ok 分支:value 缺席时为 [JsonNull](如 commands/execute 成功返回 void) */
     data class Ok(val value: JsonElement) : RpcResult
 
-    /** error 分支:[RpcError.code] 已按封闭集合归一化 */
+    /** error 分支:错误码原样保留(见 [RpcError]) */
     data class Err(val error: RpcError) : RpcResult
 
     companion object {
-        /**
-         * 分流 result 对象。信封畸形(缺 ok / ok:false 无 error 体)抛 [CarrierException]。
-         */
+        /** 分流 result 对象。信封畸形(缺 ok / ok:false 无 error 体)抛 [CarrierException]。 */
         fun parse(result: JsonObject): RpcResult {
             val ok = result["ok"]?.jsonPrimitive?.content
                 ?: throw CarrierException("result 缺少 ok 字段")

@@ -3,13 +3,17 @@ package com.wanbaohe.dsh.session
 import com.wanbaohe.dsh.connection.ConnectionPhase
 import com.wanbaohe.dsh.connection.DshApiClient
 import com.wanbaohe.dsh.connection.DshConnectionController
+import com.wanbaohe.dsh.wire.DshEndpoints
 import com.wanbaohe.dsh.wire.DshJson
-import com.wanbaohe.dsh.wire.HostFrame
+import com.wanbaohe.dsh.wire.WorkspaceFollowFrame
+import com.wanbaohe.dsh.wire.model.WorkspaceArchiveSessionValue
 import com.wanbaohe.dsh.wire.model.WorkspaceCreateRequest
 import com.wanbaohe.dsh.wire.model.WorkspaceCreateValue
-import com.wanbaohe.dsh.wire.model.WorkspaceListValue
+import com.wanbaohe.dsh.wire.model.WorkspaceDeleteValue
+import com.wanbaohe.dsh.wire.model.WorkspaceInsertBeforeValue
+import com.wanbaohe.dsh.wire.model.WorkspaceInsertSessionBeforeValue
+import com.wanbaohe.dsh.wire.model.WorkspaceRenameValue
 import com.wanbaohe.dsh.wire.model.WorkspaceView
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
@@ -21,21 +25,18 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
-import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
-import com.wanbaohe.dsh.wire.model.WorkspaceArchiveSessionValue
-import com.wanbaohe.dsh.wire.model.WorkspaceDeleteValue
-import com.wanbaohe.dsh.wire.model.WorkspaceInsertBeforeValue
-import com.wanbaohe.dsh.wire.model.WorkspaceInsertSessionBeforeValue
-import com.wanbaohe.dsh.wire.model.WorkspaceRenameValue
+import kotlinx.serialization.json.putJsonObject
 
 /**
- * workspace 域状态(对齐 Flutter workspace_store.dart)。
+ * workspace 域状态(DSH 0.1.5-rc.2)。
  *
- * - 代际 ready → 全量重取 workspace.list(无 since 续传)
- * - host/workspace-changed、removed、order-changed、archived-sessions-changed
- *   → 简单收敛:整表重取(不等帧内数据)
- * - 变更方法(create)成功后以响应回带数据落地并广播,不等重取
+ * **0.1.5 删掉了 `workspace/list`**:工作区列表改为 `workspace/follow` 流的
+ * baseline / upsert / remove / order / archived 增量(旧版是 host 流的
+ * `host/workspace-changed` 等帧 + 全量重取)。
+ *
+ * - 变更方法成功后仍以响应回带数据落地(不等推帧)
+ * - `session/sessions 归属` 由 WorkspaceView.sessionIds 给出;会话列表本身在 SessionStore
  *
  * 生命周期与连接实例绑定:由组件层创建并 [dispose]。
  */
@@ -50,10 +51,12 @@ class WorkspaceStore(
     )
 
     private val _workspaces = MutableStateFlow<List<WorkspaceView>>(emptyList())
+
     /** 工作区列表(顺序即 wire 顺序) */
     val workspaces: StateFlow<List<WorkspaceView>> = _workspaces.asStateFlow()
 
     private val _archivedSessionIds = MutableStateFlow<List<String>>(emptyList())
+
     /** 归档会话 id 集(UI 过滤用) */
     val archivedSessionIds: StateFlow<List<String>> = _archivedSessionIds.asStateFlow()
 
@@ -67,17 +70,16 @@ class WorkspaceStore(
         started = true
         scope.launch {
             connection.snapshots.collect { snapshot ->
-                // 重连 = 全量重取;失败由下一代际重试
+                // 新代际 ready:主机重开 workspace/follow,基线会重新推来;这里只做代际记账
                 if (!disposed &&
                     snapshot.phase == ConnectionPhase.Ready &&
                     snapshot.generation > lastReadyGeneration
                 ) {
                     lastReadyGeneration = snapshot.generation
-                    refresh()
                 }
             }
         }
-        scope.launch { connection.hostFrames.collect(::onHostFrame) }
+        scope.launch { connection.workspaceFrames.collect(::onWorkspaceFrame) }
     }
 
     fun dispose() {
@@ -85,112 +87,138 @@ class WorkspaceStore(
         scope.cancel()
     }
 
-    /** 全量重取 workspace.list(items + archivedSessionIds);失败静默(下一代际重试) */
-    fun refresh() {
-        if (disposed) return
-        scope.launch {
-            try {
-                val value = api.call(RpcWorkspaceList, buildJsonObject {})
-                val parsed = DshJson.decodeFromJsonElement<WorkspaceListValue>(value)
-                if (disposed) return@launch
-                _workspaces.value = parsed.items
-                _archivedSessionIds.value = parsed.archivedSessionIds
-            } catch (e: CancellationException) {
-                throw e
-            } catch (_: Throwable) {
-                // 重取失败不落地,等帧/代际触发下一轮
+    /** 归档判定(UI 过滤用) */
+    fun isArchived(sessionId: String): Boolean = sessionId in _archivedSessionIds.value
+
+    /** workspace/create:响应回带 WorkspaceView 落地并广播(created=false 同样 upsert) */
+    suspend fun create(path: String): WorkspaceCreateValue {
+        val request = WorkspaceCreateRequest(path)
+        val args = buildJsonObject {
+            put("request", DshJson.encodeToJsonElement(WorkspaceCreateRequest.serializer(), request))
+        }
+        val value = DshJson.decodeFromJsonElement<WorkspaceCreateValue>(
+            api.callRemote(DshEndpoints.WORKSPACE_CREATE, args)
+        )
+        upsert(value.workspace)
+        return value
+    }
+
+    /** workspace/rename:响应回带行落地(同 create 语义,不等重取) */
+    suspend fun rename(workspaceId: String, title: String): WorkspaceRenameValue {
+        val args = buildJsonObject {
+            putJsonObject("request") {
+                put("workspaceId", workspaceId)
+                put("title", title)
             }
         }
-    }
-
-    /** workspace.create:响应回带 WorkspaceView 落地并广播(created=false 同样 upsert) */
-    suspend fun create(path: String): WorkspaceCreateValue {
-        val payload = DshJson.encodeToJsonElement(WorkspaceCreateRequest(path)).jsonObject
-        val value = DshJson.decodeFromJsonElement<WorkspaceCreateValue>(
-            api.call(RpcWorkspaceCreate, payload)
-        )
-        upsert(value.workspace)
-        return value
-    }
-
-    /** workspace.rename:响应回带行落地(同 create 语义,不等重取) */
-    suspend fun rename(workspaceId: String, title: String): WorkspaceRenameValue {
-        val payload = buildJsonObject {
-            put("workspaceId", workspaceId)
-            put("title", title)
-        }
         val value = DshJson.decodeFromJsonElement<WorkspaceRenameValue>(
-            api.call(RpcWorkspaceRename, payload)
+            api.callRemote(DshEndpoints.WORKSPACE_RENAME, args)
         )
         upsert(value.workspace)
         return value
     }
 
-    /** workspace.delete:非破坏性(会话移入未分组);成功后本地移除该行 */
+    /** workspace/delete:非破坏性(会话移入未分组);成功后本地移除该行 */
     suspend fun delete(workspaceId: String): WorkspaceDeleteValue {
-        val payload = buildJsonObject { put("workspaceId", workspaceId) }
+        val args = buildJsonObject {
+            putJsonObject("request") { put("workspaceId", workspaceId) }
+        }
         val value = DshJson.decodeFromJsonElement<WorkspaceDeleteValue>(
-            api.call(RpcWorkspaceDelete, payload)
+            api.callRemote(DshEndpoints.WORKSPACE_DELETE, args)
         )
         _workspaces.value = _workspaces.value.filterNot { it.workspaceId == workspaceId }
         return value
     }
 
     /**
-     * workspace.insertBefore:工作区排序(beforeWorkspaceId 缺席 = 移到末尾)。
+     * workspace/insertBefore:工作区排序(beforeWorkspaceId 缺席 = 移到末尾)。
      * 响应回带完整排序;按序重排本地列表(未知 id 保持原位兜底)。
      */
     suspend fun insertBefore(
         workspaceId: String,
         beforeWorkspaceId: String? = null
     ): WorkspaceInsertBeforeValue {
-        val payload = buildJsonObject {
-            put("workspaceId", workspaceId)
-            beforeWorkspaceId?.let { put("beforeWorkspaceId", it) }
+        val args = buildJsonObject {
+            putJsonObject("request") {
+                put("workspaceId", workspaceId)
+                beforeWorkspaceId?.let { put("beforeWorkspaceId", it) }
+            }
         }
         val value = DshJson.decodeFromJsonElement<WorkspaceInsertBeforeValue>(
-            api.call(RpcWorkspaceInsertBefore, payload)
+            api.callRemote(DshEndpoints.WORKSPACE_INSERT_BEFORE, args)
         )
-        val byId = _workspaces.value.associateBy { it.workspaceId }.toMutableMap()
-        val next = ArrayList<WorkspaceView>(byId.size)
-        for (id in value.workspaceIds) {
-            byId.remove(id)?.let(next::add)
-        }
-        next.addAll(byId.values)
-        _workspaces.value = next
+        reorder(value.workspaceIds)
         return value
     }
 
-    /** workspace.insertSessionBefore:把会话移入(或在工作区内排序)指定工作区 */
+    /** workspace/insertSessionBefore:把会话移入(或在工作区内排序)指定工作区 */
     suspend fun insertSessionBefore(
         workspaceId: String,
         sessionId: String,
         beforeSessionId: String? = null
     ): WorkspaceInsertSessionBeforeValue {
-        val payload = buildJsonObject {
-            put("workspaceId", workspaceId)
-            put("sessionId", sessionId)
-            beforeSessionId?.let { put("beforeSessionId", it) }
+        val args = buildJsonObject {
+            putJsonObject("request") {
+                put("workspaceId", workspaceId)
+                put("sessionId", sessionId)
+                beforeSessionId?.let { put("beforeSessionId", it) }
+            }
         }
         val value = DshJson.decodeFromJsonElement<WorkspaceInsertSessionBeforeValue>(
-            api.call(RpcWorkspaceInsertSessionBefore, payload)
+            api.callRemote(DshEndpoints.WORKSPACE_INSERT_SESSION_BEFORE, args)
         )
         upsert(value.workspace)
         return value
     }
 
-    /** workspace.archiveSession:归档(非破坏性);响应回带完整归档集合,收敛替换 */
+    /** workspace/archiveSession:归档(非破坏性);响应回带完整归档集合,收敛替换 */
     suspend fun archiveSession(sessionId: String): WorkspaceArchiveSessionValue {
-        val payload = buildJsonObject { put("sessionId", sessionId) }
+        val args = buildJsonObject {
+            putJsonObject("request") { put("sessionId", sessionId) }
+        }
         val value = DshJson.decodeFromJsonElement<WorkspaceArchiveSessionValue>(
-            api.call(RpcWorkspaceArchiveSession, payload)
+            api.callRemote(DshEndpoints.WORKSPACE_ARCHIVE_SESSION, args)
         )
         _archivedSessionIds.value = value.archivedSessionIds
         return value
     }
 
-    /** 归档判定(UI 过滤用) */
-    fun isArchived(sessionId: String): Boolean = sessionId in _archivedSessionIds.value
+    /** workspace/follow 帧(基线 + 四类增量) */
+    private fun onWorkspaceFrame(frame: WorkspaceFollowFrame) {
+        if (disposed) return
+        when (frame.type) {
+            "baseline" -> {
+                val baseline = frame.value ?: return
+                _workspaces.value = baseline.items.mapNotNull(::decodeWorkspace)
+                _archivedSessionIds.value = baseline.archivedSessionIds
+            }
+
+            "upsert" -> frame.workspace?.let { decodeWorkspace(it) }?.let(::upsert)
+
+            "remove" -> frame.workspaceId?.let { id ->
+                _workspaces.value = _workspaces.value.filterNot { it.workspaceId == id }
+            }
+
+            "order" -> frame.workspaceIds?.let(::reorder)
+
+            "archived" -> frame.archivedSessionIds?.let { _archivedSessionIds.value = it }
+        }
+    }
+
+    private fun decodeWorkspace(json: kotlinx.serialization.json.JsonObject): WorkspaceView? =
+        runCatching {
+            DshJson.decodeFromJsonElement(WorkspaceView.serializer(), json)
+        }.getOrNull()
+
+    private fun reorder(workspaceIds: List<String>) {
+        val byId = _workspaces.value.associateBy { it.workspaceId }.toMutableMap()
+        val next = ArrayList<WorkspaceView>(byId.size)
+        for (id in workspaceIds) {
+            byId.remove(id)?.let(next::add)
+        }
+        next.addAll(byId.values)
+        _workspaces.value = next
+    }
 
     private fun upsert(workspace: WorkspaceView) {
         val current = _workspaces.value
@@ -200,27 +228,5 @@ class WorkspaceStore(
         } else {
             current + workspace
         }
-    }
-
-    private fun onHostFrame(frame: HostFrame) {
-        when (frame) {
-            // 简单收敛:任意 workspace 域变更整表重取(无 since 续传)
-            is HostFrame.WorkspaceChanged,
-            is HostFrame.WorkspaceRemoved,
-            is HostFrame.WorkspaceOrderChanged,
-            is HostFrame.ArchivedSessionsChanged -> refresh()
-
-            else -> Unit
-        }
-    }
-
-    companion object {
-        private const val RpcWorkspaceList = "workspace.list"
-        private const val RpcWorkspaceCreate = "workspace.create"
-        private const val RpcWorkspaceRename = "workspace.rename"
-        private const val RpcWorkspaceDelete = "workspace.delete"
-        private const val RpcWorkspaceInsertBefore = "workspace.insertBefore"
-        private const val RpcWorkspaceInsertSessionBefore = "workspace.insertSessionBefore"
-        private const val RpcWorkspaceArchiveSession = "workspace.archiveSession"
     }
 }

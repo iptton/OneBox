@@ -7,6 +7,7 @@
     <string name="dsh_connecting">Menghubungkan…</string>
     <string name="dsh_connect_failed">Koneksi gagal: %1$s</string>
     <string name="dsh_describe_success">Terhubung ke DSH %1$s</string>
+    <string name="dsh_wire_compat_note">Hanya diverifikasi pada DSH %1. Versi DeepSeek Harness lain dapat mengubah protokol dan tidak didukung.</string>
     <string name="dsh_provider">Penyedia: %1$s</string>
     <string name="dsh_model">Model: %1$s</string>
     <!-- Connection status -->

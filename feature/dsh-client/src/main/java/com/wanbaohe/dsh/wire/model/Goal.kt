@@ -7,12 +7,16 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.intOrNull
 
 /**
- * goal 域 wire 模型(goal.create/edit/pause/resume/complete/clear 六方法)。
+ * goal 域 wire 模型(DSH 0.1.5-rc.2 `packages/goal/goal/src`)。
  *
- * goal 是目标对象的引用操作面:[GoalRef] = id + revision 乐观锁(CAS),
- * create/edit/pause/resume/complete 各回新 ref(revision 递增);clear 无引用。
- * payload 形状以生成模型 goals.dart 为准(Flutter 旧 goal_store.dart 的扁平
- * 字段是过时形态,不采用)。
+ * 端点已是 goals 命名空间(带 s,斜杠形式),并且**统一按 agent 寻址**:
+ * - `goals/get | create | edit | pause | resume | complete | clear` 的 args 都带
+ *   `agentId`(= sessionId,lookup 键名就是 agent)
+ * - `create` 收 `{agentId, request:{objective, maxGoalRounds?}}` → `{ref}`
+ * - `edit` 收 `{agentId, ref, request:{objective?, maxGoalRounds?}}` → `GoalView`
+ * - `pause|resume|complete` 收 `{agentId, ref}` → `GoalView`
+ * - `clear` 收 `{agentId, ref}` → `GoalRef`(新 revision 墓碑)
+ * - `get` 收 `{agentId}` → `GoalView | undefined`
  */
 
 /** goal 引用(id + revision 乐观锁) */
@@ -22,27 +26,65 @@ data class GoalRef(
     val revision: Int
 )
 
-/** create/edit/pause/resume/complete 的响应 value 统一为回带新 ref */
+/** 目标快照(goals/get 与各变更回值的公共体) */
 @Serializable
-data class GoalRefValue(
+data class GoalSnapshot(
+    val id: String = "",
+    val revision: Int = 0,
+    val phase: String? = null,
+    val objective: String? = null,
+    val maxGoalRounds: Int? = null
+)
+
+/** goals/get 的回值(operations 视图):快照 + 轮次 + 激活态 */
+@Serializable
+data class GoalView(
+    val id: String = "",
+    val revision: Int = 0,
+    val phase: String? = null,
+    val objective: String? = null,
+    val maxGoalRounds: Int? = null,
+    val roundsStarted: Int? = null,
+    val createdAt: Double? = null,
+    val updatedAt: Double? = null,
+    val activation: String? = null
+) {
+    /** 转成只看耐久的快照视图 */
+    fun snapshot(): GoalSnapshot = GoalSnapshot(id, revision, phase, objective, maxGoalRounds)
+}
+
+/** goals/create 的回值 */
+@Serializable
+data class GoalCreateValue(
     val ref: GoalRef
 )
 
-/** goal.clear 的响应 value */
+/** goals/create 上行 request */
 @Serializable
-data class GoalClearValue(
-    val cleared: Boolean
+data class GoalCreateRequest(
+    val objective: String,
+    val maxGoalRounds: Int? = null
+)
+
+/** goals/edit 上行 request */
+@Serializable
+data class GoalEditRequest(
+    val objective: String? = null,
+    val maxGoalRounds: Int? = null
 )
 
 /**
- * 会话 goal 投影的解析视图(投影键 "goal",形如 {goal:{id,revision,phase,objective,…}, roundsStarted})。
- * 投影形 Map 为防御式解析:字段缺席即 null,不抛异常。
+ * 会话 goal 投影的解析视图(投影键 "goal",值为对象:
+ * goal 子对象 + roundsStarted + 可选 activation)。投影形 Map 为防御式解析:
+ * 字段缺席即 null,不抛异常。
  */
 data class GoalProjection(
     val ref: GoalRef?,
     val phase: String?,
     val objective: String?,
-    val roundsStarted: Int?
+    val maxGoalRounds: Int?,
+    val roundsStarted: Int?,
+    val activation: String?
 )
 
 /** 从投影值解析 goal 视图;非对象或无 goal 子对象返回 null(无目标) */
@@ -54,6 +96,8 @@ fun parseGoalProjection(value: JsonObject?): GoalProjection? {
         ref = if (id != null && revision != null) GoalRef(id, revision) else null,
         phase = (goal["phase"] as? JsonPrimitive)?.contentOrNull,
         objective = (goal["objective"] as? JsonPrimitive)?.contentOrNull,
-        roundsStarted = (value["roundsStarted"] as? JsonPrimitive)?.intOrNull
+        maxGoalRounds = (goal["maxGoalRounds"] as? JsonPrimitive)?.intOrNull,
+        roundsStarted = (value["roundsStarted"] as? JsonPrimitive)?.intOrNull,
+        activation = (value["activation"] as? JsonPrimitive)?.contentOrNull
     )
 }

@@ -7,6 +7,7 @@
     <string name="dsh_connecting">연결 중…</string>
     <string name="dsh_connect_failed">연결 실패: %1$s</string>
     <string name="dsh_describe_success">DSH %1$s에 연결됨</string>
+    <string name="dsh_wire_compat_note">DSH %1$s에서만 검증되었습니다. 다른 DeepSeek Harness 버전은 프로토콜이 변경될 수 있어 지원되지 않습니다.</string>
     <string name="dsh_provider">제공자: %1$s</string>
     <string name="dsh_model">모델: %1$s</string>
     <!-- Connection status -->

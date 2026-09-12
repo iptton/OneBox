@@ -37,15 +37,16 @@ import com.wanbaohe.dsh.component.DshRootComponent
 import com.wanbaohe.dsh.wire.model.ModelProviderGroup
 import com.wanbaohe.dsh.wire.model.ModelReasoningEffort
 import com.wanbaohe.dsh.wire.model.ModelSelection
-import com.wanbaohe.dsh.wire.model.SessionModelsValue
+import com.wanbaohe.dsh.wire.model.ModelCatalog
 import com.wanbaohe.dsh.wire.model.catalogEntryOf
+import com.wanbaohe.dsh.wire.model.isRoutable
 
 /**
- * 模型选择器(对齐 Flutter model_picker.dart):
- * session.models 拉目录(provider 分组 + 当前选择 + routable 警示),
- * reasoningEffort 档位以 FilterChip 选择;「应用」走 session.selectModel。
- * 选择可与目录成员无关(服务端语义);routable=false 只警示不拦截
- * (prompt 前不可路由服务端会 model-unavailable)。
+ * 模型选择器(DSH 0.1.5-rc.2):
+ * `session/modelCatalog` 拉目录(provider 分组 + 默认选择 + 可路由 provider 名单),
+ * reasoningEffort 档位以 FilterChip 选择;「应用」走 `session/selectModel`。
+ * 选择可与目录成员无关(服务端语义);provider 不可路由只警示不拦截
+ * (prompt 前服务端会回 `session/model-unavailable`)。
  */
 @Composable
 fun ModelPickerDialog(
@@ -53,7 +54,7 @@ fun ModelPickerDialog(
     component: DshRootComponent,
     onDismiss: () -> Unit
 ) {
-    var catalog by remember { mutableStateOf<SessionModelsValue?>(null) }
+    var catalog by remember { mutableStateOf<ModelCatalog?>(null) }
     var failed by remember { mutableStateOf(false) }
     var picked by remember { mutableStateOf<ModelSelection?>(null) }
     var effort by remember { mutableStateOf<String?>(null) }
@@ -64,10 +65,11 @@ fun ModelPickerDialog(
             failed = true
         } else {
             catalog = loaded
-            picked = loaded.current
-            // 推理力度初值:当前值 → 主机默认 → 首档
-            val reasoning = loaded.catalogEntryOf(loaded.current)?.reasoning
-            effort = loaded.current.reasoningEffort
+            picked = loaded.default
+            // 推理力度初值:当前值 → 主机推荐默认 → 首档(无默认选择时留空)
+            val currentSelection = loaded.default
+            val reasoning = currentSelection?.let { loaded.catalogEntryOf(it) }?.reasoning
+            effort = currentSelection?.reasoningEffort
                 ?: reasoning?.defaultEffort
                 ?: reasoning?.efforts?.firstOrNull()?.id
         }
@@ -133,7 +135,7 @@ fun ModelPickerDialog(
 /** 目录主体:routable 警示 + provider 分组(默认展开当前选择所在组)+ 力度档 */
 @Composable
 private fun ModelCatalogContent(
-    catalog: SessionModelsValue,
+    catalog: ModelCatalog,
     picked: ModelSelection?,
     effort: String?,
     efforts: List<ModelReasoningEffort>,
@@ -141,7 +143,7 @@ private fun ModelCatalogContent(
     onEffortChange: (String?) -> Unit
 ) {
     LazyColumn(modifier = Modifier.heightIn(max = 420.dp)) {
-        if (!catalog.routable) {
+        if (picked != null && !catalog.isRoutable(picked.provider)) {
             item(key = "routable_warning") {
                 Surface(
                     modifier = Modifier
