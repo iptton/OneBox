@@ -39,10 +39,11 @@ object AdWatchAds {
 /**
  * 激励广告控制器。
  *
- * main 源集只声明接口, 不 import 任何 com.google.android.gms.ads 类:
+ * main 源集只声明接口, 不 import 任何广告 SDK 类:
  *   - google 渠道: src/google 的 GmsRewardedAdController (真实 AdMob 实现)
- *   - 国内渠道 + foss: src/nogms 的 NoopRewardedAdController (不可用 stub)
- * 两侧各有一个同签名的 Hilt Module 负责绑定, 互斥编译。
+ *   - 国内渠道: src/domestic 的 CsjRewardedAdController (真实穿山甲实现)
+ *   - foss: src/nogms 的 NoopRewardedAdController (不可用 stub)
+ * 三侧各有一个同签名的 Hilt Module 负责绑定, 互斥编译。
  */
 interface RewardedAdController {
 

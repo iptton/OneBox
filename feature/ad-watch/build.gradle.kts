@@ -7,14 +7,16 @@ plugins {
 
 android.namespace = "com.wanbaohe.adwatch"
 
-// AdMob 激励广告仅 google 渠道可用 (同 feature/login 的 flavor 隔离范式):
-//   - google 渠道:        src/main + src/google (真实 GmsRewardedAdController) + play-services-ads
-//   - 国内渠道 + foss:    src/main + src/nogms (同签名 NoopRewardedAdController stub), 不携带广告 SDK
+// 激励广告 SDK 按渠道隔离 (同 feature/login、core/pay 的 flavor 隔离范式):
+//   - google 渠道:   src/main + src/google (真实 GmsRewardedAdController, AdMob) + play-services-ads
+//   - 国内 6 渠道:   src/main + src/domestic (真实 CsjRewardedAdController, 穿山甲) + pangle ads-sdk
+//   - foss 渠道:     src/main + src/nogms (同签名 NoopRewardedAdController stub), 不携带广告 SDK
 afterEvaluate {
     android.sourceSets {
-        listOf("onebox", "xiaomi", "yyb", "oppo", "vivo", "huawei", "foss").forEach { flavor ->
-            getByName(flavor).kotlin.srcDir("src/nogms/java")
+        listOf("onebox", "xiaomi", "yyb", "oppo", "vivo", "huawei").forEach { flavor ->
+            getByName(flavor).kotlin.srcDir("src/domestic/java")
         }
+        getByName("foss").kotlin.srcDir("src/nogms/java")
     }
 }
 
@@ -32,6 +34,9 @@ dependencies {
     "arm64Api"(libs.com.tencent.mmkv)
     "universalApi"(libs.com.tencent.mmkv)
 
-    // AdMob 激励广告仅 google 渠道, 其余渠道(含 foss)产物不含 ads SDK
+    // AdMob 激励广告仅 google 渠道, 穿山甲激励广告仅国内 6 渠道, foss 不携带广告 SDK
     "googleApi"(libs.play.services.ads)
+    listOf("onebox", "xiaomi", "yyb", "oppo", "vivo", "huawei").forEach { flavor ->
+        add("${flavor}Api", libs.pangle.ads.sdk)
+    }
 }

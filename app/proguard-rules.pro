@@ -194,6 +194,16 @@
     *;
 }
 
+#穿山甲 (Pangle 国内版) 激励广告 SDK, 与 aar 内置 consumer proguard 互补
+-keep class com.bytedance.** { *; }
+-keep class com.pangle.** { *; }
+-keep class com.bykv.** { *; }
+-keep class com.byakv.** { *; }
+-keep class com.byazt.** { *; }
+-keep class com.ss.android.** { *; }
+-keep class ms.bz.bd.** { *; }
+-keep class com.volcengine.mobsecBiz.** { *; }
+
 -keep class com.tencent.mm.sdk.** {
     *;
 }

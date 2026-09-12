@@ -12,9 +12,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * 非 google 渠道 (国内 + foss) stub: 不打包 AdMob SDK,
- * 入口本就由 channelConfig.enableGms 隐藏 (仅 google 渠道开启),
- * 与 src/google 的真实实现签名保持一致。
+ * foss 渠道 stub: 不打包任何广告 SDK,
+ * 入口本就由 channelConfig.enableRewardedAd 隐藏 (foss 为 false),
+ * 与 src/google / src/domestic 的真实实现签名保持一致。
  */
 @Singleton
 class NoopRewardedAdController @Inject constructor() : RewardedAdController {

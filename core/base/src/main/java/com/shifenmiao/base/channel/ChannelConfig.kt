@@ -25,4 +25,8 @@ data class ChannelConfig(
     /** 是否有可用的应用内支付渠道(微信/支付宝/Google Play Billing 任一) */
     val enablePayment: Boolean
         get() = enableWechat || enableAlipay || enablePlayBilling
+
+    /** 是否展示「看广告赚积分」入口: google 渠道走 AdMob, 国内渠道走穿山甲, foss 无广告 */
+    val enableRewardedAd: Boolean
+        get() = enableGms || enableWechat
 }

@@ -213,8 +213,8 @@ fun ColumnScope.BuyCoffeeBody(
             }
             Spacer(modifier = Modifier.height(AppTheme.dimens.paddingNormal))
         }
-        if (payComponent.gmsEnabled) {
-            // 「看广告赚积分」入口: 仅 google 渠道(广告 SDK 仅 google 渠道携带)
+        if (payComponent.rewardedAdEnabled) {
+            // 「看广告赚积分」入口: google 渠道走 AdMob, 国内渠道走穿山甲 (foss 无广告)
             item {
                 Row(
                     modifier = Modifier

@@ -34,6 +34,12 @@ dependencyResolutionManagement {
         mavenCentral()
         gradlePluginPortal()
         maven("https://jitpack.io") { name = "JitPack" }
+        // 穿山甲 (Pangle 国内版) 激励广告 SDK, 国内 6 个 flavor 使用
+        maven("https://artifact.bytedance.com/repository/pangle") {
+            content {
+                includeGroup("com.pangle.cn")
+            }
+        }
         // 国内镜像仅供本地开发加速; CI(GitHub Actions, 海外网络) 下直连更快更稳,
         // 避免腾讯 nexus 对 androidx 等不存在产物的大量 404/超时拖慢依赖解析
         if (System.getenv("GITHUB_ACTIONS") != "true") {
