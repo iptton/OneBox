@@ -23,11 +23,11 @@ enum class RewardedAdStatus {
 
 object AdWatchAds {
 
-    /**
-     * Google 官方激励广告测试单元 ID。
-     * TODO(发布前): 替换为 AdMob 后台申请的正式激励广告单元 ID。
-     */
-    const val REWARDED_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
+    /** AdMob 正式激励广告单元 ID(AdMob 后台「Ad Watch 激励广告」单元) */
+    const val REWARDED_AD_UNIT_ID = "ca-app-pub-2510840726350411/5526322638"
+
+    /** Google 官方激励广告测试单元 ID,开发调试时可临时换回 */
+    const val TEST_REWARDED_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
 
     /** 每日观看上限次数 */
     const val DAILY_LIMIT = 10
