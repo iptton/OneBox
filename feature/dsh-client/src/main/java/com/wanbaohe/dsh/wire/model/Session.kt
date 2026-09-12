@@ -50,9 +50,12 @@ data class SessionEvent(
 /**
  * 会话摘要行(session/list 的 items 元素)。
  *
- * 0.1.5 的列表行**不带投影**,LLM 生成的标题只在 control baseline / follow 快照里;
- * [title] 因此是本模块的**客户端侧字段**(wire 上不存在,反序列化时恒为 null),
- * 由 SessionStore 在 emit 摘要时从投影 overlay 合并进来,供列表/顶栏显示。
+ * 0.1.5 的列表行**带投影提示**(projections.values:title/goal/tokenUsage/imageLimits…,
+ * 值可能滞后但不错,asOfSeq 标明多旧),冷会话也能拿到标题等;
+ * 打开会话后同一批投影由 follow 快照给出,control baseline 还会推送增量。
+ *
+ * [title] 是本模块的**客户端侧字段**(wire 上不存在),由 SessionStore 把投影 overlay
+ * 合并进摘要后供列表/顶栏直接读取,省掉 UI 每次查表。
  */
 @Serializable
 data class SessionSummary(
@@ -63,7 +66,9 @@ data class SessionSummary(
     val parentSessionId: String? = null,
     val origin: String? = null,
     val cwd: String? = null,
-    /** 客户端侧:title 投影(不参与 wire) */
+    /** 列表行投影提示(部分基线,可能滞后) */
+    val projections: SessionProjectionsBlock? = null,
+    /** 客户端侧:合并后的 title 投影(不参与 wire) */
     val title: String? = null
 )
 

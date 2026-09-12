@@ -250,6 +250,14 @@ class SessionStore(
         if (disposed) return
         rawSummaries = parsed.items
         val alive = parsed.items.mapTo(HashSet()) { it.sessionId }
+        // 列表行自带的投影提示 seed 进 overlay(标题/goal/imageLimits 等冷会话也有;
+        // 是部分基线,值可能滞后但不错,asOfSeq 标明多旧 —— 高 seq 推送会覆盖)
+        for (summary in parsed.items) {
+            val block = summary.projections ?: continue
+            for ((key, item) in block.values) {
+                applyProjectionValue(summary.sessionId, key, item, block.asOfSeq)
+            }
+        }
         // overlay 行回收(防长期增长);日志保留(已打开会话仍可看)
         projectionValues.keys.retainAll(alive)
         projectionSeqs.keys.retainAll(alive)

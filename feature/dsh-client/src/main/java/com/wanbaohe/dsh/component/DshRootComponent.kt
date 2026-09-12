@@ -574,6 +574,9 @@ class DshRootComponent @AssistedInject internal constructor(
      */
     fun pickCommandItem(sessionId: String, name: String, hint: String?, isCommand: Boolean) {
         if (isCommand && hint.isNullOrEmpty()) {
+            // 无参数命令:立即执行并清空输入 —— 否则输入框仍以 "/" 开头,
+            // 斜杠内联面板会停在一条已经执行过的命令上(联调实测)
+            _chatState.value = _chatState.value.copy(input = "")
             executeCommand(sessionId, "/$name")
         } else {
             fillCommandPrompt(name)
