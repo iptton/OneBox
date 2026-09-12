@@ -264,6 +264,7 @@
     <string name="dsh_cloud_login_action">Mag-sign in</string>
     <string name="dsh_cloud_generate_code">Gumawa ng bind code</string>
     <string name="dsh_cloud_generating_code">Gumagawa…</string>
+    <string name="dsh_cloud_auth_expired">Nag-expire ang pag-sign in (%1). Mag-sign in muli para magamit ang cloud relay.</string>
     <string name="dsh_cloud_bind_code_failed">Hindi nakagawa ng bind code: %1$s</string>
     <string name="dsh_cloud_code_hint">Ilagay ang code na ito sa dsh-connector CLI sa Mac mo:</string>
     <string name="dsh_cloud_copy">Kopyahin</string>

@@ -264,6 +264,7 @@
     <string name="dsh_cloud_login_action">साइन इन करें</string>
     <string name="dsh_cloud_generate_code">बाइंड कोड बनाएं</string>
     <string name="dsh_cloud_generating_code">बनाया जा रहा है…</string>
+    <string name="dsh_cloud_auth_expired">साइन-इन समाप्त (%1)। क्लाउड रिले उपयोग करने के लिए फिर से साइन इन करें।</string>
     <string name="dsh_cloud_bind_code_failed">बाइंड कोड बनाने में विफल: %1$s</string>
     <string name="dsh_cloud_code_hint">इस कोड को अपने Mac पर dsh-connector CLI में दर्ज करें:</string>
     <string name="dsh_cloud_copy">कॉपी करें</string>

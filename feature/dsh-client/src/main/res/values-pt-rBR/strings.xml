@@ -264,6 +264,7 @@
     <string name="dsh_cloud_login_action">Entrar</string>
     <string name="dsh_cloud_generate_code">Gerar código de vinculação</string>
     <string name="dsh_cloud_generating_code">Gerando…</string>
+    <string name="dsh_cloud_auth_expired">Sessão expirada (%1). Entre novamente para usar o relay na nuvem.</string>
     <string name="dsh_cloud_bind_code_failed">Falha ao gerar o código de vinculação: %1$s</string>
     <string name="dsh_cloud_code_hint">Digite este código na CLI dsh-connector no seu Mac:</string>
     <string name="dsh_cloud_copy">Copiar</string>

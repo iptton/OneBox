@@ -264,6 +264,7 @@
     <string name="dsh_cloud_login_action">Anmelden</string>
     <string name="dsh_cloud_generate_code">Bindungscode erzeugen</string>
     <string name="dsh_cloud_generating_code">Wird erzeugt…</string>
+    <string name="dsh_cloud_auth_expired">Anmeldung abgelaufen (%1). Bitte erneut anmelden, um das Cloud-Relay zu nutzen.</string>
     <string name="dsh_cloud_bind_code_failed">Bindungscode konnte nicht erzeugt werden: %1$s</string>
     <string name="dsh_cloud_code_hint">Gib diesen Code in der dsh-connector-CLI auf deinem Mac ein:</string>
     <string name="dsh_cloud_copy">Kopieren</string>

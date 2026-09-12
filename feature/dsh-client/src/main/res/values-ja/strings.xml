@@ -264,6 +264,7 @@
     <string name="dsh_cloud_login_action">サインイン</string>
     <string name="dsh_cloud_generate_code">バインドコードを生成</string>
     <string name="dsh_cloud_generating_code">生成中…</string>
+    <string name="dsh_cloud_auth_expired">サインインの有効期限が切れました(%1)。クラウドリレーを使うには再サインインしてください。</string>
     <string name="dsh_cloud_bind_code_failed">バインドコードの生成に失敗しました: %1$s</string>
     <string name="dsh_cloud_code_hint">このコードを Mac の dsh-connector CLI に入力してください:</string>
     <string name="dsh_cloud_copy">コピー</string>

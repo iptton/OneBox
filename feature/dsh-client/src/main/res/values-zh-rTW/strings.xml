@@ -241,6 +241,7 @@
     <string name="dsh_cloud_login_action">去登入</string>
     <string name="dsh_cloud_generate_code">產生綁定碼</string>
     <string name="dsh_cloud_generating_code">產生中…</string>
+    <string name="dsh_cloud_auth_expired">登入已失效(%1),請重新登入後再使用雲端中繼。</string>
     <string name="dsh_cloud_bind_code_failed">產生綁定碼失敗:%1$s</string>
     <string name="dsh_cloud_code_hint">在 Mac 上的 dsh-connector 命令列中輸入此綁定碼:</string>
     <string name="dsh_cloud_copy">複製</string>

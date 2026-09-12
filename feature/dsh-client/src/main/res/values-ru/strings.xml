@@ -264,6 +264,7 @@
     <string name="dsh_cloud_login_action">Войти</string>
     <string name="dsh_cloud_generate_code">Создать код привязки</string>
     <string name="dsh_cloud_generating_code">Создание…</string>
+    <string name="dsh_cloud_auth_expired">Сеанс истёк (%1). Войдите снова, чтобы использовать облачный ретранслятор.</string>
     <string name="dsh_cloud_bind_code_failed">Не удалось создать код привязки: %1$s</string>
     <string name="dsh_cloud_code_hint">Введите этот код в CLI dsh-connector на вашем Mac:</string>
     <string name="dsh_cloud_copy">Копировать</string>

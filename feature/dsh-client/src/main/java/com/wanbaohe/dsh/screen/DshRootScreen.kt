@@ -666,6 +666,13 @@ private fun CloudRelaySection(
                 fontSize = 13.sp
             )
         }
+        // 401(token 失效/游客账号):本地 token 已清,给一个直达登录页的入口
+        if (cloud.authExpired) {
+            Spacer(Modifier.height(6.dp))
+            OutlinedButton(onClick = { onNavigate(Screen.Login()) }) {
+                Text(stringResource(R.string.dsh_cloud_login_action))
+            }
+        }
         if (cloud.code.isNotEmpty()) {
             Spacer(Modifier.height(12.dp))
             Text(

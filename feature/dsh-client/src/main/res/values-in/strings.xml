@@ -264,6 +264,7 @@
     <string name="dsh_cloud_login_action">Masuk</string>
     <string name="dsh_cloud_generate_code">Buat kode binding</string>
     <string name="dsh_cloud_generating_code">Membuat…</string>
+    <string name="dsh_cloud_auth_expired">Sesi berakhir (%1). Silakan masuk lagi untuk memakai cloud relay.</string>
     <string name="dsh_cloud_bind_code_failed">Gagal membuat kode binding: %1$s</string>
     <string name="dsh_cloud_code_hint">Masukkan kode ini di CLI dsh-connector pada Mac Anda:</string>
     <string name="dsh_cloud_copy">Salin</string>

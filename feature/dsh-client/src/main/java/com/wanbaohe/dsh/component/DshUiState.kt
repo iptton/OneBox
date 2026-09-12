@@ -55,7 +55,9 @@ data class CloudUiState(
     val code: String = "",
     val expiresAtEpochMs: Long = 0,
     /** 一次性错误(申请失败/认领失败/未登录等,已本地化) */
-    val error: String? = null
+    val error: String? = null,
+    /** 中继被 401 拒(token 失效/游客账号):需要重新登录,UI 给登录入口 */
+    val authExpired: Boolean = false
 )
 
 /** 一次连接实例的会话域 store 组(随控制器同生共死;非 @Singleton) */

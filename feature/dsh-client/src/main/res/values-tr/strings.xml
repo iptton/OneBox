@@ -264,6 +264,7 @@
     <string name="dsh_cloud_login_action">Giriş yap</string>
     <string name="dsh_cloud_generate_code">Bağlantı kodu oluştur</string>
     <string name="dsh_cloud_generating_code">Oluşturuluyor…</string>
+    <string name="dsh_cloud_auth_expired">Oturum süresi doldu (%1). Bulut aktarımını kullanmak için tekrar giriş yapın.</string>
     <string name="dsh_cloud_bind_code_failed">Bağlantı kodu oluşturulamadı: %1$s</string>
     <string name="dsh_cloud_code_hint">Bu kodu Mac\'inizdeki dsh-connector CLI\'sine girin:</string>
     <string name="dsh_cloud_copy">Kopyala</string>

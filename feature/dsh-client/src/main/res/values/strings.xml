@@ -265,6 +265,7 @@
     <string name="dsh_cloud_login_action">Sign in</string>
     <string name="dsh_cloud_generate_code">Generate bind code</string>
     <string name="dsh_cloud_generating_code">Generating…</string>
+    <string name="dsh_cloud_auth_expired">Sign-in expired (%1). Please sign in again to use the cloud relay.</string>
     <string name="dsh_cloud_bind_code_failed">Failed to generate bind code: %1$s</string>
     <string name="dsh_cloud_code_hint">Enter this code in the dsh-connector CLI on your Mac:</string>
     <string name="dsh_cloud_copy">Copy</string>

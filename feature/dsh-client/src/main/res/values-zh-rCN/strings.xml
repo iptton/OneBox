@@ -265,6 +265,7 @@
     <string name="dsh_cloud_login_action">去登录</string>
     <string name="dsh_cloud_generate_code">生成绑定码</string>
     <string name="dsh_cloud_generating_code">生成中…</string>
+    <string name="dsh_cloud_auth_expired">登录已失效(%1),请重新登录后再使用云端中继。</string>
     <string name="dsh_cloud_bind_code_failed">生成绑定码失败:%1$s</string>
     <string name="dsh_cloud_code_hint">在 Mac 上的 dsh-connector 命令行中输入此绑定码:</string>
     <string name="dsh_cloud_copy">复制</string>

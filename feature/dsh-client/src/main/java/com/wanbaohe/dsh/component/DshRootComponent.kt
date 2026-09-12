@@ -42,6 +42,7 @@ import com.wanbaohe.dsh.session.SubagentStore
 import com.wanbaohe.dsh.session.UnknownCommandException
 import com.wanbaohe.dsh.session.WorkspaceStore
 import com.wanbaohe.dsh.session.commandNameOf
+import com.shifenmiao.storage.TokenStorage
 import com.wanbaohe.dsh.wire.CarrierException
 import com.wanbaohe.dsh.wire.RpcBusinessException
 import com.wanbaohe.dsh.wire.model.GoalRef
@@ -189,7 +190,8 @@ class DshRootComponent @AssistedInject internal constructor(
             cloud = _uiState.value.cloud.copy(
                 available = true,
                 requesting = true,
-                error = null
+                error = null,
+                authExpired = false
             )
         )
         componentScope.launch {
@@ -204,13 +206,27 @@ class DshRootComponent @AssistedInject internal constructor(
                     )
                 )
             } catch (e: Throwable) {
+                val unauthorized = (e as? CarrierException)?.httpStatus == HttpUnauthorized
+                if (unauthorized) {
+                    // 中继是登录用户专属:401 = 本地 token 已失效(过期/被吊销)或游客账号。
+                    // 清掉失效 token,否则 showLogin/登录页会因为 isLogin()==true 直接放行。
+                    TokenStorage.clearLoginInfo()
+                }
                 _uiState.value = _uiState.value.copy(
                     cloud = _uiState.value.cloud.copy(
                         requesting = false,
-                        error = appContext.getString(
-                            R.string.dsh_cloud_bind_code_failed,
-                            e.message ?: e.toString()
-                        )
+                        authExpired = unauthorized,
+                        error = if (unauthorized) {
+                            appContext.getString(
+                                R.string.dsh_cloud_auth_expired,
+                                e.message ?: ""
+                            )
+                        } else {
+                            appContext.getString(
+                                R.string.dsh_cloud_bind_code_failed,
+                                e.message ?: e.toString()
+                            )
+                        }
                     )
                 )
             }
@@ -289,17 +305,28 @@ class DshRootComponent @AssistedInject internal constructor(
                 connectCloud(invite.key)
             } catch (e: Throwable) {
                 val status = (e as? CarrierException)?.httpStatus
+                if (status == HttpUnauthorized) {
+                    // 同申请绑定码:本地 token 已失效,清掉并给登录入口
+                    TokenStorage.clearLoginInfo()
+                }
                 val message = when (status) {
                     HttpConflict -> appContext.getString(R.string.dsh_cloud_claim_conflict)
                     HttpGone -> appContext.getString(R.string.dsh_cloud_claim_expired)
-                    HttpUnauthorized -> appContext.getString(R.string.dsh_cloud_auth_blocked)
+                    HttpUnauthorized -> appContext.getString(
+                        R.string.dsh_cloud_auth_expired,
+                        e.message ?: ""
+                    )
                     else -> appContext.getString(
                         R.string.dsh_cloud_claim_failed,
                         e.message ?: e.toString()
                     )
                 }
                 _uiState.value = _uiState.value.copy(
-                    cloud = _uiState.value.cloud.copy(claiming = false, error = message)
+                    cloud = _uiState.value.cloud.copy(
+                        claiming = false,
+                        authExpired = status == HttpUnauthorized,
+                        error = message
+                    )
                 )
             }
         }

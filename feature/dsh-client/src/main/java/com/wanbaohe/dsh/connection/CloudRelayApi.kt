@@ -7,7 +7,10 @@ import com.wanbaohe.dsh.wire.CarrierException
 import com.wanbaohe.dsh.wire.DshJson
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.put
 import okhttp3.Call
 import okhttp3.Callback
@@ -79,7 +82,9 @@ class CloudRelayApi @Inject constructor(
                     val outcome = runCatching {
                         response.use {
                             if (it.code != 200) {
-                                throw CarrierException("http ${it.code}", httpStatus = it.code)
+                                // 带上服务端原因:401 有三种(缺鉴权头 / token 失效 / 游客账号),
+                                // 只报 http 401 用户无法判断该重新登录还是换账号
+                                throw CarrierException(httpFailure(it.code, it.body.string()), httpStatus = it.code)
                             }
                             DshJson.decodeFromString(
                                 BindCodeResponse.serializer(),
@@ -154,7 +159,7 @@ class CloudRelayApi @Inject constructor(
                             cont.resume(Unit)
                         } else {
                             cont.resumeWithException(
-                                CarrierException("http ${it.code}", httpStatus = it.code)
+                                CarrierException(httpFailure(it.code, it.body.string()), httpStatus = it.code)
                             )
                         }
                     }
@@ -172,6 +177,16 @@ class CloudRelayApi @Inject constructor(
         private const val MinSecretLength = 32
         private val EmptyJsonBody = "{}".toRequestBody("application/json".toMediaType())
         private val JsonMediaType = "application/json".toMediaType()
+
+        /** "http 401: Invalid or expired token" 形式;解析不出原因时退回 "http 401" */
+        internal fun httpFailure(code: Int, body: String): String {
+            val reason = runCatching {
+                ((DshJson.parseToJsonElement(body) as? JsonObject)
+                    ?.get("error") as? JsonObject)
+                    ?.get("message") as? JsonPrimitive
+            }.getOrNull()?.contentOrNull?.takeIf { it.isNotBlank() }
+            return if (reason == null) "http $code" else "http $code: $reason"
+        }
 
         /**
          * 解析扫码结果(onebox-dsh-bridge 插件页面二维码):

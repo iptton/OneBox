@@ -264,6 +264,7 @@
     <string name="dsh_cloud_login_action">Iniciar sesión</string>
     <string name="dsh_cloud_generate_code">Generar código de vinculación</string>
     <string name="dsh_cloud_generating_code">Generando…</string>
+    <string name="dsh_cloud_auth_expired">Sesión caducada (%1). Inicia sesión de nuevo para usar el relé en la nube.</string>
     <string name="dsh_cloud_bind_code_failed">Error al generar el código de vinculación: %1$s</string>
     <string name="dsh_cloud_code_hint">Introduce este código en la CLI dsh-connector de tu Mac:</string>
     <string name="dsh_cloud_copy">Copiar</string>
