@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.avif.coder)
     api(libs.toolbox.logger)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.com.airbnb.lottie)
 
 
 

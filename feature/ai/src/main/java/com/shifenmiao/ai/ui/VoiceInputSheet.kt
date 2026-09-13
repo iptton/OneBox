@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -12,12 +13,8 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Mic
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
@@ -32,18 +29,26 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.airbnb.lottie.compose.rememberLottieDynamicProperties
+import com.airbnb.lottie.compose.rememberLottieDynamicProperty
 import com.shifenmiao.ai.voice.AsrState
 import com.shifenmiao.ai.voice.VoiceRecognizer
 import com.shifenmiao.core.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassStyle
-import com.t8rin.imagetoolbox.core.ui.widget.glass.glassBackground
 
 /**
  * 语音输入录音面板(讯飞大模型识别)。
@@ -69,41 +74,44 @@ fun VoiceInputSheet(
     val rms by recognizer.rms.collectAsState()
     // 已终结(成功/失败)标记,防止重复回调 onResult/onDismiss
     var terminated by remember { mutableStateOf(false) }
-    // 本轮会话已 start 标记:防止打开瞬间消费到上一轮残留的 Finished/Error 状态
-    var started by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
+        // 先作废并清掉上一轮残留状态(例如面板被划走之后最终结果才到), 再开新一轮
+        recognizer.cancel()
         val auth = recognizer.prepare()
         if (auth == null) {
             AppToastHost.showToast(R.string.ai_voice_error)
             onDismiss()
-        } else {
-            recognizer.start(auth.first, auth.second, scope)
-            started = true
+            return@LaunchedEffect
         }
-    }
+        recognizer.start(auth.first, auth.second, scope)
+        // 直接收集 start() 之后产生的状态: 不会再消费到打开瞬间捕获的旧值
+        // (修 bug: 第二次打开面板时把上一次的识别结果又回填一遍)
+        recognizer.state.collect { s ->
+            if (terminated) return@collect
+            when (s) {
+                // 停顿处的本段定稿: 立刻回填输入框, 面板继续收音(继续说时前面的话不会被冲掉)
+                is AsrState.SegmentFinal -> if (s.text.isNotBlank()) onResult(s.text)
 
-    LaunchedEffect(state) {
-        if (!started || terminated) return@LaunchedEffect
-        when (val s = state) {
-            is AsrState.Finished -> {
-                terminated = true
-                if (s.text.isNotBlank()) onResult(s.text)
-                recognizer.cancel()
-                onDismiss()
+                is AsrState.Finished -> {
+                    terminated = true
+                    if (s.text.isNotBlank()) onResult(s.text)
+                    recognizer.cancel()
+                    onDismiss()
+                }
+
+                is AsrState.Error -> {
+                    terminated = true
+                    recognizer.cancel()
+                    // 联调期带上识别错误详情(如讯飞 11201: licc failed),方便定位
+                    AppToastHost.showToast(
+                        context.getString(R.string.ai_voice_error) + " (" + s.message + ")"
+                    )
+                    onDismiss()
+                }
+
+                else -> Unit
             }
-
-            is AsrState.Error -> {
-                terminated = true
-                recognizer.cancel()
-                // 联调期带上讯飞错误详情(如 11201: licc failed),方便定位
-                AppToastHost.showToast(
-                    context.getString(R.string.ai_voice_error) + " (${s.message})"
-                )
-                onDismiss()
-            }
-
-            else -> Unit
         }
     }
 
@@ -129,9 +137,40 @@ fun VoiceInputSheet(
             )
             Spacer(modifier = Modifier.height(24.dp))
 
-            // 大号圆形麦克风按钮,尺寸随录音音量做 1.0~1.25 倍脉冲缩放
+            // 大号语音按钮:整颗按钮就是 Lottie 律动动画(96dp,与原圆形按钮同尺寸),
+            // 不再叠加玻璃圆背景;按图层名重着色跟随主题(白色图形 → onPrimaryContainer,
+            // 紫色律动块 → 主题主色系),整体随录音音量做 1.0~1.25 倍脉冲缩放
             val targetScale = 1f + rms.coerceIn(0f, 1f) * 0.25f
             val pulseScale by animateFloatAsState(targetValue = targetScale, label = "rmsPulse")
+            val composition by rememberLottieComposition(
+                LottieCompositionSpec.RawRes(com.shifenmiao.ai.R.raw.voice_recording)
+            )
+            val lottieProgress by animateLottieCompositionAsState(
+                composition = composition,
+                isPlaying = state is AsrState.Listening,
+                iterations = LottieConstants.IterateForever,
+            )
+            val colorScheme = MaterialTheme.colorScheme
+            val voiceLottieColors = rememberLottieDynamicProperties(
+                rememberLottieDynamicProperty(LottieProperty.COLOR, colorScheme.primary.toArgb(), "01"),
+                rememberLottieDynamicProperty(LottieProperty.COLOR, colorScheme.tertiary.toArgb(), "02"),
+                rememberLottieDynamicProperty(LottieProperty.COLOR, colorScheme.secondary.toArgb(), "03"),
+                rememberLottieDynamicProperty(LottieProperty.COLOR, colorScheme.primaryContainer.toArgb(), "04"),
+                rememberLottieDynamicProperty(
+                    LottieProperty.COLOR,
+                    colorScheme.primary.copy(alpha = 0.5f).toArgb(),
+                    "transparent1"
+                ),
+                rememberLottieDynamicProperty(
+                    LottieProperty.COLOR,
+                    colorScheme.tertiary.copy(alpha = 0.5f).toArgb(),
+                    "transparent2"
+                ),
+                rememberLottieDynamicProperty(LottieProperty.COLOR, colorScheme.onPrimaryContainer.toArgb(), "base"),
+                rememberLottieDynamicProperty(LottieProperty.STROKE_COLOR, colorScheme.onPrimaryContainer.toArgb(), "pill top"),
+                rememberLottieDynamicProperty(LottieProperty.STROKE_COLOR, colorScheme.onPrimaryContainer.toArgb(), "pill down"),
+                rememberLottieDynamicProperty(LottieProperty.STROKE_COLOR, colorScheme.onPrimaryContainer.toArgb(), "Half rign"),
+            )
             Box(
                 modifier = Modifier
                     .graphicsLayer {
@@ -139,21 +178,18 @@ fun VoiceInputSheet(
                         scaleY = pulseScale
                     }
                     .size(96.dp)
-                    .clip(CircleShape)
-                    .glassBackground(
-                        style = GlassStyle.Dense,
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = CircleShape,
-                        borderWidth = 0.dp
-                    )
                     .clickable { recognizer.finish() },
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.Mic,
-                    contentDescription = stringResource(R.string.ai_voice_tap_to_finish),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.size(40.dp)
+                LottieAnimation(
+                    composition = composition,
+                    progress = { lottieProgress },
+                    dynamicProperties = voiceLottieColors,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .semantics {
+                            contentDescription = context.getString(R.string.ai_voice_tap_to_finish)
+                        }
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
