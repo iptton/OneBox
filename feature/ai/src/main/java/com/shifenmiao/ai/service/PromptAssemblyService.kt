@@ -2,9 +2,14 @@ package com.shifenmiao.ai.service
 
 import com.google.gson.JsonParser
 import com.shifenmiao.ai.agent.AgentLoopExecutor
+import com.shifenmiao.ai.agent.tool.builtin.MemoryGetTool
+import com.shifenmiao.ai.agent.tool.builtin.MemoryWriteTool
+import com.shifenmiao.ai.agent.tool.builtin.UseSkillTool
 import com.shifenmiao.ai.component.ToolConfigResolver
+import com.shifenmiao.ai.memory.MemoryRepository
 import com.shifenmiao.ai.prompt.SystemPromptRepository
 import com.shifenmiao.ai.agent.tool.AgentToolRegistry
+import com.shifenmiao.ai.skill.SkillRepository
 import com.shifenmiao.model.ai.Conversation
 import com.shifenmiao.model.ai.ToolDefinition
 import com.shifenmiao.model.ai.tool.ToolSelectionResult
@@ -31,6 +36,8 @@ class PromptAssemblyService(
     private val toolConfigResolver: ToolConfigResolver,
     private val systemPromptRepository: SystemPromptRepository,
     private val agentToolRegistry: AgentToolRegistry,
+    private val memoryRepository: MemoryRepository,
+    private val skillRepository: SkillRepository,
 ) {
     fun prepareToolSelection(
         engine: com.shifenmiao.model.ai.AiEngine,
@@ -49,7 +56,19 @@ class PromptAssemblyService(
         // shouldBootstrapDefaults 阶段被烘焙进 policy.selectedToolNames,
         // 用户在工具中心显式清空时不会被 bootstrap 反扑覆盖.
         val selectedNames = effectiveConfig.policy.selectedToolNames
-        val toolNames = (effectiveConfig.boundToolNames.orEmpty() + selectedNames).distinct()
+        // 隐式系统工具（visibleToUser = false）：不进工具中心、不参与 bootstrap、
+        // 不受 selectedToolNames 约束，只受全局 + 会话两个开关控制。
+        // 强制并集放在最后，保证老会话（已有 policy 行）也能用上。
+        val implicitToolNames = buildList {
+            if (effectiveConfig.memoryEnabled) {
+                add(MemoryWriteTool.TOOL_NAME)
+                add(MemoryGetTool.TOOL_NAME)
+            }
+            if (effectiveConfig.skillsEnabled) {
+                add(UseSkillTool.TOOL_NAME)
+            }
+        }
+        val toolNames = (effectiveConfig.boundToolNames.orEmpty() + selectedNames + implicitToolNames).distinct()
 
         if (toolNames.isEmpty()) return null
         val tools = agentLoopExecutor.toolRegistry.getToolDefinitions(toolNames.toSet())
@@ -69,12 +88,32 @@ class PromptAssemblyService(
         val effectiveToolConfig = preResolvedConfig ?: toolConfigResolver.resolve()
         val promptBudget = systemPromptRepository.calculatePromptBudget(baseConversation.engine.model)
 
+        // 记忆/技能注入与 planInjection 同构：门控判定后取 fragment，关闭即不注入
+        val memoryFragment = if (effectiveToolConfig.memoryEnabled) {
+            memoryRepository.buildPromptFragment(promptBudget)
+        } else {
+            null
+        }
+        val skillsFragment = if (effectiveToolConfig.skillsEnabled) {
+            skillRepository.buildPromptFragment()
+        } else {
+            null
+        }
+
         val composition = systemPromptRepository.composeConversationPrompt(
             conversation = baseConversation,
             workingMode = effectiveToolConfig.policy.workingMode,
             taskPrompt = planInjection,
+            memoryFragment = memoryFragment,
+            skillsFragment = skillsFragment,
             tokenBudget = promptBudget
         )
+        // droppedLayers 无任何消费方，层被整层丢弃时这里留一条排查日志
+        if (composition.droppedLayers.isNotEmpty()) {
+            "buildEffectiveConversation: budget=$promptBudget " +
+                "droppedLayers=${composition.droppedLayers.map { "${it.key}(p=${it.priority})" }}"
+                .makeLog("PromptAssembly")
+        }
         return baseConversation.copy(prompt = composition.mergedPrompt)
     }
 

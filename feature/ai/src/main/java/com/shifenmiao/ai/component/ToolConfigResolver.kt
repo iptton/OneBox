@@ -3,9 +3,11 @@ package com.shifenmiao.ai.component
 import com.shifenmiao.ai.agent.tool.AgentToolRegistry
 import com.shifenmiao.ai.agent.tool.ConversationToolPolicyRepository
 import com.shifenmiao.ai.agent.tool.ToolBindingRepository
+import com.shifenmiao.ai.memory.ConversationMemoryPolicyRepository
 import com.shifenmiao.ai.service.PromptTemplateToolService
 import com.shifenmiao.model.ai.Conversation
 import com.shifenmiao.model.ai.tool.ConversationToolPolicy
+import com.shifenmiao.storage.AIChatStorage
 
 /**
  * 工具配置解析器 —— 从 AgentLoopOrchestrator 中抽离。
@@ -35,11 +37,20 @@ class ToolConfigResolver(
     private val promptTemplateToolService: PromptTemplateToolService,
     private val agentToolRegistry: AgentToolRegistry,
     private val toolBindingRepository: ToolBindingRepository,
+    private val conversationMemoryPolicyRepository: ConversationMemoryPolicyRepository,
     private val conversationProvider: () -> Conversation,
 ) {
     data class EffectiveToolConfig(
         val policy: ConversationToolPolicy,
-        val boundToolNames: Set<String>?
+        val boundToolNames: Set<String>?,
+        /**
+         * 记忆门控：全局 MMKV（[AIChatStorage.isEnableMemory]）AND 会话表
+         * （conversation_memory_policy，按 conversation.id）。conversation.id 空白
+         * （草稿态）时视为 true 不设防。
+         */
+        val memoryEnabled: Boolean = true,
+        /** 技能门控：规则同 [memoryEnabled] */
+        val skillsEnabled: Boolean = true,
     )
 
     /**
@@ -113,9 +124,18 @@ class ToolConfigResolver(
             workingMode = defaultWorkingMode,
             selectedToolNames = defaultEnabledToolNames
         )
+        // 记忆/技能门控：全局 MMKV AND 会话表（无策略行 = 默认全开；草稿态不设防）
+        val memoryPolicy = conversationMemoryPolicyRepository.getPolicy(conversation.id)
+        val conversationScoped = conversation.id.isNotBlank()
+        val memoryEnabled = AIChatStorage.isEnableMemory.value &&
+            (!conversationScoped || memoryPolicy?.memoryEnabled != false)
+        val skillsEnabled = AIChatStorage.isEnableSkills.value &&
+            (!conversationScoped || memoryPolicy?.skillsEnabled != false)
         return EffectiveToolConfig(
             policy = policy,
-            boundToolNames = boundToolNames ?: promptScopedToolNames
+            boundToolNames = boundToolNames ?: promptScopedToolNames,
+            memoryEnabled = memoryEnabled,
+            skillsEnabled = skillsEnabled
         )
     }
 

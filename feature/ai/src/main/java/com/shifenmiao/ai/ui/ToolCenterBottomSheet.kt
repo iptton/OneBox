@@ -41,6 +41,7 @@ import com.shifenmiao.model.ai.tool.ToolCatalogItem
 import com.shifenmiao.model.ai.tool.ToolCategory
 import com.shifenmiao.model.ai.tool.ToolRiskLevel
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.shifenmiao.ai.R as AiR
 
 @Composable
 fun ToolCenterBottomSheet(
@@ -48,7 +49,9 @@ fun ToolCenterBottomSheet(
     uiState: ToolCenterUiState,
     onDismiss: () -> Unit,
     onToggleTool: (String, Boolean) -> Unit,
-    onToggleTools: (List<String>, Boolean) -> Unit
+    onToggleTools: (List<String>, Boolean) -> Unit,
+    onToggleMemory: (Boolean) -> Unit,
+    onToggleSkill: (Boolean) -> Unit
 ) {
     if (!visible) return
 
@@ -163,6 +166,32 @@ fun ToolCenterBottomSheet(
                 Spacer(modifier = Modifier.height(12.dp))
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
+            // 会话级记忆/技能开关：内容区顶部（搜索框之前）。
+            // 全局总开关关闭时行禁用并提示（不隐藏，便于定位"为何没生效"）。
+            SessionSwitchRow(
+                title = stringResource(AiR.string.ai_tools_session_memory),
+                subtitle = if (uiState.memoryGlobalEnabled) {
+                    stringResource(AiR.string.ai_tools_session_memory_hint)
+                } else {
+                    stringResource(AiR.string.ai_tools_session_global_off_hint)
+                },
+                checked = uiState.memoryEnabled && uiState.memoryGlobalEnabled,
+                switchEnabled = uiState.memoryGlobalEnabled,
+                onToggle = onToggleMemory
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            SessionSwitchRow(
+                title = stringResource(AiR.string.ai_tools_session_skills),
+                subtitle = if (uiState.skillsGlobalEnabled) {
+                    stringResource(AiR.string.ai_tools_session_skills_hint)
+                } else {
+                    stringResource(AiR.string.ai_tools_session_global_off_hint)
+                },
+                checked = uiState.skillsEnabled && uiState.skillsGlobalEnabled,
+                switchEnabled = uiState.skillsGlobalEnabled,
+                onToggle = onToggleSkill
+            )
+            Spacer(modifier = Modifier.height(12.dp))
             AiBottomSheetSearchField(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
@@ -273,6 +302,49 @@ fun ToolCenterBottomSheet(
         )
     }
 
+}
+
+@Composable
+private fun SessionSwitchRow(
+    title: String,
+    subtitle: String,
+    checked: Boolean,
+    switchEnabled: Boolean,
+    onToggle: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            .toggleable(
+                value = checked,
+                role = Role.Switch,
+                enabled = switchEnabled,
+                onValueChange = onToggle
+            )
+            .padding(horizontal = 14.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Switch(
+            checked = checked,
+            enabled = switchEnabled,
+            onCheckedChange = onToggle
+        )
+    }
 }
 
 @Composable

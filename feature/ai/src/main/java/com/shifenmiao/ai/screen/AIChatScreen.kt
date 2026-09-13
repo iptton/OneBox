@@ -432,6 +432,12 @@ fun ChatContent(
             },
             onToggleTools = { toolNames, enabled ->
                 aiChatComponent.setToolsEnabled(toolNames, enabled)
+            },
+            onToggleMemory = { enabled ->
+                aiChatComponent.setMemoryEnabled(enabled)
+            },
+            onToggleSkill = { enabled ->
+                aiChatComponent.setSkillsEnabled(enabled)
             }
         )
     }

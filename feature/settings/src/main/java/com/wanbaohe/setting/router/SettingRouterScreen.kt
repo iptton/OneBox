@@ -11,10 +11,12 @@ import com.wanbaohe.setting.display.screen.DisplaySettingsScreen
 import com.wanbaohe.setting.display.screen.StartEntrySettingsScreen
 import com.wanbaohe.setting.easter.screen.EasterEggScreen
 import com.wanbaohe.setting.image.screen.ImageGenerationSettingsScreen
+import com.wanbaohe.setting.memory.screen.MemoryManagementScreen
 import com.wanbaohe.setting.prompt.screen.SystemPromptDetailScreen
 import com.wanbaohe.setting.prompt.screen.SystemPromptManagementScreen
 import com.wanbaohe.setting.router.screenLogic.SettingRouterComponent
 import com.wanbaohe.setting.ai.screen.TTSSettingsScreen
+import com.wanbaohe.setting.skill.screen.SkillManagementScreen
 import com.wanbaohe.setting.theme.screen.ThemeSettingsScreen
 
 @Composable
@@ -28,6 +30,8 @@ fun SettingRouterScreen(component: SettingRouterComponent) {
         is SettingRouterComponent.SettingChild.ThemeSettings -> ThemeSettingsScreen(child.component)
         is SettingRouterComponent.SettingChild.SystemPromptManagement -> SystemPromptManagementScreen(child.component)
         is SettingRouterComponent.SettingChild.SystemPromptDetail -> SystemPromptDetailScreen(child.component)
+        is SettingRouterComponent.SettingChild.MemoryManagement -> MemoryManagementScreen(child.component)
+        is SettingRouterComponent.SettingChild.SkillManagement -> SkillManagementScreen(child.component)
         is SettingRouterComponent.SettingChild.DisplaySettings -> DisplaySettingsScreen(child.component)
         is SettingRouterComponent.SettingChild.EasterEgg -> EasterEggScreen(child.component)
         is SettingRouterComponent.SettingChild.TTSSettings -> TTSSettingsScreen(

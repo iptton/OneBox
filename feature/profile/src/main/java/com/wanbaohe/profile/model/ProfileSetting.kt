@@ -26,6 +26,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineInfo
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineLock
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMic
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineNote
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineMemory
+import com.t8rin.imagetoolbox.core.resources.icons.line.LinePsychology
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineShare
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineStar
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSync
@@ -78,7 +80,9 @@ sealed class ProfileSetting(
             TTSSettings,
             ImageGenerationSettings,
             AIFeatureSettings,
-            SystemPromptManagement
+            SystemPromptManagement,
+            MemoryManagement,
+            SkillManagement
         )
     )
 
@@ -239,6 +243,18 @@ sealed class ProfileSetting(
         id = 19,
         title = R.string.profile_item_ai_reply_style,
         icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LinePrompt
+    )
+
+    data object MemoryManagement : ProfileSetting(
+        id = 28,
+        title = R.string.profile_item_ai_memory,
+        icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMemory
+    )
+
+    data object SkillManagement : ProfileSetting(
+        id = 29,
+        title = R.string.profile_item_ai_skill,
+        icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LinePsychology
     )
 
     data object Community : ProfileSetting(

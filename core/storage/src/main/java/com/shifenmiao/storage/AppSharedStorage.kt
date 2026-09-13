@@ -41,6 +41,7 @@ object AppSharedStorage {
     private const val REMOTE_CONFIG_LAST_CHECK_TIME = "remote_config_last_check_time"
     private const val TOOL_CATALOG_SNAPSHOT_VERSION = "tool_catalog_snapshot_version"
     private const val SYSTEM_PRESET_VERSION = "system_preset_version"
+    private const val SKILL_PRESET_VERSION = "skill_preset_version"
     private const val HABIT_PRESETS_SEEDED = "habit_presets_seeded"
     private const val LANGUAGE_SWITCH_NOTICE_DISMISSED = "language_switch_notice_dismissed"
     private const val LANGUAGE_USER_CHOSEN = "language_user_chosen"
@@ -556,6 +557,15 @@ object AppSharedStorage {
 
     fun saveSystemPresetVersion(version: String) {
         localeMmkv.encode(SYSTEM_PRESET_VERSION, version)
+    }
+
+    // ─── 预置技能版本（按语言隔离：预置 skill 写入各语言自己的 Room 库） ─────────────
+
+    fun loadSkillPresetVersion(): String =
+        localeMmkv.decodeString(SKILL_PRESET_VERSION, "") ?: ""
+
+    fun saveSkillPresetVersion(version: String) {
+        localeMmkv.encode(SKILL_PRESET_VERSION, version)
     }
 
     // ─── 习惯打卡预置播种 flag ───────────────────────────────────────────────

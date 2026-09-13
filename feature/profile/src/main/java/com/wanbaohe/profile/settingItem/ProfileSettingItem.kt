@@ -176,6 +176,30 @@ fun ProfileSettingItem(
             )
         }
 
+        ProfileSetting.MemoryManagement -> {
+            BaseSettingItem(
+                modifier,
+                settingsComponent = settingsComponent,
+                setting = setting,
+                themeIndex = themeIndex,
+                onclick = {
+                    onNavigate(Screen.MemoryManagement)
+                }
+            )
+        }
+
+        ProfileSetting.SkillManagement -> {
+            BaseSettingItem(
+                modifier,
+                settingsComponent = settingsComponent,
+                setting = setting,
+                themeIndex = themeIndex,
+                onclick = {
+                    onNavigate(Screen.SkillManagement)
+                }
+            )
+        }
+
         ProfileSetting.Help -> {
             BaseSettingItem(
                 modifier,

@@ -325,7 +325,8 @@ class AgentToolRegistry @Inject constructor(
         toolName: String,
         arguments: String,
         toolCallId: String? = null,
-        interactionOwnerId: String? = null
+        interactionOwnerId: String? = null,
+        conversationId: String? = null
     ): AgentToolResult {
         val provider = toolProviders[toolName]
             ?: return AgentToolResult(
@@ -338,7 +339,8 @@ class AgentToolRegistry @Inject constructor(
             validateBeforeExecution(tool, arguments)?.let { return it }
             val executionContext = buildExecutionContext(
                 toolCallId = toolCallId,
-                interactionOwnerId = interactionOwnerId
+                interactionOwnerId = interactionOwnerId,
+                conversationId = conversationId
             )
             val executed = if (tool is ContextAwareAgentTool) {
                 tool.execute(arguments, executionContext)
@@ -365,7 +367,8 @@ class AgentToolRegistry @Inject constructor(
         arguments: String,
         callback: ToolCallback,
         toolCallId: String? = null,
-        interactionOwnerId: String? = null
+        interactionOwnerId: String? = null,
+        conversationId: String? = null
     ): AgentToolResult {
         val provider = toolProviders[toolName]
             ?: return AgentToolResult(
@@ -378,7 +381,8 @@ class AgentToolRegistry @Inject constructor(
             validateBeforeExecution(tool, arguments)?.let { return it }
             val executionContext = buildExecutionContext(
                 toolCallId = toolCallId,
-                interactionOwnerId = interactionOwnerId
+                interactionOwnerId = interactionOwnerId,
+                conversationId = conversationId
             )
             val executed = when {
                 tool is ContextAwareCallbackAgentTool -> {
@@ -459,11 +463,13 @@ class AgentToolRegistry @Inject constructor(
 
     private fun buildExecutionContext(
         toolCallId: String? = null,
-        interactionOwnerId: String? = null
+        interactionOwnerId: String? = null,
+        conversationId: String? = null
     ): AgentToolExecutionContext {
         return AgentToolExecutionContext(
             toolCallId = toolCallId,
-            interactionOwnerId = interactionOwnerId
+            interactionOwnerId = interactionOwnerId,
+            conversationId = conversationId
         )
     }
 

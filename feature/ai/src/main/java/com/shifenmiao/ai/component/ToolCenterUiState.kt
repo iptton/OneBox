@@ -14,5 +14,13 @@ data class ToolCenterUiState(
     val bootstrapToolNames: List<String> = emptyList(),
     val enabledToolNames: List<String> = emptyList(),
     val systemToolNames: List<String> = emptyList(),
-    val disabledSystemToolTitles: List<String> = emptyList()
+    val disabledSystemToolTitles: List<String> = emptyList(),
+    /** 会话级记忆开关（仅会话表值，不含全局） */
+    val memoryEnabled: Boolean = true,
+    /** 会话级技能开关（仅会话表值，不含全局） */
+    val skillsEnabled: Boolean = true,
+    /** 全局记忆总开关（false 时会话行禁用展示） */
+    val memoryGlobalEnabled: Boolean = true,
+    /** 全局技能总开关（false 时会话行禁用展示） */
+    val skillsGlobalEnabled: Boolean = true
 )

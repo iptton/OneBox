@@ -356,6 +356,8 @@ internal fun Screen.simpleName(): String = when (this) {
     is Screen.AuthCodeSettings -> "AuthCodeSettings"
     is Screen.AISettings -> "AISettings"
     is Screen.SystemPromptManagement -> "SystemPromptManagement"
+    is Screen.MemoryManagement -> "MemoryManagement"
+    is Screen.SkillManagement -> "SkillManagement"
     is Screen.OpenFilePicker -> "OpenFilePicker"
     is Screen.TokenUsage -> "TokenUsage"
     is Screen.VipLevel -> "VipLevel"

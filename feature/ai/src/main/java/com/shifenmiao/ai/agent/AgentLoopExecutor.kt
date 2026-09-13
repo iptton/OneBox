@@ -189,6 +189,7 @@ class AgentLoopExecutor @Inject constructor(
             toolCalls = toolCalls,
             interactionOwnerId = interactionOwnerId,
             callbackRouter = callbackRouter,
+            conversationId = conversationId.ifEmpty { null },
             onToolStarted = onToolStarted,
             onToolCompleted = onToolCompleted,
             onToolWaitingInput = onToolWaitingInput,
@@ -262,6 +263,8 @@ class AgentLoopExecutor @Inject constructor(
                 toolCalls = toolCalls,
                 interactionOwnerId = interactionOwnerId,
                 callbackRouter = callbackRouter,
+                // 恢复链路同样透传来源会话（任务行自带 conversation_id）
+                conversationId = tasks.firstOrNull()?.conversationId,
                 skipConfirmationForTaskIds = skipConfirmationForTaskIds,
                 onToolStarted = onToolStarted,
                 onToolCompleted = onToolCompleted,
@@ -282,6 +285,7 @@ class AgentLoopExecutor @Inject constructor(
         toolCalls: List<ToolCall>,
         interactionOwnerId: String?,
         callbackRouter: ToolCallbackRouter?,
+        conversationId: String? = null,
         skipConfirmationForTaskIds: Set<String> = emptySet(),
         onToolStarted: (ToolCall) -> Unit,
         onToolCompleted: (ToolCall, AgentToolResult) -> Unit,
@@ -308,6 +312,7 @@ class AgentLoopExecutor @Inject constructor(
                                 toolCall = toolCall,
                                 interactionOwnerId = interactionOwnerId,
                                 callbackRouter = callbackRouter,
+                                conversationId = conversationId,
                                 skipConfirmation = toolCall.id in skipConfirmationForTaskIds,
                                 onToolStarted = onToolStarted,
                                 onToolCompleted = onToolCompleted,
@@ -330,6 +335,7 @@ class AgentLoopExecutor @Inject constructor(
                         toolCall = toolCalls[i],
                         interactionOwnerId = interactionOwnerId,
                         callbackRouter = callbackRouter,
+                        conversationId = conversationId,
                         skipConfirmation = toolCalls[i].id in skipConfirmationForTaskIds,
                         onToolStarted = onToolStarted,
                         onToolCompleted = onToolCompleted,
@@ -385,6 +391,7 @@ class AgentLoopExecutor @Inject constructor(
         toolName: String,
         arguments: String,
         interactionOwnerId: String? = null,
+        conversationId: String? = null,
         callbackRouter: ToolCallbackRouter? = null
     ): AgentToolResult {
         val singleToolCallId = "single_${toolName}_${System.currentTimeMillis()}"
@@ -407,14 +414,16 @@ class AgentLoopExecutor @Inject constructor(
                     arguments = arguments,
                     callback = callbackRouter,
                     toolCallId = singleToolCallId,
-                    interactionOwnerId = interactionOwnerId
+                    interactionOwnerId = interactionOwnerId,
+                    conversationId = conversationId
                 )
             } else {
                 toolRegistry.executeTool(
                     toolName = toolName,
                     arguments = arguments,
                     toolCallId = singleToolCallId,
-                    interactionOwnerId = interactionOwnerId
+                    interactionOwnerId = interactionOwnerId,
+                    conversationId = conversationId
                 )
             }
         } catch (e: CancellationException) {
@@ -429,6 +438,7 @@ class AgentLoopExecutor @Inject constructor(
         arguments: String,
         toolCallId: String,
         interactionOwnerId: String?,
+        conversationId: String? = null,
         callbackRouter: ToolCallbackRouter?
     ): AgentToolResult {
         return if (callbackRouter != null) {
@@ -437,14 +447,16 @@ class AgentLoopExecutor @Inject constructor(
                 arguments = arguments,
                 callback = callbackRouter,
                 toolCallId = toolCallId,
-                interactionOwnerId = interactionOwnerId
+                interactionOwnerId = interactionOwnerId,
+                conversationId = conversationId
             )
         } else {
             toolRegistry.executeTool(
                 toolName = toolName,
                 arguments = arguments,
                 toolCallId = toolCallId,
-                interactionOwnerId = interactionOwnerId
+                interactionOwnerId = interactionOwnerId,
+                conversationId = conversationId
             )
         }
     }
@@ -543,6 +555,7 @@ class AgentLoopExecutor @Inject constructor(
         toolCall: ToolCall,
         interactionOwnerId: String?,
         callbackRouter: ToolCallbackRouter?,
+        conversationId: String? = null,
         skipConfirmation: Boolean = false,
         onToolStarted: (ToolCall) -> Unit,
         onToolCompleted: (ToolCall, AgentToolResult) -> Unit,
@@ -592,6 +605,7 @@ class AgentLoopExecutor @Inject constructor(
                             arguments = toolCall.function.arguments,
                             toolCallId = toolCall.id,
                             interactionOwnerId = interactionOwnerId,
+                            conversationId = conversationId,
                             callbackRouter = callbackRouter
                         )
                     }
@@ -601,6 +615,7 @@ class AgentLoopExecutor @Inject constructor(
                         arguments = toolCall.function.arguments,
                         toolCallId = toolCall.id,
                         interactionOwnerId = interactionOwnerId,
+                        conversationId = conversationId,
                         callbackRouter = callbackRouter
                     )
                 }

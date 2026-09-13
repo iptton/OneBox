@@ -33,6 +33,8 @@ class SystemPromptRepository @Inject constructor(
         taskPrompt: String = "",
         userOverride: String = "",
         environmentContext: String = "",
+        memoryFragment: String = "",
+        skillsFragment: String = "",
         tokenBudget: Int = 0
     ): PromptComposition {
         return PromptComposer.compose(
@@ -63,6 +65,16 @@ class SystemPromptRepository @Inject constructor(
                     required = false
                 ),
                 PromptLayer(
+                    type = PromptLayerType.MEMORY,
+                    content = memoryFragment,
+                    required = false
+                ),
+                PromptLayer(
+                    type = PromptLayerType.SKILLS,
+                    content = skillsFragment,
+                    required = false
+                ),
+                PromptLayer(
                     type = PromptLayerType.TASK_PROMPT,
                     content = taskPrompt,
                     required = false
@@ -82,6 +94,8 @@ class SystemPromptRepository @Inject constructor(
         workingMode: ChatWorkingMode,
         userOverride: String? = null,
         taskPrompt: String = "",
+        memoryFragment: String? = null,
+        skillsFragment: String? = null,
         tokenBudget: Int = 0
     ): PromptComposition {
         val systemRules = getSystemPrompt(
@@ -110,6 +124,8 @@ class SystemPromptRepository @Inject constructor(
             taskPrompt = taskPrompt,
             userOverride = userOverride.orEmpty(),
             environmentContext = environmentContextProvider.buildContextText(),
+            memoryFragment = memoryFragment.orEmpty(),
+            skillsFragment = skillsFragment.orEmpty(),
             tokenBudget = tokenBudget
         )
         return composition

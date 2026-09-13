@@ -14,8 +14,11 @@ import com.shifenmiao.database.agent.dao.ItemAgentDao
 import com.shifenmiao.database.data_draft.DataDraftHelper
 import com.shifenmiao.database.data_draft.dao.DataDraftDao
 import com.shifenmiao.database.ai.dao.ConversationDao
+import com.shifenmiao.database.ai.dao.ConversationMemoryPolicyDao
+import com.shifenmiao.database.ai.dao.MemoryEntryDao
 import com.shifenmiao.database.ai.dao.MessageDao
 import com.shifenmiao.database.ai.dao.ConversationToolPolicyDao
+import com.shifenmiao.database.ai.dao.SkillDao
 import com.shifenmiao.database.ai.dao.ToolBindingDao
 import com.shifenmiao.database.ai.dao.ToolCallTaskDao
 import com.shifenmiao.database.ai.dao.ToolCatalogDao
@@ -143,6 +146,21 @@ object DatabaseModule {
     @Provides
     fun provideConversationToolPolicyDao(database: AppDatabase): ConversationToolPolicyDao {
         return database.conversationToolPolicyDao()
+    }
+
+    @Provides
+    fun provideMemoryEntryDao(database: AppDatabase): MemoryEntryDao {
+        return database.memoryEntryDao()
+    }
+
+    @Provides
+    fun provideSkillDao(database: AppDatabase): SkillDao {
+        return database.skillDao()
+    }
+
+    @Provides
+    fun provideConversationMemoryPolicyDao(database: AppDatabase): ConversationMemoryPolicyDao {
+        return database.conversationMemoryPolicyDao()
     }
 
     @Provides

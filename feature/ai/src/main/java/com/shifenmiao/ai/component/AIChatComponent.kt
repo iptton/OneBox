@@ -15,6 +15,8 @@ import com.shifenmiao.ai.agent.tool.AgentToolRegistry
 import com.shifenmiao.ai.agent.tool.ToolBindingRepository
 import com.shifenmiao.ai.logic.ChatInputComponent
 import com.shifenmiao.ai.mediator.MessageRemoteMediator
+import com.shifenmiao.ai.memory.ConversationMemoryPolicyRepository
+import com.shifenmiao.ai.memory.MemoryRepository
 import com.shifenmiao.ai.model.MessageUiModel
 import com.shifenmiao.ai.prompt.PromptManager
 import com.shifenmiao.ai.prompt.SystemPromptRepository
@@ -23,6 +25,7 @@ import com.shifenmiao.ai.repository.MessageRepository
 import com.shifenmiao.ai.service.ConversationTitleSummaryService
 import com.shifenmiao.ai.service.PromptAssemblyService
 import com.shifenmiao.ai.service.PromptTemplateToolService
+import com.shifenmiao.ai.skill.SkillRepository
 import com.shifenmiao.ai.upload.AttachmentContentResolver
 import com.shifenmiao.ai.upload.FileUploadRouter
 import com.shifenmiao.ai.usecase.MessageListUseCase
@@ -101,6 +104,9 @@ open class AIChatComponent @AssistedInject internal constructor(
     private val agentToolRegistry: AgentToolRegistry,
     private val conversationToolPolicyRepository: ConversationToolPolicyRepository,
     private val promptTemplateToolService: PromptTemplateToolService,
+    private val conversationMemoryPolicyRepository: ConversationMemoryPolicyRepository,
+    private val memoryRepository: MemoryRepository,
+    private val skillRepository: SkillRepository,
     private val fileUploadRouter: FileUploadRouter,
     private val attachmentContentResolver: AttachmentContentResolver,
     private val systemPromptRepository: SystemPromptRepository,
@@ -191,6 +197,7 @@ open class AIChatComponent @AssistedInject internal constructor(
         promptTemplateToolService = promptTemplateToolService,
         agentToolRegistry = agentToolRegistry,
         toolBindingRepository = toolBindingRepository,
+        conversationMemoryPolicyRepository = conversationMemoryPolicyRepository,
         conversationProvider = { _conversation.value },
     )
 
@@ -199,6 +206,8 @@ open class AIChatComponent @AssistedInject internal constructor(
         toolConfigResolver = toolConfigResolver,
         systemPromptRepository = systemPromptRepository,
         agentToolRegistry = agentToolRegistry,
+        memoryRepository = memoryRepository,
+        skillRepository = skillRepository,
     )
 
     private val modeTransitionManager = ModeTransitionManager(
@@ -237,6 +246,7 @@ open class AIChatComponent @AssistedInject internal constructor(
         globalToolUiHost = globalToolUiHost,
         agentToolRegistry = agentToolRegistry,
         conversationToolPolicyRepository = conversationToolPolicyRepository,
+        conversationMemoryPolicyRepository = conversationMemoryPolicyRepository,
         toolConfigResolver = toolConfigResolver,
         toolCallbackRouter = toolCallbackRouter,
         sharedState = sharedState,
@@ -396,6 +406,12 @@ open class AIChatComponent @AssistedInject internal constructor(
 
     fun setToolsEnabled(toolNames: List<String>, enabled: Boolean) =
         agentLoopOrchestrator.setToolsEnabled(toolNames, enabled)
+
+    fun setMemoryEnabled(enabled: Boolean) =
+        agentLoopOrchestrator.setMemoryEnabled(enabled)
+
+    fun setSkillsEnabled(enabled: Boolean) =
+        agentLoopOrchestrator.setSkillsEnabled(enabled)
 
     fun setWorkingMode(workingMode: ChatWorkingMode) {
         agentLoopOrchestrator.setWorkingMode(workingMode)

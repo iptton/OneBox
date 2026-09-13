@@ -15,6 +15,7 @@ import com.shifenmiao.ai.agent.tool.ToolConfirmationRequest
 import com.shifenmiao.ai.agent.tool.AgentToolRegistry
 import com.shifenmiao.ai.execution.model.ExecutionStepUiModel
 import com.shifenmiao.ai.execution.presenter.ToolExecutionTextResolver
+import com.shifenmiao.ai.memory.ConversationMemoryPolicyRepository
 import com.shifenmiao.ai.service.PromptAssemblyService
 import com.shifenmiao.database.ai.entity.MessageEntity
 import com.shifenmiao.model.ai.Conversation
@@ -66,6 +67,7 @@ class AgentLoopOrchestrator(
     private val globalToolUiHost: GlobalToolUiHost,
     private val agentToolRegistry: AgentToolRegistry,
     private val conversationToolPolicyRepository: ConversationToolPolicyRepository,
+    private val conversationMemoryPolicyRepository: ConversationMemoryPolicyRepository,
     private val toolConfigResolver: ToolConfigResolver,
     private val toolCallbackRouter: ToolCallbackRouter,
     private val sharedState: ChatSharedState,
@@ -153,13 +155,20 @@ class AgentLoopOrchestrator(
         val disabledSystemToolTitles = systemTools
             .filterNot { it.name in bootstrapToolNames || it.name in enabledSet }
             .map { it.title }
+        // 会话级记忆/技能开关：会话表值与全局总开关分开展示，
+        // 全局关闭时面板中的会话行禁用（不靠 effectiveToolConfig 的合并值反推）
+        val memoryPolicy = conversationMemoryPolicyRepository.getPolicy(sharedState.conversation.value.id)
         return ToolCenterUiState(
             workingMode = policy.workingMode,
             allTools = allTools,
             bootstrapToolNames = bootstrapToolNames,
             enabledToolNames = enabledSet,
             systemToolNames = systemTools.map { it.name },
-            disabledSystemToolTitles = disabledSystemToolTitles
+            disabledSystemToolTitles = disabledSystemToolTitles,
+            memoryEnabled = memoryPolicy?.memoryEnabled ?: true,
+            skillsEnabled = memoryPolicy?.skillsEnabled ?: true,
+            memoryGlobalEnabled = AIChatStorage.isEnableMemory.value,
+            skillsGlobalEnabled = AIChatStorage.isEnableSkills.value
         )
     }
 
@@ -172,6 +181,30 @@ class AgentLoopOrchestrator(
 
     fun setToolEnabled(toolName: String, enabled: Boolean) {
         setToolsEnabled(listOf(toolName), enabled)
+    }
+
+    /** 会话级记忆开关：写表 + 清请求级缓存 + 重建面板状态（链路仿 [setToolsEnabled]） */
+    fun setMemoryEnabled(enabled: Boolean) {
+        sharedState.componentScope.launch(sharedState.ioDispatcher) {
+            conversationMemoryPolicyRepository.setMemoryEnabled(
+                conversationId = sharedState.conversation.value.id,
+                enabled = enabled
+            )
+            toolConfigResolver.clearCache()
+            _toolCenterUiState.value = buildToolCenterUiState()
+        }
+    }
+
+    /** 会话级技能开关：同 [setMemoryEnabled] */
+    fun setSkillsEnabled(enabled: Boolean) {
+        sharedState.componentScope.launch(sharedState.ioDispatcher) {
+            conversationMemoryPolicyRepository.setSkillsEnabled(
+                conversationId = sharedState.conversation.value.id,
+                enabled = enabled
+            )
+            toolConfigResolver.clearCache()
+            _toolCenterUiState.value = buildToolCenterUiState()
+        }
     }
 
     fun setWorkingMode(workingMode: com.shifenmiao.model.ai.tool.ChatWorkingMode) {

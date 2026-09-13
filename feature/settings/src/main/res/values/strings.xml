@@ -364,4 +364,50 @@
     <string name="auth_code_settings_immersive_enter">Enter Immersive Mode</string>
     <string name="auth_code_settings_immersive_exit">Exit Immersive Mode</string>
     <string name="auth_code_settings_unnamed_item">Unnamed App</string>
+
+    <!-- AI Memory management page -->
+    <string name="memory_global_switch_title">Enable AI Memory</string>
+    <string name="memory_global_switch_subtitle">Master switch: when off, memories are not injected and the AI cannot write memories</string>
+    <string name="memory_profile_section">Profile</string>
+    <string name="memory_profile_supporting">Maintained by you, always injected; the AI only reads it</string>
+    <string name="memory_profile_empty">No profile entries yet. Add facts about yourself you want the AI to always know.</string>
+    <string name="memory_log_section">Memory Log</string>
+    <string name="memory_log_supporting">Entries written by the AI or by you, grouped by date</string>
+    <string name="memory_log_empty">No log entries yet.</string>
+    <string name="memory_add_entry">Add</string>
+    <string name="memory_add_entry_title">Add Memory</string>
+    <string name="memory_edit_entry_title">Edit Memory</string>
+    <string name="memory_entry_content_hint">A concise, self-contained statement</string>
+    <string name="memory_delete_confirm_title">Delete this memory?</string>
+    <string name="memory_clear_log">Clear</string>
+    <string name="memory_clear_log_title">Clear all log entries?</string>
+    <string name="memory_clear_log_message">This deletes every memory log entry. Profile entries are kept. This action cannot be undone.</string>
+    <string name="memory_log_cleared">Memory log cleared</string>
+    <string name="memory_source_conversation">from %1$s</string>
+
+    <!-- AI Skill management page -->
+    <string name="skill_global_switch_title">Enable AI Skills</string>
+    <string name="skill_global_switch_subtitle">Master switch: when off, the skills list is not injected and the AI cannot load skills</string>
+    <string name="skill_list_section">Skills</string>
+    <string name="skill_list_supporting">The AI loads a skill\'s full instructions on demand via the use_skill tool</string>
+    <string name="skill_empty">No skills installed.</string>
+    <string name="skill_import_clipboard">Import</string>
+    <string name="skill_import_success">Skill imported</string>
+    <string name="skill_import_failed">Import failed: clipboard does not contain a valid SKILL.md (single-line name/description required)</string>
+    <string name="skill_new">New</string>
+    <string name="skill_new_title">New Skill</string>
+    <string name="skill_name_hint">name (kebab-case slug, e.g. my-skill)</string>
+    <string name="skill_description_hint">description (single line)</string>
+    <string name="skill_body_hint">Skill instructions (Markdown)</string>
+    <string name="skill_readonly_bundled_hint">Bundled skills are read-only. Save a copy to edit it.</string>
+    <string name="skill_save_as_copy">Save as copy</string>
+    <string name="skill_delete_confirm_title">Delete this skill?</string>
+    <string name="skill_share_chooser_title">Share skill</string>
+    <string name="skill_source_bundled">BUNDLED</string>
+    <string name="skill_source_local">LOCAL</string>
+    <string name="skill_source_remote">REMOTE</string>
+    <string name="skill_usage_never">NEVER USED</string>
+    <string name="skill_usage_low">LOW USE</string>
+    <string name="skill_usage_regular">REGULAR USE</string>
+    <string name="skill_usage_high">HIGH USE</string>
 </resources>

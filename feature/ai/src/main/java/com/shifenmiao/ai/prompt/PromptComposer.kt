@@ -33,6 +33,16 @@ enum class PromptLayerType(
         title = "Agent Role",
         priority = 20
     ),
+    MEMORY(
+        key = "memory",
+        title = "Memory",
+        priority = 30
+    ),
+    SKILLS(
+        key = "skills",
+        title = "Skills",
+        priority = 35
+    ),
     TASK_PROMPT(
         key = "task_prompt",
         title = "Task Prompt",

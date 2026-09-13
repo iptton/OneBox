@@ -397,6 +397,14 @@ object AppNavigationRegistry {
                 screen = Screen.SystemPromptManagement,
                 aliases = listOf("system_prompt_management", "prompt_management")
             ),
+            staticScreen(
+                screen = Screen.MemoryManagement,
+                aliases = listOf("memory_management", "ai_memory", "memory_settings", "记忆管理", "AI记忆")
+            ),
+            staticScreen(
+                screen = Screen.SkillManagement,
+                aliases = listOf("skill_management", "ai_skills", "skill_settings", "技能管理", "AI技能")
+            ),
             AppNavigationTarget(
                 targetType = AppNavigationTargetType.SCREEN,
                 routeKey = "mark_todo_router",

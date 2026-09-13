@@ -16,10 +16,12 @@ import com.wanbaohe.setting.ai.component.AIWorkingModelSettingsComponent
 import com.wanbaohe.setting.authcode.component.AuthCodeSettingsComponent
 import com.wanbaohe.setting.display.component.DisplaySettingsComponent
 import com.wanbaohe.setting.easter.component.EasterEggComponent
+import com.wanbaohe.setting.memory.component.MemoryManagementComponent
 import com.wanbaohe.setting.prompt.component.SystemPromptDetailComponent
 import com.shifenmiao.tts.service.TTSService
 import com.wanbaohe.setting.prompt.component.SystemPromptManagementComponent
 import com.wanbaohe.setting.router.SettingsRoute
+import com.wanbaohe.setting.skill.component.SkillManagementComponent
 import com.wanbaohe.setting.theme.component.ThemeSettingsComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -39,6 +41,8 @@ class SettingRouterComponent @AssistedInject internal constructor(
     private val themeSettingsComponentFactory: ThemeSettingsComponent.Factory,
     private val systemPromptManagementComponentFactory: SystemPromptManagementComponent.Factory,
     private val systemPromptDetailComponentFactory: SystemPromptDetailComponent.Factory,
+    private val memoryManagementComponentFactory: MemoryManagementComponent.Factory,
+    private val skillManagementComponentFactory: SkillManagementComponent.Factory,
     private val displaySettingsComponentFactory: DisplaySettingsComponent.Factory,
     private val easterEggComponentFactory: EasterEggComponent.Factory,
     private val authCodeSettingsComponentFactory: AuthCodeSettingsComponent.Factory,
@@ -113,6 +117,22 @@ class SettingRouterComponent @AssistedInject internal constructor(
             )
         )
 
+        is SettingsRoute.MemoryManagement -> SettingChild.MemoryManagement(
+            memoryManagementComponentFactory(
+                componentContext = componentContext.childContext("memory_mgmt"),
+                onGoBack = onGoBack,
+                onNavigate = onNavigate,
+            )
+        )
+
+        is SettingsRoute.SkillManagement -> SettingChild.SkillManagement(
+            skillManagementComponentFactory(
+                componentContext = componentContext.childContext("skill_mgmt"),
+                onGoBack = onGoBack,
+                onNavigate = onNavigate,
+            )
+        )
+
         is SettingsRoute.DisplaySettings -> SettingChild.DisplaySettings(
             displaySettingsComponentFactory(
                 componentContext = componentContext.childContext("display_settings"),
@@ -161,6 +181,8 @@ class SettingRouterComponent @AssistedInject internal constructor(
         class ThemeSettings(val component: ThemeSettingsComponent) : SettingChild
         class SystemPromptManagement(val component: SystemPromptManagementComponent) : SettingChild
         class SystemPromptDetail(val component: SystemPromptDetailComponent) : SettingChild
+        class MemoryManagement(val component: MemoryManagementComponent) : SettingChild
+        class SkillManagement(val component: SkillManagementComponent) : SettingChild
         class DisplaySettings(val component: DisplaySettingsComponent) : SettingChild
         class EasterEgg(val component: EasterEggComponent) : SettingChild
         class TTSSettings(

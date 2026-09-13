@@ -796,6 +796,8 @@
     <string name="profile_item_ai_workflow_models">Active Models</string>
     <string name="profile_item_ai_usage">Usage</string>
     <string name="profile_item_ai_reply_style">System Prompts</string>
+    <string name="profile_item_ai_memory">AI Memory</string>
+    <string name="profile_item_ai_skill">AI Skills</string>
     <string name="profile_item_tts_settings">Voice Synthesis</string>
     <string name="profile_item_image_generation_settings">Image Generation &amp; Editing</string>
     <string name="exporting">Exporting data…</string>

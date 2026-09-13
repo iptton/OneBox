@@ -11,6 +11,8 @@ import com.shifenmiao.ai.agent.tool.AgentToolRegistry
 import com.shifenmiao.ai.agent.tool.ToolBindingRepository
 import com.shifenmiao.ai.logic.ChatInputComponent
 import com.shifenmiao.ai.mediator.MessageRemoteMediator
+import com.shifenmiao.ai.memory.ConversationMemoryPolicyRepository
+import com.shifenmiao.ai.memory.MemoryRepository
 import com.shifenmiao.ai.prompt.PromptManager
 import com.shifenmiao.ai.prompt.SystemPromptRepository
 import com.wanbaohe.a2ui.catalog.A2uiRenderProvider
@@ -18,6 +20,7 @@ import com.shifenmiao.ai.repository.ConversationRepository
 import com.shifenmiao.ai.repository.MessageRepository
 import com.shifenmiao.ai.service.ConversationTitleSummaryService
 import com.shifenmiao.ai.service.PromptTemplateToolService
+import com.shifenmiao.ai.skill.SkillRepository
 import com.shifenmiao.ai.upload.AttachmentContentResolver
 import com.shifenmiao.ai.upload.FileUploadRouter
 import com.shifenmiao.ai.usecase.MessageListUseCase
@@ -68,6 +71,9 @@ open class AgentDetailComponent @AssistedInject internal constructor(
     private val toolBindingRepository: ToolBindingRepository,
     conversationToolPolicyRepository: ConversationToolPolicyRepository,
     promptTemplateToolService: PromptTemplateToolService,
+    conversationMemoryPolicyRepository: ConversationMemoryPolicyRepository,
+    memoryRepository: MemoryRepository,
+    skillRepository: SkillRepository,
     fileUploadRouter: FileUploadRouter,
     attachmentContentResolver: AttachmentContentResolver,
     systemPromptRepository: SystemPromptRepository,
@@ -106,6 +112,9 @@ open class AgentDetailComponent @AssistedInject internal constructor(
     agentToolRegistry = localAgentToolRegistry,
     conversationToolPolicyRepository = conversationToolPolicyRepository,
     promptTemplateToolService = promptTemplateToolService,
+    conversationMemoryPolicyRepository = conversationMemoryPolicyRepository,
+    memoryRepository = memoryRepository,
+    skillRepository = skillRepository,
     fileUploadRouter = fileUploadRouter,
     attachmentContentResolver = attachmentContentResolver,
     systemPromptRepository = systemPromptRepository,

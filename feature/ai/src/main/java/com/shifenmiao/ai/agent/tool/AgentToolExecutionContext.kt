@@ -6,11 +6,13 @@ import com.shifenmiao.ai.agent.callback.ToolCallback
  * 工具执行上下文。
  *
  * 通过执行链路向需要“感知当前会话边界”的工具传递只读信息，
- * 例如 toolCallId 和 interactionOwnerId。
+ * 例如 toolCallId、interactionOwnerId 和 conversationId。
  */
 data class AgentToolExecutionContext(
     val toolCallId: String? = null,
-    val interactionOwnerId: String? = null
+    val interactionOwnerId: String? = null,
+    /** 当前会话 id（conversation.id），memory_write 等工具记录来源会话用；草稿态/恢复链路外为 null */
+    val conversationId: String? = null
 )
 
 /**

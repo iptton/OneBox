@@ -9,6 +9,8 @@ sealed class SettingsRoute {
     data object ThemeSettings : SettingsRoute()
     data object SystemPromptManagement : SettingsRoute()
     data class SystemPromptDetail(val promptId: Int) : SettingsRoute()
+    data object MemoryManagement : SettingsRoute()
+    data object SkillManagement : SettingsRoute()
     data object DisplaySettings : SettingsRoute()
     data object StartEntrySettings : SettingsRoute()
     data object EasterEgg : SettingsRoute()

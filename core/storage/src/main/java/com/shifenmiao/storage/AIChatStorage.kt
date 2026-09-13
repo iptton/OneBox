@@ -25,6 +25,8 @@ object AIChatStorage {
     private const val IS_ENABLE_CONVERSATION_TITLE_SUMMARY = "is_enable_conversation_title_summary"
     private const val MAX_AGENT_ITERATIONS = "max_agent_iterations"
     private const val LAST_CHAT_WORKING_MODE = "last_chat_working_mode"
+    private const val IS_ENABLE_MEMORY = "is_enable_memory"
+    private const val IS_ENABLE_SKILLS = "is_enable_skills"
 
     private val _isEnableWebSearch = MutableStateFlow(loadIsEnableWebSearch())
     val isEnableWebSearch: StateFlow<Boolean> get() = _isEnableWebSearch
@@ -36,6 +38,10 @@ object AIChatStorage {
     val maxAgentIterations: StateFlow<Int> get() = _maxAgentIterations
     private val _lastChatWorkingMode = MutableStateFlow(loadLastChatWorkingMode())
     val lastChatWorkingMode: StateFlow<ChatWorkingMode?> get() = _lastChatWorkingMode
+    private val _isEnableMemory = MutableStateFlow(loadIsEnableMemory())
+    val isEnableMemory: StateFlow<Boolean> get() = _isEnableMemory
+    private val _isEnableSkills = MutableStateFlow(loadIsEnableSkills())
+    val isEnableSkills: StateFlow<Boolean> get() = _isEnableSkills
 
     fun saveConfigs(conversation: Conversation) {
         val copy = conversation.copy()
@@ -112,6 +118,24 @@ object AIChatStorage {
     fun loadLastChatWorkingMode(): ChatWorkingMode? {
         val saved = mmkv.decodeString(LAST_CHAT_WORKING_MODE) ?: return null
         return runCatching { ChatWorkingMode.valueOf(saved) }.getOrNull()
+    }
+
+    fun saveIsEnableMemory(enabled: Boolean) {
+        mmkv.encode(IS_ENABLE_MEMORY, enabled)
+        _isEnableMemory.value = enabled
+    }
+
+    fun loadIsEnableMemory(): Boolean {
+        return mmkv.decodeBool(IS_ENABLE_MEMORY, true)
+    }
+
+    fun saveIsEnableSkills(enabled: Boolean) {
+        mmkv.encode(IS_ENABLE_SKILLS, enabled)
+        _isEnableSkills.value = enabled
+    }
+
+    fun loadIsEnableSkills(): Boolean {
+        return mmkv.decodeBool(IS_ENABLE_SKILLS, true)
     }
 
     private fun sanitizeMaxAgentIterations(value: Int): Int {

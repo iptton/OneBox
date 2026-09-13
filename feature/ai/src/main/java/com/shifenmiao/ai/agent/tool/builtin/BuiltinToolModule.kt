@@ -326,4 +326,21 @@ object BuiltinToolModule {
     @IntoMap
     @StringKey("add_local_ai_model")
     fun provideAddLocalAiModelTool(tool: AddLocalAiModelTool): AgentTool = tool
+
+    // ========== 记忆/技能隐式系统工具（visibleToUser = false，受全局+会话开关门控） ==========
+
+    @Provides
+    @IntoMap
+    @StringKey("memory_write")
+    fun provideMemoryWriteTool(tool: MemoryWriteTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
+    @StringKey("memory_get")
+    fun provideMemoryGetTool(tool: MemoryGetTool): AgentTool = tool
+
+    @Provides
+    @IntoMap
+    @StringKey("use_skill")
+    fun provideUseSkillTool(tool: UseSkillTool): AgentTool = tool
 }

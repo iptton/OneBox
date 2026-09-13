@@ -2013,6 +2013,22 @@ sealed class Screen(
     )
 
     @Serializable
+    @SerialName("MemoryManagement")
+    data object MemoryManagement : Screen(
+        id = -29,
+        title = com.shifenmiao.core.R.string.profile_item_ai_memory,
+        subtitle = 0,
+    )
+
+    @Serializable
+    @SerialName("SkillManagement")
+    data object SkillManagement : Screen(
+        id = -30,
+        title = com.shifenmiao.core.R.string.profile_item_ai_skill,
+        subtitle = 0,
+    )
+
+    @Serializable
     @SerialName("TTSSettings")
     data object TTSSettings : Screen(
         id = -24,
