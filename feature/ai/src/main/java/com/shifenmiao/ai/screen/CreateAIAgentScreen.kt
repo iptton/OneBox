@@ -1,6 +1,7 @@
 package com.shifenmiao.ai.screen
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -77,9 +78,13 @@ import com.shifenmiao.core.R
 import com.shifenmiao.database.data_draft.entity.DataDraftEntity
 import com.shifenmiao.database.item.entity.Category
 import com.shifenmiao.model.ai.Agent
+import com.shifenmiao.model.ai.event.MainClickEvent
+import com.shifenmiao.model.ai.event.MainClickEventFrom
+import com.shifenmiao.model.ai.event.MainShowType
 import com.shifenmiao.model.ai.tool.ToolCatalogItem
 import com.shifenmiao.model.ai.tool.ToolCategory
 import com.shifenmiao.model.HomeTabKey
+import com.shifenmiao.model.event.AppEventBus
 import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -94,6 +99,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.Edit
 import com.t8rin.imagetoolbox.core.resources.icons.Refresh
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBuild
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineError
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineExpandLess
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineExpandMore
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineMagic
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSave
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTune
@@ -360,9 +367,20 @@ fun CreateAIAgentScreen(
             onInputChanged = component::onInputChanged,
             onGenerate = {
                 ActionUtils.showLogin(source = "create_ai_agent_generate") {
-                    focusManager.clearFocus()
-                    keyboardController?.hide()
-                    component.generate()
+                    // 积分预估闸门:仅代理路由要求积分,不足时弹购买面板而不是继续白跑一次长上下文请求
+                    if (!component.canAffordGeneration()) {
+                        ActionUtils.showToast(R.string.no_points)
+                        AppEventBus.emit(
+                            MainClickEvent(
+                                from = MainClickEventFrom.AI_AGENT_CREATE,
+                                type = MainShowType.BUY_COFFEE
+                            )
+                        )
+                    } else {
+                        focusManager.clearFocus()
+                        keyboardController?.hide()
+                        component.generate()
+                    }
                 }
             },
             onCancel = component::cancelGeneration,
@@ -809,11 +827,15 @@ private fun AgentPreviewSection(
     onDescriptionChange: (String) -> Unit,
 ) {
     var isMetaEditing by rememberSaveable { mutableStateOf(false) }
+    // 分类 / 工具 / 编辑 / 配置等高级项默认折叠,主操作只留「预览 + 保存」
+    var isAdvancedExpanded by rememberSaveable { mutableStateOf(false) }
+    // 成功提示区高度跟随卡片高度;展开高级项时靠 minHeight 让卡片自然长高,避免内容被裁掉
+    val successAreaHeight = (contentCardHeight - 220.dp).coerceIn(88.dp, 240.dp)
 
     GlassCard(
         modifier = Modifier
             .fillMaxWidth()
-            .height(contentCardHeight)
+            .heightIn(min = contentCardHeight)
             .padding(horizontal = 16.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -851,38 +873,13 @@ private fun AgentPreviewSection(
             Spacer(modifier = Modifier.height(12.dp))
             HorizontalDivider()
             Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = stringResource(
-                    R.string.create_ai_common_config_summary_compact,
-                    selectedCategoryCount,
-                    selectedToolCount
-                ),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.tertiary,
-            )
-            if (selectedCategoryNames.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = selectedCategoryNames.joinToString(" · "),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-            SelectedToolSummary(
-                tools = selectedToolsPreview,
-                emptyText = stringResource(R.string.create_ai_common_tools_empty)
-            )
-            Spacer(modifier = Modifier.height(12.dp))
 
             // 生成成功提示：此处不再直接渲染 A2UI，仅展示摘要，
             // 点击卡片或下方「预览」按钮均可跳转到 AgentScreen 查看完整效果
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)
+                    .height(successAreaHeight)
                     .clip(MaterialTheme.shapes.medium)
                     .clickable { onPreviewClick() }
                     .glassBackground(
@@ -921,7 +918,7 @@ private fun AgentPreviewSection(
                 }
             }
 
-            // 底部操作区：预览 | 编辑 | 配置
+            // 主操作区：只保留「预览 + 保存」
             Spacer(modifier = Modifier.height(10.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -941,57 +938,134 @@ private fun AgentPreviewSection(
                     Text(stringResource(R.string.create_ai_agent_preview))
                 }
                 GlassTonalButton(
-                    onClick = onEditClick,
+                    onClick = onSave,
+                    enabled = !isSaving,
                     modifier = Modifier.weight(1f),
                     contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                    color = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
                 ) {
-                    Icon(
-                        com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Edit,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
+                    if (isSaving) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(18.dp),
+                            strokeWidth = 2.dp,
+                            color = MaterialTheme.colorScheme.onPrimary,
+                        )
+                    } else {
+                        Icon(
+                            com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSave,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text(stringResource(R.string.create_ai_agent_edit))
-                }
-                GlassTonalButton(
-                    onClick = onConfigureClick,
-                    modifier = Modifier.weight(1f),
-                    contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
-                ) {
-                    Icon(
-                        com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTune,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(stringResource(R.string.create_ai_agent_config))
+                    Text(stringResource(R.string.create_ai_agent_save))
                 }
             }
-            // 第二行：保存（主操作，占满宽，使用主色更醒目）
-            Spacer(modifier = Modifier.height(8.dp))
-            GlassTonalButton(
-                onClick = onSave,
-                enabled = !isSaving,
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
-                color = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
+
+            // 高级项（分类 / 工具 / 编辑 / 配置）：默认折叠，只留一行小字引导
+            Spacer(modifier = Modifier.height(4.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { isAdvancedExpanded = !isAdvancedExpanded }
+                    .padding(horizontal = 4.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                if (isSaving) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(18.dp),
-                        strokeWidth = 2.dp,
-                        color = MaterialTheme.colorScheme.onPrimary,
+                Icon(
+                    com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTune,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                )
+                Text(
+                    text = stringResource(R.string.create_ai_common_advanced),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Text(
+                    text = stringResource(
+                        R.string.create_ai_common_config_summary_compact,
+                        selectedCategoryCount,
+                        selectedToolCount
+                    ),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    if (isAdvancedExpanded) {
+                        com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandLess
+                    } else {
+                        com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore
+                    },
+                    contentDescription = stringResource(
+                        if (isAdvancedExpanded) R.string.create_ai_agent_collapse
+                        else R.string.create_ai_agent_expand
+                    ),
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+
+            AnimatedVisibility(visible = isAdvancedExpanded) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    Text(
+                        text = stringResource(R.string.create_ai_common_category_label),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
                     )
-                } else {
-                    Icon(
-                        com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSave,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
+                    Text(
+                        text = selectedCategoryNames.joinToString(" · ")
+                            .ifBlank { stringResource(R.string.create_ai_common_no_category) },
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
                     )
+                    SelectedToolSummary(
+                        tools = selectedToolsPreview,
+                        emptyText = stringResource(R.string.create_ai_common_tools_empty)
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    ) {
+                        GlassTonalButton(
+                            onClick = onEditClick,
+                            modifier = Modifier.weight(1f),
+                            contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                        ) {
+                            Icon(
+                                com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Edit,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(stringResource(R.string.create_ai_agent_edit))
+                        }
+                        GlassTonalButton(
+                            onClick = onConfigureClick,
+                            modifier = Modifier.weight(1f),
+                            contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                        ) {
+                            Icon(
+                                com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTune,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(stringResource(R.string.create_ai_agent_config))
+                        }
+                    }
                 }
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(stringResource(R.string.create_ai_agent_save))
             }
         }
     }
