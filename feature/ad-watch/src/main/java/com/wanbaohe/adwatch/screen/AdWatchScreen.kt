@@ -75,11 +75,6 @@ import kotlinx.coroutines.delay
 import kotlin.math.PI
 import kotlin.math.sin
 
-private val AccentBlue = Color(0xFF3B82F6)
-private val AccentOrange = Color(0xFFF59E0B)
-private val AccentGreen = Color(0xFF10B981)
-private val CtaOrange = Color(0xFFFF9800)
-
 @Composable
 fun AdWatchScreen(
     component: AdWatchComponent
@@ -136,6 +131,11 @@ fun AdWatchScreen(
  */
 @Composable
 private fun AdWatchHero() {
+    // 跟随主题: 眼睛 primary / 环绕图标 tertiary·secondary·primary 轮换, 背景 primaryContainer
+    val eyeColor = MaterialTheme.colorScheme.primary
+    val eyeBg = MaterialTheme.colorScheme.primaryContainer
+    val tertiaryColor = MaterialTheme.colorScheme.tertiary
+    val secondaryColor = MaterialTheme.colorScheme.secondary
     val transition = rememberInfiniteTransition(label = "hero")
     val phase by transition.animateFloat(
         initialValue = 0f,
@@ -183,20 +183,20 @@ private fun AdWatchHero() {
             modifier = Modifier
                 .size((100 + 80 * ringProgress).dp)
                 .graphicsLayer { alpha = (1f - ringProgress) * 0.4f }
-                .border(width = 2.dp, color = AccentBlue, shape = CircleShape),
+                .border(width = 2.dp, color = eyeColor, shape = CircleShape),
         )
         // 中央眼睛
         Box(
             modifier = Modifier
                 .size(108.dp)
-                .background(color = AccentBlue.copy(alpha = 0.08f), shape = CircleShape)
-                .border(width = 3.dp, color = AccentBlue, shape = CircleShape),
+                .background(color = eyeBg.copy(alpha = 0.45f), shape = CircleShape)
+                .border(width = 3.dp, color = eyeColor, shape = CircleShape),
             contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = Icons.Rounded.Visibility,
                 contentDescription = null,
-                tint = AccentBlue,
+                tint = eyeColor,
                 modifier = Modifier
                     .size(52.dp)
                     .graphicsLayer {
@@ -208,7 +208,7 @@ private fun AdWatchHero() {
 
         OrbitIcon(
             imageVector = Icons.Rounded.Star,
-            tint = AccentOrange,
+            tint = tertiaryColor,
             x = (-88).dp,
             y = (-76).dp,
             size = 36.dp,
@@ -218,7 +218,7 @@ private fun AdWatchHero() {
         )
         OrbitIcon(
             imageVector = Icons.Rounded.AutoAwesome,
-            tint = AccentGreen,
+            tint = secondaryColor,
             x = 86.dp,
             y = (-70).dp,
             size = 34.dp,
@@ -228,7 +228,7 @@ private fun AdWatchHero() {
         )
         OrbitIcon(
             imageVector = Icons.Rounded.CardGiftcard,
-            tint = AccentOrange,
+            tint = eyeColor,
             x = 96.dp,
             y = 28.dp,
             size = 38.dp,
@@ -237,7 +237,7 @@ private fun AdWatchHero() {
         )
         OrbitIcon(
             imageVector = Icons.Rounded.Paid,
-            tint = AccentGreen,
+            tint = secondaryColor,
             x = (-96).dp,
             y = 12.dp,
             size = 40.dp,
@@ -255,7 +255,7 @@ private fun AdWatchHero() {
         )
         OrbitIcon(
             imageVector = Icons.Rounded.AutoAwesome,
-            tint = AccentOrange,
+            tint = tertiaryColor,
             x = 58.dp,
             y = 88.dp,
             size = 30.dp,
@@ -348,13 +348,16 @@ private fun RemainingCard(
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .background(color = AccentGreen, shape = CircleShape),
+                .background(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = CircleShape,
+                ),
             contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = Icons.Rounded.PlayArrow,
                 contentDescription = null,
-                tint = Color.White,
+                tint = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier.size(22.dp),
             )
         }
@@ -377,7 +380,7 @@ private fun RemainingCard(
                             .size(8.dp)
                             .background(
                                 color = if (i < remainingToday) {
-                                    AccentGreen
+                                    MaterialTheme.colorScheme.secondary
                                 } else {
                                     MaterialTheme.colorScheme.outlineVariant
                                 },
@@ -401,10 +404,10 @@ private fun WatchCta(
     onRetry: () -> Unit,
 ) {
     val ctaColors = ButtonDefaults.buttonColors(
-        containerColor = CtaOrange,
-        contentColor = Color.White,
-        disabledContainerColor = CtaOrange.copy(alpha = 0.55f),
-        disabledContentColor = Color.White,
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        disabledContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f),
+        disabledContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
     )
     when {
         remainingToday <= 0 -> {
@@ -462,7 +465,7 @@ private fun WatchCta(
                 if (isBusy) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(22.dp),
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         strokeWidth = 2.dp,
                     )
                     Spacer(modifier = Modifier.width(10.dp))
@@ -474,13 +477,16 @@ private fun WatchCta(
                     Box(
                         modifier = Modifier
                             .size(26.dp)
-                            .background(color = Color.White, shape = CircleShape),
+                            .background(
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = CircleShape,
+                            ),
                         contentAlignment = Alignment.Center,
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.PlayArrow,
                             contentDescription = null,
-                            tint = CtaOrange,
+                            tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(18.dp),
                         )
                     }
