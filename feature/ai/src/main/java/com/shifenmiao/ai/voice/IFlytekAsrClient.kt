@@ -17,8 +17,19 @@ import java.util.concurrent.atomic.AtomicInteger
 /** 语音识别状态流,RMS 不经 WebSocket(由录音器直接给 UI) */
 sealed interface AsrState {
     data object Idle : AsrState
+
+    /** 当前这一段的中间结果(边说边出字) */
     data class Listening(val partialText: String) : AsrState
+
+    /**
+     * 检测到停顿时该段的定稿文本(自建引擎: 该段已用 SenseVoice 重跑)。
+     * UI 收到后应立刻回填输入框,**但面板继续收音**;[seq] 保证连续两段文本相同时也能各回填一次。
+     */
+    data class SegmentFinal(val text: String, val seq: Int) : AsrState
+
+    /** 用户主动说完: 回填并在尾段处理后关闭面板 */
     data class Finished(val text: String) : AsrState
+
     data class Error(val message: String) : AsrState
 }
 

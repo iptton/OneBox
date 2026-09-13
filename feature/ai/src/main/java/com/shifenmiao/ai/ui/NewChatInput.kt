@@ -61,8 +61,8 @@ import com.shifenmiao.ai.chat.NewTextInputField
 import com.shifenmiao.ai.component.AIChatComponent
 import com.shifenmiao.ai.di.VoiceRecognizerEntryPoint
 import com.shifenmiao.ai.logic.ChatInputComponent
-import com.shifenmiao.ai.voice.VOICE_PROVIDER_IFLYTEK
-import com.shifenmiao.ai.voice.VOICE_PROVIDER_SELF
+import com.shifenmiao.ai.voice.VoiceInputEngine
+import com.shifenmiao.ai.voice.resolveVoiceInputEngine
 import com.shifenmiao.base.utils.ActionUtils
 import com.shifenmiao.common.logic.AppComponent
 import com.shifenmiao.core.R
@@ -293,11 +293,10 @@ private fun StandardInputSection(
     }
     val context = LocalContext.current
     val systemVoiceAvailable = remember { isSystemSpeechRecognitionAvailable(context) }
-    val voiceInputEnabled = when {
-        remoteConfig.voiceInput?.provider == VOICE_PROVIDER_IFLYTEK -> true
-        remoteConfig.voiceInput?.provider == VOICE_PROVIDER_SELF -> true
-        FlavorType.fromName().isOverseas -> systemVoiceAvailable
-        else -> false
+    val voiceInputEnabled = when (resolveVoiceInputEngine(remoteConfig.voiceInput)) {
+        VoiceInputEngine.SELF, VoiceInputEngine.IFLYTEK -> true
+        // 未开启托管识别时, 海外渠道回退系统语音识别, 国内渠道不显示麦克风
+        VoiceInputEngine.SYSTEM -> FlavorType.fromName().isOverseas && systemVoiceAvailable
     }
     val showVoice = textEmpty && !hasAttachments && voiceInputEnabled
     // 文本为空且无附件时,发送按钮切换为语音输入;识别结果回填输入框并补换行,

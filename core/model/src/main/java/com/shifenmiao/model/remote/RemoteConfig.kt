@@ -461,8 +461,19 @@ data class RemoteConfig(
 @Parcelize
 @Serializable
 data class VoiceInputConfig(
-    /** 语音输入提供方:"iflytek" 走讯飞大模型识别;null/"system" 走系统语音识别 */
+    /**
+     * 语音输入提供方(**老字段**, versionCode ≤139 的装机版本读它):
+     * "iflytek" 走讯飞大模型识别;null/"system" 走系统语音识别。
+     * 新版本请勿再用它切换引擎, 保持 "iflytek" 不动, 否则老版本会失去语音输入。
+     */
     val provider: String? = null,
+
+    /**
+     * 语音输入引擎**后台开关**(versionCode ≥140 读它):"self" = 自建 FunASR,"iflytek" = 讯飞大模型识别,
+     * 未下发 = 讯飞。用独立字段是为了让老版本完全不受影响——老版本不认识它, 只会继续读 [provider];
+     * 因此本字段可以随时热切(远程配置改完最迟 5 分钟生效), 线上效果不好即刻切回。
+     */
+    val engine: String? = null,
 
     /**
      * 讯飞凭据(联调期临时方案):三项齐全时 App 本地签名直连讯飞,不调网关代签。

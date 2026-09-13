@@ -31,8 +31,15 @@ class VoiceRecognizer @Inject constructor(
 
     private val _state = MutableStateFlow<AsrState>(AsrState.Idle)
 
-    /** 识别状态:Idle / Listening(流式中间结果) / Finished / Error */
+    /** 识别状态:Idle / Listening(本段中间结果) / SegmentFinal(本段定稿) / Finished / Error */
     val state: StateFlow<AsrState> = _state.asStateFlow()
+
+    /**
+     * 会话序号: [start] 递增, [cancel] 也递增(作废当前会话)。
+     * 客户端只能通过 [publish] 写状态, 上一轮被取消后迟到的回调会被丢弃 ——
+     * 否则"面板已划走、最终结果才到"的残留状态会在下次打开面板时把旧文本又回填一遍。
+     */
+    private val sessionSeq = java.util.concurrent.atomic.AtomicInteger(0)
 
     private val _rms = MutableStateFlow(0f)
 
@@ -43,17 +50,26 @@ class VoiceRecognizer @Inject constructor(
     private var recorder: PcmAudioRecorder? = null
     private var timeoutJob: Job? = null
 
+    /** [prepare] 时定下的引擎, [start] 复用: 避免两次读取之间远程配置热切换导致 URL 与客户端不匹配 */
+    @Volatile
+    private var pendingEngine: VoiceInputEngine = VoiceInputEngine.SYSTEM
+
     /**
      * 获取 {签名 wss URL, appId}。
-     * 联调期:RemoteConfig 下发了完整讯飞凭据(appId/apiKey/apiSecret)时本地签名直连;
-     * 否则向 Go 网关代签(/api/voice/asr/ws-auth,密钥不出服务端)。失败返回 null。
+     * 走哪个引擎由后台开关 voiceInput.engine 决定(见 [resolveVoiceInputEngine]):
+     * - self: 直接连自家网关反代端点, 无需向讯飞换签名 URL(第二项 appId 留空);
+     * - iflytek: RemoteConfig 下发了完整凭据(appId/apiKey/apiSecret)时本地签名直连,
+     *   否则向 Go 网关代签(/api/voice/asr/ws-auth,密钥不出服务端)。失败返回 null。
      */
     suspend fun prepare(): Pair<String, String>? {
         val local = RemoteConfigStorage.getRemoteConfig().voiceInput
-        if (local?.provider == VOICE_PROVIDER_SELF) {
-            // 自建链路: 连自家网关即可, 无需向讯飞换签名 URL(第二项 appId 留空)
+        val engine = resolveVoiceInputEngine(local)
+        pendingEngine = engine
+        if (engine == VoiceInputEngine.SELF) {
+            android.util.Log.i(TAG, "语音输入引擎: self(自建 FunASR, 网关反代) engine=" + local?.engine)
             return buildSelfAsrUrl() to ""
         }
+        android.util.Log.i(TAG, "语音输入引擎: iflytek engine=" + local?.engine)
         if (!local?.appId.isNullOrBlank() &&
             !local?.apiKey.isNullOrBlank() &&
             !local?.apiSecret.isNullOrBlank()
@@ -73,9 +89,11 @@ class VoiceRecognizer @Inject constructor(
     /** 开始识别。防重入:先 cancel 掉上一轮。60s 上限到点自动 finish。 */
     fun start(url: String, appId: String, scope: CoroutineScope) {
         cancel()
+        val session = sessionSeq.incrementAndGet()
+        val publish: (AsrState) -> Unit = { next -> if (sessionSeq.get() == session) _state.value = next }
         _state.value = AsrState.Listening("")
-        val newClient: AsrStreamClient = if (isSelfProvider()) {
-            FunAsrClient(state = _state).also { funAsr ->
+        val newClient: AsrStreamClient = if (pendingEngine == VoiceInputEngine.SELF) {
+            FunAsrClient(publish = publish).also { funAsr ->
                 funAsr.connect(wsUrl = url, token = resolveAuthToken())
             }
         } else {
@@ -112,8 +130,9 @@ class VoiceRecognizer @Inject constructor(
         client = null
     }
 
-    /** 放弃:立即断开并复位状态 */
+    /** 放弃:立即断开并复位状态(同时作废当前会话, 丢弃迟到的回调) */
     fun cancel() {
+        sessionSeq.incrementAndGet()
         timeoutJob?.cancel()
         timeoutJob = null
         recorder?.stop()
@@ -130,15 +149,15 @@ class VoiceRecognizer @Inject constructor(
         .replace("http://", "ws://")
         .removeSuffix("/") + SELF_ASR_PATH
 
-    private fun isSelfProvider(): Boolean =
-        RemoteConfigStorage.getRemoteConfig().voiceInput?.provider == VOICE_PROVIDER_SELF
-
     /** 与 AuthInterceptor 同源: 登录 JWT 优先, 未登录回退远程配置里的游客 token */
     private fun resolveAuthToken(): String? =
         TokenStorage.getTokenFromLocalStorage()?.takeIf { it.isNotBlank() }
             ?: RemoteConfigStorage.getRemoteConfig().accessToken?.takeIf { it.isNotBlank() }
 
     companion object {
+        /** 联调/线上排查: logcat 过滤 VoiceAsr 可看到本轮用的识别引擎 */
+        private const val TAG = "VoiceAsr"
+
         /** 单次识别上限 60s */
         private const val MAX_DURATION_MS = 60_000L
 

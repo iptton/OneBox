@@ -13,8 +13,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import com.shifenmiao.ai.voice.VOICE_PROVIDER_IFLYTEK
-import com.shifenmiao.ai.voice.VOICE_PROVIDER_SELF
+import com.shifenmiao.ai.voice.VoiceInputEngine
+import com.shifenmiao.ai.voice.resolveVoiceInputEngine
 import com.shifenmiao.core.R
 import com.shifenmiao.model.event.PermissionRequest
 import com.shifenmiao.storage.RemoteConfigStorage
@@ -50,8 +50,8 @@ fun rememberVoiceInputLauncher(
 
     return remember(context, recognitionLauncher, onResult, onShowIflytekSheet) {
         {
-            val provider = RemoteConfigStorage.getRemoteConfig().voiceInput?.provider
-            if (provider == VOICE_PROVIDER_IFLYTEK || provider == VOICE_PROVIDER_SELF) {
+            val engine = resolveVoiceInputEngine(RemoteConfigStorage.getRemoteConfig().voiceInput)
+            if (engine != VoiceInputEngine.SYSTEM) {
                 ContextUtils.requestPermissionAndExecute(
                     permissions = arrayOf(Manifest.permission.RECORD_AUDIO),
                     permissionRequest = PermissionRequest.MICROPHONE,

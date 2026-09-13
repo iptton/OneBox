@@ -1,10 +1,7 @@
 package com.shifenmiao.ai.voice
 
-/** RemoteConfig.voiceInput.provider 取值: 讯飞大模型识别 */
+/** RemoteConfig.voiceInput.provider 的历史取值(仅 ≤139 老版本读它, 新版本用 `engine` 切换) */
 const val VOICE_PROVIDER_IFLYTEK = "iflytek"
-
-/** RemoteConfig.voiceInput.provider 取值: 自建 FunASR(经 Go 网关 /api/voice/asr/ws 反代) */
-const val VOICE_PROVIDER_SELF = "self"
 
 /**
  * 流式语音识别客户端契约。

@@ -2,7 +2,6 @@ package com.shifenmiao.ai.voice
 
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import kotlinx.coroutines.flow.MutableStateFlow
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -13,17 +12,19 @@ import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
 
 /**
- * 自建语音识别客户端(FunASR 实时 2pass, 经 Go 网关 /api/voice/asr/ws 反代)。
+ * 自建语音识别客户端(sherpa-onnx 两段式, 经 Go 网关 /api/voice/asr/ws 反代)。
  *
- * 与讯飞协议的区别: 音频不再 base64 塞进 JSON, 而是首帧发参数、之后直接发二进制 PCM。
- * 上行: {"mode":"2pass","is_speaking":true,"wav_format":"pcm","chunk_size":[5,10,5],...}
- *      -> 16k 单声道 PCM 二进制帧 -> {"is_speaking":false}
- * 下行: mode=2pass-online 为边说边出的中间结果; mode=2pass-offline 为句尾经高精度模型
- *      修正后的结果(带标点), 收到它即视为最终文本。
- * 热词不用客户端传: 网关按 go-config 的 voice_asr.self_hotwords 在首帧注入。
+ * 上行: 首帧参数(文本) -> 16k 单声道 PCM 二进制帧 -> {"is_speaking":false}
+ * 下行三种消息(与网关约定, 见 strapi_go 的 voice_asr_ws.go):
+ * - `mode=2pass-online`                    : 当前这一段的中间结果, 只用于面板展示;
+ * - `mode=2pass-offline` + `segment_final`: 检测到停顿, 这一段已用 SenseVoice 定稿
+ *   -> 立刻回填输入框, 面板继续收音(说多段时前面的话不会被冲掉);
+ * - `mode=2pass-offline` + `is_final`     : 用户主动说完, 尾段定稿 -> 回填并关闭面板。
+ *
+ * 状态经 [publish] 输出; 由 VoiceRecognizer 绑定当前会话, 上一轮迟到的回调不会污染新一轮 UI。
  */
 class FunAsrClient(
-    private val state: MutableStateFlow<AsrState>,
+    private val publish: (AsrState) -> Unit,
 ) : AsrStreamClient {
 
     private val gson = Gson()
@@ -36,10 +37,7 @@ class FunAsrClient(
     private val sendQueue = LinkedBlockingQueue<ByteArray>()
     private var senderThread: Thread? = null
 
-    /** 已定稿的句段(2pass-offline 结果)与当前中间结果, 拼成完整文本 */
-    @Volatile
-    private var finalText = ""
-
+    /** 当前段落的中间结果(每段独立, 定稿后即被回填消费, 不再累积) */
     @Volatile
     private var partialText = ""
 
@@ -49,7 +47,13 @@ class FunAsrClient(
     @Volatile
     private var cancelled = false
 
-    /** 连接网关并开始识别。token 由调用方从本地登录态取出(网关 JRW 鉴权)。 */
+    /** 已产出最终结果: 兜底线程不再重复收尾 */
+    @Volatile
+    private var finished = false
+
+    private var segmentSeq = 0
+
+    /** 连接网关并开始识别。token 由调用方从本地登录态取出(网关 JWT 鉴权)。 */
     fun connect(wsUrl: String, token: String?) {
         val builder = Request.Builder().url(wsUrl)
         if (!token.isNullOrBlank()) builder.header("Authorization", "Bearer $token")
@@ -67,8 +71,9 @@ class FunAsrClient(
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                if (!cancelled && state.value !is AsrState.Finished) {
-                    state.value = AsrState.Error(t.message ?: "WebSocket failure")
+                // 已取消/已出最终结果的连接不再上报错误, 避免面板关闭后再弹一次错误
+                if (!cancelled && !finished) {
+                    publish(AsrState.Error(t.message ?: "WebSocket failure"))
                 }
             }
         })
@@ -137,7 +142,10 @@ class FunAsrClient(
         )
     )
 
-    /** 兜底: 结束帧发出后若服务端迟迟不回最终结果, 用当前文本收尾, 避免面板卡住 */
+    /**
+     * 兜底: 结束帧发出后服务端迟迟不回尾段结果时, 用当前中间结果收尾(文本可能为空),
+     * 保证面板一定会关闭, 不会卡在"正在识别"。
+     */
     private fun scheduleFallbackFinish() {
         Thread({
             try {
@@ -145,44 +153,50 @@ class FunAsrClient(
             } catch (_: InterruptedException) {
                 return@Thread
             }
-            if (!cancelled && state.value !is AsrState.Finished) {
-                val text = joinedText()
-                if (text.isNotBlank()) state.value = AsrState.Finished(text)
-            }
+            if (cancelled || finished) return@Thread
+            finished = true
+            publish(AsrState.Finished(partialText))
         }, "funasr-finish-fallback").start()
     }
 
     private fun handleMessage(text: String) {
+        if (cancelled) return
         // 解析不了的帧直接忽略, 不 crash
         try {
             val root = JsonParser.parseString(text).asJsonObject
             val mode = root.get("mode")?.asString.orEmpty()
             val recognized = root.get("text")?.asString.orEmpty()
-            if (mode.contains("offline")) {
-                if (recognized.isNotBlank()) finalText += recognized
-                partialText = ""
-                val joined = joinedText()
-                state.value = if (endRequested) {
-                    if (joined.isBlank()) AsrState.Listening("") else AsrState.Finished(joined)
-                } else {
-                    AsrState.Listening(joined)
-                }
-            } else {
+            val isFinal = root.get("is_final")?.asBoolean ?: false
+            val segmentFinal = root.get("segment_final")?.asBoolean ?: false
+
+            if (!mode.contains("offline")) {
                 partialText = recognized
-                state.value = AsrState.Listening(joinedText())
+                publish(AsrState.Listening(recognized))
+                return
+            }
+
+            partialText = ""
+            when {
+                isFinal -> {
+                    if (finished) return
+                    finished = true
+                    publish(AsrState.Finished(recognized))
+                }
+
+                segmentFinal && recognized.isNotBlank() -> {
+                    publish(AsrState.SegmentFinal(recognized, ++segmentSeq))
+                }
             }
         } catch (_: Exception) {
         }
     }
 
-    private fun joinedText(): String = finalText + partialText
-
     private companion object {
         /** 与讯飞侧一致的 40ms/帧节流 */
         const val FRAME_INTERVAL_MS = 40L
 
-        /** 结束帧后等待最终结果的兜底时长 */
-        const val FINISH_FALLBACK_MS = 3000L
+        /** 结束帧后等待尾段结果的兜底时长 */
+        const val FINISH_FALLBACK_MS = 4000L
 
         const val END_FRAME = "{\"is_speaking\":false}"
     }
