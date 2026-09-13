@@ -67,7 +67,7 @@ internal fun ColorHarmonies(
     selectedColor: Color,
 ) {
     var selectedHarmony by rememberSaveable {
-        mutableStateOf(HarmonyType.COMPLEMENTARY)
+        mutableStateOf(HarmonyType.TRIADIC)
     }
     val harmonies by remember(selectedColor, selectedHarmony) {
         derivedStateOf {

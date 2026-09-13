@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -51,7 +52,6 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Swatch
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAreaChart
-import com.t8rin.imagetoolbox.core.resources.icons.line.LineBarChart
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineBlender
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineInfo
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -61,7 +61,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavItem
 import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavigationBar
 import com.t8rin.imagetoolbox.core.ui.widget.navigation.BottomNavigationBarStyle
 
-private enum class ColorToolTab { INFO, MIXING, HARMONIES, SHADING, HISTOGRAM }
+private enum class ColorToolTab { INFO, MIXING, SHADING, HISTOGRAM }
 
 @Composable
 fun ColorToolsContent(
@@ -115,18 +115,24 @@ fun ColorToolsContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 when (tab) {
-                    ColorToolTab.INFO -> ColorInfo(
-                        selectedColor = selectedColor,
-                        onColorChange = component::updateSelectedColor
-                    )
+                    ColorToolTab.INFO -> {
+                        ColorInfo(
+                            selectedColor = selectedColor,
+                            onColorChange = component::updateSelectedColor
+                        )
+                        Text(
+                            text = stringResource(R.string.color_harmonies),
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                        ColorHarmonies(
+                            selectedColor = selectedColor
+                        )
+                    }
 
                     ColorToolTab.MIXING -> ColorMixing(
                         selectedColor = selectedColor,
                         appColorTuple = appColorTuple
-                    )
-
-                    ColorToolTab.HARMONIES -> ColorHarmonies(
-                        selectedColor = selectedColor
                     )
 
                     ColorToolTab.SHADING -> ColorShading(
@@ -148,11 +154,6 @@ fun ColorToolsContent(
                     id = ColorToolTab.MIXING.name,
                     label = stringResource(R.string.color_mixing),
                     icon = Icons.Outlined.LineBlender
-                ),
-                BottomNavItem(
-                    id = ColorToolTab.HARMONIES.name,
-                    label = stringResource(R.string.color_harmonies),
-                    icon = Icons.Outlined.LineBarChart
                 ),
                 BottomNavItem(
                     id = ColorToolTab.SHADING.name,

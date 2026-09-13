@@ -68,7 +68,7 @@ internal fun ColorMixing(
     appColorTuple: ColorTuple,
 ) {
     var mixingVariation by rememberSaveable {
-        mutableIntStateOf(3)
+        mutableIntStateOf(8)
     }
     var colorToMix by rememberSaveable(
         stateSaver = ColorSaver
