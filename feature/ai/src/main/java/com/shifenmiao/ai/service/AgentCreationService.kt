@@ -386,7 +386,8 @@ class AgentCreationService @Inject constructor(
         val requirement = buildRequirement(userGoal, categoryHints, toolHints)
         val result = aiPromptExecutor.execute(
             input = requirement,
-            systemPrompt = buildSystemPrompt()
+            systemPrompt = buildSystemPrompt(),
+            billingDesc = context.getString(R.string.create_ai_agent_consume_points_desc),
         )
         if (!result.isSuccess) {
             error(result.errorMessage ?: "AI generation failed")

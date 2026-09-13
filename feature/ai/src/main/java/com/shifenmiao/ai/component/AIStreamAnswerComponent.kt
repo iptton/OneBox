@@ -6,8 +6,12 @@ import com.shifenmiao.ai.history.withSummaryTitle
 import com.shifenmiao.ai.mediator.MessageRemoteMediator
 import com.shifenmiao.ai.service.ConversationTitleSummaryService
 import com.shifenmiao.ai.usecase.MessageListUseCase
+import com.shifenmiao.base.utils.StringUtils
 import com.shifenmiao.common.ai.AIPromptExecutor
 import com.shifenmiao.common.manager.AIEngineManager
+import com.shifenmiao.common.utils.BaseUtils
+import com.shifenmiao.core.R
+import com.shifenmiao.interfaces.singleton.AppContext
 import com.shifenmiao.database.AppDatabase
 import com.shifenmiao.database.ai.entity.ConversationEntity
 import com.shifenmiao.database.ai.entity.MessageEntity
@@ -17,6 +21,8 @@ import com.shifenmiao.model.ai.Conversation
 import com.shifenmiao.model.ai.RoleType
 import com.shifenmiao.model.ai.StreamAnswerCachePolicy
 import com.shifenmiao.model.ai.unified.LlmStreamEvent
+import com.shifenmiao.network.AiRequestUrlResolver
+import com.shifenmiao.storage.TokenStorage
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -112,11 +118,47 @@ class AIStreamAnswerComponent @AssistedInject internal constructor(
             val engine = aiEngineManager.getCurrentAiEngine()
             _engineInfo.value = buildEngineInfo(engine)
             if (!skipCache && tryLoadCachedAnswer(engine)) return@launch
+            // 登录 + 积分预估闸门:本页由用户主动进入,不弹全局登录页,直接在页面内提示
+            if (!canAffordAnswer(engine)) return@launch
             if (screen.useStreaming) {
                 runStreamingAnswer(engine)
             } else {
                 runSyncAnswer(engine)
             }
+        }
+    }
+
+    /**
+     * 登录/积分预检:代理路由要求「已登录 + 积分够」,不满足则直接在页面内报错返回;
+     * BYOK 直连与端侧引擎免费放行。命中缓存的回答不花 AI 费用,不在此校验。
+     */
+    private fun canAffordAnswer(engine: AiEngine): Boolean {
+        if (!AiRequestUrlResolver.shouldUseProxyRequest(engine)) return true
+        val message = when {
+            !TokenStorage.isLogin() -> AppContext.getContext().getString(R.string.login_first)
+            !BaseUtils.canConsumePoints(screen.systemPrompt + screen.question) ->
+                AppContext.getContext().getString(R.string.no_points)
+
+            else -> return true
+        }
+        _status.value = AIStreamAnswerStatus.ERROR
+        _errorMessage.value = message
+        return false
+    }
+
+    /** 流式路径成功后的按量扣积分:仅代理路由;优先用 usage 的 totalTokens,缺失时按输入+输出文本估算 */
+    private fun chargeAnswerPoints(engine: AiEngine, totalTokens: Int, answer: String) {
+        if (!AiRequestUrlResolver.shouldUseProxyRequest(engine)) return
+        val tokens = totalTokens.takeIf { it > 0 }
+            ?: (StringUtils.calculateTokens(screen.systemPrompt + screen.question) +
+                StringUtils.calculateTokens(answer))
+        if (tokens <= 0) return
+        runCatching {
+            BaseUtils.consumePoints(
+                degree = BaseUtils.tokenToPoints(tokens, engine.model.basePoints),
+                desc = screen.label.ifBlank { engine.model.name },
+                source = engine.model.name,
+            )
         }
     }
 
@@ -239,6 +281,7 @@ class AIStreamAnswerComponent @AssistedInject internal constructor(
                         totalTokens = lastUsageTotalTokens,
                     )
                     _status.value = AIStreamAnswerStatus.SUCCESS
+                    chargeAnswerPoints(engine, lastUsageTotalTokens, answer)
                 } else {
                     _status.value = AIStreamAnswerStatus.ERROR
                     _errorMessage.value = "Empty response"

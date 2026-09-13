@@ -7,10 +7,12 @@ import com.shifenmiao.ai.mediator.MessageRemoteMediator
 import com.shifenmiao.ai.service.CreationMetaService
 import com.shifenmiao.ai.service.PromptSavedResult
 import com.shifenmiao.ai.service.PromptCreationService
+import com.shifenmiao.ai.utils.AiUtils
 import com.shifenmiao.network.service.SensitiveWordCheckOutcome
 import com.shifenmiao.network.service.SensitiveWordChecker
 import com.shifenmiao.common.manager.AIEngineCatalogManager
 import com.shifenmiao.common.manager.AIEngineManager
+import com.shifenmiao.common.utils.BaseUtils
 import com.shifenmiao.core.R
 import com.shifenmiao.database.AppDatabase
 import com.shifenmiao.database.data_draft.DataDraftHelper
@@ -442,6 +444,19 @@ class CreateAIPromptComponent @AssistedInject internal constructor(
         persistStructuredPromptChanges(updatedPrompt)
     }
 
+    // ── 积分门槛(对齐 onebox-doc「AI 功能登录与积分规范」)────────────────
+
+    /**
+     * 生成前的积分预检:
+     * - BYOK 直连 / 端侧本地引擎不吃积分门槛(设计允许,免费);
+     * - 走 Go 网关代理路由时按用户输入估 token ×3 余量,与聊天/Agent 入口同一口径。
+     * 登录门槛由 UI 层先过,这里只判积分。
+     */
+    fun canAffordGeneration(): Boolean {
+        if (!AiUtils.canProxy(aiEngineManager.currentAIEngine.value)) return true
+        return BaseUtils.canConsumePoints(_uiState.value.inputText)
+    }
+
     // ── 生成 ───────────────────────────────────────────────────────────
 
     /** 取消正在进行的生成 */
@@ -500,6 +515,8 @@ class CreateAIPromptComponent @AssistedInject internal constructor(
 
                 val jsonBuffer = StringBuilder()
                 var streamCompleted = false
+                // 多轮请求可能上报多次 usage,必须累加后再计费
+                var totalUsageTokens = 0
                 resultFlow.collect { event ->
                     when (event) {
                         is LlmStreamEvent.Error -> {
@@ -540,10 +557,14 @@ class CreateAIPromptComponent @AssistedInject internal constructor(
                                 )
                             )
                             onStreamEnd(jsonBuffer.toString(), description)
+                            consumeGenerationPoints(conversation, totalUsageTokens)
+                        }
+
+                        is LlmStreamEvent.UsageUpdated -> {
+                            totalUsageTokens += event.usage.totalTokens
                         }
 
                         is LlmStreamEvent.ResponseStarted,
-                        is LlmStreamEvent.UsageUpdated,
                         is LlmStreamEvent.SearchResultsEvent,
                         is LlmStreamEvent.ToolCallDeltaEvent -> Unit
                     }
@@ -564,6 +585,7 @@ class CreateAIPromptComponent @AssistedInject internal constructor(
                         )
                     )
                     onStreamEnd(jsonBuffer.toString(), description)
+                    consumeGenerationPoints(conversation, totalUsageTokens)
                 }
             } catch (e: Exception) {
                 if (e is kotlinx.coroutines.CancellationException) throw e
@@ -575,6 +597,21 @@ class CreateAIPromptComponent @AssistedInject internal constructor(
                 }
             }
         }
+    }
+
+    /**
+     * 生成成功后的积分扣减:按响应 totalTokens 计费,仅代理路由扣(与聊天一致)。
+     * 失败不扣,usage 缺失时静默跳过。
+     */
+    private fun consumeGenerationPoints(conversation: Conversation, totalUsageTokens: Int) {
+        if (totalUsageTokens <= 0) return
+        if (_uiState.value.status != GenerationStatus.SUCCESS) return
+        if (!AiUtils.canProxy(conversation)) return
+        BaseUtils.consumePointsByToken(
+            token = totalUsageTokens,
+            conversation = conversation,
+            desc = getString(R.string.create_ai_prompt_consume_points_desc),
+        )
     }
 
     /** 流结束后解析JSON并持久化草稿 */

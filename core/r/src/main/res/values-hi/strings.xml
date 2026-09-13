@@ -1213,6 +1213,11 @@
     <string name="create_ai_agent_preview_prefix">पूर्वावलोकन: %s</string>
     <string name="create_ai_agent_round">राउंड %d</string>
     <string name="create_ai_agent_success_hint">जनरेशन सफल। पूर्ण परिणाम देखने के लिए पूर्वावलोकन पर टैप करें।</string>
+    <string name="create_ai_common_advanced">श्रेणियाँ, टूल्स और अधिक</string>
+    <string name="create_ai_common_category_label">श्रेणी</string>
+    <string name="create_ai_common_no_category">कोई श्रेणी नहीं</string>
+    <string name="create_ai_agent_consume_points_desc">एजेंट निर्माण</string>
+    <string name="create_ai_prompt_consume_points_desc">प्रॉम्प्ट निर्माण</string>
     <string name="create_ai_agent_error_title">कुछ गलत हो गया</string>
     <string name="create_ai_agent_retry">पुनः जनरेट करें</string>
     <string name="create_ai_agent_draft_success">✅ सफल</string>

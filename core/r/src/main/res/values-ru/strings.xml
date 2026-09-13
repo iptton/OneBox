@@ -1213,6 +1213,11 @@
     <string name="create_ai_agent_preview_prefix">Предпросмотр: %s</string>
     <string name="create_ai_agent_round">Раунд %d</string>
     <string name="create_ai_agent_success_hint">Генерация успешна. Нажмите «Предпросмотр», чтобы увидеть полный результат.</string>
+    <string name="create_ai_common_advanced">Категории, инструменты и другое</string>
+    <string name="create_ai_common_category_label">Категория</string>
+    <string name="create_ai_common_no_category">Без категории</string>
+    <string name="create_ai_agent_consume_points_desc">Создание агента</string>
+    <string name="create_ai_prompt_consume_points_desc">Создание промпта</string>
     <string name="create_ai_agent_error_title">Что-то пошло не так</string>
     <string name="create_ai_agent_retry">Перегенерировать</string>
     <string name="create_ai_agent_draft_success">✅ Успешно</string>

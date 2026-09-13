@@ -1213,6 +1213,11 @@
     <string name="create_ai_agent_preview_prefix">Pratinjau: %s</string>
     <string name="create_ai_agent_round">Putaran %d</string>
     <string name="create_ai_agent_success_hint">Pembuatan berhasil. Ketuk Pratinjau untuk melihat hasil lengkap.</string>
+    <string name="create_ai_common_advanced">Kategori, alat dan lainnya</string>
+    <string name="create_ai_common_category_label">Kategori</string>
+    <string name="create_ai_common_no_category">Tanpa kategori</string>
+    <string name="create_ai_agent_consume_points_desc">Pembuatan agen</string>
+    <string name="create_ai_prompt_consume_points_desc">Pembuatan prompt</string>
     <string name="create_ai_agent_error_title">Terjadi kesalahan</string>
     <string name="create_ai_agent_retry">Buat Ulang</string>
     <string name="create_ai_agent_draft_success">✅ Berhasil</string>

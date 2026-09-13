@@ -32,6 +32,8 @@ class IChingInterpretationService @Inject constructor(
                     input = input,
                     onDelta = onDelta,
                     onReasoningDelta = onReasoningDelta,
+                    // 本 Service 自己按 chargePoints() 扣费,避免重复扣
+                    billing = AIPromptExecutor.PromptBilling.EXTERNAL,
                 )
                 check(response.isSuccess && response.content.isNotBlank()) {
                     response.errorMessage?.takeIf(String::isNotBlank) ?: "AI 解读生成失败"

@@ -40,6 +40,8 @@ class LlmMoveChooser @Inject constructor(
                 input = userPrompt,
                 systemPrompt = systemPrompt,
                 engineMode = engineMode,
+                // 对局内每步都要调用,按量扣分会让棋局不可玩:有意保持免费
+                billing = AIPromptExecutor.PromptBilling.EXTERNAL,
             )
             if (!result.isSuccess) return@repeat
 

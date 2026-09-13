@@ -2,6 +2,10 @@ package com.shifenmiao.common.ai
 
 import com.google.gson.Gson
 import com.shifenmiao.common.manager.AIEngineManager
+import com.shifenmiao.common.utils.BaseUtils
+import com.shifenmiao.base.utils.StringUtils
+import com.shifenmiao.core.R
+import com.shifenmiao.storage.TokenStorage
 import com.shifenmiao.model.ai.AiEngine
 import com.shifenmiao.model.ai.AiRequestProtocol
 import com.shifenmiao.model.ai.ChatCompletionChunk
@@ -12,6 +16,7 @@ import com.shifenmiao.network.AiRequestUrlResolver
 import com.shifenmiao.network.api.OpenAICompatibleService
 import com.shifenmiao.network.api.OwnProxyAIService
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -55,10 +60,23 @@ class AIPromptExecutor @Inject constructor(
         DUEL_B,
     }
 
+    /**
+     * 计费策略(见 onebox-doc「AI 功能登录与积分规范」):
+     *
+     * - [MANAGED](默认):由本执行器统一执行「登录门槛 + 积分预估闸门 + 成功后按 token 扣减」,
+     *   调用方不必自己再写一遍,也就不会再漏掉;
+     * - [EXTERNAL]:调用方自行处理登录/积分。用于两类场景:① 已经在自己 Service 里扣费的
+     *   (诗词赏析/拼音/翻译、易经解读、记录解读);② 有意免费或自动触发的
+     *   (象棋 AI 走棋、里程碑文案、会话标题摘要)。
+     */
+    enum class PromptBilling { MANAGED, EXTERNAL }
+
     suspend fun execute(
         input: String,
         systemPrompt: String = "",
         engineMode: EngineMode = EngineMode.DEFAULT,
+        billing: PromptBilling = PromptBilling.MANAGED,
+        billingDesc: String = "",
     ): AIPromptResult {
         val engine = resolveEngine(engineMode)
 
@@ -82,6 +100,8 @@ class AIPromptExecutor @Inject constructor(
                 modelName = engine.model.name,
             )
         }
+
+        billingGate(engine, input, billing)?.let { return it }
 
         val messages = buildList {
             if (systemPrompt.isNotBlank()) {
@@ -179,7 +199,7 @@ class AIPromptExecutor @Inject constructor(
                 modelName = engine.model.name,
                 totalTokens = chunk.usage?.totalTokens ?: 0,
                 isProxyRoute = isProxyRoute,
-            )
+            ).also { billingCharge(engine, billing, input, it, billingDesc) }
         } catch (t: Throwable) {
             makeLog { "AIPromptExecutor: Request failed: ${t.message}" }
             AIPromptResult(
@@ -203,6 +223,8 @@ class AIPromptExecutor @Inject constructor(
         engineMode: EngineMode = EngineMode.DEFAULT,
         onDelta: (String) -> Unit = {},
         onReasoningDelta: (String) -> Unit = {},
+        billing: PromptBilling = PromptBilling.MANAGED,
+        billingDesc: String = "",
     ): AIPromptResult {
         val engine = resolveEngine(engineMode)
 
@@ -224,6 +246,8 @@ class AIPromptExecutor @Inject constructor(
                 modelName = engine.model.name,
             )
         }
+
+        billingGate(engine, input, billing)?.let { return it }
 
         val messages = buildList {
             if (systemPrompt.isNotBlank()) {
@@ -343,7 +367,7 @@ class AIPromptExecutor @Inject constructor(
                         modelName = engine.model.name,
                         totalTokens = totalTokens,
                         isProxyRoute = isProxyRoute,
-                    )
+                    ).also { billingCharge(engine, billing, input, it, billingDesc) }
                 }
             }
         } catch (t: Throwable) {
@@ -354,6 +378,54 @@ class AIPromptExecutor @Inject constructor(
                 errorMessage = t.message ?: t.toString(),
                 engineName = engine.name,
                 modelName = engine.model.name,
+            )
+        }
+    }
+
+    /**
+     * 请求前的登录/积分预检:仅自有代理路由要求「已登录 + 积分够」,
+     * BYOK 直连与端侧本地引擎免费放行。返回非 null 即已被拦截,调用方直接把它当结果返回。
+     */
+    private fun billingGate(engine: AiEngine, input: String, billing: PromptBilling): AIPromptResult? {
+        if (billing == PromptBilling.EXTERNAL) return null
+        if (!AiRequestUrlResolver.shouldUseProxyRequest(engine)) return null
+        val message = when {
+            !TokenStorage.isLogin() -> getString(R.string.login_first)
+            !BaseUtils.canConsumePoints(input) -> getString(R.string.no_points)
+            else -> return null
+        }
+        return AIPromptResult(
+            content = "",
+            isSuccess = false,
+            isBlocked = true,
+            errorMessage = message,
+            engineName = engine.name,
+            modelName = engine.model.name,
+        )
+    }
+
+    /**
+     * 成功后的按量扣积分:仅代理路由扣;优先用 usage 的 totalTokens,接口没带 usage 时按输入+输出文本估算。
+     * 失败不扣(本方法只在成功结果上调用),扣减失败静默(与聊天一致)。
+     */
+    private fun billingCharge(
+        engine: AiEngine,
+        billing: PromptBilling,
+        input: String,
+        result: AIPromptResult,
+        desc: String,
+    ) {
+        if (billing == PromptBilling.EXTERNAL) return
+        if (!result.isSuccess) return
+        if (!AiRequestUrlResolver.shouldUseProxyRequest(engine)) return
+        val tokens = result.totalTokens.takeIf { it > 0 }
+            ?: (StringUtils.calculateTokens(input) + StringUtils.calculateTokens(result.content))
+        if (tokens <= 0) return
+        runCatching {
+            BaseUtils.consumePoints(
+                degree = BaseUtils.tokenToPoints(tokens, engine.model.basePoints),
+                desc = desc.ifBlank { engine.model.name },
+                source = engine.model.name,
             )
         }
     }

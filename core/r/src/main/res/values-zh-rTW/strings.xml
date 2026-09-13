@@ -1337,6 +1337,11 @@
     <string name="create_ai_agent_preview_prefix">預覽：%s</string>
     <string name="create_ai_agent_round">第%d輪</string>
     <string name="create_ai_agent_success_hint">生成成功，點擊「預覽」查看完整效果</string>
+    <string name="create_ai_common_advanced">分類、工具與更多設定</string>
+    <string name="create_ai_common_category_label">分類</string>
+    <string name="create_ai_common_no_category">未設定分類</string>
+    <string name="create_ai_agent_consume_points_desc">建立智能體</string>
+    <string name="create_ai_prompt_consume_points_desc">建立提示詞</string>
     <string name="create_ai_agent_error_title">生成遇到了一點問題</string>
     <string name="create_ai_agent_retry">重新生成</string>
     <string name="create_ai_agent_draft_success">✅ 成功</string>

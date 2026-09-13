@@ -36,6 +36,8 @@ class PoemInsightService @Inject constructor(
             systemPrompt = SYSTEM_PROMPT,
             onDelta = onDelta,
             onReasoningDelta = onReasoningDelta,
+            // 本 Service 自己按 chargePoints() 扣费,避免重复扣
+            billing = AIPromptExecutor.PromptBilling.EXTERNAL,
         )
         if (!result.isSuccess) {
             return GenerationResult.Failed(result.errorMessage.orEmpty())
@@ -60,6 +62,8 @@ class PoemInsightService @Inject constructor(
             input = buildInput(poem),
             systemPrompt = PINYIN_SYSTEM_PROMPT,
             engineMode = AIPromptExecutor.EngineMode.FAST,
+            // 本 Service 自己按 chargePoints() 扣费,避免重复扣
+            billing = AIPromptExecutor.PromptBilling.EXTERNAL,
         )
         if (!result.isSuccess) {
             return GenerationResult.Failed(result.errorMessage.orEmpty())
@@ -78,6 +82,8 @@ class PoemInsightService @Inject constructor(
         val result = aiExecutor.execute(
             input = buildInput(poem),
             systemPrompt = TRANSLATION_SYSTEM_PROMPT,
+            // 本 Service 自己按 chargePoints() 扣费,避免重复扣
+            billing = AIPromptExecutor.PromptBilling.EXTERNAL,
         )
         if (!result.isSuccess) {
             return GenerationResult.Failed(result.errorMessage.orEmpty())

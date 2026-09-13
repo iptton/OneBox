@@ -1213,6 +1213,11 @@
     <string name="create_ai_agent_preview_prefix">Preview: %s</string>
     <string name="create_ai_agent_round">Round %d</string>
     <string name="create_ai_agent_success_hint">Matagumpay ang pagbuo. I-tap ang Preview para makita ang buong resulta.</string>
+    <string name="create_ai_common_advanced">Mga kategorya, tool at higit pa</string>
+    <string name="create_ai_common_category_label">Kategorya</string>
+    <string name="create_ai_common_no_category">Walang kategorya</string>
+    <string name="create_ai_agent_consume_points_desc">Paggawa ng agent</string>
+    <string name="create_ai_prompt_consume_points_desc">Paggawa ng prompt</string>
     <string name="create_ai_agent_error_title">May nangyaring mali</string>
     <string name="create_ai_agent_retry">I-regenerate</string>
     <string name="create_ai_agent_draft_success">✅ Tagumpay</string>

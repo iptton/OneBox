@@ -1213,6 +1213,11 @@
     <string name="create_ai_agent_preview_prefix">미리보기: %s</string>
     <string name="create_ai_agent_round">%d라운드</string>
     <string name="create_ai_agent_success_hint">생성 성공. 전체 결과를 보려면 미리보기를 탭하세요.</string>
+    <string name="create_ai_common_advanced">카테고리, 도구 및 더 보기</string>
+    <string name="create_ai_common_category_label">카테고리</string>
+    <string name="create_ai_common_no_category">카테고리 없음</string>
+    <string name="create_ai_agent_consume_points_desc">에이전트 생성</string>
+    <string name="create_ai_prompt_consume_points_desc">프롬프트 생성</string>
     <string name="create_ai_agent_error_title">문제가 발생했습니다</string>
     <string name="create_ai_agent_retry">다시 생성</string>
     <string name="create_ai_agent_draft_success">✅ 성공</string>

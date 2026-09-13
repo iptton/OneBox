@@ -21,4 +21,6 @@ enum class MainClickEventFrom(val value: String) {
     POEM("Poem"),
     ICHING("IChing"),
     AI_DETECT("AiDetect"),
+    AI_AGENT_CREATE("AiAgentCreate"),
+    AI_PROMPT_CREATE("AiPromptCreate"),
 }

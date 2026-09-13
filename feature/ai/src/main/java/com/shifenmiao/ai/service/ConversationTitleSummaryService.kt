@@ -54,6 +54,8 @@ class ConversationTitleSummaryService @Inject constructor(
                 input = input,
                 systemPrompt = "你是一个会话标题生成助手，只输出一个标题。",
                 engineMode = AIPromptExecutor.EngineMode.FAST,
+                // 会话命名属自动后台任务,不向用户扣分
+                billing = AIPromptExecutor.PromptBilling.EXTERNAL,
             )
             if (!result.isSuccess) return null
 

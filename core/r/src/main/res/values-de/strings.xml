@@ -1213,6 +1213,11 @@
     <string name="create_ai_agent_preview_prefix">Vorschau: %s</string>
     <string name="create_ai_agent_round">Runde %d</string>
     <string name="create_ai_agent_success_hint">Generierung erfolgreich. Tippen Sie auf Vorschau, um das vollständige Ergebnis zu sehen.</string>
+    <string name="create_ai_common_advanced">Kategorien, Tools und mehr</string>
+    <string name="create_ai_common_category_label">Kategorie</string>
+    <string name="create_ai_common_no_category">Keine Kategorie</string>
+    <string name="create_ai_agent_consume_points_desc">Agent-Erstellung</string>
+    <string name="create_ai_prompt_consume_points_desc">Prompt-Erstellung</string>
     <string name="create_ai_agent_error_title">Etwas ist schiefgelaufen</string>
     <string name="create_ai_agent_retry">Neu generieren</string>
     <string name="create_ai_agent_draft_success">✅ Erfolg</string>

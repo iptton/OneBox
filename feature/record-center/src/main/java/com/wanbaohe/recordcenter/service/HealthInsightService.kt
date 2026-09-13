@@ -44,6 +44,8 @@ class HealthInsightService @Inject constructor(
         val result = aiExecutor.execute(
             systemPrompt = SYSTEM_PROMPT,
             input = input,
+            // 扣费由 RecordListComponent 在成功后按其固定额度处理,避免重复扣
+            billing = AIPromptExecutor.PromptBilling.EXTERNAL,
         )
         if (!result.isSuccess) {
             return GenerationResult.Failed(result.errorMessage.orEmpty())

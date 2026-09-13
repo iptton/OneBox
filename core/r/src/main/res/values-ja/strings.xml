@@ -1213,6 +1213,11 @@
     <string name="create_ai_agent_preview_prefix">プレビュー: %s</string>
     <string name="create_ai_agent_round">ラウンド %d</string>
     <string name="create_ai_agent_success_hint">生成に成功しました。プレビューをタップして完全な結果を確認してください。</string>
+    <string name="create_ai_common_advanced">カテゴリ・ツールなど</string>
+    <string name="create_ai_common_category_label">カテゴリ</string>
+    <string name="create_ai_common_no_category">カテゴリ未設定</string>
+    <string name="create_ai_agent_consume_points_desc">エージェント作成</string>
+    <string name="create_ai_prompt_consume_points_desc">プロンプト作成</string>
     <string name="create_ai_agent_error_title">問題が発生しました</string>
     <string name="create_ai_agent_retry">再生成</string>
     <string name="create_ai_agent_draft_success">✅ 成功</string>

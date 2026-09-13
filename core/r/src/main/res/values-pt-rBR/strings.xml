@@ -1213,6 +1213,11 @@
     <string name="create_ai_agent_preview_prefix">Pré-visualização: %s</string>
     <string name="create_ai_agent_round">Rodada %d</string>
     <string name="create_ai_agent_success_hint">Geração bem-sucedida. Toque em Pré-visualização para ver o resultado completo.</string>
+    <string name="create_ai_common_advanced">Categorias, ferramentas e mais</string>
+    <string name="create_ai_common_category_label">Categoria</string>
+    <string name="create_ai_common_no_category">Sem categoria</string>
+    <string name="create_ai_agent_consume_points_desc">Criação de agente</string>
+    <string name="create_ai_prompt_consume_points_desc">Criação de prompt</string>
     <string name="create_ai_agent_error_title">Algo deu errado</string>
     <string name="create_ai_agent_retry">Regenerar</string>
     <string name="create_ai_agent_draft_success">✅ Sucesso</string>

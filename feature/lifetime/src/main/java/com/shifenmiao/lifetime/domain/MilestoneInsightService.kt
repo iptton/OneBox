@@ -30,6 +30,8 @@ class MilestoneInsightService @Inject constructor(
         val result = aiExecutor.execute(
             systemPrompt = SYSTEM_PROMPT,
             input = prompt,
+            // 自动触发的一句话文案,有意保持免费
+            billing = AIPromptExecutor.PromptBilling.EXTERNAL,
         )
         if (!result.isSuccess) {
             return GenerationResult.Failed(result.errorMessage.orEmpty())

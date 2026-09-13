@@ -10,6 +10,7 @@ import com.shifenmiao.database.image.dao.ImageDao
 import com.shifenmiao.interfaces.singleton.AppContext
 import com.shifenmiao.ai.agent.AgentLoopExecutor
 import com.shifenmiao.model.ai.AIConversationEntryType
+import com.shifenmiao.model.ai.AiEngine
 import com.shifenmiao.model.ai.AiModel
 import com.shifenmiao.model.ai.AiRequestProtocol
 import com.shifenmiao.model.ai.AnthropicEventType
@@ -113,8 +114,10 @@ object AiUtils {
      * 是否走 Go 网关代理聊天（以真实请求路由为准）：
      * 只有走代理才要求登录并扣积分；自带 token 直连、端侧本地引擎不受积分门槛限制。
      */
-    fun canProxy(conversation: Conversation): Boolean {
-        return AiRequestUrlResolver.resolveRequestRoute(conversation.engine) ==
+    fun canProxy(conversation: Conversation): Boolean = canProxy(conversation.engine)
+
+    fun canProxy(engine: AiEngine): Boolean {
+        return AiRequestUrlResolver.resolveRequestRoute(engine) ==
             AiRequestUrlResolver.RequestRoute.PROXY
     }
 

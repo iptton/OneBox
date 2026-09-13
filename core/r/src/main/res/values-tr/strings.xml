@@ -1213,6 +1213,11 @@
     <string name="create_ai_agent_preview_prefix">Önizleme: %s</string>
     <string name="create_ai_agent_round">Tur %d</string>
     <string name="create_ai_agent_success_hint">Oluşturma başarılı. Tam sonucu görmek için Önizleme\'ye dokunun.</string>
+    <string name="create_ai_common_advanced">Kategoriler, araçlar ve daha fazlası</string>
+    <string name="create_ai_common_category_label">Kategori</string>
+    <string name="create_ai_common_no_category">Kategori yok</string>
+    <string name="create_ai_agent_consume_points_desc">Ajan oluşturma</string>
+    <string name="create_ai_prompt_consume_points_desc">Prompt oluşturma</string>
     <string name="create_ai_agent_error_title">Bir şeyler ters gitti</string>
     <string name="create_ai_agent_retry">Yeniden Oluştur</string>
     <string name="create_ai_agent_draft_success">✅ Başarılı</string>

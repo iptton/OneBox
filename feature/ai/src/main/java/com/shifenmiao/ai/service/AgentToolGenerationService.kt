@@ -1,10 +1,13 @@
 package com.shifenmiao.ai.service
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.shifenmiao.core.R
 import com.shifenmiao.ai.agent.tool.AgentToolRegistry
 import com.shifenmiao.common.ai.AIPromptExecutor
 import com.shifenmiao.model.ai.tool.ToolCatalogItem
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -116,6 +119,7 @@ data class AgentToolDraftRegistrationDraft(
 
 @Singleton
 class AgentToolGenerationService @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val aiPromptExecutor: AIPromptExecutor,
     private val agentToolRegistry: AgentToolRegistry,
     private val creationMetaService: CreationMetaService,
@@ -132,7 +136,8 @@ class AgentToolGenerationService @Inject constructor(
 
         val result = aiPromptExecutor.execute(
             input = buildUserInput(request, relatedTools),
-            systemPrompt = buildSystemPrompt()
+            systemPrompt = buildSystemPrompt(),
+            billingDesc = context.getString(R.string.create_ai_agent_consume_points_desc),
         )
         if (!result.isSuccess) {
             return AgentToolGenerationResult(

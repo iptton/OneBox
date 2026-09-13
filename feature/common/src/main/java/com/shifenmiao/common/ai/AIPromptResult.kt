@@ -10,4 +10,6 @@ data class AIPromptResult(
     val totalTokens: Int = 0,
     /** 是否走自有代理路由(需登录/计积分);false 为 BYOK 直连,不应扣积分 */
     val isProxyRoute: Boolean = false,
+    /** 是否因「未登录 / 积分不足」被门槛拦截(请求未发出),供调用方区分"没网"与"没积分" */
+    val isBlocked: Boolean = false,
 )

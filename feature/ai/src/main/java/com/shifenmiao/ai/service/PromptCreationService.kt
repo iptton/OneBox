@@ -317,7 +317,8 @@ class PromptCreationService @Inject constructor(
     ): PromptSavedResult {
         val result = aiPromptExecutor.execute(
             input = buildRequirement(userGoal, categoryHints, toolHints),
-            systemPrompt = buildSystemPrompt()
+            systemPrompt = buildSystemPrompt(),
+            billingDesc = context.getString(R.string.create_ai_prompt_consume_points_desc),
         )
         if (!result.isSuccess) {
             error(result.errorMessage ?: "AI generation failed")

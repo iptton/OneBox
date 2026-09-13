@@ -1368,6 +1368,11 @@ Hint: If you choose "Hide Forever", you can bring me back later in Settings > Di
     <string name="create_ai_agent_preview_prefix">Preview: %s</string>
     <string name="create_ai_agent_round">Round %d</string>
     <string name="create_ai_agent_success_hint">Generation successful. Tap Preview to see the full result.</string>
+    <string name="create_ai_common_advanced">Categories, tools and more</string>
+    <string name="create_ai_common_category_label">Category</string>
+    <string name="create_ai_common_no_category">No category</string>
+    <string name="create_ai_agent_consume_points_desc">Agent creation</string>
+    <string name="create_ai_prompt_consume_points_desc">Prompt creation</string>
     <string name="create_ai_agent_error_title">Something went wrong</string>
     <string name="create_ai_agent_retry">Regenerate</string>
     <string name="create_ai_agent_draft_success">✅ Success</string>
