@@ -1,6 +1,10 @@
 package com.shifenmiao.ai.agent.tool
 
 import com.google.gson.Gson
+import com.shifenmiao.ai.agent.tool.builtin.MemoryGetTool
+import com.shifenmiao.ai.agent.tool.builtin.MemoryWriteTool
+import com.shifenmiao.ai.agent.tool.builtin.UseSkillTool
+import com.shifenmiao.database.ai.dao.ConversationMemoryPolicyDao
 import com.shifenmiao.model.ai.AiEngine
 import com.shifenmiao.model.ai.ToolDefinition
 import com.shifenmiao.model.ai.ToolFunctionDef
@@ -10,6 +14,7 @@ import com.shifenmiao.model.ai.tool.ToolCategory
 import com.shifenmiao.ai.agent.callback.ToolCallback
 import com.shifenmiao.ai.agent.tool.expression.AgentToolExpressionValidationResult
 import com.shifenmiao.ai.agent.tool.expression.AgentToolExpressionValidator
+import com.shifenmiao.storage.AIChatStorage
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -35,6 +40,7 @@ class AgentToolRegistry @Inject constructor(
     private val toolProviders: Map<String, @JvmSuppressWildcards Provider<AgentTool>>,
     private val expressionValidator: AgentToolExpressionValidator,
     private val gson: Gson,
+    private val conversationMemoryPolicyDao: ConversationMemoryPolicyDao,
 ) {
     companion object {
         /** 默认工具返回结果最大字符数，超出部分截断 */
@@ -336,6 +342,7 @@ class AgentToolRegistry @Inject constructor(
 
         return try {
             val tool = provider.get()
+            checkImplicitToolGate(toolName, conversationId)?.let { return it }
             validateBeforeExecution(tool, arguments)?.let { return it }
             val executionContext = buildExecutionContext(
                 toolCallId = toolCallId,
@@ -378,6 +385,7 @@ class AgentToolRegistry @Inject constructor(
 
         return try {
             val tool = provider.get()
+            checkImplicitToolGate(toolName, conversationId)?.let { return it }
             validateBeforeExecution(tool, arguments)?.let { return it }
             val executionContext = buildExecutionContext(
                 toolCallId = toolCallId,
@@ -506,6 +514,53 @@ class AgentToolRegistry @Inject constructor(
         val provider = toolProviders[toolName] ?: return DEFAULT_MAX_RESULT_LENGTH
         val toolMax = provider.get().maxResultLength
         return if (toolMax > 0) toolMax else DEFAULT_MAX_RESULT_LENGTH
+    }
+
+    /**
+     * 工具自身声明的结果截断上限（未声明时返回默认 4096）。
+     * 供回灌上下文链路（AgentLoopRunner）与执行入口统一截断策略。
+     */
+    fun getMaxResultLength(toolName: String): Int = resolveMaxLength(toolName)
+
+    /**
+     * 隐式系统工具（memory_write / memory_get / use_skill）的执行层门控：
+     * 即使 prompt 组装的 tools 名单失效或被绕过，执行入口也按
+     * "全局 MMKV AND 会话表"再校验一次。conversationId 为空（非会话链路）时放行。
+     */
+    private suspend fun checkImplicitToolGate(
+        toolName: String,
+        conversationId: String?
+    ): AgentToolResult? {
+        val checkMemory = toolName == MemoryWriteTool.TOOL_NAME || toolName == MemoryGetTool.TOOL_NAME
+        val checkSkills = toolName == UseSkillTool.TOOL_NAME
+        if (!checkMemory && !checkSkills) return null
+
+        val globalEnabled = if (checkMemory) {
+            AIChatStorage.isEnableMemory.value
+        } else {
+            AIChatStorage.isEnableSkills.value
+        }
+        if (!globalEnabled) return gateDeniedResult(checkMemory)
+
+        if (conversationId.isNullOrBlank()) return null
+        val policy = conversationMemoryPolicyDao.getByConversationId(conversationId)
+        val sessionEnabled = if (checkMemory) {
+            policy?.memoryEnabled != false
+        } else {
+            policy?.skillsEnabled != false
+        }
+        return if (sessionEnabled) null else gateDeniedResult(checkMemory)
+    }
+
+    private fun gateDeniedResult(isMemory: Boolean): AgentToolResult {
+        return AgentToolResult(
+            content = if (isMemory) {
+                "Memory is disabled for this conversation (global or per-conversation switch is off). Do not retry."
+            } else {
+                "Skills are disabled for this conversation (global or per-conversation switch is off). Do not retry."
+            },
+            isError = true
+        )
     }
 
     private fun getOrCreateToolDefinition(name: String): ToolDefinition? {

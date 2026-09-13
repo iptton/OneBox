@@ -8,6 +8,7 @@ import com.shifenmiao.ai.agent.tool.AgentToolResult
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
 import com.shifenmiao.ai.agent.tool.ContextAwareAgentTool
 import com.shifenmiao.ai.memory.MemoryRepository
+import com.shifenmiao.database.ai.MemoryLimits
 import com.shifenmiao.model.ai.ToolParameterProperty
 import com.shifenmiao.model.ai.ToolParameters
 import com.shifenmiao.model.ai.tool.ToolCategory
@@ -71,6 +72,16 @@ class MemoryWriteTool @Inject constructor(
         if (content.isEmpty()) {
             return AgentToolResult(
                 content = "Parameter 'content' is required and must not be blank",
+                isError = true
+            )
+        }
+        // 写入侧限长：与管理页手动新增统一上限，超限拒绝
+        if (content.length > MemoryLimits.MAX_ENTRY_CHARS) {
+            return AgentToolResult(
+                content = textProvider.string(
+                    R.string.agent_tool_memory_write_too_long,
+                    MemoryLimits.MAX_ENTRY_CHARS
+                ),
                 isError = true
             )
         }

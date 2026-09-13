@@ -384,6 +384,7 @@
     <string name="memory_clear_log_message">This deletes every memory log entry. Profile entries are kept. This action cannot be undone.</string>
     <string name="memory_log_cleared">Memory log cleared</string>
     <string name="memory_source_conversation">from %1$s</string>
+    <string name="memory_entry_too_long">Content exceeds the %1$d char limit</string>
 
     <!-- AI Skill management page -->
     <string name="skill_global_switch_title">Enable AI Skills</string>
@@ -392,8 +393,12 @@
     <string name="skill_list_supporting">The AI loads a skill\'s full instructions on demand via the use_skill tool</string>
     <string name="skill_empty">No skills installed.</string>
     <string name="skill_import_clipboard">Import</string>
+    <string name="skill_import_file">Import file</string>
     <string name="skill_import_success">Skill imported</string>
-    <string name="skill_import_failed">Import failed: clipboard does not contain a valid SKILL.md (single-line name/description required)</string>
+    <string name="skill_import_failed">Import failed: not a valid SKILL.md (single-line name/description required)</string>
+    <string name="skill_import_bundled_conflict">A bundled skill with this name already exists. Rename it or save a copy instead.</string>
+    <string name="skill_import_too_large">Import failed: SKILL.md exceeds the 16KB limit</string>
+    <string name="skill_save_invalid">Save failed: frontmatter must contain single-line name and description fields</string>
     <string name="skill_new">New</string>
     <string name="skill_new_title">New Skill</string>
     <string name="skill_name_hint">name (kebab-case slug, e.g. my-skill)</string>
@@ -402,7 +407,6 @@
     <string name="skill_readonly_bundled_hint">Bundled skills are read-only. Save a copy to edit it.</string>
     <string name="skill_save_as_copy">Save as copy</string>
     <string name="skill_delete_confirm_title">Delete this skill?</string>
-    <string name="skill_share_chooser_title">Share skill</string>
     <string name="skill_source_bundled">BUNDLED</string>
     <string name="skill_source_local">LOCAL</string>
     <string name="skill_source_remote">REMOTE</string>

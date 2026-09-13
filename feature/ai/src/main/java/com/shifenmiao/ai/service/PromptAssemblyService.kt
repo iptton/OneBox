@@ -59,7 +59,9 @@ class PromptAssemblyService(
         // 隐式系统工具（visibleToUser = false）：不进工具中心、不参与 bootstrap、
         // 不受 selectedToolNames 约束，只受全局 + 会话两个开关控制。
         // 强制并集放在最后，保证老会话（已有 policy 行）也能用上。
+        // 模型不支持 Function Calling 时不并集（正文无法加载，发了也用不上）。
         val implicitToolNames = buildList {
+            if (!effectiveConfig.toolsSupported) return@buildList
             if (effectiveConfig.memoryEnabled) {
                 add(MemoryWriteTool.TOOL_NAME)
                 add(MemoryGetTool.TOOL_NAME)
@@ -88,14 +90,19 @@ class PromptAssemblyService(
         val effectiveToolConfig = preResolvedConfig ?: toolConfigResolver.resolve()
         val promptBudget = systemPromptRepository.calculatePromptBudget(baseConversation.engine.model)
 
-        // 记忆/技能注入与 planInjection 同构：门控判定后取 fragment，关闭即不注入
+        // 记忆/技能注入与 planInjection 同构：门控判定后取 fragment，关闭即不注入。
+        // 模型不支持工具调用时：SKILLS 层不注入（正文无法加载，清单无意义）；
+        // MEMORY 层保留但省略提示不带 memory_get 指引。
         val memoryFragment = if (effectiveToolConfig.memoryEnabled) {
-            memoryRepository.buildPromptFragment(promptBudget)
+            memoryRepository.buildPromptFragment(
+                tokenBudget = promptBudget,
+                includeSearchHint = effectiveToolConfig.toolsSupported
+            )
         } else {
             null
         }
-        val skillsFragment = if (effectiveToolConfig.skillsEnabled) {
-            skillRepository.buildPromptFragment()
+        val skillsFragment = if (effectiveToolConfig.skillsEnabled && effectiveToolConfig.toolsSupported) {
+            skillRepository.buildPromptFragment(promptBudget)
         } else {
             null
         }

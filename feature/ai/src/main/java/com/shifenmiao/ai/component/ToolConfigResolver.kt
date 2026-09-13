@@ -51,6 +51,11 @@ class ToolConfigResolver(
         val memoryEnabled: Boolean = true,
         /** 技能门控：规则同 [memoryEnabled] */
         val skillsEnabled: Boolean = true,
+        /**
+         * 当前模型是否支持 Function Calling（AiModel.supportToolCalls）。
+         * false 时隐式工具不并集、SKILLS 层不注入（正文无法加载，清单无意义）。
+         */
+        val toolsSupported: Boolean = true,
     )
 
     /**
@@ -135,7 +140,8 @@ class ToolConfigResolver(
             policy = policy,
             boundToolNames = boundToolNames ?: promptScopedToolNames,
             memoryEnabled = memoryEnabled,
-            skillsEnabled = skillsEnabled
+            skillsEnabled = skillsEnabled,
+            toolsSupported = conversation.engine.model.supportToolCalls
         )
     }
 

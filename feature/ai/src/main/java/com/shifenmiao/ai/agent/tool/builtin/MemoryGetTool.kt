@@ -6,6 +6,7 @@ import com.shifenmiao.ai.agent.tool.AgentTool
 import com.shifenmiao.ai.agent.tool.AgentToolResult
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
 import com.shifenmiao.ai.memory.MemoryRepository
+import com.shifenmiao.database.ai.MemoryLimits
 import com.shifenmiao.model.ai.ToolParameterProperty
 import com.shifenmiao.model.ai.ToolParameters
 import com.shifenmiao.model.ai.tool.ToolCategory
@@ -95,16 +96,29 @@ class MemoryGetTool @Inject constructor(
                 appendLine(entry.content.trim())
                 appendLine()
             }
-            if (result.truncatedByCount) {
+            if (result.omittedByCount > 0) {
                 appendLine(
                     textProvider.string(
                         R.string.agent_tool_memory_get_result_truncated_count,
-                        MemoryRepository.SEARCH_RESULT_LIMIT
+                        MemoryLimits.SEARCH_RESULT_LIMIT
                     )
                 )
             }
-            if (result.truncatedByBytes) {
-                appendLine(textProvider.string(R.string.agent_tool_memory_get_result_truncated_bytes))
+            if (result.truncatedEntries > 0) {
+                appendLine(
+                    textProvider.string(
+                        R.string.agent_tool_memory_get_result_truncated_entries,
+                        result.truncatedEntries
+                    )
+                )
+            }
+            if (result.omittedByBytes > 0) {
+                appendLine(
+                    textProvider.string(
+                        R.string.agent_tool_memory_get_result_truncated_bytes,
+                        result.omittedByBytes
+                    )
+                )
             }
         }
         return AgentToolResult(content = content.trim())

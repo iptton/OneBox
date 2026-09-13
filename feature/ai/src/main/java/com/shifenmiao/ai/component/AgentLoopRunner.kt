@@ -498,7 +498,12 @@ class AgentLoopRunner(
         contextMessages.add(assistantMsg)
         appended.add(assistantMsg)
         results.forEach { (toolCall, result) ->
-            val truncatedResult = ToolResultTruncator.truncate(result)
+            // 按工具自身声明的 maxResultLength 截断（use_skill / memory_get 为 16KB），
+            // 与执行入口的截断策略统一，避免 16KB 结果在回灌时被默认 4096 再截掉
+            val truncatedResult = ToolResultTruncator.truncate(
+                result,
+                maxChars = agentToolRegistry.getMaxResultLength(toolCall.function.name)
+            )
             val imageUrls = extractImageUrls(truncatedResult.multiModalAttachments)
             val toolResultMsg = LlmMessage.createToolResultMessage(
                 toolCallId = toolCall.id,

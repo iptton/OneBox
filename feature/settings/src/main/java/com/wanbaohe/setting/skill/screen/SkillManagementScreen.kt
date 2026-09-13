@@ -1,6 +1,7 @@
 package com.wanbaohe.setting.skill.screen
 
-import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,8 +42,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.shifenmiao.common.ui.BaseScreen
 import com.shifenmiao.core.R
+import com.shifenmiao.database.ai.SkillImportValidator
+import com.shifenmiao.database.ai.SkillUsagePolicy
 import com.shifenmiao.database.ai.entity.SkillEntity
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareText
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxDesignSystem
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxSectionCard
@@ -67,6 +71,39 @@ fun SkillManagementScreen(
 
     val importSuccessText = stringResource(SettingsR.string.skill_import_success)
     val importFailedText = stringResource(SettingsR.string.skill_import_failed)
+    val bundledConflictText = stringResource(SettingsR.string.skill_import_bundled_conflict)
+    val tooLargeText = stringResource(SettingsR.string.skill_import_too_large)
+    val saveInvalidText = stringResource(SettingsR.string.skill_save_invalid)
+
+    // 导入结果（剪贴板 / 文件 / 新建共用）：拒绝原因 → 用户提示
+    fun showImportResult(rejection: SkillImportValidator.Rejection?) {
+        AppToastHost.showToast(
+            when (rejection) {
+                null -> importSuccessText
+                SkillImportValidator.Rejection.BUNDLED_NAME_CONFLICT -> bundledConflictText
+                SkillImportValidator.Rejection.BODY_TOO_LARGE -> tooLargeText
+                else -> importFailedText
+            }
+        )
+    }
+
+    // 从文件导入 SKILL.md（SAF），读文本后走与剪贴板相同的导入管线
+    val fileImportLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri != null) {
+            val text = runCatching {
+                context.contentResolver.openInputStream(uri)
+                    ?.bufferedReader(Charsets.UTF_8)
+                    ?.use { it.readText() }
+            }.getOrNull()
+            if (text == null) {
+                AppToastHost.showToast(importFailedText)
+            } else {
+                component.importFromContent(text, ::showImportResult)
+            }
+        }
+    }
 
     BaseScreen(
         title = stringResource(R.string.profile_item_ai_skill),
@@ -122,12 +159,17 @@ fun SkillManagementScreen(
                     TextButton(
                         onClick = {
                             val clipText = clipboardManager.getText()?.text.orEmpty()
-                            component.importFromContent(clipText) { success ->
-                                AppToastHost.showToast(if (success) importSuccessText else importFailedText)
-                            }
+                            component.importFromContent(clipText, ::showImportResult)
                         }
                     ) {
                         Text(text = stringResource(SettingsR.string.skill_import_clipboard))
+                    }
+                    TextButton(
+                        onClick = {
+                            fileImportLauncher.launch(arrayOf("text/*", "text/markdown", "application/octet-stream"))
+                        }
+                    ) {
+                        Text(text = stringResource(SettingsR.string.skill_import_file))
                     }
                     TextButton(onClick = { showNewSkillDialog = true }) {
                         Text(text = stringResource(SettingsR.string.skill_new))
@@ -186,18 +228,7 @@ fun SkillManagementScreen(
                             }
                         }
                         IconButton(
-                            onClick = {
-                                val intent = Intent(Intent.ACTION_SEND).apply {
-                                    type = "text/plain"
-                                    putExtra(Intent.EXTRA_TEXT, skill.body)
-                                }
-                                context.startActivity(
-                                    Intent.createChooser(
-                                        intent,
-                                        context.getString(SettingsR.string.skill_share_chooser_title)
-                                    )
-                                )
-                            }
+                            onClick = { context.shareText(skill.body) }
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Share,
@@ -248,8 +279,14 @@ fun SkillManagementScreen(
                 if (isLocal) {
                     TextButton(
                         onClick = {
-                            component.saveLocal(skill.copy(body = body.trim()))
-                            detailSkill = null
+                            // 保存前重新解析 frontmatter，失败拒绝并提示，成功才关闭
+                            component.saveLocal(skill.copy(body = body.trim())) { success ->
+                                if (success) {
+                                    detailSkill = null
+                                } else {
+                                    AppToastHost.showToast(saveInvalidText)
+                                }
+                            }
                         }
                     ) {
                         Text(text = stringResource(R.string.button_confirm))
@@ -328,9 +365,7 @@ fun SkillManagementScreen(
                             appendLine()
                             append(body.trim())
                         }
-                        component.importFromContent(markdown) { success ->
-                            AppToastHost.showToast(if (success) importSuccessText else importFailedText)
-                        }
+                        component.importFromContent(markdown, ::showImportResult)
                         showNewSkillDialog = false
                     }
                 ) {
@@ -390,18 +425,18 @@ private fun SourceBadge(source: String) {
 }
 
 @Composable
-private fun UsageBadge(frequency: SkillManagementComponent.UsageFrequency) {
+private fun UsageBadge(frequency: SkillUsagePolicy.UsageFrequency) {
     val label = when (frequency) {
-        SkillManagementComponent.UsageFrequency.NEVER ->
+        SkillUsagePolicy.UsageFrequency.NEVER ->
             stringResource(SettingsR.string.skill_usage_never)
 
-        SkillManagementComponent.UsageFrequency.LOW ->
+        SkillUsagePolicy.UsageFrequency.LOW ->
             stringResource(SettingsR.string.skill_usage_low)
 
-        SkillManagementComponent.UsageFrequency.REGULAR ->
+        SkillUsagePolicy.UsageFrequency.REGULAR ->
             stringResource(SettingsR.string.skill_usage_regular)
 
-        SkillManagementComponent.UsageFrequency.HIGH ->
+        SkillUsagePolicy.UsageFrequency.HIGH ->
             stringResource(SettingsR.string.skill_usage_high)
     }
     Badge(text = label, tint = MaterialTheme.colorScheme.onSurfaceVariant)

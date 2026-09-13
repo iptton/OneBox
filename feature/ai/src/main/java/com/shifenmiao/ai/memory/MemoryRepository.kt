@@ -1,10 +1,14 @@
 package com.shifenmiao.ai.memory
 
+import androidx.room.withTransaction
 import com.shifenmiao.ai.R
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
 import com.shifenmiao.ai.context.TokenEstimator
+import com.shifenmiao.database.AppDatabase
+import com.shifenmiao.database.ai.MemoryLimits
 import com.shifenmiao.database.ai.dao.MemoryEntryDao
 import com.shifenmiao.database.ai.entity.MemoryEntryEntity
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.flow.Flow
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -18,73 +22,71 @@ import javax.inject.Singleton
  * 保留 OpenMinis 的语义（关键词检索、注入上限、滚动淘汰），载体落到 Room：
  * - 检索不用 SQL LIKE（要转义 %/_，且 SQLite LIKE 仅 ASCII 大小写不敏感），
  *   DAO 取出 enabled 候选后在 Kotlin 侧 lowercase() 过滤（Unicode 感知）；
- * - log 滚动淘汰（超 [MAX_LOG_ENTRIES] 删最旧），profile 不参与；
- * - 注入 = 全部 enabled profile + 最近 3 个"有内容的日期桶"的 log，再按预算截尾。
+ * - log 滚动淘汰（超 [MemoryLimits.MAX_LOG_ENTRIES] 删最旧），profile 不参与；
+ * - 注入 = 全部 enabled profile + 最近 3 个"有内容的日期桶"的 log，再按预算逐条截断装入。
+ *
+ * 容量与策略常量在 [MemoryLimits]（core/database，feature/settings 管理页共用）。
  */
 @Singleton
 class MemoryRepository @Inject constructor(
+    private val appDatabase: AppDatabase,
     private val memoryEntryDao: MemoryEntryDao,
     private val textProvider: AgentToolTextProvider,
 ) {
-    companion object {
-        /** log 条目滚动淘汰上限（profile 不参与） */
-        const val MAX_LOG_ENTRIES = 500
-
-        /** 关键词搜索返回上限 */
-        const val SEARCH_RESULT_LIMIT = 60
-
-        /** 无关键词 dump 返回上限 */
-        const val DUMP_RESULT_LIMIT = 500
-
-        /** 搜索/ dump 总输出字节上限（UTF-8） */
-        const val MAX_OUTPUT_BYTES = 30 * 1024
-
-        /** 注入的 log 日期桶数量（最近 N 个有内容的日期，不是近 N 天） */
-        const val PROMPT_LOG_BUCKETS = 3
-
-        /** 记忆 fragment 占 prompt 预算的比例上限 */
-        const val PROMPT_BUDGET_FRACTION = 0.15
-    }
-
     /** 搜索范围：仅 log / 全部（profile + log） */
     enum class SearchScope { LOG, ALL }
 
     data class MemorySearchResult(
         val entries: List<MemoryEntryEntity>,
-        /** 命中数超过条数上限被截断 */
-        val truncatedByCount: Boolean,
-        /** 输出超过字节上限被截断 */
-        val truncatedByBytes: Boolean,
+        /** 命中数超过条数上限被省略的条数 */
+        val omittedByCount: Int,
+        /** 因字节预算耗尽被整条省略的条数 */
+        val omittedByBytes: Int,
+        /** 因超预算被截断展示（仍保留）的条数 */
+        val truncatedEntries: Int,
     )
 
     /**
      * 写入一条 log 记忆（memory_write 工具入口），写后执行滚动淘汰。
+     * insert + 计数 + 淘汰在同一事务内，避免并发写入时淘汰水位失真。
      *
      * @return 新条目 id
      */
     suspend fun writeMemory(content: String, sourceConversationId: String?): Long {
-        val now = System.currentTimeMillis()
-        val id = memoryEntryDao.insert(
-            MemoryEntryEntity(
-                kind = MemoryEntryEntity.KIND_LOG,
-                content = content.trim(),
-                sourceConversationId = sourceConversationId?.takeIf { it.isNotBlank() },
-                createdAt = now,
-                updatedAt = now,
-            )
-        )
-        // 滚动淘汰：log 超上限删最旧，profile 不参与
-        val total = memoryEntryDao.countByKind(MemoryEntryEntity.KIND_LOG)
-        if (total > MAX_LOG_ENTRIES) {
-            memoryEntryDao.deleteOldestByKind(MemoryEntryEntity.KIND_LOG, total - MAX_LOG_ENTRIES)
+        val trimmed = content.trim()
+        require(trimmed.length <= MemoryLimits.MAX_ENTRY_CHARS) {
+            "Memory entry exceeds ${MemoryLimits.MAX_ENTRY_CHARS} chars"
         }
-        return id
+        return appDatabase.withTransaction {
+            val now = System.currentTimeMillis()
+            val id = memoryEntryDao.insert(
+                MemoryEntryEntity(
+                    kind = MemoryEntryEntity.KIND_LOG,
+                    content = trimmed,
+                    sourceConversationId = sourceConversationId?.takeIf { it.isNotBlank() },
+                    createdAt = now,
+                    updatedAt = now,
+                )
+            )
+            // 滚动淘汰：log 超上限删最旧，profile 不参与
+            val total = memoryEntryDao.countByKind(MemoryEntryEntity.KIND_LOG)
+            if (total > MemoryLimits.MAX_LOG_ENTRIES) {
+                memoryEntryDao.deleteOldestByKind(
+                    MemoryEntryEntity.KIND_LOG,
+                    total - MemoryLimits.MAX_LOG_ENTRIES
+                )
+            }
+            id
+        }
     }
 
     /**
      * 条目级关键词搜索：全部关键词命中即返回整条，按时间倒序。
-     * 无关键词时为 dump（取最新条目）。上限：搜索 [SEARCH_RESULT_LIMIT] 条 /
-     * dump [DUMP_RESULT_LIMIT] 条 / 总输出 [MAX_OUTPUT_BYTES] 字节。
+     * 无关键词时为 dump（取最新条目）。上限：搜索 [MemoryLimits.SEARCH_RESULT_LIMIT] 条 /
+     * dump [MemoryLimits.DUMP_RESULT_LIMIT] 条 / 总输出 [MemoryLimits.MAX_OUTPUT_BYTES] 字节。
+     *
+     * 单条超预算时截断该条并继续后续条目（不再整体 break），
+     * 调用方可据 [MemorySearchResult] 的计数区分"无匹配"与"N 条被截断/省略"。
      */
     suspend fun search(keywords: List<String>, scope: SearchScope): MemorySearchResult {
         val normalizedKeywords = keywords
@@ -99,11 +101,15 @@ class MemoryRepository @Inject constructor(
                 memoryEntryDao.getRecentByKind(
                     kind = MemoryEntryEntity.KIND_LOG,
                     enabled = true,
-                    limit = DUMP_RESULT_LIMIT
+                    limit = MemoryLimits.DUMP_RESULT_LIMIT
                 )
             )
         }
-        val limit = if (normalizedKeywords.isEmpty()) DUMP_RESULT_LIMIT else SEARCH_RESULT_LIMIT
+        val limit = if (normalizedKeywords.isEmpty()) {
+            MemoryLimits.DUMP_RESULT_LIMIT
+        } else {
+            MemoryLimits.SEARCH_RESULT_LIMIT
+        }
         val matched = candidates
             .filter { entry ->
                 normalizedKeywords.all { keyword -> keyword in entry.content.lowercase() }
@@ -112,81 +118,147 @@ class MemoryRepository @Inject constructor(
 
         val entries = mutableListOf<MemoryEntryEntity>()
         var usedBytes = 0
-        var truncatedByBytes = false
+        var omittedByBytes = 0
+        var truncatedEntries = 0
         for (entry in matched.take(limit)) {
+            val remaining = MemoryLimits.MAX_OUTPUT_BYTES - usedBytes
             val entryBytes = entry.content.toByteArray(Charsets.UTF_8).size
-            if (usedBytes + entryBytes > MAX_OUTPUT_BYTES) {
-                truncatedByBytes = true
-                break
+            when {
+                entryBytes <= remaining -> {
+                    usedBytes += entryBytes
+                    entries.add(entry)
+                }
+                // 剩余预算还够放一条截断版：截断该条并继续
+                remaining > MIN_ENTRY_BYTES -> {
+                    entries.add(entry.copy(content = entry.content.truncateToBytes(remaining)))
+                    usedBytes = MemoryLimits.MAX_OUTPUT_BYTES
+                    truncatedEntries++
+                }
+                // 预算耗尽：整条省略，继续统计（不再 break）
+                else -> omittedByBytes++
             }
-            usedBytes += entryBytes
-            entries.add(entry)
         }
         return MemorySearchResult(
             entries = entries,
-            truncatedByCount = matched.size > limit,
-            truncatedByBytes = truncatedByBytes
+            omittedByCount = (matched.size - limit).coerceAtLeast(0),
+            omittedByBytes = omittedByBytes,
+            truncatedEntries = truncatedEntries,
         )
     }
 
     /**
      * 组装注入 system prompt 的记忆 fragment（`<memory>` 标签包裹 + 防御性引导语）。
      *
-     * 内容：全部 enabled profile + 最近 [PROMPT_LOG_BUCKETS] 个有内容日期桶的 log。
-     * 整体按 [tokenBudget] 的 [PROMPT_BUDGET_FRACTION] 用 TokenEstimator 截尾：
-     * 超预算优先丢最老日期桶，profile 与引导语恒定保留。
+     * 内容：全部 enabled profile + 最近 [MemoryLimits.PROMPT_LOG_BUCKETS] 个有内容日期桶的 log。
+     * 预算 = max([tokenBudget] × [MemoryLimits.PROMPT_BUDGET_FRACTION],
+     * [MemoryLimits.MIN_PROMPT_BUDGET_TOKENS])：桶内条目逐条装入，单条过长时截断装入，
+     * 预算耗尽时保留已装条目并附省略提示（不整桶丢弃）；profile 与引导语恒定保留。
      *
+     * @param includeSearchHint 省略提示是否带"用 memory_get 搜索"指引
+     * （模型不支持工具调用时传 false）
      * @return null 表示无任何可注入内容
      */
-    suspend fun buildPromptFragment(tokenBudget: Int): String? {
+    suspend fun buildPromptFragment(tokenBudget: Int, includeSearchHint: Boolean = true): String? {
         val profiles = memoryEntryDao.getByKind(MemoryEntryEntity.KIND_PROFILE, enabled = true)
         val logs = memoryEntryDao.getRecentByKind(
             kind = MemoryEntryEntity.KIND_LOG,
             enabled = true,
-            limit = MAX_LOG_ENTRIES
+            limit = MemoryLimits.MAX_LOG_ENTRIES
         )
         if (profiles.isEmpty() && logs.isEmpty()) return null
+
+        val budgetTokens = maxOf(
+            (tokenBudget * MemoryLimits.PROMPT_BUDGET_FRACTION).toInt(),
+            MemoryLimits.MIN_PROMPT_BUDGET_TOKENS
+        )
 
         // logs 已按 created_at 倒序，groupBy 保持首次出现顺序 = 日期桶倒序
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val buckets = logs.groupBy { dateFormat.format(Date(it.createdAt)) }
-        val budgetTokens = (tokenBudget * PROMPT_BUDGET_FRACTION).toInt()
+            .entries.take(MemoryLimits.PROMPT_LOG_BUCKETS)
 
-        var selectedDates = buckets.keys.take(PROMPT_LOG_BUCKETS)
-        while (selectedDates.isNotEmpty()) {
-            val text = renderFragment(profiles, buckets, selectedDates)
-            if (budgetTokens <= 0 || TokenEstimator.estimateText(text) <= budgetTokens) {
-                return text
+        val guidance = textProvider.string(R.string.agent_memory_prompt_guidance)
+        var usedTokens = TokenEstimator.estimateText(guidance)
+        var omitted = false
+
+        val profileBlock = StringBuilder()
+        if (profiles.isNotEmpty()) {
+            profileBlock.appendLine()
+            profileBlock.appendLine(textProvider.string(R.string.agent_memory_prompt_profile_header))
+            profiles.forEach { entry ->
+                profileBlock.appendLine("- ${entry.content.trim()}")
             }
-            // 超预算优先丢最老日期桶
-            selectedDates = selectedDates.dropLast(1)
+            usedTokens += TokenEstimator.estimateText(profileBlock.toString())
         }
-        return renderFragment(profiles, buckets, emptyList())
-    }
 
-    private fun renderFragment(
-        profiles: List<MemoryEntryEntity>,
-        buckets: Map<String, List<MemoryEntryEntity>>,
-        selectedDates: List<String>
-    ): String {
+        // 日期桶逐条装入：装得下的装，单条过长截断装，预算耗尽即止并标记省略
+        val logBlock = StringBuilder()
+        var packedLogs = 0
+        bucketLoop@ for ((date, entries) in buckets) {
+            val header = "\n" + textProvider.string(R.string.agent_memory_prompt_log_header, date) + "\n"
+            val headerTokens = TokenEstimator.estimateText(header)
+            if (usedTokens + headerTokens >= budgetTokens) {
+                omitted = true
+                break
+            }
+            val bucketStart = logBlock.length
+            val bucketStartTokens = usedTokens
+            logBlock.append(header)
+            usedTokens += headerTokens
+            var packedInBucket = 0
+            for (entry in entries) {
+                val line = "- ${entry.content.trim()}"
+                val lineTokens = TokenEstimator.estimateText(line) + 1
+                when {
+                    usedTokens + lineTokens <= budgetTokens -> {
+                        logBlock.appendLine(line)
+                        usedTokens += lineTokens
+                        packedInBucket++
+                    }
+                    budgetTokens - usedTokens > MIN_LINE_TOKENS -> {
+                        // 单条过长：按剩余预算截断装入
+                        val keepChars = (entry.content.length *
+                            ((budgetTokens - usedTokens).toDouble() / lineTokens))
+                            .toInt().coerceIn(0, entry.content.length)
+                        logBlock.appendLine("- ${entry.content.trim().take(keepChars)}…")
+                        usedTokens = budgetTokens
+                        packedInBucket++
+                        omitted = true
+                        break@bucketLoop
+                    }
+                    else -> {
+                        omitted = true
+                        break@bucketLoop
+                    }
+                }
+            }
+            if (packedInBucket == 0) {
+                // 桶内一条都没装：回退桶头，避免空桶标题
+                logBlock.setLength(bucketStart)
+                usedTokens = bucketStartTokens
+                omitted = true
+                break
+            }
+            packedLogs += packedInBucket
+        }
+        if (logs.isNotEmpty() && packedLogs == 0) {
+            "buildPromptFragment: no log entries fit budget=$budgetTokens, fallback to profile-only"
+                .makeLog("MemoryRepository")
+        }
+
         return buildString {
             appendLine("<memory>")
-            appendLine(textProvider.string(R.string.agent_memory_prompt_guidance))
-            if (profiles.isNotEmpty()) {
+            appendLine(guidance)
+            append(profileBlock)
+            append(logBlock)
+            if (omitted) {
                 appendLine()
-                appendLine(textProvider.string(R.string.agent_memory_prompt_profile_header))
-                profiles.forEach { entry ->
-                    appendLine("- ${entry.content.trim()}")
-                }
-            }
-            selectedDates.forEach { date ->
-                val entries = buckets[date].orEmpty()
-                if (entries.isEmpty()) return@forEach
-                appendLine()
-                appendLine(textProvider.string(R.string.agent_memory_prompt_log_header, date))
-                entries.forEach { entry ->
-                    appendLine("- ${entry.content.trim()}")
-                }
+                appendLine(
+                    textProvider.string(
+                        if (includeSearchHint) R.string.agent_memory_prompt_omitted_hint
+                        else R.string.agent_memory_prompt_omitted_hint_no_search
+                    )
+                )
             }
             append("</memory>")
         }
@@ -217,4 +289,20 @@ class MemoryRepository @Inject constructor(
     suspend fun clearLog() {
         memoryEntryDao.clearByKind(MemoryEntryEntity.KIND_LOG)
     }
+
+    private companion object {
+        /** 剩余预算低于该字节数时整条省略（截断后信息过少无意义） */
+        const val MIN_ENTRY_BYTES = 64
+
+        /** 剩余预算低于该 token 数时不再截断装入 */
+        const val MIN_LINE_TOKENS = 24
+    }
+}
+
+/** 按 UTF-8 字节数近似截断（按字符比例换算，末尾补省略号） */
+private fun String.truncateToBytes(maxBytes: Int): String {
+    val total = toByteArray(Charsets.UTF_8).size
+    if (total <= maxBytes) return this
+    val keepChars = (length * (maxBytes.toDouble() / total)).toInt().coerceIn(0, length)
+    return take(keepChars) + "…"
 }

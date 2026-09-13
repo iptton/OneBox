@@ -384,6 +384,7 @@
     <string name="memory_clear_log_message">将删除所有记忆日志条目，档案条目保留。此操作不可撤销。</string>
     <string name="memory_log_cleared">记忆日志已清空</string>
     <string name="memory_source_conversation">来自 %1$s</string>
+    <string name="memory_entry_too_long">内容超过 %1$d 字符上限</string>
 
     <!-- AI Skill management page -->
     <string name="skill_global_switch_title">启用 AI 技能</string>
@@ -392,8 +393,12 @@
     <string name="skill_list_supporting">AI 通过 use_skill 工具按需加载技能的完整指令</string>
     <string name="skill_empty">还没有安装任何技能。</string>
     <string name="skill_import_clipboard">导入</string>
+    <string name="skill_import_file">从文件导入</string>
     <string name="skill_import_success">技能已导入</string>
-    <string name="skill_import_failed">导入失败：剪贴板内容不是合法的 SKILL.md（需要单行的 name/description)</string>
+    <string name="skill_import_failed">导入失败：内容不是合法的 SKILL.md（需要单行的 name/description)</string>
+    <string name="skill_import_bundled_conflict">已存在同名预置技能，请改名或另存副本</string>
+    <string name="skill_import_too_large">导入失败：SKILL.md 超过 16KB 上限</string>
+    <string name="skill_save_invalid">保存失败：frontmatter 必须包含单行的 name 和 description 字段</string>
     <string name="skill_new">新建</string>
     <string name="skill_new_title">新建技能</string>
     <string name="skill_name_hint">name(kebab-case slug，如 my-skill)</string>
@@ -402,7 +407,6 @@
     <string name="skill_readonly_bundled_hint">预置技能为只读。如需修改请另存为副本。</string>
     <string name="skill_save_as_copy">另存为副本</string>
     <string name="skill_delete_confirm_title">删除这个技能？</string>
-    <string name="skill_share_chooser_title">分享技能</string>
     <string name="skill_source_bundled">预置</string>
     <string name="skill_source_local">本地</string>
     <string name="skill_source_remote">远程</string>

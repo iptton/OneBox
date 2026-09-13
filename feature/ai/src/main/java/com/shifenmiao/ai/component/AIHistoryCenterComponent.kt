@@ -81,6 +81,8 @@ class AIHistoryCenterComponent @AssistedInject internal constructor(
         componentScope.launch(ioDispatcher) {
             appDatabase.messageDao().deleteMessagesByConversationId(conversationId)
             appDatabase.conversationDao().deleteConversationByConversationId(conversationId)
+            // 顺手清掉会话级记忆/技能开关，避免死行堆积
+            appDatabase.conversationMemoryPolicyDao().deleteByConversationId(conversationId)
         }
     }
 

@@ -28,20 +28,15 @@ class ConversationMemoryPolicyRepository @Inject constructor(
     }
 
     suspend fun setMemoryEnabled(conversationId: String, enabled: Boolean) {
-        upsert(conversationId) { it.copy(memoryEnabled = enabled) }
+        if (conversationId.isBlank()) return
+        // 先初始化行（不存在则插入默认值行），再字段级更新，消除 read-modify-write 竞态
+        dao.insertIgnore(ConversationMemoryPolicyEntity(conversationId = conversationId))
+        dao.setMemoryEnabled(conversationId, enabled, System.currentTimeMillis())
     }
 
     suspend fun setSkillsEnabled(conversationId: String, enabled: Boolean) {
-        upsert(conversationId) { it.copy(skillsEnabled = enabled) }
-    }
-
-    private suspend fun upsert(
-        conversationId: String,
-        update: (ConversationMemoryPolicyEntity) -> ConversationMemoryPolicyEntity
-    ) {
         if (conversationId.isBlank()) return
-        val current = dao.getByConversationId(conversationId)
-            ?: ConversationMemoryPolicyEntity(conversationId = conversationId)
-        dao.upsert(update(current).copy(updatedAt = System.currentTimeMillis()))
+        dao.insertIgnore(ConversationMemoryPolicyEntity(conversationId = conversationId))
+        dao.setSkillsEnabled(conversationId, enabled, System.currentTimeMillis())
     }
 }

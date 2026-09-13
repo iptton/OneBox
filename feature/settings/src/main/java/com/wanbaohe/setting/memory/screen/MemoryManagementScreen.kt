@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.shifenmiao.common.ui.BaseScreen
 import com.shifenmiao.core.R
+import com.shifenmiao.database.ai.MemoryLimits
 import com.shifenmiao.database.ai.entity.MemoryEntryEntity
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
@@ -206,6 +207,7 @@ fun MemoryManagementScreen(
     // 新增/编辑弹窗
     editingEntry?.let { entry ->
         var content by remember(entry) { mutableStateOf(entry.content) }
+        val tooLongText = stringResource(SettingsR.string.memory_entry_too_long, MemoryLimits.MAX_ENTRY_CHARS)
         EnhancedAlertDialog(
             visible = true,
             onDismissRequest = { editingEntry = null },
@@ -232,6 +234,11 @@ fun MemoryManagementScreen(
                 TextButton(
                     onClick = {
                         val trimmed = content.trim()
+                        // 与 memory_write 工具统一的单条限长
+                        if (trimmed.length > MemoryLimits.MAX_ENTRY_CHARS) {
+                            AppToastHost.showToast(tooLongText)
+                            return@TextButton
+                        }
                         if (trimmed.isNotEmpty()) {
                             component.saveEntry(entry.copy(content = trimmed))
                         }

@@ -31,13 +31,15 @@ interface SkillDao {
 
     /**
      * use_skill 命中后自增使用频次。
+     * 不刷 updated_at：usage 不是内容变更，不能污染"7 天内有更新"的清单遴选信号。
      */
-    @Query("UPDATE skill SET use_count = use_count + 1, updated_at = :updatedAt WHERE id = :id")
-    suspend fun incrementUseCount(id: String, updatedAt: Long)
+    @Query("UPDATE skill SET use_count = use_count + 1 WHERE id = :id")
+    suspend fun incrementUseCount(id: String)
 
     /**
      * 归一化批量写回（use_count 超上限时全体缩放到 0–100），由调用方在事务内逐行执行。
+     * 同样不刷 updated_at。
      */
-    @Query("UPDATE skill SET use_count = :useCount, updated_at = :updatedAt WHERE id = :id")
-    suspend fun updateUseCount(id: String, useCount: Double, updatedAt: Long)
+    @Query("UPDATE skill SET use_count = :useCount WHERE id = :id")
+    suspend fun updateUseCount(id: String, useCount: Double)
 }

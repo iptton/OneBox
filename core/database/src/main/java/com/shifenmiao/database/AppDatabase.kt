@@ -393,6 +393,9 @@ abstract class AppDatabase : RoomDatabase() {
                                     val skillVersion = SKILL_PRESET_VERSION.toString()
                                     val lastSkillVersion = AppSharedStorage.loadSkillPresetVersion()
                                     if (lastSkillVersion != skillVersion) {
+                                        // ensureBundledSkills 内部对每个技能单独 runCatching 隔离，
+                                        // 单个失败不抛出；水位在全部尝试后必写，
+                                        // 避免单个技能失败导致下次启动反复重刷。
                                         ensureBundledSkills(db, context)
                                         AppSharedStorage.saveSkillPresetVersion(skillVersion)
                                     }
@@ -405,21 +408,28 @@ abstract class AppDatabase : RoomDatabase() {
                         private fun ensureBundledSkills(db: SupportSQLiteDatabase, ctx: Context) {
                             val now = System.currentTimeMillis()
                             // 系统会自动根据当前语言选择对应的 raw 资源（raw/ 英文默认，raw-zh-rCN/ 中文）
-                            val body = loadRawPrompt(ctx, R.raw.skill_wechat_article_style)
-                            val (slug, description) = SkillFrontMatterParser.parse(body) ?: run {
-                                Log.e("AppDatabase", "Invalid SKILL frontmatter: skill_wechat_article_style")
-                                return
+                            runCatching {
+                                val body = loadRawPrompt(ctx, R.raw.skill_wechat_article_style)
+                                val (slug, description) = SkillFrontMatterParser.parse(body)
+                                    ?: error("Invalid SKILL frontmatter: skill_wechat_article_style")
+                                upsertBundledSkill(
+                                    db = db,
+                                    now = now,
+                                    presetKey = SkillEntity.SKILL_PRESET_KEY_WECHAT_ARTICLE,
+                                    slug = slug,
+                                    description = description,
+                                    body = body
+                                )
+                            }.onFailure {
+                                Log.e("AppDatabase", "Error upserting bundled skill: wechat_article_style", it)
                             }
-                            upsertBundledSkill(
-                                db = db,
-                                now = now,
-                                presetKey = SkillEntity.SKILL_PRESET_KEY_WECHAT_ARTICLE,
-                                slug = slug,
-                                description = description,
-                                body = body
-                            )
                         }
 
+                        /**
+                         * 存在性按主键 id 判定（不用 source + document_id）：
+                         * 即使 BUNDLED 行的 source/document_id 被污染也不会 PK 冲突；
+                         * UPDATE 时顺带修复 source/document_id，自愈污染行。
+                         */
                         private fun upsertBundledSkill(
                             db: SupportSQLiteDatabase,
                             now: Long,
@@ -429,11 +439,8 @@ abstract class AppDatabase : RoomDatabase() {
                             body: String
                         ) {
                             val exists = db.query(
-                                """
-                                SELECT COUNT(*) FROM skill
-                                WHERE source = ? AND document_id = ?
-                                """.trimIndent(),
-                                arrayOf(SkillEntity.SOURCE_BUNDLED, presetKey)
+                                "SELECT COUNT(*) FROM skill WHERE id = ?",
+                                arrayOf(slug)
                             ).use { cursor ->
                                 cursor.moveToFirst()
                                 cursor.getInt(0) > 0
@@ -443,16 +450,17 @@ abstract class AppDatabase : RoomDatabase() {
                                 db.execSQL(
                                     """
                                     UPDATE skill
-                                    SET name = ?, description = ?, body = ?, updated_at = ?
-                                    WHERE source = ? AND document_id = ?
+                                    SET name = ?, description = ?, body = ?, source = ?, document_id = ?, updated_at = ?
+                                    WHERE id = ?
                                     """.trimIndent(),
                                     arrayOf<Any>(
                                         slug,
                                         description,
                                         body,
-                                        now,
                                         SkillEntity.SOURCE_BUNDLED,
-                                        presetKey
+                                        presetKey,
+                                        now,
+                                        slug
                                     )
                                 )
                             } else {
