@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ad_watch_title">廣告看看看</string>
-    <string name="ad_watch_desc">每看完一則廣告可得 %1$d 積分\n上下滑動查看下一則</string>
-    <string name="ad_watch_button">觀看得 %1$d 積分</string>
-    <string name="ad_watch_remaining_today">今日剩餘 %1$d 次</string>
+    <string name="ad_watch_headline_1">大品牌燒錢投的廣告, 都在打什麼牌?</string>
+    <string name="ad_watch_headline_2">大廠都在投的廣告, 長什麼樣?</string>
+    <string name="ad_watch_headline_3">15 秒, 看品牌們的看家本領</string>
+    <string name="ad_watch_headline_4">別人花錢搶眼球, 你順便賺積分</string>
+    <string name="ad_watch_headline_5">廣告主內捲現場, 免費圍觀</string>
+    <string name="ad_watch_subtitle">看 15 秒廣告, 賺 %1$d 積分</string>
+    <string name="ad_watch_cta">看廣告 · +%1$d 積分</string>
+    <string name="ad_watch_remaining">今日剩餘 %1$d/%2$d 次</string>
     <string name="ad_watch_daily_limit_reached">今日次數已用完，明天再來吧</string>
     <string name="ad_watch_loading">廣告載入中…</string>
     <string name="ad_watch_load_failed">廣告載入失敗</string>
