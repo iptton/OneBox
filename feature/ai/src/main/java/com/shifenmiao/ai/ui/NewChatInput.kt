@@ -297,12 +297,13 @@ private fun StandardInputSection(
         else -> false
     }
     val showVoice = textEmpty && !hasAttachments && voiceInputEnabled
-    // 文本为空且无附件时,发送按钮切换为语音输入;识别结果回填输入框(已有文本则追加)
+    // 文本为空且无附件时,发送按钮切换为语音输入;识别结果换行回填输入框,
+    // 多行态底部栏另有语音按钮可继续续说,每段识别结果独立成行
     val backfillRecognizedText: (String) -> Unit = remember(chatInputComponent) {
         { recognized ->
             val current = chatInputComponent.chatInputState.value.inputText
             chatInputComponent.onInputTextChange(
-                if (current.isBlank()) recognized else "$current $recognized"
+                if (current.isBlank()) recognized else "$current\n$recognized"
             )
         }
     }
@@ -376,7 +377,7 @@ private fun StandardInputSection(
                 onVoiceInput = startVoiceInput,
             )
         },
-        // 多行：底部 action bar — (清空) | 全屏 | 发送
+        // 多行：底部 action bar — (清空) | 全屏 | (语音) | 发送
         multilineBottomActions = {
             Row(
                 modifier = Modifier
@@ -396,6 +397,15 @@ private fun StandardInputSection(
                     contentDescription = stringResource(R.string.create_ai_agent_expand),
                     onClick = eventHandler.toggleExpand
                 )
+                // 已有文本时单行态的语音入口会被发送按钮顶替,多行态保留语音按钮,
+                // 用户可分段续说,识别结果换行追加到输入框末尾
+                if (voiceInputEnabled && !showVoice && !isLoading) {
+                    SmallIconBtn(
+                        icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Mic,
+                        contentDescription = stringResource(R.string.ai_input_voice),
+                        onClick = startVoiceInput
+                    )
+                }
                 ActionButton(
                     isLoading = isLoading,
                     showVoice = showVoice,
