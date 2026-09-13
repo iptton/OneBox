@@ -32,8 +32,8 @@ object AdWatchAds {
     /** 每日观看上限次数 */
     const val DAILY_LIMIT = 10
 
-    /** 远程配置未下发时的默认单次奖励积分 */
-    const val DEFAULT_REWARD_POINTS = 50
+    /** 远程配置(adWatchRewardPoints)未下发时的默认单次奖励积分 */
+    const val DEFAULT_REWARD_POINTS = 15
 }
 
 /**

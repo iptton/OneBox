@@ -14,6 +14,7 @@ import com.bytedance.sdk.openadsdk.TTAdSdk
 import com.bytedance.sdk.openadsdk.TTCustomController
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd
 import com.shifenmiao.base.utils.CoreUtils
+import com.shifenmiao.storage.RemoteConfigStorage
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -130,9 +131,12 @@ class GmRewardedAdController @Inject constructor(
             .setCodeId(GROMORE_REWARD_SLOT_ID)
             .setOrientation(TTAdConstant.ORIENTATION_VERTICAL)
             .setAdLoadType(TTAdLoadType.LOAD)
-            // 奖励配置: 用于竞价挽留弹窗展示, 与实际发放积分无关
+            // 奖励配置: 用于竞价挽留弹窗展示, 与实际发放积分同一来源(远程配置 adWatchRewardPoints)
             .setRewardName("积分")
-            .setRewardAmount(AdWatchAds.DEFAULT_REWARD_POINTS)
+            .setRewardAmount(
+                RemoteConfigStorage.getRemoteConfig().adWatchRewardPoints
+                    ?: AdWatchAds.DEFAULT_REWARD_POINTS
+            )
             .build()
         adNative.loadRewardVideoAd(adSlot, object : TTAdNative.RewardVideoAdListener {
             override fun onError(code: Int, msg: String?) {

@@ -258,7 +258,7 @@ data class RemoteConfig(
      * 「广告看看看」单次激励广告观看奖励积分。
      *
      * 远端可动态调整；默认 `null` 表示服务端未下发，
-     * 消费端(feature/ad-watch)回退到本地默认 50 分。
+     * 消费端(feature/ad-watch)回退到本地默认 15 分。
      */
     val adWatchRewardPoints: Int? = null,
 

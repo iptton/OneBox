@@ -51,7 +51,7 @@ class AdWatchComponent @AssistedInject internal constructor(
     )
     val uiState = _uiState.asStateFlow()
 
-    /** 单次奖励积分: 远程配置 adWatchRewardPoints, 未下发默认 50 */
+    /** 单次奖励积分: 远程配置 adWatchRewardPoints, 未下发默认 15 */
     private val rewardPoints: Int
         get() = RemoteConfigStorage.getRemoteConfig().adWatchRewardPoints
             ?: AdWatchAds.DEFAULT_REWARD_POINTS

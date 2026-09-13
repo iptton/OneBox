@@ -2,7 +2,7 @@ package com.wanbaohe.adwatch.component
 
 data class AdWatchUiState(
     /** 单次观看奖励积分(来自远程配置, 默认 50) */
-    val rewardPoints: Int = 50,
+    val rewardPoints: Int = 15,
     /** 今日已观看次数 */
     val watchedToday: Int = 0,
     /** 今日剩余次数 */
