@@ -32,7 +32,7 @@ sealed interface AsrState {
 class IFlytekAsrClient(
     private val appId: String,
     private val state: MutableStateFlow<AsrState>,
-) {
+) : AsrStreamClient {
 
     private val gson = Gson()
     private val httpClient = OkHttpClient.Builder()
@@ -78,17 +78,17 @@ class IFlytekAsrClient(
     }
 
     /** 上行一块 PCM(内部排队,发送线程节流发出) */
-    fun sendPcm(chunk: ByteArray) {
+    override fun sendPcm(chunk: ByteArray) {
         if (!cancelled) sendQueue.offer(chunk)
     }
 
     /** 说完:队列排空后发结束帧(status=2),等服务端回最终结果 */
-    fun stop() {
+    override fun stop() {
         endRequested = true
     }
 
     /** 放弃:立即断开,不再等待结果 */
-    fun cancel() {
+    override fun cancel() {
         cancelled = true
         senderThread?.interrupt()
         sendQueue.clear()

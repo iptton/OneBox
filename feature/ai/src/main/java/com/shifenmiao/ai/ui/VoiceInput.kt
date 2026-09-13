@@ -13,6 +13,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.shifenmiao.ai.voice.VOICE_PROVIDER_IFLYTEK
+import com.shifenmiao.ai.voice.VOICE_PROVIDER_SELF
 import com.shifenmiao.core.R
 import com.shifenmiao.model.event.PermissionRequest
 import com.shifenmiao.storage.RemoteConfigStorage
@@ -22,7 +24,8 @@ import java.util.Locale
 
 /**
  * 语音输入:输入框为空时发送按钮切换为麦克风,点击后按远程配置分流:
- * - `voiceInput.provider == "iflytek"`(远程下发):先申请录音权限,回调 [onShowIflytekSheet] 打开讯飞大模型识别面板;
+ * - `voiceInput.provider` 为 "iflytek"(讯飞大模型识别)或 "self"(自建 FunASR,经网关反代)时:
+ *   先申请录音权限,回调 [onShowIflytekSheet] 打开识别面板(两条链路的 UI 与状态流完全一致);
  * - 其余(默认/回退):唤起系统语音识别界面(Google 渠道即 Google 语音输入),结果经 [onResult] 回填。
  *   系统识别由系统服务持有录音权限,应用无需申请 RECORD_AUDIO(google 渠道 manifest 也未声明该权限)。
  */
@@ -47,7 +50,8 @@ fun rememberVoiceInputLauncher(
 
     return remember(context, recognitionLauncher, onResult, onShowIflytekSheet) {
         {
-            if (RemoteConfigStorage.getRemoteConfig().voiceInput?.provider == "iflytek") {
+            val provider = RemoteConfigStorage.getRemoteConfig().voiceInput?.provider
+            if (provider == VOICE_PROVIDER_IFLYTEK || provider == VOICE_PROVIDER_SELF) {
                 ContextUtils.requestPermissionAndExecute(
                     permissions = arrayOf(Manifest.permission.RECORD_AUDIO),
                     permissionRequest = PermissionRequest.MICROPHONE,

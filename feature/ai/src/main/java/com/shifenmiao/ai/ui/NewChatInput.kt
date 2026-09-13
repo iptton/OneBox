@@ -61,6 +61,8 @@ import com.shifenmiao.ai.chat.NewTextInputField
 import com.shifenmiao.ai.component.AIChatComponent
 import com.shifenmiao.ai.di.VoiceRecognizerEntryPoint
 import com.shifenmiao.ai.logic.ChatInputComponent
+import com.shifenmiao.ai.voice.VOICE_PROVIDER_IFLYTEK
+import com.shifenmiao.ai.voice.VOICE_PROVIDER_SELF
 import com.shifenmiao.base.utils.ActionUtils
 import com.shifenmiao.common.logic.AppComponent
 import com.shifenmiao.core.R
@@ -292,7 +294,8 @@ private fun StandardInputSection(
     val context = LocalContext.current
     val systemVoiceAvailable = remember { isSystemSpeechRecognitionAvailable(context) }
     val voiceInputEnabled = when {
-        remoteConfig.voiceInput?.provider == "iflytek" -> true
+        remoteConfig.voiceInput?.provider == VOICE_PROVIDER_IFLYTEK -> true
+        remoteConfig.voiceInput?.provider == VOICE_PROVIDER_SELF -> true
         FlavorType.fromName().isOverseas -> systemVoiceAvailable
         else -> false
     }
