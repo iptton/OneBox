@@ -194,10 +194,13 @@
     *;
 }
 
-#穿山甲 (Pangle 国内版) 激励广告 SDK, 与 aar 内置 consumer proguard 互补
+#GroMore 聚合 (内含穿山甲) 激励广告 SDK, 与 aar 内置 consumer proguard 互补
 -keep class com.bytedance.** { *; }
 -keep class com.pangle.** { *; }
 -keep class com.bykv.** { *; }
+-keep class bykvm*.** { *; }
+-keep class com.bytedance.msdk.adapter.** { public *; }
+-keep class com.bytedance.msdk.api.** { public *; }
 -keep class com.byakv.** { *; }
 -keep class com.byazt.** { *; }
 -keep class com.ss.android.** { *; }

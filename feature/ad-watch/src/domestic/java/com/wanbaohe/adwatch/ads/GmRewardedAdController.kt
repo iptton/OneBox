@@ -26,22 +26,21 @@ import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
-// TODO(穿山甲): 联调用官方测试 appId/代码位; 上线前替换为穿山甲后台「万宝盒」应用的正式值
-/** 穿山甲官方测试应用 ID (csjplatform 测试 demo 通用) */
-private const val CSJ_TEST_APP_ID = "5001121"
+/** GroMore 聚合平台「万宝盒」应用 ID (gromore 后台, 2026-09-13 创建) */
+private const val GROMORE_APP_ID = "5882609"
 
-/** 穿山甲官方测试激励视频代码位 (Android, 与测试 appId 5001121 配套) */
-private const val CSJ_TEST_REWARD_CODE_ID = "901121365"
+/** GroMore 聚合广告位 ID:「广告看看看激励视频」(瀑布流: 穿山甲竞价/兜底 + GroMore ADX 竞价) */
+private const val GROMORE_REWARD_SLOT_ID = "104527254"
 
 /**
- * 国内渠道真实实现: 封装穿山甲 (Pangle 国内版) SDK 懒初始化 + 激励视频加载/展示。
+ * 国内渠道真实实现: 封装 GroMore 聚合 SDK (mediation-sdk, 内含穿山甲 ADN) 懒初始化 + 激励视频加载/展示。
  * 仅 src/domestic 编译, google 渠道见 src/google, foss 见 src/nogms 的同签名 stub。
  *
  * 合规红线: 用户未同意隐私协议前不得调 TTAdSdk.init/start,
  * 首次 preload 时才检查并初始化 (正常路径入口页已在隐私弹窗之后, 此处为防御性跳过)。
  */
 @Singleton
-class CsjRewardedAdController @Inject constructor(
+class GmRewardedAdController @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : RewardedAdController {
 
@@ -55,20 +54,25 @@ class CsjRewardedAdController @Inject constructor(
     private var sdkStarting = false
     private var loading = false
 
+    /** 840040 (首次冷启动聚合配置未拉取到) 已自动重试过 */
+    private var configRetried = false
+
     private val mainHandler = Handler(Looper.getMainLooper())
 
     private companion object {
-        const val TAG = "CsjRewardedAd"
+        const val TAG = "GmRewardedAd"
+        const val GROMORE_CONFIG_NOT_READY = 840040
+        const val CONFIG_RETRY_DELAY_MS = 3000L
     }
 
     override fun preload() {
         if (rewardedAd != null || loading) return
-        // 隐私协议未同意: 不触碰穿山甲 SDK, 状态置 FAILED 供页面展示重试
+        // 隐私协议未同意: 不触碰广告 SDK, 状态置 FAILED 供页面展示重试
         if (CoreUtils.isShowPrivacyPolicyDialog()) {
             _status.value = RewardedAdStatus.FAILED
             return
         }
-        // 穿山甲要求 init/start 在主线程调用
+        // 穿山甲系 SDK 要求 init/start 在主线程调用
         mainHandler.post { ensureSdkStarted { loadAd() } }
     }
 
@@ -99,12 +103,14 @@ class CsjRewardedAdController @Inject constructor(
 
     private fun buildAdConfig(): TTAdConfig =
         TTAdConfig.Builder()
-            .appId(CSJ_TEST_APP_ID)
+            .appId(GROMORE_APP_ID)
             .appName(context.applicationInfo.loadLabel(context.packageManager).toString())
             .titleBarTheme(TTAdConstant.TITLE_BAR_THEME_DARK)
             .allowShowNotify(true)
             .debug(false)
             .supportMultiProcess(false)
+            // 聚合 SDK 必须显式开启聚合功能, 否则瀑布流不生效 (报 40006)
+            .useMediation(true)
             // 合规: 关闭位置/应用列表/电话状态/WiFi 状态/外部存储等敏感采集
             .customController(object : TTCustomController() {
                 override fun isCanUseLocation(): Boolean = false
@@ -121,14 +127,24 @@ class CsjRewardedAdController @Inject constructor(
         _status.value = RewardedAdStatus.LOADING
         val adNative: TTAdNative = TTAdSdk.getAdManager().createAdNative(context)
         val adSlot = AdSlot.Builder()
-            .setCodeId(CSJ_TEST_REWARD_CODE_ID)
+            .setCodeId(GROMORE_REWARD_SLOT_ID)
+            .setOrientation(TTAdConstant.ORIENTATION_VERTICAL)
             .setAdLoadType(TTAdLoadType.LOAD)
+            // 奖励配置: 用于竞价挽留弹窗展示, 与实际发放积分无关
+            .setRewardName("积分")
+            .setRewardAmount(AdWatchAds.DEFAULT_REWARD_POINTS)
             .build()
         adNative.loadRewardVideoAd(adSlot, object : TTAdNative.RewardVideoAdListener {
             override fun onError(code: Int, msg: String?) {
                 Log.w(TAG, "loadRewardVideoAd onError: code=$code msg=$msg")
                 rewardedAd = null
                 loading = false
+                // 840040: 首次冷启动聚合配置未拉取到, SDK 文档建议稍后重试; 自动重试一次, 仍失败再走手动重试
+                if (code == GROMORE_CONFIG_NOT_READY && !configRetried) {
+                    configRetried = true
+                    mainHandler.postDelayed({ loadAd() }, CONFIG_RETRY_DELAY_MS)
+                    return
+                }
                 _status.value = RewardedAdStatus.FAILED
             }
 
@@ -208,6 +224,6 @@ abstract class RewardedAdModule {
     @Binds
     @Singleton
     abstract fun bindRewardedAdController(
-        impl: CsjRewardedAdController
+        impl: GmRewardedAdController
     ): RewardedAdController
 }
