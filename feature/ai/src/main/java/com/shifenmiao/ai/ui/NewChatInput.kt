@@ -300,14 +300,18 @@ private fun StandardInputSection(
         else -> false
     }
     val showVoice = textEmpty && !hasAttachments && voiceInputEnabled
-    // 文本为空且无附件时,发送按钮切换为语音输入;识别结果换行回填输入框,
-    // 多行态底部栏另有语音按钮可继续续说,每段识别结果独立成行
+    // 文本为空且无附件时,发送按钮切换为语音输入;识别结果回填输入框并补换行,
+    // 首段也带结尾换行(短文本不折行时靠它顶出第二行进入多行态),
+    // 多行态底部栏另有语音按钮可继续续说,每段识别结果独立成行(发送时整体 trim)
     val backfillRecognizedText: (String) -> Unit = remember(chatInputComponent) {
         { recognized ->
             val current = chatInputComponent.chatInputState.value.inputText
-            chatInputComponent.onInputTextChange(
-                if (current.isBlank()) recognized else "$current\n$recognized"
-            )
+            val base = when {
+                current.isBlank() -> ""
+                current.endsWith("\n") -> current
+                else -> "$current\n"
+            }
+            chatInputComponent.onInputTextChange("$base$recognized\n")
         }
     }
     // 语音按钮仅在 voiceInputEnabled 时可见;海外走系统语音识别,国内 provider=iflytek 走讯飞大模型识别面板
