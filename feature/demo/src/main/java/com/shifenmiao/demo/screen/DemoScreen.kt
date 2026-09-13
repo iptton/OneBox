@@ -805,6 +805,7 @@ private fun demoNavigationEntries(): List<DemoNavigationEntry> = listOf(
     DemoNavigationEntry("时光里程碑", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic) { Screen.LifeTime },
     DemoNavigationEntry("主题设置", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTheme) { Screen.ThemeSettings },
     DemoNavigationEntry("撑30秒赚积分", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCasino) { Screen.Survive30s },
+    DemoNavigationEntry("广告看看看", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCasino) { Screen.AdWatch },
     DemoNavigationEntry("浏览器", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTravelExplore) { Screen.WebBrowser() },
     DemoNavigationEntry("测量工具", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSquareFoot) { Screen.MeasurementTools },
     DemoNavigationEntry("密码保险箱", com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineShield) { Screen.PasswordVault() },
