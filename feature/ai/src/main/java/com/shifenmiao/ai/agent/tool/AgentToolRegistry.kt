@@ -1,10 +1,11 @@
 package com.shifenmiao.ai.agent.tool
 
 import com.google.gson.Gson
+import com.shifenmiao.ai.R
 import com.shifenmiao.ai.agent.tool.builtin.MemoryGetTool
 import com.shifenmiao.ai.agent.tool.builtin.MemoryWriteTool
 import com.shifenmiao.ai.agent.tool.builtin.UseSkillTool
-import com.shifenmiao.database.ai.dao.ConversationMemoryPolicyDao
+import com.shifenmiao.ai.memory.ConversationMemoryPolicyRepository
 import com.shifenmiao.model.ai.AiEngine
 import com.shifenmiao.model.ai.ToolDefinition
 import com.shifenmiao.model.ai.ToolFunctionDef
@@ -14,7 +15,6 @@ import com.shifenmiao.model.ai.tool.ToolCategory
 import com.shifenmiao.ai.agent.callback.ToolCallback
 import com.shifenmiao.ai.agent.tool.expression.AgentToolExpressionValidationResult
 import com.shifenmiao.ai.agent.tool.expression.AgentToolExpressionValidator
-import com.shifenmiao.storage.AIChatStorage
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -40,7 +40,8 @@ class AgentToolRegistry @Inject constructor(
     private val toolProviders: Map<String, @JvmSuppressWildcards Provider<AgentTool>>,
     private val expressionValidator: AgentToolExpressionValidator,
     private val gson: Gson,
-    private val conversationMemoryPolicyDao: ConversationMemoryPolicyDao,
+    private val conversationMemoryPolicyRepository: ConversationMemoryPolicyRepository,
+    private val textProvider: AgentToolTextProvider,
 ) {
     companion object {
         /** 默认工具返回结果最大字符数，超出部分截断 */
@@ -525,40 +526,31 @@ class AgentToolRegistry @Inject constructor(
     /**
      * 隐式系统工具（memory_write / memory_get / use_skill）的执行层门控：
      * 即使 prompt 组装的 tools 名单失效或被绕过，执行入口也按
-     * "全局 MMKV AND 会话表"再校验一次。conversationId 为空（非会话链路）时放行。
+     * "全局 MMKV AND 会话表"再校验一次（规则收拢在 ConversationMemoryPolicyRepository）。
+     * conversationId 为空（非会话链路）时放行。
      */
     private suspend fun checkImplicitToolGate(
         toolName: String,
         conversationId: String?
     ): AgentToolResult? {
-        val checkMemory = toolName == MemoryWriteTool.TOOL_NAME || toolName == MemoryGetTool.TOOL_NAME
-        val checkSkills = toolName == UseSkillTool.TOOL_NAME
-        if (!checkMemory && !checkSkills) return null
+        val enabled = when (toolName) {
+            MemoryWriteTool.TOOL_NAME, MemoryGetTool.TOOL_NAME ->
+                conversationMemoryPolicyRepository.isMemoryEnabledFor(conversationId)
 
-        val globalEnabled = if (checkMemory) {
-            AIChatStorage.isEnableMemory.value
-        } else {
-            AIChatStorage.isEnableSkills.value
-        }
-        if (!globalEnabled) return gateDeniedResult(checkMemory)
+            UseSkillTool.TOOL_NAME ->
+                conversationMemoryPolicyRepository.isSkillsEnabledFor(conversationId)
 
-        if (conversationId.isNullOrBlank()) return null
-        val policy = conversationMemoryPolicyDao.getByConversationId(conversationId)
-        val sessionEnabled = if (checkMemory) {
-            policy?.memoryEnabled != false
-        } else {
-            policy?.skillsEnabled != false
+            else -> return null
         }
-        return if (sessionEnabled) null else gateDeniedResult(checkMemory)
+        return if (enabled) null else gateDeniedResult(toolName != UseSkillTool.TOOL_NAME)
     }
 
     private fun gateDeniedResult(isMemory: Boolean): AgentToolResult {
         return AgentToolResult(
-            content = if (isMemory) {
-                "Memory is disabled for this conversation (global or per-conversation switch is off). Do not retry."
-            } else {
-                "Skills are disabled for this conversation (global or per-conversation switch is off). Do not retry."
-            },
+            content = textProvider.string(
+                if (isMemory) R.string.agent_tool_gate_memory_disabled
+                else R.string.agent_tool_gate_skills_disabled
+            ),
             isError = true
         )
     }

@@ -1,6 +1,7 @@
 package com.wanbaohe.setting.memory.screen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Icon
@@ -110,18 +112,23 @@ fun MemoryManagementScreen(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                OneBoxSectionHeader(
-                    title = stringResource(SettingsR.string.memory_profile_section),
-                    supporting = stringResource(SettingsR.string.memory_profile_supporting),
-                )
-                TextButton(
+                Box(modifier = Modifier.weight(1f)) {
+                    OneBoxSectionHeader(
+                        title = stringResource(SettingsR.string.memory_profile_section),
+                        supporting = stringResource(SettingsR.string.memory_profile_supporting),
+                    )
+                }
+                IconButton(
                     onClick = {
                         editingEntry = MemoryEntryEntity(kind = MemoryEntryEntity.KIND_PROFILE, content = "")
                     }
                 ) {
-                    Text(text = stringResource(SettingsR.string.memory_add_entry))
+                    Icon(
+                        imageVector = Icons.Outlined.Add,
+                        contentDescription = stringResource(SettingsR.string.memory_add_entry),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
                 }
             }
             if (profileEntries.isEmpty()) {
@@ -145,29 +152,33 @@ fun MemoryManagementScreen(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                OneBoxSectionHeader(
-                    title = stringResource(SettingsR.string.memory_log_section),
-                    supporting = stringResource(SettingsR.string.memory_log_supporting),
-                )
-                Row {
-                    TextButton(
-                        onClick = {
-                            editingEntry = MemoryEntryEntity(kind = MemoryEntryEntity.KIND_LOG, content = "")
-                        }
-                    ) {
-                        Text(text = stringResource(SettingsR.string.memory_add_entry))
+                Box(modifier = Modifier.weight(1f)) {
+                    OneBoxSectionHeader(
+                        title = stringResource(SettingsR.string.memory_log_section),
+                        supporting = stringResource(SettingsR.string.memory_log_supporting),
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        editingEntry = MemoryEntryEntity(kind = MemoryEntryEntity.KIND_LOG, content = "")
                     }
-                    TextButton(
-                        onClick = { showClearLogConfirm = true },
-                        enabled = logEntries.isNotEmpty()
-                    ) {
-                        Text(
-                            text = stringResource(SettingsR.string.memory_clear_log),
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Add,
+                        contentDescription = stringResource(SettingsR.string.memory_add_entry),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                }
+                IconButton(
+                    onClick = { showClearLogConfirm = true },
+                    enabled = logEntries.isNotEmpty()
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = stringResource(SettingsR.string.memory_clear_log),
+                        tint = MaterialTheme.colorScheme.error,
+                    )
                 }
             }
             if (logEntries.isEmpty()) {

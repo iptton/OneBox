@@ -1013,6 +1013,8 @@
     <string name="agent_tool_memory_write_param_content">The memory statement to save, concise and self-contained</string>
     <string name="agent_tool_memory_write_result_saved">Memory saved (id=%1$d).</string>
     <string name="agent_tool_memory_write_too_long">Memory content is too long: %1$d chars max. Shorten it and save the key points only.</string>
+    <string name="agent_tool_gate_memory_disabled">Memory is disabled for this conversation (the global or per-conversation switch is off). Do not call memory tools again in this conversation.</string>
+    <string name="agent_tool_gate_skills_disabled">Skills are disabled for this conversation (the global or per-conversation switch is off). Do not call the use_skill tool again in this conversation.</string>
     <string name="agent_tool_memory_get_description">Search saved memory entries by keywords; an entry is returned only when ALL keywords match (case-insensitive). Omit keywords to dump the most recent entries. scope=log (default) searches log entries only, scope=all also includes the user profile.</string>
     <string name="agent_tool_memory_get_param_keywords">Keywords separated by spaces or commas; leave empty to dump the most recent entries</string>
     <string name="agent_tool_memory_get_param_scope">Search scope: log (default) or all (include the user profile)</string>
@@ -1020,7 +1022,7 @@
     <string name="agent_tool_memory_get_result_entry">#%1$d [%2$s] (%3$s)</string>
     <string name="agent_tool_memory_get_result_truncated_count">[More entries matched but were omitted: result limit is %1$d entries. Narrow the keywords.]</string>
     <string name="agent_tool_memory_get_result_truncated_entries">[%1$d entries were truncated to fit the output limit. Use more specific keywords to read them in full.]</string>
-    <string name="agent_tool_memory_get_result_truncated_bytes">[%1$d entries were omitted: 30KB output limit reached. Narrow the keywords.]</string>
+    <string name="agent_tool_memory_get_result_truncated_bytes">[%1$d entries were omitted: output size limit reached. Narrow the keywords.]</string>
     <string name="agent_tool_use_skill_description">Load the full instructions of a skill listed in &lt;available_skills&gt; by its name. Always call this before applying a skill.</string>
     <string name="agent_tool_use_skill_param_name">The skill name (slug) exactly as listed in &lt;available_skills&gt;</string>
     <string name="agent_tool_use_skill_not_found">Skill \'%1$s\' not found or disabled. Available skills: %2$s</string>

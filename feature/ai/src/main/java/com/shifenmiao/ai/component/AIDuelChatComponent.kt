@@ -473,6 +473,8 @@ class AIDuelChatComponent @AssistedInject internal constructor(
             val conversationId = _conversation.value.id
             componentScope.launch(ioDispatcher) {
                 appDatabase.conversationDao().deleteConversationByConversationId(conversationId)
+                // 顺手清掉会话级记忆/技能开关，避免死行堆积
+                appDatabase.conversationMemoryPolicyDao().deleteByConversationId(conversationId)
             }
         }
     }

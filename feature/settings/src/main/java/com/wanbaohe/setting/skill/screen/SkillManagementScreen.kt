@@ -16,8 +16,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +34,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +58,10 @@ import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxSectionCard
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxSectionHeader
 import com.wanbaohe.setting.skill.component.SkillManagementComponent
 import com.wanbaohe.settings.R as SettingsR
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.InputStream
 
 @Composable
 fun SkillManagementScreen(
@@ -68,12 +77,18 @@ fun SkillManagementScreen(
     var detailSkill by remember { mutableStateOf<SkillEntity?>(null) }
     var deletingSkill by remember { mutableStateOf<SkillEntity?>(null) }
     var showNewSkillDialog by remember { mutableStateOf(false) }
+    var showImportMenu by remember { mutableStateOf(false) }
 
+    val scope = rememberCoroutineScope()
     val importSuccessText = stringResource(SettingsR.string.skill_import_success)
     val importFailedText = stringResource(SettingsR.string.skill_import_failed)
     val bundledConflictText = stringResource(SettingsR.string.skill_import_bundled_conflict)
     val tooLargeText = stringResource(SettingsR.string.skill_import_too_large)
+    val slugTooLongText = stringResource(SettingsR.string.skill_import_slug_too_long)
     val saveInvalidText = stringResource(SettingsR.string.skill_save_invalid)
+    val slugImmutableText = stringResource(SettingsR.string.skill_save_slug_immutable)
+    val copyFailedText = stringResource(SettingsR.string.skill_copy_failed)
+    val fileTooLargeText = stringResource(SettingsR.string.skill_import_file_too_large)
 
     // 导入结果（剪贴板 / 文件 / 新建共用）：拒绝原因 → 用户提示
     fun showImportResult(rejection: SkillImportValidator.Rejection?) {
@@ -82,23 +97,28 @@ fun SkillManagementScreen(
                 null -> importSuccessText
                 SkillImportValidator.Rejection.BUNDLED_NAME_CONFLICT -> bundledConflictText
                 SkillImportValidator.Rejection.BODY_TOO_LARGE -> tooLargeText
+                SkillImportValidator.Rejection.SLUG_TOO_LONG -> slugTooLongText
                 else -> importFailedText
             }
         )
     }
 
-    // 从文件导入 SKILL.md（SAF），读文本后走与剪贴板相同的导入管线
+    // 从文件导入 SKILL.md（SAF）：IO 线程限量读取（超限按文件过大拒绝），
+    // 读完后走与剪贴板相同的导入管线
     val fileImportLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument()
     ) { uri ->
-        if (uri != null) {
+        if (uri == null) return@rememberLauncherForActivityResult
+        scope.launch(Dispatchers.IO) {
             val text = runCatching {
-                context.contentResolver.openInputStream(uri)
-                    ?.bufferedReader(Charsets.UTF_8)
-                    ?.use { it.readText() }
+                context.contentResolver.openInputStream(uri)?.use { input ->
+                    readTextCapped(input, SkillImportValidator.MAX_IMPORT_FILE_BYTES)
+                }
             }.getOrNull()
             if (text == null) {
-                AppToastHost.showToast(importFailedText)
+                withContext(Dispatchers.Main) {
+                    AppToastHost.showToast(fileTooLargeText)
+                }
             } else {
                 component.importFromContent(text, ::showImportResult)
             }
@@ -146,33 +166,58 @@ fun SkillManagementScreen(
             }
 
             // ─── 技能列表 ───
+            // 标题占满剩余宽度，操作收进两个图标按钮（新建 + 导入菜单），
+            // 长文案下也不会互相挤压换行
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                OneBoxSectionHeader(
-                    title = stringResource(SettingsR.string.skill_list_section),
-                    supporting = stringResource(SettingsR.string.skill_list_supporting),
-                )
-                Row {
-                    TextButton(
-                        onClick = {
-                            val clipText = clipboardManager.getText()?.text.orEmpty()
-                            component.importFromContent(clipText, ::showImportResult)
-                        }
-                    ) {
-                        Text(text = stringResource(SettingsR.string.skill_import_clipboard))
+                Box(modifier = Modifier.weight(1f)) {
+                    OneBoxSectionHeader(
+                        title = stringResource(SettingsR.string.skill_list_section),
+                        supporting = stringResource(SettingsR.string.skill_list_supporting),
+                    )
+                }
+                IconButton(onClick = { showNewSkillDialog = true }) {
+                    Icon(
+                        imageVector = Icons.Outlined.Add,
+                        contentDescription = stringResource(SettingsR.string.skill_new),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                }
+                Box {
+                    IconButton(onClick = { showImportMenu = true }) {
+                        Icon(
+                            imageVector = Icons.Outlined.MoreVert,
+                            contentDescription = stringResource(SettingsR.string.skill_import_clipboard),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
                     }
-                    TextButton(
-                        onClick = {
-                            fileImportLauncher.launch(arrayOf("text/*", "text/markdown", "application/octet-stream"))
-                        }
+                    DropdownMenu(
+                        expanded = showImportMenu,
+                        onDismissRequest = { showImportMenu = false }
                     ) {
-                        Text(text = stringResource(SettingsR.string.skill_import_file))
-                    }
-                    TextButton(onClick = { showNewSkillDialog = true }) {
-                        Text(text = stringResource(SettingsR.string.skill_new))
+                        DropdownMenuItem(
+                            text = {
+                                Text(text = stringResource(SettingsR.string.skill_import_clipboard))
+                            },
+                            onClick = {
+                                showImportMenu = false
+                                val clipText = clipboardManager.getText()?.text.orEmpty()
+                                component.importFromContent(clipText, ::showImportResult)
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = {
+                                Text(text = stringResource(SettingsR.string.skill_import_file))
+                            },
+                            onClick = {
+                                showImportMenu = false
+                                fileImportLauncher.launch(
+                                    arrayOf("text/*", "text/markdown", "application/octet-stream")
+                                )
+                            }
+                        )
                     }
                 }
             }
@@ -279,12 +324,17 @@ fun SkillManagementScreen(
                 if (isLocal) {
                     TextButton(
                         onClick = {
-                            // 保存前重新解析 frontmatter，失败拒绝并提示，成功才关闭
-                            component.saveLocal(skill.copy(body = body.trim())) { success ->
-                                if (success) {
-                                    detailSkill = null
-                                } else {
-                                    AppToastHost.showToast(saveInvalidText)
+                            // 保存前重新解析 frontmatter + slug 身份校验，成功才关闭
+                            component.saveLocal(skill.copy(body = body.trim())) { result ->
+                                when (result) {
+                                    SkillManagementComponent.SaveResult.SUCCESS ->
+                                        detailSkill = null
+
+                                    SkillManagementComponent.SaveResult.SLUG_IMMUTABLE ->
+                                        AppToastHost.showToast(slugImmutableText)
+
+                                    SkillManagementComponent.SaveResult.INVALID ->
+                                        AppToastHost.showToast(saveInvalidText)
                                 }
                             }
                         }
@@ -294,7 +344,9 @@ fun SkillManagementScreen(
                 } else {
                     TextButton(
                         onClick = {
-                            component.saveAsLocalCopy(skill)
+                            component.saveAsLocalCopy(skill) { success ->
+                                if (!success) AppToastHost.showToast(copyFailedText)
+                            }
                             detailSkill = null
                         }
                     ) {
@@ -365,8 +417,11 @@ fun SkillManagementScreen(
                             appendLine()
                             append(body.trim())
                         }
-                        component.importFromContent(markdown, ::showImportResult)
-                        showNewSkillDialog = false
+                        // 与编辑一致：成功才关闭，失败保留全部输入并 toast
+                        component.importFromContent(markdown) { rejection ->
+                            showImportResult(rejection)
+                            if (rejection == null) showNewSkillDialog = false
+                        }
                     }
                 ) {
                     Text(text = stringResource(R.string.button_confirm))
@@ -456,4 +511,17 @@ private fun Badge(text: String, tint: androidx.compose.ui.graphics.Color) {
             color = tint,
         )
     }
+}
+
+/** 限量读取文本：超过 [maxBytes] 返回 null（按文件过大拒绝），不全文读入后再校验 */
+private fun readTextCapped(input: InputStream, maxBytes: Int): String? {
+    val buffer = ByteArray(maxBytes + 1)
+    var total = 0
+    while (total <= maxBytes) {
+        val read = input.read(buffer, total, maxBytes + 1 - total)
+        if (read < 0) break
+        total += read
+    }
+    if (total > maxBytes) return null
+    return String(buffer, 0, total, Charsets.UTF_8)
 }

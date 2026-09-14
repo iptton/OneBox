@@ -429,6 +429,8 @@ abstract class AppDatabase : RoomDatabase() {
                          * 存在性按主键 id 判定（不用 source + document_id）：
                          * 即使 BUNDLED 行的 source/document_id 被污染也不会 PK 冲突；
                          * UPDATE 时顺带修复 source/document_id，自愈污染行。
+                         * 既有行是同 id 的 LOCAL 且正文与预置不同（用户内容）时，
+                         * 先保留为副本（id 加 -copy 后缀）再覆盖，不丢用户数据。
                          */
                         private fun upsertBundledSkill(
                             db: SupportSQLiteDatabase,
@@ -438,14 +440,24 @@ abstract class AppDatabase : RoomDatabase() {
                             description: String,
                             body: String
                         ) {
-                            val exists = db.query(
-                                "SELECT COUNT(*) FROM skill WHERE id = ?",
+                            var existingSource: String? = null
+                            var existingBody: String? = null
+                            db.query(
+                                "SELECT source, body FROM skill WHERE id = ?",
                                 arrayOf(slug)
                             ).use { cursor ->
-                                cursor.moveToFirst()
-                                cursor.getInt(0) > 0
+                                if (cursor.moveToFirst()) {
+                                    existingSource = cursor.getString(0)
+                                    existingBody = cursor.getString(1)
+                                }
                             }
-                            if (exists) {
+                            if (existingSource != null &&
+                                existingSource != SkillEntity.SOURCE_BUNDLED &&
+                                existingBody != body
+                            ) {
+                                preserveLocalSkillCopy(db, slug, now)
+                            }
+                            if (existingSource != null) {
                                 // 版本递增覆盖 BUNDLED 技能编辑，保留 use_count / enabled / installed_at
                                 db.execSQL(
                                     """
@@ -478,6 +490,36 @@ abstract class AppDatabase : RoomDatabase() {
                                     )
                                 )
                             }
+                        }
+
+                        /** 把同 id 的 LOCAL 用户行复制为 `-copy` 副本（冲突追加序号），供预置覆盖前保留用户内容 */
+                        private fun preserveLocalSkillCopy(
+                            db: SupportSQLiteDatabase,
+                            slug: String,
+                            now: Long
+                        ) {
+                            var copyId = "$slug-copy"
+                            var sequence = 2
+                            while (true) {
+                                val taken = db.query(
+                                    "SELECT COUNT(*) FROM skill WHERE id = ?",
+                                    arrayOf(copyId)
+                                ).use { cursor ->
+                                    cursor.moveToFirst()
+                                    cursor.getInt(0) > 0
+                                }
+                                if (!taken) break
+                                copyId = "$slug-copy$sequence"
+                                sequence++
+                            }
+                            db.execSQL(
+                                """
+                                INSERT INTO skill (id, name, description, body, version, source, document_id, enabled, use_count, installed_at, updated_at)
+                                SELECT ?, ?, description, body, version, ?, NULL, enabled, use_count, installed_at, ?
+                                FROM skill WHERE id = ?
+                                """.trimIndent(),
+                                arrayOf<Any>(copyId, copyId, SkillEntity.SOURCE_LOCAL, now, slug)
+                            )
                         }
 
                         private fun ensureSystemPresets(db: SupportSQLiteDatabase, ctx: Context) {

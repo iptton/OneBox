@@ -11,6 +11,7 @@ import com.shifenmiao.database.ai.SkillUsagePolicy
 import com.shifenmiao.database.ai.dao.SkillDao
 import com.shifenmiao.database.ai.entity.SkillEntity
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.SharingStarted
@@ -139,25 +140,30 @@ class SkillRepository @Inject constructor(
         val guidance = textProvider.string(R.string.agent_skills_prompt_guidance)
         val budgetTokens = (tokenBudget * SkillUsagePolicy.LIST_BUDGET_FRACTION).toInt()
         var usedTokens = TokenEstimator.estimateText(guidance)
-        val listed = mutableListOf<SkillEntity>()
+        val listedEntries = mutableListOf<String>()
         for (skill in prioritized) {
-            val entryTokens = TokenEstimator.estimateText(skill.name + skill.description) + 16
-            if (budgetTokens > 0 && usedTokens + entryTokens > budgetTokens) break
+            // 按最终渲染内容（截断 + XML 转义后）估算，长描述不会挤爆预算
+            val rendered = "<skill>\n" +
+                "<name>${skill.name.toXmlSafe()}</name>\n" +
+                "<description>${skill.description.toXmlSafe()}</description>\n" +
+                "</skill>"
+            val entryTokens = TokenEstimator.estimateText(rendered) + 1
+            // 单条放不下就跳过该条继续后面的（不 break）
+            if (budgetTokens > 0 && usedTokens + entryTokens > budgetTokens) continue
             usedTokens += entryTokens
-            listed.add(skill)
+            listedEntries.add(rendered)
         }
-        if (listed.isEmpty()) return null
+        if (listedEntries.isEmpty()) {
+            "buildPromptFragment: no skill fits budget=$budgetTokens (${enabled.size} enabled)"
+                .makeLog("SkillRepository")
+            return null
+        }
 
-        val unlisted = enabled.size - listed.size
+        val unlisted = enabled.size - listedEntries.size
         return buildString {
             appendLine("<available_skills>")
             appendLine(guidance)
-            listed.forEach { skill ->
-                appendLine("<skill>")
-                appendLine("<name>${skill.name.toXmlSafe()}</name>")
-                appendLine("<description>${skill.description.toXmlSafe()}</description>")
-                appendLine("</skill>")
-            }
+            listedEntries.forEach { appendLine(it) }
             if (unlisted > 0) {
                 appendLine(textProvider.string(R.string.agent_skills_prompt_unlisted, unlisted))
             }

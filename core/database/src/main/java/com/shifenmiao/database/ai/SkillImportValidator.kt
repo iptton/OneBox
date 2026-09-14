@@ -16,12 +16,19 @@ object SkillImportValidator {
     /** SKILL.md 正文体积上限（UTF-8 字节） */
     const val MAX_BODY_BYTES = 16 * 1024
 
+    /** name(slug) 字符上限：超长 slug 在清单里被截断后 use_skill 会按名找不到 */
+    const val MAX_SLUG_CHARS = 100
+
+    /** 文件导入的读取上限（字节，SAF 读取阶段限量，超出按文件过大拒绝） */
+    const val MAX_IMPORT_FILE_BYTES = 64 * 1024
+
     private val SLUG_REGEX = Regex("[a-z0-9]+(-[a-z0-9]+)*")
 
     enum class Rejection {
         EMPTY_BODY,
         INVALID_FRONTMATTER,
         INVALID_SLUG,
+        SLUG_TOO_LONG,
         BODY_TOO_LARGE,
         BUNDLED_NAME_CONFLICT,
     }
@@ -47,6 +54,7 @@ object SkillImportValidator {
         val (slug, description) = SkillFrontMatterParser.parse(body)
             ?: return failure(Rejection.INVALID_FRONTMATTER)
         if (!SLUG_REGEX.matches(slug)) return failure(Rejection.INVALID_SLUG)
+        if (slug.length > MAX_SLUG_CHARS) return failure(Rejection.SLUG_TOO_LONG)
         if (body.toByteArray(Charsets.UTF_8).size > MAX_BODY_BYTES) {
             return failure(Rejection.BODY_TOO_LARGE)
         }

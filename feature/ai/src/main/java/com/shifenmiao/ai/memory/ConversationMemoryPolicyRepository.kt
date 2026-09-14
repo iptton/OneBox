@@ -2,6 +2,7 @@ package com.shifenmiao.ai.memory
 
 import com.shifenmiao.database.ai.dao.ConversationMemoryPolicyDao
 import com.shifenmiao.database.ai.entity.ConversationMemoryPolicyEntity
+import com.shifenmiao.storage.AIChatStorage
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,6 +13,10 @@ import javax.inject.Singleton
  * 主键用 conversation.id（真会话身份），不用工具策略的 scope key——
  * 后者对无 entryRefId 的普通聊天一律退化为 CHAT:default。
  * 无策略行 = 默认全开（true）。
+ *
+ * "全局 MMKV AND 会话表"的门控判定收拢在本仓库
+ * （[isMemoryEnabledFor] / [isSkillsEnabledFor]），
+ * ToolConfigResolver（prompt 组装）与 AgentToolRegistry（执行层）共用同一份规则。
  */
 @Singleton
 class ConversationMemoryPolicyRepository @Inject constructor(
@@ -25,6 +30,26 @@ class ConversationMemoryPolicyRepository @Inject constructor(
 
     fun observePolicy(conversationId: String): Flow<ConversationMemoryPolicyEntity?> {
         return dao.observeByConversationId(conversationId)
+    }
+
+    /** 记忆门控：全局 MMKV AND 会话表；conversationId 空白（非会话链路/草稿态）视为 true 不设防 */
+    suspend fun isMemoryEnabledFor(conversationId: String?): Boolean {
+        return AIChatStorage.isEnableMemory.value &&
+            isSessionFlagOn(conversationId) { it.memoryEnabled }
+    }
+
+    /** 技能门控：规则同 [isMemoryEnabledFor] */
+    suspend fun isSkillsEnabledFor(conversationId: String?): Boolean {
+        return AIChatStorage.isEnableSkills.value &&
+            isSessionFlagOn(conversationId) { it.skillsEnabled }
+    }
+
+    private suspend fun isSessionFlagOn(
+        conversationId: String?,
+        flag: (ConversationMemoryPolicyEntity) -> Boolean
+    ): Boolean {
+        if (conversationId.isNullOrBlank()) return true
+        return dao.getByConversationId(conversationId)?.let(flag) != false
     }
 
     suspend fun setMemoryEnabled(conversationId: String, enabled: Boolean) {

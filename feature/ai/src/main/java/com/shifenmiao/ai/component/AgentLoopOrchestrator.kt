@@ -317,6 +317,8 @@ class AgentLoopOrchestrator(
             toolName = request.toolName,
             arguments = request.arguments,
             interactionOwnerId = interactionOwnerId,
+            // callback 路径同样透传会话 id，隐式工具门控/记忆来源会话都依赖它
+            conversationId = sharedState.conversation.value.id,
             callbackRouter = toolCallbackRouter
         )
         toolCallbackRouter.completeCallback(

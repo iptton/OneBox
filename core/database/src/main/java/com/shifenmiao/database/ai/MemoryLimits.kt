@@ -14,8 +14,15 @@ object MemoryLimits {
     /** 无关键词 dump 返回上限 */
     const val DUMP_RESULT_LIMIT = 500
 
-    /** 搜索 / dump 总输出字节上限（UTF-8） */
-    const val MAX_OUTPUT_BYTES = 30 * 1024
+    /**
+     * 搜索 / dump 总输出字节上限（UTF-8，含条目标题与截断提示）。
+     * 与工具 maxResultLength(16384) 对齐并留提示余量，避免
+     * "仓库给 30KB → Registry 截 16KB → Runner 再截"的三层截断。
+     */
+    const val MAX_OUTPUT_BYTES = 15 * 1024
+
+    /** 每条结果在预算中计入的标题/结构开销（字节） */
+    const val PER_ENTRY_OVERHEAD_BYTES = 32
 
     /** 注入的 log 日期桶数量（最近 N 个有内容的日期，不是近 N 天） */
     const val PROMPT_LOG_BUCKETS = 3

@@ -58,15 +58,24 @@ class SkillManagementComponent @AssistedInject internal constructor(
         }
     }
 
+    /** 保存结果：SLUG_IMMUTABLE = 试图改 name(slug)，身份规则禁止（请用另存副本） */
+    enum class SaveResult { SUCCESS, INVALID, SLUG_IMMUTABLE }
+
     /**
      * 保存 LOCAL 技能（新建 / 编辑 body）。
-     * 保存前重新解析 frontmatter：失败（含空正文）拒绝；成功同步 name/description（id 不动）。
+     * 保存前重新解析 frontmatter：失败（含空正文）拒绝；成功同步 name/description。
+     * 身份规则：name(slug) 不可修改——validated.slug != skill.id 时拒绝
+     * （改名字请用另存副本；不做主键迁移，避免 id/name 不一致产生重复行）。
      */
-    fun saveLocal(skill: SkillEntity, onResult: (Boolean) -> Unit = {}) {
+    fun saveLocal(skill: SkillEntity, onResult: (SaveResult) -> Unit = {}) {
         componentScope.launch {
             val validated = SkillImportValidator.validate(skill.body).getOrNull()
             if (validated == null) {
-                onResult(false)
+                onResult(SaveResult.INVALID)
+                return@launch
+            }
+            if (validated.slug != skill.id) {
+                onResult(SaveResult.SLUG_IMMUTABLE)
                 return@launch
             }
             skillDao.upsert(
@@ -78,7 +87,7 @@ class SkillManagementComponent @AssistedInject internal constructor(
                     updatedAt = System.currentTimeMillis()
                 )
             )
-            onResult(true)
+            onResult(SaveResult.SUCCESS)
         }
     }
 
@@ -146,9 +155,10 @@ class SkillManagementComponent @AssistedInject internal constructor(
 
     /**
      * BUNDLED 只读，改动走"另存为 LOCAL 副本"；id 冲突时追加序号。
-     * 副本 body 的 frontmatter name 同步改写为新名字，保证"导出副本再导入"命中副本。
+     * 副本 body 的 frontmatter name 同步改写为新名字，保证"导出副本再导入"命中副本；
+     * 改写结果再过一次解析校验，失败拒绝（不生成坏副本）。
      */
-    fun saveAsLocalCopy(skill: SkillEntity) {
+    fun saveAsLocalCopy(skill: SkillEntity, onResult: (Boolean) -> Unit = {}) {
         componentScope.launch {
             val now = System.currentTimeMillis()
             var copyId = "${skill.id}-copy"
@@ -157,11 +167,16 @@ class SkillManagementComponent @AssistedInject internal constructor(
                 copyId = "${skill.id}-copy$sequence"
                 sequence++
             }
+            val copyBody = SkillFrontMatterParser.rewriteName(skill.body, copyId)
+            if (SkillFrontMatterParser.parse(copyBody)?.first != copyId) {
+                onResult(false)
+                return@launch
+            }
             skillDao.upsert(
                 skill.copy(
                     id = copyId,
                     name = copyId,
-                    body = SkillFrontMatterParser.rewriteName(skill.body, copyId),
+                    body = copyBody,
                     source = SkillEntity.SOURCE_LOCAL,
                     documentId = null,
                     useCount = 0.0,
@@ -169,6 +184,7 @@ class SkillManagementComponent @AssistedInject internal constructor(
                     updatedAt = now,
                 )
             )
+            onResult(true)
         }
     }
 

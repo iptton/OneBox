@@ -9,7 +9,6 @@ import com.shifenmiao.database.ai.MemoryLimits
 import com.shifenmiao.database.ai.dao.MemoryEntryDao
 import com.shifenmiao.database.ai.entity.MemoryEntryEntity
 import com.t8rin.logger.makeLog
-import kotlinx.coroutines.flow.Flow
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -122,7 +121,9 @@ class MemoryRepository @Inject constructor(
         var truncatedEntries = 0
         for (entry in matched.take(limit)) {
             val remaining = MemoryLimits.MAX_OUTPUT_BYTES - usedBytes
-            val entryBytes = entry.content.toByteArray(Charsets.UTF_8).size
+            // 标题/结构开销与正文一起计入预算（端到端对齐工具 maxResultLength）
+            val entryBytes = entry.content.toByteArray(Charsets.UTF_8).size +
+                MemoryLimits.PER_ENTRY_OVERHEAD_BYTES
             when {
                 entryBytes <= remaining -> {
                     usedBytes += entryBytes
@@ -130,7 +131,13 @@ class MemoryRepository @Inject constructor(
                 }
                 // 剩余预算还够放一条截断版：截断该条并继续
                 remaining > MIN_ENTRY_BYTES -> {
-                    entries.add(entry.copy(content = entry.content.truncateToBytes(remaining)))
+                    entries.add(
+                        entry.copy(
+                            content = entry.content.truncateToUtf8Bytes(
+                                remaining - MemoryLimits.PER_ENTRY_OVERHEAD_BYTES
+                            )
+                        )
+                    )
                     usedBytes = MemoryLimits.MAX_OUTPUT_BYTES
                     truncatedEntries++
                 }
@@ -264,32 +271,6 @@ class MemoryRepository @Inject constructor(
         }
     }
 
-    // ─── 管理 UI 用 CRUD ────────────────────────────────────────────────
-
-    fun observeByKind(kind: String, enabled: Boolean): Flow<List<MemoryEntryEntity>> {
-        return memoryEntryDao.observeByKind(kind, enabled)
-    }
-
-    /** 新增（id=0）或更新（id>0）条目，更新时刷新 updated_at。 */
-    suspend fun saveEntry(entry: MemoryEntryEntity): Long {
-        val stamped = entry.copy(updatedAt = System.currentTimeMillis())
-        return if (stamped.id == 0L) {
-            memoryEntryDao.insert(stamped)
-        } else {
-            memoryEntryDao.update(stamped)
-            stamped.id
-        }
-    }
-
-    suspend fun deleteById(id: Long) {
-        memoryEntryDao.deleteById(id)
-    }
-
-    /** 一键清空 log（profile 不动）。 */
-    suspend fun clearLog() {
-        memoryEntryDao.clearByKind(MemoryEntryEntity.KIND_LOG)
-    }
-
     private companion object {
         /** 剩余预算低于该字节数时整条省略（截断后信息过少无意义） */
         const val MIN_ENTRY_BYTES = 64
@@ -299,10 +280,17 @@ class MemoryRepository @Inject constructor(
     }
 }
 
-/** 按 UTF-8 字节数近似截断（按字符比例换算，末尾补省略号） */
-private fun String.truncateToBytes(maxBytes: Int): String {
-    val total = toByteArray(Charsets.UTF_8).size
-    if (total <= maxBytes) return this
-    val keepChars = (length * (maxBytes.toDouble() / total)).toInt().coerceIn(0, length)
-    return take(keepChars) + "…"
+/**
+ * 真按 UTF-8 字节截断（回退到字符边界，末尾补省略号）。
+ * 不能按"全串平均字节比"估算前缀长度——中英混排时比例失真会超预算。
+ */
+private fun String.truncateToUtf8Bytes(maxBytes: Int): String {
+    val bytes = toByteArray(Charsets.UTF_8)
+    if (bytes.size <= maxBytes) return this
+    var end = maxBytes.coerceAtLeast(0)
+    // UTF-8 续字节形如 10xxxxxx：回退到某个字符的起始字节
+    while (end > 0 && end < bytes.size && (bytes[end].toInt() and 0xC0) == 0x80) {
+        end--
+    }
+    return String(bytes, 0, end, Charsets.UTF_8) + "…"
 }
