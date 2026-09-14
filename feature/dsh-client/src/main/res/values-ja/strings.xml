@@ -7,7 +7,7 @@
     <string name="dsh_connecting">接続中…</string>
     <string name="dsh_connect_failed">接続に失敗しました: %1$s</string>
     <string name="dsh_describe_success">DSH %1$s に接続しました</string>
-    <string name="dsh_wire_compat_note">DSH %1 でのみ検証済みです。他の DeepSeek Harness バージョンはプロトコルが変更されている可能性があり、動作は保証されません。</string>
+    <string name="dsh_wire_compat_note">DSH %1$s でのみ検証済みです。他の DeepSeek Harness バージョンはプロトコルが変更されている可能性があり、動作は保証されません。</string>
     <string name="dsh_provider">プロバイダー: %1$s</string>
     <string name="dsh_model">モデル: %1$s</string>
     <!-- Connection status -->
@@ -264,7 +264,7 @@
     <string name="dsh_cloud_login_action">サインイン</string>
     <string name="dsh_cloud_generate_code">バインドコードを生成</string>
     <string name="dsh_cloud_generating_code">生成中…</string>
-    <string name="dsh_cloud_auth_expired">サインインの有効期限が切れました(%1)。クラウドリレーを使うには再サインインしてください。</string>
+    <string name="dsh_cloud_auth_expired">サインインの有効期限が切れました(%1$s)。クラウドリレーを使うには再サインインしてください。</string>
     <string name="dsh_cloud_bind_code_failed">バインドコードの生成に失敗しました: %1$s</string>
     <string name="dsh_cloud_code_hint">このコードを Mac の dsh-connector CLI に入力してください:</string>
     <string name="dsh_cloud_copy">コピー</string>

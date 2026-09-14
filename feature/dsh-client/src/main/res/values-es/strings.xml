@@ -7,7 +7,7 @@
     <string name="dsh_connecting">Conectando…</string>
     <string name="dsh_connect_failed">Error de conexión: %1$s</string>
     <string name="dsh_describe_success">Conectado a DSH %1$s</string>
-    <string name="dsh_wire_compat_note">Verificado solo con DSH %1. Otras versiones de DeepSeek Harness pueden cambiar el protocolo y no son compatibles.</string>
+    <string name="dsh_wire_compat_note">Verificado solo con DSH %1$s. Otras versiones de DeepSeek Harness pueden cambiar el protocolo y no son compatibles.</string>
     <string name="dsh_provider">Proveedor: %1$s</string>
     <string name="dsh_model">Modelo: %1$s</string>
     <!-- Connection status -->
@@ -264,7 +264,7 @@
     <string name="dsh_cloud_login_action">Iniciar sesión</string>
     <string name="dsh_cloud_generate_code">Generar código de vinculación</string>
     <string name="dsh_cloud_generating_code">Generando…</string>
-    <string name="dsh_cloud_auth_expired">Sesión caducada (%1). Inicia sesión de nuevo para usar el relé en la nube.</string>
+    <string name="dsh_cloud_auth_expired">Sesión caducada (%1$s). Inicia sesión de nuevo para usar el relé en la nube.</string>
     <string name="dsh_cloud_bind_code_failed">Error al generar el código de vinculación: %1$s</string>
     <string name="dsh_cloud_code_hint">Introduce este código en la CLI dsh-connector de tu Mac:</string>
     <string name="dsh_cloud_copy">Copiar</string>

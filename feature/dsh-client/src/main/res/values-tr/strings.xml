@@ -7,7 +7,7 @@
     <string name="dsh_connecting">Bağlanıyor…</string>
     <string name="dsh_connect_failed">Bağlantı başarısız: %1$s</string>
     <string name="dsh_describe_success">DSH %1$s bağlantısı kuruldu</string>
-    <string name="dsh_wire_compat_note">Yalnızca DSH %1 ile doğrulandı. Diğer DeepSeek Harness sürümleri protokolü değiştirebilir ve desteklenmez.</string>
+    <string name="dsh_wire_compat_note">Yalnızca DSH %1$s ile doğrulandı. Diğer DeepSeek Harness sürümleri protokolü değiştirebilir ve desteklenmez.</string>
     <string name="dsh_provider">Sağlayıcı: %1$s</string>
     <string name="dsh_model">Model: %1$s</string>
     <!-- Connection status -->
@@ -264,7 +264,7 @@
     <string name="dsh_cloud_login_action">Giriş yap</string>
     <string name="dsh_cloud_generate_code">Bağlantı kodu oluştur</string>
     <string name="dsh_cloud_generating_code">Oluşturuluyor…</string>
-    <string name="dsh_cloud_auth_expired">Oturum süresi doldu (%1). Bulut aktarımını kullanmak için tekrar giriş yapın.</string>
+    <string name="dsh_cloud_auth_expired">Oturum süresi doldu (%1$s). Bulut aktarımını kullanmak için tekrar giriş yapın.</string>
     <string name="dsh_cloud_bind_code_failed">Bağlantı kodu oluşturulamadı: %1$s</string>
     <string name="dsh_cloud_code_hint">Bu kodu Mac\'inizdeki dsh-connector CLI\'sine girin:</string>
     <string name="dsh_cloud_copy">Kopyala</string>

@@ -7,7 +7,7 @@
     <string name="dsh_connecting">कनेक्ट हो रहा है…</string>
     <string name="dsh_connect_failed">कनेक्शन विफल: %1$s</string>
     <string name="dsh_describe_success">DSH %1$s से कनेक्ट हो गया</string>
-    <string name="dsh_wire_compat_note">केवल DSH %1 के साथ सत्यापित। DeepSeek Harness के अन्य संस्करण वायर प्रोटोकॉल बदल सकते हैं और समर्थित नहीं हैं।</string>
+    <string name="dsh_wire_compat_note">केवल DSH %1$s के साथ सत्यापित। DeepSeek Harness के अन्य संस्करण वायर प्रोटोकॉल बदल सकते हैं और समर्थित नहीं हैं।</string>
     <string name="dsh_provider">प्रोवाइडर: %1$s</string>
     <string name="dsh_model">मॉडल: %1$s</string>
     <!-- Connection status -->
@@ -264,7 +264,7 @@
     <string name="dsh_cloud_login_action">साइन इन करें</string>
     <string name="dsh_cloud_generate_code">बाइंड कोड बनाएं</string>
     <string name="dsh_cloud_generating_code">बनाया जा रहा है…</string>
-    <string name="dsh_cloud_auth_expired">साइन-इन समाप्त (%1)। क्लाउड रिले उपयोग करने के लिए फिर से साइन इन करें।</string>
+    <string name="dsh_cloud_auth_expired">साइन-इन समाप्त (%1$s)। क्लाउड रिले उपयोग करने के लिए फिर से साइन इन करें।</string>
     <string name="dsh_cloud_bind_code_failed">बाइंड कोड बनाने में विफल: %1$s</string>
     <string name="dsh_cloud_code_hint">इस कोड को अपने Mac पर dsh-connector CLI में दर्ज करें:</string>
     <string name="dsh_cloud_copy">कॉपी करें</string>

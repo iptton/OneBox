@@ -6,7 +6,7 @@
     <string name="dsh_connecting">連接中…</string>
     <string name="dsh_connect_failed">連接失敗：%1$s</string>
     <string name="dsh_describe_success">已連接 DSH %1$s</string>
-    <string name="dsh_wire_compat_note">僅在 DSH %1 上驗證通過;其他 DeepSeek Harness 版本協定面可能已變更,不保證可用。</string>
+    <string name="dsh_wire_compat_note">僅在 DSH %1$s 上驗證通過;其他 DeepSeek Harness 版本協定面可能已變更,不保證可用。</string>
     <string name="dsh_provider">服務商：%1$s</string>
     <string name="dsh_model">模型：%1$s</string>
     <string name="dsh_disconnect">中斷</string>
@@ -241,7 +241,7 @@
     <string name="dsh_cloud_login_action">去登入</string>
     <string name="dsh_cloud_generate_code">產生綁定碼</string>
     <string name="dsh_cloud_generating_code">產生中…</string>
-    <string name="dsh_cloud_auth_expired">登入已失效(%1),請重新登入後再使用雲端中繼。</string>
+    <string name="dsh_cloud_auth_expired">登入已失效(%1$s),請重新登入後再使用雲端中繼。</string>
     <string name="dsh_cloud_bind_code_failed">產生綁定碼失敗:%1$s</string>
     <string name="dsh_cloud_code_hint">在 Mac 上的 dsh-connector 命令列中輸入此綁定碼:</string>
     <string name="dsh_cloud_copy">複製</string>

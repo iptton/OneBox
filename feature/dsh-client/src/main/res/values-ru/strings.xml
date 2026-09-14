@@ -7,7 +7,7 @@
     <string name="dsh_connecting">Подключение…</string>
     <string name="dsh_connect_failed">Сбой подключения: %1$s</string>
     <string name="dsh_describe_success">Подключено к DSH %1$s</string>
-    <string name="dsh_wire_compat_note">Проверено только с DSH %1. Другие версии DeepSeek Harness могут изменить протокол и не поддерживаются.</string>
+    <string name="dsh_wire_compat_note">Проверено только с DSH %1$s. Другие версии DeepSeek Harness могут изменить протокол и не поддерживаются.</string>
     <string name="dsh_provider">Провайдер: %1$s</string>
     <string name="dsh_model">Модель: %1$s</string>
     <!-- Connection status -->
@@ -264,7 +264,7 @@
     <string name="dsh_cloud_login_action">Войти</string>
     <string name="dsh_cloud_generate_code">Создать код привязки</string>
     <string name="dsh_cloud_generating_code">Создание…</string>
-    <string name="dsh_cloud_auth_expired">Сеанс истёк (%1). Войдите снова, чтобы использовать облачный ретранслятор.</string>
+    <string name="dsh_cloud_auth_expired">Сеанс истёк (%1$s). Войдите снова, чтобы использовать облачный ретранслятор.</string>
     <string name="dsh_cloud_bind_code_failed">Не удалось создать код привязки: %1$s</string>
     <string name="dsh_cloud_code_hint">Введите этот код в CLI dsh-connector на вашем Mac:</string>
     <string name="dsh_cloud_copy">Копировать</string>

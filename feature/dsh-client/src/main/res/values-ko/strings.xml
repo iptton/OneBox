@@ -264,7 +264,7 @@
     <string name="dsh_cloud_login_action">로그인</string>
     <string name="dsh_cloud_generate_code">바인딩 코드 생성</string>
     <string name="dsh_cloud_generating_code">생성 중…</string>
-    <string name="dsh_cloud_auth_expired">로그인이 만료되었습니다(%1). 클라우드 릴레이를 사용하려면 다시 로그인하세요.</string>
+    <string name="dsh_cloud_auth_expired">로그인이 만료되었습니다(%1$s). 클라우드 릴레이를 사용하려면 다시 로그인하세요.</string>
     <string name="dsh_cloud_bind_code_failed">바인딩 코드 생성 실패: %1$s</string>
     <string name="dsh_cloud_code_hint">Mac의 dsh-connector CLI에 이 코드를 입력하세요:</string>
     <string name="dsh_cloud_copy">복사</string>
