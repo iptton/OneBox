@@ -1021,10 +1021,8 @@
     <string name="note_placeholder">開始輸入內容，支援 Markdown、流程圖、圖片…</string>
     <string name="note_select_category">選擇分類</string>
     <string name="note_category_empty">暫無分類，點擊管理建立</string>
-    <string name="note_ai_create_title">AI 創作</string>
-    <string name="note_ai_create_message">前往 AI 助手，讓 AI 幫你創作筆記內容，完成後可一鍵存回筆記</string>
-    <string name="note_ai_create_confirm">去創作</string>
-    <string name="note_ai_create_prompt">幫我創作一篇筆記</string>
+    <string name="note_edit_title">筆記標題</string>
+    <string name="note_title_hint">輸入自訂標題</string>
     <string name="robot_hint_waiting_confirmation">需要你確認操作</string>
     <string name="robot_hint_waiting_input">需要你回答問題</string>
     <string name="robot_hint_planning">規劃工具呼叫中…</string>

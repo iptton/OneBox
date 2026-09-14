@@ -2,20 +2,19 @@ package com.shifenmiao.online.screen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.shifenmiao.common.logic.AppComponent
@@ -23,19 +22,18 @@ import com.shifenmiao.common.ui.BaseScreen
 import com.shifenmiao.core.R
 import com.shifenmiao.interfaces.singleton.AppContext
 import com.shifenmiao.model.HomeTabKey
-import com.shifenmiao.model.ai.AIConversationEntryType
-import com.shifenmiao.model.ai.Conversation
 import com.shifenmiao.online.component.CreateNoteComponent
 import com.shifenmiao.online.component.NOTE_EDITOR_TOOLBAR_EXTRAS
-import com.shifenmiao.online.component.NOTE_TOOLBAR_ACTION_AI
 import com.shifenmiao.online.component.NOTE_TOOLBAR_ACTION_CATEGORY
+import com.shifenmiao.online.component.NOTE_TOOLBAR_ACTION_TITLE
 import com.shifenmiao.online.ui.NoteCategoryDialog
+import com.shifenmiao.online.ui.NoteTitleDialog
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.text.EditorUiDefaults
+import com.wanbaohe.com.string.MarkdownSummary
 import com.wanbaohe.markdown.edit.webview.WebViewMarkdownEditor
 import com.wanbaohe.markdown.edit.webview.rememberWebViewMarkdownEditorState
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +48,8 @@ fun CreateNoteScreen(
     val uiState by createNoteComponent.uiState.collectAsState()
     val showExitDialog = rememberSaveable { mutableStateOf(false) }
     val showCategoryDialog = rememberSaveable { mutableStateOf(false) }
-    val showAiDialog = rememberSaveable { mutableStateOf(false) }
+    val showTitleDialog = rememberSaveable { mutableStateOf(false) }
+    var titleContentHint by remember { mutableStateOf("") }
 
     val scope = rememberCoroutineScope()
 
@@ -135,8 +134,13 @@ fun CreateNoteScreen(
             toolbarExtras = NOTE_EDITOR_TOOLBAR_EXTRAS,
             onCustomToolbarAction = { action ->
                 when (action) {
+                    NOTE_TOOLBAR_ACTION_TITLE -> {
+                        scope.launch {
+                            titleContentHint = MarkdownSummary.derive(editorState.getContent()).title
+                            showTitleDialog.value = true
+                        }
+                    }
                     NOTE_TOOLBAR_ACTION_CATEGORY -> showCategoryDialog.value = true
-                    NOTE_TOOLBAR_ACTION_AI -> showAiDialog.value = true
                 }
             }
         )
@@ -160,44 +164,15 @@ fun CreateNoteScreen(
         onDismiss = { showCategoryDialog.value = false }
     )
 
-    // AI 创作引导弹窗：跳转 AI 助手
-    EnhancedAlertDialog(
-        visible = showAiDialog.value,
-        onDismissRequest = { showAiDialog.value = false },
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.AutoAwesome,
-                contentDescription = null
-            )
+    // 自定义标题弹窗：无标题时以文章开头内容作占位提示
+    NoteTitleDialog(
+        visible = showTitleDialog.value,
+        initialTitle = uiState.title,
+        contentHint = titleContentHint,
+        onConfirm = { newTitle ->
+            createNoteComponent.onTitleChange(newTitle)
+            showTitleDialog.value = false
         },
-        title = {
-            Text(text = stringResource(R.string.note_ai_create_title))
-        },
-        text = {
-            Text(text = stringResource(R.string.note_ai_create_message))
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    showAiDialog.value = false
-                    appComponent.onNavigate(
-                        Screen.AiChatScreen(
-                            conversation = Conversation(
-                                entryType = AIConversationEntryType.ASSISTANT,
-                                title = AppContext.getString(R.string.note_ai_create_title),
-                                prompt = AppContext.getString(R.string.note_ai_create_prompt)
-                            )
-                        )
-                    )
-                }
-            ) {
-                Text(text = stringResource(R.string.note_ai_create_confirm))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = { showAiDialog.value = false }) {
-                Text(text = stringResource(R.string.button_cancel))
-            }
-        }
+        onDismiss = { showTitleDialog.value = false }
     )
 }

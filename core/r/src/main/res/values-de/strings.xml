@@ -938,10 +938,8 @@
     <string name="note_placeholder">Tippen Sie los – unterstützt Markdown, Diagramme, Bilder…</string>
     <string name="note_select_category">Kategorie auswählen</string>
     <string name="note_category_empty">Noch keine Kategorien. Tippe auf Verwalten, um eine zu erstellen.</string>
-    <string name="note_ai_create_title">KI-Schreiben</string>
-    <string name="note_ai_create_message">Wechsle zum KI-Assistenten und lass dir beim Schreiben dieser Notiz helfen. Das Ergebnis kann anschließend als Notiz gespeichert werden.</string>
-    <string name="note_ai_create_confirm">Jetzt erstellen</string>
-    <string name="note_ai_create_prompt">Hilf mir, eine Notiz zu schreiben</string>
+    <string name="note_edit_title">Notiztitel</string>
+    <string name="note_title_hint">Eigenen Titel eingeben</string>
     <string name="data_database">Daten</string>
     <string name="data_backup">Sichern</string>
     <string name="data_restore">Wiederherstellen</string>

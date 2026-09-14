@@ -1075,10 +1075,8 @@
     <string name="note_placeholder">开始输入内容，支持 Markdown、流程图、图片…</string>
     <string name="note_select_category">选择分类</string>
     <string name="note_category_empty">暂无分类，点击管理创建</string>
-    <string name="note_ai_create_title">AI 创作</string>
-    <string name="note_ai_create_message">前往 AI 助手，让 AI 帮你创作笔记内容，完成后可一键存回笔记</string>
-    <string name="note_ai_create_confirm">去创作</string>
-    <string name="note_ai_create_prompt">帮我创作一篇笔记</string>
+    <string name="note_edit_title">笔记标题</string>
+    <string name="note_title_hint">输入自定义标题</string>
 
     <!-- Floating Robot agent status hints (bubble tip) -->
     <string name="robot_hint_waiting_confirmation">需要你确认操作</string>

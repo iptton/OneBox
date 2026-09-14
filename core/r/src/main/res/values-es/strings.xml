@@ -938,10 +938,8 @@
     <string name="note_placeholder">Empieza a escribir: admite Markdown, diagramas, imágenes…</string>
     <string name="note_select_category">Seleccionar categoría</string>
     <string name="note_category_empty">Aún no hay categorías. Toca Gestionar para crear una.</string>
-    <string name="note_ai_create_title">Escritura con IA</string>
-    <string name="note_ai_create_message">Ve al asistente de IA y deja que te ayude a escribir esta nota. Puedes guardar el resultado como nota al terminar.</string>
-    <string name="note_ai_create_confirm">Ir a crear</string>
-    <string name="note_ai_create_prompt">Ayúdame a escribir una nota</string>
+    <string name="note_edit_title">Título de la nota</string>
+    <string name="note_title_hint">Introduce un título personalizado</string>
     <string name="data_database">Datos</string>
     <string name="data_backup">Copia de seguridad</string>
     <string name="data_restore">Restaurar</string>
