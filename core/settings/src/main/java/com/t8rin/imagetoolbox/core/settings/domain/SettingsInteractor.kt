@@ -254,6 +254,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setGlassBaseAlpha(alpha: Float)
 
+    suspend fun setGlassBorderAlpha(alpha: Float)
+
     /**
      * 原子地应用一个 [AppThemePreset]：同时写入所有主题相关设置字段。
      *

@@ -25,5 +25,7 @@ data class ThemePresetEntity(
     @ColumnInfo(name = "custom_bg_image_uri") val customBackgroundImageUri: String? = null,
     @ColumnInfo(name = "created_at") val createdAt: Long = System.currentTimeMillis(),
     @ColumnInfo(name = "updated_at") val updatedAt: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "glass_border_alpha", defaultValue = "0.17")
+    val glassBorderAlpha: Float = 0.17f,
 )
 

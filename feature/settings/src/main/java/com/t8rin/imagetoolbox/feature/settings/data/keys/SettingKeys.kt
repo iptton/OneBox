@@ -132,6 +132,7 @@ internal val CUSTOM_BACKGROUND_OVERLAY_ALPHA = floatPreferencesKey("CUSTOM_BACKG
 internal val DEFAULT_IMAGE_FORMAT = stringPreferencesKey("DEFAULT_IMAGE_FORMAT")
 internal val ACTIVE_THEME_ID = stringPreferencesKey("ACTIVE_THEME_ID")
 internal val GLASS_BASE_ALPHA = floatPreferencesKey("GLASS_BASE_ALPHA")
+internal val GLASS_BORDER_ALPHA = floatPreferencesKey("GLASS_BORDER_ALPHA")
 internal val SHAPES_TYPE = stringPreferencesKey("SHAPES_TYPE")
 internal val FLING_TYPE = intPreferencesKey("FLING_TYPE")
 internal val FILENAME_BEHAVIOR = stringPreferencesKey("FILENAME_BEHAVIOR")

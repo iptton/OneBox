@@ -158,6 +158,7 @@
     <string name="agent_tool_theme_setting_param_mesh_gradient">Mesh gradient background. Same values as glass ("true" / "false"). Optional</string>
     <string name="agent_tool_theme_setting_param_gradient_style">Gradient background style name. **Must** be picked from list response `gradientStyles` (case-sensitive). Optional</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">Glass transparency base value. **Number type** (NOT string), range [0.1, 1.0], default 1.0. Lower = more transparent. Optional</string>
+    <string name="agent_tool_theme_setting_param_glass_border_alpha">Glass border visibility. **Number type** (NOT string), range [0.0, 1.0], default 0.17 (17%). 0 hides the border entirely; higher = more visible outline. Independent of glass_alpha. Optional</string>
     <string name="agent_tool_theme_setting_param_background_image">Custom background image. Only value: "clear" — removes the current background image and restores the plain background. Optional</string>
     <string name="agent_tool_theme_setting_param_background_prompt">AI-generate a background image from this text description and set it as the custom background (text-to-image, may take tens of seconds; costs points on the proxy route). When passed together with background_image, this one wins. Optional</string>
     <string name="agent_tool_theme_setting_failed">Theme settings failed: %1$s</string>
@@ -175,6 +176,7 @@
     <string name="agent_tool_theme_setting_unknown_style">Unknown gradient style: %1$s</string>
     <string name="agent_tool_theme_setting_unknown_preset">No matching theme preset: %1$s. Available presets: %2$s</string>
     <string name="agent_tool_theme_setting_alpha_out_of_range">glass_alpha must be between 0.1 and 1.0</string>
+    <string name="agent_tool_theme_setting_border_alpha_out_of_range">glass_border_alpha must be between 0.0 and 1.0</string>
 
     <string name="agent_tool_checksum_title">Checksum Tool</string>
     <string name="agent_tool_checksum_summary">Calculate or compare checksums for text and files</string>

@@ -11,28 +11,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.LayerOutsets
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.graphics.rememberGraphicsLayer
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.shifenmiao.interfaces.singleton.AppContext
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
-import kotlin.math.max
 import kotlin.math.roundToInt
 
 private const val MIN_VISIBLE_GLASS_DECORATION_ALPHA = 0.04f
@@ -122,7 +119,7 @@ internal fun Modifier.glassSimpleStyle(
         createGlassDecorationColors(
             style = style,
             colorSchemeSurface = colorScheme.surface,
-            colorSchemeOutline = colorScheme.outlineVariant,
+            colorSchemeOutline = colorScheme.outline,
             colorSchemePrimary = colorScheme.primary,
             colorSchemeSurfaceTint = colorScheme.surfaceTint,
             colorSchemeScrim = colorScheme.scrim,
@@ -135,6 +132,7 @@ internal fun Modifier.glassSimpleStyle(
         )
     }
     val useLiquidBlur = isLiquidGlass &&
+        glassBaseAlpha > 0f &&
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
         blurRadius > 0.dp &&
         (style == GlassStyle.Thick || style == GlassStyle.Dense)
@@ -143,6 +141,8 @@ internal fun Modifier.glassSimpleStyle(
         style = style,
         shape = shape,
         borderWidth = borderWidth,
+        borderAlpha = settingsState.glassBorderAlpha.takeIf { it.isFinite() }
+            ?.coerceIn(0f, 1f) ?: 0.17f,
         blurRadius = blurRadius,
         colors = colors,
         isLight = isLight,
@@ -193,6 +193,8 @@ internal fun Modifier.glassControlStyle(
     return controlSurfaceDecoration(
         shape = shape,
         borderWidth = borderWidth,
+        borderAlpha = settingsState.glassBorderAlpha.takeIf { it.isFinite() }
+            ?.coerceIn(0f, 1f) ?: 0.17f,
         colors = colors,
         isLiquidGlass = isLiquidGlass,
         showTopEdge = showTopEdge,
@@ -258,9 +260,9 @@ private fun createGlassDecorationColors(
         }).coerceAtMost(if (isLiquidGlass) 0.038f else 0.010f) * glassBaseAlpha).coerceIn(0f, 1f)
     )
     val borderBase = if (isTintedSurface) {
-        baseColor.blend(colorSchemeOutline, if (isLight) 0.12f else 0.10f)
+        baseColor.blend(colorSchemeOutline, if (isLight) 0.40f else 0.32f)
     } else {
-        baseColor.blend(colorSchemeOutline, if (isLight) 0.18f else 0.14f)
+        baseColor.blend(colorSchemeOutline, if (isLight) 0.55f else 0.44f)
     }
     val borderColor = borderBase.copy(
         alpha = (when {
@@ -298,7 +300,7 @@ private fun createGlassDecorationColors(
     val edgeTransitionColor = (if (isTintedSurface) {
         expressiveColor.blend(Color.White, if (isLight) 0.28f else 0.18f)
     } else {
-        borderBase.blend(AppContext.getColorScheme().surfaceContainerLowest, if (isLight) 0.18f else 0.10f)
+        borderBase.blend(colorSchemeSurface, if (isLight) 0.18f else 0.10f)
     }).copy(
         alpha = (when {
             isLiquidGlass && isTintedSurface -> (style.highlightAlpha * 1.00f).coerceAtMost(0.15f)
@@ -470,11 +472,11 @@ private fun createGlassControlDecorationColors(
     )
 }
 
-@Composable
 private fun Modifier.ultraFlatGlassDecoration(
     style: GlassStyle,
     shape: Shape,
     borderWidth: Dp,
+    borderAlpha: Float,
     blurRadius: Dp,
     colors: GlassDecorationColors,
     isLight: Boolean,
@@ -482,243 +484,158 @@ private fun Modifier.ultraFlatGlassDecoration(
     useLiquidBlur: Boolean,
     showTopEdgeEffects: Boolean,
     showBottomEdgeEffects: Boolean,
-): Modifier {
-    val graphicsLayer = if (useLiquidBlur) rememberGraphicsLayer() else null
-    val blurPx = with(LocalDensity.current) {
-        minOf(
-            blurRadius.toPx(),
-            if (style == GlassStyle.Dense) 8.dp.toPx() else 6.dp.toPx(),
-        )
+): Modifier = clip(shape).drawWithCache {
+    // Every reflection shares the surface's local coordinates and clip.
+    val outline = shape.createOutline(size, layoutDirection, this)
+    val strokeWidthPx = if (borderWidth > 0.dp) {
+        borderWidth.toPx().coerceAtLeast(1f).coerceAtMost(size.minDimension / 2f)
+    } else {
+        0f
     }
-    val blurEffect = remember(blurPx, useLiquidBlur) {
-        if (useLiquidBlur) {
-            BlurEffect(blurPx, blurPx, TileMode.Clamp)
+    // Strokes are centered on the outline. Clipping a doubled stroke leaves the
+    // requested width inside any Shape, without allocating inset paths.
+    val mainStroke = Stroke(width = strokeWidthPx * 2f)
+    val bevelStroke = Stroke(
+        width = 2f * (strokeWidthPx + (if (isLiquidGlass) 0.8.dp else 0.4.dp).toPx()),
+    )
+    val borderBrush = Brush.verticalGradient(
+        0f to if (showTopEdgeEffects) {
+            colors.topBorderColor.compositeOver(colors.borderColor)
         } else {
-            null
-        }
+            colors.borderColor
+        },
+        0.45f to colors.borderColor,
+        1f to if (showBottomEdgeEffects) {
+            colors.depthColor.compositeOver(colors.borderColor)
+        } else {
+            colors.borderColor
+        },
+    )
+    val bevelBrush = Brush.linearGradient(
+        0f to if (showTopEdgeEffects) colors.innerBorderColor else Color.Transparent,
+        0.45f to Color.Transparent,
+        1f to if (showBottomEdgeEffects) {
+            colors.chromaticEdgeColor.copy(alpha = colors.chromaticEdgeColor.alpha * 0.55f)
+        } else {
+            Color.Transparent
+        },
+        start = Offset.Zero,
+        end = Offset(size.width, size.height),
+    )
+    val sheenBrush = Brush.verticalGradient(
+        0f to colors.sheenColor,
+        0.12f to colors.sheenColor.copy(alpha = colors.sheenColor.alpha * 0.5f),
+        0.32f to Color.Transparent,
+    )
+    val depthBrush = Brush.verticalGradient(
+        0f to Color.Transparent,
+        0.82f to Color.Transparent,
+        1f to colors.depthColor,
+    )
+    // Short-axis sizing keeps highlights local on wide toolbars and tall cards.
+    val reflectionRadius = size.minDimension.coerceAtLeast(1f) *
+        if (isLiquidGlass) 0.90f else 0.72f
+    val topReflection = if (showTopEdgeEffects &&
+        colors.causticColor.alpha >= MIN_VISIBLE_GLASS_DECORATION_ALPHA
+    ) {
+        Brush.radialGradient(
+            0f to colors.causticColor,
+            0.4f to colors.causticColor.copy(alpha = colors.causticColor.alpha * 0.35f),
+            1f to Color.Transparent,
+            center = Offset(size.width * 0.22f, size.height * 0.08f),
+            radius = reflectionRadius,
+        )
+    } else {
+        null
     }
-
-    // Liquid Glass:顶部高光经 graphicsLayer + LayerOutsets 溢出组件上边界,
-    // 模拟真实玻璃边缘折光的外溢;非 liquid 模式零开销(不加离屏层)
-    val showOverflowGlow = isLiquidGlass &&
+    val bottomReflection = if (showBottomEdgeEffects &&
+        colors.chromaticEdgeColor.alpha >= MIN_VISIBLE_GLASS_DECORATION_ALPHA
+    ) {
+        Brush.radialGradient(
+            0f to colors.chromaticEdgeColor.copy(alpha = colors.chromaticEdgeColor.alpha * 0.45f),
+            1f to Color.Transparent,
+            center = Offset(size.width * 0.88f, size.height * 0.92f),
+            radius = reflectionRadius * 0.78f,
+        )
+    } else {
+        null
+    }
+    val liquidReflection = if (isLiquidGlass && showTopEdgeEffects &&
         colors.rimLightColor.alpha >= MIN_VISIBLE_GLASS_DECORATION_ALPHA
-
-    return then(
-        if (showOverflowGlow) {
-            Modifier.liquidTopGlowOverflow(
-                glowColor = colors.rimLightColor,
-                isLight = isLight,
-            )
-        } else {
-            Modifier
-        }
-    ).clip(shape).drawWithCache {
-        val outline: Outline = shape.createOutline(
-            size = size,
-            layoutDirection = layoutDirection,
-            density = this,
+    ) {
+        Brush.radialGradient(
+            0f to Color.White.copy(alpha = colors.rimLightColor.alpha * if (isLight) 0.65f else 0.35f),
+            0.42f to colors.rimLightColor.copy(alpha = colors.rimLightColor.alpha * 0.22f),
+            1f to Color.Transparent,
+            center = Offset(size.width * 0.34f, size.height * 0.16f),
+            radius = reflectionRadius * 0.8f,
         )
-        val strokeWidthPx = if (borderWidth > 0.dp) {
-            borderWidth.toPx().coerceAtLeast(if (isLiquidGlass) 1.90f else 1.74f)
-        } else {
-            0f
+    } else {
+        null
+    }
+    val drawBackdrop: DrawScope.() -> Unit = {
+        if (colors.fillColor.alpha > 0f) {
+            drawOutline(outline, color = colors.fillColor)
         }
-        val mainStroke = Stroke(width = strokeWidthPx)
-        val topStroke = Stroke(width = (strokeWidthPx * if (isLiquidGlass) 0.96f else 0.90f).coerceAtLeast(if (isLiquidGlass) 1.24f else 1.04f))
-        val innerStroke = Stroke(width = (strokeWidthPx * if (isLiquidGlass) 0.74f else 0.64f).coerceAtLeast(if (isLiquidGlass) 1.02f else 0.84f))
-        val shouldDrawCaustic = colors.causticColor.alpha >= MIN_VISIBLE_GLASS_DECORATION_ALPHA
-        val shouldDrawChromatic = colors.chromaticEdgeColor.alpha >= MIN_VISIBLE_GLASS_DECORATION_ALPHA
-        val shouldDrawEdgeTransition = colors.edgeTransitionColor.alpha >= MIN_VISIBLE_GLASS_DECORATION_ALPHA
-        val shouldDrawLiquidLens = isLiquidGlass && colors.rimLightColor.alpha >= MIN_VISIBLE_GLASS_DECORATION_ALPHA
-        val chromaticStroke = if (strokeWidthPx > 0f && shouldDrawChromatic) {
-            Stroke(width = (strokeWidthPx * if (isLiquidGlass) 2.8f else 1.9f).coerceAtLeast(1f))
-        } else {
-            null
+        if (colors.tintColor.alpha > 0f) {
+            drawOutline(outline, color = colors.tintColor)
         }
-        val sheenBrush = Brush.verticalGradient(
-            0.0f to colors.sheenColor,
-            (if (isLiquidGlass) 0.11f else 0.06f) to colors.sheenColor.copy(alpha = colors.sheenColor.alpha * if (isLiquidGlass) 0.82f else 0.68f),
-            (if (isLiquidGlass) 0.20f else 0.10f) to colors.sheenColor.copy(alpha = colors.sheenColor.alpha * if (isLiquidGlass) 0.26f else 0.16f),
-            (if (isLiquidGlass) 0.30f else 0.14f) to Color.Transparent,
+        topReflection?.let { drawOutline(outline, brush = it) }
+        bottomReflection?.let { drawOutline(outline, brush = it) }
+        if (showTopEdgeEffects && colors.sheenColor.alpha > 0f) {
+            drawOutline(outline, brush = sheenBrush)
+        }
+        liquidReflection?.let { drawOutline(outline, brush = it) }
+    }
+    // Record only static decorative paint, never content or the page background.
+    // Cache ownership releases the layer on invalidation/detach; child redraws
+    // reuse the recording. Explicit density/layoutDirection select local recording.
+    val backdropLayer = if (useLiquidBlur && size.width > 0f && size.height > 0f) {
+        val blurPx = minOf(
+            blurRadius.toPx(),
+            (if (style == GlassStyle.Dense) 8.dp else 6.dp).toPx(),
         )
-        val depthBrush = Brush.verticalGradient(
-            0.0f to Color.Transparent,
-            (if (isLiquidGlass) 0.84f else 0.92f) to Color.Transparent,
-            1.0f to colors.depthColor,
+        val layerSize = IntSize(
+            size.width.roundToInt().coerceAtLeast(1),
+            size.height.roundToInt().coerceAtLeast(1),
         )
-        val causticRadius = max(size.width, size.height).coerceAtLeast(1f) * if (isLiquidGlass) 0.72f else 0.54f
-        val primaryCausticBrush = if (shouldDrawCaustic) {
-            Brush.radialGradient(
-                0.0f to colors.causticColor,
-                0.34f to colors.causticColor.copy(alpha = colors.causticColor.alpha * if (isLiquidGlass) {
-                    if (isLight) 0.56f else 0.30f
-                } else {
-                    0.32f
-                }),
-                1.0f to Color.Transparent,
-                center = androidx.compose.ui.geometry.Offset(size.width * 0.16f, size.height * 0.06f),
-                radius = causticRadius,
+        obtainGraphicsLayer().apply {
+            renderEffect = BlurEffect(blurPx, blurPx, TileMode.Clamp)
+            record(
+                density = this@drawWithCache,
+                layoutDirection = this@drawWithCache.layoutDirection,
+                size = layerSize,
+                block = drawBackdrop,
             )
+        }
+    } else {
+        null
+    }
+    onDrawWithContent {
+        if (backdropLayer != null) {
+            drawLayer(backdropLayer)
         } else {
-            null
+            drawBackdrop()
         }
-        val secondaryCausticBrush = if (shouldDrawChromatic) {
-            Brush.radialGradient(
-                0.0f to colors.chromaticEdgeColor.copy(alpha = colors.chromaticEdgeColor.alpha * if (isLiquidGlass) 0.62f else 0.30f),
-                1.0f to Color.Transparent,
-                center = androidx.compose.ui.geometry.Offset(size.width * 0.88f, size.height * 0.92f),
-                radius = causticRadius * 0.78f,
-            )
-        } else {
-            null
+        if (showBottomEdgeEffects && colors.depthColor.alpha > 0f) {
+            drawOutline(outline, brush = depthBrush)
         }
-        val chromaticRimBrush = if (shouldDrawChromatic) {
-            Brush.linearGradient(
-                0.0f to colors.chromaticEdgeColor.copy(alpha = colors.chromaticEdgeColor.alpha * 0.26f),
-                0.22f to colors.rimLightColor,
-                0.62f to colors.chromaticEdgeColor.copy(alpha = colors.chromaticEdgeColor.alpha * if (isLiquidGlass) 0.88f else 0.46f),
-                1.0f to Color.Transparent,
-                start = androidx.compose.ui.geometry.Offset.Zero,
-                end = androidx.compose.ui.geometry.Offset(size.width, size.height),
-            )
-        } else {
-            null
-        }
-        val liquidLensBrush = if (shouldDrawLiquidLens) {
-            Brush.radialGradient(
-                0.0f to Color.White.copy(alpha = colors.rimLightColor.alpha * if (isLight) 0.82f else 0.40f),
-                0.42f to colors.rimLightColor.copy(alpha = colors.rimLightColor.alpha * if (isLight) 0.44f else 0.18f),
-                1.0f to Color.Transparent,
-                center = androidx.compose.ui.geometry.Offset(size.width * 0.34f, size.height * 0.24f),
-                radius = max(size.minDimension, 1f) * 0.72f,
-            )
-        } else {
-            null
-        }
-        val edgeTransitionBrush = if (shouldDrawEdgeTransition) {
-            Brush.radialGradient(
-                0.0f to Color.Transparent,
-                (if (isLiquidGlass) 0.56f else 0.60f) to Color.Transparent,
-                (if (isLiquidGlass) 0.84f else 0.86f) to colors.edgeTransitionColor.copy(
-                    alpha = colors.edgeTransitionColor.alpha * if (isLiquidGlass) 0.54f else 0.50f,
-                ),
-                1.0f to colors.edgeTransitionColor,
-                center = androidx.compose.ui.geometry.Offset(size.width * 0.50f, size.height * 0.50f),
-                radius = max(size.width, size.height).coerceAtLeast(1f) * if (isLiquidGlass) 0.78f else 0.72f,
-            )
-        } else {
-            null
-        }
-        val topBorderBrush = Brush.verticalGradient(
-            0.0f to colors.topBorderColor.copy(
-                alpha = if (showTopEdgeEffects) colors.topBorderColor.alpha else colors.topBorderColor.alpha * 0.20f,
-            ),
-            (if (isLiquidGlass) 0.08f else 0.045f) to colors.topBorderColor.copy(alpha = colors.topBorderColor.alpha * if (isLiquidGlass) 0.94f else 0.78f),
-            (if (isLiquidGlass) 0.20f else 0.095f) to colors.topBorderColor.copy(alpha = colors.topBorderColor.alpha * if (isLiquidGlass) 0.32f else 0.18f),
-            (if (isLiquidGlass) 0.30f else 0.13f) to Color.Transparent,
-            1.0f to Color.Transparent,
-        )
-
-        val drawBackdrop: DrawScope.() -> Unit = {
-            drawOutline(outline = outline, color = colors.fillColor)
-            if (colors.tintColor.alpha > 0f) {
-                drawOutline(outline = outline, color = colors.tintColor)
+        drawContent()
+        // Scale only strokes; shared chromatic/depth colors also paint the background.
+        if (borderAlpha > 0f && strokeWidthPx > 0f && colors.borderColor.alpha > 0f) {
+            if (colors.innerBorderColor.alpha > 0f || colors.chromaticEdgeColor.alpha > 0f) {
+                drawOutline(outline, brush = bevelBrush, style = bevelStroke, alpha = borderAlpha)
             }
-            edgeTransitionBrush?.let { brush ->
-                drawOutline(outline = outline, brush = brush)
-            }
-            primaryCausticBrush?.let { brush ->
-                drawOutline(outline = outline, brush = brush)
-            }
-            secondaryCausticBrush?.let { brush ->
-                drawOutline(outline = outline, brush = brush)
-            }
-            if (showTopEdgeEffects && colors.sheenColor.alpha > 0f) {
-                drawOutline(outline = outline, brush = sheenBrush)
-            }
-            liquidLensBrush?.let { brush ->
-                drawOutline(outline = outline, brush = brush)
-            }
-        }
-
-        onDrawWithContent {
-            if (blurEffect != null && graphicsLayer != null) {
-                graphicsLayer.record(
-                    size = IntSize(
-                        width = size.width.roundToInt().coerceAtLeast(1),
-                        height = size.height.roundToInt().coerceAtLeast(1),
-                    ),
-                    block = drawBackdrop,
-                )
-                graphicsLayer.renderEffect = blurEffect
-                drawLayer(graphicsLayer)
-            } else {
-                drawBackdrop()
-            }
-
-            if (showBottomEdgeEffects && colors.depthColor.alpha > 0f) {
-                drawOutline(outline = outline, brush = depthBrush)
-            }
-
-            drawContent()
-
-            if (strokeWidthPx > 0f) {
-                if (chromaticRimBrush != null && chromaticStroke != null) {
-                    drawOutline(
-                        outline = outline,
-                        brush = chromaticRimBrush,
-                        style = chromaticStroke,
-                    )
-                }
-                drawOutline(outline = outline, color = colors.borderColor, style = mainStroke)
-                if (colors.innerBorderColor.alpha > 0f) {
-                    drawOutline(outline = outline, color = colors.innerBorderColor, style = innerStroke)
-                }
-                drawOutline(outline = outline, brush = topBorderBrush, style = topStroke)
-            }
+            drawOutline(outline, brush = borderBrush, style = mainStroke, alpha = borderAlpha)
         }
     }
 }
-
-/**
- * Liquid Glass 顶部溢出高光:`graphicsLayer` + [LayerOutsets] 把离屏层绘制边界
- * 向上/左右各扩出一截,辉光从组件上缘溢出,模拟玻璃边缘折光。
- * 注意会给元素引入一个离屏层,仅 liquid 模式启用。
- */
-private fun Modifier.liquidTopGlowOverflow(
-    glowColor: Color,
-    isLight: Boolean,
-): Modifier = this
-    .graphicsLayer {
-        outsets = LayerOutsets(8.dp, 16.dp)
-    }
-    .drawWithCache {
-        val horizontalInset = 8.dp.toPx()
-        val verticalOutset = 16.dp.toPx()
-        val glowAlphaScale = if (isLight) 1.2f else 0.9f
-        val glowBrush = Brush.radialGradient(
-            0.0f to glowColor.copy(alpha = (glowColor.alpha * glowAlphaScale).coerceAtMost(1f)),
-            0.55f to glowColor.copy(alpha = glowColor.alpha * 0.5f),
-            1.0f to Color.Transparent,
-            center = androidx.compose.ui.geometry.Offset(size.width / 2f, -verticalOutset * 0.35f),
-            radius = max(size.width * 0.72f, 1f),
-        )
-        onDrawBehind {
-            drawRect(
-                brush = glowBrush,
-                topLeft = androidx.compose.ui.geometry.Offset(-horizontalInset, -verticalOutset),
-                size = androidx.compose.ui.geometry.Size(
-                    size.width + horizontalInset * 2,
-                    size.height * 0.45f + verticalOutset,
-                ),
-            )
-        }
-    }
 
 @Composable
 private fun Modifier.controlSurfaceDecoration(
     shape: Shape,
     borderWidth: Dp,
+    borderAlpha: Float,
     colors: GlassControlDecorationColors,
     isLiquidGlass: Boolean,
     showTopEdge: Boolean,
@@ -766,16 +683,16 @@ private fun Modifier.controlSurfaceDecoration(
             drawOutline(outline = outline, brush = bottomShadeBrush)
         }
         drawContent()
-        if (strokeWidthPx > 0f) {
-            drawOutline(outline = outline, color = colors.borderColor, style = mainStroke)
+        if (borderAlpha > 0f && strokeWidthPx > 0f) {
+            drawOutline(outline = outline, color = colors.borderColor, style = mainStroke, alpha = borderAlpha)
             if (colors.innerBorderColor.alpha > 0f) {
-                drawOutline(outline = outline, color = colors.innerBorderColor, style = middleStroke)
+                drawOutline(outline = outline, color = colors.innerBorderColor, style = middleStroke, alpha = borderAlpha)
             }
             if (showTopEdge) {
-                drawOutline(outline = outline, brush = topEdgeBrush, style = topStroke)
+                drawOutline(outline = outline, brush = topEdgeBrush, style = topStroke, alpha = borderAlpha)
             }
             if (showInnerHighlight) {
-                drawOutline(outline = outline, brush = innerHighlightBrush, style = innerStroke)
+                drawOutline(outline = outline, brush = innerHighlightBrush, style = innerStroke, alpha = borderAlpha)
             }
         }
     }

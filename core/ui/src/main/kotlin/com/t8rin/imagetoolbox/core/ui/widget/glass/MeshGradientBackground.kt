@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.MeshGradientPainter
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
@@ -333,12 +334,15 @@ private fun EtherealColors.toSpecs(w: Float, h: Float): List<RadialSpec> = listO
 )
 
 private fun DrawScope.drawSpecs(specs: List<RadialSpec>) {
-    for (spec in specs) {
-        drawCircle(
-            brush = spec.brush,
-            radius = spec.radius,
-            center = spec.center,
-        )
+    // Clip background paint only; foreground content may legitimately overflow.
+    clipRect {
+        for (spec in specs) {
+            drawCircle(
+                brush = spec.brush,
+                radius = spec.radius,
+                center = spec.center,
+            )
+        }
     }
 }
 

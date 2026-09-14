@@ -780,6 +780,9 @@ private fun Modifier.modernGlassTextFieldContainer(
     val colorScheme = MaterialTheme.colorScheme
     val isLight = colorScheme.surface.luminance() > 0.5f
     val glassBaseAlpha = LocalSettingsState.current.glassBaseAlpha.coerceIn(0f, 1f)
+    // 描边可见度与 GlassCard/GlassButton 等共用同一主题设置，0 = 隐藏描边（只影响描边）
+    val glassBorderAlpha = LocalSettingsState.current.glassBorderAlpha.takeIf { it.isFinite() }
+        ?.coerceIn(0f, 1f) ?: 0.17f
     val scaledBackgroundAlpha = backgroundAlpha * glassBaseAlpha
     val baseColor = if (color != Color.Unspecified) color else colorScheme.surfaceContainerHighest
     val visualFocused = isFocused && !readOnly
@@ -935,9 +938,11 @@ private fun Modifier.modernGlassTextFieldContainer(
             drawOutline(outline = outline, brush = sheenBrush)
             drawOutline(outline = outline, brush = depthBrush)
 
-            drawOutline(outline = outline, color = strokeColor, style = mainStroke)
-            drawOutline(outline = outline, brush = accentStrokeBrush, style = accentStroke)
-            drawOutline(outline = outline, color = innerStrokeColor, style = innerStroke)
+            if (glassBorderAlpha > 0f) {
+                drawOutline(outline = outline, color = strokeColor, style = mainStroke, alpha = glassBorderAlpha)
+                drawOutline(outline = outline, brush = accentStrokeBrush, style = accentStroke, alpha = glassBorderAlpha)
+                drawOutline(outline = outline, color = innerStrokeColor, style = innerStroke, alpha = glassBorderAlpha)
+            }
         }
     }
 }

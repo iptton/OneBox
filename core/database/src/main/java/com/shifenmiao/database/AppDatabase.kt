@@ -111,7 +111,7 @@ import java.io.InputStreamReader
         SkillEntity::class,
         ConversationMemoryPolicyEntity::class,
     ],
-    version = 3
+    version = Release140Migrations.VERSION
 )
 @TypeConverters(Converters::class, SourceTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -188,26 +188,6 @@ abstract class AppDatabase : RoomDatabase() {
          * v1 新增公众号写作风格示例技能。
          */
         private const val SKILL_PRESET_VERSION = 1
-
-        /**
-         * v2 → v3：AI 记忆 + 技能系统，纯新增三张表，不动既有表。
-         *
-         * - memory_entry：记忆条目（profile 全局档案 + log 时间序日志），复合索引 (kind, enabled, created_at)；
-         * - skill：SKILL.md 技能（元数据 + 正文整体入库）；
-         * - conversation_memory_policy：会话级记忆/技能开关（主键 conversation.id）。
-         *
-         * 建表 SQL 与实体定义严格一致（取自 Room 生成的 schemas/3.json createSql）。
-         */
-        private val MIGRATION_2_3 = object : Migration(2, 3) {
-            override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("CREATE TABLE IF NOT EXISTS `memory_entry` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `kind` TEXT NOT NULL, `content` TEXT NOT NULL, `source_conversation_id` TEXT, `enabled` INTEGER NOT NULL DEFAULT 1, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL)")
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_memory_entry_kind_enabled_created_at` ON `memory_entry` (`kind`, `enabled`, `created_at`)")
-
-                db.execSQL("CREATE TABLE IF NOT EXISTS `skill` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `body` TEXT NOT NULL, `version` TEXT NOT NULL DEFAULT '1.0.0', `source` TEXT NOT NULL, `document_id` TEXT, `enabled` INTEGER NOT NULL DEFAULT 1, `use_count` REAL NOT NULL DEFAULT 0, `installed_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, PRIMARY KEY(`id`))")
-
-                db.execSQL("CREATE TABLE IF NOT EXISTS `conversation_memory_policy` (`conversation_id` TEXT NOT NULL, `memory_enabled` INTEGER NOT NULL DEFAULT 1, `skills_enabled` INTEGER NOT NULL DEFAULT 1, `updated_at` INTEGER NOT NULL, PRIMARY KEY(`conversation_id`))")
-            }
-        }
 
         /**
          * v1 → v2：同步主键从 (source, remote_id) 全局切换为 (source, document_id)。
@@ -322,7 +302,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     currentDbName
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                    .addMigrations(MIGRATION_1_2, *Release140Migrations.app)
                     .fallbackToDestructiveMigration(true)
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {

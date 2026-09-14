@@ -40,6 +40,7 @@ class ThemeSettingServiceImpl @Inject constructor(
         isMeshGradientBackgroundEnabled = isMeshGradientBackgroundEnabled,
         gradientBackgroundStyle = gradientBackgroundStyle,
         glassBaseAlpha = glassBaseAlpha,
+        glassBorderAlpha = glassBorderAlpha,
         customBackgroundImageUri = customBackgroundImageUri,
         isBuiltin = false,
     )
@@ -106,6 +107,13 @@ class ThemeSettingServiceImpl @Inject constructor(
     override suspend fun setGlassBaseAlpha(alpha: Float) {
         val current = getCurrentTheme()
         settingsManager.applyThemePreset(current.copy(glassBaseAlpha = alpha.coerceIn(0.1f, 1f)).asCustomTheme())
+    }
+
+    override suspend fun setGlassBorderAlpha(alpha: Float) {
+        val current = getCurrentTheme()
+        val normalizedAlpha = alpha.takeIf { it.isFinite() }?.coerceIn(0f, 1f)
+            ?: AppThemePreset.Default.glassBorderAlpha
+        settingsManager.applyThemePreset(current.copy(glassBorderAlpha = normalizedAlpha).asCustomTheme())
     }
 
     /** 修改使配置偏离了已存预设: 应用时改写为自定义哨兵 id, 避免选择器高亮与实际配色脱节 */

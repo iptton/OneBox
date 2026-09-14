@@ -44,6 +44,7 @@ fun loadStartupSettingsSnapshot(): SettingsState {
             AppSharedStorage.loadStartupGradientStyle()
         ),
         glassBaseAlpha = AppSharedStorage.loadStartupGlassBaseAlpha(),
+        glassBorderAlpha = AppSharedStorage.loadStartupGlassBorderAlpha(),
         customBackgroundImageUri = AppSharedStorage.loadStartupCustomBackgroundImageUri(),
         activeThemeId = AppSharedStorage.loadStartupActiveThemeId(),
     )

@@ -112,6 +112,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_SUFFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_SCALE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GENERATE_PREVIEWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GLASS_BASE_ALPHA
+import com.t8rin.imagetoolbox.feature.settings.data.keys.GLASS_BORDER_ALPHA
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GLASSMORPHISM_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GRADIENT_BACKGROUND_STYLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
@@ -255,6 +256,7 @@ internal class AndroidSettingsManager @Inject constructor(
             isMeshGradientEnabled = state.isMeshGradientBackgroundEnabled,
             gradientStyleOrdinal = state.gradientBackgroundStyle.ordinal2,
             glassBaseAlpha = state.glassBaseAlpha,
+            glassBorderAlpha = state.glassBorderAlpha,
             customBackgroundImageUri = state.customBackgroundImageUri,
             activeThemeId = state.activeThemeId,
         )
@@ -978,6 +980,12 @@ internal class AndroidSettingsManager @Inject constructor(
         it[GLASS_BASE_ALPHA] = alpha.coerceIn(0f, 1f)
     }
 
+    override suspend fun setGlassBorderAlpha(alpha: Float) = edit {
+        it[GLASS_BORDER_ALPHA] = alpha.takeIf { value -> value.isFinite() }
+            ?.coerceIn(0f, 1f)
+            ?: default.glassBorderAlpha
+    }
+
     override suspend fun applyThemePreset(
         preset: AppThemePreset,
         updateActiveThemeId: Boolean,
@@ -999,6 +1007,9 @@ internal class AndroidSettingsManager @Inject constructor(
         it[MESH_GRADIENT_BACKGROUND_ENABLED] = preset.isMeshGradientBackgroundEnabled
         it[GRADIENT_BACKGROUND_STYLE] = preset.gradientBackgroundStyle.ordinal2
         it[GLASS_BASE_ALPHA] = preset.glassBaseAlpha
+        it[GLASS_BORDER_ALPHA] = preset.glassBorderAlpha.takeIf { value -> value.isFinite() }
+            ?.coerceIn(0f, 1f)
+            ?: default.glassBorderAlpha
         val bgUri = preset.customBackgroundImageUri
         if (bgUri != null) {
             it[CUSTOM_BACKGROUND_IMAGE_URI] = bgUri

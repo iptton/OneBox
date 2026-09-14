@@ -130,6 +130,10 @@ class ThemeSettingTool @Inject constructor(
                 type = "number",
                 description = textProvider.string(R.string.agent_tool_theme_setting_param_glass_alpha),
             ),
+            "glass_border_alpha" to ToolParameterProperty(
+                type = "number",
+                description = textProvider.string(R.string.agent_tool_theme_setting_param_glass_border_alpha),
+            ),
             "background_image" to ToolParameterProperty(
                 type = "string",
                 description = textProvider.string(R.string.agent_tool_theme_setting_param_background_image),
@@ -483,7 +487,7 @@ class ThemeSettingTool @Inject constructor(
             changed += "gradientStyle"
         }
 
-        when (val parsed = parseOptionalAlpha(params.glass_alpha)) {
+        when (val parsed = parseOptionalAlpha(params.glass_alpha, MIN_GLASS_ALPHA)) {
             is OptionalAlpha.Set -> { next = next.copy(glassBaseAlpha = parsed.value); changed += "glassAlpha" }
             OptionalAlpha.Invalid -> return ThemeChangeResult.Invalid(
                 errorResult(
@@ -491,6 +495,19 @@ class ThemeSettingTool @Inject constructor(
                     reasonCode = "alpha_out_of_range",
                     message = textProvider.string(R.string.agent_tool_theme_setting_alpha_out_of_range),
                     validOptions = mapOf("alphaRange" to "0.1..1.0"),
+                )
+            )
+            OptionalAlpha.Absent -> Unit
+        }
+
+        when (val parsed = parseOptionalAlpha(params.glass_border_alpha, MIN_BORDER_ALPHA)) {
+            is OptionalAlpha.Set -> { next = next.copy(glassBorderAlpha = parsed.value); changed += "glassBorderAlpha" }
+            OptionalAlpha.Invalid -> return ThemeChangeResult.Invalid(
+                errorResult(
+                    action = "set",
+                    reasonCode = "border_alpha_out_of_range",
+                    message = textProvider.string(R.string.agent_tool_theme_setting_border_alpha_out_of_range),
+                    validOptions = mapOf("borderAlphaRange" to "0.0..1.0"),
                 )
             )
             OptionalAlpha.Absent -> Unit
@@ -589,9 +606,9 @@ class ThemeSettingTool @Inject constructor(
         else -> OptionalBool.Invalid
     }
 
-    private fun parseOptionalAlpha(raw: Double?): OptionalAlpha {
+    private fun parseOptionalAlpha(raw: Double?, min: Double): OptionalAlpha {
         if (raw == null) return OptionalAlpha.Absent
-        if (raw.isNaN() || raw !in 0.1..1.0) return OptionalAlpha.Invalid
+        if (raw.isNaN() || raw < min || raw > 1.0) return OptionalAlpha.Invalid
         return OptionalAlpha.Set(raw.toFloat())
     }
 
@@ -656,6 +673,7 @@ class ThemeSettingTool @Inject constructor(
             "meshGradient" to theme.isMeshGradientBackgroundEnabled,
             "gradientStyle" to theme.gradientBackgroundStyle.name,
             "glassAlpha" to theme.glassBaseAlpha,
+            "glassBorderAlpha" to theme.glassBorderAlpha,
             "backgroundImage" to theme.customBackgroundImageUri,
         )
     }
@@ -674,6 +692,7 @@ class ThemeSettingTool @Inject constructor(
         val mesh_gradient: String? = null,
         val gradient_style: String? = null,
         val glass_alpha: Double? = null,
+        val glass_border_alpha: Double? = null,
         val background_image: String? = null,
         val background_prompt: String? = null,
     ) {
@@ -689,6 +708,7 @@ class ThemeSettingTool @Inject constructor(
             && mesh_gradient.isNullOrBlank()
             && gradient_style.isNullOrBlank()
             && glass_alpha == null
+            && glass_border_alpha == null
             && background_image.isNullOrBlank()
             && background_prompt.isNullOrBlank()
     }
@@ -705,6 +725,12 @@ class ThemeSettingTool @Inject constructor(
             "0xRRGGBB",
             "0xAARRGGBB",
         )
+
+        /** 玻璃透明度基准值下限（过低会让玻璃层不可见） */
+        const val MIN_GLASS_ALPHA = 0.1
+
+        /** 玻璃描边可见度下限：0 = 完全隐藏描边，与主题设置页滑块一致 */
+        const val MIN_BORDER_ALPHA = 0.0
 
         /** AI 生成背景积分消耗来源标识 */
         const val POINTS_SOURCE = "agent_theme_background"

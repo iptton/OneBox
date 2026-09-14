@@ -62,6 +62,7 @@ class AndroidThemeRepository @Inject constructor(
         isMeshGradientBackgroundEnabled = isMeshGradientBackgroundEnabled,
         gradientBackgroundStyle = GradientBackgroundStyle.fromOrdinal(gradientBackgroundStyle),
         glassBaseAlpha = glassBaseAlpha,
+        glassBorderAlpha = glassBorderAlpha,
         customBackgroundImageUri = customBackgroundImageUri,
         isBuiltin = false,
     )
@@ -77,6 +78,7 @@ class AndroidThemeRepository @Inject constructor(
         isMeshGradientBackgroundEnabled = isMeshGradientBackgroundEnabled,
         gradientBackgroundStyle = gradientBackgroundStyle.ordinal2,
         glassBaseAlpha = glassBaseAlpha,
+        glassBorderAlpha = glassBorderAlpha,
         customBackgroundImageUri = customBackgroundImageUri,
         createdAt = createdAt,
         updatedAt = System.currentTimeMillis(),

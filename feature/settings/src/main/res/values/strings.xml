@@ -17,6 +17,8 @@
     <string name="theme_preset_surface_color">Background</string>
     <string name="theme_preset_glass_section">Glass Effect</string>
     <string name="theme_preset_glass_alpha">Glass Opacity</string>
+    <string name="theme_preset_glass_border_alpha">Glass Border Opacity</string>
+    <string name="theme_preset_glass_border_alpha_hint">Lower values soften the border; zero hides it. The background is unchanged.</string>
     <string name="theme_preset_preview_gradient">Preview: %s</string>
 
     <!-- Color picker -->

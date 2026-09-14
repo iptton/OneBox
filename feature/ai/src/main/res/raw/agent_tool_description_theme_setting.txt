@@ -2,7 +2,7 @@
 
 三个 action，按用户意图选用：
 - list：读取当前主题状态，响应包含：
-  - `theme`：当前主题（颜色、日夜模式、玻璃 / 网格渐变 / glass_alpha / gradient_style）
+  - `theme`：当前主题（颜色、日夜模式、玻璃 / 网格渐变 / glass_alpha / glass_border_alpha / gradient_style）
   - `gradientStyles`：所有合法的 `gradient_style` 取值（用其中之一）
   - `nightModes`：[Light, Dark, System]
   - `builtinPresets`：[{"id","name"} 列表]，用于 action="apply" 切换预设主题
@@ -20,6 +20,8 @@ action="set" 的字段（全部可选）：
 - mesh_gradient："true" 或 "false" —— 网格渐变背景
 - gradient_style：`gradientStyles` 数组中的名字，如 "Lavender"、"Sunset"、"Ocean"
 - glass_alpha：0.1 ~ 1.0 的浮点数 —— 玻璃透明度基准值，默认 1.0
+- glass_border_alpha：0.0 ~ 1.0 的浮点数 —— 玻璃描边可见度，默认 0.17（17%）。
+  0 表示完全隐藏描边，数值越大描边越明显；只影响描边，不影响玻璃本身的透明度
 - background_image：唯一取值 "clear" —— 清除自定义背景图，恢复纯色背景
 - background_prompt：文字描述，AI 生成背景图并设为自定义背景（文生图，竖屏，
   可能耗时数十秒；代理路由消耗积分）。与 background_image 同传时以本参数为准
@@ -30,6 +32,8 @@ action="set" 的字段（全部可选）：
 - "用樱花粉主题" → {"action": "apply", "preset_name": "樱花粉"}
 - "主色改成蓝色" → {"action": "set", "primary": "#3B82F6"}
 - "更清透一点" → {"action": "set", "glass_alpha": 0.75}
+- "描边太明显了" → {"action": "set", "glass_border_alpha": 0.08}
+- "不要描边" → {"action": "set", "glass_border_alpha": 0}
 - "打开网格渐变，风格用薰衣草" → {"action": "set", "mesh_gradient": "true", "gradient_style": "Lavender"}
 - "生成一张星空背景" → {"action": "set", "background_prompt": "深邃星空，银河，深蓝色调"}
 - "清除背景图" → {"action": "set", "background_image": "clear"}

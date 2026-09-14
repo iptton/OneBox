@@ -17,6 +17,8 @@
     <string name="theme_preset_surface_color">背景色</string>
     <string name="theme_preset_glass_section">玻璃效果</string>
     <string name="theme_preset_glass_alpha">玻璃透明度</string>
+    <string name="theme_preset_glass_border_alpha">玻璃边界透明度</string>
+    <string name="theme_preset_glass_border_alpha_hint">数值越小，边界越淡；设为零可隐藏描边，不影响背景。</string>
     <string name="theme_preset_preview_gradient">预览：%s</string>
     
     <!-- 颜色选择器 -->

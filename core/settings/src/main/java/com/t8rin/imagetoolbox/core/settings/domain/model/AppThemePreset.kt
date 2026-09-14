@@ -14,6 +14,7 @@ package com.t8rin.imagetoolbox.core.settings.domain.model
  * @param gradientBackgroundStyle    渐变背景风格
  * @param glassBaseAlpha             玻璃特效透明度基准值 (0f..1f)，
  *                                   所有 GlassStyle 的 backgroundAlpha 按此基准缩放
+ * @param glassBorderAlpha           玻璃描边可见度 (0f..1f)，0 隐藏，1 为完整强度，默认 0.17
  * @param customBackgroundImageUri   自定义背景图片 URI（可为 null）
  * @param isBuiltin                  是否为内置主题（内置主题不可删除）
  */
@@ -30,6 +31,7 @@ data class AppThemePreset(
     val glassBaseAlpha: Float = 1.0f,
     val customBackgroundImageUri: String? = null,
     val isBuiltin: Boolean = true,
+    val glassBorderAlpha: Float = 0.17f,
 ) {
     companion object {
 

@@ -204,6 +204,14 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
         applyDraftLive()
     }
 
+    fun updateDraftGlassBorderAlpha(alpha: Float) {
+        _editingDraft.value = _editingDraft.value?.copy(
+            glassBorderAlpha = alpha.takeIf { it.isFinite() }?.coerceIn(0f, 1f)
+                ?: AppThemePreset.Default.glassBorderAlpha,
+        )
+        applyDraftLive()
+    }
+
     fun updateDraftCustomBackgroundUri(uri: String?) {
         _editingDraft.value = _editingDraft.value?.copy(customBackgroundImageUri = uri)
         applyDraftLive()
@@ -388,6 +396,7 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
             isMeshGradientBgEnabled = isMeshGradientBackgroundEnabled,
             gradientStyle = gradientBackgroundStyle,
             glassBaseAlpha = glassBaseAlpha,
+            glassBorderAlpha = glassBorderAlpha,
             customBackgroundImageUri = customBackgroundImageUri,
             nightMode = nightMode,
         )
@@ -407,6 +416,7 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
         isMeshGradientBackgroundEnabled = isMeshGradientBgEnabled,
         gradientBackgroundStyle = gradientStyle,
         glassBaseAlpha = glassBaseAlpha,
+        glassBorderAlpha = glassBorderAlpha,
         customBackgroundImageUri = customBackgroundImageUri,
         isBuiltin = false,
     )
@@ -479,6 +489,7 @@ data class EditingDraft(
     val isMeshGradientBgEnabled: Boolean = true,
     val gradientStyle: GradientBackgroundStyle = GradientBackgroundStyle.Sunset,
     val glassBaseAlpha: Float = 1.0f,
+    val glassBorderAlpha: Float = 0.17f,
     val customBackgroundImageUri: String? = null,
     val nightMode: NightMode = NightMode.System,
 )

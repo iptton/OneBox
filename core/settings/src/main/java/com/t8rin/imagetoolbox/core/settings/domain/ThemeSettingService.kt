@@ -40,6 +40,8 @@ interface ThemeSettingService {
 
     suspend fun setGlassBaseAlpha(alpha: Float)
 
+    suspend fun setGlassBorderAlpha(alpha: Float)
+
     suspend fun saveUserTheme(preset: AppThemePreset)
 
     suspend fun deleteUserTheme(id: String)

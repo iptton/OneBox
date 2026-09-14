@@ -228,6 +228,9 @@ internal fun Preferences.toSettingsState(
         ?: default.customBackgroundOverlayAlpha,
     activeThemeId = this[ACTIVE_THEME_ID] ?: default.activeThemeId,
     glassBaseAlpha = this[GLASS_BASE_ALPHA] ?: default.glassBaseAlpha,
+    glassBorderAlpha = this[GLASS_BORDER_ALPHA]?.takeIf { it.isFinite() }
+        ?.coerceIn(0f, 1f)
+        ?: default.glassBorderAlpha,
     shapesType = this[SHAPES_TYPE]?.let {
         jsonParser.fromJson(
             json = it,

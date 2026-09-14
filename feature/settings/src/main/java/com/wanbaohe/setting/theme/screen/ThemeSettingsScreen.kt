@@ -278,9 +278,11 @@ fun ThemeSettingsScreen(
                     isGlassmorphismEnabled = draft.isGlassAlphaEnabled,
                     isLiquidGlassEnabled = draft.isLiquidGlassEnabled,
                     glassBaseAlpha = draft.glassBaseAlpha,
+                    glassBorderAlpha = draft.glassBorderAlpha,
                     onGlassmorphismChange = { component.updateDraftGlassmorphism(it) },
                     onLiquidGlassChange = { component.updateDraftLiquidGlass(it) },
                     onGlassAlphaChange = { component.updateDraftGlassBaseAlpha(it) },
+                    onGlassBorderAlphaChange = { component.updateDraftGlassBorderAlpha(it) },
                 )
 
                 GradientBackgroundCard(
@@ -681,9 +683,11 @@ private fun GlassEffectCard(
     isGlassmorphismEnabled: Boolean,
     isLiquidGlassEnabled: Boolean,
     glassBaseAlpha: Float,
+    glassBorderAlpha: Float,
     onGlassmorphismChange: (Boolean) -> Unit,
     onLiquidGlassChange: (Boolean) -> Unit,
     onGlassAlphaChange: (Float) -> Unit,
+    onGlassBorderAlphaChange: (Float) -> Unit,
 ) {
     GlassCard(
         modifier = Modifier.fillMaxWidth(),
@@ -773,6 +777,39 @@ private fun GlassEffectCard(
                         value = glassBaseAlpha,
                         onValueChange = onGlassAlphaChange,
                         valueRange = 0.1f..1f,
+                    )
+
+                    Spacer(modifier = Modifier.height(OneBoxDesignSystem.compactSpacing))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = stringResource(R.string.theme_preset_glass_border_alpha),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontWeight = FontWeight.Medium,
+                        )
+                        Text(
+                            text = "${(glassBorderAlpha * 100).toInt()}%",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
+                    Text(
+                        text = stringResource(R.string.theme_preset_glass_border_alpha_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    CustomSlider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = OneBoxDesignSystem.microSpacing),
+                        value = glassBorderAlpha,
+                        onValueChange = onGlassBorderAlphaChange,
+                        valueRange = 0f..1f,
                     )
                 }
             }

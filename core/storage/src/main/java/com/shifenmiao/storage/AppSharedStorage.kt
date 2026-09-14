@@ -67,6 +67,7 @@ object AppSharedStorage {
     private const val S_MESH_GRADIENT_ENABLED = "s_mesh_gradient_enabled"
     private const val S_GRADIENT_STYLE = "s_gradient_style"
     private const val S_GLASS_BASE_ALPHA = "s_glass_base_alpha"
+    private const val S_GLASS_BORDER_ALPHA = "s_glass_border_alpha"
     private const val S_CUSTOM_BG_IMAGE_URI = "s_custom_bg_image_uri"
     private const val S_ACTIVE_THEME_ID = "s_active_theme_id"
 
@@ -453,6 +454,7 @@ object AppSharedStorage {
         isMeshGradientEnabled: Boolean,
         gradientStyleOrdinal: Int,
         glassBaseAlpha: Float,
+        glassBorderAlpha: Float,
         customBackgroundImageUri: String?,
         activeThemeId: String,
     ) {
@@ -476,6 +478,7 @@ object AppSharedStorage {
         save(S_MESH_GRADIENT_ENABLED, isMeshGradientEnabled)
         save(S_GRADIENT_STYLE, gradientStyleOrdinal)
         save(S_GLASS_BASE_ALPHA, glassBaseAlpha)
+        save(S_GLASS_BORDER_ALPHA, glassBorderAlpha)
         save(S_CUSTOM_BG_IMAGE_URI, customBackgroundImageUri ?: "")
         save(S_ACTIVE_THEME_ID, activeThemeId)
     }
@@ -543,6 +546,11 @@ object AppSharedStorage {
 
     fun loadStartupGlassBaseAlpha(): Float =
         load(S_GLASS_BASE_ALPHA, 1f) ?: 1f
+
+    // 默认值与 AppThemePreset.Default.glassBorderAlpha 保持一致（core:storage 不依赖 core:settings）
+    fun loadStartupGlassBorderAlpha(): Float =
+        load(S_GLASS_BORDER_ALPHA, 0.17f)?.takeIf { it.isFinite() }
+            ?.coerceIn(0f, 1f) ?: 0.17f
 
     fun loadStartupCustomBackgroundImageUri(): String? =
         load(S_CUSTOM_BG_IMAGE_URI, "")?.takeIf { it.isNotEmpty() }
