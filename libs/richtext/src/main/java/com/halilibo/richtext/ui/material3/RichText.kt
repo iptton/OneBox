@@ -1,9 +1,7 @@
 package com.halilibo.richtext.ui.material3
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -123,7 +121,9 @@ fun RichText(
 ) {
     val defaultStyle = RichTextStyle(
         paragraphSpacing = 12.sp,
-        headingStyle = { level, defaultTextStyle ->
+        // 字号梯度向 HTML 默认渲染靠齐(body 16sp):
+        // h1=2em, h2=1.5em, h3=1.17em, h4=1em, h5=0.83em, h6=0.67em
+        headingStyle = { level, _ ->
             when (level) {
                 0 -> TextStyle(
                     fontSize = 32.sp,
@@ -132,39 +132,36 @@ fun RichText(
                 )
 
                 1 -> TextStyle(
-                    fontSize = 28.sp,
-                    lineHeight = 36.sp,
+                    fontSize = 24.sp,
+                    lineHeight = 30.sp,
                     fontWeight = FontWeight.Bold
                 )
 
                 2 -> TextStyle(
-                    fontSize = 24.sp,
-                    lineHeight = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = defaultTextStyle.color.copy(alpha = 0.8f)
+                    fontSize = 18.7.sp,
+                    lineHeight = 24.sp,
+                    fontWeight = FontWeight.Bold
                 )
 
                 3 -> TextStyle(
-                    fontSize = 22.sp,
-                    lineHeight = 28.sp,
+                    fontSize = 16.sp,
+                    lineHeight = 21.sp,
                     fontWeight = FontWeight.Bold
                 )
 
                 4 -> TextStyle(
-                    fontSize = 18.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = defaultTextStyle.color.copy(alpha = 0.8f)
+                    fontSize = 13.3.sp,
+                    lineHeight = 17.sp,
+                    fontWeight = FontWeight.Bold
                 )
 
                 5 -> TextStyle(
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = defaultTextStyle.color.copy(alpha = 0.6f)
+                    fontSize = 10.7.sp,
+                    lineHeight = 14.sp,
+                    fontWeight = FontWeight.Bold
                 )
 
-                else -> defaultTextStyle
+                else -> TextStyle(fontWeight = FontWeight.Bold)
             }
         },
         listStyle = ListStyle(
@@ -180,27 +177,37 @@ fun RichText(
                 )
             ),
             codeStyle = SpanStyle(
-                background = MaterialTheme.colorScheme.surfaceVariant,
+                background = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         )
     )
 
-    // 直接使用Material 3的文本样式和颜色
+    // 样式的读写必须走同一个 Local 形成闭环:Heading/CodeBlock 等通过
+    // textStyleBackProvider 写入新样式,下游再通过 textStyleProvider 读到它。
     RichTextThemeProvider(
-        textStyleProvider = { textStyle },
-        contentColorProvider = { contentColor },
-        textStyleBackProvider = { textStyle, content ->
-            ProvideTextStyle(textStyle, content)
+        textStyleProvider = { LocalInternalTextStyle.current },
+        contentColorProvider = { LocalInternalContentColor.current },
+        textStyleBackProvider = { newTextStyle, content ->
+            CompositionLocalProvider(LocalInternalTextStyle provides newTextStyle) {
+                content()
+            }
         },
-        contentColorBackProvider = { _, content ->
-            content()
+        contentColorBackProvider = { newColor, content ->
+            CompositionLocalProvider(LocalInternalContentColor provides newColor) {
+                content()
+            }
         }
     ) {
-        BasicRichText(
-            style = style?.merge(defaultStyle)?.resolveDefaults() ?: defaultStyle.resolveDefaults(),
-            modifier = modifier,
-            children = children
-        )
+        CompositionLocalProvider(
+            LocalInternalTextStyle provides textStyle,
+            LocalInternalContentColor provides contentColor
+        ) {
+            BasicRichText(
+                style = style?.merge(defaultStyle)?.resolveDefaults() ?: defaultStyle.resolveDefaults(),
+                modifier = modifier,
+                children = children
+            )
+        }
     }
 }

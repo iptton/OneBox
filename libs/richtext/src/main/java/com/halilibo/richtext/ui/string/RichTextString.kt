@@ -185,6 +185,17 @@ class RichTextString internal constructor(
             }
             .toMap()
 
+    /**
+     * Returns the character ranges of all [Format.Code] spans, so the renderer can draw
+     * custom (e.g. rounded, per-line) backgrounds behind them.
+     */
+    internal fun codeSpanRanges(): List<IntRange> =
+        taggedString.getStringAnnotations(FormatAnnotationScope, 0, taggedString.length)
+            .asSequence()
+            .filter { Format.findTag(it.item, formatObjects) is Code }
+            .map { it.start until it.end }
+            .toList()
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is RichTextString) return false

@@ -102,7 +102,8 @@ internal fun convert(
 
         is HardLineBreak -> AstHardLineBreak
         is Heading -> AstHeading(
-            level = node.level
+            // commonmark 的 level 从 1 开始,Heading 样式表以 0 为最高级别
+            level = node.level - 1
         )
 
         is ThematicBreak -> AstThematicBreak

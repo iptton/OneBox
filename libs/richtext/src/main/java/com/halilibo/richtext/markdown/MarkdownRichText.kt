@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isSpecified
 import androidx.compose.ui.unit.sp
+import com.halilibo.richtext.ui.currentTextStyle
 import com.shifenmiao.model.node.AstBlockQuote
 import com.shifenmiao.model.node.AstCode
 import com.shifenmiao.model.node.AstEmphasis
@@ -89,7 +89,7 @@ internal fun RichTextScope.MarkdownRichText(
   showCursor: Boolean = false,
 ) {
   val density = LocalDensity.current
-  val textStyle = LocalTextStyle.current
+  val textStyle = currentTextStyle
   val fontSize = if (textStyle.fontSize.isSpecified) textStyle.fontSize else 16.sp
   val lineHeight = if (textStyle.lineHeight.isSpecified) textStyle.lineHeight else fontSize
 
