@@ -67,11 +67,17 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
         /**
          * 音效托管在 R2(bucket onebox-images 的 audio/decisionwheel/ 路径)，国内海外同地址。
          * 合成脚本与源文件见 onebox-doc/audio/decisionwheel/。
+         *
+         * 文件名带版本号:远程是 immutable 缓存、本地又有永久缓存,改音色必须升版本号,
+         * 否则装过的用户拿不到新文件。
          */
         private const val SOUND_BASE = "https://images.oneboxable.com/audio/decisionwheel"
-        private const val SOUND_SPIN = "$SOUND_BASE/spin.ogg"
-        private const val SOUND_RESULT = "$SOUND_BASE/result.ogg"
+        private const val SOUND_SPIN = "$SOUND_BASE/spin_v2.ogg"
+        private const val SOUND_RESULT = "$SOUND_BASE/result_v2.ogg"
         private val ALL_SOUNDS = listOf(SOUND_SPIN, SOUND_RESULT)
+
+        /** 停稳时把转动声淡出,别"啪"一下掐断 */
+        private const val SPIN_FADE_OUT_MS = 420L
     }
 
     private val _uiState = MutableStateFlow(DecisionWheelSpinUiState())
@@ -277,8 +283,8 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
                 it.copy(isSpinning = false, settledIndex = winnerIndex, showResult = true)
             }
 
-            // 停稳就把旋转 BGM 掐掉，再补一记结果揭示音
-            audioPlayer.stopBackground()
+            // 停稳:转动声淡出,同时补一记结果揭示音,两段交叉着走
+            audioPlayer.fadeOutBackground(SPIN_FADE_OUT_MS)
             if (settingsHolder.current().soundEnabled) playSound(SOUND_RESULT)
         }
     }

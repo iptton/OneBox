@@ -2,6 +2,8 @@ package com.shifenmiao.base.audio
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.os.Handler
+import android.os.Looper
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -98,6 +100,41 @@ class NetworkAudioPlayer @Inject constructor(
             effectPlayer?.release()
         }
         effectPlayer = null
+    }
+
+    /**
+     * 淡出并停止背景音。
+     *
+     * 背景音是循环播放的(如转盘转动声),直接 [stopBackground] 会"啪"一下断掉,
+     * 停在半句上很难听。这里用主线程的 Handler 分段压音量,淡出结束再释放。
+     *
+     * 淡出期间若已经换了别的背景音(引用变了),本次淡出立即让位给新音源。
+     */
+    fun fadeOutBackground(durationMs: Long = 400L) {
+        val player = backgroundPlayer
+        if (player == null || durationMs <= 0L) {
+            stopBackground()
+            return
+        }
+        val handler = Handler(Looper.getMainLooper())
+        val steps = 10
+        val stepMs = (durationMs / steps).coerceAtLeast(16L)
+        var step = 0
+        val ramp = object : Runnable {
+            override fun run() {
+                // 期间换了音源就别再压了,交给新音源自己处理
+                if (backgroundPlayer !== player) return
+                step++
+                val volume = (1f - step.toFloat() / steps).coerceIn(0f, 1f)
+                runCatching { player.setVolume(volume, volume) }
+                if (step < steps) {
+                    handler.postDelayed(this, stepMs)
+                } else {
+                    stopBackground()
+                }
+            }
+        }
+        handler.post(ramp)
     }
 
     fun stopBackground() {

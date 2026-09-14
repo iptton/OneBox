@@ -48,6 +48,9 @@ private const val TOSS_DURATION_MS = 700L
 /** 第六爻落定后,先让铜钱声落地再起磬声,两声叠一起会糊 */
 private const val REVEAL_DELAY_MS = 320L
 
+/** 铜钱落桌时摇卦声淡出的时长,与铜钱声交叉着走,不要硬掐断 */
+private const val SHAKE_FADE_OUT_MS = 220L
+
 /** AI 解读积分来源标识 */
 private const val AI_INTERPRET_SOURCE = "iching_ai_interpretation"
 
@@ -198,8 +201,8 @@ class IChingDivinationComponent @AssistedInject internal constructor(
                 delay(TOSS_DURATION_MS)
                 val lines = _uiState.value.lines + generator.tossLine()
                 _uiState.update { it.copy(lines = lines, stage = CastingStage.Casting(lines.size)) }
-                // 铜钱落桌就该停,否则摇卦声会一直循环到下一爻
-                audioPlayer.stopBackground()
+                // 铜钱落桌就该收,否则摇卦声会一直循环到下一爻
+                audioPlayer.fadeOutBackground(SHAKE_FADE_OUT_MS)
                 if (_soundEnabled.value) {
                     playSound(SOUND_COIN)
                     if (lines.size == 6) {
