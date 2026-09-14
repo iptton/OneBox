@@ -45,24 +45,6 @@
     <string name="food_snacks">小吃</string>
     <string name="food_dessert">甜品</string>
 
-    <!-- Presets - Dice Wheel -->
-    <string name="preset_dice">掷骰子</string>
-    <string name="dice_1">1点</string>
-    <string name="dice_2">2点</string>
-    <string name="dice_3">3点</string>
-    <string name="dice_4">4点</string>
-    <string name="dice_5">5点</string>
-    <string name="dice_6">6点</string>
-
-    <!-- Presets - Activity Wheel -->
-    <string name="preset_activity">周末去哪玩</string>
-    <string name="activity_movie">看电影</string>
-    <string name="activity_park">逛公园</string>
-    <string name="activity_shopping">逛街</string>
-    <string name="activity_game">打游戏</string>
-    <string name="activity_sleep">睡觉</string>
-    <string name="activity_read">看书</string>
-
     <!-- Presets - Drink Wheel -->
     <string name="preset_drink">今天喝什么</string>
     <string name="drink_coffee">咖啡</string>
@@ -72,35 +54,6 @@
     <string name="drink_soda">汽水</string>
     <string name="drink_tea">茶</string>
 
-    <!-- Presets - Work Task Wheel -->
-    <string name="preset_work_task">工作任务分配</string>
-    <string name="task_coding">写代码</string>
-    <string name="task_meeting">开会</string>
-    <string name="task_review">代码审查</string>
-    <string name="task_document">写文档</string>
-    <string name="task_testing">测试</string>
-    <string name="task_break">休息一下</string>
-
-    <!-- Presets - Exercise Wheel -->
-    <string name="preset_exercise">运动项目</string>
-    <string name="exercise_run">跑步</string>
-    <string name="exercise_yoga">瑜伽</string>
-    <string name="exercise_swim">游泳</string>
-    <string name="exercise_basketball">打篮球</string>
-    <string name="exercise_badminton">羽毛球</string>
-    <string name="exercise_walk">散步</string>
-
-    <!-- Presets - Lucky Number Wheel -->
-    <string name="preset_lucky_number">幸运数字</string>
-    <string name="lucky_1">1</string>
-    <string name="lucky_2">2</string>
-    <string name="lucky_3">3</string>
-    <string name="lucky_4">4</string>
-    <string name="lucky_5">5</string>
-    <string name="lucky_6">6</string>
-    <string name="lucky_7">7</string>
-    <string name="lucky_8">8</string>
-    <string name="lucky_9">9</string>
     <string name="result_celebration">🎉</string>
     <string name="palette_scheme">配色方案</string>
     <string name="target_emoji">🎯</string>
@@ -185,16 +138,6 @@
     <string name="date_cook">一起做饭</string>
     <string name="date_travel">周边游</string>
 
-    <!-- Presets - Movie Genre -->
-    <string name="preset_movie_genre">看什么电影</string>
-    <string name="movie_action">动作片</string>
-    <string name="movie_comedy">喜剧片</string>
-    <string name="movie_romance">爱情片</string>
-    <string name="movie_scifi">科幻片</string>
-    <string name="movie_horror">恐怖片</string>
-    <string name="movie_animation">动画片</string>
-    <string name="movie_documentary">纪录片</string>
-
     <!-- Presets - Household Chores -->
     <string name="preset_chores">家务分配</string>
     <string name="chore_dishes">洗碗</string>
@@ -204,13 +147,36 @@
     <string name="chore_cooking">做饭</string>
     <string name="chore_groceries">买菜</string>
 
-    <!-- Presets - Music Vibe -->
-    <string name="preset_music">听什么歌</string>
-    <string name="music_pop">流行</string>
-    <string name="music_rock">摇滚</string>
-    <string name="music_jazz">爵士</string>
-    <string name="music_classical">古典</string>
-    <string name="music_electronic">电子</string>
-    <string name="music_folk">民谣</string>
-    <string name="music_hiphop">嘻哈</string>
+    <!-- Presets - Drink Penalty -->
+    <string name="preset_drink_penalty">喝酒惩罚</string>
+    <string name="penalty_one">自罚一杯</string>
+    <string name="penalty_two">自罚两杯</string>
+    <string name="penalty_half">半杯意思一下</string>
+    <string name="penalty_bottoms_up">干了这杯</string>
+    <string name="penalty_substitute">找人代喝</string>
+    <string name="penalty_everyone">全桌陪一杯</string>
+    <string name="penalty_spared">这轮免喝</string>
+    <string name="penalty_double">下一轮翻倍</string>
+
+    <!-- Presets - Truth or Dare -->
+    <string name="preset_truth_dare">真心话大冒险</string>
+    <string name="td_truth">真心话</string>
+    <string name="td_dare">大冒险</string>
+    <string name="td_truth_hard">真心话·加码</string>
+    <string name="td_dare_hard">大冒险·加码</string>
+    <string name="td_pick_someone">指定一人</string>
+    <string name="td_you_choose">由你出题</string>
+    <string name="td_pass">换下一位</string>
+    <string name="td_free_pass">免罚一次</string>
+
+    <!-- Presets - Blame Game -->
+    <string name="preset_blame">这锅谁背</string>
+    <string name="blame_requirements">需求没写清楚</string>
+    <string name="blame_design">设计稿又改了</string>
+    <string name="blame_backend">后端接口变了</string>
+    <string name="blame_test_env">测试环境挂了</string>
+    <string name="blame_boss">老板临时加需求</string>
+    <string name="blame_network">网络波动</string>
+    <string name="blame_legacy">历史遗留问题</string>
+
 </resources>

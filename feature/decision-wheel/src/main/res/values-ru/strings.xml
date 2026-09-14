@@ -42,20 +42,6 @@
     <string name="food_fastfood">Быстрый перекус.</string>
     <string name="food_snacks">Закуска.</string>
     <string name="food_dessert">Сладости.</string>
-    <string name="preset_dice">Бросьте кубик.</string>
-    <string name="dice_1">Час дня.</string>
-    <string name="dice_2">Два часа дня.</string>
-    <string name="dice_3">Три часа дня.</string>
-    <string name="dice_4">Четыре часа дня.</string>
-    <string name="dice_5">Пять часов дня.</string>
-    <string name="dice_6">Шесть часов вечера.</string>
-    <string name="preset_activity">Куда вы собираетесь в эти выходные?</string>
-    <string name="activity_movie">Смотреть фильмы.</string>
-    <string name="activity_park">Пойти в парк.</string>
-    <string name="activity_shopping">Я иду за покупками.</string>
-    <string name="activity_game">Играть в игру.</string>
-    <string name="activity_sleep">Спать.</string>
-    <string name="activity_read">Читать.</string>
     <string name="preset_drink">Что вам предложить сегодня?</string>
     <string name="drink_coffee">Кофе.</string>
     <string name="drink_milk_tea">Чай с молоком.</string>
@@ -63,30 +49,6 @@
     <string name="drink_water">Белая вода.</string>
     <string name="drink_soda">Газировка.</string>
     <string name="drink_tea">Чай.</string>
-    <string name="preset_work_task">Назначение задач</string>
-    <string name="task_coding">Писать код</string>
-    <string name="task_meeting">Совещание</string>
-    <string name="task_review">Ревью кода</string>
-    <string name="task_document">Написание документов</string>
-    <string name="task_testing">Тест</string>
-    <string name="task_break">Перерыв.</string>
-    <string name="preset_exercise">Спорт</string>
-    <string name="exercise_run">Бег.</string>
-    <string name="exercise_yoga">Йога.</string>
-    <string name="exercise_swim">Плавание.</string>
-    <string name="exercise_basketball">Играть в баскетбол.</string>
-    <string name="exercise_badminton">Бадминтон</string>
-    <string name="exercise_walk">Прогулка.</string>
-    <string name="preset_lucky_number">Счастливое число</string>
-    <string name="lucky_1">1</string>
-    <string name="lucky_2">2</string>
-    <string name="lucky_3">3</string>
-    <string name="lucky_4">4</string>
-    <string name="lucky_5">5</string>
-    <string name="lucky_6">6</string>
-    <string name="lucky_7">7</string>
-    <string name="lucky_8">8</string>
-    <string name="lucky_9">9</string>
     <string name="result_celebration">🎉</string>
     <string name="palette_scheme">Цветовая схема</string>
     <string name="target_emoji">🎯</string>
@@ -116,14 +78,6 @@
     <string name="date_game">Играть в игру</string>
     <string name="date_cook">Давай готовить вместе.</string>
     <string name="date_travel">Вокруг</string>
-    <string name="preset_movie_genre">Какой фильм?</string>
-    <string name="movie_action">Боевик</string>
-    <string name="movie_comedy">Комедия.</string>
-    <string name="movie_romance">Мелодрама.</string>
-    <string name="movie_scifi">Фантастика.</string>
-    <string name="movie_horror">Ужасы.</string>
-    <string name="movie_animation">Мультфильм</string>
-    <string name="movie_documentary">Документальный</string>
     <string name="preset_chores">Отечественный прокат</string>
     <string name="chore_dishes">Мыть посуду.</string>
     <string name="chore_floor">Тянуть</string>
@@ -131,12 +85,37 @@
     <string name="chore_trash">Вынести мусор.</string>
     <string name="chore_cooking">Готовка.</string>
     <string name="chore_groceries">Покупка продуктов.</string>
-    <string name="preset_music">Какая песня?</string>
-    <string name="music_pop">Поп</string>
-    <string name="music_rock">Рок</string>
-    <string name="music_jazz">Сэр.</string>
-    <string name="music_classical">Классика</string>
-    <string name="music_electronic">Электроника</string>
-    <string name="music_folk">Фолк</string>
-    <string name="music_hiphop">Ха-ха-ха!</string>
+
+    <!-- Presets - Drink Penalty -->
+    <string name="preset_drink_penalty">Штрафной глоток</string>
+    <string name="penalty_one">Один глоток</string>
+    <string name="penalty_two">Два глотка</string>
+    <string name="penalty_half">Полбокала</string>
+    <string name="penalty_bottoms_up">До дна</string>
+    <string name="penalty_substitute">Назначь кого-то вместо себя</string>
+    <string name="penalty_everyone">Все пьют по одному</string>
+    <string name="penalty_spared">В этот раз пронесло</string>
+    <string name="penalty_double">В следующем раунде вдвое</string>
+
+    <!-- Presets - Truth or Dare -->
+    <string name="preset_truth_dare">Правда или действие</string>
+    <string name="td_truth">Правда</string>
+    <string name="td_dare">Действие</string>
+    <string name="td_truth_hard">Правда, посерьёзнее</string>
+    <string name="td_dare_hard">Действие, посмелее</string>
+    <string name="td_pick_someone">Назначь кого-то</string>
+    <string name="td_you_choose">Придумай сам</string>
+    <string name="td_pass">Передай следующему</string>
+    <string name="td_free_pass">Один раз мимо</string>
+
+    <!-- Presets - Blame Game -->
+    <string name="preset_blame">Кто виноват?</string>
+    <string name="blame_requirements">Требования были размытыми</string>
+    <string name="blame_design">Дизайн снова поменяли</string>
+    <string name="blame_backend">Бэкенд сменил API</string>
+    <string name="blame_test_env">Тестовый стенд упал</string>
+    <string name="blame_boss">Начальник попросил в последний момент</string>
+    <string name="blame_network">Сбой сети</string>
+    <string name="blame_legacy">Виноват легаси-код</string>
+
 </resources>

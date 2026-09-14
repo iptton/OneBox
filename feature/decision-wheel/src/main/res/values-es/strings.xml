@@ -42,20 +42,6 @@
     <string name="food_fastfood">Rápido.</string>
     <string name="food_snacks">Snack.</string>
     <string name="food_dessert">Dulces.</string>
-    <string name="preset_dice">Tira los dados.</string>
-    <string name="dice_1">A la una.</string>
-    <string name="dice_2">A las dos.</string>
-    <string name="dice_3">A las tres.</string>
-    <string name="dice_4">A las cuatro.</string>
-    <string name="dice_5">A las cinco.</string>
-    <string name="dice_6">A las seis.</string>
-    <string name="preset_activity">¿A dónde vas este fin de semana?</string>
-    <string name="activity_movie">Ver películas.</string>
-    <string name="activity_park">Ir al parque.</string>
-    <string name="activity_shopping">Voy de compras.</string>
-    <string name="activity_game">Jugar al juego.</string>
-    <string name="activity_sleep">Dormir.</string>
-    <string name="activity_read">Leer.</string>
     <string name="preset_drink">¿Qué te ofrezco hoy?</string>
     <string name="drink_coffee">Café.</string>
     <string name="drink_milk_tea">Té con leche.</string>
@@ -63,30 +49,6 @@
     <string name="drink_water">Agua blanca.</string>
     <string name="drink_soda">Refresco.</string>
     <string name="drink_tea">Té.</string>
-    <string name="preset_work_task">Asignaciones de tareas</string>
-    <string name="task_coding">Escribir código</string>
-    <string name="task_meeting">Reunión</string>
-    <string name="task_review">Revisión de código</string>
-    <string name="task_document">Redacción de documentos</string>
-    <string name="task_testing">Prueba</string>
-    <string name="task_break">Tómate un descanso.</string>
-    <string name="preset_exercise">Deportes</string>
-    <string name="exercise_run">Correr.</string>
-    <string name="exercise_yoga">Yoga.</string>
-    <string name="exercise_swim">Natación.</string>
-    <string name="exercise_basketball">Jugar al baloncesto.</string>
-    <string name="exercise_badminton">Bádminton</string>
-    <string name="exercise_walk">Caminar.</string>
-    <string name="preset_lucky_number">Número de la suerte</string>
-    <string name="lucky_1">1</string>
-    <string name="lucky_2">2</string>
-    <string name="lucky_3">3</string>
-    <string name="lucky_4">4</string>
-    <string name="lucky_5">5</string>
-    <string name="lucky_6">6</string>
-    <string name="lucky_7">7</string>
-    <string name="lucky_8">8</string>
-    <string name="lucky_9">9</string>
     <string name="result_celebration">🎉</string>
     <string name="palette_scheme">Esquema de colores</string>
     <string name="target_emoji">🎯</string>
@@ -116,14 +78,6 @@
     <string name="date_game">Jugar</string>
     <string name="date_cook">Cocinemos juntos.</string>
     <string name="date_travel">Alrededores</string>
-    <string name="preset_movie_genre">¿Qué película?</string>
-    <string name="movie_action">Película de acción</string>
-    <string name="movie_comedy">Comedia.</string>
-    <string name="movie_romance">Películas románticas.</string>
-    <string name="movie_scifi">Ciencia ficción.</string>
-    <string name="movie_horror">Terror.</string>
-    <string name="movie_animation">Animación</string>
-    <string name="movie_documentary">Documental</string>
     <string name="preset_chores">Distribución nacional</string>
     <string name="chore_dishes">Lavar los platos.</string>
     <string name="chore_floor">Arrastrar</string>
@@ -131,12 +85,37 @@
     <string name="chore_trash">Sacar la basura.</string>
     <string name="chore_cooking">Cocinar.</string>
     <string name="chore_groceries">Comprar comida.</string>
-    <string name="preset_music">¿Qué canción?</string>
-    <string name="music_pop">Pop</string>
-    <string name="music_rock">Rock</string>
-    <string name="music_jazz">Señor.</string>
-    <string name="music_classical">Clásica</string>
-    <string name="music_electronic">Electrónica</string>
-    <string name="music_folk">Folk</string>
-    <string name="music_hiphop">¡Ja ja ja!</string>
+
+    <!-- Presets - Drink Penalty -->
+    <string name="preset_drink_penalty">Penitencia con bebida</string>
+    <string name="penalty_one">Un trago</string>
+    <string name="penalty_two">Dos tragos</string>
+    <string name="penalty_half">Medio vaso</string>
+    <string name="penalty_bottoms_up">De un golpe</string>
+    <string name="penalty_substitute">Elige a alguien que beba por ti</string>
+    <string name="penalty_everyone">Todos beben uno</string>
+    <string name="penalty_spared">Te libras</string>
+    <string name="penalty_double">Doble en la próxima ronda</string>
+
+    <!-- Presets - Truth or Dare -->
+    <string name="preset_truth_dare">Verdad o reto</string>
+    <string name="td_truth">Verdad</string>
+    <string name="td_dare">Reto</string>
+    <string name="td_truth_hard">Verdad, subida de tono</string>
+    <string name="td_dare_hard">Reto atrevido</string>
+    <string name="td_pick_someone">Elige a alguien</string>
+    <string name="td_you_choose">Invéntalo tú</string>
+    <string name="td_pass">Pasa al siguiente</string>
+    <string name="td_free_pass">Comodín</string>
+
+    <!-- Presets - Blame Game -->
+    <string name="preset_blame">¿De quién es la culpa?</string>
+    <string name="blame_requirements">Los requisitos no estaban claros</string>
+    <string name="blame_design">El diseño volvió a cambiar</string>
+    <string name="blame_backend">La API del backend cambió</string>
+    <string name="blame_test_env">El entorno de pruebas está caído</string>
+    <string name="blame_boss">El jefe lo pidió a última hora</string>
+    <string name="blame_network">Fallo de red</string>
+    <string name="blame_legacy">Culpable: el código heredado</string>
+
 </resources>

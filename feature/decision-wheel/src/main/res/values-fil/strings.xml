@@ -42,20 +42,6 @@
     <string name="food_fastfood">Mabilis.</string>
     <string name="food_snacks">Meryenda.</string>
     <string name="food_dessert">Matatamis.</string>
-    <string name="preset_dice">Pumili ng numero.</string>
-    <string name="dice_1">Ala-una.</string>
-    <string name="dice_2">Alas-dos.</string>
-    <string name="dice_3">Alas-tres.</string>
-    <string name="dice_4">Alas-kwatro.</string>
-    <string name="dice_5">Alas-singko.</string>
-    <string name="dice_6">Alas-sais.</string>
-    <string name="preset_activity">Saan ka pupunta ngayong weekend?</string>
-    <string name="activity_movie">Manonood ng pelikula.</string>
-    <string name="activity_park">Pumunta sa parke.</string>
-    <string name="activity_shopping">Mamimili ako.</string>
-    <string name="activity_game">Maglalaro.</string>
-    <string name="activity_sleep">Matutulog.</string>
-    <string name="activity_read">Magbabasa.</string>
     <string name="preset_drink">Ano ang maipaglilingkod ko sa iyo ngayon?</string>
     <string name="drink_coffee">Kape.</string>
     <string name="drink_milk_tea">Milk tea.</string>
@@ -63,30 +49,6 @@
     <string name="drink_water">Puting tubig.</string>
     <string name="drink_soda">Soda.</string>
     <string name="drink_tea">Tsaa.</string>
-    <string name="preset_work_task">Mga takdang-aralin</string>
-    <string name="task_coding">Sumulat ng code</string>
-    <string name="task_meeting">Pagpupulong</string>
-    <string name="task_review">Pagsusuri ng code</string>
-    <string name="task_document">Pagsusulat ng mga dokumento</string>
-    <string name="task_testing">Pagsusulit</string>
-    <string name="task_break">Magpahinga.</string>
-    <string name="preset_exercise">Palakasan</string>
-    <string name="exercise_run">Tumakbo.</string>
-    <string name="exercise_yoga">Yoga.</string>
-    <string name="exercise_swim">Paglangoy.</string>
-    <string name="exercise_basketball">Maglaro ng basketball.</string>
-    <string name="exercise_badminton">Badminton</string>
-    <string name="exercise_walk">Maglakad.</string>
-    <string name="preset_lucky_number">Masuwerteng numero</string>
-    <string name="lucky_1">1</string>
-    <string name="lucky_2">2</string>
-    <string name="lucky_3">3</string>
-    <string name="lucky_4">4</string>
-    <string name="lucky_5">5</string>
-    <string name="lucky_6">6</string>
-    <string name="lucky_7">7</string>
-    <string name="lucky_8">8</string>
-    <string name="lucky_9">9</string>
     <string name="result_celebration">🎉</string>
     <string name="palette_scheme">Kulay ng Tema</string>
     <string name="target_emoji">🎯</string>
@@ -116,14 +78,6 @@
     <string name="date_game">Maglaro ng Laro</string>
     <string name="date_cook">Magluto tayo nang magkasama.</string>
     <string name="date_travel">Paligid</string>
-    <string name="preset_movie_genre">Anong pelikula?</string>
-    <string name="movie_action">Aksyon</string>
-    <string name="movie_comedy">Komedya.</string>
-    <string name="movie_romance">Mga pelikulang romantiko.</string>
-    <string name="movie_scifi">Science fiction.</string>
-    <string name="movie_horror">Katatakutan.</string>
-    <string name="movie_animation">Animasyon</string>
-    <string name="movie_documentary">Dokumentaryo</string>
     <string name="preset_chores">Pamamahagi sa lokal</string>
     <string name="chore_dishes">Maghugas ng pinggan.</string>
     <string name="chore_floor">Hilahin</string>
@@ -131,12 +85,37 @@
     <string name="chore_trash">Maglabas ng basura.</string>
     <string name="chore_cooking">Pagluluto.</string>
     <string name="chore_groceries">Bumibili ng pagkain.</string>
-    <string name="preset_music">Anong kanta?</string>
-    <string name="music_pop">Pop</string>
-    <string name="music_rock">Rock</string>
-    <string name="music_jazz">Ginoo.</string>
-    <string name="music_classical">Klasikal</string>
-    <string name="music_electronic">Elektroniko</string>
-    <string name="music_folk">Folk</string>
-    <string name="music_hiphop">Ha ha ha!</string>
+
+    <!-- Presets - Drink Penalty -->
+    <string name="preset_drink_penalty">Parusa sa inuman</string>
+    <string name="penalty_one">Isang baso</string>
+    <string name="penalty_two">Dalawang baso</string>
+    <string name="penalty_half">Kalahating baso</string>
+    <string name="penalty_bottoms_up">Inumin lahat</string>
+    <string name="penalty_substitute">Pumili ng iinom para sa iyo</string>
+    <string name="penalty_everyone">Lahat uminom ng isa</string>
+    <string name="penalty_spared">Ligtas ka sa round na ito</string>
+    <string name="penalty_double">Doble sa susunod</string>
+
+    <!-- Presets - Truth or Dare -->
+    <string name="preset_truth_dare">Totoo o tapang</string>
+    <string name="td_truth">Totoo</string>
+    <string name="td_dare">Tapang</string>
+    <string name="td_truth_hard">Totoo, mas matapang</string>
+    <string name="td_dare_hard">Tapang, mas matapang</string>
+    <string name="td_pick_someone">Pumili ng isa</string>
+    <string name="td_you_choose">Ikaw ang gumawa</string>
+    <string name="td_pass">Ipasa sa susunod</string>
+    <string name="td_free_pass">Libre pasa</string>
+
+    <!-- Presets - Blame Game -->
+    <string name="preset_blame">Kanino ang sisi?</string>
+    <string name="blame_requirements">Malabo ang requirements</string>
+    <string name="blame_design">Nagbago na naman ang design</string>
+    <string name="blame_backend">Nagbago ang backend API</string>
+    <string name="blame_test_env">Down ang test environment</string>
+    <string name="blame_boss">Last minute na request ng boss</string>
+    <string name="blame_network">Problema sa network</string>
+    <string name="blame_legacy">Sala ng legacy code</string>
+
 </resources>

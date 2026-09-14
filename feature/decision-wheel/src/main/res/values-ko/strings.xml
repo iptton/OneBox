@@ -42,20 +42,6 @@
     <string name="food_fastfood">간편식.</string>
     <string name="food_snacks">간식.</string>
     <string name="food_dessert">디저트.</string>
-    <string name="preset_dice">주사위를 굴려보세요.</string>
-    <string name="dice_1">한 시.</string>
-    <string name="dice_2">두 시.</string>
-    <string name="dice_3">세 시.</string>
-    <string name="dice_4">네 시.</string>
-    <string name="dice_5">다섯 시.</string>
-    <string name="dice_6">여섯 시.</string>
-    <string name="preset_activity">이번 주말에 어디 가세요?</string>
-    <string name="activity_movie">영화 보기.</string>
-    <string name="activity_park">공원 가기.</string>
-    <string name="activity_shopping">쇼핑하러 갈 거예요.</string>
-    <string name="activity_game">게임하기.</string>
-    <string name="activity_sleep">잠자기.</string>
-    <string name="activity_read">독서.</string>
     <string name="preset_drink">오늘 무엇을 드릴까요?</string>
     <string name="drink_coffee">커피.</string>
     <string name="drink_milk_tea">밀크티.</string>
@@ -63,30 +49,6 @@
     <string name="drink_water">백수.</string>
     <string name="drink_soda">소다.</string>
     <string name="drink_tea">차.</string>
-    <string name="preset_work_task">작업 할당</string>
-    <string name="task_coding">코드 작성</string>
-    <string name="task_meeting">회의</string>
-    <string name="task_review">코드 리뷰</string>
-    <string name="task_document">문서 작성</string>
-    <string name="task_testing">테스트</string>
-    <string name="task_break">휴식.</string>
-    <string name="preset_exercise">스포츠</string>
-    <string name="exercise_run">달리기.</string>
-    <string name="exercise_yoga">요가.</string>
-    <string name="exercise_swim">수영.</string>
-    <string name="exercise_basketball">농구.</string>
-    <string name="exercise_badminton">배드민턴</string>
-    <string name="exercise_walk">걷기.</string>
-    <string name="preset_lucky_number">행운의 숫자</string>
-    <string name="lucky_1">1</string>
-    <string name="lucky_2">2</string>
-    <string name="lucky_3">3</string>
-    <string name="lucky_4">4</string>
-    <string name="lucky_5">5</string>
-    <string name="lucky_6">6</string>
-    <string name="lucky_7">7</string>
-    <string name="lucky_8">8</string>
-    <string name="lucky_9">9</string>
     <string name="result_celebration">🎉</string>
     <string name="palette_scheme">색상 구성</string>
     <string name="target_emoji">🎯</string>
@@ -116,14 +78,6 @@
     <string name="date_game">게임하기</string>
     <string name="date_cook">같이 요리하자.</string>
     <string name="date_travel">주변</string>
-    <string name="preset_movie_genre">무슨 영화?</string>
-    <string name="movie_action">액션 영화</string>
-    <string name="movie_comedy">코미디.</string>
-    <string name="movie_romance">로맨스 영화.</string>
-    <string name="movie_scifi">공상과학.</string>
-    <string name="movie_horror">공포.</string>
-    <string name="movie_animation">애니메이션</string>
-    <string name="movie_documentary">다큐멘터리</string>
     <string name="preset_chores">국내 배급</string>
     <string name="chore_dishes">설거지하기.</string>
     <string name="chore_floor">끌기</string>
@@ -131,12 +85,37 @@
     <string name="chore_trash">쓰레기 버리기.</string>
     <string name="chore_cooking">요리.</string>
     <string name="chore_groceries">식료품 사기.</string>
-    <string name="preset_music">무슨 노래?</string>
-    <string name="music_pop">팝</string>
-    <string name="music_rock">록</string>
-    <string name="music_jazz">선생님.</string>
-    <string name="music_classical">클래식</string>
-    <string name="music_electronic">일렉트로닉</string>
-    <string name="music_folk">포크</string>
-    <string name="music_hiphop">하하하!</string>
+
+    <!-- Presets - Drink Penalty -->
+    <string name="preset_drink_penalty">술자리 벌칙</string>
+    <string name="penalty_one">한 잔 마시기</string>
+    <string name="penalty_two">두 잔 마시기</string>
+    <string name="penalty_half">반 잔만</string>
+    <string name="penalty_bottoms_up">원샷</string>
+    <string name="penalty_substitute">대신 마실 사람 지목</string>
+    <string name="penalty_everyone">모두 한 잔씩</string>
+    <string name="penalty_spared">이번 판은 면제</string>
+    <string name="penalty_double">다음 판 두 배</string>
+
+    <!-- Presets - Truth or Dare -->
+    <string name="preset_truth_dare">진실 아니면 도전</string>
+    <string name="td_truth">진실</string>
+    <string name="td_dare">도전</string>
+    <string name="td_truth_hard">진실, 수위 높게</string>
+    <string name="td_dare_hard">도전, 더 세게</string>
+    <string name="td_pick_someone">한 사람 지목</string>
+    <string name="td_you_choose">네가 출제</string>
+    <string name="td_pass">다음 사람에게 패스</string>
+    <string name="td_free_pass">면제권 한 번</string>
+
+    <!-- Presets - Blame Game -->
+    <string name="preset_blame">누구 탓?</string>
+    <string name="blame_requirements">요구사항이 애매했다</string>
+    <string name="blame_design">디자인이 또 바뀌었다</string>
+    <string name="blame_backend">백엔드 API가 바뀌었다</string>
+    <string name="blame_test_env">테스트 환경이 죽었다</string>
+    <string name="blame_boss">상사가 막판에 추가했다</string>
+    <string name="blame_network">네트워크 장애</string>
+    <string name="blame_legacy">레거시 코드 탓</string>
+
 </resources>

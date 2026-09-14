@@ -42,20 +42,6 @@
     <string name="food_fastfood">Atıştırmalık.</string>
     <string name="food_snacks">Aperatif.</string>
     <string name="food_dessert">Tatlılar.</string>
-    <string name="preset_dice">Zarı at.</string>
-    <string name="dice_1">Saat bir.</string>
-    <string name="dice_2">Saat iki.</string>
-    <string name="dice_3">Saat üç.</string>
-    <string name="dice_4">Saat dört.</string>
-    <string name="dice_5">Saat beş.</string>
-    <string name="dice_6">Saat altı.</string>
-    <string name="preset_activity">Bu hafta sonu nereye gidiyorsun?</string>
-    <string name="activity_movie">Film izlemek.</string>
-    <string name="activity_park">Parka gitmek.</string>
-    <string name="activity_shopping">Alışverişe gidiyorum.</string>
-    <string name="activity_game">Oyun oynamak.</string>
-    <string name="activity_sleep">Uyumak.</string>
-    <string name="activity_read">Okumak.</string>
     <string name="preset_drink">Bugün size ne getirebilirim?</string>
     <string name="drink_coffee">Kahve.</string>
     <string name="drink_milk_tea">Sütlü çay.</string>
@@ -63,30 +49,6 @@
     <string name="drink_water">Beyaz su.</string>
     <string name="drink_soda">Soda.</string>
     <string name="drink_tea">Çay.</string>
-    <string name="preset_work_task">Görev atamaları</string>
-    <string name="task_coding">Kod yaz</string>
-    <string name="task_meeting">Toplantı</string>
-    <string name="task_review">Kod İncelemesi</string>
-    <string name="task_document">Doküman yazma</string>
-    <string name="task_testing">Test</string>
-    <string name="task_break">Mola ver.</string>
-    <string name="preset_exercise">Spor</string>
-    <string name="exercise_run">Koş.</string>
-    <string name="exercise_yoga">Yoga.</string>
-    <string name="exercise_swim">Yüzme.</string>
-    <string name="exercise_basketball">Basketbol oyna.</string>
-    <string name="exercise_badminton">Badminton</string>
-    <string name="exercise_walk">Yürüyüş.</string>
-    <string name="preset_lucky_number">Şanslı sayı</string>
-    <string name="lucky_1">1</string>
-    <string name="lucky_2">2</string>
-    <string name="lucky_3">3</string>
-    <string name="lucky_4">4</string>
-    <string name="lucky_5">5</string>
-    <string name="lucky_6">6</string>
-    <string name="lucky_7">7</string>
-    <string name="lucky_8">8</string>
-    <string name="lucky_9">9</string>
     <string name="result_celebration">🎉</string>
     <string name="palette_scheme">Renk Şeması</string>
     <string name="target_emoji">🎯</string>
@@ -116,14 +78,6 @@
     <string name="date_game">Oyun Oyna</string>
     <string name="date_cook">Birlikte yemek yapalım.</string>
     <string name="date_travel">Çevre</string>
-    <string name="preset_movie_genre">Hangi film?</string>
-    <string name="movie_action">Aksiyon Filmi</string>
-    <string name="movie_comedy">Komedi.</string>
-    <string name="movie_romance">Aşk filmleri.</string>
-    <string name="movie_scifi">Bilim kurgu.</string>
-    <string name="movie_horror">Korku.</string>
-    <string name="movie_animation">Animasyon</string>
-    <string name="movie_documentary">Belgesel</string>
     <string name="preset_chores">Yerli dağıtım</string>
     <string name="chore_dishes">Bulaşık yıkamak.</string>
     <string name="chore_floor">Sürükle</string>
@@ -131,12 +85,37 @@
     <string name="chore_trash">Çöpü dışarı çıkarmak.</string>
     <string name="chore_cooking">Yemek yapmak.</string>
     <string name="chore_groceries">Yiyecek almak.</string>
-    <string name="preset_music">Hangi şarkı?</string>
-    <string name="music_pop">Pop</string>
-    <string name="music_rock">Rock</string>
-    <string name="music_jazz">Bayım.</string>
-    <string name="music_classical">Klasik</string>
-    <string name="music_electronic">Elektronik</string>
-    <string name="music_folk">Halk</string>
-    <string name="music_hiphop">Ha ha ha!</string>
+
+    <!-- Presets - Drink Penalty -->
+    <string name="preset_drink_penalty">İçme cezası</string>
+    <string name="penalty_one">Bir shot</string>
+    <string name="penalty_two">İki shot</string>
+    <string name="penalty_half">Yarım bardak</string>
+    <string name="penalty_bottoms_up">Bir dikişte</string>
+    <string name="penalty_substitute">Yerine içecek birini seç</string>
+    <string name="penalty_everyone">Herkes bir içer</string>
+    <string name="penalty_spared">Bu tur kurtuldun</string>
+    <string name="penalty_double">Sonraki tur iki katı</string>
+
+    <!-- Presets - Truth or Dare -->
+    <string name="preset_truth_dare">Doğruluk mu cesaret mi</string>
+    <string name="td_truth">Doğruluk</string>
+    <string name="td_dare">Cesaret</string>
+    <string name="td_truth_hard">Doğruluk, biraz daha cesur</string>
+    <string name="td_dare_hard">Cesaret, biraz daha sert</string>
+    <string name="td_pick_someone">Birini seç</string>
+    <string name="td_you_choose">Sen uydur</string>
+    <string name="td_pass">Sırayı devret</string>
+    <string name="td_free_pass">Bir kez muaf</string>
+
+    <!-- Presets - Blame Game -->
+    <string name="preset_blame">Suç kimde?</string>
+    <string name="blame_requirements">İhtiyaçlar net değildi</string>
+    <string name="blame_design">Tasarım yine değişti</string>
+    <string name="blame_backend">Backend API değişti</string>
+    <string name="blame_test_env">Test ortamı çöktü</string>
+    <string name="blame_boss">Patron son dakika istedi</string>
+    <string name="blame_network">Ağ sorunu</string>
+    <string name="blame_legacy">Suçlu: eski kod</string>
+
 </resources>

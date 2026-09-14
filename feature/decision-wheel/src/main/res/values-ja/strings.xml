@@ -42,20 +42,6 @@
     <string name="food_fastfood">軽食。</string>
     <string name="food_snacks">スナック。</string>
     <string name="food_dessert">スイーツ。</string>
-    <string name="preset_dice">サイコロを振る。</string>
-    <string name="dice_1">1時。</string>
-    <string name="dice_2">2時。</string>
-    <string name="dice_3">3時。</string>
-    <string name="dice_4">4時。</string>
-    <string name="dice_5">5時。</string>
-    <string name="dice_6">6時。</string>
-    <string name="preset_activity">今週末はどこに行きますか？</string>
-    <string name="activity_movie">映画を見る。</string>
-    <string name="activity_park">公園に行く。</string>
-    <string name="activity_shopping">買い物に行く。</string>
-    <string name="activity_game">ゲームをする。</string>
-    <string name="activity_sleep">寝る。</string>
-    <string name="activity_read">読書。</string>
     <string name="preset_drink">今日は何にしますか？</string>
     <string name="drink_coffee">コーヒー。</string>
     <string name="drink_milk_tea">ミルクティー。</string>
@@ -63,30 +49,6 @@
     <string name="drink_water">白水。</string>
     <string name="drink_soda">ソーダ。</string>
     <string name="drink_tea">お茶。</string>
-    <string name="preset_work_task">タスク割り当て</string>
-    <string name="task_coding">コードを書く</string>
-    <string name="task_meeting">会議</string>
-    <string name="task_review">コードレビュー</string>
-    <string name="task_document">文書作成</string>
-    <string name="task_testing">テスト</string>
-    <string name="task_break">休憩しましょう。</string>
-    <string name="preset_exercise">スポーツ</string>
-    <string name="exercise_run">走る。</string>
-    <string name="exercise_yoga">ヨガ。</string>
-    <string name="exercise_swim">水泳。</string>
-    <string name="exercise_basketball">バスケットボールをする。</string>
-    <string name="exercise_badminton">バドミントン</string>
-    <string name="exercise_walk">散歩。</string>
-    <string name="preset_lucky_number">ラッキーナンバー</string>
-    <string name="lucky_1">1</string>
-    <string name="lucky_2">2</string>
-    <string name="lucky_3">3</string>
-    <string name="lucky_4">4</string>
-    <string name="lucky_5">5</string>
-    <string name="lucky_6">6</string>
-    <string name="lucky_7">7</string>
-    <string name="lucky_8">8</string>
-    <string name="lucky_9">9</string>
     <string name="result_celebration">🎉</string>
     <string name="palette_scheme">配色</string>
     <string name="target_emoji">🎯</string>
@@ -116,14 +78,6 @@
     <string name="date_game">ゲームをする</string>
     <string name="date_cook">一緒に料理しよう。</string>
     <string name="date_travel">周り</string>
-    <string name="preset_movie_genre">どんな映画？</string>
-    <string name="movie_action">アクション映画</string>
-    <string name="movie_comedy">コメディ。</string>
-    <string name="movie_romance">恋愛映画。</string>
-    <string name="movie_scifi">SF。</string>
-    <string name="movie_horror">ホラー。</string>
-    <string name="movie_animation">アニメ</string>
-    <string name="movie_documentary">ドキュメンタリー</string>
     <string name="preset_chores">国内配給</string>
     <string name="chore_dishes">皿洗い。</string>
     <string name="chore_floor">ドラッグ</string>
@@ -131,12 +85,37 @@
     <string name="chore_trash">ゴミ出し。</string>
     <string name="chore_cooking">料理。</string>
     <string name="chore_groceries">食材の買い出し。</string>
-    <string name="preset_music">何の曲？</string>
-    <string name="music_pop">ポップ</string>
-    <string name="music_rock">ロック</string>
-    <string name="music_jazz">様</string>
-    <string name="music_classical">クラシック</string>
-    <string name="music_electronic">エレクトロニック</string>
-    <string name="music_folk">フォーク</string>
-    <string name="music_hiphop">ははは！</string>
+
+    <!-- Presets - Drink Penalty -->
+    <string name="preset_drink_penalty">飲み会の罰ゲーム</string>
+    <string name="penalty_one">一杯飲む</string>
+    <string name="penalty_two">二杯飲む</string>
+    <string name="penalty_half">半分だけ</string>
+    <string name="penalty_bottoms_up">一気飲み</string>
+    <string name="penalty_substitute">代理で飲む人を指名</string>
+    <string name="penalty_everyone">全員で一杯</string>
+    <string name="penalty_spared">今回は免除</string>
+    <string name="penalty_double">次回は倍</string>
+
+    <!-- Presets - Truth or Dare -->
+    <string name="preset_truth_dare">真実か挑戦か</string>
+    <string name="td_truth">真実</string>
+    <string name="td_dare">挑戦</string>
+    <string name="td_truth_hard">真実（ハード）</string>
+    <string name="td_dare_hard">挑戦（ハード）</string>
+    <string name="td_pick_someone">一人を指名</string>
+    <string name="td_you_choose">あなたが出題</string>
+    <string name="td_pass">次の人にパス</string>
+    <string name="td_free_pass">一回免除</string>
+
+    <!-- Presets - Blame Game -->
+    <string name="preset_blame">誰のせい？</string>
+    <string name="blame_requirements">仕様が曖昧だった</string>
+    <string name="blame_design">デザインがまた変わった</string>
+    <string name="blame_backend">バックエンドのAPIが変わった</string>
+    <string name="blame_test_env">テスト環境が落ちた</string>
+    <string name="blame_boss">上司の直前の追加依頼</string>
+    <string name="blame_network">ネットワーク障害</string>
+    <string name="blame_legacy">レガシーコードのせい</string>
+
 </resources>

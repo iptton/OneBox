@@ -44,6 +44,12 @@ class DecisionWheelPresetsProvider(
     /**
      * Returns the full list of preset wheel definitions as localized strings.
      */
+    /**
+     * 预置转盘。
+     *
+     * 选品口径:只留"真会拿它做决定"的场景 —— 要么天天要选(吃什么),要么一选就有乐子(喝酒惩罚)。
+     * 骰子、幸运数字这类别的模块已经有了,纯粹凑数的转盘不占位置。
+     */
     fun presets(): List<PresetDefinitionLocalized> = listOf(
         // Food
         PresetDefinition(
@@ -59,28 +65,45 @@ class DecisionWheelPresetsProvider(
                 R.string.food_dessert
             )
         ),
-        // Dice
+        // Drink penalty
         PresetDefinition(
-            titleRes = R.string.preset_dice,
+            titleRes = R.string.preset_drink_penalty,
             optionRes = listOf(
-                R.string.dice_1,
-                R.string.dice_2,
-                R.string.dice_3,
-                R.string.dice_4,
-                R.string.dice_5,
-                R.string.dice_6
+                R.string.penalty_one,
+                R.string.penalty_two,
+                R.string.penalty_half,
+                R.string.penalty_bottoms_up,
+                R.string.penalty_substitute,
+                R.string.penalty_everyone,
+                R.string.penalty_spared,
+                R.string.penalty_double
             )
         ),
-        // Activity
+        // Truth or dare
         PresetDefinition(
-            titleRes = R.string.preset_activity,
+            titleRes = R.string.preset_truth_dare,
             optionRes = listOf(
-                R.string.activity_movie,
-                R.string.activity_park,
-                R.string.activity_shopping,
-                R.string.activity_game,
-                R.string.activity_sleep,
-                R.string.activity_read
+                R.string.td_truth,
+                R.string.td_dare,
+                R.string.td_truth_hard,
+                R.string.td_dare_hard,
+                R.string.td_pick_someone,
+                R.string.td_you_choose,
+                R.string.td_pass,
+                R.string.td_free_pass
+            )
+        ),
+        // Blame game
+        PresetDefinition(
+            titleRes = R.string.preset_blame,
+            optionRes = listOf(
+                R.string.blame_requirements,
+                R.string.blame_design,
+                R.string.blame_backend,
+                R.string.blame_test_env,
+                R.string.blame_boss,
+                R.string.blame_network,
+                R.string.blame_legacy
             )
         ),
         // Drink
@@ -93,45 +116,6 @@ class DecisionWheelPresetsProvider(
                 R.string.drink_water,
                 R.string.drink_soda,
                 R.string.drink_tea
-            )
-        ),
-        // Work task
-        PresetDefinition(
-            titleRes = R.string.preset_work_task,
-            optionRes = listOf(
-                R.string.task_coding,
-                R.string.task_meeting,
-                R.string.task_review,
-                R.string.task_document,
-                R.string.task_testing,
-                R.string.task_break
-            )
-        ),
-        // Exercise
-        PresetDefinition(
-            titleRes = R.string.preset_exercise,
-            optionRes = listOf(
-                R.string.exercise_run,
-                R.string.exercise_yoga,
-                R.string.exercise_swim,
-                R.string.exercise_basketball,
-                R.string.exercise_badminton,
-                R.string.exercise_walk
-            )
-        ),
-        // Lucky
-        PresetDefinition(
-            titleRes = R.string.preset_lucky_number,
-            optionRes = listOf(
-                R.string.lucky_1,
-                R.string.lucky_2,
-                R.string.lucky_3,
-                R.string.lucky_4,
-                R.string.lucky_5,
-                R.string.lucky_6,
-                R.string.lucky_7,
-                R.string.lucky_8,
-                R.string.lucky_9
             )
         ),
         // Who Pays
@@ -158,19 +142,6 @@ class DecisionWheelPresetsProvider(
                 R.string.date_travel
             )
         ),
-        // Movie Genre
-        PresetDefinition(
-            titleRes = R.string.preset_movie_genre,
-            optionRes = listOf(
-                R.string.movie_action,
-                R.string.movie_comedy,
-                R.string.movie_romance,
-                R.string.movie_scifi,
-                R.string.movie_horror,
-                R.string.movie_animation,
-                R.string.movie_documentary
-            )
-        ),
         // Household Chores
         PresetDefinition(
             titleRes = R.string.preset_chores,
@@ -181,19 +152,6 @@ class DecisionWheelPresetsProvider(
                 R.string.chore_trash,
                 R.string.chore_cooking,
                 R.string.chore_groceries
-            )
-        ),
-        // Music Vibe
-        PresetDefinition(
-            titleRes = R.string.preset_music,
-            optionRes = listOf(
-                R.string.music_pop,
-                R.string.music_rock,
-                R.string.music_jazz,
-                R.string.music_classical,
-                R.string.music_electronic,
-                R.string.music_folk,
-                R.string.music_hiphop
             )
         )
     ).map { it.localize(appContext) }

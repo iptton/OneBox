@@ -37,69 +37,22 @@
     <string name="preset_food">What are you eating today?</string>
     <string name="food_hotpot">Hotpot.</string>
     <string name="food_bbq">Barbecue.</string>
-    <string name="food_japanese">Days.</string>
+    <string name="food_japanese">Japanese</string>
     <string name="food_western">Western.</string>
     <string name="food_chinese">Chinese</string>
-    <string name="food_fastfood">Quickie.</string>
-    <string name="food_snacks">Snack.</string>
-    <string name="food_dessert">Sweets.</string>
-
-    <!-- Presets - Dice Wheel -->
-    <string name="preset_dice">Roll the dice.</string>
-    <string name="dice_1">One o\'clock.</string>
-    <string name="dice_2">Two o\'clock.</string>
-    <string name="dice_3">Three o\'clock.</string>
-    <string name="dice_4">Four o\'clock.</string>
-    <string name="dice_5">Five o\'clock.</string>
-    <string name="dice_6">Six o\'clock.</string>
-
-    <!-- Presets - Activity Wheel -->
-    <string name="preset_activity">Where are you going this weekend?</string>
-    <string name="activity_movie">Watching movies.</string>
-    <string name="activity_park">Go to the park.</string>
-    <string name="activity_shopping">I\'m going shopping.</string>
-    <string name="activity_game">Play the game.</string>
-    <string name="activity_sleep">Sleep.</string>
-    <string name="activity_read">Read.</string>
+    <string name="food_fastfood">Fast food</string>
+    <string name="food_snacks">Street snacks</string>
+    <string name="food_dessert">Dessert</string>
 
     <!-- Presets - Drink Wheel -->
-    <string name="preset_drink">What can I get you today?</string>
+    <string name="preset_drink">What are you drinking?</string>
     <string name="drink_coffee">Coffee.</string>
     <string name="drink_milk_tea">Milk tea.</string>
     <string name="drink_juice">Juice.</string>
-    <string name="drink_water">White water.</string>
+    <string name="drink_water">Water</string>
     <string name="drink_soda">Soda.</string>
     <string name="drink_tea">Tea.</string>
 
-    <!-- Presets - Work Task Wheel -->
-    <string name="preset_work_task">Task assignments</string>
-    <string name="task_coding">Write code</string>
-    <string name="task_meeting">Meeting</string>
-    <string name="task_review">Code Review</string>
-    <string name="task_document">Writing documents</string>
-    <string name="task_testing">Test</string>
-    <string name="task_break">Take a break.</string>
-
-    <!-- Presets - Exercise Wheel -->
-    <string name="preset_exercise">Sports</string>
-    <string name="exercise_run">Run.</string>
-    <string name="exercise_yoga">Yoga.</string>
-    <string name="exercise_swim">Swimming.</string>
-    <string name="exercise_basketball">Play basketball.</string>
-    <string name="exercise_badminton">Badminton</string>
-    <string name="exercise_walk">Walking.</string>
-
-    <!-- Presets - Lucky Number Wheel -->
-    <string name="preset_lucky_number">Lucky number</string>
-    <string name="lucky_1">1</string>
-    <string name="lucky_2">2</string>
-    <string name="lucky_3">3</string>
-    <string name="lucky_4">4</string>
-    <string name="lucky_5">5</string>
-    <string name="lucky_6">6</string>
-    <string name="lucky_7">7</string>
-    <string name="lucky_8">8</string>
-    <string name="lucky_9">9</string>
     <string name="result_celebration">🎉</string>
     <string name="palette_scheme">Colour Scheme</string>
     <string name="target_emoji">🎯</string>
@@ -171,45 +124,58 @@
     <string name="pay_me">It\'s on me.</string>
     <string name="pay_you">Your treat.</string>
     <string name="pay_aa">AA</string>
-    <string name="pay_boss">It\'s on the house.</string>
+    <string name="pay_boss">The boss is paying</string>
     <string name="pay_next_time">Next time.</string>
-    <string name="pay_luck">It\'s luck.</string>
+    <string name="pay_luck">Settle it with rock-paper-scissors</string>
 
     <!-- Presets - Date Night -->
-    <string name="preset_date_night">What for?</string>
+    <string name="preset_date_night">Date night plans</string>
     <string name="date_movie">Watching movies.</string>
     <string name="date_dinner">Candlelight dinner.</string>
     <string name="date_walk">Walk and chat.</string>
     <string name="date_game">Play Game</string>
     <string name="date_cook">Let\'s cook together.</string>
-    <string name="date_travel">Surrounding</string>
-
-    <!-- Presets - Movie Genre -->
-    <string name="preset_movie_genre">What movie?</string>
-    <string name="movie_action">Action Film</string>
-    <string name="movie_comedy">Comedy.</string>
-    <string name="movie_romance">Love films.</string>
-    <string name="movie_scifi">Science fiction.</string>
-    <string name="movie_horror">Horror.</string>
-    <string name="movie_animation">Animation</string>
-    <string name="movie_documentary">Documentary</string>
+    <string name="date_travel">Weekend getaway</string>
 
     <!-- Presets - Household Chores -->
-    <string name="preset_chores">Domestic distribution</string>
+    <string name="preset_chores">Who does the chores</string>
     <string name="chore_dishes">Wash dishes.</string>
-    <string name="chore_floor">Drag</string>
+    <string name="chore_floor">Mop the floor</string>
     <string name="chore_laundry">Laundry</string>
     <string name="chore_trash">Take out the trash.</string>
     <string name="chore_cooking">Cooking.</string>
-    <string name="chore_groceries">Buying food.</string>
+    <string name="chore_groceries">Groceries</string>
 
-    <!-- Presets - Music Vibe -->
-    <string name="preset_music">What song?</string>
-    <string name="music_pop">Pop</string>
-    <string name="music_rock">Rock</string>
-    <string name="music_jazz">Sir.</string>
-    <string name="music_classical">Classical</string>
-    <string name="music_electronic">Electronic</string>
-    <string name="music_folk">Folk</string>
-    <string name="music_hiphop">Ha ha ha!</string>
+    <!-- Presets - Drink Penalty -->
+    <string name="preset_drink_penalty">Drink penalty</string>
+    <string name="penalty_one">Drink one</string>
+    <string name="penalty_two">Drink two</string>
+    <string name="penalty_half">Half a glass</string>
+    <string name="penalty_bottoms_up">Bottoms up</string>
+    <string name="penalty_substitute">Pick someone to drink for you</string>
+    <string name="penalty_everyone">Everyone drinks one</string>
+    <string name="penalty_spared">Spared this round</string>
+    <string name="penalty_double">Double next round</string>
+
+    <!-- Presets - Truth or Dare -->
+    <string name="preset_truth_dare">Truth or dare</string>
+    <string name="td_truth">Truth</string>
+    <string name="td_dare">Dare</string>
+    <string name="td_truth_hard">Truth, but spicier</string>
+    <string name="td_dare_hard">Dare, but bolder</string>
+    <string name="td_pick_someone">Pick someone</string>
+    <string name="td_you_choose">You make it up</string>
+    <string name="td_pass">Pass to the next</string>
+    <string name="td_free_pass">Free pass</string>
+
+    <!-- Presets - Blame Game -->
+    <string name="preset_blame">Who takes the blame</string>
+    <string name="blame_requirements">Requirements were vague</string>
+    <string name="blame_design">Design changed again</string>
+    <string name="blame_backend">Backend API shifted</string>
+    <string name="blame_test_env">Test env is down</string>
+    <string name="blame_boss">Boss asked for it last minute</string>
+    <string name="blame_network">Network hiccup</string>
+    <string name="blame_legacy">Legacy code did it</string>
+
 </resources>

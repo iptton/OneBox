@@ -42,20 +42,6 @@
     <string name="food_fastfood">Cepat.</string>
     <string name="food_snacks">Camilan.</string>
     <string name="food_dessert">Manis.</string>
-    <string name="preset_dice">Lempar dadu.</string>
-    <string name="dice_1">Jam satu.</string>
-    <string name="dice_2">Jam dua.</string>
-    <string name="dice_3">Jam tiga.</string>
-    <string name="dice_4">Jam empat.</string>
-    <string name="dice_5">Jam lima.</string>
-    <string name="dice_6">Jam enam.</string>
-    <string name="preset_activity">Mau ke mana akhir pekan ini?</string>
-    <string name="activity_movie">Nonton film.</string>
-    <string name="activity_park">Pergi ke taman.</string>
-    <string name="activity_shopping">Aku mau belanja.</string>
-    <string name="activity_game">Main game.</string>
-    <string name="activity_sleep">Tidur.</string>
-    <string name="activity_read">Baca.</string>
     <string name="preset_drink">Ada yang bisa saya bantu hari ini?</string>
     <string name="drink_coffee">Kopi.</string>
     <string name="drink_milk_tea">Teh susu.</string>
@@ -63,30 +49,6 @@
     <string name="drink_water">Air putih.</string>
     <string name="drink_soda">Soda.</string>
     <string name="drink_tea">Teh.</string>
-    <string name="preset_work_task">Penugasan tugas</string>
-    <string name="task_coding">Menulis kode</string>
-    <string name="task_meeting">Rapat</string>
-    <string name="task_review">Tinjauan kode</string>
-    <string name="task_document">Menulis dokumen</string>
-    <string name="task_testing">Tes</string>
-    <string name="task_break">Istirahat.</string>
-    <string name="preset_exercise">Olahraga</string>
-    <string name="exercise_run">Lari.</string>
-    <string name="exercise_yoga">Yoga.</string>
-    <string name="exercise_swim">Berenang.</string>
-    <string name="exercise_basketball">Bermain basket.</string>
-    <string name="exercise_badminton">Bulu tangkis</string>
-    <string name="exercise_walk">Berjalan.</string>
-    <string name="preset_lucky_number">Angka keberuntungan</string>
-    <string name="lucky_1">1</string>
-    <string name="lucky_2">2</string>
-    <string name="lucky_3">3</string>
-    <string name="lucky_4">4</string>
-    <string name="lucky_5">5</string>
-    <string name="lucky_6">6</string>
-    <string name="lucky_7">7</string>
-    <string name="lucky_8">8</string>
-    <string name="lucky_9">9</string>
     <string name="result_celebration">🎉</string>
     <string name="palette_scheme">Skema warna</string>
     <string name="target_emoji">🎯</string>
@@ -116,14 +78,6 @@
     <string name="date_game">Main Game</string>
     <string name="date_cook">Ayo masak bersama.</string>
     <string name="date_travel">Sekitar</string>
-    <string name="preset_movie_genre">Film apa?</string>
-    <string name="movie_action">Film Aksi</string>
-    <string name="movie_comedy">Komedi.</string>
-    <string name="movie_romance">Film cinta.</string>
-    <string name="movie_scifi">Fiksi ilmiah.</string>
-    <string name="movie_horror">Horor.</string>
-    <string name="movie_animation">Animasi</string>
-    <string name="movie_documentary">Dokumenter</string>
     <string name="preset_chores">Distribusi dalam negeri</string>
     <string name="chore_dishes">Cuci piring.</string>
     <string name="chore_floor">Seret</string>
@@ -131,12 +85,37 @@
     <string name="chore_trash">Buang sampah.</string>
     <string name="chore_cooking">Memasak.</string>
     <string name="chore_groceries">Membeli makanan.</string>
-    <string name="preset_music">Lagu apa?</string>
-    <string name="music_pop">Pop</string>
-    <string name="music_rock">Rock</string>
-    <string name="music_jazz">Pak.</string>
-    <string name="music_classical">Klasik</string>
-    <string name="music_electronic">Elektronik</string>
-    <string name="music_folk">Folk</string>
-    <string name="music_hiphop">Ha ha ha!</string>
+
+    <!-- Presets - Drink Penalty -->
+    <string name="preset_drink_penalty">Hukuman minum</string>
+    <string name="penalty_one">Satu gelas</string>
+    <string name="penalty_two">Dua gelas</string>
+    <string name="penalty_half">Setengah gelas</string>
+    <string name="penalty_bottoms_up">Habiskan sekali teguk</string>
+    <string name="penalty_substitute">Tunjuk orang gantimu</string>
+    <string name="penalty_everyone">Semua minum satu</string>
+    <string name="penalty_spared">Kamu aman</string>
+    <string name="penalty_double">Ronde berikutnya dobel</string>
+
+    <!-- Presets - Truth or Dare -->
+    <string name="preset_truth_dare">Jujur atau tantangan</string>
+    <string name="td_truth">Jujur</string>
+    <string name="td_dare">Tantangan</string>
+    <string name="td_truth_hard">Jujur, level lebih panas</string>
+    <string name="td_dare_hard">Tantangan, lebih berani</string>
+    <string name="td_pick_someone">Tunjuk satu orang</string>
+    <string name="td_you_choose">Kamu yang bikin soal</string>
+    <string name="td_pass">Lempar ke orang berikutnya</string>
+    <string name="td_free_pass">Bebas sekali</string>
+
+    <!-- Presets - Blame Game -->
+    <string name="preset_blame">Salah siapa?</string>
+    <string name="blame_requirements">Kebutuhannya nggak jelas</string>
+    <string name="blame_design">Desainnya berubah lagi</string>
+    <string name="blame_backend">API backend berubah</string>
+    <string name="blame_test_env">Environment test down</string>
+    <string name="blame_boss">Bos minta mendadak</string>
+    <string name="blame_network">Gangguan jaringan</string>
+    <string name="blame_legacy">Salah kode lawas</string>
+
 </resources>
