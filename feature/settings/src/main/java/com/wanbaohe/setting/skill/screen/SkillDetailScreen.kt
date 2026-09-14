@@ -1,10 +1,10 @@
 package com.wanbaohe.setting.skill.screen
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -107,6 +107,7 @@ fun SkillDetailScreen(component: SkillDetailComponent) {
     }
 
     BaseScreen(
+        modifier = Modifier.background(MaterialTheme.colorScheme.surface),
         title = skill?.name ?: "",
         onGoBack = onBack,
         supportGlassEffect = false,
@@ -156,7 +157,6 @@ fun SkillDetailScreen(component: SkillDetailComponent) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
-                        .navigationBarsPadding()
                 )
             }
         }
