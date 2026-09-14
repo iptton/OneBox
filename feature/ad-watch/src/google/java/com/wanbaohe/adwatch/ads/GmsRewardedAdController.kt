@@ -2,6 +2,8 @@ package com.wanbaohe.adwatch.ads
 
 import android.app.Activity
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -39,7 +41,22 @@ class GmsRewardedAdController @Inject constructor(
     private val sdkInitialized = AtomicBoolean(false)
     private var loading = false
 
-    override fun preload() {
+    private val mainHandler = Handler(Looper.getMainLooper())
+
+    /** AdMob 所有接口强制主线程调用(登录成功回调等可能从子线程重试进来) */
+    private inline fun onMain(crossinline block: () -> Unit) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            block()
+        } else {
+            mainHandler.post { block() }
+        }
+    }
+
+    override fun preload() = onMain {
+        preloadInternal()
+    }
+
+    private fun preloadInternal() {
         if (rewardedAd != null || loading) return
         loading = true
         _status.value = RewardedAdStatus.LOADING
@@ -81,12 +98,12 @@ class GmsRewardedAdController @Inject constructor(
         onEarned: () -> Unit,
         onClosed: () -> Unit,
         onError: () -> Unit,
-    ) {
+    ) = onMain {
         val ad = rewardedAd
         if (ad == null) {
             onError()
             preload()
-            return
+            return@onMain
         }
         ad.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {

@@ -174,6 +174,18 @@ class GmRewardedAdController @Inject constructor(
         onClosed: () -> Unit,
         onError: () -> Unit,
     ) {
+        // 穿山甲系展示接口同样要求主线程(登录成功回调等可能从子线程重试进来)
+        mainHandler.post {
+            showInternal(activity, onEarned, onClosed, onError)
+        }
+    }
+
+    private fun showInternal(
+        activity: Activity,
+        onEarned: () -> Unit,
+        onClosed: () -> Unit,
+        onError: () -> Unit,
+    ) {
         val ad = rewardedAd
         if (ad == null) {
             onError()
