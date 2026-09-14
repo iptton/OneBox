@@ -53,7 +53,11 @@ class RecordCenterComponent @AssistedInject internal constructor(
         .map { list -> list.associateBy { it.type } }
         .stateIn(componentScope, SharingStarted.WhileSubscribed(5_000L), emptyMap())
 
-    /** 布局模式,页面内保留(重启不持久化) */
+    /**
+     * 布局模式,内存级状态(重启不持久化):
+     * 初始值与 App 全局布局设置一致并跟随其变化(见 RecordCenterScreen 的同步逻辑),
+     * 页面内切换只改本地状态,不回写全局设置。
+     */
     private val _layoutMode = MutableStateFlow(RecordCenterLayout.LIST)
     val layoutMode: StateFlow<RecordCenterLayout> = _layoutMode
 
@@ -62,6 +66,11 @@ class RecordCenterComponent @AssistedInject internal constructor(
             RecordCenterLayout.LIST -> RecordCenterLayout.GRID
             RecordCenterLayout.GRID -> RecordCenterLayout.LIST
         }
+    }
+
+    /** 跟随 App 全局布局设置(true=双列网格) */
+    fun syncLayoutWithAppSetting(isGridMode: Boolean) {
+        _layoutMode.value = if (isGridMode) RecordCenterLayout.GRID else RecordCenterLayout.LIST
     }
 
     fun navigateToRecordList(recordType: String) {

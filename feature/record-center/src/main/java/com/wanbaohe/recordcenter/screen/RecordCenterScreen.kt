@@ -27,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +45,7 @@ import com.shifenmiao.database.recordcenter.entity.HealthRecordEntity
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFeatures
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAvatarDefault
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineChevronRight
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassCard
 import com.wanbaohe.recordcenter.R
 import com.wanbaohe.recordcenter.component.RecordCenterComponent
@@ -62,6 +64,12 @@ fun RecordCenterScreen(component: RecordCenterComponent) {
     val layoutMode by component.layoutMode.collectAsState()
     val profile by component.profile.collectAsState()
     var showProfileSheet by remember { mutableStateOf(false) }
+
+    // 布局跟随 App 全局设置(单/双列),设置变化时重新对齐;页面内切换不回写设置
+    val appGridMode = LocalSettingsState.current.groupOptionsByTypes
+    LaunchedEffect(appGridMode) {
+        component.syncLayoutWithAppSetting(appGridMode)
+    }
 
     BaseScreen(
         title = {

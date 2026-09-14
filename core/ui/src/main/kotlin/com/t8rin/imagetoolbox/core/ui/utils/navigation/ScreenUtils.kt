@@ -91,6 +91,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineFormatConversion
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineGame2048
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineGifTools
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineGradientMaker
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineHealing
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineIdPhoto
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineImageCutting
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineImagePreview
@@ -122,6 +123,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineScanQrCode
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSchedule
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSearch
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSingleEdit
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineSlideshow
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineRobot
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSpeedTest
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSurvive30s
@@ -345,6 +347,8 @@ internal fun Screen.simpleName(): String = when (this) {
     is Screen.IChingHistory -> "IChingHistory"
     is Screen.Teleprompter -> "Teleprompter"
     is Screen.AiDetect -> "AiDetect"
+    is Screen.RecordCenter -> "RecordCenter"
+    is Screen.AdWatch -> "AdWatch"
     is Screen.CreateAIAgent -> "CreateAIAgent"
     is Screen.CreateAIChatPrompt -> "CreateAIChatPrompt"
     is Screen.Minesweeper -> "Minesweeper"
@@ -358,6 +362,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is Screen.SystemPromptManagement -> "SystemPromptManagement"
     is Screen.MemoryManagement -> "MemoryManagement"
     is Screen.SkillManagement -> "SkillManagement"
+    is Screen.SkillDetail -> "SkillDetail"
     is Screen.OpenFilePicker -> "OpenFilePicker"
     is Screen.TokenUsage -> "TokenUsage"
     is Screen.VipLevel -> "VipLevel"
@@ -468,6 +473,8 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Screen.HabitTracker -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCheckCircleOutline
     is Screen.Teleprompter -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTeleprompter
     is Screen.AiDetect -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineManageSearch
+    is Screen.RecordCenter -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineHealing
+    is Screen.AdWatch -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSlideshow
     is Screen.CreateAIAgent -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAgent
     is Screen.CreateAIChatPrompt -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.ChatPlus
     is Screen.TokenUsage -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineInsights
@@ -712,6 +719,7 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     Screen.Bookkeeping(),
                     Screen.HouseholdItems(),
                     Screen.Period(),
+                    Screen.RecordCenter(),
                     Screen.HabitTracker(),
                     Screen.LifeTime,
                     Screen.MarkdownEditor(),
@@ -746,6 +754,7 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     Screen.PasswordVault(),
                     Screen.BlessingWall(),
                     Screen.Poem(),
+                    Screen.AdWatch,
                 ),
                 title = R.string.tools,
                 selectedIcon = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Toolbox,
