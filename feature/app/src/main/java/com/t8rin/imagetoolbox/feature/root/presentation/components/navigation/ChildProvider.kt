@@ -1402,6 +1402,16 @@ class ChildProvider @Inject constructor(
             )
         )
 
+        is Screen.SkillDetail -> NavigationChild.SettingsRouter(
+            lifeFactories.get().settingRouterComponentFactory(
+                componentContext = componentContext,
+                route = SettingsRoute.SkillDetail(skillId = config.skillId),
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo,
+                appComponent = null,
+            )
+        )
+
 
         is Screen.Survive30s -> NavigationChild.Survive30s(
             lifeFactories.get().survive30sComponentFactory(

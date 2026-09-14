@@ -2,8 +2,8 @@ package com.wanbaohe.setting.skill.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.shifenmiao.database.AppDatabase
-import com.shifenmiao.database.ai.SkillFrontMatterParser
 import com.shifenmiao.database.ai.SkillImportValidator
+import com.shifenmiao.database.ai.SkillLocalStore
 import com.shifenmiao.database.ai.SkillUsagePolicy
 import com.shifenmiao.database.ai.entity.SkillEntity
 import com.shifenmiao.storage.AIChatStorage
@@ -58,39 +58,6 @@ class SkillManagementComponent @AssistedInject internal constructor(
         }
     }
 
-    /** 保存结果：SLUG_IMMUTABLE = 试图改 name(slug)，身份规则禁止（请用另存副本） */
-    enum class SaveResult { SUCCESS, INVALID, SLUG_IMMUTABLE }
-
-    /**
-     * 保存 LOCAL 技能（新建 / 编辑 body）。
-     * 保存前重新解析 frontmatter：失败（含空正文）拒绝；成功同步 name/description。
-     * 身份规则：name(slug) 不可修改——validated.slug != skill.id 时拒绝
-     * （改名字请用另存副本；不做主键迁移，避免 id/name 不一致产生重复行）。
-     */
-    fun saveLocal(skill: SkillEntity, onResult: (SaveResult) -> Unit = {}) {
-        componentScope.launch {
-            val validated = SkillImportValidator.validate(skill.body).getOrNull()
-            if (validated == null) {
-                onResult(SaveResult.INVALID)
-                return@launch
-            }
-            if (validated.slug != skill.id) {
-                onResult(SaveResult.SLUG_IMMUTABLE)
-                return@launch
-            }
-            skillDao.upsert(
-                skill.copy(
-                    name = validated.slug,
-                    description = validated.description,
-                    body = validated.body,
-                    source = SkillEntity.SOURCE_LOCAL,
-                    updatedAt = System.currentTimeMillis()
-                )
-            )
-            onResult(SaveResult.SUCCESS)
-        }
-    }
-
     /** 仅 LOCAL 技能可删除。 */
     fun deleteSkill(skill: SkillEntity) {
         if (skill.source != SkillEntity.SOURCE_LOCAL) return
@@ -100,11 +67,31 @@ class SkillManagementComponent @AssistedInject internal constructor(
     }
 
     /**
-     * 从 SKILL.md 文本导入 LOCAL 技能（剪贴板 / 文件导入共用管线）。
-     *
-     * - 已存在同名 BUNDLED → 拒绝（BUNDLED_NAME_CONFLICT）；
-     * - 已存在 LOCAL → 更新语义：保留 enabled / use_count / installed_at，
-     *   只更新 name/description/body/updated_at。
+     * 更新技能元数据（name/description，不动正文），仅 LOCAL 可改；
+     * slug 变更在事务内做主键迁移（[SkillLocalStore.updateMetadata]）。
+     */
+    fun updateMetadata(
+        skill: SkillEntity,
+        newName: String,
+        newDescription: String,
+        onResult: (SkillLocalStore.MetadataResult) -> Unit = {}
+    ) {
+        componentScope.launch {
+            onResult(
+                SkillLocalStore.updateMetadata(
+                    appDatabase = appDatabase,
+                    skillDao = skillDao,
+                    skill = skill,
+                    newName = newName,
+                    newDescription = newDescription,
+                )
+            )
+        }
+    }
+
+    /**
+     * 从 SKILL.md 文本导入 LOCAL 技能（剪贴板 / 文件导入共用管线），
+     * 语义与新建编辑页一致（[SkillLocalStore.import]）。
      *
      * @param onResult null = 成功；否则为拒绝原因，由页面映射文案
      */
@@ -113,36 +100,8 @@ class SkillManagementComponent @AssistedInject internal constructor(
         onResult: (SkillImportValidator.Rejection?) -> Unit = {}
     ) {
         componentScope.launch {
-            val body = content.trim()
-            val meta = SkillFrontMatterParser.parse(body)
-            val existing = meta?.let { skillDao.getById(it.first) }
-            SkillImportValidator.validate(body, existing).fold(
-                onSuccess = { validated ->
-                    val now = System.currentTimeMillis()
-                    if (existing != null) {
-                        skillDao.update(
-                            existing.copy(
-                                name = validated.slug,
-                                description = validated.description,
-                                body = validated.body,
-                                updatedAt = now,
-                            )
-                        )
-                    } else {
-                        skillDao.upsert(
-                            SkillEntity(
-                                id = validated.slug,
-                                name = validated.slug,
-                                description = validated.description,
-                                body = validated.body,
-                                source = SkillEntity.SOURCE_LOCAL,
-                                installedAt = now,
-                                updatedAt = now,
-                            )
-                        )
-                    }
-                    onResult(null)
-                },
+            SkillLocalStore.import(skillDao, content).fold(
+                onSuccess = { onResult(null) },
                 onFailure = { error ->
                     onResult(
                         (error as? SkillImportValidator.SkillImportException)?.rejection
@@ -150,41 +109,6 @@ class SkillManagementComponent @AssistedInject internal constructor(
                     )
                 }
             )
-        }
-    }
-
-    /**
-     * BUNDLED 只读，改动走"另存为 LOCAL 副本"；id 冲突时追加序号。
-     * 副本 body 的 frontmatter name 同步改写为新名字，保证"导出副本再导入"命中副本；
-     * 改写结果再过一次解析校验，失败拒绝（不生成坏副本）。
-     */
-    fun saveAsLocalCopy(skill: SkillEntity, onResult: (Boolean) -> Unit = {}) {
-        componentScope.launch {
-            val now = System.currentTimeMillis()
-            var copyId = "${skill.id}-copy"
-            var sequence = 2
-            while (skillDao.getById(copyId) != null) {
-                copyId = "${skill.id}-copy$sequence"
-                sequence++
-            }
-            val copyBody = SkillFrontMatterParser.rewriteName(skill.body, copyId)
-            if (SkillFrontMatterParser.parse(copyBody)?.first != copyId) {
-                onResult(false)
-                return@launch
-            }
-            skillDao.upsert(
-                skill.copy(
-                    id = copyId,
-                    name = copyId,
-                    body = copyBody,
-                    source = SkillEntity.SOURCE_LOCAL,
-                    documentId = null,
-                    useCount = 0.0,
-                    installedAt = now,
-                    updatedAt = now,
-                )
-            )
-            onResult(true)
         }
     }
 

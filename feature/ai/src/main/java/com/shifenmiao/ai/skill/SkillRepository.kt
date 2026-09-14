@@ -5,8 +5,7 @@ import com.shifenmiao.ai.R
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
 import com.shifenmiao.ai.context.TokenEstimator
 import com.shifenmiao.database.AppDatabase
-import com.shifenmiao.database.ai.SkillFrontMatterParser
-import com.shifenmiao.database.ai.SkillImportValidator
+import com.shifenmiao.database.ai.SkillLocalStore
 import com.shifenmiao.database.ai.SkillUsagePolicy
 import com.shifenmiao.database.ai.dao.SkillDao
 import com.shifenmiao.database.ai.entity.SkillEntity
@@ -80,41 +79,10 @@ class SkillRepository @Inject constructor(
 
     /**
      * 从 SKILL.md 文本导入 LOCAL 技能（未来 REMOTE 同步/服务下发的本地落库入口）。
-     *
-     * - 已存在同名 BUNDLED → 拒绝（[SkillImportValidator.Rejection.BUNDLED_NAME_CONFLICT]）；
-     * - 已存在 LOCAL → 更新语义：保留 enabled / use_count / installed_at，
-     *   只更新 name/description/body/updated_at（不 REPLACE 整行清零状态）。
+     * 语义与设置页导入/新建完全一致（[SkillLocalStore.import]）。
      */
-    suspend fun importFromContent(content: String): Result<SkillEntity> {
-        val body = content.trim()
-        val meta = SkillFrontMatterParser.parse(body)
-        val existing = meta?.let { skillDao.getById(it.first) }
-        return SkillImportValidator.validate(body, existing).mapCatching { validated ->
-            val now = System.currentTimeMillis()
-            if (existing != null) {
-                val updated = existing.copy(
-                    name = validated.slug,
-                    description = validated.description,
-                    body = validated.body,
-                    updatedAt = now,
-                )
-                skillDao.update(updated)
-                updated
-            } else {
-                val entity = SkillEntity(
-                    id = validated.slug,
-                    name = validated.slug,
-                    description = validated.description,
-                    body = validated.body,
-                    source = SkillEntity.SOURCE_LOCAL,
-                    installedAt = now,
-                    updatedAt = now,
-                )
-                skillDao.upsert(entity)
-                entity
-            }
-        }
-    }
+    suspend fun importFromContent(content: String): Result<SkillEntity> =
+        SkillLocalStore.import(skillDao, content)
 
     // ─── prompt 注入 ────────────────────────────────────────────────────
 

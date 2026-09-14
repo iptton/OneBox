@@ -87,17 +87,67 @@ object SkillFrontMatterParser {
      * 改写 frontmatter 里的 name 行（另存副本后同步副本正文的 name，
      * 保证"导出副本再导入"命中副本）。找不到 frontmatter/name 行时原样返回。
      */
-    fun rewriteName(body: String, newName: String): String {
+    fun rewriteName(body: String, newName: String): String =
+        rewriteField(body, field = "name", newValue = newName)
+
+    /**
+     * 改写 frontmatter 里的 description 行（统一写成单行形式；
+     * 原来是块标量写法的整段替换为单行）。找不到 frontmatter/description 行时原样返回。
+     */
+    fun rewriteDescription(body: String, newDescription: String): String =
+        rewriteField(body, field = "description", newValue = newDescription)
+
+    /** 改写 frontmatter 中指定键的值（单行形式写入）；键不存在时原样返回 */
+    private fun rewriteField(body: String, field: String, newValue: String): String {
         if (!body.startsWith("---")) return body
         val end = body.indexOf("\n---", 3)
         if (end < 0) return body
         val header = body.substring(3, end)
         val lines = header.lines().toMutableList()
-        val nameIndex = lines.indexOfFirst { it.trimStart().startsWith("name:") }
-        if (nameIndex < 0) return body
-        lines[nameIndex] = "name: $newName"
+        val fieldIndex = lines.indexOfFirst { it.trimStart().startsWith("$field:") }
+        if (fieldIndex < 0) return body
+        val keyIndent = lines[fieldIndex].takeWhile { it == ' ' }.length
+        lines[fieldIndex] = "$field: $newValue"
+        // 旧值若是块标量写法，其缩进续行要一并丢弃，否则会作为垃圾行留在 header 里
+        var j = fieldIndex + 1
+        while (j < lines.size) {
+            val next = lines[j]
+            if (next.isNotBlank() && next.takeWhile { it == ' ' }.length <= keyIndent) break
+            lines.removeAt(j)
+        }
         // 拼回时补回起始分隔符（substring(3, end) 把它吃掉了）
         return "---" + lines.joinToString("\n") + body.substring(end)
+    }
+
+    /**
+     * 剥掉 frontmatter 的正文部分。
+     *
+     * 容错（历史坏数据：round3 修复前另存的副本 frontmatter 缺起始 `---`）：
+     * 起始分隔符缺失但开头是 `name:` / `description:` 行时，剥离这些行（及一个可选的
+     * 结束分隔符）后返回剩余正文；完全不像 frontmatter 时原样返回全文。
+     */
+    fun extractBody(body: String): String {
+        if (body.startsWith("---")) {
+            val end = body.indexOf("\n---", 3)
+            if (end >= 0) return body.substring(end + 4).trimStart('\n')
+            // 有起始分隔符但找不到结束分隔符：走下面的容错剥离
+        }
+        val lines = body.lines()
+        var i = 0
+        var sawMetaLine = false
+        while (i < lines.size) {
+            val trimmed = lines[i].trim()
+            if (trimmed.startsWith("name:") || trimmed.startsWith("description:")) {
+                sawMetaLine = true
+                i++
+            } else {
+                break
+            }
+        }
+        if (!sawMetaLine) return body
+        // 跳过一个可选的结束分隔符
+        if (i < lines.size && lines[i].trim() == "---") i++
+        return lines.drop(i).joinToString("\n").trimStart('\n')
     }
 
     /** 折叠块标量：同段内换行折叠为空格，空行分段（段间保留一个换行） */

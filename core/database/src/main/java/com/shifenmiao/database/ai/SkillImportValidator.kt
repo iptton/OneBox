@@ -66,4 +66,19 @@ object SkillImportValidator {
 
     private fun failure(rejection: Rejection): Result<Validated> =
         Result.failure(SkillImportException(rejection))
+
+    /**
+     * 把用户输入宽松规范化为 kebab-case slug（小写、非法字符折叠为连字符）；
+     * 无法得到合法 slug（空 / 超长 / 不含任何字母数字）时返回 null。
+     */
+    fun slugify(raw: String): String? {
+        val slug = raw.trim().lowercase()
+            .replace(Regex("[^a-z0-9]+"), "-")
+            .replace(Regex("-{2,}"), "-")
+            .trim('-')
+        if (slug.isEmpty() || slug.length > MAX_SLUG_CHARS || !SLUG_REGEX.matches(slug)) {
+            return null
+        }
+        return slug
+    }
 }

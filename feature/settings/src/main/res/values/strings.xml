@@ -404,11 +404,14 @@
     <string name="skill_save_slug_immutable">The name (slug) cannot be changed. Use "Save as copy" instead.</string>
     <string name="skill_copy_failed">Failed to save a copy</string>
     <string name="skill_new">New</string>
-    <string name="skill_new_title">New Skill</string>
+    <string name="skill_detail_title_new">New Skill</string>
+    <string name="skill_detail_not_found">Skill not found or already deleted</string>
+    <string name="skill_edit_metadata_title">Edit name &amp; description</string>
+    <string name="skill_metadata_invalid_name">Invalid name: use kebab-case (lowercase letters, digits, dashes), 100 chars max</string>
+    <string name="skill_metadata_invalid_description">Description cannot be empty</string>
+    <string name="skill_metadata_name_conflict">A skill with this name already exists</string>
     <string name="skill_name_hint">name (kebab-case slug, e.g. my-skill)</string>
     <string name="skill_description_hint">description (single line)</string>
-    <string name="skill_body_hint">Skill instructions (Markdown)</string>
-    <string name="skill_readonly_bundled_hint">Bundled skills are read-only. Save a copy to edit it.</string>
     <string name="skill_save_as_copy">Save as copy</string>
     <string name="skill_delete_confirm_title">Delete this skill?</string>
     <string name="skill_source_bundled">BUNDLED</string>

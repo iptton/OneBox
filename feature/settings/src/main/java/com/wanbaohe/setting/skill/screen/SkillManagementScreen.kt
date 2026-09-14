@@ -18,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.DropdownMenu
@@ -25,7 +26,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -48,11 +48,14 @@ import androidx.compose.ui.unit.dp
 import com.shifenmiao.common.ui.BaseScreen
 import com.shifenmiao.core.R
 import com.shifenmiao.database.ai.SkillImportValidator
+import com.shifenmiao.database.ai.SkillLocalStore
 import com.shifenmiao.database.ai.SkillUsagePolicy
 import com.shifenmiao.database.ai.entity.SkillEntity
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareText
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassOutlinedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxDesignSystem
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxSectionCard
 import com.t8rin.imagetoolbox.core.ui.widget.system.OneBoxSectionHeader
@@ -73,11 +76,12 @@ fun SkillManagementScreen(
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
 
-    // 查看/编辑弹窗状态
-    var detailSkill by remember { mutableStateOf<SkillEntity?>(null) }
+    // 删除确认状态（正文编辑在全屏详情页 Screen.SkillDetail）
     var deletingSkill by remember { mutableStateOf<SkillEntity?>(null) }
-    var showNewSkillDialog by remember { mutableStateOf(false) }
     var showImportMenu by remember { mutableStateOf(false) }
+    // 元数据弹窗：null 关闭；NON_NULL = 编辑该技能的 name/description（仅 LOCAL）
+    var metadataDialogSkill by remember { mutableStateOf<SkillEntity?>(null) }
+    var showCreateDialog by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
     val importSuccessText = stringResource(SettingsR.string.skill_import_success)
@@ -85,10 +89,10 @@ fun SkillManagementScreen(
     val bundledConflictText = stringResource(SettingsR.string.skill_import_bundled_conflict)
     val tooLargeText = stringResource(SettingsR.string.skill_import_too_large)
     val slugTooLongText = stringResource(SettingsR.string.skill_import_slug_too_long)
-    val saveInvalidText = stringResource(SettingsR.string.skill_save_invalid)
-    val slugImmutableText = stringResource(SettingsR.string.skill_save_slug_immutable)
-    val copyFailedText = stringResource(SettingsR.string.skill_copy_failed)
     val fileTooLargeText = stringResource(SettingsR.string.skill_import_file_too_large)
+    val invalidNameText = stringResource(SettingsR.string.skill_metadata_invalid_name)
+    val invalidDescText = stringResource(SettingsR.string.skill_metadata_invalid_description)
+    val nameConflictText = stringResource(SettingsR.string.skill_metadata_name_conflict)
 
     // 导入结果（剪贴板 / 文件 / 新建共用）：拒绝原因 → 用户提示
     fun showImportResult(rejection: SkillImportValidator.Rejection?) {
@@ -178,7 +182,7 @@ fun SkillManagementScreen(
                         supporting = stringResource(SettingsR.string.skill_list_supporting),
                     )
                 }
-                IconButton(onClick = { showNewSkillDialog = true }) {
+                IconButton(onClick = { showCreateDialog = true }) {
                     Icon(
                         imageVector = Icons.Outlined.Add,
                         contentDescription = stringResource(SettingsR.string.skill_new),
@@ -230,7 +234,7 @@ fun SkillManagementScreen(
                 )
             }
             skills.forEach { skill ->
-                OneBoxSectionCard(onClick = { detailSkill = skill }) {
+                OneBoxSectionCard(onClick = { component.onNavigate(Screen.SkillDetail(skill.id)) }) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
@@ -262,8 +266,15 @@ fun SkillManagementScreen(
                         SourceBadge(source = skill.source)
                         UsageBadge(frequency = component.usageFrequency(skill.useCount))
                         Spacer(modifier = Modifier.weight(1f))
-                        // 删除仅 LOCAL；分享正文走系统分享
+                        // 元数据编辑（name/description）与删除仅 LOCAL；分享正文走系统分享
                         if (skill.source == SkillEntity.SOURCE_LOCAL) {
+                            IconButton(onClick = { metadataDialogSkill = skill }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Edit,
+                                    contentDescription = stringResource(SettingsR.string.skill_edit_metadata_title),
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
                             IconButton(onClick = { deletingSkill = skill }) {
                                 Icon(
                                     imageVector = Icons.Outlined.Delete,
@@ -289,147 +300,57 @@ fun SkillManagementScreen(
         }
     }
 
-    // 查看/编辑弹窗：LOCAL 可编辑，BUNDLED 只读 + 另存副本
-    detailSkill?.let { skill ->
-        val isLocal = skill.source == SkillEntity.SOURCE_LOCAL
-        var body by remember(skill) { mutableStateOf(skill.body) }
-        EnhancedAlertDialog(
-            visible = true,
-            onDismissRequest = { detailSkill = null },
-            title = { Text(text = skill.name) },
-            text = {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.compactSpacing),
-                ) {
-                    if (!isLocal) {
-                        Text(
-                            text = stringResource(SettingsR.string.skill_readonly_bundled_hint),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                    OutlinedTextField(
-                        value = body,
-                        onValueChange = { if (isLocal) body = it },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(max = 360.dp),
-                        minLines = 6,
-                        readOnly = !isLocal,
-                        textStyle = MaterialTheme.typography.bodySmall,
-                    )
+    // 新建：先填 name/description 创建空正文技能，成功后直接跳进正文编辑器
+    if (showCreateDialog) {
+        SkillMetadataDialog(
+            title = stringResource(SettingsR.string.skill_detail_title_new),
+            initialName = "",
+            initialDescription = "",
+            onDismiss = { showCreateDialog = false },
+            onConfirm = { name, description ->
+                val markdown = buildString {
+                    appendLine("---")
+                    appendLine("name: ${name.trim()}")
+                    appendLine("description: ${description.trim()}")
+                    appendLine("---")
+                    appendLine()
                 }
-            },
-            confirmButton = {
-                if (isLocal) {
-                    TextButton(
-                        onClick = {
-                            // 保存前重新解析 frontmatter + slug 身份校验，成功才关闭
-                            component.saveLocal(skill.copy(body = body.trim())) { result ->
-                                when (result) {
-                                    SkillManagementComponent.SaveResult.SUCCESS ->
-                                        detailSkill = null
-
-                                    SkillManagementComponent.SaveResult.SLUG_IMMUTABLE ->
-                                        AppToastHost.showToast(slugImmutableText)
-
-                                    SkillManagementComponent.SaveResult.INVALID ->
-                                        AppToastHost.showToast(saveInvalidText)
-                                }
-                            }
-                        }
-                    ) {
-                        Text(text = stringResource(R.string.button_confirm))
+                component.importFromContent(markdown) { rejection ->
+                    if (rejection == null) {
+                        showCreateDialog = false
+                        // 导入语义保证创建的 id 就是校验过的 name
+                        component.onNavigate(Screen.SkillDetail(name.trim()))
+                    } else {
+                        showImportResult(rejection)
                     }
-                } else {
-                    TextButton(
-                        onClick = {
-                            component.saveAsLocalCopy(skill) { success ->
-                                if (!success) AppToastHost.showToast(copyFailedText)
-                            }
-                            detailSkill = null
-                        }
-                    ) {
-                        Text(text = stringResource(SettingsR.string.skill_save_as_copy))
-                    }
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { detailSkill = null }) {
-                    Text(text = stringResource(R.string.button_cancel))
                 }
             }
         )
     }
 
-    // 新建 LOCAL 技能（拼出 SKILL.md 后走导入校验，保证与导入同一规则）
-    if (showNewSkillDialog) {
-        var name by remember { mutableStateOf("") }
-        var description by remember { mutableStateOf("") }
-        var body by remember { mutableStateOf("") }
-        EnhancedAlertDialog(
-            visible = true,
-            onDismissRequest = { showNewSkillDialog = false },
-            title = { Text(text = stringResource(SettingsR.string.skill_new_title)) },
-            text = {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.compactSpacing),
-                ) {
-                    OutlinedTextField(
-                        value = name,
-                        onValueChange = { name = it },
-                        modifier = Modifier.fillMaxWidth(),
-                        singleLine = true,
-                        placeholder = {
-                            Text(text = stringResource(SettingsR.string.skill_name_hint))
-                        }
-                    )
-                    OutlinedTextField(
-                        value = description,
-                        onValueChange = { description = it },
-                        modifier = Modifier.fillMaxWidth(),
-                        singleLine = true,
-                        placeholder = {
-                            Text(text = stringResource(SettingsR.string.skill_description_hint))
-                        }
-                    )
-                    OutlinedTextField(
-                        value = body,
-                        onValueChange = { body = it },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(max = 240.dp),
-                        minLines = 4,
-                        placeholder = {
-                            Text(text = stringResource(SettingsR.string.skill_body_hint))
-                        }
-                    )
-                }
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        val markdown = buildString {
-                            appendLine("---")
-                            appendLine("name: ${name.trim()}")
-                            appendLine("description: ${description.trim()}")
-                            appendLine("---")
-                            appendLine()
-                            append(body.trim())
-                        }
-                        // 与编辑一致：成功才关闭，失败保留全部输入并 toast
-                        component.importFromContent(markdown) { rejection ->
-                            showImportResult(rejection)
-                            if (rejection == null) showNewSkillDialog = false
-                        }
+    // 元数据编辑（name/description，不动正文；slug 变更走事务内主键迁移）
+    metadataDialogSkill?.let { skill ->
+        SkillMetadataDialog(
+            title = stringResource(SettingsR.string.skill_edit_metadata_title),
+            initialName = skill.name,
+            initialDescription = skill.description,
+            onDismiss = { metadataDialogSkill = null },
+            onConfirm = { name, description ->
+                component.updateMetadata(skill, name, description) { result ->
+                    when (result) {
+                        SkillLocalStore.MetadataResult.SUCCESS,
+                        SkillLocalStore.MetadataResult.NOT_EDITABLE ->
+                            metadataDialogSkill = null
+
+                        SkillLocalStore.MetadataResult.INVALID_NAME ->
+                            AppToastHost.showToast(invalidNameText)
+
+                        SkillLocalStore.MetadataResult.INVALID_DESCRIPTION ->
+                            AppToastHost.showToast(invalidDescText)
+
+                        SkillLocalStore.MetadataResult.NAME_CONFLICT ->
+                            AppToastHost.showToast(nameConflictText)
                     }
-                ) {
-                    Text(text = stringResource(R.string.button_confirm))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showNewSkillDialog = false }) {
-                    Text(text = stringResource(R.string.button_cancel))
                 }
             }
         )
@@ -511,6 +432,61 @@ private fun Badge(text: String, tint: androidx.compose.ui.graphics.Color) {
             color = tint,
         )
     }
+}
+
+/** 元数据弹窗（name/description 两字段）：失败保留输入，成功由调用方关闭 */
+@Composable
+private fun SkillMetadataDialog(
+    title: String,
+    initialName: String,
+    initialDescription: String,
+    onDismiss: () -> Unit,
+    onConfirm: (name: String, description: String) -> Unit,
+) {
+    var name by remember { mutableStateOf(initialName) }
+    var description by remember { mutableStateOf(initialDescription) }
+    EnhancedAlertDialog(
+        visible = true,
+        onDismissRequest = onDismiss,
+        title = { Text(text = title) },
+        text = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.itemSpacing),
+            ) {
+                GlassOutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    placeholder = {
+                        Text(text = stringResource(SettingsR.string.skill_name_hint))
+                    }
+                )
+                GlassOutlinedTextField(
+                    value = description,
+                    onValueChange = { description = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 96.dp, max = 160.dp),
+                    minLines = 3,
+                    maxLines = 4,
+                    placeholder = {
+                        Text(text = stringResource(SettingsR.string.skill_description_hint))
+                    }
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirm(name, description) }) {
+                Text(text = stringResource(R.string.button_confirm))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = stringResource(R.string.button_cancel))
+            }
+        }
+    )
 }
 
 /** 限量读取文本：超过 [maxBytes] 返回 null（按文件过大拒绝），不全文读入后再校验 */

@@ -2055,6 +2055,17 @@ sealed class Screen(
     )
 
     @Serializable
+    @SerialName("SkillDetail")
+    data class SkillDetail(
+        /** 技能 id（slug）；空串 = 新建模式 */
+        val skillId: String = "",
+    ) : Screen(
+        id = -31,
+        title = com.shifenmiao.core.R.string.profile_item_ai_skill,
+        subtitle = 0,
+    )
+
+    @Serializable
     @SerialName("VipLevel")
     class VipLevel : Screen(
         id = -21,

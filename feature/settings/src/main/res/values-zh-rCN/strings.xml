@@ -404,11 +404,14 @@
     <string name="skill_save_slug_immutable">name(slug）不可修改，请使用"另存为副本"</string>
     <string name="skill_copy_failed">另存副本失败</string>
     <string name="skill_new">新建</string>
-    <string name="skill_new_title">新建技能</string>
+    <string name="skill_detail_title_new">新建技能</string>
+    <string name="skill_detail_not_found">技能不存在或已被删除</string>
+    <string name="skill_edit_metadata_title">编辑名称与描述</string>
+    <string name="skill_metadata_invalid_name">name 需为 kebab-case（小写字母/数字/连字符），不超过 100 字符</string>
+    <string name="skill_metadata_invalid_description">description 不能为空</string>
+    <string name="skill_metadata_name_conflict">已存在同名技能</string>
     <string name="skill_name_hint">name(kebab-case slug，如 my-skill)</string>
     <string name="skill_description_hint">description（单行描述）</string>
-    <string name="skill_body_hint">技能指令内容（Markdown)</string>
-    <string name="skill_readonly_bundled_hint">预置技能为只读。如需修改请另存为副本。</string>
     <string name="skill_save_as_copy">另存为副本</string>
     <string name="skill_delete_confirm_title">删除这个技能？</string>
     <string name="skill_source_bundled">预置</string>
