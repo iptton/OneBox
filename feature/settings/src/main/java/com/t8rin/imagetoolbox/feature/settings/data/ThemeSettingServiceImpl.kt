@@ -106,7 +106,7 @@ class ThemeSettingServiceImpl @Inject constructor(
 
     override suspend fun setGlassBaseAlpha(alpha: Float) {
         val current = getCurrentTheme()
-        settingsManager.applyThemePreset(current.copy(glassBaseAlpha = alpha.coerceIn(0.1f, 1f)).asCustomTheme())
+        settingsManager.applyThemePreset(current.copy(glassBaseAlpha = alpha.coerceIn(0f, 1f)).asCustomTheme())
     }
 
     override suspend fun setGlassBorderAlpha(alpha: Float) {

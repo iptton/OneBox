@@ -776,7 +776,7 @@ private fun GlassEffectCard(
                             .padding(top = OneBoxDesignSystem.microSpacing),
                         value = glassBaseAlpha,
                         onValueChange = onGlassAlphaChange,
-                        valueRange = 0.1f..1f,
+                        valueRange = 0f..1f,
                     )
 
                     Spacer(modifier = Modifier.height(OneBoxDesignSystem.compactSpacing))

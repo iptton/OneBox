@@ -487,7 +487,7 @@ class ThemeSettingTool @Inject constructor(
             changed += "gradientStyle"
         }
 
-        when (val parsed = parseOptionalAlpha(params.glass_alpha, MIN_GLASS_ALPHA)) {
+        when (val parsed = parseOptionalAlpha(params.glass_alpha)) {
             is OptionalAlpha.Set -> { next = next.copy(glassBaseAlpha = parsed.value); changed += "glassAlpha" }
             OptionalAlpha.Invalid -> return ThemeChangeResult.Invalid(
                 errorResult(
@@ -500,14 +500,14 @@ class ThemeSettingTool @Inject constructor(
             OptionalAlpha.Absent -> Unit
         }
 
-        when (val parsed = parseOptionalAlpha(params.glass_border_alpha, MIN_BORDER_ALPHA)) {
+        when (val parsed = parseOptionalAlpha(params.glass_border_alpha)) {
             is OptionalAlpha.Set -> { next = next.copy(glassBorderAlpha = parsed.value); changed += "glassBorderAlpha" }
             OptionalAlpha.Invalid -> return ThemeChangeResult.Invalid(
                 errorResult(
                     action = "set",
                     reasonCode = "border_alpha_out_of_range",
-                    message = textProvider.string(R.string.agent_tool_theme_setting_border_alpha_out_of_range),
-                    validOptions = mapOf("borderAlphaRange" to "0.0..1.0"),
+                    message = textProvider.string(R.string.agent_tool_theme_setting_alpha_out_of_range),
+                    validOptions = mapOf("alphaRange" to "0.0..1.0"),
                 )
             )
             OptionalAlpha.Absent -> Unit
@@ -606,9 +606,10 @@ class ThemeSettingTool @Inject constructor(
         else -> OptionalBool.Invalid
     }
 
-    private fun parseOptionalAlpha(raw: Double?, min: Double): OptionalAlpha {
+    /** glass_alpha 与 glass_border_alpha 共用同一区间 [0.0, 1.0]，与主题设置页滑块一致 */
+    private fun parseOptionalAlpha(raw: Double?): OptionalAlpha {
         if (raw == null) return OptionalAlpha.Absent
-        if (raw.isNaN() || raw < min || raw > 1.0) return OptionalAlpha.Invalid
+        if (raw.isNaN() || raw < MIN_ALPHA || raw > MAX_ALPHA) return OptionalAlpha.Invalid
         return OptionalAlpha.Set(raw.toFloat())
     }
 
@@ -726,11 +727,9 @@ class ThemeSettingTool @Inject constructor(
             "0xAARRGGBB",
         )
 
-        /** 玻璃透明度基准值下限（过低会让玻璃层不可见） */
-        const val MIN_GLASS_ALPHA = 0.1
-
-        /** 玻璃描边可见度下限：0 = 完全隐藏描边，与主题设置页滑块一致 */
-        const val MIN_BORDER_ALPHA = 0.0
+        /** 玻璃透明度 / 描边可见度的统一取值范围，与主题设置页滑块一致 */
+        const val MIN_ALPHA = 0.0
+        const val MAX_ALPHA = 1.0
 
         /** AI 生成背景积分消耗来源标识 */
         const val POINTS_SOURCE = "agent_theme_background"

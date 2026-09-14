@@ -19,7 +19,8 @@ action="set" 的字段（全部可选）：
 - liquid_glass："true" 或 "false" —— 液态玻璃
 - mesh_gradient："true" 或 "false" —— 网格渐变背景
 - gradient_style：`gradientStyles` 数组中的名字，如 "Lavender"、"Sunset"、"Ocean"
-- glass_alpha：0.1 ~ 1.0 的浮点数 —— 玻璃透明度基准值，默认 1.0
+- glass_alpha：0.0 ~ 1.0 的浮点数 —— 玻璃透明度基准值，默认 1.0
+  （0 会让玻璃层完全透明，仅在用户明确要求时使用）
 - glass_border_alpha：0.0 ~ 1.0 的浮点数 —— 玻璃描边可见度，默认 0.17（17%）。
   0 表示完全隐藏描边，数值越大描边越明显；只影响描边，不影响玻璃本身的透明度
 - background_image：唯一取值 "clear" —— 清除自定义背景图，恢复纯色背景

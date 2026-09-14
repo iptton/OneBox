@@ -12,22 +12,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.addOutline
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.shifenmiao.interfaces.singleton.AppContext
+import com.shifenmiao.model.theme.ThemeDefaults
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import kotlin.math.roundToInt
@@ -142,7 +147,7 @@ internal fun Modifier.glassSimpleStyle(
         shape = shape,
         borderWidth = borderWidth,
         borderAlpha = settingsState.glassBorderAlpha.takeIf { it.isFinite() }
-            ?.coerceIn(0f, 1f) ?: 0.17f,
+            ?.coerceIn(0f, 1f) ?: ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA,
         blurRadius = blurRadius,
         colors = colors,
         isLight = isLight,
@@ -194,7 +199,7 @@ internal fun Modifier.glassControlStyle(
         shape = shape,
         borderWidth = borderWidth,
         borderAlpha = settingsState.glassBorderAlpha.takeIf { it.isFinite() }
-            ?.coerceIn(0f, 1f) ?: 0.17f,
+            ?.coerceIn(0f, 1f) ?: ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA,
         colors = colors,
         isLiquidGlass = isLiquidGlass,
         showTopEdge = showTopEdge,
@@ -511,6 +516,42 @@ private fun Modifier.ultraFlatGlassDecoration(
             colors.borderColor
         },
     )
+    // 顶缘贴合描边内侧的白色高光: 纯白保证"白光"质感, 强度取自顶缘描边色 alpha,
+    // 并统一乘 borderAlpha —— 描边调淡/隐藏时高光同步消失, 不会出现孤立白线。
+    val highlightWidthPx = (strokeWidthPx * 0.62f).coerceIn(
+        (if (isLiquidGlass) 0.9f else 0.7f).dp.toPx(),
+        (if (isLiquidGlass) 1.8f else 1.3f).dp.toPx(),
+    )
+    val highlightInsetPx = (strokeWidthPx - highlightWidthPx) / 2f
+    // drawOutline 不支持平移, 用"内缩形状裁剪"代替: 裁剪矩形内缩相同距离,
+    // 描边内缘与裁剪边界重合, 于是只有内侧一圈可见, 也就落在形状内部。
+    val rimHighlightStroke = Stroke(width = highlightWidthPx)
+    val rimHighlightColor = Color.White.copy(alpha = (colors.topBorderColor.alpha * 2.2f).coerceAtMost(1f))
+    // 高光比描边更克制: 描边越强, 高光按 (0.6 + 0.4*alpha) 缓上来, 满强度时也只用 60% 白光
+    val rimHighlightAlphaScale = borderAlpha * (0.6f + 0.4f * borderAlpha)
+    val rimHighlightBrush = Brush.verticalGradient(
+        0f to rimHighlightColor,
+        0.35f to rimHighlightColor.copy(alpha = rimHighlightColor.alpha * 0.4f),
+        0.7f to Color.Transparent,
+    )
+    // 与描边一样在 drawWithCache 内构建, 不在绘制阶段每帧重建 Path
+    val rimHighlightClip = if (showTopEdgeEffects && colors.topBorderColor.alpha > 0f) {
+        Path().apply {
+            addOutline(
+                outline = shape.createOutline(
+                    size = Size(
+                        width = (size.width - highlightInsetPx * 2f).coerceAtLeast(1f),
+                        height = (size.height - highlightInsetPx * 2f).coerceAtLeast(1f),
+                    ),
+                    layoutDirection = layoutDirection,
+                    density = this@drawWithCache,
+                )
+            )
+            translate(Offset(highlightInsetPx, highlightInsetPx))
+        }
+    } else {
+        null
+    }
     val bevelBrush = Brush.linearGradient(
         0f to if (showTopEdgeEffects) colors.innerBorderColor else Color.Transparent,
         0.45f to Color.Transparent,
@@ -627,6 +668,16 @@ private fun Modifier.ultraFlatGlassDecoration(
                 drawOutline(outline, brush = bevelBrush, style = bevelStroke, alpha = borderAlpha)
             }
             drawOutline(outline, brush = borderBrush, style = mainStroke, alpha = borderAlpha)
+            rimHighlightClip?.let { clip ->
+                clipPath(clip) {
+                    drawOutline(
+                        outline = outline,
+                        brush = rimHighlightBrush,
+                        style = rimHighlightStroke,
+                        alpha = rimHighlightAlphaScale,
+                    )
+                }
+            }
         }
     }
 }

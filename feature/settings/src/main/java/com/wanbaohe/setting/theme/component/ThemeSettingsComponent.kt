@@ -7,6 +7,7 @@ import com.shifenmiao.common.utils.BaseUtils
 import com.shifenmiao.imagegeneration.loader.ImageGenerationLoader
 import com.shifenmiao.imagegeneration.model.ImageGenerationRequest
 import com.shifenmiao.interfaces.singleton.AppContext
+import com.shifenmiao.model.theme.ThemeDefaults
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineInfo
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.settings.domain.ThemeSettingService
@@ -489,7 +490,7 @@ data class EditingDraft(
     val isMeshGradientBgEnabled: Boolean = true,
     val gradientStyle: GradientBackgroundStyle = GradientBackgroundStyle.Sunset,
     val glassBaseAlpha: Float = 1.0f,
-    val glassBorderAlpha: Float = 0.17f,
+    val glassBorderAlpha: Float = ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA,
     val customBackgroundImageUri: String? = null,
     val nightMode: NightMode = NightMode.System,
 )

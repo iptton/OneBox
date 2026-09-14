@@ -39,6 +39,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.shifenmiao.model.theme.ThemeDefaults
 import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
@@ -782,7 +783,7 @@ private fun Modifier.modernGlassTextFieldContainer(
     val glassBaseAlpha = LocalSettingsState.current.glassBaseAlpha.coerceIn(0f, 1f)
     // 描边可见度与 GlassCard/GlassButton 等共用同一主题设置，0 = 隐藏描边（只影响描边）
     val glassBorderAlpha = LocalSettingsState.current.glassBorderAlpha.takeIf { it.isFinite() }
-        ?.coerceIn(0f, 1f) ?: 0.17f
+        ?.coerceIn(0f, 1f) ?: ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA
     val scaledBackgroundAlpha = backgroundAlpha * glassBaseAlpha
     val baseColor = if (color != Color.Unspecified) color else colorScheme.surfaceContainerHighest
     val visualFocused = isFocused && !readOnly

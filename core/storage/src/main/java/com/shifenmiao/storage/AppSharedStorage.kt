@@ -2,6 +2,7 @@ package com.shifenmiao.storage
 
 import android.os.Parcelable
 import com.shifenmiao.core.constants.Constants
+import com.shifenmiao.model.theme.ThemeDefaults
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -547,10 +548,10 @@ object AppSharedStorage {
     fun loadStartupGlassBaseAlpha(): Float =
         load(S_GLASS_BASE_ALPHA, 1f) ?: 1f
 
-    // 默认值与 AppThemePreset.Default.glassBorderAlpha 保持一致（core:storage 不依赖 core:settings）
     fun loadStartupGlassBorderAlpha(): Float =
-        load(S_GLASS_BORDER_ALPHA, 0.17f)?.takeIf { it.isFinite() }
-            ?.coerceIn(0f, 1f) ?: 0.17f
+        load(S_GLASS_BORDER_ALPHA, ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA)
+            ?.takeIf { it.isFinite() }
+            ?.coerceIn(0f, 1f) ?: ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA
 
     fun loadStartupCustomBackgroundImageUri(): String? =
         load(S_CUSTOM_BG_IMAGE_URI, "")?.takeIf { it.isNotEmpty() }

@@ -3,6 +3,7 @@ package com.shifenmiao.database.theme.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.shifenmiao.model.theme.ThemeDefaults
 
 /**
  * 用户自建主题持久化实体。
@@ -25,7 +26,8 @@ data class ThemePresetEntity(
     @ColumnInfo(name = "custom_bg_image_uri") val customBackgroundImageUri: String? = null,
     @ColumnInfo(name = "created_at") val createdAt: Long = System.currentTimeMillis(),
     @ColumnInfo(name = "updated_at") val updatedAt: Long = System.currentTimeMillis(),
+    // 注解实参必须是字面量，无法引用 ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA，改默认值请一并同步
     @ColumnInfo(name = "glass_border_alpha", defaultValue = "0.17")
-    val glassBorderAlpha: Float = 0.17f,
+    val glassBorderAlpha: Float = ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA,
 )
 

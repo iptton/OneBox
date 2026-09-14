@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.core.settings.domain.model
 
+import com.shifenmiao.model.theme.ThemeDefaults
+
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
@@ -250,7 +252,7 @@ data class SettingsState(
                 customBackgroundOverlayAlpha = 0.4f,
                 activeThemeId = "builtin_dynamic",
                 glassBaseAlpha = 1.0f,
-                glassBorderAlpha = 0.17f,
+                glassBorderAlpha = ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA,
                 shapesType = ShapeType.Rounded(),
                 flingType = FlingType.DEFAULT,
                 enableBackgroundColorForAlphaFormats = false,

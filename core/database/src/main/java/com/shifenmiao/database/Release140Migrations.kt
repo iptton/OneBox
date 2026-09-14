@@ -2,6 +2,7 @@ package com.shifenmiao.database
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.shifenmiao.model.theme.ThemeDefaults
 
 /**
  * App 1.4.0 (versionCode 140) 的统一迁移入口；发布前的数据库变更继续合并到这里。
@@ -33,9 +34,13 @@ internal object Release140Migrations {
         db.execSQL("CREATE TABLE IF NOT EXISTS `skill` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `body` TEXT NOT NULL, `version` TEXT NOT NULL DEFAULT '1.0.0', `source` TEXT NOT NULL, `document_id` TEXT, `enabled` INTEGER NOT NULL DEFAULT 1, `use_count` REAL NOT NULL DEFAULT 0, `installed_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, PRIMARY KEY(`id`))")
         db.execSQL("CREATE TABLE IF NOT EXISTS `conversation_memory_policy` (`conversation_id` TEXT NOT NULL, `memory_enabled` INTEGER NOT NULL DEFAULT 1, `skills_enabled` INTEGER NOT NULL DEFAULT 1, `updated_at` INTEGER NOT NULL, PRIMARY KEY(`conversation_id`))")
 
-        // 主题玻璃边界；默认值与 AppThemePreset.Default.glassBorderAlpha (0.17) 一致，
+        // 主题玻璃边界；默认值与 ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA 一致，
         // 已有主题一并采用新默认，已调整过的开发版保留原值。
-        db.addColumnIfMissing("theme_preset", "glass_border_alpha", "REAL NOT NULL DEFAULT 0.17")
+        db.addColumnIfMissing(
+            "theme_preset",
+            "glass_border_alpha",
+            "REAL NOT NULL DEFAULT ${ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA}",
+        )
     }
 
     private fun migrateFeature(db: SupportSQLiteDatabase) {

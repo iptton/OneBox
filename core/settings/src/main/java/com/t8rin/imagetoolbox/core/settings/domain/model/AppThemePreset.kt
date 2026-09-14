@@ -1,5 +1,7 @@
 package com.t8rin.imagetoolbox.core.settings.domain.model
 
+import com.shifenmiao.model.theme.ThemeDefaults
+
 /**
  * 主题预设 —— 将颜色方案 + 玻璃效果 + 背景风格 + 透明度基准值 + 日夜模式打包为一个可切换的完整"主题"。
  *
@@ -14,7 +16,8 @@ package com.t8rin.imagetoolbox.core.settings.domain.model
  * @param gradientBackgroundStyle    渐变背景风格
  * @param glassBaseAlpha             玻璃特效透明度基准值 (0f..1f)，
  *                                   所有 GlassStyle 的 backgroundAlpha 按此基准缩放
- * @param glassBorderAlpha           玻璃描边可见度 (0f..1f)，0 隐藏，1 为完整强度，默认 0.17
+ * @param glassBorderAlpha           玻璃描边可见度 (0f..1f)，0 隐藏，1 为完整强度，
+ *                                   默认 [ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA]
  * @param customBackgroundImageUri   自定义背景图片 URI（可为 null）
  * @param isBuiltin                  是否为内置主题（内置主题不可删除）
  */
@@ -31,7 +34,7 @@ data class AppThemePreset(
     val glassBaseAlpha: Float = 1.0f,
     val customBackgroundImageUri: String? = null,
     val isBuiltin: Boolean = true,
-    val glassBorderAlpha: Float = 0.17f,
+    val glassBorderAlpha: Float = ThemeDefaults.DEFAULT_GLASS_BORDER_ALPHA,
 ) {
     companion object {
 

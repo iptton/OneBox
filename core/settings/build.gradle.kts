@@ -31,6 +31,7 @@ dependencies {
 
     implementation(projects.libs.dynamicTheme)
     implementation(projects.core.domain)
+    implementation(projects.core.model)
     implementation(projects.core.resources)
     implementation(projects.core.di)
 }
