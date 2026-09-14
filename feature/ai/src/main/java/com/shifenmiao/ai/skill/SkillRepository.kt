@@ -4,13 +4,16 @@ import androidx.room.withTransaction
 import com.shifenmiao.ai.R
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
 import com.shifenmiao.ai.context.TokenEstimator
+import com.shifenmiao.ai.prompt.SystemPromptRepository
 import com.shifenmiao.database.AppDatabase
 import com.shifenmiao.database.ai.SkillLocalStore
 import com.shifenmiao.database.ai.SkillUsagePolicy
 import com.shifenmiao.database.ai.dao.SkillDao
 import com.shifenmiao.database.ai.entity.SkillEntity
+import com.shifenmiao.database.chat_prompt.entity.PromptEntity
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.logger.makeLog
+import com.shifenmiao.database.R as DatabaseR
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.SharingStarted
@@ -33,6 +36,7 @@ class SkillRepository @Inject constructor(
     private val appDatabase: AppDatabase,
     private val skillDao: SkillDao,
     private val textProvider: AgentToolTextProvider,
+    private val systemPromptRepository: SystemPromptRepository,
     dispatchersHolder: DispatchersHolder,
 ) {
     private val repositoryScope = CoroutineScope(SupervisorJob() + dispatchersHolder.ioDispatcher)
@@ -105,7 +109,11 @@ class SkillRepository @Inject constructor(
             selectSkillsForListing(enabled)
         }
 
-        val guidance = textProvider.string(R.string.agent_skills_prompt_guidance)
+        // 引导语从 item_prompt 预置读取（SystemPromptManagement 可编辑），fallback 到 raw
+        val guidance = systemPromptRepository.getSystemPrompt(
+            title = PromptEntity.SYSTEM_PROMPT_KEY_SKILLS_LIST_GUIDANCE,
+            fallback = textProvider.rawAsync(DatabaseR.raw.prompt_skills_list_guidance)
+        )
         val budgetTokens = (tokenBudget * SkillUsagePolicy.LIST_BUDGET_FRACTION).toInt()
         var usedTokens = TokenEstimator.estimateText(guidance)
         val listedEntries = mutableListOf<String>()

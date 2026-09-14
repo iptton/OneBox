@@ -21,6 +21,14 @@
     <string name="sys_prompt_mode_agent_desc">Agent 模式下的执行协议提示词</string>
     <string name="sys_prompt_duel_title">AI 对聊/互动 prompt 模板</string>
     <string name="sys_prompt_duel_desc">AI 对聊/互动中使用的系统指令、角色发言规则与回合引导语模板</string>
+    <string name="sys_prompt_memory_global_title">记忆档案引导语</string>
+    <string name="sys_prompt_memory_global_desc">AI 记忆注入时用户档案段的引导语</string>
+    <string name="sys_prompt_memory_recent_title">记忆近期日志引导语</string>
+    <string name="sys_prompt_memory_recent_desc">AI 记忆注入时近期日志段的引导语（含 memory_get 搜索提示）</string>
+    <string name="sys_prompt_memory_recent_no_tool_title">记忆近期日志引导语（无工具）</string>
+    <string name="sys_prompt_memory_recent_no_tool_desc">模型不支持工具调用时使用的降级版本</string>
+    <string name="sys_prompt_skills_guidance_title">技能清单引导语</string>
+    <string name="sys_prompt_skills_guidance_desc">可用技能清单的引导语</string>
     <!-- 习惯打卡活动日志 -->
     <string name="activity_log_habit_app_title">习惯打卡</string>
     <string name="activity_log_habit_created">新建习惯:%1$s</string>

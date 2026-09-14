@@ -179,8 +179,9 @@ abstract class AppDatabase : RoomDatabase() {
          * v9 Agent 创建 prompt 注册 ImagePicker/FilePicker 组件, 需重刷覆盖旧版。
          * v10 Agent 创建 prompt 注册 FolderPicker/RangeSlider/Rating 组件, 需重刷覆盖旧版。
          * v11 Agent 工作模式 prompt 修正发现工具描述(discover(scope=all) → discover_tools(keywords)), 需重刷覆盖旧版。
+         * v12 新增 AI 记忆/技能注入引导语预置(档案/近期日志及其无工具降级版/技能清单), 需重刷写入。
          */
-        private const val SYSTEM_PRESET_VERSION = 11
+        private const val SYSTEM_PRESET_VERSION = 12
 
         /**
          * 预置技能版本号：递增会强制重新 upsert skill 表的 BUNDLED 行。
@@ -584,6 +585,38 @@ abstract class AppDatabase : RoomDatabase() {
                                 displayTitle = ctx.getString(R.string.sys_prompt_duel_title),
                                 description = ctx.getString(R.string.sys_prompt_duel_desc),
                                 promptText = loadRawPrompt(ctx, R.raw.prompt_duel_templates)
+                            )
+                            upsertSystemPreset(
+                                db = db,
+                                now = now,
+                                systemKey = PromptEntity.SYSTEM_PROMPT_KEY_MEMORY_GLOBAL_GUIDANCE,
+                                displayTitle = ctx.getString(R.string.sys_prompt_memory_global_title),
+                                description = ctx.getString(R.string.sys_prompt_memory_global_desc),
+                                promptText = loadRawPrompt(ctx, R.raw.prompt_memory_global_guidance)
+                            )
+                            upsertSystemPreset(
+                                db = db,
+                                now = now,
+                                systemKey = PromptEntity.SYSTEM_PROMPT_KEY_MEMORY_RECENT_GUIDANCE,
+                                displayTitle = ctx.getString(R.string.sys_prompt_memory_recent_title),
+                                description = ctx.getString(R.string.sys_prompt_memory_recent_desc),
+                                promptText = loadRawPrompt(ctx, R.raw.prompt_memory_recent_guidance)
+                            )
+                            upsertSystemPreset(
+                                db = db,
+                                now = now,
+                                systemKey = PromptEntity.SYSTEM_PROMPT_KEY_MEMORY_RECENT_GUIDANCE_NO_TOOL,
+                                displayTitle = ctx.getString(R.string.sys_prompt_memory_recent_no_tool_title),
+                                description = ctx.getString(R.string.sys_prompt_memory_recent_no_tool_desc),
+                                promptText = loadRawPrompt(ctx, R.raw.prompt_memory_recent_guidance_no_tool)
+                            )
+                            upsertSystemPreset(
+                                db = db,
+                                now = now,
+                                systemKey = PromptEntity.SYSTEM_PROMPT_KEY_SKILLS_LIST_GUIDANCE,
+                                displayTitle = ctx.getString(R.string.sys_prompt_skills_guidance_title),
+                                description = ctx.getString(R.string.sys_prompt_skills_guidance_desc),
+                                promptText = loadRawPrompt(ctx, R.raw.prompt_skills_list_guidance)
                             )
                         }
 

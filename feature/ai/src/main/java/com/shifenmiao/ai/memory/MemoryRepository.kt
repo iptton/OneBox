@@ -4,16 +4,19 @@ import androidx.room.withTransaction
 import com.shifenmiao.ai.R
 import com.shifenmiao.ai.agent.tool.AgentToolTextProvider
 import com.shifenmiao.ai.context.TokenEstimator
+import com.shifenmiao.ai.prompt.SystemPromptRepository
 import com.shifenmiao.database.AppDatabase
 import com.shifenmiao.database.ai.MemoryLimits
 import com.shifenmiao.database.ai.dao.MemoryEntryDao
 import com.shifenmiao.database.ai.entity.MemoryEntryEntity
+import com.shifenmiao.database.chat_prompt.entity.PromptEntity
 import com.t8rin.logger.makeLog
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.shifenmiao.database.R as DatabaseR
 
 /**
  * AI 记忆仓库：两级记忆（profile 全局档案 + log 时间序日志）的写入、检索与注入组装。
@@ -31,6 +34,7 @@ class MemoryRepository @Inject constructor(
     private val appDatabase: AppDatabase,
     private val memoryEntryDao: MemoryEntryDao,
     private val textProvider: AgentToolTextProvider,
+    private val systemPromptRepository: SystemPromptRepository,
 ) {
     /** 搜索范围：仅 log / 全部（profile + log） */
     enum class SearchScope { LOG, ALL }
@@ -184,8 +188,16 @@ class MemoryRepository @Inject constructor(
         val buckets = logs.groupBy { dateFormat.format(Date(it.createdAt)) }
             .entries.take(MemoryLimits.PROMPT_LOG_BUCKETS)
 
-        val guidance = textProvider.string(R.string.agent_memory_prompt_guidance)
-        var usedTokens = TokenEstimator.estimateText(guidance)
+        // 引导语从 item_prompt 预置读取（SystemPromptManagement 可编辑），fallback 到 raw
+        val profileGuidance = if (profiles.isNotEmpty()) {
+            systemPromptRepository.getSystemPrompt(
+                title = PromptEntity.SYSTEM_PROMPT_KEY_MEMORY_GLOBAL_GUIDANCE,
+                fallback = textProvider.rawAsync(DatabaseR.raw.prompt_memory_global_guidance)
+            )
+        } else {
+            ""
+        }
+        var usedTokens = TokenEstimator.estimateText(profileGuidance)
         var omitted = false
 
         val profileBlock = StringBuilder()
@@ -198,64 +210,94 @@ class MemoryRepository @Inject constructor(
             usedTokens += TokenEstimator.estimateText(profileBlock.toString())
         }
 
+        // 近期日志引导语：支持工具调用时用含 memory_get 提示的版本，否则用降级版
+        val logGuidance = if (logs.isNotEmpty()) {
+            systemPromptRepository.getSystemPrompt(
+                title = if (includeSearchHint) {
+                    PromptEntity.SYSTEM_PROMPT_KEY_MEMORY_RECENT_GUIDANCE
+                } else {
+                    PromptEntity.SYSTEM_PROMPT_KEY_MEMORY_RECENT_GUIDANCE_NO_TOOL
+                },
+                fallback = textProvider.rawAsync(
+                    if (includeSearchHint) DatabaseR.raw.prompt_memory_recent_guidance
+                    else DatabaseR.raw.prompt_memory_recent_guidance_no_tool
+                )
+            )
+        } else {
+            ""
+        }
+        val logGuidanceTokens = TokenEstimator.estimateText(logGuidance) + 1
+
         // 日期桶逐条装入：装得下的装，单条过长截断装，预算耗尽即止并标记省略
         val logBlock = StringBuilder()
         var packedLogs = 0
-        bucketLoop@ for ((date, entries) in buckets) {
-            val header = "\n" + textProvider.string(R.string.agent_memory_prompt_log_header, date) + "\n"
-            val headerTokens = TokenEstimator.estimateText(header)
-            if (usedTokens + headerTokens >= budgetTokens) {
-                omitted = true
-                break
-            }
-            val bucketStart = logBlock.length
-            val bucketStartTokens = usedTokens
-            logBlock.append(header)
-            usedTokens += headerTokens
-            var packedInBucket = 0
-            for (entry in entries) {
-                val line = "- ${entry.content.trim()}"
-                val lineTokens = TokenEstimator.estimateText(line) + 1
-                when {
-                    usedTokens + lineTokens <= budgetTokens -> {
-                        logBlock.appendLine(line)
-                        usedTokens += lineTokens
-                        packedInBucket++
-                    }
-                    budgetTokens - usedTokens > MIN_LINE_TOKENS -> {
-                        // 单条过长：按剩余预算截断装入
-                        val keepChars = (entry.content.length *
-                            ((budgetTokens - usedTokens).toDouble() / lineTokens))
-                            .toInt().coerceIn(0, entry.content.length)
-                        logBlock.appendLine("- ${entry.content.trim().take(keepChars)}…")
-                        usedTokens = budgetTokens
-                        packedInBucket++
-                        omitted = true
-                        break@bucketLoop
-                    }
-                    else -> {
-                        omitted = true
-                        break@bucketLoop
+        if (logs.isNotEmpty() && usedTokens + logGuidanceTokens < budgetTokens) {
+            logBlock.appendLine()
+            logBlock.appendLine(logGuidance)
+            usedTokens += logGuidanceTokens
+            bucketLoop@ for ((date, entries) in buckets) {
+                val header = "\n" + textProvider.string(R.string.agent_memory_prompt_log_header, date) + "\n"
+                val headerTokens = TokenEstimator.estimateText(header)
+                if (usedTokens + headerTokens >= budgetTokens) {
+                    omitted = true
+                    break
+                }
+                val bucketStart = logBlock.length
+                val bucketStartTokens = usedTokens
+                logBlock.append(header)
+                usedTokens += headerTokens
+                var packedInBucket = 0
+                for (entry in entries) {
+                    val line = "- ${entry.content.trim()}"
+                    val lineTokens = TokenEstimator.estimateText(line) + 1
+                    when {
+                        usedTokens + lineTokens <= budgetTokens -> {
+                            logBlock.appendLine(line)
+                            usedTokens += lineTokens
+                            packedInBucket++
+                        }
+                        budgetTokens - usedTokens > MIN_LINE_TOKENS -> {
+                            // 单条过长：按剩余预算截断装入
+                            val keepChars = (entry.content.length *
+                                ((budgetTokens - usedTokens).toDouble() / lineTokens))
+                                .toInt().coerceIn(0, entry.content.length)
+                            logBlock.appendLine("- ${entry.content.trim().take(keepChars)}…")
+                            usedTokens = budgetTokens
+                            packedInBucket++
+                            omitted = true
+                            break@bucketLoop
+                        }
+                        else -> {
+                            omitted = true
+                            break@bucketLoop
+                        }
                     }
                 }
+                if (packedInBucket == 0) {
+                    // 桶内一条都没装：回退桶头，避免空桶标题
+                    logBlock.setLength(bucketStart)
+                    usedTokens = bucketStartTokens
+                    omitted = true
+                    break
+                }
+                packedLogs += packedInBucket
             }
-            if (packedInBucket == 0) {
-                // 桶内一条都没装：回退桶头，避免空桶标题
-                logBlock.setLength(bucketStart)
-                usedTokens = bucketStartTokens
-                omitted = true
-                break
+            if (packedLogs == 0) {
+                // 一条日志都没装下：回退日志引导语
+                logBlock.setLength(0)
+                usedTokens -= logGuidanceTokens
             }
-            packedLogs += packedInBucket
         }
         if (logs.isNotEmpty() && packedLogs == 0) {
             "buildPromptFragment: no log entries fit budget=$budgetTokens, fallback to profile-only"
                 .makeLog("MemoryRepository")
         }
+        // 极端预算下什么都装不下：不注入空壳 fragment
+        if (profileBlock.isEmpty() && logBlock.isEmpty()) return null
 
         return buildString {
             appendLine("<memory>")
-            appendLine(guidance)
+            if (profileGuidance.isNotBlank()) appendLine(profileGuidance)
             append(profileBlock)
             append(logBlock)
             if (omitted) {

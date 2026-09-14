@@ -1032,7 +1032,6 @@
     <string name="agent_memory_prompt_omitted_hint_no_search">（更早的记忆因预算限制已省略。）</string>
     <string name="agent_memory_prompt_profile_header">用户档案：</string>
     <string name="agent_memory_prompt_log_header">记忆日志（%1$s):</string>
-    <string name="agent_skills_prompt_guidance">以下技能当前可用。清单只含元数据；使用前先用 use_skill 工具按 name 加载完整指令。</string>
     <string name="agent_skills_prompt_unlisted">（还有 %1$d 个技能未列出。）</string>
     <string name="agent_skill_import_invalid">无效的 SKILL.md:frontmatter 必须包含单行的 name 和 description 字段</string>
 

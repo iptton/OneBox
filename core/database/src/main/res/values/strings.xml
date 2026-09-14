@@ -21,6 +21,14 @@
     <string name="sys_prompt_mode_agent_desc">Execution protocol prompt for Agent mode</string>
     <string name="sys_prompt_duel_title">AI Duel/Interaction Prompt Templates</string>
     <string name="sys_prompt_duel_desc">System instructions, role rules, and turn guidance templates for AI duels and interactions</string>
+    <string name="sys_prompt_memory_global_title">Memory Profile Guidance</string>
+    <string name="sys_prompt_memory_global_desc">Preamble injected before the user profile section of AI memory</string>
+    <string name="sys_prompt_memory_recent_title">Memory Recent Log Guidance</string>
+    <string name="sys_prompt_memory_recent_desc">Preamble injected before the recent log section of AI memory (mentions the memory_get tool)</string>
+    <string name="sys_prompt_memory_recent_no_tool_title">Memory Recent Log Guidance (No Tools)</string>
+    <string name="sys_prompt_memory_recent_no_tool_desc">Fallback variant used when the model does not support tool calls</string>
+    <string name="sys_prompt_skills_guidance_title">Skills List Guidance</string>
+    <string name="sys_prompt_skills_guidance_desc">Preamble injected before the available skills list</string>
     <!-- Habit tracker activity log entries -->
     <string name="activity_log_habit_app_title">Habit Tracker</string>
     <string name="activity_log_habit_created">New habit: %1$s</string>

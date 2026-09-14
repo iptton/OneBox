@@ -57,6 +57,14 @@ data class PromptEntity(
         const val SYSTEM_PROMPT_KEY_WORKING_MODE_AGENT = "system_working_mode_agent"
         /** 系统预置标识：AI 对聊/互动 prompt 模板集合 */
         const val SYSTEM_PROMPT_KEY_DUEL_TEMPLATES = "system_duel_templates"
+        /** 系统预置标识：AI 记忆注入的用户档案引导语 */
+        const val SYSTEM_PROMPT_KEY_MEMORY_GLOBAL_GUIDANCE = "system_memory_global_guidance"
+        /** 系统预置标识：AI 记忆注入的近期日志引导语（含 memory_get 搜索提示） */
+        const val SYSTEM_PROMPT_KEY_MEMORY_RECENT_GUIDANCE = "system_memory_recent_guidance"
+        /** 系统预置标识：近期日志引导语的降级版（模型不支持工具调用时，不含 memory_get） */
+        const val SYSTEM_PROMPT_KEY_MEMORY_RECENT_GUIDANCE_NO_TOOL = "system_memory_recent_guidance_no_tool"
+        /** 系统预置标识：可用技能清单引导语 */
+        const val SYSTEM_PROMPT_KEY_SKILLS_LIST_GUIDANCE = "system_skills_list_guidance"
     }
 
     fun isSystemPreset(): Boolean = source == Source.SYSTEM
