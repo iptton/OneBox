@@ -2,6 +2,14 @@
 
 This documentation contains set of guidelines to help you during the contribution process.
 
+## Database migrations
+
+Group schema changes by app release, not by feature. Starting with release 140,
+use the release's `versionCode` as the target database version. Until 140 ships,
+append changes to `Release140Migrations` instead of adding another version step.
+Preserve all published upgrade paths and schemas. See
+[database migration guidelines](docs/database-migrations.md) for baselines and tests.
+
 # Submitting Contributions👨🏻‍💻
 Below you will find the process and workflow used to review and merge your changes.
 ## 🌟 : Choose an issue/ Create an issue

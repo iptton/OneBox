@@ -140,7 +140,7 @@ import java.io.InputStreamReader
         HouseholdItemEntity::class,
         PeriodRecordEntity::class,
     ],
-    version = 9,
+    version = Release140Migrations.VERSION,
     exportSchema = true
 )
 @TypeConverters(MarkTodoTypeConverters::class)
@@ -306,7 +306,7 @@ abstract class FeatureDatabase : RoomDatabase() {
             }
         }
 
-        // 诗词模块:建表即含 pinyin/translation(v4 未发布过,原 4→5 的加列并入建表)
+        // 139 已发布的 v4：诗词表包含 pinyin/translation，保留历史升级路径。
         private val MIGRATION_3_4 = object : androidx.room.migration.Migration(3, 4) {
             override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
                 db.execSQL(
@@ -329,144 +329,6 @@ abstract class FeatureDatabase : RoomDatabase() {
                 )
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_poem_createdAt` ON `poem` (`createdAt`)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_poem_isFavorite` ON `poem` (`isFavorite`)")
-            }
-        }
-
-        // AI 检测助手:检测历史表
-        private val MIGRATION_4_5 = object : androidx.room.migration.Migration(4, 5) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
-                db.execSQL(
-                    """
-                    CREATE TABLE IF NOT EXISTS `ai_detect_record` (
-                        `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                        `type` TEXT NOT NULL,
-                        `inputSummary` TEXT NOT NULL,
-                        `probability` REAL NOT NULL,
-                        `verdict` TEXT NOT NULL,
-                        `detailJson` TEXT NOT NULL DEFAULT '',
-                        `createdAt` INTEGER NOT NULL
-                    )
-                    """.trimIndent()
-                )
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_ai_detect_record_createdAt` ON `ai_detect_record` (`createdAt`)")
-            }
-        }
-
-        // 记录中心(健康记录):健康记录表
-        private val MIGRATION_5_6 = object : androidx.room.migration.Migration(5, 6) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
-                db.execSQL(
-                    """
-                    CREATE TABLE IF NOT EXISTS `health_record` (
-                        `id` TEXT NOT NULL,
-                        `type` TEXT NOT NULL,
-                        `happened_at` INTEGER NOT NULL,
-                        `fields_json` TEXT NOT NULL,
-                        `note` TEXT,
-                        `created_at` INTEGER NOT NULL,
-                        `updated_at` INTEGER NOT NULL,
-                        PRIMARY KEY(`id`)
-                    )
-                    """.trimIndent()
-                )
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_health_record_happened_at` ON `health_record` (`happened_at`)")
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_health_record_type` ON `health_record` (`type`)")
-            }
-        }
-
-        // 家庭物品管理:位置(自关联层级)+ 物品表,SQL 与 schemas/.../7.json 的 createSql 一致
-        private val MIGRATION_6_7 = object : androidx.room.migration.Migration(6, 7) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
-                db.execSQL(
-                    """
-                    CREATE TABLE IF NOT EXISTS `household_location` (
-                        `id` TEXT NOT NULL,
-                        `name` TEXT NOT NULL,
-                        `parent_id` TEXT,
-                        `sort_order` INTEGER NOT NULL,
-                        `created_at` INTEGER NOT NULL,
-                        PRIMARY KEY(`id`),
-                        FOREIGN KEY(`parent_id`) REFERENCES `household_location`(`id`)
-                            ON UPDATE CASCADE ON DELETE CASCADE
-                    )
-                    """.trimIndent()
-                )
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_household_location_parent_id` ON `household_location` (`parent_id`)")
-                db.execSQL(
-                    """
-                    CREATE TABLE IF NOT EXISTS `household_item` (
-                        `id` TEXT NOT NULL,
-                        `name` TEXT NOT NULL,
-                        `category` TEXT,
-                        `location_id` TEXT,
-                        `expire_at` INTEGER,
-                        `photo_path` TEXT,
-                        `note` TEXT,
-                        `created_at` INTEGER NOT NULL,
-                        `updated_at` INTEGER NOT NULL,
-                        PRIMARY KEY(`id`),
-                        FOREIGN KEY(`location_id`) REFERENCES `household_location`(`id`)
-                            ON UPDATE CASCADE ON DELETE SET NULL
-                    )
-                    """.trimIndent()
-                )
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_household_item_location_id` ON `household_item` (`location_id`)")
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_household_item_name` ON `household_item` (`name`)")
-            }
-        }
-
-        // 家庭物品:位置表加用户自选图标列(icon_key,IconRegistry key)
-        private val MIGRATION_7_8 = object : androidx.room.migration.Migration(7, 8) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE `household_location` ADD COLUMN `icon_key` TEXT")
-            }
-        }
-
-        // 经期记录表
-        //
-        // 注意：v9 尚未发布（已发布的最高 tag 1.3.9 对应 version = 4），因此本迁移是"草稿"，
-        // 发版前可以继续往里追加改动。与之相关的决策转盘字段改造（weight/enabled/wheelTitle + 索引）
-        // 也一并并入此处，避免为了同一个未发布版本再叠一层 9→10。
-        // 先例见 commit 9506c641「poem 表迁移合并为单步(v4 未发布)」。
-        private val MIGRATION_8_9 = object : androidx.room.migration.Migration(8, 9) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
-                db.execSQL(
-                    """
-                    CREATE TABLE IF NOT EXISTS `period_record` (
-                        `id` TEXT NOT NULL,
-                        `record_date` INTEGER NOT NULL,
-                        `is_period_start` INTEGER NOT NULL,
-                        `is_period_end` INTEGER NOT NULL,
-                        `flow_intensity` TEXT NOT NULL,
-                        `symptoms` TEXT NOT NULL,
-                        `mood` TEXT NOT NULL,
-                        `note` TEXT,
-                        `created_at` INTEGER NOT NULL,
-                        `updated_at` INTEGER NOT NULL,
-                        PRIMARY KEY(`id`)
-                    )
-                    """.trimIndent()
-                )
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_period_record_record_date` ON `period_record` (`record_date`)")
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_period_record_is_period_start` ON `period_record` (`is_period_start`)")
-
-                // 决策转盘：选项权重与启用标记（抽后移除）
-                db.execSQL("ALTER TABLE `wheel_options` ADD COLUMN `weight` REAL NOT NULL DEFAULT 1.0")
-                db.execSQL("ALTER TABLE `wheel_options` ADD COLUMN `enabled` INTEGER NOT NULL DEFAULT 1")
-
-                // 决策转盘：历史冗余转盘标题，避免转盘删除后历史无归属
-                db.execSQL("ALTER TABLE `wheel_history` ADD COLUMN `wheelTitle` TEXT NOT NULL DEFAULT ''")
-                db.execSQL(
-                    """
-                    UPDATE `wheel_history` SET `wheelTitle` = COALESCE(
-                        (SELECT `title` FROM `decision_wheels` WHERE `decision_wheels`.`id` = `wheel_history`.`wheelId`),
-                        ''
-                    )
-                    """.trimIndent()
-                )
-
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_wheel_options_wheelId` ON `wheel_options` (`wheelId`)")
-                db.execSQL("CREATE INDEX IF NOT EXISTS `index_wheel_history_wheelId` ON `wheel_history` (`wheelId`)")
             }
         }
 
@@ -523,11 +385,7 @@ abstract class FeatureDatabase : RoomDatabase() {
                         MIGRATION_1_2,
                         MIGRATION_2_3,
                         MIGRATION_3_4,
-                        MIGRATION_4_5,
-                        MIGRATION_5_6,
-                        MIGRATION_6_7,
-                        MIGRATION_7_8,
-                        MIGRATION_8_9,
+                        *Release140Migrations.feature,
                     )
                     .fallbackToDestructiveMigration(true)
                     .addCallback(object : Callback() {
