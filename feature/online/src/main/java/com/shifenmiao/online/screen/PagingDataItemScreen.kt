@@ -67,6 +67,7 @@ import com.shifenmiao.online.component.ItemListComponent
 import com.shifenmiao.online.ui.CreateChoiceCard
 import com.shifenmiao.online.ui.HomeEmptyState
 import com.shifenmiao.online.ui.VerticalStaggeredCard
+import com.shifenmiao.online.ui.aiCreateActionFor
 import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.domain.performance.StartupTrace
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -171,6 +172,12 @@ fun PagingDataItemScreen(
 
     val localNavigator = LocalUrlNavigator.current
     val onNavigator = LocalOnNavigate.current
+    val aiCreateAction = aiCreateActionFor(
+        listType = listType,
+        onNavigator = onNavigator,
+        fallback = onAiCreate,
+    )
+    val showAiCreate = listType != ListItemType.AGENT
 
     Column(modifier = modifier) {
         AnimatedVisibility(
@@ -212,7 +219,8 @@ fun PagingDataItemScreen(
                     isFiltered = selectedChipId != null,
                     onClearFilter = ::onCloseChips,
                     onManualCreate = { onNavigator(createScreen) },
-                    onAiCreate = onAiCreate,
+                    onAiCreate = aiCreateAction,
+                    showAiCreate = showAiCreate,
                 )
 
                 else -> ItemGrid(
@@ -222,7 +230,8 @@ fun PagingDataItemScreen(
                     listType = listType,
                     onCategoryBadgeTap = ::onCategoryBadgeTap,
                     onManualCreate = { onNavigator(createScreen) },
-                    onAiCreate = onAiCreate,
+                    onAiCreate = aiCreateAction,
+                    showAiCreate = showAiCreate,
                 )
             }
         }
@@ -331,6 +340,7 @@ private fun EmptyOrErrorState(
     onClearFilter: () -> Unit,
     onManualCreate: () -> Unit,
     onAiCreate: () -> Unit,
+    showAiCreate: Boolean = true,
 ) {
     when {
         // 同步/加载失败时用本地数据兜底，不弹错误提示，让用户无感知。
@@ -344,6 +354,7 @@ private fun EmptyOrErrorState(
             onClearFilter = onClearFilter,
             onManualCreate = onManualCreate,
             onAiCreate = onAiCreate,
+            showAiCreate = showAiCreate,
         )
 
         else -> SkeletonItemGrid(isGrid = LocalSettingsState.current.groupOptionsByTypes)
@@ -398,6 +409,7 @@ private fun ItemGrid(
     onCategoryBadgeTap: (Int?) -> Unit,
     onManualCreate: () -> Unit,
     onAiCreate: () -> Unit,
+    showAiCreate: Boolean = true,
 ) {
     val onNavigator = LocalOnNavigate.current
     val context = LocalContext.current
@@ -498,6 +510,7 @@ private fun ItemGrid(
                     onManualCreate = onManualCreate,
                     onAiCreate = onAiCreate,
                     siblingHeight = siblingCardHeight,
+                    showAiCreate = showAiCreate,
                 )
             }
         }

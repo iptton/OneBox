@@ -34,12 +34,16 @@ import com.shifenmiao.base.ui.empty.EmptyStateGuide
 import com.shifenmiao.base.ui.empty.EmptyStateGuideAction
 import com.shifenmiao.core.R
 import com.shifenmiao.model.ListItemType
+import com.shifenmiao.model.ai.AIConversationEntryType
+import com.shifenmiao.model.ai.Conversation
+import com.shifenmiao.storage.RemoteConfigStorage
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAgent
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAutoAwesomeMosaic
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineAutoFix
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineCodeEditor
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineNote
 import com.t8rin.imagetoolbox.core.resources.icons.line.LinePrompt
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.glass.glassThin
 
 @Composable
@@ -50,6 +54,7 @@ fun HomeEmptyState(
     modifier: Modifier = Modifier,
     isFiltered: Boolean = false,
     onClearFilter: () -> Unit = {},
+    showAiCreate: Boolean = true,
 ) {
     val typeName = listTypeDisplayName(listType)
     EmptyStateGuide(
@@ -76,21 +81,28 @@ fun HomeEmptyState(
                 ),
             )
         } else {
-            listOf(
-                EmptyStateGuideAction(
-                    icon = Icons.Outlined.Edit,
-                    title = stringResource(R.string.home_create_manual),
-                    description = stringResource(R.string.home_create_manual_description, typeName),
-                    onClick = onManualCreate,
-                ),
-                EmptyStateGuideAction(
-                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
-                    title = stringResource(R.string.home_create_with_ai),
-                    description = stringResource(R.string.home_create_with_ai_description, typeName),
-                    onClick = onAiCreate,
-                    emphasized = true,
-                ),
-            )
+            buildList {
+                add(
+                    EmptyStateGuideAction(
+                        icon = Icons.Outlined.Edit,
+                        title = stringResource(R.string.home_create_manual),
+                        description = stringResource(R.string.home_create_manual_description, typeName),
+                        onClick = onManualCreate,
+                        emphasized = !showAiCreate,
+                    )
+                )
+                if (showAiCreate) {
+                    add(
+                        EmptyStateGuideAction(
+                            icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
+                            title = stringResource(R.string.home_create_with_ai),
+                            description = stringResource(R.string.home_create_with_ai_description, typeName),
+                            onClick = onAiCreate,
+                            emphasized = true,
+                        )
+                    )
+                }
+            }
         },
         footerHint = if (isFiltered) {
             null
@@ -109,6 +121,7 @@ fun CreateChoiceCard(
     modifier: Modifier = Modifier,
     /** 相邻普通卡片的实测高度,双列时据此与旁边的卡片对齐;为 null 时退回最小高度模式 */
     siblingHeight: Dp? = null,
+    showAiCreate: Boolean = true,
 ) {
     val typeName = listTypeDisplayName(listType)
     val shape = MaterialTheme.shapes.extraLarge
@@ -153,23 +166,26 @@ fun CreateChoiceCard(
                 title = stringResource(R.string.home_create_manual),
                 description = stringResource(R.string.home_create_manual_description, typeName),
                 onClick = onManualCreate,
+                emphasized = !showAiCreate,
                 compact = true,
                 showIcon = showActionIcons,
                 modifier = if (fixedHeight != null) Modifier.weight(1f) else Modifier,
                 enforceMinHeight = fixedHeight == null,
             )
-            Spacer(Modifier.height(8.dp))
-            CreationActionCard(
-                icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
-                title = stringResource(R.string.home_create_with_ai),
-                description = stringResource(R.string.home_create_with_ai_description, typeName),
-                onClick = onAiCreate,
-                emphasized = true,
-                compact = true,
-                showIcon = showActionIcons,
-                modifier = if (fixedHeight != null) Modifier.weight(1f) else Modifier,
-                enforceMinHeight = fixedHeight == null,
-            )
+            if (showAiCreate) {
+                Spacer(Modifier.height(8.dp))
+                CreationActionCard(
+                    icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoFix,
+                    title = stringResource(R.string.home_create_with_ai),
+                    description = stringResource(R.string.home_create_with_ai_description, typeName),
+                    onClick = onAiCreate,
+                    emphasized = true,
+                    compact = true,
+                    showIcon = showActionIcons,
+                    modifier = if (fixedHeight != null) Modifier.weight(1f) else Modifier,
+                    enforceMinHeight = fixedHeight == null,
+                )
+            }
         }
     }
 }
@@ -287,5 +303,73 @@ private fun listTypeIcon(listType: ListItemType): ImageVector = when (listType) 
     ListItemType.HTML -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCodeEditor
     else -> com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineAutoAwesomeMosaic
 }
+
+/**
+ * 各 tab「AI 创建」按钮的点击行为：
+ * - 笔记/网址：跳助手 Tab 开新会话，并预填输入框；预填词与助手页快捷开始区
+ *   共用 chatQuickStartPrompts(下标约定见 [QUICK_START_INDEX_NOTE_FILL_IN])，远程可配；
+ * - 应用：跳助手 Tab 开新会话(无专属预填词)；
+ * - 提示词：跳「创建提示词」页（本身就是 AI 生成）；
+ * - 其余类型走 [fallback]。
+ */
+@Composable
+fun aiCreateActionFor(
+    listType: ListItemType,
+    onNavigator: (Screen) -> Unit,
+    fallback: () -> Unit,
+): () -> Unit {
+    val chatTitle = stringResource(R.string.ai_chat_title)
+    // 本地兜底,与 defaultChatQuickStartPrompts 末尾两条一致;点击时远程配置优先
+    val noteFillIn = stringResource(R.string.ai_chat_quick_start_17)
+    val webFillIn = stringResource(R.string.ai_chat_quick_start_18)
+    return when (listType) {
+        // 带非空 title 会触发 startGuidedConversation:清空历史 + 新会话 id;
+        // template 只预填到输入框,不自动发送
+        ListItemType.NOTE, ListItemType.HTML -> {
+            {
+                val prompts = RemoteConfigStorage.getRemoteConfig().chatQuickStartPrompts
+                val index = if (listType == ListItemType.NOTE) {
+                    QUICK_START_INDEX_NOTE_FILL_IN
+                } else {
+                    QUICK_START_INDEX_WEB_FILL_IN
+                }
+                onNavigator(
+                    Screen.AITabChatScreen(
+                        Conversation(
+                            entryType = AIConversationEntryType.ASSISTANT,
+                            title = chatTitle,
+                            template = prompts?.getOrNull(index)?.takeIf { it.isNotBlank() }
+                                ?: if (listType == ListItemType.NOTE) noteFillIn else webFillIn,
+                        )
+                    )
+                )
+            }
+        }
+
+        ListItemType.NORMAL -> {
+            {
+                onNavigator(
+                    Screen.AITabChatScreen(
+                        Conversation(
+                            entryType = AIConversationEntryType.ASSISTANT,
+                            title = chatTitle,
+                        )
+                    )
+                )
+            }
+        }
+
+        ListItemType.PROMPT -> {
+            { onNavigator(Screen.CreateAIChatPrompt()) }
+        }
+
+        else -> fallback
+    }
+}
+
+// chatQuickStartPrompts 下标约定(见 RemoteConfig.chatQuickStartPrompts 注释):
+// 16=笔记「AI 创建」预填词,17=网址「AI 创建」预填词
+private const val QUICK_START_INDEX_NOTE_FILL_IN = 16
+private const val QUICK_START_INDEX_WEB_FILL_IN = 17
 
 

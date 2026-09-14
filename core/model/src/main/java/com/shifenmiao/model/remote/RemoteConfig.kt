@@ -104,6 +104,10 @@ data class RemoteConfig(
     /**
      * AI 聊天快速开始文案，支持远程下发。
      * 可以配置多条，前端每次随机展示其中 4 条。
+     *
+     * 下标约定:16=首页笔记 tab「AI 创建」预填词,17=网址 tab「AI 创建」预填词
+     * (即本地默认列表的末尾两条);服务端下发时保持这两条位置,
+     * 即可远程调整对应 tab 的预填文案。
      */
     val chatQuickStartPrompts: List<String>? = defaultChatQuickStartPrompts(),
 
@@ -517,5 +521,7 @@ private fun defaultChatQuickStartPrompts(): List<String> = listOf(
     AppContext.getString(R.string.ai_chat_quick_start_14),
     AppContext.getString(R.string.ai_chat_quick_start_15),
     AppContext.getString(R.string.ai_chat_quick_start_16),
+    AppContext.getString(R.string.ai_chat_quick_start_17),
+    AppContext.getString(R.string.ai_chat_quick_start_18),
 )
 
