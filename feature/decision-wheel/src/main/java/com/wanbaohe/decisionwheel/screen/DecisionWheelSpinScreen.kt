@@ -2,7 +2,6 @@ package com.wanbaohe.decisionwheel.screen
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.Spring
@@ -149,13 +148,13 @@ fun DecisionWheelSpinScreen(
 
         isAnimating = true
         selectedIndex = null
-        component.startSpinning()
+        component.startSpinning(durationMillis)
 
         rotationAnim.animateTo(
             targetValue = targetRotation,
             animationSpec = tween(
                 durationMillis = durationMillis,
-                easing = CubicBezierEasing(0.33f, 0f, 0.2f, 1f)
+                easing = DecisionWheelSpinComponent.SPIN_EASING
             )
         )
 

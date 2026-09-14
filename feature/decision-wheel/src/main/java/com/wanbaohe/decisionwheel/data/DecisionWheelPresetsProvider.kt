@@ -45,12 +45,37 @@ class DecisionWheelPresetsProvider(
      * Returns the full list of preset wheel definitions as localized strings.
      */
     /**
+     * 预置列表第一项的标题，用于决定"默认选中哪个转盘"。
+     *
+     * 老用户库里那批预置是按旧顺序建的，光改 [presets] 的顺序对他们无效 ——
+     * 这里给一个显式口径，新建和已存在的情况都能落到同一个转盘上。
+     */
+    fun defaultPresetTitle(): String = getString(R.string.preset_drink_penalty)
+
+    /**
      * 预置转盘。
      *
      * 选品口径:只留"真会拿它做决定"的场景 —— 要么天天要选(吃什么),要么一选就有乐子(喝酒惩罚)。
      * 骰子、幸运数字这类别的模块已经有了,纯粹凑数的转盘不占位置。
+     *
+     * 列表顺序 = 创建顺序 = 默认选中项:第一个位置给"喝酒惩罚"。这是个情绪型场景,
+     * 打开就转、转完就有人起哄,比"吃什么"更能说明这个转盘是干嘛的。
      */
     fun presets(): List<PresetDefinitionLocalized> = listOf(
+        // Drink penalty —— 默认转盘
+        PresetDefinition(
+            titleRes = R.string.preset_drink_penalty,
+            optionRes = listOf(
+                R.string.penalty_one,
+                R.string.penalty_two,
+                R.string.penalty_half,
+                R.string.penalty_bottoms_up,
+                R.string.penalty_substitute,
+                R.string.penalty_everyone,
+                R.string.penalty_spared,
+                R.string.penalty_double
+            )
+        ),
         // Food
         PresetDefinition(
             titleRes = R.string.preset_food,
@@ -63,20 +88,6 @@ class DecisionWheelPresetsProvider(
                 R.string.food_fastfood,
                 R.string.food_snacks,
                 R.string.food_dessert
-            )
-        ),
-        // Drink penalty
-        PresetDefinition(
-            titleRes = R.string.preset_drink_penalty,
-            optionRes = listOf(
-                R.string.penalty_one,
-                R.string.penalty_two,
-                R.string.penalty_half,
-                R.string.penalty_bottoms_up,
-                R.string.penalty_substitute,
-                R.string.penalty_everyone,
-                R.string.penalty_spared,
-                R.string.penalty_double
             )
         ),
         // Truth or dare

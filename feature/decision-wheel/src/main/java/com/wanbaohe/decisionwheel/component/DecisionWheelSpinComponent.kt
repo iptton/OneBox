@@ -1,5 +1,8 @@
 package com.wanbaohe.decisionwheel.component
 
+import android.os.SystemClock
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.Easing
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -16,7 +19,11 @@ import com.wanbaohe.decisionwheel.data.WheelSettingsHolder
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -78,10 +85,36 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
 
         /** 停稳时把转动声淡出,别"啪"一下掐断 */
         private const val SPIN_FADE_OUT_MS = 420L
+
+        /** 变速斜坡的采样间隔;再密也只是多写几次 PlaybackParams,没必要 */
+        private const val SPEED_RAMP_STEP_MS = 50L
+
+        /**
+         * 速度映射区间。
+         *
+         * 1f = 原速(咔哒 ~12.5 记/秒),慢到底 0.42f。再低听起来就不是"盘在减速"
+         * 而是"磁带没电了",反而出戏。
+         */
+        private const val SPEED_MAX = 1f
+        private const val SPEED_MIN = 0.42f
+
+        /** 缓动曲线的峰值斜率,用来把瞬时速度归一到 [0,1];取小一点让高速段更饱和 */
+        private const val SPEED_PEAK_SLOPE = 1.6f
+
+        /**
+         * 旋转补间曲线。
+         *
+         * 盘面和声音必须共用同一条:声音的减速节奏是从这条曲线的斜率推出来的,
+         * 两边各写一份迟早会 drift,转完停稳了声音还在转。
+         */
+        val SPIN_EASING: Easing = CubicBezierEasing(0.33f, 0f, 0.2f, 1f)
     }
 
     private val _uiState = MutableStateFlow(DecisionWheelSpinUiState())
     val uiState = _uiState.asStateFlow()
+
+    /** 转动声的减速斜坡;停稳/取消时必须掐掉,否则它还在继续压速度 */
+    private var spinSoundJob: Job? = null
 
     val settings: StateFlow<WheelSettings> = settingsHolder.settings
 
@@ -105,6 +138,8 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
         // 后台预热音效（下载到本地缓存），首次旋转基本已就绪，避免第一下没声音
         componentScope.launch { ALL_SOUNDS.forEach { audioPlayer.warmUp(it) } }
         componentContext.lifecycle.doOnDestroy {
+            spinSoundJob?.cancel()
+            spinSoundJob = null
             audioPlayer.stopBackground()
             audioPlayer.stopEffect()
         }
@@ -120,10 +155,20 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
             _uiState.update {
                 it.copy(
                     wheels = wheels.orEmpty(),
-                    currentWheelId = it.currentWheelId ?: wheels?.firstOrNull()?.id
+                    currentWheelId = it.currentWheelId ?: defaultWheelId(wheels.orEmpty())
                 )
             }
         }
+    }
+
+    /**
+     * 默认选中哪个转盘：优先预置列表的第一项（"喝酒惩罚"），找不到再退回库里第一条。
+     *
+     * 老用户库里的预置是按旧顺序建的，纯按插入序取第一项会拿到"吃什么"。
+     */
+    private fun defaultWheelId(wheels: List<DecisionWheel>): String? {
+        val preferred = runCatching { presetsProvider.defaultPresetTitle() }.getOrNull()
+        return wheels.firstOrNull { it.title == preferred }?.id ?: wheels.firstOrNull()?.id
     }
 
     private fun observeWheels() {
@@ -133,7 +178,7 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
                     val stillExists = wheels.any { w -> w.id == it.currentWheelId }
                     it.copy(
                         wheels = wheels,
-                        currentWheelId = if (stillExists) it.currentWheelId else wheels.firstOrNull()?.id
+                        currentWheelId = if (stillExists) it.currentWheelId else defaultWheelId(wheels)
                     )
                 }
                 restoreRemovedIfDisabled()
@@ -253,15 +298,55 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
         return candidates.last().first
     }
 
-    /** 开始旋转（仅切状态，角度由 [planSpin] 决定） */
-    fun startSpinning() {
+    /**
+     * 开始旋转（仅切状态，角度由 [planSpin] 决定）。
+     *
+     * @param durationMillis 本次动画时长，由界面连同甩动力度一起算好传进来 ——
+     *                       转动声的减速节奏要跟盘面严格同步，时长必须对齐。
+     */
+    fun startSpinning(durationMillis: Int) {
         if (_uiState.value.isSpinning) return
         _uiState.update {
             it.copy(isSpinning = true, showResult = false, settledIndex = null)
         }
         if (settingsHolder.current().soundEnabled) {
-            playSound(SOUND_SPIN, isBackground = true)
+            startSpinSound(durationMillis)
         }
+    }
+
+    /**
+     * 起转并让转动声跟着盘面减速。
+     *
+     * 声音是固定节奏的 2s 循环,不加处理就是"盘快停了咔哒还一样密",很假。
+     * 这里按 [SPIN_EASING] 的瞬时斜率推播放速度:斜率大(走得快)速度高,
+     * 收尾斜率趋零时压到 [SPEED_MIN],跟盘面一起停下来。
+     */
+    private fun startSpinSound(durationMillis: Int) {
+        spinSoundJob?.cancel()
+        spinSoundJob = componentScope.launch(Dispatchers.Main) {
+            audioPlayer.playBackground(SOUND_SPIN)
+            val startAt = SystemClock.uptimeMillis()
+            val total = durationMillis.coerceAtLeast(1)
+            while (isActive) {
+                val t = ((SystemClock.uptimeMillis() - startAt).toFloat() / total).coerceIn(0f, 1f)
+                audioPlayer.setBackgroundSpeed(spinSpeedAt(t))
+                if (t >= 1f) break
+                delay(SPEED_RAMP_STEP_MS)
+            }
+        }
+    }
+
+    /**
+     * 缓动曲线在 [t] 处的瞬时斜率 —— 也就是盘面此刻的角速度(归一化,均值为 1)。
+     * 中心差分足够用,解析导数没意义:这条曲线本身就只是个手感。
+     */
+    private fun spinSpeedAt(t: Float): Float {
+        val h = 0.02f
+        val lo = (t - h).coerceAtLeast(0f)
+        val hi = (t + h).coerceAtMost(1f)
+        val slope = if (hi <= lo) 0f else (SPIN_EASING.transform(hi) - SPIN_EASING.transform(lo)) / (hi - lo)
+        val norm = (slope / SPEED_PEAK_SLOPE).coerceIn(0f, 1f)
+        return SPEED_MIN + (SPEED_MAX - SPEED_MIN) * norm
     }
 
     /**
@@ -284,6 +369,8 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
             }
 
             // 停稳:转动声淡出,同时补一记结果揭示音,两段交叉着走
+            spinSoundJob?.cancel()
+            spinSoundJob = null
             audioPlayer.fadeOutBackground(SPIN_FADE_OUT_MS)
             if (settingsHolder.current().soundEnabled) playSound(SOUND_RESULT)
         }
@@ -308,6 +395,8 @@ class DecisionWheelSpinComponent @AssistedInject internal constructor(
      */
     fun cancelSpin() {
         // 界面被销毁时旋转 BGM 必须跟着停，否则音乐会在后台一直循环
+        spinSoundJob?.cancel()
+        spinSoundJob = null
         audioPlayer.stopBackground()
         if (_uiState.value.isSpinning) {
             _uiState.update { it.copy(isSpinning = false) }

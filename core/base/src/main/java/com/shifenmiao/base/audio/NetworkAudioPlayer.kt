@@ -2,6 +2,7 @@ package com.shifenmiao.base.audio
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import com.t8rin.logger.makeLog
@@ -103,6 +104,29 @@ class NetworkAudioPlayer @Inject constructor(
     }
 
     /**
+     * 调整背景音播放速度（连带音高，1f 为原速）。
+     *
+     * 转盘转动声要跟着盘面一起慢下来，所以需要在播放过程中连续变速。
+     * 变速走 MediaPlayer 的 PlaybackParams：底层是对解码后的 PCM 重采样，
+     * 等效于磁带减速 —— 棘轮咔哒是宽带瞬态，音高下降不明显，但"节奏变慢"非常直观。
+     *
+     * 部分机型/解码器不支持变速，失败就静默维持原速，不影响转盘本身。
+     */
+    fun setBackgroundSpeed(speed: Float) {
+        val player = backgroundPlayer ?: return
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
+        val target = speed.coerceIn(0.1f, 2f)
+        runCatching {
+            val params = player.playbackParams
+            // 差得少就不折腾，PlaybackParams 一写就要重采样，频繁设置有咔哒风险
+            if (kotlin.math.abs(params.speed - target) > 0.01f) {
+                params.speed = target
+                player.playbackParams = params
+            }
+        }.onFailure { it.makeLog("NetworkAudioPlayer") }
+    }
+
+    /**
      * 淡出并停止背景音。
      *
      * 背景音是循环播放的(如转盘转动声),直接 [stopBackground] 会"啪"一下断掉,
@@ -129,7 +153,8 @@ class NetworkAudioPlayer @Inject constructor(
                 runCatching { player.setVolume(volume, volume) }
                 if (step < steps) {
                     handler.postDelayed(this, stepMs)
-                } else {
+                } else if (backgroundPlayer === player) {
+                    // 淡出收尾才释放。期间要是已经转了下一轮(连点),新音源不能一起被掐掉
                     stopBackground()
                 }
             }
