@@ -41,7 +41,6 @@ import com.shifenmiao.theme.AppTheme
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassSegmentedButtonRow
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.LocalOnNavigate
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.logger.Logger.makeLog
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 
 @Composable
@@ -170,15 +169,13 @@ fun PhoneLoginBox(
                 enable = !loginState.isLoggingIn,
                 text = stringResource(id = R.string.login_button_text),
                 onClick = {
-                    if (isUserAgreementChecked.value.not()) {
-                        showAgreementDialog.value = true
-                        makeLog{
-                            "showAgreementDialog ${showAgreementDialog.value}"
-                        }
-                        setConfirmAction(loginFun)
-                        return@PrimaryButton
+                    loginWithAgreementCheck(
+                        isUserAgreementChecked = isUserAgreementChecked.value,
+                        showAgreementDialog = showAgreementDialog,
+                        setConfirmAction = setConfirmAction,
+                    ) {
+                        loginFun.invoke()
                     }
-                    loginFun.invoke()
                 }
             )
         }
@@ -237,12 +234,13 @@ fun CodeLoginBox(
                 enable = !loginState.isLoggingIn,
                 text = stringResource(id = R.string.login_button_text),
                 onClick = {
-                    if (isUserAgreementChecked.value.not()) {
-                        setConfirmAction(confirmFunction)
-                        showAgreementDialog.value = true
-                        return@PrimaryButton
+                    loginWithAgreementCheck(
+                        isUserAgreementChecked = isUserAgreementChecked.value,
+                        showAgreementDialog = showAgreementDialog,
+                        setConfirmAction = setConfirmAction,
+                    ) {
+                        confirmFunction.invoke()
                     }
-                    confirmFunction.invoke()
                 }
             )
         }
@@ -280,12 +278,13 @@ fun EmailLoginBox(
             )
         },
         onSubmit = {
-            if (isUserAgreementChecked.value.not()) {
-                setConfirmAction(confirmFunction)
-                showAgreementDialog.value = true
-                return@LoginInputs
+            loginWithAgreementCheck(
+                isUserAgreementChecked = isUserAgreementChecked.value,
+                showAgreementDialog = showAgreementDialog,
+                setConfirmAction = setConfirmAction,
+            ) {
+                confirmFunction.invoke()
             }
-            confirmFunction.invoke()
         },
 
         onForgotPasswordClick = {

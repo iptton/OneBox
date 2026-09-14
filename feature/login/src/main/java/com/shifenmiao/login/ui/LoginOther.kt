@@ -89,12 +89,13 @@ fun LoginOther(
                     .fillMaxWidth()
                     .requiredHeight(AppTheme.dimens.normalButtonHeight),
                 onClick = {
-                    if (isUserAgreementChecked.value.not()) {
-                        setConfirmAction(wechatConfirmFunction)
-                        showAgreementDialog.value = true
-                        return@TextButton
+                    loginWithAgreementCheck(
+                        isUserAgreementChecked = isUserAgreementChecked.value,
+                        showAgreementDialog = showAgreementDialog,
+                        setConfirmAction = setConfirmAction,
+                    ) {
+                        wechatConfirmFunction.invoke()
                     }
-                    wechatConfirmFunction.invoke()
                 },
                 colors = ButtonColors(
                     containerColor = Color(0xFF07c160),
@@ -136,12 +137,13 @@ fun LoginOther(
                     .fillMaxWidth()
                     .requiredHeight(AppTheme.dimens.normalButtonHeight),
                 onClick = {
-                    if (isUserAgreementChecked.value.not()) {
-                        setConfirmAction(googleConfirmFunction)
-                        showAgreementDialog.value = true
-                        return@TextButton
+                    loginWithAgreementCheck(
+                        isUserAgreementChecked = isUserAgreementChecked.value,
+                        showAgreementDialog = showAgreementDialog,
+                        setConfirmAction = setConfirmAction,
+                    ) {
+                        googleConfirmFunction.invoke()
                     }
-                    googleConfirmFunction.invoke()
                 },
                 colors = ButtonColors(
                     containerColor = Color(0xFFFFFFFF),
