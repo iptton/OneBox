@@ -47,13 +47,14 @@
             tools:node="remove" />
 
         <!--
-            AdMob 激励广告(feature/ad-watch)。
-            故意不声明 com.google.android.gms.ads.APPLICATION_ID meta-data:
-            声明后 GMS 的 MobileAdsInitProvider 会在 App 启动时自动初始化广告 SDK,
-            改为在 GmsRewardedAdController 首次加载广告时手动 MobileAds.initialize,
-            保证不进广告页就完全不碰广告 SDK、不发任何广告网络请求。
-            发布商 App ID: ca-app-pub-2510840726350411~8152485979
+            AdMob 激励广告(feature/ad-watch), 正式 App ID(发布商 pub-2510840726350411)。
+            该 meta-data 必须声明: 新版 GMS SDK 的 MobileAdsInitProvider 在缺失时
+            会直接崩溃(IllegalStateException: Missing application ID), 无法延后初始化。
+            副作用是 App 启动时 SDK 自动初始化, 但不进广告页不会发起广告请求。
         -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-2510840726350411~8152485979" />
 
     </application>
 
