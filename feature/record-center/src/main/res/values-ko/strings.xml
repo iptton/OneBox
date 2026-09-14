@@ -88,7 +88,6 @@
     <!-- AI 解读 -->
     <string name="record_center_ai_insight">AI 분석</string>
     <string name="record_center_ai_insight_hint">이 기간의 기록 추세를 AI가 해석해 드립니다</string>
-    <string name="record_center_ai_insight_empty">먼저 기록을 추가한 후 분석을 생성하세요</string>
     <string name="record_center_ai_insight_generate">분석 생성</string>
     <string name="record_center_ai_insight_regenerate">다시 생성</string>
     <string name="record_center_ai_insight_retry">다시 시도</string>
@@ -109,6 +108,7 @@
     <string name="record_center_profile_age_years">%1$d세</string>
     <string name="record_center_profile_invalid">유효한 숫자를 입력하세요</string>
     <string name="record_center_empty_go_ai">AI 어시스턴트로 기록</string>
+    <string name="record_center_empty_go_ai_description">AI에게 컨디션을 말하면 기록을 채워 줍니다</string>
 
     <!-- 布局切换 -->
     <string name="record_center_cd_switch_to_grid">그리드 보기로 전환</string>
@@ -204,6 +204,8 @@
     <string name="record_center_empty_title">아직 건강 기록이 없습니다</string>
 
     <string name="record_center_empty_description">직접 추가하거나 AI에게 컨디션을 말해 기록하세요</string>
+    <string name="record_center_empty_range_title">이 기간에는 기록이 없습니다</string>
+    <string name="record_center_empty_range_description">위에서 기간을 바꾸거나 직접 추가해 보세요</string>
     <string name="record_center_add_manually">직접 추가</string>
     <string name="record_center_add_manually_description">수치와 시간을 자유롭게 설정</string>
     <string name="record_center_ai_assist_title">건강 기록 도우미</string>

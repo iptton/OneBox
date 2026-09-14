@@ -88,7 +88,6 @@
     <!-- AI 解读 -->
     <string name="record_center_ai_insight">YZ Yorumu</string>
     <string name="record_center_ai_insight_hint">YZ\'nin bu dönemdeki kayıtlarınızın eğilimini yorumlamasına izin verin</string>
-    <string name="record_center_ai_insight_empty">Önce kayıt ekleyin, sonra yorum oluşturun</string>
     <string name="record_center_ai_insight_generate">Yorum oluştur</string>
     <string name="record_center_ai_insight_regenerate">Yeniden oluştur</string>
     <string name="record_center_ai_insight_retry">Tekrar dene</string>
@@ -109,6 +108,7 @@
     <string name="record_center_profile_age_years">%1$d yaş</string>
     <string name="record_center_profile_invalid">Lütfen geçerli sayılar girin</string>
     <string name="record_center_empty_go_ai">YZ Asistanı ile kaydet</string>
+    <string name="record_center_empty_go_ai_description">YZ\'ye durumunuzu anlatın, kaydı sizin için doldursun</string>
 
     <!-- 布局切换 -->
     <string name="record_center_cd_switch_to_grid">Izgara görünümüne geç</string>
@@ -204,6 +204,8 @@
     <string name="record_center_empty_title">Henüz sağlık kaydı yok</string>
 
     <string name="record_center_empty_description">Elle ekleyin veya yapay zekâya durumunuzu anlatın</string>
+    <string name="record_center_empty_range_title">Bu dönemde kayıt yok</string>
+    <string name="record_center_empty_range_description">Yukarıdan dönemi değiştirin veya elle ekleyin</string>
     <string name="record_center_add_manually">Elle ekle</string>
     <string name="record_center_add_manually_description">Değer ve saati özelleştirin</string>
     <string name="record_center_ai_assist_title">Sağlık Kaydı Asistanı</string>

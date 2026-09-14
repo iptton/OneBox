@@ -88,7 +88,6 @@
     <!-- AI 解读 -->
     <string name="record_center_ai_insight">Wawasan AI</string>
     <string name="record_center_ai_insight_hint">Biarkan AI menafsirkan tren catatan Anda pada periode ini</string>
-    <string name="record_center_ai_insight_empty">Tambahkan catatan dulu, lalu buat wawasan</string>
     <string name="record_center_ai_insight_generate">Buat wawasan</string>
     <string name="record_center_ai_insight_regenerate">Buat ulang</string>
     <string name="record_center_ai_insight_retry">Coba lagi</string>
@@ -109,6 +108,7 @@
     <string name="record_center_profile_age_years">%1$d thn</string>
     <string name="record_center_profile_invalid">Masukkan angka yang valid</string>
     <string name="record_center_empty_go_ai">Catat dengan Asisten AI</string>
+    <string name="record_center_empty_go_ai_description">Ceritakan kondisi Anda ke AI, nanti catatannya diisi otomatis</string>
 
     <!-- 布局切换 -->
     <string name="record_center_cd_switch_to_grid">Beralih ke tampilan grid</string>
@@ -204,6 +204,8 @@
     <string name="record_center_empty_title">Belum ada catatan kesehatan</string>
 
     <string name="record_center_empty_description">Tambahkan manual, atau ceritakan kondisi Anda ke AI</string>
+    <string name="record_center_empty_range_title">Tidak ada catatan pada periode ini</string>
+    <string name="record_center_empty_range_description">Ganti periode di atas, atau tambahkan secara manual</string>
     <string name="record_center_add_manually">Tambah manual</string>
     <string name="record_center_add_manually_description">Sesuaikan nilai dan waktu</string>
     <string name="record_center_ai_assist_title">Asisten Catatan Kesehatan</string>

@@ -88,7 +88,6 @@
     <!-- AI 解读 -->
     <string name="record_center_ai_insight">KI-Analyse</string>
     <string name="record_center_ai_insight_hint">Lassen Sie die KI den Trend Ihrer Einträge in diesem Zeitraum interpretieren</string>
-    <string name="record_center_ai_insight_empty">Fügen Sie zuerst Einträge hinzu und erstellen Sie dann eine Analyse</string>
     <string name="record_center_ai_insight_generate">Analyse erstellen</string>
     <string name="record_center_ai_insight_regenerate">Neu erstellen</string>
     <string name="record_center_ai_insight_retry">Wiederholen</string>
@@ -109,6 +108,7 @@
     <string name="record_center_profile_age_years">%1$d Jahre</string>
     <string name="record_center_profile_invalid">Bitte gültige Zahlen eingeben</string>
     <string name="record_center_empty_go_ai">Mit KI-Assistent erfassen</string>
+    <string name="record_center_empty_go_ai_description">Erzähle der KI, wie es dir geht, und sie füllt den Eintrag aus</string>
 
     <!-- 布局切换 -->
     <string name="record_center_cd_switch_to_grid">Zur Rasteransicht wechseln</string>
@@ -204,6 +204,8 @@
     <string name="record_center_empty_title">Noch keine Gesundheitsdaten</string>
 
     <string name="record_center_empty_description">Füge manuell einen Eintrag hinzu oder erzähle es der KI</string>
+    <string name="record_center_empty_range_title">Keine Einträge in diesem Zeitraum</string>
+    <string name="record_center_empty_range_description">Wechsle oben den Zeitraum oder füge manuell einen Eintrag hinzu</string>
     <string name="record_center_add_manually">Manuell hinzufügen</string>
     <string name="record_center_add_manually_description">Wert und Zeit anpassen</string>
     <string name="record_center_ai_assist_title">Gesundheitsdaten-Assistent</string>

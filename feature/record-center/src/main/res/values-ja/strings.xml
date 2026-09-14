@@ -88,7 +88,6 @@
     <!-- AI 解读 -->
     <string name="record_center_ai_insight">AI 分析</string>
     <string name="record_center_ai_insight_hint">この期間の記録の傾向を AI に解釈してもらいます</string>
-    <string name="record_center_ai_insight_empty">まず記録を追加してから分析を生成してください</string>
     <string name="record_center_ai_insight_generate">分析を生成</string>
     <string name="record_center_ai_insight_regenerate">再生成</string>
     <string name="record_center_ai_insight_retry">再試行</string>
@@ -109,6 +108,7 @@
     <string name="record_center_profile_age_years">%1$d 歳</string>
     <string name="record_center_profile_invalid">有効な数値を入力してください</string>
     <string name="record_center_empty_go_ai">AI アシスタントで記録</string>
+    <string name="record_center_empty_go_ai_description">AI に体調を伝えると、記録を埋めてくれます</string>
 
     <!-- 布局切换 -->
     <string name="record_center_cd_switch_to_grid">グリッド表示に切り替え</string>
@@ -204,6 +204,8 @@
     <string name="record_center_empty_title">まだ健康記録がありません</string>
 
     <string name="record_center_empty_description">手動で追加するか、AIに体調を伝えて記録してもらえます</string>
+    <string name="record_center_empty_range_title">この期間の記録がありません</string>
+    <string name="record_center_empty_range_description">上の期間を切り替えるか、手動で追加してください</string>
     <string name="record_center_add_manually">手動で追加</string>
     <string name="record_center_add_manually_description">数値と時間を自由に設定</string>
     <string name="record_center_ai_assist_title">健康記録アシスタント</string>

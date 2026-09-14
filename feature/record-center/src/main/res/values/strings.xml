@@ -88,7 +88,6 @@
     <!-- AI 解读 -->
     <string name="record_center_ai_insight">AI Insight</string>
     <string name="record_center_ai_insight_hint">Let AI interpret the trend of your records in this period</string>
-    <string name="record_center_ai_insight_empty">Add records first, then generate an insight</string>
     <string name="record_center_ai_insight_generate">Generate insight</string>
     <string name="record_center_ai_insight_regenerate">Regenerate</string>
     <string name="record_center_ai_insight_retry">Retry</string>
@@ -109,8 +108,11 @@
     <string name="record_center_profile_age_years">%1$d yrs</string>
     <string name="record_center_profile_invalid">Please enter valid numbers</string>
     <string name="record_center_empty_go_ai">Record with AI Assistant</string>
+    <string name="record_center_empty_go_ai_description">Tell AI how you feel and it fills in the record</string>
     <string name="record_center_empty_title">No health records yet</string>
     <string name="record_center_empty_description">Add one manually, or tell AI how you feel and let it record for you</string>
+    <string name="record_center_empty_range_title">No records in this range</string>
+    <string name="record_center_empty_range_description">Switch the range above, or add one manually</string>
     <string name="record_center_add_manually">Add manually</string>
     <string name="record_center_add_manually_description">Customize value and time</string>
     <string name="record_center_ai_assist_title">Health Record Assistant</string>

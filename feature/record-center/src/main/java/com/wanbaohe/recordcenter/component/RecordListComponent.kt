@@ -21,11 +21,10 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -55,7 +54,6 @@ data class RecordFieldStats(
  *
  * 记录列表统一按 happenedAt 倒序暴露,图表由界面层反转取正序。
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 class RecordListComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted("recordType") val recordTypeKey: String,
@@ -82,21 +80,34 @@ class RecordListComponent @AssistedInject internal constructor(
     private val _rangeFilter = MutableStateFlow(RecordRangeFilter.DAYS_30)
     val rangeFilter: StateFlow<RecordRangeFilter> = _rangeFilter
 
-    /** 当前范围内的记录,按 happenedAt 倒序 */
-    val records: StateFlow<List<HealthRecordEntity>> = _rangeFilter
-        .flatMapLatest { filter ->
-            when (filter) {
-                RecordRangeFilter.ALL -> repository.observeByType(recordTypeKey)
-                else -> {
-                    val to = System.currentTimeMillis()
-                    val days = if (filter == RecordRangeFilter.DAYS_7) 7L else 30L
-                    val from = to - TimeUnit.DAYS.toMillis(days)
-                    repository.observeRange(recordTypeKey, from, to)
-                }
-            }
-        }
+    /**
+     * 该类型的全部记录(按 happenedAt 倒序),时间范围在内存里过滤,避免同一张表开多个查询。
+     * null 表示首次查询尚未返回,界面据此先留白,避免"空态 → 内容"闪一下。
+     */
+    private val allRecords: StateFlow<List<HealthRecordEntity>?> = repository.observeByType(recordTypeKey)
         .map { list -> list.sortedByDescending { it.happenedAt } }
-        .stateIn(componentScope, SharingStarted.WhileSubscribed(5_000L), emptyList())
+        .stateIn(componentScope, SharingStarted.WhileSubscribed(5_000L), null)
+
+    /**
+     * 该类型是否已有任意记录(不受时间范围筛选影响)。
+     * null = 加载中;false 时列表页不显示筛选 Bar 与 AI 解读,只留空态引导。
+     */
+    val hasAnyRecords: StateFlow<Boolean?> = allRecords
+        .map { it?.isNotEmpty() }
+        .stateIn(componentScope, SharingStarted.WhileSubscribed(5_000L), null)
+
+    /** 当前范围内的记录,按 happenedAt 倒序 */
+    val records: StateFlow<List<HealthRecordEntity>> = combine(allRecords, _rangeFilter) { all, filter ->
+        val list = all.orEmpty()
+        if (filter == RecordRangeFilter.ALL) {
+            list
+        } else {
+            val to = System.currentTimeMillis()
+            val days = if (filter == RecordRangeFilter.DAYS_7) 7L else 30L
+            val from = to - TimeUnit.DAYS.toMillis(days)
+            list.filter { it.happenedAt in from..to }
+        }
+    }.stateIn(componentScope, SharingStarted.WhileSubscribed(5_000L), emptyList())
 
     /** 每个图表字段的最新/平均/最高/最低 */
     val stats: StateFlow<List<RecordFieldStats>> = records

@@ -88,7 +88,6 @@
     <!-- AI 解读 -->
     <string name="record_center_ai_insight">AI 解读</string>
     <string name="record_center_ai_insight_hint">让 AI 帮你解读这段时间的数据趋势</string>
-    <string name="record_center_ai_insight_empty">先添加记录,再生成解读</string>
     <string name="record_center_ai_insight_generate">生成解读</string>
     <string name="record_center_ai_insight_regenerate">重新解读</string>
     <string name="record_center_ai_insight_retry">重试</string>
@@ -109,8 +108,11 @@
     <string name="record_center_profile_age_years">%1$d 岁</string>
     <string name="record_center_profile_invalid">请输入有效数值</string>
     <string name="record_center_empty_go_ai">去 AI 助手记录</string>
+    <string name="record_center_empty_go_ai_description">告诉 AI 你的情况，让它帮你把记录填好</string>
     <string name="record_center_empty_title">还没有健康记录</string>
     <string name="record_center_empty_description">你可以手动添加一条，也可以告诉 AI 你的情况，让它帮你快速记录</string>
+    <string name="record_center_empty_range_title">该时间范围内没有记录</string>
+    <string name="record_center_empty_range_description">可以切换上方的时间范围，或手动添加一条</string>
     <string name="record_center_add_manually">手动添加</string>
     <string name="record_center_add_manually_description">自定义数值和时间，精细化记录</string>
     <string name="record_center_ai_assist_title">健康记录助手</string>

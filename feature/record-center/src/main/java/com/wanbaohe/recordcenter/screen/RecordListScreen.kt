@@ -77,6 +77,8 @@ import com.wanbaohe.recordcenter.screen.util.formatRecordValues
 fun RecordListScreen(component: RecordListComponent) {
     val definition = component.definition
     val records by component.records.collectAsState()
+    // null = 首次查询未返回;false = 该类型一条记录都没有
+    val hasAnyRecords by component.hasAnyRecords.collectAsState()
     val stats by component.stats.collectAsState()
     val rangeFilter by component.rangeFilter.collectAsState()
     val insightState by component.insightState.collectAsState()
@@ -134,6 +136,7 @@ fun RecordListScreen(component: RecordListComponent) {
                     stats = stats,
                     rangeFilter = rangeFilter,
                     insightState = insightState,
+                    hasAnyRecords = hasAnyRecords,
                     onRangeFilterChange = component::setRangeFilter,
                     onGenerateInsight = {
                         if (profile.isSet) {
@@ -207,6 +210,7 @@ private fun RecordListContent(
     stats: List<RecordFieldStats>,
     rangeFilter: RecordRangeFilter,
     insightState: RecordInsightState,
+    hasAnyRecords: Boolean?,
     onRangeFilterChange: (RecordRangeFilter) -> Unit,
     onGenerateInsight: () -> Unit,
     onEditRecord: (String) -> Unit,
@@ -221,37 +225,12 @@ private fun RecordListContent(
         contentPadding = PaddingValues(vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        item {
-            RangeFilterRow(
-                selected = rangeFilter,
-                onSelect = onRangeFilterChange,
-            )
-        }
+        when (hasAnyRecords) {
+            // 首次查询未返回:先留白,避免"空态 → 内容"闪一下
+            null -> Unit
 
-        if (records.isNotEmpty()) {
-            item {
-                TrendChartCard(definition = definition, records = records)
-            }
-            if (stats.isNotEmpty()) {
-                item {
-                    StatsCard(definition = definition, stats = stats)
-                }
-            }
-        }
-
-        // AI 解读卡片:放在数据可视化(趋势图/统计)之下、记录列表之上,上下留白加大
-        item {
-            Box(modifier = Modifier.padding(vertical = 8.dp)) {
-                AiInsightCard(
-                    state = insightState,
-                    hasRecords = records.isNotEmpty(),
-                    onGenerate = onGenerateInsight,
-                )
-            }
-        }
-
-        if (records.isEmpty()) {
-            item {
+            // 一条记录都没有:不显示时间范围筛选与 AI 解读,直接给空态引导
+            false -> item {
                 EmptyStateGuide(
                     icon = definition.icon,
                     title = stringResource(R.string.record_center_empty_title),
@@ -266,30 +245,77 @@ private fun RecordListContent(
                         EmptyStateGuideAction(
                             icon = Icons.Outlined.LineAutoFix,
                             title = stringResource(R.string.record_center_empty_go_ai),
-                            description = stringResource(R.string.record_center_empty_description),
+                            description = stringResource(R.string.record_center_empty_go_ai_description),
                             onClick = onGoAiChat,
                             emphasized = true,
                         ),
                     ),
-                    footerHint = stringResource(R.string.record_center_empty_description),
                     modifier = Modifier.fillParentMaxSize(),
                 )
             }
-        } else {
-            items(
-                items = records,
-                key = { it.id },
-            ) { record ->
-                RecordRow(
-                    definition = definition,
-                    record = record,
-                    onClick = { onEditRecord(record.id) },
-                    onDelete = { onDeleteRecord(record.id) },
-                )
+
+            true -> {
+                item {
+                    RangeFilterRow(
+                        selected = rangeFilter,
+                        onSelect = onRangeFilterChange,
+                    )
+                }
+
+                if (records.isEmpty()) {
+                    // 有记录,只是当前范围内没有:保留筛选 Bar 让用户切回其他范围,同样不显示 AI 解读
+                    item {
+                        EmptyStateGuide(
+                            icon = definition.icon,
+                            title = stringResource(R.string.record_center_empty_range_title),
+                            description = stringResource(R.string.record_center_empty_range_description),
+                            actions = listOf(
+                                EmptyStateGuideAction(
+                                    icon = Icons.Outlined.Add,
+                                    title = stringResource(R.string.record_center_add_manually),
+                                    description = stringResource(R.string.record_center_add_manually_description),
+                                    onClick = onAddRecord,
+                                ),
+                            ),
+                            modifier = Modifier.fillParentMaxSize(),
+                        )
+                    }
+                } else {
+                    item {
+                        TrendChartCard(definition = definition, records = records)
+                    }
+                    if (stats.isNotEmpty()) {
+                        item {
+                            StatsCard(definition = definition, stats = stats)
+                        }
+                    }
+
+                    // AI 解读卡片:放在数据可视化(趋势图/统计)之下、记录列表之上,上下留白加大
+                    item {
+                        Box(modifier = Modifier.padding(vertical = 8.dp)) {
+                            AiInsightCard(
+                                state = insightState,
+                                onGenerate = onGenerateInsight,
+                            )
+                        }
+                    }
+
+                    items(
+                        items = records,
+                        key = { it.id },
+                    ) { record ->
+                        RecordRow(
+                            definition = definition,
+                            record = record,
+                            onClick = { onEditRecord(record.id) },
+                            onDelete = { onDeleteRecord(record.id) },
+                        )
+                    }
+                }
+
+                item { Spacer(modifier = Modifier.height(40.dp)) }
             }
         }
-
-        item { Spacer(modifier = Modifier.height(40.dp)) }
     }
 }
 
@@ -391,12 +417,12 @@ private fun LegendDot(color: Color) {
 
 /**
  * AI 解读卡片:手动触发生成,不落库。
+ * 仅在当前范围内有记录时渲染(无记录时整个块由列表页隐藏)。
  * Idle → 提示 + 生成按钮;Loading → 进度;Content → 正文 + 重新解读;Error → 错误 + 重试。
  */
 @Composable
 private fun AiInsightCard(
     state: RecordInsightState,
-    hasRecords: Boolean,
     onGenerate: () -> Unit,
 ) {
     GlassCard(
@@ -431,16 +457,12 @@ private fun AiInsightCard(
             when (state) {
                 RecordInsightState.Idle -> {
                     Text(
-                        text = stringResource(
-                            if (hasRecords) R.string.record_center_ai_insight_hint
-                            else R.string.record_center_ai_insight_empty
-                        ),
+                        text = stringResource(R.string.record_center_ai_insight_hint),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     GlassTonalButton(
                         onClick = onGenerate,
-                        enabled = hasRecords,
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(text = stringResource(R.string.record_center_ai_insight_generate))
@@ -495,7 +517,6 @@ private fun AiInsightCard(
                     )
                     GlassTonalButton(
                         onClick = onGenerate,
-                        enabled = hasRecords,
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(text = stringResource(R.string.record_center_ai_insight_retry))

@@ -88,7 +88,6 @@
     <!-- AI 解读 -->
     <string name="record_center_ai_insight">AI विश्लेषण</string>
     <string name="record_center_ai_insight_hint">इस अवधि में अपने रिकॉर्ड के रुझान की AI से व्याख्या कराएं</string>
-    <string name="record_center_ai_insight_empty">पहले रिकॉर्ड जोड़ें, फिर विश्लेषण बनाएं</string>
     <string name="record_center_ai_insight_generate">विश्लेषण बनाएं</string>
     <string name="record_center_ai_insight_regenerate">फिर से बनाएं</string>
     <string name="record_center_ai_insight_retry">पुनः प्रयास करें</string>
@@ -109,6 +108,7 @@
     <string name="record_center_profile_age_years">%1$d वर्ष</string>
     <string name="record_center_profile_invalid">कृपया मान्य संख्याएं दर्ज करें</string>
     <string name="record_center_empty_go_ai">AI सहायक से रिकॉर्ड करें</string>
+    <string name="record_center_empty_go_ai_description">AI को बताएं कि आप कैसा महसूस कर रहे हैं, वह रिकॉर्ड भर देगा</string>
 
     <!-- 布局切换 -->
     <string name="record_center_cd_switch_to_grid">ग्रिड व्यू पर जाएं</string>
@@ -204,6 +204,8 @@
     <string name="record_center_empty_title">अभी कोई स्वास्थ्य रिकॉर्ड नहीं</string>
 
     <string name="record_center_empty_description">मैन्युअल रूप से जोड़ें, या AI को बताएं कि आप कैसा महसूस कर रहे हैं</string>
+    <string name="record_center_empty_range_title">इस अवधि में कोई रिकॉर्ड नहीं</string>
+    <string name="record_center_empty_range_description">ऊपर से अवधि बदलें, या मैन्युअल रूप से जोड़ें</string>
     <string name="record_center_add_manually">मैन्युअल रूप से जोड़ें</string>
     <string name="record_center_add_manually_description">मान और समय अनुकूलित करें</string>
     <string name="record_center_ai_assist_title">स्वास्थ्य रिकॉर्ड सहायक</string>

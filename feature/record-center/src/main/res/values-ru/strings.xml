@@ -88,7 +88,6 @@
     <!-- AI 解读 -->
     <string name="record_center_ai_insight">Анализ ИИ</string>
     <string name="record_center_ai_insight_hint">Позвольте ИИ интерпретировать тренд ваших записей за этот период</string>
-    <string name="record_center_ai_insight_empty">Сначала добавьте записи, затем создайте анализ</string>
     <string name="record_center_ai_insight_generate">Создать анализ</string>
     <string name="record_center_ai_insight_regenerate">Создать заново</string>
     <string name="record_center_ai_insight_retry">Повторить</string>
@@ -109,6 +108,7 @@
     <string name="record_center_profile_age_years">%1$d лет</string>
     <string name="record_center_profile_invalid">Введите корректные числа</string>
     <string name="record_center_empty_go_ai">Записать с помощью ИИ-ассистента</string>
+    <string name="record_center_empty_go_ai_description">Расскажите ИИ о самочувствии, и он заполнит запись</string>
 
     <!-- 布局切换 -->
     <string name="record_center_cd_switch_to_grid">Переключиться на сетку</string>
@@ -204,6 +204,8 @@
     <string name="record_center_empty_title">Записей здоровья пока нет</string>
 
     <string name="record_center_empty_description">Добавьте вручную или расскажите ИИ о самочувствии</string>
+    <string name="record_center_empty_range_title">Записей за этот период нет</string>
+    <string name="record_center_empty_range_description">Переключите период выше или добавьте запись вручную</string>
     <string name="record_center_add_manually">Добавить вручную</string>
     <string name="record_center_add_manually_description">Настройте значение и время</string>
     <string name="record_center_ai_assist_title">Помощник по записям здоровья</string>

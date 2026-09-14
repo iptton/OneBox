@@ -88,7 +88,6 @@
     <!-- AI 解读 -->
     <string name="record_center_ai_insight">Pagsusuri ng AI</string>
     <string name="record_center_ai_insight_hint">Hayaang bigyang-kahulugan ng AI ang trend ng iyong mga rekord sa panahong ito</string>
-    <string name="record_center_ai_insight_empty">Magdagdag muna ng mga rekord, pagkatapos ay bumuo ng pagsusuri</string>
     <string name="record_center_ai_insight_generate">Bumuo ng pagsusuri</string>
     <string name="record_center_ai_insight_regenerate">Bumuo muli</string>
     <string name="record_center_ai_insight_retry">Subukan muli</string>
@@ -109,6 +108,7 @@
     <string name="record_center_profile_age_years">%1$d taong gulang</string>
     <string name="record_center_profile_invalid">Maglagay ng wastong mga numero</string>
     <string name="record_center_empty_go_ai">Mag-record gamit ang AI Assistant</string>
+    <string name="record_center_empty_go_ai_description">Sabihin sa AI ang nararamdaman mo at siya ang magpupuno ng rekord</string>
 
     <!-- 布局切换 -->
     <string name="record_center_cd_switch_to_grid">Lumipat sa grid view</string>
@@ -204,6 +204,8 @@
     <string name="record_center_empty_title">Wala pang health records</string>
 
     <string name="record_center_empty_description">Magdagdag nang manu-mano, o sabihin sa AI ang nararamdaman mo</string>
+    <string name="record_center_empty_range_title">Walang rekord sa panahong ito</string>
+    <string name="record_center_empty_range_description">Palitan ang panahon sa itaas, o magdagdag nang manu-mano</string>
     <string name="record_center_add_manually">Magdagdag nang manu-mano</string>
     <string name="record_center_add_manually_description">I-customize ang halaga at oras</string>
     <string name="record_center_ai_assist_title">Health Record Assistant</string>
