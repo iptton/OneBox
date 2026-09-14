@@ -191,7 +191,7 @@ fun NoteItemScreen(
                                 item {
                                     Spacer(modifier = Modifier.height(AppTheme.dimens.spaceNormal))
                                     ReadOnlyNoteCategorySelection(uiState = noteUIState)
-                                    Spacer(modifier = Modifier.height(AppTheme.dimens.spaceExtraSmall))
+                                    Spacer(modifier = Modifier.height(AppTheme.dimens.spaceNormal))
                                 }
                             }
                         }

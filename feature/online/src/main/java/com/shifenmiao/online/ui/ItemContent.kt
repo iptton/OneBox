@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -126,6 +127,25 @@ fun NoteCategorySelection(
     }
 }
 
+private val ReadOnlyCategoryChipPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
+
+/**
+ * 只读分类 chip 的弱化样式:小字号 + 低对比配色,避免在笔记详情页喧宾夺主。
+ */
+@Composable
+private fun ReadOnlyCategoryChipLabel(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.bodySmall
+    )
+}
+
+@Composable
+private fun readOnlyCategoryChipColors() = FilterChipDefaults.filterChipColors().copy(
+    selectedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+    selectedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
+)
+
 @Composable
 fun ReadOnlyNoteCategorySelection(
     modifier: Modifier = Modifier,
@@ -146,11 +166,11 @@ fun ReadOnlyNoteCategorySelection(
                 selected = true,
                 onClick = {},
                 label = {
-                    EditorCategoryChipLabel(text = category.name.orEmpty())
+                    ReadOnlyCategoryChipLabel(text = category.name.orEmpty())
                 },
                 shape = EditorCategoryChipShape,
-                contentPadding = EditorCategoryChipPadding,
-                colors = AppTheme.colors.getFilterChipColors(),
+                contentPadding = ReadOnlyCategoryChipPadding,
+                colors = readOnlyCategoryChipColors(),
                 border = null
             )
         }
