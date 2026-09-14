@@ -51,6 +51,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.shifenmiao.base.ui.StreamingMarkdownContent
 import com.shifenmiao.common.ui.BaseScreen
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.icons.VolumeOff
+import com.t8rin.imagetoolbox.core.resources.icons.VolumeUp
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineHistory
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineRestartAlt
 import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassButton
@@ -81,6 +84,7 @@ private val CoinFronts = listOf(CoinFrontQian, CoinFrontKun, CoinFrontLi)
 @Composable
 fun IChingDivinationScreen(component: IChingDivinationComponent) {
     val state by component.uiState.collectAsState()
+    val soundEnabled by component.soundEnabled.collectAsState()
     val title = when (state.page) {
         IChingPage.RESULT -> stringResource(R.string.iching_result_title)
         IChingPage.CAST -> when (state.stage) {
@@ -93,6 +97,18 @@ fun IChingDivinationScreen(component: IChingDivinationComponent) {
         title = title,
         onGoBack = component::back,
         actions = {
+            IconButton(onClick = component::toggleSound) {
+                Icon(
+                    imageVector = if (soundEnabled) {
+                        Icons.Outlined.VolumeUp
+                    } else {
+                        Icons.Outlined.VolumeOff
+                    },
+                    contentDescription = stringResource(
+                        if (soundEnabled) R.string.iching_sound_on else R.string.iching_sound_off
+                    ),
+                )
+            }
             IconButton(
                 onClick = component::navigateToHistory,
                 enabled = state.stage !is CastingStage.Tossing,

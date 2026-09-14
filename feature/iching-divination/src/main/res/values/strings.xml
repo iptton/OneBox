@@ -49,6 +49,8 @@
     <string name="iching_line_changing">changing</string>
     <string name="iching_line_steady">steady</string>
     <string name="iching_line_summary">%1$s · %2$s → %3$s, %4$s, %5$s</string>
+    <string name="iching_sound_on">Sound on</string>
+    <string name="iching_sound_off">Sound off</string>
     <string name="iching_history_title">Casting history</string>
     <string name="iching_history_empty">No casting records yet</string>
     <string name="iching_history_no_question">No question specified</string>

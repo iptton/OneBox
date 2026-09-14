@@ -9,6 +9,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.essenty.lifecycle.doOnStart
 import com.arkivanov.essenty.lifecycle.doOnStop
+import com.shifenmiao.base.audio.NetworkAudioPlayer
 import com.shifenmiao.base.utils.ActionUtils
 import com.shifenmiao.base.utils.StringUtils
 import com.shifenmiao.common.utils.BaseUtils
@@ -22,6 +23,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.wanbaohe.iching.data.IChingHistoryRecord
 import com.wanbaohe.iching.data.IChingHistoryRepository
+import com.wanbaohe.iching.data.IChingSoundSettings
 import com.wanbaohe.iching.domain.HexagramGenerator
 import com.wanbaohe.iching.domain.IChingInterpretationService
 import com.wanbaohe.iching.domain.IChingTextLibrary
@@ -42,6 +44,9 @@ import kotlinx.coroutines.launch
 private const val SHAKE_THRESHOLD = 15f
 private const val SHAKE_COOLDOWN_MS = 1_000L
 private const val TOSS_DURATION_MS = 700L
+
+/** 第六爻落定后,先让铜钱声落地再起磬声,两声叠一起会糊 */
+private const val REVEAL_DELAY_MS = 320L
 
 /** AI 解读积分来源标识 */
 private const val AI_INTERPRET_SOURCE = "iching_ai_interpretation"
@@ -89,8 +94,21 @@ class IChingDivinationComponent @AssistedInject internal constructor(
     private val interpretationService: IChingInterpretationService,
     private val historyRepository: IChingHistoryRepository,
     private val textLibrary: IChingTextLibrary,
+    private val audioPlayer: NetworkAudioPlayer,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext) {
+
+    companion object {
+        /**
+         * 音效托管在 R2(bucket onebox-images 的 audio/iching/ 路径),国内海外同地址。
+         * 合成脚本与源文件见 onebox-doc/audio/iching/。
+         */
+        private const val SOUND_BASE = "https://images.oneboxable.com/audio/iching"
+        private const val SOUND_SHAKE = "$SOUND_BASE/shake.ogg"
+        private const val SOUND_COIN = "$SOUND_BASE/coin.ogg"
+        private const val SOUND_REVEAL = "$SOUND_BASE/reveal.ogg"
+        private val ALL_SOUNDS = listOf(SOUND_SHAKE, SOUND_COIN, SOUND_REVEAL)
+    }
 
     private val initialRecord = initialRecordId?.let(historyRepository::find)
     private val initialResult = initialRecord?.let { record ->
@@ -110,6 +128,8 @@ class IChingDivinationComponent @AssistedInject internal constructor(
         } ?: IChingUiState()
     )
     val uiState = _uiState.asStateFlow()
+    private val _soundEnabled = MutableStateFlow(IChingSoundSettings.isEnabled())
+    val soundEnabled = _soundEnabled.asStateFlow()
     private var returnToPreviousScreen = initialResult != null
     private var castingJob: Job? = null
     private var aiJob: Job? = null
@@ -134,6 +154,8 @@ class IChingDivinationComponent @AssistedInject internal constructor(
     }
 
     init {
+        // 后台预热音效(下载到本地缓存),进入页面后第一次摇卦基本已就绪
+        componentScope.launch { ALL_SOUNDS.forEach { audioPlayer.warmUp(it) } }
         componentContext.lifecycle.doOnStart {
             if (!sensorRegistered) {
                 accelerometer?.let {
@@ -150,6 +172,8 @@ class IChingDivinationComponent @AssistedInject internal constructor(
             castingJob?.cancel()
             aiJob?.cancel()
             sensorManager.unregisterListener(shakeListener)
+            audioPlayer.stopBackground()
+            audioPlayer.stopEffect()
         }
     }
 
@@ -169,9 +193,19 @@ class IChingDivinationComponent @AssistedInject internal constructor(
                 _uiState.update {
                     it.copy(stage = CastingStage.Tossing(it.lines.size), aiContent = "", aiReasoning = "", aiError = null)
                 }
+                // 铜钱在手里的沙沙声,贯穿整个摇卦动画
+                if (_soundEnabled.value) playSound(SOUND_SHAKE, isBackground = true)
                 delay(TOSS_DURATION_MS)
                 val lines = _uiState.value.lines + generator.tossLine()
                 _uiState.update { it.copy(lines = lines, stage = CastingStage.Casting(lines.size)) }
+                // 铜钱落桌就该停,否则摇卦声会一直循环到下一爻
+                audioPlayer.stopBackground()
+                if (_soundEnabled.value) {
+                    playSound(SOUND_COIN)
+                    if (lines.size == 6) {
+                        playSound(SOUND_REVEAL, delayMillis = REVEAL_DELAY_MS)
+                    }
+                }
                 if (lines.size == 6) {
                     val result = generator.create(_uiState.value.question, lines)
                     val record = IChingHistoryRecord.from(result)
@@ -191,6 +225,31 @@ class IChingDivinationComponent @AssistedInject internal constructor(
             } catch (throwable: Throwable) {
                 _uiState.update { it.copy(stage = CastingStage.Error(throwable.message ?: "起卦失败，请重试")) }
             }
+        }
+    }
+
+    /**
+     * 播放音效。播放失败静默吞掉(网络问题不该影响起卦本身能用)。
+     *
+     * [delayMillis] 用于把两记声音错开,避免铜钱声和成卦磬声糊在一起。
+     */
+    private fun playSound(url: String, isBackground: Boolean = false, delayMillis: Long = 0L) {
+        componentScope.launch {
+            runCatching {
+                if (delayMillis > 0L) delay(delayMillis)
+                if (isBackground) audioPlayer.playBackground(url) else audioPlayer.playEffect(url)
+            }
+        }
+    }
+
+    /** 音效总开关;关掉时立刻掐掉正在响的声音 */
+    fun toggleSound() {
+        val enabled = !_soundEnabled.value
+        IChingSoundSettings.setEnabled(enabled)
+        _soundEnabled.value = enabled
+        if (!enabled) {
+            audioPlayer.stopBackground()
+            audioPlayer.stopEffect()
         }
     }
 
@@ -286,6 +345,8 @@ class IChingDivinationComponent @AssistedInject internal constructor(
     fun reset() {
         castingJob?.cancel()
         aiJob?.cancel()
+        // 摇卦中被打断时循环音必须跟着停
+        audioPlayer.stopBackground()
         returnToPreviousScreen = false
         _uiState.update {
             it.copy(

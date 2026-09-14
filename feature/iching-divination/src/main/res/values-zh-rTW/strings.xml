@@ -50,6 +50,8 @@
     <string name="iching_line_changing">動爻</string>
     <string name="iching_line_steady">不變</string>
     <string name="iching_line_summary">%1$s · %2$s → %3$s，%4$s，%5$s</string>
+    <string name="iching_sound_on">音效已開啟</string>
+    <string name="iching_sound_off">音效已關閉</string>
     <string name="iching_history_title">起卦紀錄</string>
     <string name="iching_history_empty">暫無起卦紀錄</string>
     <string name="iching_history_no_question">未填寫所問之事</string>
