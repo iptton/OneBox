@@ -438,9 +438,9 @@ fun sectionOnColor(theme: SectionTheme): Color = when (theme) {
 
 @Composable
 fun sectionIconColor(theme: SectionTheme): Color = when (theme) {
-    SectionTheme.PRIMARY -> MaterialTheme.colorScheme.primary
-    SectionTheme.SECONDARY -> MaterialTheme.colorScheme.secondary
-    SectionTheme.TERTIARY -> MaterialTheme.colorScheme.tertiary
+    SectionTheme.PRIMARY -> MaterialTheme.colorScheme.onPrimaryContainer
+    SectionTheme.SECONDARY -> MaterialTheme.colorScheme.onSecondaryContainer
+    SectionTheme.TERTIARY -> MaterialTheme.colorScheme.onTertiaryContainer
     SectionTheme.SURFACE -> MaterialTheme.colorScheme.onSurfaceVariant
 }
 

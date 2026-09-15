@@ -305,7 +305,7 @@ private fun ContentListSection(
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Transparent,
-                            contentColor = MaterialTheme.colorScheme.primary
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     )
                 }
@@ -613,7 +613,7 @@ private fun MineListItemCard(
                         Text(
                             text = stringResource(R.string.favorite_usage_count, itemWithCategories.clickCount),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
                 }
@@ -872,7 +872,7 @@ private fun ActivityLogCardContent(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         ),
                         hyperlinkStyle = MaterialTheme.typography.bodySmall.copy(
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         ),
                         onHyperlinkClick = { localUrlNavigator.navigate(it) },
                         overflow = TextOverflow.Ellipsis,
