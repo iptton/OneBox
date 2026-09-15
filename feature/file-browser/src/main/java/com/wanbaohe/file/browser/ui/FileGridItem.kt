@@ -68,7 +68,7 @@ fun FileGridItem(
             )
 
             val tint = if (item.isDirectory) {
-                MaterialTheme.colorScheme.primaryContainer
+                MaterialTheme.colorScheme.onPrimaryContainer
             } else {
                 MaterialTheme.colorScheme.surfaceContainerHighest
             }
@@ -145,7 +145,7 @@ fun FileGridItem(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.CheckCircle,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(6.dp)

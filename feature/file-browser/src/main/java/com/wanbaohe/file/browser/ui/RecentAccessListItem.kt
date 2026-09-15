@@ -124,7 +124,7 @@ private fun RecentAccessThumbnail(
     } else {
         val icon: ImageVector = if (isFolder) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFolder else Icons.AutoMirrored.Filled.InsertDriveFile
         val tint = if (isFolder) {
-            MaterialTheme.colorScheme.primaryContainer
+            MaterialTheme.colorScheme.onPrimaryContainer
         } else {
             MaterialTheme.colorScheme.surfaceContainerHighest
         }

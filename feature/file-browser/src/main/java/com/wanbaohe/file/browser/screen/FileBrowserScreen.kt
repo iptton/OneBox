@@ -687,7 +687,7 @@ private fun NavigationToolbar(
                     color = if (isLast) {
                         MaterialTheme.colorScheme.onSurface
                     } else {
-                        MaterialTheme.colorScheme.primary
+                        MaterialTheme.colorScheme.onPrimaryContainer
                     },
                     modifier = Modifier
                         .clickable(enabled = !isLast) { onBreadcrumbClick(uri) }
@@ -770,7 +770,7 @@ private fun NavigationToolbar(
                                     SortType.TYPE -> stringResource(R.string.sort_type)
                                 },
                                 color = if (isSelected) {
-                                    MaterialTheme.colorScheme.primary
+                                    MaterialTheme.colorScheme.onPrimaryContainer
                                 } else {
                                     MaterialTheme.colorScheme.onSurface
                                 }
@@ -789,7 +789,7 @@ private fun NavigationToolbar(
                                         com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineArrowDownward
                                     },
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                     modifier = Modifier.size(16.dp)
                                 )
                             }

@@ -97,7 +97,7 @@ fun FileListItem(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.CheckCircle,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }
@@ -161,7 +161,7 @@ private fun FileIcon(
         )
 
         val tint = if (item.isDirectory) {
-            MaterialTheme.colorScheme.primaryContainer
+            MaterialTheme.colorScheme.onPrimaryContainer
         } else {
             MaterialTheme.colorScheme.surfaceContainerHighest
         }
