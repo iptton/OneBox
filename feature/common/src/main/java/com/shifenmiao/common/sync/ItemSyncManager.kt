@@ -9,6 +9,7 @@ import com.shifenmiao.database.item.entity.Category
 import com.shifenmiao.database.utils.DataBaseUtils
 import com.shifenmiao.model.ListItemType
 import com.shifenmiao.model.Source
+import com.shifenmiao.model.channel.HiddenItemFilter
 import com.shifenmiao.model.datasource.DataItemRemoteDataSource
 import com.shifenmiao.model.datasource.SyncResult
 import com.shifenmiao.storage.AppSharedStorage
@@ -271,7 +272,9 @@ class ItemSyncManager @Inject constructor(
         appDatabase.withTransaction {
             dataItems.forEach { dataItem ->
                 // 只删除远程条目；本地用户创建的内容（source = LOCAL）不受影响。
-                if (dataItem.publishedAt.isNullOrBlank()) {
+                // 渠道写死隐藏的条目（如 foss 的「广告看看看」）同样走删除分支，
+                // 既不下发也清掉本地残留，避免旧版同步过的数据留在这条渠道上。
+                if (dataItem.publishedAt.isNullOrBlank() || HiddenItemFilter.isHidden(dataItem.miniProgramId)) {
                     // 同步主键 documentId 优先，空时降级数字 id（Go 下发的 tombstone 两种都带）
                     appDatabase.itemEntityDao().deleteItemByDocumentId(
                         documentId = dataItem.documentId,
