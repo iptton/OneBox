@@ -78,7 +78,7 @@ private const val ACTION_GRID_COLUMNS = 3
 /**
  * 铺满整张卡片的动作面板:动作按网格排列,每个动作是 icon + 文字同在一个
  * 玻璃容器内的可点击区块,右上角为关闭按钮,点击空白区域也可收起。
- * 遮罩随卡片底色取色,走真实玻璃模糊。
+ * 遮罩与操作块统一用最不透明的 GlassStyle.Darker,遮罩固定 surfaceContainer 色。
  */
 @Composable
 private fun ActionGridOverlay(
@@ -87,7 +87,6 @@ private fun ActionGridOverlay(
     onHide: () -> Unit,
     shape: Shape,
     modifier: Modifier = Modifier,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
     buttonContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     buttonContentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -111,10 +110,10 @@ private fun ActionGridOverlay(
             modifier = Modifier
                 .fillMaxSize()
                 .clip(shape)
-                // 遮罩跟随卡片底色, 真实玻璃模糊, 看不清时由 glass 回退实底
+                // 整片遮罩固定 surfaceContainer, 用玻璃体系最不透明的一档
                 .glassBackground(
-                    style = GlassStyle.Dense,
-                    color = containerColor,
+                    style = GlassStyle.Darker,
+                    color = MaterialTheme.colorScheme.surfaceContainer,
                     shape = shape,
                 )
                 .clickable(
@@ -182,7 +181,7 @@ private fun ActionGridOverlay(
                                         .weight(1f)
                                         .scale(scale)
                                         .glassBackground(
-                                            style = GlassStyle.Medium,
+                                            style = GlassStyle.Darker,
                                             color = buttonContainerColor,
                                             shape = tileShape,
                                         )
@@ -431,7 +430,6 @@ fun GenericTonalCard(
                 // 卡片位于 LazyVerticalStaggeredGrid 中, 高度约束为无限,
                 // 必须用 matchParentSize 跟随卡片实际高度, 否则内部滚动容器会崩溃
                 modifier = Modifier.matchParentSize(),
-                containerColor = resolvedPalette.containerColor,
                 contentColor = resolvedPalette.titleColor,
                 buttonContainerColor = resolvedPalette.iconContainerColor,
                 buttonContentColor = resolvedPalette.iconContentColor,
