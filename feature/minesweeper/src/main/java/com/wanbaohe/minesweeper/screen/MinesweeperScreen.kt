@@ -6,7 +6,9 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -102,14 +104,32 @@ fun MinesweeperScreen(
     BaseScreen(
         title = stringResource(R.string.minesweeper_title),
         onGoBack = component.onGoBack,
-        immersiveModeState = immersiveState
+        immersiveModeState = immersiveState,
         // 不传 actions: 用 BaseScreen 的默认 action(主题快捷设置)。
         // 游戏本身的控制全在底部 icon bar, 全屏时标题栏收起也摸得到。
+        //
+        // 结算层挂 BaseScreen 的 foreground: 它落在根 Box 上、在 TopAppBar 之外,
+        // 所以能盖住整屏(含标题栏); 塞在棋盘那个 Box 里就只能盖住棋盘。
+        foreground = {
+            val finished = state.gameState == GameState.WON || state.gameState == GameState.LOST
+            AnimatedVisibility(
+                visible = finished,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                ResultOverlay(
+                    isWon = state.gameState == GameState.WON,
+                    seconds = state.timer,
+                    onRestart = component::resetGame
+                )
+            }
+        }
     ) {
+        // 外层只留纵向 padding: 棋盘要顶到屏幕两边, 横向间距交给信息条和底部 bar 自己加
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 8.dp, vertical = 8.dp)
+                .padding(vertical = 8.dp)
         ) {
             AnimatedVisibility(
                 visible = immersiveState.isUiVisible,
@@ -119,16 +139,21 @@ fun MinesweeperScreen(
                 StatRow(
                     timer = state.timer,
                     minesLeft = state.minesLeft,
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    modifier = Modifier.padding(
+                        start = BAR_SIDE_PADDING,
+                        end = BAR_SIDE_PADDING,
+                        bottom = BOARD_SPACING
+                    )
                 )
             }
 
             // 先用剩余区域算出格子边长, 玻璃外框再贴合棋盘本身,
-            // 最后整体垂直居中 —— 不这么做的话方形盘会在竖框里空出两大块玻璃
+            // 最后整体垂直居中 —— 不这么做的话盘会在框里空出两大块玻璃
             BoxWithConstraints(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
+                    .padding(vertical = BOARD_SPACING)
             ) {
                 // 先把玻璃外框的内边距扣掉再算, 否则算出来的盘会比外框还宽
                 val usableWidth = maxWidth - FRAME_PADDING * 2
@@ -163,19 +188,12 @@ fun MinesweeperScreen(
                             onCellClick = { row, col -> component.onCellClicked(row, col) },
                             onCellLongClick = { row, col -> component.onCellLongClicked(row, col) }
                         )
-
-                        if (state.gameState == GameState.WON || state.gameState == GameState.LOST) {
-                            ResultOverlay(
-                                isWon = state.gameState == GameState.WON,
-                                seconds = state.timer,
-                                onRestart = component::resetGame
-                            )
-                        }
                     }
                 }
             }
 
             BottomBar(
+                modifier = Modifier.padding(horizontal = BAR_SIDE_PADDING),
                 flagMode = state.flagMode,
                 soundEnabled = state.soundEnabled,
                 immersive = immersiveState.isImmersive,
@@ -239,7 +257,7 @@ private fun StatRow(
                     imageVector = Icons.Outlined.LineTimer,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(20.dp)
                 )
             },
             label = stringResource(R.string.minesweeper_time),
@@ -252,7 +270,7 @@ private fun StatRow(
                     imageVector = Icons.Outlined.LineMinesweeper,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(20.dp)
                 )
             },
             label = stringResource(R.string.minesweeper_mines_left),
@@ -271,20 +289,20 @@ private fun StatChip(
     Row(
         modifier = modifier
             .glassThin(shape = RoundedCornerShape(12.dp))
-            .padding(horizontal = 10.dp, vertical = 6.dp),
+            .padding(horizontal = 14.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         icon()
         Text(
             text = label,
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = value,
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -310,16 +328,16 @@ private fun BottomBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 2.dp)
+            .padding(vertical = 4.dp)
             .glassThin(shape = RoundedCornerShape(12.dp))
-            .padding(horizontal = 4.dp),
+            .padding(horizontal = 8.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = stringResource(
                 if (flagMode) R.string.minesweeper_hint_flag else R.string.minesweeper_hint_dig
             ),
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -331,7 +349,7 @@ private fun BottomBar(
         // 模式开关: 插旗模式下填充高亮, 让人一眼看出当前是哪种
         GlassTonalIconButton(
             onClick = onToggleFlagMode,
-            modifier = Modifier.size(40.dp),
+            modifier = Modifier.size(48.dp),
             colors = IconButtonDefaults.filledTonalIconButtonColors(
                 containerColor = if (flagMode) {
                     MaterialTheme.colorScheme.tertiaryContainer
@@ -350,7 +368,7 @@ private fun BottomBar(
                 contentDescription = stringResource(
                     if (flagMode) R.string.minesweeper_mode_flag else R.string.minesweeper_mode_dig
                 ),
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
 
@@ -391,21 +409,21 @@ private fun BarIconButton(
 ) {
     GlassTonalIconButton(
         onClick = onClick,
-        modifier = Modifier.size(40.dp)
+        modifier = Modifier.size(48.dp)
     ) {
         Icon(
             imageVector = imageVector,
             contentDescription = contentDescription,
             // Unspecified = 跟随 IconButton 的 contentColor, 只有全屏激活态才特意高亮
             tint = if (tint == Color.Unspecified) LocalContentColor.current else tint,
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.size(24.dp)
         )
     }
 }
 
 /**
  * 棋盘。格子边长由外层按可用区域算好传进来, 这里只管摆格子;
- * 行数与列数一致, 所以整块是正方形, 外层的玻璃框正好贴合它。
+ * 行数多于列数, 所以整块是竖向的, 外层的玻璃框正好贴合它。
  */
 @Composable
 private fun BoardGrid(
@@ -545,13 +563,19 @@ private fun ResultOverlay(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.45f)),
+            .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.55f))
+            // 吃掉所有点击: 盖住整屏之后, 底下那层棋盘还在, 不拦一下会继续翻格子
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = {}
+            ),
         contentAlignment = Alignment.Center
     ) {
         Column(
             modifier = Modifier
                 .glassThick(shape = RoundedCornerShape(20.dp))
-                .padding(horizontal = 28.dp, vertical = 20.dp),
+                .padding(horizontal = 32.dp, vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -559,7 +583,7 @@ private fun ResultOverlay(
                 imageVector = if (isWon) Icons.Outlined.LineFlag else Icons.Outlined.LineMinesweeper,
                 contentDescription = null,
                 tint = if (isWon) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(40.dp)
             )
             Text(
                 text = stringResource(if (isWon) R.string.minesweeper_won else R.string.minesweeper_lost),
@@ -592,6 +616,10 @@ private fun ResultOverlay(
 private val CELL_GAP = 4.dp
 /** 棋盘玻璃外框的内边距 */
 private val FRAME_PADDING = 6.dp
+/** 棋盘与上方信息条 / 下方 icon bar 之间的呼吸空间 */
+private val BOARD_SPACING = 16.dp
+/** 信息条与底部 bar 的左右留白; 棋盘不吃这个值, 它顶到屏幕两边 */
+private val BAR_SIDE_PADDING = 8.dp
 /** 格子最小边长: 再小手指就点不准了, 低于这个值就允许滚动 */
 private val MIN_CELL_SIZE = 26.dp
 private const val CELL_GLASS_LIMIT = 400
