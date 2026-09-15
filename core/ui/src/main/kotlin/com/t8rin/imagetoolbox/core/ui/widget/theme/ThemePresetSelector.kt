@@ -160,13 +160,13 @@ fun ThemePresetSelector(
                     Text(
                         text = stringResource(R.string.theme_preset_more_settings),
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronRight,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
@@ -286,7 +286,7 @@ fun ThemePresetCard(
             ) {
                 Icon(
                     com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineStar, null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(20.dp)
                 )
             }
@@ -346,7 +346,7 @@ fun ThemePresetCard(
                     Icon(
                         com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Check, null,
                         Modifier.size(14.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
                 if (onCopy != null) {
@@ -357,7 +357,7 @@ fun ThemePresetCard(
                         Modifier
                             .size(14.dp)
                             .clickable { onCopy() },
-                        tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
                     )
                 }
                 if (onDelete != null) {
@@ -397,7 +397,7 @@ fun ThemeColorPreview(
         ) {
             Icon(
                 com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTheme, null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -445,7 +445,7 @@ fun CreateThemeCard(onClick: () -> Unit) {
         ) {
             Icon(
                 com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Add, null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -453,7 +453,7 @@ fun CreateThemeCard(onClick: () -> Unit) {
         Text(
             text = stringResource(R.string.theme_preset_create),
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             maxLines = 1, overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()

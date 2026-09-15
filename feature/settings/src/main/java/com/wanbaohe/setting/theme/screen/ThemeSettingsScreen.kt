@@ -776,7 +776,7 @@ private fun GlassEffectCard(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFeatures,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
                 Text(
@@ -828,7 +828,7 @@ private fun GlassEffectCard(
                         Text(
                             text = "${(glassBaseAlpha * 100).toInt()}%",
                             style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             fontWeight = FontWeight.SemiBold,
                         )
                     }
@@ -856,7 +856,7 @@ private fun GlassEffectCard(
                         Text(
                             text = "${(glassBorderAlpha * 100).toInt()}%",
                             style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             fontWeight = FontWeight.SemiBold,
                         )
                     }
@@ -936,7 +936,7 @@ private fun GradientBackgroundCard(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTheme,
                             contentDescription = null,
                             modifier = Modifier.size(18.dp),
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
                     Text(
@@ -1113,7 +1113,7 @@ private fun CustomBackgroundCard(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineImage,
                             contentDescription = null,
                             modifier = Modifier.size(18.dp),
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
                     Text(
@@ -1217,7 +1217,7 @@ private fun CustomBackgroundCard(
                                 Text(
                                     text = stringResource(R.string.theme_image_retry),
                                     style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.primary,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                                     modifier = Modifier.clickable { imagePicker.pickImage() },
                                 )
                             }
@@ -1243,7 +1243,7 @@ private fun CustomBackgroundCard(
                     Text(
                         text = "${(overlayAlpha * 100).toInt()}%",
                         style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         fontWeight = FontWeight.SemiBold,
                     )
                 }
@@ -1320,20 +1320,20 @@ private fun BackgroundActionTile(
             CircularProgressIndicator(
                 modifier = Modifier.size(18.dp),
                 strokeWidth = 2.dp,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         } else {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
                 modifier = Modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
         Text(
             text = label,
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
     }
 }
@@ -1394,7 +1394,7 @@ private fun NightModeCard(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDarkMode,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
                 Text(
@@ -1484,7 +1484,7 @@ private fun ColorSystemCard(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTheme,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
                 Text(
@@ -1571,7 +1571,7 @@ private fun ColorSystemCard(
                 Text(
                     text = ((contrastLevel * 100).roundToInt() / 100.0).toString(),
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.SemiBold,
                 )
             }
