@@ -216,7 +216,7 @@ fun ThemePresetSelector(
                 Text(
                     stringResource(
                         R.string.theme_delete_confirm_message,
-                        preset.name,
+                        preset.displayName(),
                     )
                 )
             },

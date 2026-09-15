@@ -23,7 +23,11 @@ fun AppThemePreset.builtinNameResId(): Int? = when (id) {
     AppThemePreset.LavenderDream.id -> R.string.theme_preset_name_lavender_dream
     AppThemePreset.SunsetWarm.id -> R.string.theme_preset_name_sunset_warm
     AppThemePreset.OceanDeep.id -> R.string.theme_preset_name_ocean_deep
-    else -> null
+    // 旧版本在中文界面保存的用户主题, 名字是内置主题的中文原名:
+    // 按内置名反查一次, 让它们在其它语言下也能显示本地化名
+    else -> AppThemePreset.builtinThemes
+        .firstOrNull { it.name == name }
+        ?.builtinNameResId()
 }
 
 /** Composable 场景下的本地化显示名 */

@@ -140,7 +140,7 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
     fun startCreateTheme() {
         _editMode.value = ThemeEditMode.CreatingNew(forkedFrom = null)
         _editingDraft.value = EditingDraft(
-            name = DEFAULT_THEME_NAME,
+            name = AppContext.getString(R.string.theme_preset_custom),
             primaryColor = randomHarmoniousColor(),
             secondaryColor = randomHarmoniousColor(),
             tertiaryColor = randomHarmoniousColor(),
@@ -151,7 +151,7 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
     }
 
     fun deletePreset(id: String) {
-        val presetName = allThemes.value.find { it.id == id }?.name ?: ""
+        val presetName = allThemes.value.find { it.id == id }?.localizedName() ?: ""
         componentScope.launch {
             try {
                 themeSettingService.deleteUserTheme(id)
@@ -426,7 +426,8 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
     ): EditingDraft {
         val colors = AppThemePreset.parseColorTuple(colorTupleString)
         return EditingDraft(
-            name = name,
+            // 内置主题一律用当前语言的显示名: 否则英文界面下"保存"会把中文原名写进用户主题
+            name = localizedName(),
             primaryColor = colors.getOrNull(0) ?: DEFAULT_PRIMARY,
             secondaryColor = colors.getOrNull(1) ?: DEFAULT_SECONDARY,
             tertiaryColor = colors.getOrNull(2) ?: DEFAULT_TERTIARY,
@@ -445,7 +446,7 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
 
     private fun EditingDraft.toPreset(id: String): AppThemePreset = AppThemePreset(
         id = id,
-        name = name.ifBlank { DEFAULT_THEME_NAME },
+        name = name.ifBlank { AppContext.getString(R.string.theme_preset_custom) },
         // 动态取色主题不携带色元组(复制"千色千面"时保留动态语义, 预览不会变成无关静态配色)
         colorTupleString = if (isDynamicColors) ""
         else listOf(primaryColor, secondaryColor, tertiaryColor, surfaceColor)
@@ -467,7 +468,6 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
         private const val DEFAULT_SECONDARY = -14046121
         private const val DEFAULT_TERTIARY = -8367522
         private const val DEFAULT_SURFACE = -591619
-        const val DEFAULT_THEME_NAME = "自定义主题"
 
         /** AI 生成背景积分消耗来源标识 */
         const val POINTS_SOURCE = "theme_background_generate"
