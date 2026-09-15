@@ -10,10 +10,10 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.wanbaohe.minesweeper.logic.BOARD_COLS
-import com.wanbaohe.minesweeper.logic.BOARD_MINES
-import com.wanbaohe.minesweeper.logic.BOARD_ROWS
+import com.wanbaohe.minesweeper.logic.BOARD_ROWS_DEFAULT
 import com.wanbaohe.minesweeper.logic.Cell
 import com.wanbaohe.minesweeper.logic.GameState
+import com.wanbaohe.minesweeper.logic.MINE_DENSITY
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -37,6 +37,9 @@ class MinesweeperComponent @AssistedInject internal constructor(
     val uiState = _uiState.asStateFlow()
 
     private var timerJob: Job? = null
+
+    /** 当前局的行数。由界面按屏幕比例算好后送来, 见 [applyBoardRows]。 */
+    private var rowCount = BOARD_ROWS_DEFAULT
 
     companion object {
         /**
@@ -74,10 +77,23 @@ class MinesweeperComponent @AssistedInject internal constructor(
         }
     }
 
+    /**
+     * 界面把"当前屏幕能塞几行"算好后传进来。
+     * 只在还没开局([GameState.INITIAL])时立刻重开 —— 玩到一半转屏不应该把进度清掉,
+     * 那一局维持原样, 下一局才会用上新行数。
+     */
+    fun applyBoardRows(rows: Int) {
+        if (rows <= 0 || rows == rowCount) return
+        rowCount = rows
+        if (_uiState.value.gameState == GameState.INITIAL) {
+            resetGame()
+        }
+    }
+
     fun resetGame() {
         timerJob?.cancel()
         timerJob = null
-        val board = List(BOARD_ROWS) { r ->
+        val board = List(rowCount) { r ->
             List(BOARD_COLS) { c ->
                 Cell(row = r, col = c)
             }
@@ -87,7 +103,7 @@ class MinesweeperComponent @AssistedInject internal constructor(
                 board = board,
                 gameState = GameState.INITIAL,
                 timer = 0,
-                minesLeft = BOARD_MINES
+                minesLeft = totalMines(rowCount)
             )
         }
         // 开新局时 BGM 重来一轮(同 URL 循环播放期间不会重启, 先停再起)
@@ -131,10 +147,14 @@ class MinesweeperComponent @AssistedInject internal constructor(
         }
     }
 
+    /** 该行数对应的雷数。密度固定, 所以行数随机型变化时难度不跟着漂。 */
+    private fun totalMines(rows: Int): Int =
+        (rows * BOARD_COLS * MINE_DENSITY).toInt().coerceAtLeast(1)
+
     private fun placeMinesAndCalculateNeighbors(firstClickR: Int, firstClickC: Int) {
-        val rows = BOARD_ROWS
+        val rows = _uiState.value.board.size
         val cols = BOARD_COLS
-        val mines = BOARD_MINES
+        val mines = totalMines(rows)
 
         val board = _uiState.value.board.map { it.toMutableList() }.toMutableList()
         var minesPlaced = 0

@@ -31,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -75,7 +76,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.glass.glassThin
 import com.wanbaohe.minesweeper.R
 import com.wanbaohe.minesweeper.component.MinesweeperComponent
 import com.wanbaohe.minesweeper.logic.BOARD_COLS
-import com.wanbaohe.minesweeper.logic.BOARD_ROWS
+import com.wanbaohe.minesweeper.logic.BOARD_ROWS_DEFAULT
+import com.wanbaohe.minesweeper.logic.BOARD_ROWS_MAX
+import com.wanbaohe.minesweeper.logic.BOARD_ROWS_MIN
 import com.wanbaohe.minesweeper.logic.Cell
 import com.wanbaohe.minesweeper.logic.GameState
 import kotlinx.coroutines.launch
@@ -147,47 +150,81 @@ fun MinesweeperScreen(
                 )
             }
 
+            val rows = state.board.size
+            val cols = state.board.firstOrNull()?.size ?: 0
+
             // 先用剩余区域算出格子边长, 玻璃外框再贴合棋盘本身,
             // 最后整体垂直居中 —— 不这么做的话盘会在框里空出两大块玻璃
             BoxWithConstraints(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
-                    .padding(vertical = BOARD_SPACING)
+                    .padding(horizontal = BAR_SIDE_PADDING, vertical = BOARD_SPACING)
             ) {
-                // 先把玻璃外框的内边距扣掉再算, 否则算出来的盘会比外框还宽
-                val usableWidth = maxWidth - FRAME_PADDING * 2
-                val usableHeight = maxHeight - FRAME_PADDING * 2
-                val cellSize = maxOf(
-                    minOf(
-                        (usableWidth - CELL_GAP * (BOARD_COLS - 1)) / BOARD_COLS,
-                        (usableHeight - CELL_GAP * (BOARD_ROWS - 1)) / BOARD_ROWS
-                    ),
-                    MIN_CELL_SIZE
-                )
-                // 极窄屏才会走到这里: 格子顶到最小尺寸后仍然放不下
-                val overflow =
-                    cellSize * BOARD_COLS + CELL_GAP * (BOARD_COLS - 1) + FRAME_PADDING * 2 > maxWidth ||
-                        cellSize * BOARD_ROWS + CELL_GAP * (BOARD_ROWS - 1) + FRAME_PADDING * 2 > maxHeight
+                // 行数反过来由"能塞几行"决定, 这样宽度永远吃得满, 棋盘两边不会空出一条
+                val areaWidth = maxWidth
+                val areaHeight = maxHeight
+                val fitRows = remember(areaWidth, areaHeight, cols) {
+                    fitBoardRows(areaWidth, areaHeight, cols)
+                }
+                LaunchedEffect(fitRows) {
+                    component.applyBoardRows(fitRows)
+                }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .then(if (overflow) Modifier.verticalScroll(rememberScrollState()) else Modifier),
-                    contentAlignment = if (overflow) Alignment.TopCenter else Alignment.Center
-                ) {
+                if (rows == 0) return@BoxWithConstraints
+
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    // 先把玻璃外框的内边距扣掉再算, 否则算出来的盘会比外框还宽
+                    val usableWidth = areaWidth - FRAME_PADDING * 2
+                    val usableHeight = areaHeight - FRAME_PADDING * 2
+                    val cellSize = maxOf(
+                        minOf(
+                            (usableWidth - CELL_GAP * (cols - 1)) / cols,
+                            (usableHeight - CELL_GAP * (rows - 1)) / rows
+                        ),
+                        MIN_CELL_SIZE
+                    )
+                    // 极窄屏才会走到这里: 格子顶到最小尺寸后仍然放不下
+                    val overflow =
+                        cellSize * cols + CELL_GAP * (cols - 1) + FRAME_PADDING * 2 > areaWidth ||
+                            cellSize * rows + CELL_GAP * (rows - 1) + FRAME_PADDING * 2 > areaHeight
+
                     Box(
                         modifier = Modifier
-                            .capturable(captureController)
-                            .glassThick(shape = RoundedCornerShape(16.dp))
-                            .padding(FRAME_PADDING)
+                            .fillMaxSize()
+                            .then(if (overflow) Modifier.verticalScroll(rememberScrollState()) else Modifier),
+                        contentAlignment = if (overflow) Alignment.TopCenter else Alignment.Center
                     ) {
-                        BoardGrid(
-                            board = state.board,
-                            cellSize = cellSize,
-                            onCellClick = { row, col -> component.onCellClicked(row, col) },
-                            onCellLongClick = { row, col -> component.onCellLongClicked(row, col) }
-                        )
+                        Box(
+                            modifier = Modifier
+                                .capturable(captureController)
+                                .glassThick(shape = RoundedCornerShape(16.dp))
+                                .padding(FRAME_PADDING)
+                        ) {
+                            BoardGrid(
+                                board = state.board,
+                                cellSize = cellSize,
+                                onCellClick = { row, col -> component.onCellClicked(row, col) },
+                                onCellLongClick = { row, col -> component.onCellLongClicked(row, col) }
+                            )
+                        }
+                    }
+
+                    // 全屏时顶上的信息条被收起来了, 剩几颗雷就没人知道了 ——
+                    // 用一块浮在棋盘顶上的小 chip 补回来, 不占布局高度
+                    // 包一层 Column: 外面那个 Column 的 receiver 还在隐式作用域里,
+                    // 直接在这里调 AnimatedVisibility 会被解析成 ColumnScope 那个重载
+                    Column(modifier = Modifier.align(Alignment.TopCenter)) {
+                        AnimatedVisibility(
+                            visible = immersiveState.isImmersive,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            ImmersiveStats(
+                                timer = state.timer,
+                                minesLeft = state.minesLeft
+                            )
+                        }
                     }
                 }
             }
@@ -539,6 +576,78 @@ private fun CellView(
                 )
             }
         }
+    }
+}
+
+/**
+ * 按可用区域反推行数: 先按宽度定死格子边长(列数固定, 所以边长只跟宽度有关),
+ * 再看这个高度里塞得下几行。
+ *
+ * 这样宽度永远是吃满的 —— 反过来写死行数的话, 高度会先撑满、格子被迫缩小,
+ * 棋盘跟着变窄, 两边空出一条跟操作栏也对不齐。
+ */
+private fun fitBoardRows(maxWidth: Dp, maxHeight: Dp, cols: Int): Int {
+    if (cols <= 0) return BOARD_ROWS_DEFAULT
+    val innerWidth = maxWidth - FRAME_PADDING * 2
+    val innerHeight = maxHeight - FRAME_PADDING * 2
+    val cellWidth = (innerWidth - CELL_GAP * (cols - 1)) / cols
+    if (cellWidth <= 0.dp) return BOARD_ROWS_DEFAULT
+    val fit = ((innerHeight + CELL_GAP) / (cellWidth + CELL_GAP)).toInt()
+    return fit.coerceIn(BOARD_ROWS_MIN, BOARD_ROWS_MAX)
+}
+
+/**
+ * 全屏模式下浮在棋盘顶上的精简信息。
+ * 只显示两个数字 + 图标: 这时候人要看的是"还剩几颗雷", 不是"剩余地雷"这四个字。
+ */
+@Composable
+private fun ImmersiveStats(
+    timer: Int,
+    minesLeft: Int
+) {
+    Row(
+        modifier = Modifier
+            .padding(top = 6.dp)
+            .glassThin(shape = RoundedCornerShape(12.dp))
+            .padding(horizontal = 14.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        ImmersiveStatValue(
+            icon = Icons.Outlined.LineTimer,
+            tint = MaterialTheme.colorScheme.primary,
+            value = timer.toString()
+        )
+        ImmersiveStatValue(
+            icon = Icons.Outlined.LineMinesweeper,
+            tint = MaterialTheme.colorScheme.error,
+            value = minesLeft.toString()
+        )
+    }
+}
+
+@Composable
+private fun ImmersiveStatValue(
+    icon: ImageVector,
+    tint: Color,
+    value: String
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = tint,
+            modifier = Modifier.size(18.dp)
+        )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
