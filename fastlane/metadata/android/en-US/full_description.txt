@@ -1,4 +1,4 @@
-OneBox is a free, ad-free all-in-one toolbox that packs 90+ carefully crafted tools into a single app, covering image processing, document work, AI assistance and everyday productivity.
+OneBox is a free all-in-one toolbox that packs 90+ carefully crafted tools into a single app, covering image processing, document work, AI assistance and everyday productivity.
 
 【Why the name "OneBox"】
 • One: all your everyday tools, in just one app
@@ -8,6 +8,7 @@ What it really aims for is not just "packing a lot in" — it's making sure you 
 【Productivity tools】
 • Teleprompter, notepad, to-do lists, decision wheel
 • Perpetual calendar, bookkeeping, cloud drive tools, habit tracker
+• Record center: health metrics (blood pressure, weight and more), item & expiry tracking, period tracker — all with AI insights
 
 【Files & PDF】
 • PDF tools: merge, split, extract images and text
@@ -24,7 +25,8 @@ What it really aims for is not just "packing a lot in" — it's making sure you 
 【Everyday gadgets】
 • ID photos, network speed test, watermark camera
 • Wish wall, time hourglass, Apk.1 installer
-• Screen and media tools, plus mini-games for your spare time
+• Screen and media tools, plus mini-games for your spare time: Minesweeper, Survive 30s and more
+• Ad Watch: optionally watch rewarded ads to earn AI points — your call, never forced
 
 【AI assistant: more than just a long feature list】
 Plenty of toolbox apps can claim a long feature list. OneBox goes further with a built-in AI assistant — no more hunting for the right tool or memorizing steps. Just say what you need:
@@ -33,8 +35,10 @@ Plenty of toolbox apps can claim a long feature list. OneBox goes further with a
 • "Make me a to-do list."
 • "Check the stock market for me."
 The AI understands, acts and reports back — all in one go.
-• Chat with multiple leading AI models from a single entry point
+• Chat with multiple leading AI models from a single entry point, now with voice input
 • An AI Agent that can call the app's tools to get tasks done for you
+• Agent memory & skills: the assistant remembers your profile and learns how you work
+• AI content detector: check whether a piece of text or an image was AI-generated
 • Writing, rewriting, summarizing and translation helpers
 • Custom AI engines and prompt management
 
@@ -51,7 +55,7 @@ You leave feedback → an AI analyzes it as a product manager → code is genera
 The bugs you report, the features you want, the polish you suggest — any of it may be evaluated and built by AI. In other words, OneBox fits your needs better the more you use it.
 
 【Why OneBox】
-• Free to use, no ads
+• Free to use, no forced ads — rewarded ads are optional and earn you AI points
 • Privacy first: images and documents are processed locally on your device
 • Clean, modern Material Design interface
 • Constantly updated with new tools

@@ -1,13 +1,14 @@
-OneBox ist eine kostenlose, werbefreie All-in-One-Toolbox: Über 90 sorgfältig gefertigte Werkzeuge in einer einzigen App – Bildbearbeitung, Dokumente & Büro, KI-Assistent und praktische Alltagshelfer.
+OneBox ist eine kostenlose All-in-One-Toolbox: Über 90 Werkzeuge in einer App – Bildbearbeitung, Dokumente & Büro, KI-Assistent und Alltagshelfer.
 
 【Warum „OneBox"?】
 • One: Alle Alltags-Tools – eine App genügt
 • Box: Eine Box, die alles enthält
-Es geht dabei nicht nur darum, viel hineinzupacken, sondern darum, dass du nie wieder zu einer anderen Tool-App wechseln musst.
+Es geht nicht nur ums Hineinpacken, sondern darum, dass du nie wieder eine andere Tool-App brauchst.
 
 【Effizienz-Tools】
 • Teleprompter, Notizen, To-do-Listen, Entscheidungsrad
 • Kalender, Haushaltsbuch, Cloud-Speicher-Tools, Habit-Tracker
+• Rekord-Center: Gesundheitsdaten (Blutdruck, Gewicht u. a.), Gegenstände & Verfallsdaten im Blick, Zyklus-Tracker – mit KI-Erkenntnissen
 
 【Dateien & PDF】
 • PDF-Tools: zusammenführen, aufteilen, Bilder und Text extrahieren
@@ -19,45 +20,48 @@ Es geht dabei nicht nur darum, viel hineinzupacken, sondern darum, dass du nie w
 • Zuschneiden, Drehen, Skalieren, Formatkonvertierung (HEIC / WebP / AVIF u. a.)
 • Filter, Collagen, Langbild-Zusammenführung, GIF-Tools
 • QR-Code-Scanner und -Generator, Farbtools
-• Bildkomprimierung und Formatkonvertierung – komplett lokal verarbeitet, ohne Upload
+• Bildkomprimierung und Formatkonvertierung – komplett lokal, ohne Upload
 
 【Alltagshelfer】
-• Passfotos, Netzwerk-Geschwindigkeitstest, Wasserzeichen-Kamera
+• Passfotos, Netzwerk-Speedtest, Wasserzeichen-Kamera
 • Gebetswand, Zeit-Sanduhr, Apk.1-Installer
-• Bildschirm- und Medientools, kleine Spiele für zwischendurch
+• Bildschirm- und Medientools, dazu kleine Spiele für zwischendurch: Minesweeper, Survive 30s und mehr
+• Ad Watch: freiwillig Rewarded Ads ansehen, KI-Punkte verdienen – deine Entscheidung, nie erzwungen
 
 【KI-Assistent: Mehr als nur viele Funktionen】
-Wäre es nur die Menge an Funktionen, könnten das viele Toolbox-Apps. OneBox hat einen integrierten KI-Assistenten: Du musst nicht mehr jedes Tool suchen und dir Schritte merken – sag einfach, was du brauchst:
+Viele Toolbox-Apps haben viele Funktionen. OneBox geht weiter mit integriertem KI-Assistenten: Kein Tool mehr suchen, keine Schritte merken – sag einfach, was du brauchst:
 • „Wandle das Bild in ein PDF um."
 • „Trag diesen Kassenbon-Screenshot ins Haushaltsbuch ein."
 • „Erstelle eine To-do-Liste."
 • „Schau mal nach den aktuellen Aktienkursen."
 Die KI versteht, führt aus und gibt Feedback – alles in einem Zug.
-• Ein Eingang für Gespräche mit mehreren führenden KI-Modellen
-• Der AI Agent kann die Werkzeuge der App aufrufen, um Aufgaben für dich zu erledigen
-• Helfer zum Schreiben, Umschreiben, Zusammenfassen und Übersetzen
+• Mehrere führende KI-Modelle über einen Eingang – jetzt auch mit Spracheingabe
+• Der AI Agent ruft die Werkzeuge der App auf und erledigt Aufgaben für dich
+• Agent-Gedächtnis & Skills: Der Assistent merkt sich dein Profil und lernt deine Arbeitsweise
+• KI-Inhaltsdetektor: Prüfe, ob Text oder Bild von KI erzeugt wurde
+• Schreiben, Umschreiben, Zusammenfassen und Übersetzen
 • Eigene KI-Engines und Prompt-Verwaltung
 
 【DSH-Client: Steuere den KI-Agenten deines Computers vom Handy】
-Läuft DeepSeek Harness (DSH) auf deinem Computer? Scanne einen QR-Code zum Koppeln und steuere ihn von überall:
+DeepSeek Harness (DSH) auf deinem Computer? QR-Code scannen, koppeln und von überall steuern:
 • Aufgaben genehmigen, Rückfragen einreihen oder unterbrechen — im Pendelverkehr oder auf dem Sofa
-• Direktverbindung im LAN oder Ende-zu-Ende-verschlüsseltes Cloud-Relay — der Server kann deine Unterhaltungen nicht sehen
+• LAN-Direktverbindung oder Ende-zu-Ende-verschlüsseltes Cloud-Relay — der Server sieht deine Unterhaltungen nicht
 • Jeder Schritt bleibt transparent: Denkprozess, Befehle, Ausgaben, Dauer und Token-Statistiken
 Funktioniert mit dem Open-Source-Plugin onebox-dsh-bridge auf deinem Computer.
 
 【Eine App, die sich selbst weiterentwickelt】
 OneBox ist nicht statisch – es verfügt über ein „KI-Selbstevolutionssystem":
-Nutzer hinterlassen Feedback → die KI analysiert es als Produktmanager → Code wird automatisch generiert → getestet und veröffentlicht.
-Bugs, die du meldest, Funktionen, die du dir wünschst, Vorschläge zur Verbesserung – all das kann von der KI bewertet und umgesetzt werden. So passt sich OneBox mit jeder Nutzung besser an deine Bedürfnisse an.
+Feedback → KI analysiert es als Produktmanager → Code wird automatisch generiert → getestet und veröffentlicht.
+Gemeldete Bugs, Wunschfunktionen, Verbesserungsvorschläge – all das kann die KI bewerten und umsetzen. So passt sich OneBox mit jeder Nutzung besser an deine Bedürfnisse an.
 
 【Warum OneBox】
-• Kostenlos nutzbar, ohne Werbung
+• Kostenlos nutzbar, keine erzwungene Werbung – Rewarded Ads sind freiwillig und bringen dir KI-Punkte
 • Datenschutz zuerst: Bilder und Dokumente werden lokal verarbeitet
 • Übersichtliche, moderne Material-Design-Oberfläche
 • Ständige Updates mit immer neuen Tools
 
-„Die letzte Tool-App, die du brauchst" ist ein großes Ziel, aber OneBox hat bereits drei entscheidende Schritte gemacht: alle wichtigen Tools an einem Eingang gebündelt, dank KI mühelos bedienbar und ein Produkt, das sich wirklich vom Feedback seiner Nutzer treiben lässt.
+„Die letzte Tool-App, die du brauchst" ist ein großes Ziel, doch OneBox hat bereits drei entscheidende Schritte gemacht: alle wichtigen Tools an einem Eingang gebündelt, dank KI mühelos bedienbar und ein Produkt, das sich vom Feedback seiner Nutzer treiben lässt.
 
-Wenn du es leid bist, zwischen einem Dutzend Tool-Apps hin- und herzuwechseln, probiere OneBox aus – vielleicht wird es wirklich deine letzte.
+Wenn du es leid bist, zwischen einem Dutzend Tool-Apps zu wechseln, probiere OneBox aus – vielleicht wird es wirklich deine letzte.
 
 Kontakt: support@oneboxable.com
