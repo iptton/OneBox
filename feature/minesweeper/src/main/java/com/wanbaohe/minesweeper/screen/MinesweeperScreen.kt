@@ -7,7 +7,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -73,6 +72,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.glass.glassThick
 import com.t8rin.imagetoolbox.core.ui.widget.glass.glassThin
 import com.wanbaohe.minesweeper.R
 import com.wanbaohe.minesweeper.component.MinesweeperComponent
+import com.wanbaohe.minesweeper.logic.BOARD_COLS
+import com.wanbaohe.minesweeper.logic.BOARD_ROWS
 import com.wanbaohe.minesweeper.logic.Cell
 import com.wanbaohe.minesweeper.logic.GameState
 import kotlinx.coroutines.launch
@@ -101,14 +102,14 @@ fun MinesweeperScreen(
     BaseScreen(
         title = stringResource(R.string.minesweeper_title),
         onGoBack = component.onGoBack,
-        immersiveModeState = immersiveState,
-        // 所有控制都挪到了底部 icon bar, 标题栏只留返回键
-        actions = {}
+        immersiveModeState = immersiveState
+        // 不传 actions: 用 BaseScreen 的默认 action(主题快捷设置)。
+        // 游戏本身的控制全在底部 icon bar, 全屏时标题栏收起也摸得到。
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 8.dp, vertical = 2.dp)
+                .padding(horizontal = 8.dp, vertical = 8.dp)
         ) {
             AnimatedVisibility(
                 visible = immersiveState.isUiVisible,
@@ -122,26 +123,55 @@ fun MinesweeperScreen(
                 )
             }
 
-            Box(
+            // 先用剩余区域算出格子边长, 玻璃外框再贴合棋盘本身,
+            // 最后整体垂直居中 —— 不这么做的话方形盘会在竖框里空出两大块玻璃
+            BoxWithConstraints(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
-                    .capturable(captureController)
-                    .glassThick(shape = RoundedCornerShape(16.dp))
-                    .padding(4.dp)
             ) {
-                BoardGrid(
-                    board = state.board,
-                    onCellClick = { row, col -> component.onCellClicked(row, col) },
-                    onCellLongClick = { row, col -> component.onCellLongClicked(row, col) }
+                // 先把玻璃外框的内边距扣掉再算, 否则算出来的盘会比外框还宽
+                val usableWidth = maxWidth - FRAME_PADDING * 2
+                val usableHeight = maxHeight - FRAME_PADDING * 2
+                val cellSize = maxOf(
+                    minOf(
+                        (usableWidth - CELL_GAP * (BOARD_COLS - 1)) / BOARD_COLS,
+                        (usableHeight - CELL_GAP * (BOARD_ROWS - 1)) / BOARD_ROWS
+                    ),
+                    MIN_CELL_SIZE
                 )
+                // 极窄屏才会走到这里: 格子顶到最小尺寸后仍然放不下
+                val overflow =
+                    cellSize * BOARD_COLS + CELL_GAP * (BOARD_COLS - 1) + FRAME_PADDING * 2 > maxWidth ||
+                        cellSize * BOARD_ROWS + CELL_GAP * (BOARD_ROWS - 1) + FRAME_PADDING * 2 > maxHeight
 
-                if (state.gameState == GameState.WON || state.gameState == GameState.LOST) {
-                    ResultOverlay(
-                        isWon = state.gameState == GameState.WON,
-                        seconds = state.timer,
-                        onRestart = component::resetGame
-                    )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .then(if (overflow) Modifier.verticalScroll(rememberScrollState()) else Modifier),
+                    contentAlignment = if (overflow) Alignment.TopCenter else Alignment.Center
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .capturable(captureController)
+                            .glassThick(shape = RoundedCornerShape(16.dp))
+                            .padding(FRAME_PADDING)
+                    ) {
+                        BoardGrid(
+                            board = state.board,
+                            cellSize = cellSize,
+                            onCellClick = { row, col -> component.onCellClicked(row, col) },
+                            onCellLongClick = { row, col -> component.onCellLongClicked(row, col) }
+                        )
+
+                        if (state.gameState == GameState.WON || state.gameState == GameState.LOST) {
+                            ResultOverlay(
+                                isWon = state.gameState == GameState.WON,
+                                seconds = state.timer,
+                                onRestart = component::resetGame
+                            )
+                        }
+                    }
                 }
             }
 
@@ -374,58 +404,31 @@ private fun BarIconButton(
 }
 
 /**
- * 棋盘。格子恒为正方形, 尺寸取可用宽高里更紧的那个;
- * 棋盘本身因为行数多于列数自然是一块竖长画布。
- * 极端窄屏(低于 [MIN_CELL_SIZE])才退化成可滚动, 不再硬溢出屏幕。
+ * 棋盘。格子边长由外层按可用区域算好传进来, 这里只管摆格子;
+ * 行数与列数一致, 所以整块是正方形, 外层的玻璃框正好贴合它。
  */
 @Composable
 private fun BoardGrid(
     board: List<List<Cell>>,
+    cellSize: Dp,
     onCellClick: (row: Int, col: Int) -> Unit,
     onCellLongClick: (row: Int, col: Int) -> Unit
 ) {
     if (board.isEmpty()) return
-    val rows = board.size
-    val cols = board[0].size
-    val gap = 2.dp
+    // 格子太多时逐格画玻璃开销偏大, 退化成纯色
+    val useCellGlass = board.size * board[0].size <= CELL_GLASS_LIMIT
 
-    BoxWithConstraints(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        val byWidth = (maxWidth - gap * (cols - 1)) / cols
-        val byHeight = (maxHeight - gap * (rows - 1)) / rows
-        // 正方形: 两个方向取小; 再保底一个最小可点尺寸
-        val cellSize = maxOf(minOf(byWidth, byHeight), MIN_CELL_SIZE)
-
-        val contentWidth = cellSize * cols + gap * (cols - 1)
-        val contentHeight = cellSize * rows + gap * (rows - 1)
-        val needHorizontalScroll = contentWidth > maxWidth
-        val needVerticalScroll = contentHeight > maxHeight
-
-        // 格子太多时逐格画玻璃开销偏大, 退化成纯色
-        val useCellGlass = rows * cols <= CELL_GLASS_LIMIT
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .then(if (needHorizontalScroll) Modifier.horizontalScroll(rememberScrollState()) else Modifier)
-                .then(if (needVerticalScroll) Modifier.verticalScroll(rememberScrollState()) else Modifier),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(verticalArrangement = Arrangement.spacedBy(gap)) {
-                board.forEach { row ->
-                    Row(horizontalArrangement = Arrangement.spacedBy(gap)) {
-                        row.forEach { cell ->
-                            CellView(
-                                cell = cell,
-                                size = cellSize,
-                                useGlass = useCellGlass,
-                                onClick = { onCellClick(cell.row, cell.col) },
-                                onLongClick = { onCellLongClick(cell.row, cell.col) }
-                            )
-                        }
-                    }
+    Column(verticalArrangement = Arrangement.spacedBy(CELL_GAP)) {
+        board.forEach { row ->
+            Row(horizontalArrangement = Arrangement.spacedBy(CELL_GAP)) {
+                row.forEach { cell ->
+                    CellView(
+                        cell = cell,
+                        size = cellSize,
+                        useGlass = useCellGlass,
+                        onClick = { onCellClick(cell.row, cell.col) },
+                        onLongClick = { onCellLongClick(cell.row, cell.col) }
+                    )
                 }
             }
         }
@@ -446,7 +449,7 @@ private fun CellView(
         targetValue = if (pressed) 0.86f else 1f,
         label = "cellPress"
     )
-    val shape = RoundedCornerShape(6.dp)
+    val shape = RoundedCornerShape(8.dp)
     val containerColor = when {
         !cell.isRevealed -> MaterialTheme.colorScheme.primaryContainer
         cell.isMine -> MaterialTheme.colorScheme.errorContainer
@@ -585,6 +588,10 @@ private fun ResultOverlay(
     }
 }
 
+/** 格子间距 */
+private val CELL_GAP = 4.dp
+/** 棋盘玻璃外框的内边距 */
+private val FRAME_PADDING = 6.dp
 /** 格子最小边长: 再小手指就点不准了, 低于这个值就允许滚动 */
 private val MIN_CELL_SIZE = 26.dp
 private const val CELL_GLASS_LIMIT = 400
