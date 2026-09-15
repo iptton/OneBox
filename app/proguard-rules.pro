@@ -206,6 +206,14 @@
 -keep class com.ss.android.** { *; }
 -keep class ms.bz.bd.** { *; }
 -keep class com.volcengine.mobsecBiz.** { *; }
+# GroMore/穿山甲引用但 aar 未携带的可选组件(JProtect/keva/sdkmonitor/注解)
+# 与旧 support 库桩,运行时均有判空降级;android.app 隐藏 API 在 minSdk 24 之上可用
+-dontwarn android.app.Activity$TranslucentConversionListener
+-dontwarn android.arch.lifecycle.**
+-dontwarn com.bytedance.JProtect
+-dontwarn com.bytedance.component.sdk.annotation.**
+-dontwarn com.bytedance.framwork.core.sdkmonitor.**
+-dontwarn com.bytedance.keva.**
 
 -keep class com.tencent.mm.sdk.** {
     *;
