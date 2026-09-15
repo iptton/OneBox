@@ -34,6 +34,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -70,8 +71,10 @@ import com.wanbaohe.unitconverter.component.CalculatorUiState
 import com.wanbaohe.unitconverter.component.KinshipUiState
 import com.wanbaohe.unitconverter.component.UnitConverterComponent
 import com.wanbaohe.unitconverter.component.UnitConverterUiState
+import com.wanbaohe.unitconverter.domain.KinshipCalculator
 import com.wanbaohe.unitconverter.domain.KinshipGender
 import com.wanbaohe.unitconverter.domain.KinshipStep
+import com.wanbaohe.unitconverter.domain.KinshipTitle
 import com.wanbaohe.unitconverter.domain.UnitCategory
 import com.wanbaohe.unitconverter.domain.UnitConverterTab
 import com.wanbaohe.unitconverter.domain.UnitData
@@ -176,8 +179,8 @@ fun UnitConverterScreen(component: UnitConverterComponent) {
         ModalBottomSheet(
             onDismissRequest = { pickingFromUnit = null },
             sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-            containerColor = Color.Transparent,
-            scrimColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f),
+            containerColor = MaterialTheme.colorScheme.surface,
+            scrimColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.32f),
         ) {
             UnitPickerContent(
                 units = state.units,
@@ -442,7 +445,7 @@ private fun ConverterTab(
                 SectionTitle(
                     title = stringResource(
                         R.string.unit_converter_other_conversions,
-                        state.category.displayName
+                        stringResource(state.category.labelRes)
                     ),
                     subtitle = stringResource(R.string.unit_converter_reference_subtitle)
                 )
@@ -579,7 +582,7 @@ private fun RelativeTab(
                                         tint = MaterialTheme.colorScheme.outline,
                                     )
                                     Text(
-                                        text = step.label,
+                                        text = stringResource(step.labelRes),
                                         style = MaterialTheme.typography.bodyMedium,
                                         fontWeight = FontWeight.Medium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -603,14 +606,16 @@ private fun RelativeTab(
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary,
                 )
+                val kinshipTitle = rememberKinshipTitle(state)
+                val kinshipDescription = rememberKinshipDescription(state)
                 Text(
-                    text = state.resultTitle,
+                    text = kinshipTitle,
                     style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface,
                 )
-                if (state.resultDescription.isNotEmpty()) {
+                if (kinshipDescription.isNotEmpty()) {
                     Text(
-                        text = state.resultDescription,
+                        text = kinshipDescription,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -767,7 +772,7 @@ private fun CategorySelectorRow(
                 borderWidth = 0.dp,
             ) {
                 Text(
-                    text = category.displayName,
+                    text = stringResource(category.labelRes),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
@@ -818,7 +823,7 @@ private fun ConverterDisplayCards(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
-                            text = state.fromUnit.name.uppercase(),
+                            text = stringResource(state.fromUnit.nameRes).uppercase(),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontWeight = FontWeight.SemiBold,
@@ -861,7 +866,7 @@ private fun ConverterDisplayCards(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
-                            text = state.toUnit.name.uppercase(),
+                            text = stringResource(state.toUnit.nameRes).uppercase(),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontWeight = FontWeight.SemiBold,
@@ -1120,7 +1125,7 @@ private fun UnitSelectorChip(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = "${unit.name} (${unit.symbol})",
+                text = "${stringResource(unit.nameRes)} (${unit.symbol})",
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -1154,7 +1159,7 @@ private fun ReferenceCard(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = "${unit.name} (${unit.symbol})",
+                text = "${stringResource(unit.nameRes)} (${unit.symbol})",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
@@ -1188,8 +1193,11 @@ private fun UnitPickerContent(
             topStart = 28.dp, topEnd = 28.dp,
             bottomStart = 24.dp, bottomEnd = 24.dp
         ),
-        containerAlpha = 0.42f,
+        containerAlpha = 0.96f,
         borderWidth = 0.dp,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        ),
     ) {
         Column(
             modifier = Modifier
@@ -1246,7 +1254,7 @@ private fun UnitPickerContent(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = unit.name,
+                                text = stringResource(unit.nameRes),
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
                                 textAlign = TextAlign.Center,
@@ -1431,7 +1439,7 @@ private fun RelationButton(
                 text = if (action.isClear) {
                     stringResource(R.string.unit_converter_clear)
                 } else {
-                    action.step?.label.orEmpty()
+                    action.step?.let { stringResource(it.labelRes) }.orEmpty()
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = contentColor,
@@ -1446,3 +1454,56 @@ private data class RelationAction(
     val icon: ImageVector,
     val isClear: Boolean = false,
 )
+
+@Composable
+private fun rememberKinshipTitle(state: KinshipUiState): String {
+    if (state.steps.isEmpty()) {
+        return stringResource(R.string.unit_kin_self)
+    }
+    val result = remember(state.gender, state.steps) {
+        KinshipCalculator.resolve(state.gender, state.steps)
+    }
+    return when (val title = result.title) {
+        is KinshipTitle.Fixed -> stringResource(title.resId)
+        is KinshipTitle.ByGender -> stringResource(
+            if (state.gender == KinshipGender.Male) title.maleResId else title.femaleResId
+        )
+        is KinshipTitle.Descriptive -> rememberKinshipPathLabel(state)
+        is KinshipTitle.Empty -> stringResource(R.string.unit_kin_self)
+    }
+}
+
+@Composable
+private fun rememberKinshipPathLabel(state: KinshipUiState): String {
+    val myPattern = stringResource(R.string.unit_kin_my)
+    val ofPattern = stringResource(R.string.unit_kin_of)
+    val wife = stringResource(R.string.unit_kin_wife)
+    val husband = stringResource(R.string.unit_kin_husband)
+    val spouseLabel = stringResource(R.string.unit_kin_step_spouse)
+    val stepLabels = KinshipStep.values().associate { it to stringResource(it.labelRes) }
+    return remember(state.steps, state.gender, myPattern, ofPattern, wife, husband, spouseLabel, stepLabels) {
+        var acc = ""
+        state.steps.forEachIndexed { index, step ->
+            val next = when (step) {
+                KinshipStep.Spouse -> {
+                    if (index == 0) {
+                        if (state.gender == KinshipGender.Male) wife else husband
+                    } else {
+                        spouseLabel
+                    }
+                }
+                else -> stepLabels.getValue(step)
+            }
+            acc = if (acc.isEmpty()) myPattern.format(next) else ofPattern.format(acc, next)
+        }
+        acc
+    }
+}
+
+@Composable
+private fun rememberKinshipDescription(state: KinshipUiState): String {
+    if (state.steps.isEmpty()) {
+        return stringResource(R.string.unit_kin_empty_hint)
+    }
+    return rememberKinshipPathLabel(state)
+}

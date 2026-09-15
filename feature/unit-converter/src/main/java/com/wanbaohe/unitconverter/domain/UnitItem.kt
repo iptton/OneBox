@@ -1,5 +1,7 @@
 package com.wanbaohe.unitconverter.domain
 
+import androidx.annotation.StringRes
+
 /**
  * 换算单位条目。
  * [toBase]   : 将该单位换算为基准单位的系数（乘法）。温度类别忽略此字段，由 [toBaseFn] 处理。
@@ -9,7 +11,7 @@ package com.wanbaohe.unitconverter.domain
  * 对于温度等非线性换算：使用 [toBaseFn] / [fromBaseFn]
  */
 data class UnitItem(
-    val name: String,
+    @StringRes val nameRes: Int,
     val symbol: String,
     val toBase: Double = 1.0,
     val fromBase: Double = if (toBase != 0.0) 1.0 / toBase else 1.0,
@@ -24,4 +26,3 @@ data class UnitItem(
     fun convertFromBase(baseValue: Double): Double =
         fromBaseFn?.invoke(baseValue) ?: (baseValue * fromBase)
 }
-

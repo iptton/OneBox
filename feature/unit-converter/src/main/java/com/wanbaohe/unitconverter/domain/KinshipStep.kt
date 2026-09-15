@@ -1,16 +1,19 @@
 package com.wanbaohe.unitconverter.domain
 
+import androidx.annotation.StringRes
+import com.wanbaohe.unitconverter.R
+
 enum class KinshipStep(
     val route: String,
-    val label: String,
+    @StringRes val labelRes: Int,
 ) {
-    Father("father", "父亲"),
-    Mother("mother", "母亲"),
-    Spouse("spouse", "配偶"),
-    Brother("brother", "兄弟"),
-    Sister("sister", "姐妹"),
-    Son("son", "儿子"),
-    Daughter("daughter", "女儿");
+    Father("father", R.string.unit_kin_step_father),
+    Mother("mother", R.string.unit_kin_step_mother),
+    Spouse("spouse", R.string.unit_kin_step_spouse),
+    Brother("brother", R.string.unit_kin_step_brother),
+    Sister("sister", R.string.unit_kin_step_sister),
+    Son("son", R.string.unit_kin_step_son),
+    Daughter("daughter", R.string.unit_kin_step_daughter);
 
     companion object {
         fun fromRoute(route: String): KinshipStep? {

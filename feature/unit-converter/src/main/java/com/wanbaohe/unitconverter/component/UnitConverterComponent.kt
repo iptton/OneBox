@@ -4,7 +4,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.wanbaohe.unitconverter.domain.CalculatorEvaluator
-import com.wanbaohe.unitconverter.domain.KinshipCalculator
 import com.wanbaohe.unitconverter.domain.KinshipGender
 import com.wanbaohe.unitconverter.domain.KinshipStep
 import com.wanbaohe.unitconverter.domain.UnitCategory
@@ -32,8 +31,6 @@ data class CalculatorUiState(
 data class KinshipUiState(
     val gender: KinshipGender = KinshipGender.Male,
     val steps: List<KinshipStep> = emptyList(),
-    val resultTitle: String = "自己",
-    val resultDescription: String = "请选择亲属链路后计算关系",
 )
 
 data class UnitConverterUiState(
@@ -64,19 +61,11 @@ class UnitConverterComponent @AssistedInject internal constructor(
             val units = UnitData.unitsFor(resolvedCategory)
             val from = units.first()
             val to = units.getOrElse(1) { units.first() }
-            val kinshipResult = KinshipCalculator.resolve(
-                gender = defaultState.kinship.gender,
-                steps = defaultState.kinship.steps
-            )
             val s = defaultState.copy(
                 category = resolvedCategory,
                 units = units,
                 fromUnit = from,
                 toUnit = to,
-                kinship = defaultState.kinship.copy(
-                    resultTitle = kinshipResult.title,
-                    resultDescription = kinshipResult.description
-                )
             )
             s.copy(resultText = convert(s.inputText, s.fromUnit, s.toUnit))
         }
@@ -246,55 +235,27 @@ class UnitConverterComponent @AssistedInject internal constructor(
 
     fun setKinshipGender(gender: KinshipGender) {
         _uiState.update { state ->
-            val result = KinshipCalculator.resolve(gender = gender, steps = state.kinship.steps)
-            state.copy(
-                kinship = state.kinship.copy(
-                    gender = gender,
-                    resultTitle = result.title,
-                    resultDescription = result.description
-                )
-            )
+            state.copy(kinship = state.kinship.copy(gender = gender))
         }
     }
 
     fun addKinshipStep(step: KinshipStep) {
         _uiState.update { state ->
             val steps = (state.kinship.steps + step).takeLast(6)
-            val result = KinshipCalculator.resolve(gender = state.kinship.gender, steps = steps)
-            state.copy(
-                kinship = state.kinship.copy(
-                    steps = steps,
-                    resultTitle = result.title,
-                    resultDescription = result.description
-                )
-            )
+            state.copy(kinship = state.kinship.copy(steps = steps))
         }
     }
 
     fun removeLastKinshipStep() {
         _uiState.update { state ->
             val steps = state.kinship.steps.dropLast(1)
-            val result = KinshipCalculator.resolve(gender = state.kinship.gender, steps = steps)
-            state.copy(
-                kinship = state.kinship.copy(
-                    steps = steps,
-                    resultTitle = result.title,
-                    resultDescription = result.description
-                )
-            )
+            state.copy(kinship = state.kinship.copy(steps = steps))
         }
     }
 
     fun clearKinshipSteps() {
         _uiState.update { state ->
-            val result = KinshipCalculator.resolve(gender = state.kinship.gender, steps = emptyList())
-            state.copy(
-                kinship = state.kinship.copy(
-                    steps = emptyList(),
-                    resultTitle = result.title,
-                    resultDescription = result.description
-                )
-            )
+            state.copy(kinship = state.kinship.copy(steps = emptyList()))
         }
     }
 
@@ -327,9 +288,10 @@ class UnitConverterComponent @AssistedInject internal constructor(
     }
 
     private fun resolveCategory(rawCategory: String?): UnitCategory {
+        if (rawCategory.isNullOrBlank()) return UnitCategory.Length
         return UnitCategory.values().firstOrNull {
             it.name.equals(rawCategory, ignoreCase = true) ||
-                it.displayName.equals(rawCategory, ignoreCase = true)
+                it.aliases.any { alias -> alias.equals(rawCategory, ignoreCase = true) }
         } ?: UnitCategory.Length
     }
 
