@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="minesweeper_title">扫雷</string>
+    <string name="minesweeper_restart">重新开始</string>
+    <string name="minesweeper_sound_on">声音已开启</string>
+    <string name="minesweeper_sound_off">声音已关闭</string>
+
+    <string name="minesweeper_mode_dig">挖雷模式</string>
+    <string name="minesweeper_mode_flag">插旗模式</string>
+
+    <string name="minesweeper_hint_dig">点击翻开格子</string>
+    <string name="minesweeper_hint_flag">点击插旗标记</string>
+
+    <string name="minesweeper_time">用时</string>
+    <string name="minesweeper_mines_left">剩余地雷</string>
+
+    <string name="minesweeper_won">通关了</string>
+    <string name="minesweeper_lost">踩雷了</string>
+    <string name="minesweeper_play_again">再来一局</string>
+    <string name="minesweeper_result_detail">用时 %1$d 秒</string>
+
+    <string name="minesweeper_fullscreen">全屏</string>
+    <string name="minesweeper_exit_fullscreen">退出全屏</string>
+    <string name="minesweeper_share">分享</string>
+</resources>

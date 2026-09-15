@@ -1,208 +1,590 @@
 package com.wanbaohe.minesweeper.screen
 
+import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.shifenmiao.common.ui.BaseScreen
-import com.shifenmiao.theme.AppTheme
-import com.t8rin.imagetoolbox.core.ui.widget.glass.glassThin
-import com.wanbaohe.minesweeper.component.MinesweeperComponent
-import com.wanbaohe.minesweeper.component.MinesweeperUiState
-import com.wanbaohe.minesweeper.logic.Cell
-import com.wanbaohe.minesweeper.logic.Difficulty
-import com.wanbaohe.minesweeper.logic.GameState
+import com.shifenmiao.common.ui.rememberImmersiveModeState
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.icons.Fullscreen
 import com.t8rin.imagetoolbox.core.resources.icons.Refresh
+import com.t8rin.imagetoolbox.core.resources.icons.Share
+import com.t8rin.imagetoolbox.core.resources.icons.VolumeOff
+import com.t8rin.imagetoolbox.core.resources.icons.VolumeUp
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineFlag
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineMinesweeper
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineTimer
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineTouchApp
+import com.t8rin.imagetoolbox.core.ui.utils.capturable.capturable
+import com.t8rin.imagetoolbox.core.ui.utils.capturable.rememberCaptureController
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalButton
+import com.t8rin.imagetoolbox.core.ui.widget.glass.GlassTonalIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.glass.glassThick
+import com.t8rin.imagetoolbox.core.ui.widget.glass.glassThin
+import com.wanbaohe.minesweeper.R
+import com.wanbaohe.minesweeper.component.MinesweeperComponent
+import com.wanbaohe.minesweeper.logic.Cell
+import com.wanbaohe.minesweeper.logic.GameState
+import kotlinx.coroutines.launch
 
+/**
+ * 扫雷主页面。
+ *
+ * 交互说明(这里跟经典"点=挖 / 长按=插旗"不一样, 见 [MinesweeperComponent.onCellClicked]):
+ * - 底部 icon bar 第一个按钮切换"挖雷 / 插旗"模式, 单击永远按当前模式走, 长按恒等于插旗。
+ *   纯长按方案在触屏上很容易误判: 按到 300ms 松手系统算点击, 直接把雷挖了。
+ *   给一个显式开关之后, 长按只作为老玩家的快捷方式保留。
+ * - 已翻开的数字, 周围旗数够了一次点开一圈(和弦)。
+ */
 @Composable
 fun MinesweeperScreen(
     component: MinesweeperComponent
 ) {
     val state by component.uiState.collectAsState()
+    // 全屏(沉浸)状态: 收起标题栏与信息条, 只留棋盘
+    val immersiveState = rememberImmersiveModeState()
+    val captureController = rememberCaptureController()
+    val scope = rememberCoroutineScope()
+
+    ImmersiveSystemBars(enabled = immersiveState.isImmersive)
 
     BaseScreen(
-        title = "扫雷", // Can use stringResource if needed
+        title = stringResource(R.string.minesweeper_title),
         onGoBack = component.onGoBack,
-        actions = {
-            IconButton(
-                onClick = { component.resetGame(state.difficulty) },
-                colors = AppTheme.colors.iconButtonColors()
-            ) {
-                Icon(
-                    imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Refresh,
-                    contentDescription = "Restart"
-                )
-            }
-        }
+        immersiveModeState = immersiveState,
+        // 所有控制都挪到了底部 icon bar, 标题栏只留返回键
+        actions = {}
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(horizontal = 8.dp, vertical = 2.dp)
         ) {
-            // Header: Timer and Mines Left
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+            AnimatedVisibility(
+                visible = immersiveState.isUiVisible,
+                enter = fadeIn(),
+                exit = fadeOut()
             ) {
-                Text(
-                    text = "⏱ ${state.timer}",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Text(
-                    text = "💣 ${state.minesLeft}",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
+                StatRow(
+                    timer = state.timer,
+                    minesLeft = state.minesLeft,
+                    modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
 
-            // Difficulty Selector
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Difficulty.values().forEach { diff ->
-                    val isSelected = state.difficulty == diff
-                    Button(
-                        onClick = { component.resetGame(diff) },
-                        colors = if (isSelected) ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
-                        ) else ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                        ),
-                        shape = RoundedCornerShape(8.dp),
-                        modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                    ) {
-                        Text(text = diff.name)
-                    }
-                }
-            }
-
-            // Game Board
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
+                    .fillMaxWidth()
+                    .capturable(captureController)
+                    .glassThick(shape = RoundedCornerShape(16.dp))
+                    .padding(4.dp)
             ) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(2.dp)
-                ) {
-                    for (row in state.board) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(2.dp)
-                        ) {
-                            for (cell in row) {
-                                CellView(
-                                    cell = cell,
-                                    onClick = { component.onCellClicked(cell.row, cell.col) },
-                                    onLongClick = { component.onCellLongClicked(cell.row, cell.col) }
-                                )
-                            }
-                        }
-                    }
+                BoardGrid(
+                    board = state.board,
+                    onCellClick = { row, col -> component.onCellClicked(row, col) },
+                    onCellLongClick = { row, col -> component.onCellLongClicked(row, col) }
+                )
+
+                if (state.gameState == GameState.WON || state.gameState == GameState.LOST) {
+                    ResultOverlay(
+                        isWon = state.gameState == GameState.WON,
+                        seconds = state.timer,
+                        onRestart = component::resetGame
+                    )
                 }
             }
 
-            // Game State Message
-            if (state.gameState == GameState.WON) {
-                Text(
-                    text = "🎉 You Won! 🎉",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = Color(0xFF4CAF50),
-                    modifier = Modifier.padding(16.dp)
-                )
-            } else if (state.gameState == GameState.LOST) {
-                Text(
-                    text = "💥 Game Over! 💥",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.padding(16.dp)
-                )
+            BottomBar(
+                flagMode = state.flagMode,
+                soundEnabled = state.soundEnabled,
+                immersive = immersiveState.isImmersive,
+                onToggleFlagMode = component::toggleFlagMode,
+                onToggleSound = component::toggleSound,
+                onToggleImmersive = immersiveState::toggle,
+                onRestart = component::resetGame,
+                onShare = {
+                    scope.launch {
+                        runCatching {
+                            component.shareBitmap(captureController.bitmap())
+                        }
+                    }
+                }
+            )
+        }
+    }
+}
+
+/**
+ * 隐藏 / 显示系统栏。只切系统栏本身, 不去碰 WindowCompat.setDecorFitsSystemWindows,
+ * 免得整个 Activity 的布局算法被改掉。退出页面时强制恢复, 不会把别的页面留成 immersion。
+ */
+@Composable
+private fun ImmersiveSystemBars(enabled: Boolean) {
+    val window = LocalActivity.current?.window
+    DisposableEffect(enabled, window) {
+        val controller = window?.let { WindowInsetsControllerCompat(it, it.decorView) }
+        if (controller != null) {
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            if (enabled) {
+                controller.hide(WindowInsetsCompat.Type.systemBars())
+            } else {
+                controller.show(WindowInsetsCompat.Type.systemBars())
+            }
+        }
+        onDispose {
+            window?.let {
+                WindowInsetsControllerCompat(it, it.decorView)
+                    .show(WindowInsetsCompat.Type.systemBars())
             }
         }
     }
 }
 
 @Composable
-fun CellView(
-    cell: Cell,
-    onClick: () -> Unit,
-    onLongClick: () -> Unit
+private fun StatRow(
+    timer: Int,
+    minesLeft: Int,
+    modifier: Modifier = Modifier
 ) {
-    val backgroundColor = if (cell.isRevealed) {
-        if (cell.isMine) MaterialTheme.colorScheme.errorContainer
-        else MaterialTheme.colorScheme.surfaceVariant
-    } else {
-        MaterialTheme.colorScheme.primaryContainer
-    }
-
-    Box(
-        modifier = Modifier
-            .size(32.dp)
-            .clip(RoundedCornerShape(4.dp))
-            .background(backgroundColor)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = { onClick() },
-                    onLongPress = { onLongClick() }
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        StatChip(
+            modifier = Modifier.weight(1f),
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.LineTimer,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(16.dp)
                 )
             },
-        contentAlignment = Alignment.Center
-    ) {
-        if (cell.isRevealed) {
-            if (cell.isMine) {
-                Text(text = "💣", fontSize = 16.sp)
-            } else if (cell.neighborMines > 0) {
-                val color = when (cell.neighborMines) {
-                    1 -> Color.Blue
-                    2 -> Color(0xFF388E3C)
-                    3 -> Color.Red
-                    4 -> Color(0xFF7B1FA2)
-                    5 -> Color(0xFFD32F2F)
-                    else -> Color.Black
-                }
-                Text(
-                    text = cell.neighborMines.toString(),
-                    color = color,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+            label = stringResource(R.string.minesweeper_time),
+            value = timer.toString()
+        )
+        StatChip(
+            modifier = Modifier.weight(1f),
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.LineMinesweeper,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.size(16.dp)
                 )
-            }
-        } else if (cell.isFlagged) {
+            },
+            label = stringResource(R.string.minesweeper_mines_left),
+            value = minesLeft.toString()
+        )
+    }
+}
+
+@Composable
+private fun StatChip(
+    modifier: Modifier = Modifier,
+    icon: @Composable () -> Unit,
+    label: String,
+    value: String
+) {
+    Row(
+        modifier = modifier
+            .glassThin(shape = RoundedCornerShape(12.dp))
+            .padding(horizontal = 10.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        icon()
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = value,
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+/**
+ * 底部 icon bar: 左边一行操作提示, 右边是模式 / 重开 / 声音 / 全屏 / 分享。
+ * 放在底部是因为这些控制要在全屏模式下也能摸到, 标题栏全屏时是被收起来的。
+ */
+@Composable
+private fun BottomBar(
+    flagMode: Boolean,
+    soundEnabled: Boolean,
+    immersive: Boolean,
+    onToggleFlagMode: () -> Unit,
+    onToggleSound: () -> Unit,
+    onToggleImmersive: () -> Unit,
+    onRestart: () -> Unit,
+    onShare: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 2.dp)
+            .glassThin(shape = RoundedCornerShape(12.dp))
+            .padding(horizontal = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = stringResource(
+                if (flagMode) R.string.minesweeper_hint_flag else R.string.minesweeper_hint_dig
+            ),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 8.dp)
+        )
+
+        // 模式开关: 插旗模式下填充高亮, 让人一眼看出当前是哪种
+        GlassTonalIconButton(
+            onClick = onToggleFlagMode,
+            modifier = Modifier.size(40.dp),
+            colors = IconButtonDefaults.filledTonalIconButtonColors(
+                containerColor = if (flagMode) {
+                    MaterialTheme.colorScheme.tertiaryContainer
+                } else {
+                    MaterialTheme.colorScheme.secondaryContainer
+                },
+                contentColor = if (flagMode) {
+                    MaterialTheme.colorScheme.onTertiaryContainer
+                } else {
+                    MaterialTheme.colorScheme.onSecondaryContainer
+                }
+            )
+        ) {
             Icon(
-                imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFlag,
-                contentDescription = "Flag",
-                tint = MaterialTheme.colorScheme.error,
+                imageVector = if (flagMode) Icons.Outlined.LineFlag else Icons.Outlined.LineTouchApp,
+                contentDescription = stringResource(
+                    if (flagMode) R.string.minesweeper_mode_flag else R.string.minesweeper_mode_dig
+                ),
                 modifier = Modifier.size(20.dp)
             )
         }
+
+        BarIconButton(
+            onClick = onRestart,
+            imageVector = Icons.Outlined.Refresh,
+            contentDescription = stringResource(R.string.minesweeper_restart)
+        )
+        BarIconButton(
+            onClick = onToggleSound,
+            imageVector = if (soundEnabled) Icons.Outlined.VolumeUp else Icons.Outlined.VolumeOff,
+            contentDescription = stringResource(
+                if (soundEnabled) R.string.minesweeper_sound_on else R.string.minesweeper_sound_off
+            )
+        )
+        BarIconButton(
+            onClick = onToggleImmersive,
+            imageVector = Icons.Outlined.Fullscreen,
+            contentDescription = stringResource(
+                if (immersive) R.string.minesweeper_exit_fullscreen else R.string.minesweeper_fullscreen
+            ),
+            tint = if (immersive) MaterialTheme.colorScheme.primary else Color.Unspecified
+        )
+        BarIconButton(
+            onClick = onShare,
+            imageVector = Icons.Outlined.Share,
+            contentDescription = stringResource(R.string.minesweeper_share)
+        )
     }
 }
+
+@Composable
+private fun BarIconButton(
+    onClick: () -> Unit,
+    imageVector: ImageVector,
+    contentDescription: String,
+    tint: Color = Color.Unspecified
+) {
+    GlassTonalIconButton(
+        onClick = onClick,
+        modifier = Modifier.size(40.dp)
+    ) {
+        Icon(
+            imageVector = imageVector,
+            contentDescription = contentDescription,
+            // Unspecified = 跟随 IconButton 的 contentColor, 只有全屏激活态才特意高亮
+            tint = if (tint == Color.Unspecified) LocalContentColor.current else tint,
+            modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+/**
+ * 棋盘。格子恒为正方形, 尺寸取可用宽高里更紧的那个;
+ * 棋盘本身因为行数多于列数自然是一块竖长画布。
+ * 极端窄屏(低于 [MIN_CELL_SIZE])才退化成可滚动, 不再硬溢出屏幕。
+ */
+@Composable
+private fun BoardGrid(
+    board: List<List<Cell>>,
+    onCellClick: (row: Int, col: Int) -> Unit,
+    onCellLongClick: (row: Int, col: Int) -> Unit
+) {
+    if (board.isEmpty()) return
+    val rows = board.size
+    val cols = board[0].size
+    val gap = 2.dp
+
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        val byWidth = (maxWidth - gap * (cols - 1)) / cols
+        val byHeight = (maxHeight - gap * (rows - 1)) / rows
+        // 正方形: 两个方向取小; 再保底一个最小可点尺寸
+        val cellSize = maxOf(minOf(byWidth, byHeight), MIN_CELL_SIZE)
+
+        val contentWidth = cellSize * cols + gap * (cols - 1)
+        val contentHeight = cellSize * rows + gap * (rows - 1)
+        val needHorizontalScroll = contentWidth > maxWidth
+        val needVerticalScroll = contentHeight > maxHeight
+
+        // 格子太多时逐格画玻璃开销偏大, 退化成纯色
+        val useCellGlass = rows * cols <= CELL_GLASS_LIMIT
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .then(if (needHorizontalScroll) Modifier.horizontalScroll(rememberScrollState()) else Modifier)
+                .then(if (needVerticalScroll) Modifier.verticalScroll(rememberScrollState()) else Modifier),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(gap)) {
+                board.forEach { row ->
+                    Row(horizontalArrangement = Arrangement.spacedBy(gap)) {
+                        row.forEach { cell ->
+                            CellView(
+                                cell = cell,
+                                size = cellSize,
+                                useGlass = useCellGlass,
+                                onClick = { onCellClick(cell.row, cell.col) },
+                                onLongClick = { onCellLongClick(cell.row, cell.col) }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CellView(
+    cell: Cell,
+    size: Dp,
+    useGlass: Boolean,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
+) {
+    val haptic = LocalHapticFeedback.current
+    var pressed by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(
+        targetValue = if (pressed) 0.86f else 1f,
+        label = "cellPress"
+    )
+    val shape = RoundedCornerShape(6.dp)
+    val containerColor = when {
+        !cell.isRevealed -> MaterialTheme.colorScheme.primaryContainer
+        cell.isMine -> MaterialTheme.colorScheme.errorContainer
+        else -> MaterialTheme.colorScheme.surfaceVariant
+    }
+    val fontSize = (size.value * 0.5f).sp
+    val iconSize = size * 0.6f
+
+    Box(
+        modifier = Modifier
+            .size(size)
+            .pointerInput(cell.row, cell.col) {
+                detectTapGestures(
+                    onPress = {
+                        pressed = true
+                        try {
+                            awaitRelease()
+                        } finally {
+                            pressed = false
+                        }
+                    },
+                    onTap = { onClick() },
+                    onLongPress = {
+                        // 长按成功给一次震动, 不然手指盖着格子, 根本不知道插上旗没有
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onLongClick()
+                    }
+                )
+            }
+            .scale(scale)
+            .then(
+                if (!cell.isRevealed && useGlass) {
+                    Modifier.glassThin(shape = shape, color = containerColor)
+                } else {
+                    Modifier
+                        .clip(shape)
+                        .background(
+                            if (cell.isRevealed) containerColor.copy(alpha = 0.35f) else containerColor
+                        )
+                }
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        when {
+            cell.isRevealed && cell.isMine -> {
+                Icon(
+                    imageVector = Icons.Outlined.LineMinesweeper,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.size(iconSize)
+                )
+            }
+
+            cell.isRevealed && cell.neighborMines > 0 -> {
+                Text(
+                    text = cell.neighborMines.toString(),
+                    color = numberColor(cell.neighborMines),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = fontSize
+                )
+            }
+
+            !cell.isRevealed && cell.isFlagged -> {
+                Icon(
+                    imageVector = Icons.Outlined.LineFlag,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.size(iconSize)
+                )
+            }
+        }
+    }
+}
+
+/** 经典扫雷配色, 深浅色主题下都能看清。 */
+private fun numberColor(count: Int): Color = when (count) {
+    1 -> Color(0xFF4C8DFF)
+    2 -> Color(0xFF2BB673)
+    3 -> Color(0xFFFF5C5C)
+    4 -> Color(0xFF9C6BFF)
+    5 -> Color(0xFFFF9F43)
+    6 -> Color(0xFF26C6DA)
+    7 -> Color(0xFFFFCA28)
+    else -> Color(0xFFB0BEC5)
+}
+
+@Composable
+private fun ResultOverlay(
+    isWon: Boolean,
+    seconds: Int,
+    onRestart: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.45f)),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .glassThick(shape = RoundedCornerShape(20.dp))
+                .padding(horizontal = 28.dp, vertical = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Icon(
+                imageVector = if (isWon) Icons.Outlined.LineFlag else Icons.Outlined.LineMinesweeper,
+                contentDescription = null,
+                tint = if (isWon) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                modifier = Modifier.size(32.dp)
+            )
+            Text(
+                text = stringResource(if (isWon) R.string.minesweeper_won else R.string.minesweeper_lost),
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = stringResource(R.string.minesweeper_result_detail, seconds),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            GlassTonalButton(
+                onClick = onRestart,
+                contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Refresh,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = stringResource(R.string.minesweeper_play_again))
+            }
+        }
+    }
+}
+
+/** 格子最小边长: 再小手指就点不准了, 低于这个值就允许滚动 */
+private val MIN_CELL_SIZE = 26.dp
+private const val CELL_GLASS_LIMIT = 400

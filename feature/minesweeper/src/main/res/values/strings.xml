@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="minesweeper_title">Minesweeper</string>
+    <string name="minesweeper_restart">Restart</string>
+    <string name="minesweeper_sound_on">Sound on</string>
+    <string name="minesweeper_sound_off">Sound off</string>
+
+    <string name="minesweeper_mode_dig">Dig mode</string>
+    <string name="minesweeper_mode_flag">Flag mode</string>
+
+    <string name="minesweeper_hint_dig">Tap to open a cell</string>
+    <string name="minesweeper_hint_flag">Tap to flag a mine</string>
+
+    <string name="minesweeper_time">Time</string>
+    <string name="minesweeper_mines_left">Mines</string>
+
+    <string name="minesweeper_won">Cleared</string>
+    <string name="minesweeper_lost">Boom</string>
+    <string name="minesweeper_play_again">Play again</string>
+    <string name="minesweeper_result_detail">%1$d s</string>
+
+    <string name="minesweeper_fullscreen">Fullscreen</string>
+    <string name="minesweeper_exit_fullscreen">Exit fullscreen</string>
+    <string name="minesweeper_share">Share</string>
+</resources>
