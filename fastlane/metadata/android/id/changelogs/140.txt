@@ -1,0 +1,7 @@
+• Baru: Memori & keterampilan Agent — ia mengingat cara kerja Anda
+• Baru: Input suara AI dengan dikte multisegmen
+• Baru: Pusat Catatan Kesehatan — metrik, entri massal, wawasan AI, pelacakan siklus
+• Baru: Detektor konten AI, plus dukungan Tionghoa Tradisional
+• Baru: Ad Watch — iklan berhadiah opsional untuk poin AI
+• Roda pengambil keputusan dibangun ulang, Material 3 Expressive, Item Manager dengan statistik
+• Perbaikan bug dan peningkatan performa

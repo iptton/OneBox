@@ -1,0 +1,7 @@
+• Novo: Memória e habilidades do Agent — lembra como você trabalha
+• Novo: Voz com IA e ditado multissegmento
+• Novo: Central de registros de saúde — métricas, lotes, insights de IA e ciclo menstrual
+• Novo: Detecção de conteúdo de IA e suporte a chinês tradicional
+• Novo: Ad Watch — anúncios recompensados opcionais, rendem pontos de IA
+• Roleta de decisões reconstruída, Material 3 Expressive e Item Manager com estatísticas
+• Correções de bugs e melhorias de desempenho

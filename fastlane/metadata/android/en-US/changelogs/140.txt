@@ -1,0 +1,7 @@
+• New: Agent memory & skills — it remembers how you work
+• New: AI voice input with multi-segment dictation
+• New: Health Records center — metrics, batch entries, AI insights, period tracking
+• New: AI content detection, plus Traditional Chinese support
+• New: Ad Watch — optional rewarded ads that earn AI points
+• Rebuilt decision wheel, Material 3 Expressive theming, Item Manager with stats
+• Bug fixes and performance improvements

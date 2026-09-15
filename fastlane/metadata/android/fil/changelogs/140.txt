@@ -1,0 +1,7 @@
+• Bago: Memory at skill ng Agent — naaalala nito kung paano ka magtrabaho
+• Bago: AI voice input na may multi-segment na dictation
+• Bago: Health Records center — metrics, batch entry, AI insights, period tracking
+• Bago: AI content detection, suporta sa Traditional Chinese
+• Bago: Ad Watch — opsyonal na rewarded ads, may AI points
+• Muling ginawa ang decision wheel, Material 3 Expressive theming, Item Manager may stats
+• Mga pag-aayos ng bug at pagpapabuti ng performance

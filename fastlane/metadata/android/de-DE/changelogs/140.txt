@@ -1,0 +1,7 @@
+• Neu: Agent-Gedächtnis und Skills — erinnert sich, wie du arbeitest
+• Neu: KI-Spracheingabe mit mehrteiligem Diktat
+• Neu: Gesundheits-Rekord-Center — Messwerte, Stapeleinträge, KI-Erkenntnisse, Zyklus-Tracking
+• Neu: KI-Inhaltsdetektor und Unterstützung für traditionelles Chinesisch
+• Neu: Ad Watch — freiwillige Rewarded Ads für KI-Punkte
+• Entscheidungsrad überarbeitet, Material 3 Expressive, Item Manager mit Statistiken
+• Fehlerbehebungen und Leistungsverbesserungen

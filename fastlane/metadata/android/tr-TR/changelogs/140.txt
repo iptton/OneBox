@@ -1,0 +1,7 @@
+• Yeni: Agent hafızası ve becerileri — nasıl çalıştığınızı hatırlar
+• Yeni: çok bölümlü dikte ile AI sesli giriş
+• Yeni: sağlık kayıt merkezi — ölçümler, toplu giriş, AI içgörüleri, adet takibi
+• Yeni: AI içerik dedektörü ve Geleneksel Çince desteği
+• Yeni: Reklam İzle — AI puanı kazandıran isteğe bağlı ödüllü reklamlar
+• Karar çarkı, Material 3 Expressive teması ve istatistikli Item Manager yenilendi
+• Hata düzeltmeleri ve performans iyileştirmeleri
