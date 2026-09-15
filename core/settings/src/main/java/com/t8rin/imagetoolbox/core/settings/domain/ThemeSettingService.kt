@@ -1,7 +1,9 @@
 package com.t8rin.imagetoolbox.core.settings.domain
 
+import com.t8rin.imagetoolbox.core.settings.domain.model.AppColorSystem
 import com.t8rin.imagetoolbox.core.settings.domain.model.AppThemePreset
 import com.t8rin.imagetoolbox.core.settings.domain.model.GradientBackgroundStyle
+import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -53,4 +55,21 @@ interface ThemeSettingService {
      * 避免预览哨兵 id 被持久化(进程死亡后 activeThemeId 悬垂)。
      */
     suspend fun previewThemePreset(preset: AppThemePreset)
+
+    /**
+     * 显式设置全局日夜模式(浅色 / 深色 / 跟随系统)。
+     *
+     * 日夜模式是全局偏好: 主题预设自带的 nightMode 只在"点选预设"这种明确动作下生效,
+     * 草稿预览([previewThemePreset])不会顺手改写它。
+     */
+    suspend fun setNightMode(nightMode: NightMode)
+
+    /** 读取当前全局日夜模式 */
+    suspend fun getNightMode(): NightMode
+
+    /** 读取全局色彩系统(调色板风格 / 对比度 / 色彩规范 / Expressive 动效) */
+    suspend fun getColorSystem(): AppColorSystem
+
+    /** 覆盖全局色彩系统 —— 与主题预设无关, 四项一起写入 */
+    suspend fun setColorSystem(system: AppColorSystem)
 }

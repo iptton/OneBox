@@ -5,6 +5,8 @@
   - `theme`：当前主题（颜色、日夜模式、玻璃 / 网格渐变 / glass_alpha / glass_border_alpha / gradient_style）
   - `gradientStyles`：所有合法的 `gradient_style` 取值（用其中之一）
   - `nightModes`：[Light, Dark, System]
+  - `paletteStyles` / `colorSpecs`：全局色彩系统的全部合法取值
+  - `colorSystem`：当前全局色彩系统（paletteStyle / contrast / colorSpec / expressiveMotion）
   - `builtinPresets`：[{"id","name"} 列表]，用于 action="apply" 切换预设主题
 - set：修改当前主题的若干字段。**所有字段可选**，只传想改的即可；返回更新后的 theme。
 - apply：切换到内置或用户主题。两种方式二选一：
@@ -23,6 +25,12 @@ action="set" 的字段（全部可选）：
   （0 会让玻璃层完全透明，仅在用户明确要求时使用）
 - glass_border_alpha：0.0 ~ 1.0 的浮点数 —— 玻璃描边可见度，默认 0.17（17%）。
   0 表示完全隐藏描边，数值越大描边越明显；只影响描边，不影响玻璃本身的透明度
+- palette_style：全局调色板风格，取自 list 的 `paletteStyles`，如 "Expressive"、"Vibrant"、"TonalSpot"（默认）
+- color_spec：全局 Material 色彩规范，只能取 "Spec2021"（默认）或 "Spec2025"；
+  Spec2025 即 Material 3 Expressive 规范（2025 Color Spec，配色更饱和鲜艳）
+- expressive_motion："true" / "false" —— 是否启用 MaterialExpressiveTheme（表达性弹簧动效与形状）
+- contrast：-1.0 ~ 1.0 的浮点数 —— 全局对比度，默认 0.0，负值降低对比度（如 -1.0 最柔和）
+  （以上四项是**全局**色彩系统，不属于任何主题预设，切换预设不会改变它们）
 - background_image：唯一取值 "clear" —— 清除自定义背景图，恢复纯色背景
 - background_prompt：文字描述，AI 生成背景图并设为自定义背景（文生图，竖屏，
   可能耗时数十秒；代理路由消耗积分）。与 background_image 同传时以本参数为准
@@ -37,6 +45,9 @@ action="set" 的字段（全部可选）：
 - "不要描边" → {"action": "set", "glass_border_alpha": 0}
 - "打开网格渐变，风格用薰衣草" → {"action": "set", "mesh_gradient": "true", "gradient_style": "Lavender"}
 - "生成一张星空背景" → {"action": "set", "background_prompt": "深邃星空，银河，深蓝色调"}
+- "换成 Material 3 Expressive 配色" → {"action": "set", "palette_style": "Expressive", "color_spec": "Spec2025", "expressive_motion": "true"}
+- "用 2025 色彩规范" → {"action": "set", "color_spec": "Spec2025"}
+- "对比度低一点" → {"action": "set", "contrast": -0.5}
 - "清除背景图" → {"action": "set", "background_image": "clear"}
 
 错误响应会带 `reasonCode`（如 "invalid_color"、"unknown_style"、"unknown_preset"）

@@ -142,6 +142,13 @@
     <string name="agent_tool_theme_setting_param_liquid_glass">Efek kaca cair. Nilai sama seperti kaca (\"true\" / \"false\"). Opsional</string>
     <string name="agent_tool_theme_setting_param_mesh_gradient">Latar belakang gradien mesh. Nilai sama seperti kaca (\"true\" / \"false\"). Opsional</string>
     <string name="agent_tool_theme_setting_param_gradient_style">Nama gaya latar belakang gradien. **Harus** dipilih dari daftar respons `gradientStyles` (peka huruf besar/kecil). Opsional</string>
+    <string name="agent_tool_theme_setting_param_palette_style">Gaya palet global yang menentukan bagaimana skema warna diturunkan dari warna dasar. **Harus** dipilih dari respons list `paletteStyles` (peka huruf besar-kecil): TonalSpot (default) / Neutral / Vibrant / Expressive / Rainbow / FruitSalad / Monochrome / Fidelity / Content. Opsional</string>
+    <string name="agent_tool_theme_setting_param_color_spec">Versi spesifikasi warna Material global. Nilai: Spec2021 (default) atau Spec2025 (\"2025\" juga diterima). Spec2025 adalah spesifikasi Material 3 Expressive dengan warna yang lebih pekat dan hidup. Opsional</string>
+    <string name="agent_tool_theme_setting_param_expressive_motion">Aktifkan MaterialExpressiveTheme (gerakan dan bentuk ekspresif yang kenyal). Nilai sama seperti glass (\"true\" / \"false\"). Opsional</string>
+    <string name="agent_tool_theme_setting_param_contrast">Kontras warna global. **Tipe angka** (BUKAN string), rentang [-1.0, 1.0], default 0.0. Nilai negatif menurunkan kontras. Opsional</string>
+    <string name="agent_tool_theme_setting_unknown_palette_style">Gaya palet tidak dikenal: %1$s</string>
+    <string name="agent_tool_theme_setting_unknown_color_spec">Spesifikasi warna tidak dikenal: %1$s. Harus Spec2021 atau Spec2025</string>
+    <string name="agent_tool_theme_setting_contrast_out_of_range">contrast harus antara -1.0 dan 1.0</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">Nilai dasar transparansi kaca. **Tipe angka** (BUKAN string), rentang [0.1, 1.0], default 1.0. Lebih rendah = lebih transparan. Opsional</string>
     <string name="agent_tool_theme_setting_param_background_image">Gambar latar belakang kustom. Hanya nilai: \"clear\" — menghapus gambar latar belakang saat ini dan mengembalikan latar belakang polos. Opsional</string>
     <string name="agent_tool_theme_setting_param_background_prompt">Hasilkan gambar latar belakang secara AI dari deskripsi teks ini dan atur sebagai latar belakang kustom (teks-ke-gambar, mungkin memakan waktu puluhan detik; menghabiskan poin pada rute proxy). Saat diberikan bersama background_image, yang ini menang. Opsional</string>

@@ -40,6 +40,7 @@ import coil3.request.ImageRequest
 import coil3.toBitmap
 import com.t8rin.dynamic.theme.ColorBlindType
 import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.ColorSpecVersion
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
@@ -103,6 +104,8 @@ data class UiSettingsState(
     val lockDrawOrientation: Boolean,
     val themeContrastLevel: Double,
     val themeStyle: PaletteStyle,
+    val themeColorSpec: ColorSpecVersion,
+    val isExpressiveTheme: Boolean,
     val isInvertThemeColors: Boolean,
     val screensSearchEnabled: Boolean,
     val copyToClipboardMode: CopyToClipboardMode,
@@ -283,6 +286,12 @@ fun SettingsState.toUiState(
         }
     }
 
+    val themeColorSpec by remember(themeColorSpec) {
+        derivedStateOf {
+            ColorSpecVersion.fromOrdinal(themeColorSpec)
+        }
+    }
+
     val iconShape by remember(iconShape) {
         derivedStateOf {
             iconShape?.let(allIconShapes::getOrNull)
@@ -357,6 +366,8 @@ fun SettingsState.toUiState(
                 lockDrawOrientation = lockDrawOrientation,
                 themeContrastLevel = themeContrastLevel,
                 themeStyle = themeStyle,
+                themeColorSpec = themeColorSpec,
+                isExpressiveTheme = isExpressiveTheme,
                 isInvertThemeColors = isInvertThemeColors,
                 screensSearchEnabled = screensSearchEnabled,
                 copyToClipboardMode = copyToClipboardMode,

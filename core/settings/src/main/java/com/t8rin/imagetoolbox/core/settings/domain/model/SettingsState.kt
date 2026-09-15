@@ -138,7 +138,11 @@ data class SettingsState(
     val shapesType: ShapeType,
     val flingType: FlingType,
     val filenameBehavior: FilenameBehavior,
-    val enableBackgroundColorForAlphaFormats: Boolean
+    val enableBackgroundColorForAlphaFormats: Boolean,
+    /** 色彩规范版本 ordinal: 0 = 2021 原版, 1 = 2025(Material 3 Expressive 更饱和配色) */
+    val themeColorSpec: Int = 0,
+    /** 是否启用 MaterialExpressiveTheme(表达性动效与形状) */
+    val isExpressiveTheme: Boolean = false
 ) {
 
     companion object {
@@ -182,6 +186,8 @@ data class SettingsState(
                 lockDrawOrientation = false,
                 themeContrastLevel = 0.0,
                 themeStyle = 0,
+                themeColorSpec = 0,
+                isExpressiveTheme = false,
                 isInvertThemeColors = false,
                 screensSearchEnabled = false,
                 hapticsStrength = 1,

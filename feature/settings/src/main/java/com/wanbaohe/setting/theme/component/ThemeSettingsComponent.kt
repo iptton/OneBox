@@ -76,6 +76,9 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
     /** 进入页面时的激活主题，用于"取消/退出"时恢复现场 */
     private var originalPreset: AppThemePreset? = null
 
+    /** 进入页面时的全局日夜模式，用于"放弃修改"时还原(日夜模式已不随主题预设走) */
+    private var originalNightMode: NightMode? = null
+
     private val _editingDraft = MutableStateFlow<EditingDraft?>(null)
     val editingDraft: StateFlow<EditingDraft?> = _editingDraft
 
@@ -97,9 +100,14 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
             val active = themeSettingService.getCurrentTheme()
             if (originalPreset == null) {
                 originalPreset = active
+                originalNightMode = themeSettingService.getNightMode()
             }
             _editMode.value = active.toInitialMode()
-            _editingDraft.value = active.toDraft()
+            // 日夜模式用"当前全局值"播种(而不是预设自带的值): 卡片展示的必须是屏幕上真实生效的模式。
+            // 只有"明确点选预设"和"保存"才会把模式切过去。
+            _editingDraft.value = active.toDraft(
+                nightMode = originalNightMode ?: active.nightMode
+            )
         }
     }
 
@@ -107,18 +115,24 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
     //  选中 / 新建 / 复制
     // ══════════════════════════════════════════════════════════
 
-    /** 点击预设卡片：立即预览 + 进入对应编辑模式 */
+    /** 点击预设卡片：立即预览 + 进入对应编辑模式(预设自带日夜模式, 一并切过去) */
     fun selectPresetForEditing(preset: AppThemePreset) {
         _editMode.value = preset.toInitialMode()
         _editingDraft.value = preset.toDraft()
-        componentScope.launch { themeSettingService.applyThemePreset(preset) }
+        componentScope.launch {
+            themeSettingService.applyThemePreset(preset)
+            themeSettingService.setNightMode(preset.nightMode)
+        }
     }
 
     /** 复制任意预设（内置或用户）为新主题蓝本，进入新建模式 */
     fun startCopyTheme(preset: AppThemePreset) {
         _editMode.value = ThemeEditMode.CreatingNew(forkedFrom = preset)
         val copySuffix = AppContext.getString(CoreR.string.theme_preset_copy_suffix)
-        _editingDraft.value = preset.toDraft().copy(name = preset.localizedName() + copySuffix)
+        _editingDraft.value = preset.toDraft().copy(
+            name = preset.localizedName() + copySuffix,
+            nightMode = _editingDraft.value?.nightMode ?: preset.nightMode,
+        )
         applyDraftLive()
     }
 
@@ -131,6 +145,7 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
             secondaryColor = randomHarmoniousColor(),
             tertiaryColor = randomHarmoniousColor(),
             surfaceColor = randomLightColor(),
+            nightMode = _editingDraft.value?.nightMode ?: NightMode.System,
         )
         applyDraftLive()
     }
@@ -213,13 +228,18 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
         applyDraftLive()
     }
 
-    fun updateDraftCustomBackgroundUri(uri: String?) {
-        _editingDraft.value = _editingDraft.value?.copy(customBackgroundImageUri = uri)
+    /**
+     * 日夜模式: 草稿记录(保存时写回主题) + 立即写全局预览。
+     * 草稿里其它字段的编辑不会碰它 —— 只有这里、点选预设、保存这三个明确动作会改。
+     */
+    fun updateDraftNightMode(nightMode: NightMode) {
+        _editingDraft.value = _editingDraft.value?.copy(nightMode = nightMode)
+        componentScope.launch { themeSettingService.setNightMode(nightMode) }
         applyDraftLive()
     }
 
-    fun updateDraftNightMode(nightMode: NightMode) {
-        _editingDraft.value = _editingDraft.value?.copy(nightMode = nightMode)
+    fun updateDraftCustomBackgroundUri(uri: String?) {
+        _editingDraft.value = _editingDraft.value?.copy(customBackgroundImageUri = uri)
         applyDraftLive()
     }
 
@@ -290,8 +310,8 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
     fun hasDraftChanged(): Boolean {
         val draft = _editingDraft.value ?: return false
         return when (val mode = _editMode.value) {
-            is ThemeEditMode.EditingUser -> draft != mode.sourcePreset.toDraft()
-            is ThemeEditMode.CreatingNew -> mode.forkedFrom?.let { draft != it.toDraft() } ?: true
+            is ThemeEditMode.EditingUser -> !mode.sourcePreset.matchesDraft(draft)
+            is ThemeEditMode.CreatingNew -> mode.forkedFrom?.let { !it.matchesDraft(draft) } ?: true
             null -> false
         }
     }
@@ -304,8 +324,9 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
     fun canResetDraft(): Boolean {
         val draft = _editingDraft.value ?: return false
         return when (val mode = _editMode.value) {
-            is ThemeEditMode.EditingUser -> draft != mode.sourcePreset.toDraft()
-            is ThemeEditMode.CreatingNew -> mode.forkedFrom != null && draft != mode.forkedFrom.toDraft()
+            is ThemeEditMode.EditingUser -> !mode.sourcePreset.matchesDraft(draft)
+            is ThemeEditMode.CreatingNew ->
+                mode.forkedFrom != null && !mode.forkedFrom.matchesDraft(draft)
             null -> false
         }
     }
@@ -315,14 +336,18 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
      */
     fun isSaveAsNewMode(): Boolean = _editMode.value is ThemeEditMode.CreatingNew
 
-    /** 将草稿重置回来源状态（EditingUser → 上次保存的值；CreatingNew → forkedFrom 的值） */
+    /**
+     * 将草稿重置回来源状态（EditingUser → 上次保存的值；CreatingNew → forkedFrom 的值）。
+     * 日夜模式保留当前值 —— 它是全局偏好, 即时生效, 不随主题重置。
+     */
     fun resetDraftToSource() {
+        val draft = _editingDraft.value ?: return
         val target: EditingDraft = when (val mode = _editMode.value) {
             is ThemeEditMode.EditingUser -> mode.sourcePreset.toDraft()
             is ThemeEditMode.CreatingNew -> mode.forkedFrom?.toDraft() ?: return
             null -> return
         }
-        _editingDraft.value = target
+        _editingDraft.value = target.copy(nightMode = draft.nightMode)
         applyDraftLive()
     }
 
@@ -339,9 +364,12 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
             try {
                 themeSettingService.saveUserTheme(preset)
                 themeSettingService.applyThemePreset(preset)
+                // 保存即"切到这个主题": 连它自带的日夜模式一起生效
+                themeSettingService.setNightMode(preset.nightMode)
                 // 保存后切换为 EditingUser 模式，后续保存原地更新（不再新建）
                 _editMode.value = ThemeEditMode.EditingUser(preset)
                 originalPreset = preset
+                originalNightMode = preset.nightMode
                 _editingDraft.value = preset.toDraft()
                 _events.send(ThemeSettingsEvent.SaveSuccess(preset.name))
             } catch (_: Exception) {
@@ -361,7 +389,10 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
             } catch (_: Exception) {
                 themeSettingService.applyThemePreset(AppThemePreset.Default)
             }
+            // 日夜模式不在预设里了, 单独还原进入页面时的值
+            originalNightMode?.let { themeSettingService.setNightMode(it) }
             originalPreset = null
+            originalNightMode = null
             _editingDraft.value = null
             onGoBack()
         }
@@ -383,7 +414,16 @@ class ThemeSettingsComponent @AssistedInject internal constructor(
         if (isBuiltin) ThemeEditMode.CreatingNew(forkedFrom = this)
         else ThemeEditMode.EditingUser(sourcePreset = this)
 
-    private fun AppThemePreset.toDraft(): EditingDraft {
+    /**
+     * 草稿与预设是否一致(忽略日夜模式):
+     * 日夜模式是全局偏好、改动即时生效, 与预设自带值不同不代表"有未保存修改"。
+     */
+    private fun AppThemePreset.matchesDraft(draft: EditingDraft): Boolean =
+        draft.copy(nightMode = nightMode) == toDraft()
+
+    private fun AppThemePreset.toDraft(
+        nightMode: NightMode = this.nightMode,
+    ): EditingDraft {
         val colors = AppThemePreset.parseColorTuple(colorTupleString)
         return EditingDraft(
             name = name,

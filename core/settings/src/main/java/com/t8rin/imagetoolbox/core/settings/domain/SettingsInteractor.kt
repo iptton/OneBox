@@ -111,6 +111,12 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setThemeContrast(value: Double)
 
+    /** 设置色彩规范版本(0 = 2021 原版, 1 = 2025 / Material 3 Expressive) */
+    suspend fun setThemeColorSpec(value: Int)
+
+    /** 开关 MaterialExpressiveTheme(表达性动效与形状) */
+    suspend fun setExpressiveTheme(enabled: Boolean)
+
     suspend fun toggleInvertColors()
 
     suspend fun toggleScreensSearchEnabled()

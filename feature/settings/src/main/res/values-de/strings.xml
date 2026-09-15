@@ -8,6 +8,16 @@
     <string name="theme_preset_name_hint">Theme-Name</string>
     <string name="theme_preset_custom">Benutzerdefiniertes Theme</string>
     <string name="theme_preset_color_section">Farbschema</string>
+
+    <!-- Farben und Bewegung (global) -->
+    <string name="theme_color_system_section">Farben und Bewegung</string>
+    <string name="theme_palette_style_label">Farbstil</string>
+    <string name="theme_palette_style_hint">Ändert, wie die ganze Farbpalette aus der Hauptfarbe entsteht. Expressive ist am lebendigsten.</string>
+    <string name="theme_contrast_label">Kontrast</string>
+    <string name="theme_color_spec_2025">Kräftige Farben</string>
+    <string name="theme_color_spec_2025_hint">Macht alle Farben satter und leuchtender (neues Farbschema).</string>
+    <string name="theme_expressive_motion">Lebendige Animation</string>
+    <string name="theme_expressive_motion_hint">Buttons, Dialoge und Schalter bewegen sich federnd und lebendig.</string>
     <string name="theme_preset_primary_color">Primär</string>
     <string name="theme_preset_secondary_color">Sekundär</string>
     <string name="theme_preset_tertiary_color">Tertiär</string>

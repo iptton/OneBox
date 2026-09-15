@@ -142,6 +142,13 @@
     <string name="agent_tool_theme_setting_param_liquid_glass">लिक्विड ग्लास प्रभाव। ग्लास के समान मान (\"true\" / \"false\")। वैकल्पिक</string>
     <string name="agent_tool_theme_setting_param_mesh_gradient">मेश ग्रेडिएंट पृष्ठभूमि। ग्लास के समान मान (\"true\" / \"false\")। वैकल्पिक</string>
     <string name="agent_tool_theme_setting_param_gradient_style">ग्रेडिएंट पृष्ठभूमि शैली का नाम। **अनिवार्य रूप से** सूची प्रतिक्रिया `gradientStyles` से चुना जाना चाहिए (केस-संवेदी)। वैकल्पिक</string>
+    <string name="agent_tool_theme_setting_param_palette_style">ग्लोबल पैलेट शैली, जो तय करती है कि रंग योजना मूल रंग से कैसे बने। **जरूरी है** कि list response के `paletteStyles` से चुनी जाए (case-sensitive): TonalSpot (डिफ़ॉल्ट) / Neutral / Vibrant / Expressive / Rainbow / FruitSalad / Monochrome / Fidelity / Content। वैकल्पिक</string>
+    <string name="agent_tool_theme_setting_param_color_spec">ग्लोबल Material रंग स्पेक वर्शन। मान: Spec2021 (डिफ़ॉल्ट) या Spec2025 (\"2025\" भी स्वीकार्य)। Spec2025 Material 3 Expressive स्पेक है, जिसमें रंग अधिक गाढ़े और जीवंत होते हैं। वैकल्पिक</string>
+    <string name="agent_tool_theme_setting_param_expressive_motion">MaterialExpressiveTheme चालू करें (लचीली गति और आकृतियाँ)। मान glass जैसे ही (\"true\" / \"false\")। वैकल्पिक</string>
+    <string name="agent_tool_theme_setting_param_contrast">ग्लोबल रंग कंट्रास्ट। **नंबर प्रकार** (स्ट्रिंग नहीं), रेंज [-1.0, 1.0], डिफ़ॉल्ट 0.0। ऋणात्मक मान कंट्रास्ट घटाते हैं। वैकल्पिक</string>
+    <string name="agent_tool_theme_setting_unknown_palette_style">अज्ञात पैलेट शैली: %1$s</string>
+    <string name="agent_tool_theme_setting_unknown_color_spec">अज्ञात रंग स्पेक: %1$s। Spec2021 या Spec2025 होना चाहिए</string>
+    <string name="agent_tool_theme_setting_contrast_out_of_range">contrast -1.0 से 1.0 के बीच होना चाहिए</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">ग्लास पारदर्शिता आधार मान। **संख्या प्रकार** (स्ट्रिंग नहीं), सीमा [0.1, 1.0], डिफ़ॉल्ट 1.0। कम = अधिक पारदर्शी। वैकल्पिक</string>
     <string name="agent_tool_theme_setting_param_background_image">कस्टम पृष्ठभूमि छवि। केवल मान: \"clear\" — वर्तमान पृष्ठभूमि छवि हटाकर सादा पृष्ठभूमि पुनर्स्थापित करता है। वैकल्पिक</string>
     <string name="agent_tool_theme_setting_param_background_prompt">इस टेक्स्ट विवरण से AI-जनित पृष्ठभूमि छवि बनाएं और इसे कस्टम पृष्ठभूमि के रूप में सेट करें (टेक्स्ट-से-छवि, कई दसियों सेकंड लग सकते हैं; प्रॉक्सी मार्ग पर अंक खर्च होते हैं)। जब background_image के साथ पास किया जाता है, तो यह जीतता है। वैकल्पिक</string>

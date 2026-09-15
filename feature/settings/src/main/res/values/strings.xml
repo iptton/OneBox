@@ -11,6 +11,16 @@
     <string name="theme_preset_name_hint">Theme name</string>
     <string name="theme_preset_custom">Custom Theme</string>
     <string name="theme_preset_color_section">Color Scheme</string>
+
+    <!-- Colors & motion (global): palette style / contrast / vivid colors / playful motion -->
+    <string name="theme_color_system_section">Colors &amp; Motion</string>
+    <string name="theme_palette_style_label">Color style</string>
+    <string name="theme_palette_style_hint">Changes how the whole palette grows out of your main color. \"Expressive\" looks the liveliest.</string>
+    <string name="theme_contrast_label">Contrast</string>
+    <string name="theme_color_spec_2025">Vivid colors</string>
+    <string name="theme_color_spec_2025_hint">Makes every color richer and more saturated (new color scheme).</string>
+    <string name="theme_expressive_motion">Playful motion</string>
+    <string name="theme_expressive_motion_hint">Buttons, sheets and switches animate with a springy, lively feel.</string>
     <string name="theme_preset_primary_color">Primary</string>
     <string name="theme_preset_secondary_color">Secondary</string>
     <string name="theme_preset_tertiary_color">Tertiary</string>

@@ -8,6 +8,16 @@
     <string name="theme_preset_name_hint">テーマ名</string>
     <string name="theme_preset_custom">カスタムテーマ</string>
     <string name="theme_preset_color_section">配色</string>
+
+    <!-- 色と動き(全体設定) -->
+    <string name="theme_color_system_section">色と動き</string>
+    <string name="theme_palette_style_label">カラースタイル</string>
+    <string name="theme_palette_style_hint">メインカラーから全体の配色をどう作るかを変えます。Expressive が最も元気な配色です。</string>
+    <string name="theme_contrast_label">コントラスト</string>
+    <string name="theme_color_spec_2025">鮮やかな配色</string>
+    <string name="theme_color_spec_2025_hint">すべての色がより濃く鮮やかになります(新しい配色仕様)。</string>
+    <string name="theme_expressive_motion">はずむ動き</string>
+    <string name="theme_expressive_motion_hint">ボタンやシート、スイッチの動きが弾むように元気になります。</string>
     <string name="theme_preset_primary_color">プライマリ</string>
     <string name="theme_preset_secondary_color">セカンダリ</string>
     <string name="theme_preset_tertiary_color">ターシャリ</string>

@@ -26,6 +26,8 @@ fun loadStartupSettingsSnapshot(): SettingsState {
         isAmoledMode = AppSharedStorage.loadStartupIsAmoledMode(),
         themeStyle = AppSharedStorage.loadStartupThemeStyle(),
         themeContrastLevel = AppSharedStorage.loadStartupThemeContrastLevel(),
+        themeColorSpec = AppSharedStorage.loadStartupThemeColorSpec(),
+        isExpressiveTheme = AppSharedStorage.loadStartupIsExpressiveTheme(),
         isInvertThemeColors = AppSharedStorage.loadStartupIsInvertTheme(),
         allowCollectCrashlytics = AppSharedStorage.loadStartupAllowCrashlytics(),
         systemBarsVisibility = SystemBarsVisibility.fromOrdinal(

@@ -4,8 +4,12 @@ import com.shifenmiao.interfaces.singleton.AppContext
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.ThemeRepository
 import com.t8rin.imagetoolbox.core.settings.domain.ThemeSettingService
+import com.t8rin.dynamic.theme.ColorSpecVersion
+import com.t8rin.dynamic.theme.PaletteStyle
+import com.t8rin.imagetoolbox.core.settings.domain.model.AppColorSystem
 import com.t8rin.imagetoolbox.core.settings.domain.model.AppThemePreset
 import com.t8rin.imagetoolbox.core.settings.domain.model.GradientBackgroundStyle
+import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.wanbaohe.settings.R
 import kotlinx.coroutines.flow.Flow
@@ -59,6 +63,8 @@ class ThemeSettingServiceImpl @Inject constructor(
         val theme = themeRepository.getAllThemes().firstOrNull { it.id == themeId }
             ?: return null
         settingsManager.applyThemePreset(theme)
+        // 明确切主题 = 连它自带的日夜模式一起切过去
+        settingsManager.setNightMode(theme.nightMode)
         return theme
     }
 
@@ -133,6 +139,42 @@ class ThemeSettingServiceImpl @Inject constructor(
     }
 
     override suspend fun previewThemePreset(preset: AppThemePreset) {
-        settingsManager.applyThemePreset(preset, updateActiveThemeId = false)
+        // 草稿预览只改"外观"(颜色/玻璃/背景), 不写全局日夜模式:
+        // 之前改个玻璃开关就会把当前预设自带的 nightMode 写回全局,
+        // 用户在系统深色下会突然被切回浅色("暗色模式不工作了")。
+        val currentNightMode = settingsManager.getSettingsState().nightMode
+        settingsManager.applyThemePreset(
+            preset.copy(nightMode = currentNightMode),
+            updateActiveThemeId = false,
+        )
+    }
+
+    override suspend fun setNightMode(nightMode: NightMode) {
+        settingsManager.setNightMode(nightMode)
+    }
+
+    override suspend fun getNightMode(): NightMode =
+        settingsManager.getSettingsState().nightMode
+
+    override suspend fun getColorSystem(): AppColorSystem {
+        val state = settingsManager.getSettingsState()
+        return AppColorSystem(
+            paletteStyle = PaletteStyle.entries.getOrNull(state.themeStyle) ?: PaletteStyle.TonalSpot,
+            contrastLevel = state.themeContrastLevel,
+            colorSpec = ColorSpecVersion.fromOrdinal(state.themeColorSpec),
+            isExpressiveTheme = state.isExpressiveTheme,
+        )
+    }
+
+    override suspend fun setColorSystem(system: AppColorSystem) {
+        settingsManager.setThemeStyle(system.paletteStyle.ordinal)
+        settingsManager.setThemeContrast(
+            system.contrastLevel.coerceIn(
+                AppColorSystem.MIN_CONTRAST_LEVEL,
+                AppColorSystem.MAX_CONTRAST_LEVEL,
+            )
+        )
+        settingsManager.setThemeColorSpec(system.colorSpec.ordinal)
+        settingsManager.setExpressiveTheme(system.isExpressiveTheme)
     }
 }

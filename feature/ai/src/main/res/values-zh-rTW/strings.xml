@@ -142,6 +142,13 @@
     <string name="agent_tool_theme_setting_param_liquid_glass">液態玻璃效果。值同 glass（「true」/「false」）。選填</string>
     <string name="agent_tool_theme_setting_param_mesh_gradient">網格漸層背景。值同 glass（「true」/「false」）。選填</string>
     <string name="agent_tool_theme_setting_param_gradient_style">漸層背景風格名稱。**必須**從 list 回應的 gradientStyles 中選取（區分大小寫）。選填</string>
+    <string name="agent_tool_theme_setting_param_palette_style">全域調色盤風格，決定配色如何從種子色推導。**必須**從 list 回應的 `paletteStyles` 中選擇（區分大小寫）：TonalSpot（預設）/ Neutral / Vibrant / Expressive / Rainbow / FruitSalad / Monochrome / Fidelity / Content。選填</string>
+    <string name="agent_tool_theme_setting_param_color_spec">全域 Material 色彩規範版本。值：Spec2021（預設）或 Spec2025（也接受「2025」）。Spec2025 是 Material 3 Expressive 規範，配色更飽和鮮豔。選填</string>
+    <string name="agent_tool_theme_setting_param_expressive_motion">啟用 MaterialExpressiveTheme（彈性動效與形狀）。值同 glass（「true」/「false」）。選填</string>
+    <string name="agent_tool_theme_setting_param_contrast">全域對比度。**數字型別**（非字串），範圍 [-1.0, 1.0]，預設 0.0。負值會降低對比。選填</string>
+    <string name="agent_tool_theme_setting_unknown_palette_style">未知的調色盤風格：%1$s</string>
+    <string name="agent_tool_theme_setting_unknown_color_spec">未知的色彩規範：%1$s，必須是 Spec2021 或 Spec2025</string>
+    <string name="agent_tool_theme_setting_contrast_out_of_range">contrast 必須介於 -1.0 到 1.0 之間</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">玻璃透明度基準值。**數字型別**（非字串），範圍 [0.1, 1.0]，預設 1.0。越小越透。選填</string>
     <string name="agent_tool_theme_setting_param_background_image">自訂背景圖。唯一取值：「clear」——清除目前背景圖、恢復純色背景。選填</string>
     <string name="agent_tool_theme_setting_param_background_prompt">依文字描述 AI 生成背景圖並設為自訂背景（文生圖，可能耗時數十秒；代理路由消耗積分）。與 background_image 同傳時以本參數為準。選填</string>

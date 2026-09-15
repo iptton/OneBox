@@ -122,6 +122,12 @@
         <item>背景色</item>
         <item>背景图</item>
         <item>壁纸</item>
+        <item>表达性</item>
+        <item>富有表现力</item>
+        <item>Material 3 Expressive</item>
+        <item>调色板</item>
+        <item>色彩规范</item>
+        <item>对比度</item>
     </string-array>
     <string-array name="agent_tool_theme_setting_examples">
         <item>当前主题是什么</item>
@@ -131,6 +137,9 @@
         <item>打开薰衣草风格渐变</item>
         <item>生成一张星空背景</item>
         <item>清除背景图</item>
+        <item>换成 Material 3 Expressive 配色风格</item>
+        <item>用 2025 色彩规范</item>
+        <item>对比度调低一点</item>
     </string-array>
     <string-array name="agent_tool_theme_setting_gradient_styles">
         <item>Classic</item>

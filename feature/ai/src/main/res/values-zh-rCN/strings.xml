@@ -159,6 +159,10 @@
     <string name="agent_tool_theme_setting_param_gradient_style">渐变背景风格名。**必须**从 list 响应的 gradientStyles 中选取（区分大小写）。可选</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">玻璃透明度基准值。**数字类型**（非字符串），范围 [0.0, 1.0]，默认 1.0。越小越透。可选</string>
     <string name="agent_tool_theme_setting_param_glass_border_alpha">玻璃描边可见度。**数字类型**（非字符串），范围 [0.0, 1.0]，默认 0.17（17%%）。0 表示完全隐藏描边，越大描边越明显。与 glass_alpha 相互独立。可选</string>
+    <string name="agent_tool_theme_setting_param_palette_style">全局调色板风格，决定配色如何从种子色推导。**必须**从 list 响应的 paletteStyles 中选取（区分大小写）：TonalSpot（默认）/ Neutral / Vibrant / Expressive / Rainbow / FruitSalad / Monochrome / Fidelity / Content。可选</string>
+    <string name="agent_tool_theme_setting_param_color_spec">全局 Material 色彩规范版本。取值 Spec2021（默认）或 Spec2025（也接受 "2025"）。Spec2025 即 Material 3 Expressive 规范，配色更饱和鲜艳。可选</string>
+    <string name="agent_tool_theme_setting_param_expressive_motion">是否启用 MaterialExpressiveTheme（表达性弹簧动效与形状）。取值同 glass（true / false）。可选</string>
+    <string name="agent_tool_theme_setting_param_contrast">全局对比度。**数字类型**（不是字符串），范围 -1.0 ~ 1.0，默认 0.0，负值降低对比度。可选</string>
     <string name="agent_tool_theme_setting_param_background_image">自定义背景图。唯一取值："clear"——清除当前背景图、恢复纯色背景。可选</string>
     <string name="agent_tool_theme_setting_param_background_prompt">按文字描述 AI 生成背景图并设为自定义背景（文生图，可能耗时数十秒；代理路由消耗积分）。与 background_image 同传时以本参数为准。可选</string>
     <string name="agent_tool_theme_setting_failed">主题设置失败：%1$s</string>
@@ -176,6 +180,9 @@
     <string name="agent_tool_theme_setting_unknown_style">未知渐变风格：%1$s</string>
     <string name="agent_tool_theme_setting_unknown_preset">未找到匹配的主题预设：%1$s。可用预设：%2$s</string>
     <string name="agent_tool_theme_setting_alpha_out_of_range">glass_alpha / glass_border_alpha 需要在 0.0 到 1.0 之间</string>
+    <string name="agent_tool_theme_setting_unknown_palette_style">未知调色板风格：%1$s</string>
+    <string name="agent_tool_theme_setting_unknown_color_spec">未知色彩规范：%1$s，必须是 Spec2021 或 Spec2025</string>
+    <string name="agent_tool_theme_setting_contrast_out_of_range">contrast 需要在 -1.0 到 1.0 之间</string>
 
     <string name="agent_tool_checksum_title">校验和工具</string>
     <string name="agent_tool_checksum_summary">计算或比对文本与文件的校验和</string>

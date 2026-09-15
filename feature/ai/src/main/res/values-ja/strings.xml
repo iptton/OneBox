@@ -142,6 +142,13 @@
     <string name="agent_tool_theme_setting_param_liquid_glass">リキッドガラス効果。ガラスと同じ値（\"true\" / \"false\"）。任意</string>
     <string name="agent_tool_theme_setting_param_mesh_gradient">メッシュグラデーション背景。ガラスと同じ値（\"true\" / \"false\"）。任意</string>
     <string name="agent_tool_theme_setting_param_gradient_style">グラデーション背景のスタイル名。リスト応答 `gradientStyles` から選択する**必要があります**（大文字小文字を区別）。任意</string>
+    <string name="agent_tool_theme_setting_param_palette_style">配色がシードカラーからどう作られるかを決める全体のパレットスタイル。**必ず** list レスポンスの `paletteStyles` から選択(大文字小文字を区別):TonalSpot(既定)/ Neutral / Vibrant / Expressive / Rainbow / FruitSalad / Monochrome / Fidelity / Content。任意</string>
+    <string name="agent_tool_theme_setting_param_color_spec">全体の Material カラー仕様のバージョン。値:Spec2021(既定)または Spec2025(「2025」も可)。Spec2025 は Material 3 Expressive の仕様で、より濃く鮮やかな配色になります。任意</string>
+    <string name="agent_tool_theme_setting_param_expressive_motion">MaterialExpressiveTheme を有効にします(弾むような動きと形状)。値は glass と同じ(\"true\" / \"false\")。任意</string>
+    <string name="agent_tool_theme_setting_param_contrast">全体のコントラスト。**数値型**(文字列ではない)、範囲 [-1.0, 1.0]、既定 0.0。負の値でコントラストが下がります。任意</string>
+    <string name="agent_tool_theme_setting_unknown_palette_style">不明なパレットスタイル:%1$s</string>
+    <string name="agent_tool_theme_setting_unknown_color_spec">不明なカラー仕様:%1$s。Spec2021 または Spec2025 を指定してください</string>
+    <string name="agent_tool_theme_setting_contrast_out_of_range">contrast は -1.0 から 1.0 の範囲で指定してください</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">ガラスの透明度の基本値。**数値型**（文字列ではない）、範囲 [0.1, 1.0]、デフォルト 1.0。値が小さいほど透明。任意</string>
     <string name="agent_tool_theme_setting_param_background_image">カスタム背景画像。値は \"clear\" のみ: 現在の背景画像を削除し、通常の背景に戻します。任意</string>
     <string name="agent_tool_theme_setting_param_background_prompt">このテキスト説明から背景画像をAI生成し、カスタム背景として設定します（テキストから画像へ、数十秒かかる場合があります。プロキシ経由でポイントを消費します）。background_image と一緒に渡された場合、こちらが優先されます。任意</string>

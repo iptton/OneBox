@@ -28,3 +28,10 @@ enum class PaletteStyle {
     Fidelity,
     Content
 }
+
+/**
+ * 桥接到 MaterialKolor 自带的同名枚举(顺序与这里完全一致),
+ * 用于让 MaterialKolor 直接生成配色(动态取色 + 非默认规范/对比度时)。
+ */
+internal fun PaletteStyle.toMaterialKolorStyle(): com.materialkolor.PaletteStyle =
+    com.materialkolor.PaletteStyle.entries[ordinal]

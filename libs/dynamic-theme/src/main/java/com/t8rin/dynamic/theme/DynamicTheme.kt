@@ -91,6 +91,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.palette.graphics.Palette
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.materialkolor.dynamicColorScheme as materialKolorColorScheme
 import com.materialkolor.dynamiccolor.MaterialDynamicColors
 import com.materialkolor.hct.Hct
 import com.materialkolor.palettes.TonalPalette
@@ -126,6 +127,7 @@ fun DynamicTheme(
     isDarkTheme: Boolean,
     style: PaletteStyle = PaletteStyle.TonalSpot,
     contrastLevel: Double = 0.0,
+    specVersion: ColorSpecVersion = ColorSpecVersion.Spec2021,
     isInvertColors: Boolean = false,
     colorBlindType: ColorBlindType? = null,
     colorAnimationSpec: AnimationSpec<Color> = tween(300),
@@ -184,6 +186,7 @@ fun DynamicTheme(
                     colorTuple = state.colorTuple.value,
                     style = style,
                     contrastLevel = contrastLevel,
+                    specVersion = specVersion,
                     dynamicColor = dynamicColor,
                     isInvertColors = isInvertColors,
                     colorBlindType = colorBlindType,
@@ -586,6 +589,7 @@ fun rememberColorScheme(
     colorTuple: ColorTuple,
     style: PaletteStyle,
     contrastLevel: Double,
+    specVersion: ColorSpecVersion = ColorSpecVersion.Spec2021,
     dynamicColor: Boolean,
     isInvertColors: Boolean,
     colorBlindType: ColorBlindType? = null,
@@ -599,6 +603,7 @@ fun rememberColorScheme(
         contrastLevel,
         dynamicColor,
         style,
+        specVersion,
         isInvertColors,
         colorBlindType,
         dynamicColorsOverride
@@ -610,6 +615,7 @@ fun rememberColorScheme(
                 colorTuple = colorTuple,
                 style = style,
                 contrastLevel = contrastLevel,
+                specVersion = specVersion,
                 dynamicColor = dynamicColor,
                 isInvertColors = isInvertColors,
                 colorBlindType = colorBlindType,
@@ -625,6 +631,7 @@ fun Context.getColorScheme(
     colorTuple: ColorTuple,
     style: PaletteStyle,
     contrastLevel: Double,
+    specVersion: ColorSpecVersion = ColorSpecVersion.Spec2021,
     dynamicColor: Boolean,
     isInvertColors: Boolean,
     colorBlindType: ColorBlindType? = null,
@@ -635,10 +642,32 @@ fun Context.getColorScheme(
 
     val colorScheme =
         if (dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && overridden == null) {
-        if (isDarkTheme) {
-            dynamicDarkColorScheme(this)
+        // 系统动态取色("千色千面"):
+        // 默认组合(TonalSpot + 2021 规范 + 0 对比度)直接沿用 androidx 的系统配色, 与系统壁纸完全一致;
+        // 一旦用户改过调色板风格 / 色彩规范 / 对比度, 就取系统配色里的种子色交给 MaterialKolor 重新生成,
+        // 否则这三个设置项在动态取色下永远不会生效。
+        val isDefaultDynamic = style == PaletteStyle.TonalSpot &&
+            specVersion == ColorSpecVersion.Spec2021 &&
+            contrastLevel == 0.0
+        if (isDefaultDynamic) {
+            if (isDarkTheme) {
+                dynamicDarkColorScheme(this)
+            } else {
+                dynamicLightColorScheme(this)
+            }
         } else {
-            dynamicLightColorScheme(this)
+            val systemScheme = if (isDarkTheme) {
+                dynamicDarkColorScheme(this)
+            } else {
+                dynamicLightColorScheme(this)
+            }
+            materialKolorColorScheme(
+                seedColor = systemScheme.primary,
+                isDark = isDarkTheme,
+                style = style.toMaterialKolorStyle(),
+                contrastLevel = contrastLevel,
+                specVersion = specVersion.toMaterialKolorSpec()
+            )
         }
     } else {
         val hct = Hct.fromInt(colorTuple.primary.toArgb())
@@ -675,17 +704,18 @@ fun Context.getColorScheme(
 
         val scheme = when (style) {
             PaletteStyle.TonalSpot -> DynamicScheme(
-                hct, Variant.TONAL_SPOT, isDarkTheme, contrastLevel, a1, a2, a3, n1, n2
+                hct, Variant.TONAL_SPOT, isDarkTheme, contrastLevel, a1, a2, a3, n1, n2,
+                specVersion = specVersion.toMaterialKolorSpec()
             )
 
-            PaletteStyle.Neutral -> SchemeNeutral(hct, isDarkTheme, contrastLevel)
-            PaletteStyle.Vibrant -> SchemeVibrant(hct, isDarkTheme, contrastLevel)
-            PaletteStyle.Expressive -> SchemeExpressive(hct, isDarkTheme, contrastLevel)
-            PaletteStyle.Rainbow -> SchemeRainbow(hct, isDarkTheme, contrastLevel)
-            PaletteStyle.FruitSalad -> SchemeFruitSalad(hct, isDarkTheme, contrastLevel)
-            PaletteStyle.Monochrome -> SchemeMonochrome(hct, isDarkTheme, contrastLevel)
-            PaletteStyle.Fidelity -> SchemeFidelity(hct, isDarkTheme, contrastLevel)
-            PaletteStyle.Content -> SchemeContent(hct, isDarkTheme, contrastLevel)
+            PaletteStyle.Neutral -> SchemeNeutral(hct, isDarkTheme, contrastLevel, specVersion.toMaterialKolorSpec())
+            PaletteStyle.Vibrant -> SchemeVibrant(hct, isDarkTheme, contrastLevel, specVersion.toMaterialKolorSpec())
+            PaletteStyle.Expressive -> SchemeExpressive(hct, isDarkTheme, contrastLevel, specVersion.toMaterialKolorSpec())
+            PaletteStyle.Rainbow -> SchemeRainbow(hct, isDarkTheme, contrastLevel, specVersion.toMaterialKolorSpec())
+            PaletteStyle.FruitSalad -> SchemeFruitSalad(hct, isDarkTheme, contrastLevel, specVersion.toMaterialKolorSpec())
+            PaletteStyle.Monochrome -> SchemeMonochrome(hct, isDarkTheme, contrastLevel, specVersion.toMaterialKolorSpec())
+            PaletteStyle.Fidelity -> SchemeFidelity(hct, isDarkTheme, contrastLevel, specVersion.toMaterialKolorSpec())
+            PaletteStyle.Content -> SchemeContent(hct, isDarkTheme, contrastLevel, specVersion.toMaterialKolorSpec())
         }
 
         scheme.toColorScheme()

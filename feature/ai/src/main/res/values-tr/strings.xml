@@ -142,6 +142,13 @@
     <string name="agent_tool_theme_setting_param_liquid_glass">Sıvı cam efekti. Cam ile aynı değerler (\"true\" / \"false\"). İsteğe bağlı</string>
     <string name="agent_tool_theme_setting_param_mesh_gradient">Mesh gradyan arka plan. Cam ile aynı değerler (\"true\" / \"false\"). İsteğe bağlı</string>
     <string name="agent_tool_theme_setting_param_gradient_style">Gradyant arka plan stili adı. **Mutlaka** `gradientStyles` liste yanıtından seçilmelidir (büyük/küçük harf duyarlı). İsteğe bağlı</string>
+    <string name="agent_tool_theme_setting_param_palette_style">Renk şemasının temel renkten nasıl türetileceğini belirleyen genel palet stili. **Mutlaka** list yanıtındaki `paletteStyles` içinden seçilmelidir (büyük/küçük harfe duyarlı): TonalSpot (varsayılan) / Neutral / Vibrant / Expressive / Rainbow / FruitSalad / Monochrome / Fidelity / Content. İsteğe bağlı</string>
+    <string name="agent_tool_theme_setting_param_color_spec">Genel Material renk spesifikasyonu sürümü. Değerler: Spec2021 (varsayılan) veya Spec2025 (\"2025\" de kabul edilir). Spec2025, daha zengin ve canlı renkler sunan Material 3 Expressive spesifikasyonudur. İsteğe bağlı</string>
+    <string name="agent_tool_theme_setting_param_expressive_motion">MaterialExpressiveTheme\'i etkinleştirir (yaylı hareket ve biçimler). Değerler glass ile aynı (\"true\" / \"false\"). İsteğe bağlı</string>
+    <string name="agent_tool_theme_setting_param_contrast">Genel renk kontrastı. **Sayı türü** (dize DEĞİL), aralık [-1.0, 1.0], varsayılan 0.0. Negatif değerler kontrastı azaltır. İsteğe bağlı</string>
+    <string name="agent_tool_theme_setting_unknown_palette_style">Bilinmeyen palet stili: %1$s</string>
+    <string name="agent_tool_theme_setting_unknown_color_spec">Bilinmeyen renk spesifikasyonu: %1$s. Spec2021 veya Spec2025 olmalı</string>
+    <string name="agent_tool_theme_setting_contrast_out_of_range">contrast -1.0 ile 1.0 arasında olmalı</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">Cam şeffaflık temel değeri. **Sayı türü** (string değil), aralık [0.1, 1.0], varsayılan 1.0. Düşük = daha şeffaf. İsteğe bağlı</string>
     <string name="agent_tool_theme_setting_param_background_image">Özel arka plan görseli. Yalnızca değer: \"clear\" — mevcut arka plan görselini kaldırır ve düz arka planı geri yükler. İsteğe bağlı</string>
     <string name="agent_tool_theme_setting_param_background_prompt">Bu metin açıklamasından AI ile arka plan görseli oluştur ve özel arka plan olarak ayarla (metinden görsele, onlarca saniye sürebilir; proxy rotasında puan harcar). background_image ile birlikte iletildiğinde bu kazanır. İsteğe bağlı</string>

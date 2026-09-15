@@ -8,6 +8,16 @@
     <string name="theme_preset_name_hint">Nama tema</string>
     <string name="theme_preset_custom">Tema Kustom</string>
     <string name="theme_preset_color_section">Skema Warna</string>
+
+    <!-- Warna dan Gerakan (global) -->
+    <string name="theme_color_system_section">Warna dan Gerakan</string>
+    <string name="theme_palette_style_label">Gaya warna</string>
+    <string name="theme_palette_style_hint">Mengubah cara seluruh palet terbentuk dari warna utama. Expressive paling hidup.</string>
+    <string name="theme_contrast_label">Kontras</string>
+    <string name="theme_color_spec_2025">Warna cerah</string>
+    <string name="theme_color_spec_2025_hint">Membuat semua warna lebih pekat dan cerah (skema warna baru).</string>
+    <string name="theme_expressive_motion">Animasi hidup</string>
+    <string name="theme_expressive_motion_hint">Tombol, panel, dan sakelar bergerak dengan kesan kenyal dan hidup.</string>
     <string name="theme_preset_primary_color">Utama</string>
     <string name="theme_preset_secondary_color">Sekunder</string>
     <string name="theme_preset_tertiary_color">Tersier</string>

@@ -11,6 +11,12 @@
         <item>background color</item>
         <item>background image</item>
         <item>wallpaper</item>
+        <item>expressive</item>
+        <item>material 3 expressive</item>
+        <item>material you</item>
+        <item>palette</item>
+        <item>color spec</item>
+        <item>contrast</item>
     </string-array>
     <string-array name="agent_tool_theme_setting_examples">
         <item>What is the current theme</item>
@@ -20,6 +26,9 @@
         <item>Use the Lavender gradient style</item>
         <item>Generate a starry sky background</item>
         <item>Remove the background image</item>
+        <item>Switch to the Material 3 Expressive color style</item>
+        <item>Use the 2025 color spec</item>
+        <item>Lower the color contrast a bit</item>
     </string-array>
     <string-array name="agent_tool_theme_setting_gradient_styles">
         <item>Classic</item>

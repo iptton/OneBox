@@ -59,6 +59,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -73,11 +74,15 @@ import com.shifenmiao.base.utils.aiImageProcessPointsCost
 import com.shifenmiao.common.ui.BottomSaveCancelBar
 import com.shifenmiao.common.ui.BaseScreen
 import com.shifenmiao.theme.AppTheme
+import com.t8rin.imagetoolbox.core.settings.domain.model.AppColorSystem
 import com.t8rin.imagetoolbox.core.settings.domain.model.AppThemePreset
 import com.t8rin.imagetoolbox.core.settings.domain.model.GradientBackgroundStyle
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsManager
+import com.t8rin.dynamic.theme.ColorSpecVersion
+import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.getTitle
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.utils.getString
@@ -105,6 +110,7 @@ import com.wanbaohe.setting.theme.component.ThemeEditMode
 import com.wanbaohe.setting.theme.component.ThemeSettingsComponent
 import com.wanbaohe.setting.theme.component.ThemeSettingsEvent
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineTheme
 import com.t8rin.imagetoolbox.core.resources.icons.Check
 import com.t8rin.imagetoolbox.core.resources.icons.Edit
@@ -153,7 +159,40 @@ fun ThemeSettingsScreen(
         }
     }
 
-    val hasUnsavedChanges = editingDraft != null && (component.hasDraftChanged() || overlayAlphaDirty)
+    // ── 全局色彩系统(调色板风格 / 对比度 / 色彩规范 / Expressive 动效) ──
+    // 与颜色/玻璃同一套语义: 改完立即预览, 取消 / 放弃修改 / 重置 / 切预设时还原。
+    // 它们不属于任何主题预设(全局生效), 因此"重置"回到的是进入页面时(或上次保存时)的值。
+    val colorSystemSnapshot = remember {
+        mutableStateOf(
+            AppColorSystem(
+                paletteStyle = currentSettingsState.themeStyle,
+                contrastLevel = currentSettingsState.themeContrastLevel,
+                colorSpec = currentSettingsState.themeColorSpec,
+                isExpressiveTheme = currentSettingsState.isExpressiveTheme,
+            )
+        )
+    }
+    val currentColorSystem = AppColorSystem(
+        paletteStyle = currentSettingsState.themeStyle,
+        contrastLevel = currentSettingsState.themeContrastLevel,
+        colorSpec = currentSettingsState.themeColorSpec,
+        isExpressiveTheme = currentSettingsState.isExpressiveTheme,
+    )
+    val isColorSystemDirty = currentColorSystem != colorSystemSnapshot.value
+
+    /** 还原色彩系统(取消 / 放弃修改 / 重置 / 切预设) */
+    fun discardColorSystemChanges() {
+        val snapshot = colorSystemSnapshot.value
+        scope.launch {
+            settingsManager.setThemeStyle(snapshot.paletteStyle.ordinal)
+            settingsManager.setThemeContrast(snapshot.contrastLevel)
+            settingsManager.setThemeColorSpec(snapshot.colorSpec.ordinal)
+            settingsManager.setExpressiveTheme(snapshot.isExpressiveTheme)
+        }
+    }
+
+    val hasUnsavedChanges = editingDraft != null &&
+        (component.hasDraftChanged() || overlayAlphaDirty || isColorSystemDirty)
     val canReset = editingDraft != null && component.canResetDraft()
     val isSaveAsNew = component.isSaveAsNewMode()
 
@@ -249,6 +288,18 @@ fun ThemeSettingsScreen(
                 }
             }
 
+            // ── 全局色彩系统: 调色板风格 / 对比度 / 色彩规范 / Expressive 动效 ──
+            ColorSystemCard(
+                themeStyle = currentSettingsState.themeStyle,
+                contrastLevel = currentSettingsState.themeContrastLevel,
+                colorSpec = currentSettingsState.themeColorSpec,
+                isExpressiveTheme = currentSettingsState.isExpressiveTheme,
+                onThemeStyleChange = { scope.launch { settingsManager.setThemeStyle(it.ordinal) } },
+                onContrastChange = { scope.launch { settingsManager.setThemeContrast(it) } },
+                onColorSpecChange = { scope.launch { settingsManager.setThemeColorSpec(it.ordinal) } },
+                onExpressiveThemeChange = { scope.launch { settingsManager.setExpressiveTheme(it) } },
+            )
+
             val draft = editingDraft
             if (draft != null) {
                 val customThemeName = stringResource(R.string.theme_preset_custom)
@@ -325,10 +376,19 @@ fun ThemeSettingsScreen(
                 if (hasUnsavedChanges) showExitConfirmDialog = true
                 else component.onGoBack()
             },
-            onSave = { component.saveDraft() },
+            onSave = {
+                // 色彩系统是即时预览(值已落盘), 保存时只把"基线"推进到当前值
+                colorSystemSnapshot.value = currentColorSystem
+                component.saveDraft()
+            },
             extraActions = {
-                if (canReset) {
-                    TextButton(onClick = { component.resetDraftToSource() }) {
+                if (canReset || isColorSystemDirty) {
+                    TextButton(
+                        onClick = {
+                            component.resetDraftToSource()
+                            discardColorSystemChanges()
+                        }
+                    ) {
                         Icon(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Refresh,
                             contentDescription = null,
@@ -356,6 +416,7 @@ fun ThemeSettingsScreen(
                 ConfirmButton {
                     restoreOverlayAlphaIfDirty()
                     overlayAlphaDirty = false
+                    discardColorSystemChanges()
                     component.selectPresetForEditing(targetPreset)
                     pendingSelectPreset = null
                 }
@@ -391,6 +452,7 @@ fun ThemeSettingsScreen(
                 showExitConfirmDialog = false
                 restoreOverlayAlphaIfDirty()
                 overlayAlphaDirty = false
+                discardColorSystemChanges()
                 component.restoreAndGoBack()
             },
             onDismiss = { showExitConfirmDialog = false },
@@ -1375,6 +1437,180 @@ private fun NightModeCard(
                 },
                 rowStyle = GlassStyle.None,
                 rowColor = MaterialTheme.colorScheme.surfaceContainer,
+            )
+        }
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  色彩系统卡片(全局: 调色板风格 / 对比度 / 色彩规范 / Expressive 动效)
+// ══════════════════════════════════════════════════════════════
+
+@Composable
+private fun ColorSystemCard(
+    themeStyle: PaletteStyle,
+    contrastLevel: Double,
+    colorSpec: ColorSpecVersion,
+    isExpressiveTheme: Boolean,
+    onThemeStyleChange: (PaletteStyle) -> Unit,
+    onContrastChange: (Double) -> Unit,
+    onColorSpecChange: (ColorSpecVersion) -> Unit,
+    onExpressiveThemeChange: (Boolean) -> Unit,
+) {
+    val context = LocalContext.current
+
+    GlassCard(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(
+            modifier = Modifier.padding(OneBoxDesignSystem.cardPadding),
+            verticalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.itemSpacing),
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.compactSpacing),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .glassBackground(
+                            style = GlassStyle.Regular,
+                            shape = OneBoxDesignSystem.compactBadgeShape,
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTheme,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                }
+                Text(
+                    text = stringResource(R.string.theme_color_system_section),
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.SemiBold,
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+
+            Text(
+                text = stringResource(R.string.theme_palette_style_label),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Medium,
+            )
+
+            @OptIn(ExperimentalLayoutApi::class)
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.microSpacing),
+                verticalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.microSpacing),
+            ) {
+                PaletteStyle.entries.forEach { style ->
+                    FilterChip(
+                        selected = style == themeStyle,
+                        onClick = { onThemeStyleChange(style) },
+                        label = {
+                            Text(
+                                text = style.getTitle(context),
+                                style = MaterialTheme.typography.labelMedium,
+                                maxLines = 1,
+                            )
+                        },
+                        leadingIcon = if (style == themeStyle) {
+                            {
+                                Icon(
+                                    imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Check,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(14.dp),
+                                )
+                            }
+                        } else null,
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            selectedLeadingIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                            labelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            borderColor = Color.Transparent,
+                            selectedBorderColor = Color.Transparent,
+                            enabled = true,
+                            selected = style == themeStyle,
+                        ),
+                    )
+                }
+            }
+
+            Text(
+                text = stringResource(R.string.theme_palette_style_hint),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = OneBoxDesignSystem.microSpacing),
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(R.string.theme_contrast_label),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Medium,
+                )
+                Text(
+                    text = ((contrastLevel * 100).roundToInt() / 100.0).toString(),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
+            CustomSlider(
+                modifier = Modifier.fillMaxWidth(),
+                value = contrastLevel.toFloat(),
+                onValueChange = { onContrastChange(it.toDouble()) },
+                valueRange = -1f..1f,
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = OneBoxDesignSystem.microSpacing),
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+            )
+
+            SwitchRow(
+                label = stringResource(R.string.theme_color_spec_2025),
+                checked = colorSpec == ColorSpecVersion.Spec2025,
+                onCheckedChange = {
+                    onColorSpecChange(
+                        if (it) ColorSpecVersion.Spec2025 else ColorSpecVersion.Spec2021
+                    )
+                },
+            )
+            Text(
+                text = stringResource(R.string.theme_color_spec_2025_hint),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+
+            SwitchRow(
+                label = stringResource(R.string.theme_expressive_motion),
+                checked = isExpressiveTheme,
+                onCheckedChange = onExpressiveThemeChange,
+            )
+            Text(
+                text = stringResource(R.string.theme_expressive_motion_hint),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

@@ -20,7 +20,9 @@ package com.t8rin.imagetoolbox.core.ui.theme
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -48,13 +50,25 @@ fun ImageToolboxTheme(
         isDarkTheme = settingsState.isNightMode,
         contrastLevel = settingsState.themeContrastLevel,
         style = settingsState.themeStyle,
+        specVersion = settingsState.themeColorSpec,
         isInvertColors = settingsState.isInvertThemeColors,
         content = {
-            MaterialTheme(
-                motionScheme = CustomMotionScheme,
-                colorScheme = modifiedColorScheme(),
-                content = content
-            )
+            val colorScheme = modifiedColorScheme()
+            if (settingsState.isExpressiveTheme) {
+                // Material 3 Expressive: 2025 色彩规范 + 表达性(弹簧)动效 + 表达性形状
+                MaterialExpressiveTheme(
+                    colorScheme = colorScheme,
+                    motionScheme = MotionScheme.expressive(),
+                    shapes = modifiedShapes(),
+                    content = content
+                )
+            } else {
+                MaterialTheme(
+                    motionScheme = CustomMotionScheme,
+                    colorScheme = colorScheme,
+                    content = content
+                )
+            }
         }
     )
 }

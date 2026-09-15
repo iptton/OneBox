@@ -20,7 +20,10 @@ import com.shifenmiao.model.ai.ToolParameters
 import com.shifenmiao.model.ai.tool.ToolCategory
 import com.shifenmiao.model.ai.tool.ToolRiskLevel
 import com.shifenmiao.storage.TokenStorage
+import com.t8rin.dynamic.theme.ColorSpecVersion
+import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.imagetoolbox.core.settings.domain.ThemeSettingService
+import com.t8rin.imagetoolbox.core.settings.domain.model.AppColorSystem
 import com.t8rin.imagetoolbox.core.settings.domain.model.AppThemePreset
 import com.t8rin.imagetoolbox.core.settings.domain.model.GradientBackgroundStyle
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
@@ -134,6 +137,24 @@ class ThemeSettingTool @Inject constructor(
                 type = "number",
                 description = textProvider.string(R.string.agent_tool_theme_setting_param_glass_border_alpha),
             ),
+            "palette_style" to ToolParameterProperty(
+                type = "string",
+                description = textProvider.string(R.string.agent_tool_theme_setting_param_palette_style),
+                enum = PALETTE_STYLE_NAMES,
+            ),
+            "color_spec" to ToolParameterProperty(
+                type = "string",
+                description = textProvider.string(R.string.agent_tool_theme_setting_param_color_spec),
+                enum = COLOR_SPEC_NAMES,
+            ),
+            "expressive_motion" to ToolParameterProperty(
+                type = "string",
+                description = textProvider.string(R.string.agent_tool_theme_setting_param_expressive_motion),
+            ),
+            "contrast" to ToolParameterProperty(
+                type = "number",
+                description = textProvider.string(R.string.agent_tool_theme_setting_param_contrast),
+            ),
             "background_image" to ToolParameterProperty(
                 type = "string",
                 description = textProvider.string(R.string.agent_tool_theme_setting_param_background_image),
@@ -190,6 +211,9 @@ class ThemeSettingTool @Inject constructor(
             extra = mapOf(
                 "gradientStyles" to GradientBackgroundStyle.entries2.map { it.name },
                 "nightModes" to NIGHT_MODE_NAMES,
+                "paletteStyles" to PALETTE_STYLE_NAMES,
+                "colorSpecs" to COLOR_SPEC_NAMES,
+                "colorSystem" to colorSystemSummary(themeSettingService.getColorSystem()),
                 "builtinPresets" to presets.map { mapOf("id" to it.id, "name" to it.name) },
             ),
         )
@@ -246,6 +270,13 @@ class ThemeSettingTool @Inject constructor(
                 message = textProvider.string(R.string.agent_tool_theme_setting_no_fields),
             )
         }
+        // 全局色彩系统(调色板风格 / 色彩规范 / 对比度 / Expressive 动效)不属于主题预设:
+        // 先只做校验(失败立即返回), 待预设字段也校验通过后再一起落盘, 避免半途生效
+        val colorSystem = when (val resolved = resolveGlobalSettings(params)) {
+            is GlobalSettingChange.Invalid -> return resolved.result
+            is GlobalSettingChange.NoOp -> null
+            is GlobalSettingChange.Ok -> resolved
+        }
         // 背景图先单独解析:background_prompt 需要挂起调用文生图管线,
         // 产物 file:// URI 注入 buildThemeChange 统一应用
         val background = when (val resolved = resolveBackground(params)) {
@@ -253,26 +284,145 @@ class ThemeSettingTool @Inject constructor(
             is BackgroundResolution.Resolved -> resolved
         }
         val current = themeSettingService.getCurrentTheme()
-        when (val change = buildThemeChange(current, params, background)) {
-            is ThemeChangeResult.Invalid -> return change.result
-            is ThemeChangeResult.NoOp -> return errorResult(
+        val presetChange = buildThemeChange(current, params, background)
+        if (presetChange is ThemeChangeResult.Invalid) return presetChange.result
+
+        val colorSystemFields = colorSystem?.changedFields.orEmpty()
+        val presetFields = (presetChange as? ThemeChangeResult.Ok)?.changedFields.orEmpty()
+        if (colorSystemFields.isEmpty() && presetFields.isEmpty()) {
+            return errorResult(
                 action = "set",
                 reasonCode = "no_fields",
                 message = textProvider.string(R.string.agent_tool_theme_setting_no_fields),
             )
-            is ThemeChangeResult.Ok -> {
-                // 修改使配置偏离已存预设: 以自定义哨兵 id 应用,
-                // 之后 getCurrentTheme 从实际生效状态重建, 连续 set 不会互相回滚
-                themeSettingService.applyThemePreset(change.next.copy(id = AppThemePreset.CUSTOM_ID))
-                val updated = themeSettingService.getCurrentTheme()
-                return successResult(
+        }
+
+        colorSystem?.let {
+            themeSettingService.setColorSystem(it.next)
+            it.nightMode?.let { nightMode -> themeSettingService.setNightMode(nightMode) }
+        }
+        if (presetChange is ThemeChangeResult.Ok) {
+            // 修改使配置偏离已存预设: 以自定义哨兵 id 应用,
+            // 之后 getCurrentTheme 从实际生效状态重建, 连续 set 不会互相回滚
+            themeSettingService.applyThemePreset(presetChange.next.copy(id = AppThemePreset.CUSTOM_ID))
+        }
+        return successResult(
+            action = "set",
+            message = textProvider.string(R.string.agent_tool_theme_setting_set_message),
+            theme = themeSettingService.getCurrentTheme(),
+            extra = mapOf(
+                "changed" to (colorSystemFields + presetFields),
+                "colorSystem" to colorSystemSummary(themeSettingService.getColorSystem()),
+            ),
+        )
+    }
+
+    /**
+     * 解析全局设置字段(色彩系统 + 日夜模式, 全部可选)。任一项非法即整体失败,
+     * 避免"风格改了、规范没改"这种半生效状态。
+     *
+     * 这些字段都不属于主题预设: 日夜模式自 2026-09 起彻底与预设解耦,
+     * 主题切换再也不会顺手改掉用户的深浅色偏好。
+     */
+    private suspend fun resolveGlobalSettings(params: ThemeSettingParams): GlobalSettingChange {
+        val touched = !params.palette_style.isNullOrBlank() ||
+            !params.color_spec.isNullOrBlank() ||
+            !params.expressive_motion.isNullOrBlank() ||
+            params.contrast != null ||
+            !params.night_mode.isNullOrBlank()
+        if (!touched) return GlobalSettingChange.NoOp
+
+        var next = themeSettingService.getColorSystem()
+        var nextNightMode: NightMode? = null
+        val changed = mutableListOf<String>()
+
+        params.night_mode?.takeIf { it.isNotBlank() }?.let { raw ->
+            val nightMode = parseNightMode(raw) ?: return GlobalSettingChange.Invalid(
+                errorResult(
                     action = "set",
-                    message = textProvider.string(R.string.agent_tool_theme_setting_set_message),
-                    theme = updated,
-                    extra = mapOf("changed" to change.changedFields),
+                    reasonCode = "invalid_night_mode",
+                    message = textProvider.string(
+                        R.string.agent_tool_theme_setting_invalid_night_mode,
+                        raw,
+                    ),
+                    validOptions = mapOf("nightModes" to NIGHT_MODE_NAMES),
                 )
+            )
+            nextNightMode = nightMode
+            changed += "nightMode"
+        }
+
+        params.palette_style?.takeIf { it.isNotBlank() }?.let { raw ->
+            val style = parsePaletteStyle(raw) ?: return GlobalSettingChange.Invalid(
+                errorResult(
+                    action = "set",
+                    reasonCode = "unknown_palette_style",
+                    message = textProvider.string(
+                        R.string.agent_tool_theme_setting_unknown_palette_style,
+                        raw,
+                    ),
+                    validOptions = mapOf("paletteStyles" to PALETTE_STYLE_NAMES),
+                )
+            )
+            next = next.copy(paletteStyle = style)
+            changed += "paletteStyle"
+        }
+
+        params.color_spec?.takeIf { it.isNotBlank() }?.let { raw ->
+            val spec = parseColorSpec(raw) ?: return GlobalSettingChange.Invalid(
+                errorResult(
+                    action = "set",
+                    reasonCode = "unknown_color_spec",
+                    message = textProvider.string(
+                        R.string.agent_tool_theme_setting_unknown_color_spec,
+                        raw,
+                    ),
+                    validOptions = mapOf("colorSpecs" to COLOR_SPEC_NAMES),
+                )
+            )
+            next = next.copy(colorSpec = spec)
+            changed += "colorSpec"
+        }
+
+        params.expressive_motion?.takeIf { it.isNotBlank() }?.let { raw ->
+            when (val parsed = parseOptionalBool(raw)) {
+                is OptionalBool.Set -> {
+                    next = next.copy(isExpressiveTheme = parsed.value)
+                    changed += "expressiveMotion"
+                }
+                OptionalBool.Invalid -> return GlobalSettingChange.Invalid(
+                    errorResult(
+                        action = "set",
+                        reasonCode = "invalid_expressive_motion",
+                        message = textProvider.string(
+                            R.string.agent_tool_theme_setting_failed,
+                            "expressive_motion=$raw",
+                        ),
+                        validOptions = mapOf("acceptedValues" to BOOL_ACCEPTED),
+                    )
+                )
+                OptionalBool.Absent -> Unit
             }
         }
+
+        when (val parsed = parseOptionalContrast(params.contrast)) {
+            is OptionalContrast.Set -> {
+                next = next.copy(contrastLevel = parsed.value)
+                changed += "contrast"
+            }
+            OptionalContrast.Invalid -> return GlobalSettingChange.Invalid(
+                errorResult(
+                    action = "set",
+                    reasonCode = "contrast_out_of_range",
+                    message = textProvider.string(R.string.agent_tool_theme_setting_contrast_out_of_range),
+                    validOptions = mapOf("contrastRange" to "-1.0..1.0"),
+                )
+            )
+            OptionalContrast.Absent -> Unit
+        }
+
+        if (changed.isEmpty()) return GlobalSettingChange.NoOp
+        return GlobalSettingChange.Ok(next, nextNightMode, changed)
     }
 
     /**
@@ -405,22 +555,6 @@ class ThemeSettingTool @Inject constructor(
                 isDynamicColors = false,
             )
             changed += "colors"
-        }
-
-        params.night_mode?.takeIf { it.isNotBlank() }?.let { raw ->
-            val nightMode = parseNightMode(raw) ?: return ThemeChangeResult.Invalid(
-                errorResult(
-                    action = "set",
-                    reasonCode = "invalid_night_mode",
-                    message = textProvider.string(
-                        R.string.agent_tool_theme_setting_invalid_night_mode,
-                        raw,
-                    ),
-                    validOptions = mapOf("nightModes" to NIGHT_MODE_NAMES),
-                )
-            )
-            next = next.copy(nightMode = nightMode)
-            changed += "nightMode"
         }
 
         when (val parsed = parseOptionalBool(params.glass)) {
@@ -587,10 +721,26 @@ class ThemeSettingTool @Inject constructor(
         data object Invalid : OptionalAlpha()
     }
 
+    private sealed class OptionalContrast {
+        data object Absent : OptionalContrast()
+        data class Set(val value: Double) : OptionalContrast()
+        data object Invalid : OptionalContrast()
+    }
+
     private sealed class ThemeChangeResult {
         data class Ok(val next: AppThemePreset, val changedFields: List<String>) : ThemeChangeResult()
         data class Invalid(val result: AgentToolResult) : ThemeChangeResult()
         data object NoOp : ThemeChangeResult()
+    }
+
+    private sealed class GlobalSettingChange {
+        data class Ok(
+            val next: AppColorSystem,
+            val nightMode: NightMode?,
+            val changedFields: List<String>,
+        ) : GlobalSettingChange()
+        data class Invalid(val result: AgentToolResult) : GlobalSettingChange()
+        data object NoOp : GlobalSettingChange()
     }
 
     private fun parseOptionalColor(raw: String?): OptionalColor {
@@ -620,6 +770,38 @@ class ThemeSettingTool @Inject constructor(
 
     private fun parseNightMode(raw: String): NightMode? {
         return NIGHT_MODES.firstOrNull { it.name.equals(raw.trim(), ignoreCase = true) }
+    }
+
+    private fun parsePaletteStyle(raw: String?): PaletteStyle? {
+        if (raw.isNullOrBlank()) return null
+        val needle = raw.trim()
+        return PaletteStyle.entries.firstOrNull { it.name.equals(needle, ignoreCase = true) }
+    }
+
+    /** 同时接受枚举名(Spec2025)、年份("2025")、带下划线写法(SPEC_2025) */
+    private fun parseColorSpec(raw: String?): ColorSpecVersion? {
+        if (raw.isNullOrBlank()) return null
+        val needle = raw.trim().lowercase()
+            .removePrefix("spec")
+            .removePrefix("_")
+            .removePrefix("-")
+        return when (needle) {
+            "2021" -> ColorSpecVersion.Spec2021
+            "2025" -> ColorSpecVersion.Spec2025
+            else -> ColorSpecVersion.entries.firstOrNull { it.name.equals(raw.trim(), ignoreCase = true) }
+        }
+    }
+
+    /** 对比度与主题设置页滑块一致: -1.0(低) ~ 1.0(高), 0.0 为默认 */
+    private fun parseOptionalContrast(raw: Double?): OptionalContrast {
+        if (raw == null) return OptionalContrast.Absent
+        if (raw.isNaN() ||
+            raw < AppColorSystem.MIN_CONTRAST_LEVEL ||
+            raw > AppColorSystem.MAX_CONTRAST_LEVEL
+        ) {
+            return OptionalContrast.Invalid
+        }
+        return OptionalContrast.Set(raw)
     }
 
     private fun parseArguments(arguments: String): ThemeSettingParams {
@@ -679,6 +861,13 @@ class ThemeSettingTool @Inject constructor(
         )
     }
 
+    private fun colorSystemSummary(system: AppColorSystem): Map<String, Any?> = mapOf(
+        "paletteStyle" to system.paletteStyle.name,
+        "contrast" to system.contrastLevel,
+        "colorSpec" to system.colorSpec.name,
+        "expressiveMotion" to system.isExpressiveTheme,
+    )
+
     private data class ThemeSettingParams(
         val action: String? = null,
         val preset_id: String? = null,
@@ -694,6 +883,10 @@ class ThemeSettingTool @Inject constructor(
         val gradient_style: String? = null,
         val glass_alpha: Double? = null,
         val glass_border_alpha: Double? = null,
+        val palette_style: String? = null,
+        val color_spec: String? = null,
+        val expressive_motion: String? = null,
+        val contrast: Double? = null,
         val background_image: String? = null,
         val background_prompt: String? = null,
     ) {
@@ -710,6 +903,10 @@ class ThemeSettingTool @Inject constructor(
             && gradient_style.isNullOrBlank()
             && glass_alpha == null
             && glass_border_alpha == null
+            && palette_style.isNullOrBlank()
+            && color_spec.isNullOrBlank()
+            && expressive_motion.isNullOrBlank()
+            && contrast == null
             && background_image.isNullOrBlank()
             && background_prompt.isNullOrBlank()
     }
@@ -717,6 +914,8 @@ class ThemeSettingTool @Inject constructor(
     private companion object {
         val NIGHT_MODES = listOf(NightMode.Light, NightMode.Dark, NightMode.System)
         val NIGHT_MODE_NAMES = NIGHT_MODES.map { it.name }
+        val PALETTE_STYLE_NAMES = PaletteStyle.entries.map { it.name }
+        val COLOR_SPEC_NAMES = ColorSpecVersion.entries.map { it.name }
         val BOOL_ACCEPTED = listOf("true", "false", "1", "0", "yes", "no", "on", "off")
         val COLOR_FORMATS = listOf(
             "#RRGGBB",

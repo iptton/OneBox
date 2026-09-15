@@ -8,6 +8,16 @@
     <string name="theme_preset_name_hint">Nome do Tema</string>
     <string name="theme_preset_custom">Tema Personalizado</string>
     <string name="theme_preset_color_section">Esquema de Cores</string>
+
+    <!-- Cores e movimento (global) -->
+    <string name="theme_color_system_section">Cores e movimento</string>
+    <string name="theme_palette_style_label">Estilo de cor</string>
+    <string name="theme_palette_style_hint">Muda como toda a paleta é gerada a partir da cor principal. Expressive é a mais viva.</string>
+    <string name="theme_contrast_label">Contraste</string>
+    <string name="theme_color_spec_2025">Cores vivas</string>
+    <string name="theme_color_spec_2025_hint">Deixa todas as cores mais intensas e saturadas (novo esquema de cores).</string>
+    <string name="theme_expressive_motion">Animações vivas</string>
+    <string name="theme_expressive_motion_hint">Botões, painéis e interruptores se movem com um efeito elástico e animado.</string>
     <string name="theme_preset_primary_color">Primária</string>
     <string name="theme_preset_secondary_color">Secundária</string>
     <string name="theme_preset_tertiary_color">Terciária</string>

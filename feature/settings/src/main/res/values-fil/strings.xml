@@ -8,6 +8,16 @@
     <string name="theme_preset_name_hint">Pangalan ng Tema</string>
     <string name="theme_preset_custom">Pasadya na Tema</string>
     <string name="theme_preset_color_section">Skema ng Kulay</string>
+
+    <!-- Mga Kulay at Animasyon (global) -->
+    <string name="theme_color_system_section">Mga Kulay at Animasyon</string>
+    <string name="theme_palette_style_label">Estilo ng kulay</string>
+    <string name="theme_palette_style_hint">Binabago kung paano nabubuo ang buong palette mula sa pangunahing kulay. Ang Expressive ang pinakamasigla.</string>
+    <string name="theme_contrast_label">Kontrast</string>
+    <string name="theme_color_spec_2025">Masiglang mga kulay</string>
+    <string name="theme_color_spec_2025_hint">Ginagawang mas matingkad at mas saturated ang lahat ng kulay (bagong color scheme).</string>
+    <string name="theme_expressive_motion">Masiglang animasyon</string>
+    <string name="theme_expressive_motion_hint">Ang mga button, panel at switch ay gumagalaw nang may elastikong dating.</string>
     <string name="theme_preset_primary_color">Pangunahin</string>
     <string name="theme_preset_secondary_color">Pangalawa</string>
     <string name="theme_preset_tertiary_color">Pangatlo</string>

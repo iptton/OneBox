@@ -154,6 +154,8 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SNOWFALL_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SPOT_HEAL_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SWITCH_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SYSTEM_BARS_VISIBILITY
+import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_EXPRESSIVE_THEME
+import com.t8rin.imagetoolbox.feature.settings.data.keys.THEME_COLOR_SPEC
 import com.t8rin.imagetoolbox.feature.settings.data.keys.THEME_CONTRAST_LEVEL
 import com.t8rin.imagetoolbox.feature.settings.data.keys.THEME_STYLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_COMPACT_SELECTORS_LAYOUT
@@ -243,6 +245,8 @@ internal class AndroidSettingsManager @Inject constructor(
             isAmoledMode = state.isAmoledMode,
             themeStyle = state.themeStyle,
             themeContrastLevel = state.themeContrastLevel,
+            themeColorSpec = state.themeColorSpec,
+            isExpressiveTheme = state.isExpressiveTheme,
             isInvertTheme = state.isInvertThemeColors,
             allowCrashlytics = state.allowCollectCrashlytics,
             systemBarsVisibility = state.systemBarsVisibility.ordinal,
@@ -446,6 +450,14 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setThemeContrast(value: Double) = edit {
         it[THEME_CONTRAST_LEVEL] = value
+    }
+
+    override suspend fun setThemeColorSpec(value: Int) = edit {
+        it[THEME_COLOR_SPEC] = value
+    }
+
+    override suspend fun setExpressiveTheme(enabled: Boolean) = edit {
+        it[IS_EXPRESSIVE_THEME] = enabled
     }
 
     override suspend fun toggleInvertColors() = toggle(
@@ -1001,7 +1013,9 @@ internal class AndroidSettingsManager @Inject constructor(
         if (preset.isDynamicColors) {
             it[ALLOW_IMAGE_MONET] = false
         }
-        it[NIGHT_MODE] = preset.nightMode.ordinal
+        // 日夜模式是全局偏好, 不再由主题预设接管:
+        // 之前选个预设/存个主题就会把 NIGHT_MODE 改掉, 用户在系统深色下会莫名被切回浅色。
+        // 预设里的 nightMode 仅作元数据(如主题卡片上的月亮角标), 生效与否由用户显式设置。
         it[GLASSMORPHISM_ENABLED] = preset.isGlassmorphismEnabled
         it[LIQUID_GLASS_ENABLED] = preset.isLiquidGlassEnabled
         it[MESH_GRADIENT_BACKGROUND_ENABLED] = preset.isMeshGradientBackgroundEnabled

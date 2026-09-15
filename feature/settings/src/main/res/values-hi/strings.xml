@@ -8,6 +8,16 @@
     <string name="theme_preset_name_hint">थीम का नाम</string>
     <string name="theme_preset_custom">कस्टम थीम</string>
     <string name="theme_preset_color_section">रंग योजना</string>
+
+    <!-- रंग और मोशन (ग्लोबल) -->
+    <string name="theme_color_system_section">रंग और मोशन</string>
+    <string name="theme_palette_style_label">रंग शैली</string>
+    <string name="theme_palette_style_hint">यह तय करता है कि मुख्य रंग से पूरी रंग योजना कैसे बने। Expressive सबसे जीवंत है।</string>
+    <string name="theme_contrast_label">कंट्रास्ट</string>
+    <string name="theme_color_spec_2025">चमकीले रंग</string>
+    <string name="theme_color_spec_2025_hint">सभी रंगों को अधिक गाढ़ा और चमकीला बनाता है (नई रंग योजना)।</string>
+    <string name="theme_expressive_motion">जीवंत एनिमेशन</string>
+    <string name="theme_expressive_motion_hint">बटन, शीट और स्विच लचीले और जीवंत तरीके से चलते हैं।</string>
     <string name="theme_preset_primary_color">प्राथमिक</string>
     <string name="theme_preset_secondary_color">द्वितीयक</string>
     <string name="theme_preset_tertiary_color">तृतीयक</string>

@@ -193,7 +193,11 @@ fun ThemePresetSelector(
                     preset = preset,
                     isSelected = preset.id == activeThemeId,
                     onClick = {
-                        scope.launch { settingsManager.applyThemePreset(preset) }
+                        scope.launch {
+                            settingsManager.applyThemePreset(preset)
+                            // 点选预设 = 连它自带的日夜模式一起切过去
+                            settingsManager.setNightMode(preset.nightMode)
+                        }
                     },
                     onDelete = if (!preset.isBuiltin) {
                         { pendingDeletePreset = preset }
@@ -221,7 +225,9 @@ fun ThemePresetSelector(
                     scope.launch {
                         themeRepository.deleteUserTheme(preset.id)
                         if (preset.id == activeThemeId) {
+                            // 删除的是当前主题: 回落到默认主题, 同样带上它的日夜模式
                             settingsManager.applyThemePreset(AppThemePreset.Default)
+                            settingsManager.setNightMode(AppThemePreset.Default.nightMode)
                         }
                     }
                     pendingDeletePreset = null

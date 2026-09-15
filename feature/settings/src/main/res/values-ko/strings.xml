@@ -8,6 +8,16 @@
     <string name="theme_preset_name_hint">테마 이름</string>
     <string name="theme_preset_custom">사용자 지정 테마</string>
     <string name="theme_preset_color_section">색 구성표</string>
+
+    <!-- 색상 및 모션(전역) -->
+    <string name="theme_color_system_section">색상 및 모션</string>
+    <string name="theme_palette_style_label">색상 스타일</string>
+    <string name="theme_palette_style_hint">기본 색상에서 전체 팔레트를 어떻게 만드는지 바꿉니다. Expressive가 가장 생동감 있습니다.</string>
+    <string name="theme_contrast_label">대비</string>
+    <string name="theme_color_spec_2025">선명한 색상</string>
+    <string name="theme_color_spec_2025_hint">모든 색상을 더 진하고 선명하게 만듭니다(새 색상 사양).</string>
+    <string name="theme_expressive_motion">생동감 있는 모션</string>
+    <string name="theme_expressive_motion_hint">버튼, 시트, 스위치가 탄성 있게 움직입니다.</string>
     <string name="theme_preset_primary_color">기본</string>
     <string name="theme_preset_secondary_color">보조</string>
     <string name="theme_preset_tertiary_color">세 번째</string>

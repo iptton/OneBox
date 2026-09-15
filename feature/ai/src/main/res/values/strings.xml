@@ -159,6 +159,10 @@
     <string name="agent_tool_theme_setting_param_gradient_style">Gradient background style name. **Must** be picked from list response `gradientStyles` (case-sensitive). Optional</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">Glass transparency base value. **Number type** (NOT string), range [0.0, 1.0], default 1.0. Lower = more transparent. Optional</string>
     <string name="agent_tool_theme_setting_param_glass_border_alpha">Glass border visibility. **Number type** (NOT string), range [0.0, 1.0], default 0.17 (17%%). 0 hides the border entirely; higher = more visible outline. Independent of glass_alpha. Optional</string>
+    <string name="agent_tool_theme_setting_param_palette_style">Global palette style that decides how the color scheme is derived from the seed color. **Must** be picked from list response `paletteStyles` (case-sensitive): TonalSpot (default) / Neutral / Vibrant / Expressive / Rainbow / FruitSalad / Monochrome / Fidelity / Content. Optional</string>
+    <string name="agent_tool_theme_setting_param_color_spec">Global Material color spec version. Values: Spec2021 (default) or Spec2025 ("2025" also accepted). Spec2025 is the Material 3 Expressive spec with richer, more vibrant colors. Optional</string>
+    <string name="agent_tool_theme_setting_param_expressive_motion">Enable MaterialExpressiveTheme (expressive spring motion and shapes). Same values as glass ("true" / "false"). Optional</string>
+    <string name="agent_tool_theme_setting_param_contrast">Global color contrast. **Number type** (NOT string), range [-1.0, 1.0], default 0.0. Negative values reduce contrast. Optional</string>
     <string name="agent_tool_theme_setting_param_background_image">Custom background image. Only value: "clear" — removes the current background image and restores the plain background. Optional</string>
     <string name="agent_tool_theme_setting_param_background_prompt">AI-generate a background image from this text description and set it as the custom background (text-to-image, may take tens of seconds; costs points on the proxy route). When passed together with background_image, this one wins. Optional</string>
     <string name="agent_tool_theme_setting_failed">Theme settings failed: %1$s</string>
@@ -176,6 +180,9 @@
     <string name="agent_tool_theme_setting_unknown_style">Unknown gradient style: %1$s</string>
     <string name="agent_tool_theme_setting_unknown_preset">No matching theme preset: %1$s. Available presets: %2$s</string>
     <string name="agent_tool_theme_setting_alpha_out_of_range">glass_alpha / glass_border_alpha must be between 0.0 and 1.0</string>
+    <string name="agent_tool_theme_setting_unknown_palette_style">Unknown palette style: %1$s</string>
+    <string name="agent_tool_theme_setting_unknown_color_spec">Unknown color spec: %1$s. Must be Spec2021 or Spec2025</string>
+    <string name="agent_tool_theme_setting_contrast_out_of_range">contrast must be between -1.0 and 1.0</string>
 
     <string name="agent_tool_checksum_title">Checksum Tool</string>
     <string name="agent_tool_checksum_summary">Calculate or compare checksums for text and files</string>

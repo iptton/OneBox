@@ -84,6 +84,8 @@ internal fun Preferences.toSettingsState(
     lockDrawOrientation = this[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
     themeContrastLevel = this[THEME_CONTRAST_LEVEL] ?: default.themeContrastLevel,
     themeStyle = this[THEME_STYLE] ?: default.themeStyle,
+    themeColorSpec = this[THEME_COLOR_SPEC] ?: default.themeColorSpec,
+    isExpressiveTheme = this[IS_EXPRESSIVE_THEME] ?: default.isExpressiveTheme,
     isInvertThemeColors = this[INVERT_THEME] ?: default.isInvertThemeColors,
     screensSearchEnabled = this[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
     copyToClipboardMode = this[COPY_TO_CLIPBOARD_MODE]?.let {

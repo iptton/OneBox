@@ -11,6 +11,16 @@
     <string name="theme_preset_name_hint">主题名称</string>
     <string name="theme_preset_custom">自定义主题</string>
     <string name="theme_preset_color_section">颜色方案</string>
+
+    <!-- 配色与动效(全局):配色风格 / 对比度 / 鲜艳配色 / 灵动动效 -->
+    <string name="theme_color_system_section">配色与动效</string>
+    <string name="theme_palette_style_label">配色风格</string>
+    <string name="theme_palette_style_hint">决定整体配色从主色怎么变化，选「富有表现力」最活泼。</string>
+    <string name="theme_contrast_label">对比度</string>
+    <string name="theme_color_spec_2025">鲜艳配色</string>
+    <string name="theme_color_spec_2025_hint">开启后颜色更饱和、更鲜艳（新版配色方案）。</string>
+    <string name="theme_expressive_motion">灵动动效</string>
+    <string name="theme_expressive_motion_hint">按钮、弹层、切换等动画更活泼、更有弹性。</string>
     <string name="theme_preset_primary_color">主色</string>
     <string name="theme_preset_secondary_color">次要色</string>
     <string name="theme_preset_tertiary_color">第三色</string>

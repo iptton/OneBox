@@ -8,6 +8,16 @@
     <string name="theme_preset_name_hint">Название темы</string>
     <string name="theme_preset_custom">Пользовательская тема</string>
     <string name="theme_preset_color_section">Цветовая схема</string>
+
+    <!-- Цвета и анимация (глобально) -->
+    <string name="theme_color_system_section">Цвета и анимация</string>
+    <string name="theme_palette_style_label">Стиль цвета</string>
+    <string name="theme_palette_style_hint">Меняет, как вся палитра строится из основного цвета. Expressive — самый яркий вариант.</string>
+    <string name="theme_contrast_label">Контраст</string>
+    <string name="theme_color_spec_2025">Насыщенные цвета</string>
+    <string name="theme_color_spec_2025_hint">Делает все цвета более насыщенными и яркими (новая цветовая схема).</string>
+    <string name="theme_expressive_motion">Живая анимация</string>
+    <string name="theme_expressive_motion_hint">Кнопки, панели и переключатели двигаются упруго и живо.</string>
     <string name="theme_preset_primary_color">Основной</string>
     <string name="theme_preset_secondary_color">Вторичный</string>
     <string name="theme_preset_tertiary_color">Третичный</string>

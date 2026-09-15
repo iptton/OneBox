@@ -8,6 +8,16 @@
     <string name="theme_preset_name_hint">Tema adı</string>
     <string name="theme_preset_custom">Özel Tema</string>
     <string name="theme_preset_color_section">Renk Şeması</string>
+
+    <!-- Renkler ve Hareket (genel) -->
+    <string name="theme_color_system_section">Renkler ve Hareket</string>
+    <string name="theme_palette_style_label">Renk stili</string>
+    <string name="theme_palette_style_hint">Tüm paletin ana renkten nasıl oluştuğunu değiştirir. Expressive en canlı olanıdır.</string>
+    <string name="theme_contrast_label">Kontrast</string>
+    <string name="theme_color_spec_2025">Canlı renkler</string>
+    <string name="theme_color_spec_2025_hint">Tüm renkleri daha yoğun ve canlı yapar (yeni renk şeması).</string>
+    <string name="theme_expressive_motion">Hareketli animasyon</string>
+    <string name="theme_expressive_motion_hint">Düğmeler, paneller ve anahtarlar yaylı ve canlı bir şekilde hareket eder.</string>
     <string name="theme_preset_primary_color">Birincil</string>
     <string name="theme_preset_secondary_color">İkincil</string>
     <string name="theme_preset_tertiary_color">Üçüncül</string>

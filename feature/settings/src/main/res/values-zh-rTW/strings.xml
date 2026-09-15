@@ -8,6 +8,16 @@
     <string name="theme_preset_name_hint">主題名稱</string>
     <string name="theme_preset_custom">自訂主題</string>
     <string name="theme_preset_color_section">顏色配置</string>
+
+    <!-- 配色與動效(全域):配色風格 / 對比度 / 鮮豔配色 / 靈感動效 -->
+    <string name="theme_color_system_section">配色與動效</string>
+    <string name="theme_palette_style_label">配色風格</string>
+    <string name="theme_palette_style_hint">決定整體配色從主色怎麼變化，選「富有表現力」最活潑。</string>
+    <string name="theme_contrast_label">對比度</string>
+    <string name="theme_color_spec_2025">鮮豔配色</string>
+    <string name="theme_color_spec_2025_hint">開啟後顏色更飽和、更鮮豔（新版配色方案）。</string>
+    <string name="theme_expressive_motion">靈感動效</string>
+    <string name="theme_expressive_motion_hint">按鈕、彈層、切換等動畫更活潑、更有彈性。</string>
     <string name="theme_preset_primary_color">主色</string>
     <string name="theme_preset_secondary_color">次要色</string>
     <string name="theme_preset_tertiary_color">第三色</string>

@@ -142,6 +142,13 @@
     <string name="agent_tool_theme_setting_param_liquid_glass">Flüssigglaseffekt. Gleiche Werte wie Glas (\"true\" / \"false\"). Optional</string>
     <string name="agent_tool_theme_setting_param_mesh_gradient">Mesh-Verlaufshintergrund. Gleiche Werte wie Glas (\"true\" / \"false\"). Optional</string>
     <string name="agent_tool_theme_setting_param_gradient_style">Name des Verlaufsstils. **Muss** aus der Listenantwort `gradientStyles` ausgewählt werden (Groß-/Kleinschreibung beachten). Optional</string>
+    <string name="agent_tool_theme_setting_param_palette_style">Globaler Palettenstil, der bestimmt, wie das Farbschema aus der Grundfarbe abgeleitet wird. **Muss** aus der Listenantwort `paletteStyles` gewählt werden (Groß-/Kleinschreibung beachten): TonalSpot (Standard) / Neutral / Vibrant / Expressive / Rainbow / FruitSalad / Monochrome / Fidelity / Content. Optional</string>
+    <string name="agent_tool_theme_setting_param_color_spec">Globale Material-Farbspezifikation. Werte: Spec2021 (Standard) oder Spec2025 (\"2025\" wird ebenfalls akzeptiert). Spec2025 ist die Material-3-Expressive-Spezifikation mit kräftigeren, lebendigeren Farben. Optional</string>
+    <string name="agent_tool_theme_setting_param_expressive_motion">MaterialExpressiveTheme aktivieren (federnde, ausdrucksstarke Bewegung und Formen). Gleiche Werte wie Glas (\"true\" / \"false\"). Optional</string>
+    <string name="agent_tool_theme_setting_param_contrast">Globaler Farbkontrast. **Zahlentyp** (kein String), Bereich [-1.0, 1.0], Standard 0.0. Negative Werte verringern den Kontrast. Optional</string>
+    <string name="agent_tool_theme_setting_unknown_palette_style">Unbekannter Palettenstil: %1$s</string>
+    <string name="agent_tool_theme_setting_unknown_color_spec">Unbekannte Farbspezifikation: %1$s. Muss Spec2021 oder Spec2025 sein</string>
+    <string name="agent_tool_theme_setting_contrast_out_of_range">contrast muss zwischen -1.0 und 1.0 liegen</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">Basiswert für Glas-Transparenz. **Zahlentyp** (kein String), Bereich [0,1, 1,0], Standard 1,0. Niedriger = transparenter. Optional</string>
     <string name="agent_tool_theme_setting_param_background_image">Benutzerdefiniertes Hintergrundbild. Nur Wert: \"clear\" — entfernt das aktuelle Hintergrundbild und stellt den einfachen Hintergrund wieder her. Optional</string>
     <string name="agent_tool_theme_setting_param_background_prompt">KI-generiert ein Hintergrundbild aus dieser Textbeschreibung und setzt es als benutzerdefinierten Hintergrund (Text-zu-Bild, kann mehrere zehn Sekunden dauern; kostet Punkte auf der Proxy-Route). Wenn zusammen mit background_image übergeben, gewinnt dieses. Optional</string>

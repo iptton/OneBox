@@ -142,6 +142,13 @@
     <string name="agent_tool_theme_setting_param_liquid_glass">Efecto de vidrio líquido. Mismos valores que vidrio (\"true\" / \"false\"). Opcional</string>
     <string name="agent_tool_theme_setting_param_mesh_gradient">Fondo degradado de malla. Mismos valores que vidrio (\"true\" / \"false\"). Opcional</string>
     <string name="agent_tool_theme_setting_param_gradient_style">Nombre del estilo de fondo degradado. **Debe** elegirse de la lista de respuesta `gradientStyles` (distingue mayúsculas). Opcional</string>
+    <string name="agent_tool_theme_setting_param_palette_style">Estilo de paleta global que decide cómo se deriva el esquema de color a partir del color base. **Debe** elegirse de la respuesta de lista `paletteStyles` (distingue mayúsculas): TonalSpot (predeterminado) / Neutral / Vibrant / Expressive / Rainbow / FruitSalad / Monochrome / Fidelity / Content. Opcional</string>
+    <string name="agent_tool_theme_setting_param_color_spec">Versión global de la especificación de color de Material. Valores: Spec2021 (predeterminado) o Spec2025 (también se acepta \"2025\"). Spec2025 es la especificación Material 3 Expressive, con colores más ricos y vivos. Opcional</string>
+    <string name="agent_tool_theme_setting_param_expressive_motion">Activa MaterialExpressiveTheme (movimiento y formas expresivas con rebote). Mismos valores que glass (\"true\" / \"false\"). Opcional</string>
+    <string name="agent_tool_theme_setting_param_contrast">Contraste de color global. **Tipo número** (NO cadena), rango [-1.0, 1.0], predeterminado 0.0. Los valores negativos reducen el contraste. Opcional</string>
+    <string name="agent_tool_theme_setting_unknown_palette_style">Estilo de paleta desconocido: %1$s</string>
+    <string name="agent_tool_theme_setting_unknown_color_spec">Especificación de color desconocida: %1$s. Debe ser Spec2021 o Spec2025</string>
+    <string name="agent_tool_theme_setting_contrast_out_of_range">contrast debe estar entre -1.0 y 1.0</string>
     <string name="agent_tool_theme_setting_param_glass_alpha">Valor base de transparencia del vidrio. **Tipo número** (NO cadena), rango [0.1, 1.0], predeterminado 1.0. Menor = más transparente. Opcional</string>
     <string name="agent_tool_theme_setting_param_background_image">Imagen de fondo personalizada. Único valor: \"clear\" — elimina la imagen de fondo actual y restaura el fondo simple. Opcional</string>
     <string name="agent_tool_theme_setting_param_background_prompt">Generar con IA una imagen de fondo a partir de esta descripción de texto y establecerla como fondo personalizado (texto a imagen, puede tardar decenas de segundos; cuesta puntos en la ruta proxy). Cuando se pasa junto con background_image, esta gana. Opcional</string>

@@ -55,6 +55,8 @@ object AppSharedStorage {
     private const val S_AMOLED_MODE = "s_amoled_mode"
     private const val S_THEME_STYLE = "s_theme_style"
     private const val S_THEME_CONTRAST_LEVEL = "s_theme_contrast_level"
+    private const val S_THEME_COLOR_SPEC = "s_theme_color_spec"
+    private const val S_IS_EXPRESSIVE_THEME = "s_is_expressive_theme"
     private const val S_INVERT_THEME = "s_invert_theme"
     private const val S_ALLOW_CRASHLYTICS = "s_allow_crashlytics"
     private const val S_SYSTEM_BARS_VISIBILITY = "s_system_bars_visibility"
@@ -442,6 +444,8 @@ object AppSharedStorage {
         isAmoledMode: Boolean,
         themeStyle: Int,
         themeContrastLevel: Double,
+        themeColorSpec: Int,
+        isExpressiveTheme: Boolean,
         isInvertTheme: Boolean,
         allowCrashlytics: Boolean,
         systemBarsVisibility: Int,
@@ -466,6 +470,8 @@ object AppSharedStorage {
         save(S_AMOLED_MODE, isAmoledMode)
         save(S_THEME_STYLE, themeStyle)
         save(S_THEME_CONTRAST_LEVEL, themeContrastLevel)
+        save(S_THEME_COLOR_SPEC, themeColorSpec)
+        save(S_IS_EXPRESSIVE_THEME, isExpressiveTheme)
         save(S_INVERT_THEME, isInvertTheme)
         save(S_ALLOW_CRASHLYTICS, allowCrashlytics)
         save(S_SYSTEM_BARS_VISIBILITY, systemBarsVisibility)
@@ -508,6 +514,12 @@ object AppSharedStorage {
 
     fun loadStartupThemeContrastLevel(): Double =
         load(S_THEME_CONTRAST_LEVEL, 0.0) ?: 0.0
+
+    fun loadStartupThemeColorSpec(): Int =
+        load(S_THEME_COLOR_SPEC, 0) ?: 0
+
+    fun loadStartupIsExpressiveTheme(): Boolean =
+        load(S_IS_EXPRESSIVE_THEME, false) ?: false
 
     fun loadStartupIsInvertTheme(): Boolean =
         load(S_INVERT_THEME, false) ?: false

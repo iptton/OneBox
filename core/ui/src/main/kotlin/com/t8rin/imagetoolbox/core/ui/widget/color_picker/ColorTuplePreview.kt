@@ -83,6 +83,7 @@ fun ColorTuplePreview(
                     colorTuple = colorTuple,
                     contrastLevel = settingsState.themeContrastLevel,
                     style = settingsState.themeStyle,
+                    specVersion = settingsState.themeColorSpec,
                     dynamicColor = false,
                     isInvertColors = settingsState.isInvertThemeColors
                 ).surfaceVariant.copy(alpha = 0.8f),

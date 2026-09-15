@@ -5,6 +5,8 @@ Three actions (pick by user intent):
   - `theme`: current colors, night mode, glass / mesh-gradient / glass_alpha / gradient_style
   - `gradientStyles`: ALL valid values for `gradient_style` (use one of these)
   - `nightModes`: ["Light", "Dark", "System"]
+  - `paletteStyles` / `colorSpecs`: all valid values of the global color system
+  - `colorSystem`: current global color system (paletteStyle / contrast / colorSpec / expressiveMotion)
   - `builtinPresets`: [{"id", "name"}, ...] for use with action="apply"
 - set: modify the current theme. All fields optional; pass only what to change.
   Returns the updated theme in the same shape as the `theme` field of "list".
@@ -21,6 +23,12 @@ Fields for action="set" (all optional):
 - mesh_gradient: STRING "true" or "false" — enable mesh gradient background
 - gradient_style: one of the names from list response `gradientStyles`, e.g. "Lavender", "Sunset", "Ocean"
 - glass_alpha: NUMBER (not string) in [0.1, 1.0] — base glass opacity, default 1.0
+- palette_style: global palette style, one of `paletteStyles` from list, e.g. "Expressive", "Vibrant", "TonalSpot" (default)
+- color_spec: global Material color spec, either "Spec2021" (default) or "Spec2025".
+  Spec2025 is the Material 3 Expressive spec (2025 Color Spec, richer and more vibrant colors)
+- expressive_motion: STRING "true" / "false" — enable MaterialExpressiveTheme (expressive spring motion and shapes)
+- contrast: NUMBER in [-1.0, 1.0] — global contrast, default 0.0; negative lowers contrast (e.g. -1.0 is softest)
+  (these four are the GLOBAL color system, not part of any theme preset; switching presets never changes them)
 
 Examples:
 - "what is my current theme" → {"action": "list"}
@@ -29,6 +37,9 @@ Examples:
 - "make the primary color blue" → {"action": "set", "primary": "#3B82F6"}
 - "more airy / less opaque glass" → {"action": "set", "glass_alpha": 0.75}
 - "enable lavender mesh gradient" → {"action": "set", "mesh_gradient": "true", "gradient_style": "Lavender"}
+- "use the Material 3 Expressive color style" → {"action": "set", "palette_style": "Expressive", "color_spec": "Spec2025", "expressive_motion": "true"}
+- "use the 2025 color spec" → {"action": "set", "color_spec": "Spec2025"}
+- "lower the contrast" → {"action": "set", "contrast": -0.5}
 
 On error, the response contains `reasonCode` (e.g. "invalid_color", "unknown_style",
 "unknown_preset") and `message`. Error responses may include `validOptions` (e.g. valid
