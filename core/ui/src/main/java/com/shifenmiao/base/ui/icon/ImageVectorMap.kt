@@ -102,6 +102,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineSearch
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSettings
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineShare
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSingleEdit
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineSlideshow
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSpeedTest
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSurvive30s
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSvgMaker
@@ -260,6 +261,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineRunning
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineSunrise
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineToothbrush
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineWaterDrop
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineWoman
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineWriting
 
 /**
@@ -389,6 +391,10 @@ object IconRegistry {
         "PasswordVault" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LinePasswordVault },
         "BlessingWall" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBlessingWall },
         "Poem" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LinePoem },
+        // ── 经期记录 ──
+        "Period" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineWoman },
+        // ── 广告看看看(ScreenUtils 里 Screen.AdWatch 用的就是 LineSlideshow)──
+        "AdWatch" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSlideshow },
         // ── 习惯打卡定制图标(键与 HabitIcons 存库 iconKey 的 PascalCase 形式对应)──
         "Waterdrop" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineWaterDrop },
         "Sunrise" to { com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSunrise },

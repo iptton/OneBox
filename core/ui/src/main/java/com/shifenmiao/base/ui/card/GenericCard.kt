@@ -8,9 +8,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.MarqueeSpacing
-import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -30,10 +28,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
@@ -80,8 +76,9 @@ data class CardAction(
 private const val ACTION_GRID_COLUMNS = 3
 
 /**
- * 铺满整张卡片的动作面板:动作按网格排列(图标 + 文字),右上角为关闭按钮,
- * 点击空白区域也可收起。遮罩随卡片底色取色,玻璃质感半透明。
+ * 铺满整张卡片的动作面板:动作按网格排列,每个动作是 icon + 文字同在一个
+ * 玻璃容器内的可点击区块,右上角为关闭按钮,点击空白区域也可收起。
+ * 遮罩随卡片底色取色,走真实玻璃模糊。
  */
 @Composable
 private fun ActionGridOverlay(
@@ -114,12 +111,11 @@ private fun ActionGridOverlay(
             modifier = Modifier
                 .fillMaxSize()
                 .clip(shape)
-                // 遮罩跟随卡片底色, 稍透明实底 + 一条细描边营造玻璃边缘
-                .background(containerColor.copy(alpha = 0.85f))
-                .border(
-                    width = 1.dp,
-                    color = contentColor.copy(alpha = 0.08f),
-                    shape = shape
+                // 遮罩跟随卡片底色, 真实玻璃模糊, 看不清时由 glass 回退实底
+                .glassBackground(
+                    style = GlassStyle.Dense,
+                    color = containerColor,
+                    shape = shape,
                 )
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
@@ -164,7 +160,10 @@ private fun ActionGridOverlay(
                         if (rowIndex > 0) {
                             Spacer(modifier = Modifier.height(8.dp))
                         }
-                        Row(modifier = Modifier.fillMaxWidth()) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
                             rowActions.forEachIndexed { columnIndex, action ->
                                 val index = rowIndex * ACTION_GRID_COLUMNS + columnIndex
                                 val isClicked = clickedActionIndex == index
@@ -174,31 +173,34 @@ private fun ActionGridOverlay(
                                     label = "actionScale"
                                 )
 
+                                val tileShape = RoundedCornerShape(16.dp)
+                                // icon 与文字收进同一个玻璃容器, 整块都是点击热区
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center,
                                     modifier = Modifier
                                         .weight(1f)
                                         .scale(scale)
-                                ) {
-                                    FilledTonalIconButton(
-                                        onClick = { handleActionClick(index, action) },
-                                        modifier = Modifier.size(40.dp),
-                                        colors = IconButtonDefaults.filledTonalIconButtonColors(
-                                            containerColor = buttonContainerColor,
-                                            contentColor = buttonContentColor
-                                        ),
-                                    ) {
-                                        Icon(
-                                            imageVector = action.icon,
-                                            contentDescription = action.contentDescription,
-                                            modifier = Modifier.size(20.dp)
+                                        .glassBackground(
+                                            style = GlassStyle.Medium,
+                                            color = buttonContainerColor,
+                                            shape = tileShape,
                                         )
-                                    }
+                                        .clip(tileShape)
+                                        .clickable { handleActionClick(index, action) }
+                                        .padding(horizontal = 4.dp, vertical = 10.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = action.icon,
+                                        contentDescription = action.contentDescription,
+                                        tint = buttonContentColor,
+                                        modifier = Modifier.size(22.dp)
+                                    )
                                     Spacer(modifier = Modifier.height(4.dp))
                                     Text(
                                         text = action.contentDescription,
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = contentColor,
+                                        color = buttonContentColor,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
                                         textAlign = TextAlign.Center
