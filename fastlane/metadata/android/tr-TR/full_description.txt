@@ -1,67 +1,45 @@
-OneBox; görsel işleme, ofis işleri, yapay zeka asistanı ve günlük araçları kapsayan 90'dan fazla aracı tek uygulamada toplayan ücretsiz, hepsi bir arada bir araç kutusudur.
+OneBox; görseller, PDF'ler, dosyalar ve günlük işler için 90'dan fazla aracı, bir de soruları yanıtlamakla kalmayıp araçları sizin için kullanan gerçek bir yapay zeka asistanını sunan ücretsiz araç kutusudur.
 
-【Neden "OneBox"?】
-• One: Tüm günlük araçlar için tek bir uygulama yeterli
-• Box: Her şeyi içine alan bir kutu
-Asıl amacı "çok şey barındırmak" değil, bir daha başka araç uygulamasına geçmek zorunda kalmamanız.
+【Seçtiğiniz modellerle AI sohbeti】
+• Popüler modellere tek giriş noktası: OpenAI GPT, Claude, Gemini, Grok, DeepSeek, Qwen, OpenRouter
+• Üçüncü taraf dostu: OpenAI, Anthropic veya Responses uyumlu her API'yi kendi anahtarınızla bağlayın — bilgisayarınızda çalışan yerel model bile
+• Sesli giriş, görsel ve dosya ekleme, akış halinde yanıtlar, prompt kitaplığı
+• Yazma, yeniden yazma, özetleme ve çeviri yardımı
+• AI içerik dedektörü: bir metnin veya görselin yapay zekayla üretilip üretilmediğini kontrol edin
 
-【Verimlilik Araçları】
-• Teleprompter, not defteri, yapılacaklar listesi, karar çarkı
-• Daimi takvim, bütçe defteri, bulut disk araçları, alışkanlık takibi
-• Kayıt merkezi: sağlık ölçümleri (tansiyon, kilo vb.), eşya ve son kullanma tarihi takibi, adet takibi — hepsi AI içgörüleriyle
+【Gerçekten işi yapan bir agent】
+• Asistan uygulamadaki 70+ aracı çağırır: görsel sıkıştırma ve format dönüştürme, PDF birleştirme ve bölme, OCR ve barkod okuma, EXIF düzenleme, filigran, bütçe defteri, yapılacaklar, notlar, bulut diskler, web arama ve sayfa okuma
+• Telefonunuzda da çalışır: ekranı görür, dokunur, kaydırır, yazar; görevi başka uygulamada tamamlar
+• Yönettiği yerleşik tarayıcı: sayfa açar, içerik okur, betik çalıştırır
+• Agent hafızası ve becerileri: profilinizi ve tercihlerinizi hatırlar
 
-【Dosyalar ve PDF】
-• PDF araçları: birleştirme, bölme, görsel ve metin çıkarma
-• Canlı önizlemeli Markdown düzenleyici
-• Dosya şifreleme, seslerden kapak görseli çıkarma, görsel EXIF düzenleme
-• Dosya yöneticisi ve cihazlar arası dosya aktarımı
+【Anlatın — uygulama onu kursun】
+Menülerde araç aramak yok. Ne istediğinizi söyleyin; OneBox onu çalışan bir araca veya uygulamaya dönüştürsün:
+• "Bugün ne yiyeceğime dair 8 öneri ver." — karar çarkında AI ile oluşturma seçenekleri doldurur
+• "Seyahat planlayıcı." "Yazı üslubu dönüştürücü." — AI ekranlar ve araçlar dahil tüm uygulamayı kurar; sohbetle geliştirin: "butonu mavi yap, tarih seçici ekle"
+• Yanıtlar gerçek kontroller olarak gelir — formlar, kaydırıcılar, tarih, saat, renk ve dosya seçicileri sohbette çizilir; metin duvarı değil
+• Metinden görsel üretin, sonra aynı araç kutusuyla düzenleyin, sıkıştırın, dönüştürün
+• Girdi gereken her araçta AI ile oluşturma var: anlatın, AI sizin için yazsın
 
-【Görsel Araçları】
-• Kırpma, döndürme, yeniden boyutlandırma, format dönüştürme (HEIC / WebP / AVIF vb.)
-• Filtreler, kolaj, uzun görsel birleştirme, GIF araçları
-• QR kod tarama ve oluşturma, renk araçları
-• Görsel sıkıştırma ve format dönüştürme — tümü cihazda işlenir, hiçbir şey yüklenmez
+【Dokunmayı tercih ettiğiniz anlar için araç kutusu】
+• Görseller: kırpma, filtreler, kolaj, uzun görsel birleştirme, GIF, katmanlar, fırçalar ve metinle görsel stüdyosu, format dönüştürme (HEIC / WebP / AVIF), sıkıştırma — hepsi cihazda
+• Dosyalar ve PDF: birleştirme, bölme, metin ve görsel çıkarma, canlı önizlemeli Markdown düzenleyici, dosya şifreleme, EXIF düzenleme, cihazlar arası aktarım
+• Verimlilik: teleprompter, not defteri, yapılacaklar, bütçe defteri, alışkanlık takibi, takvim, karar çarkı, AI içgörüleriyle kayıt merkezi (sağlık, eşya ve son kullanma tarihi, adet takibi)
+• Günlük: vesikalık fotoğraf, QR kod tarama ve oluşturma, hız testi, filigranlı kamera, birim çevirici, Metin Kartı, I Ching falı, mini oyunlar
+• Reklam İzle: ödüllü reklam izleyip AI puanı kazanın — tercih sizin, asla zorunlu değil
 
-【Yaşam İçin Küçük Araçlar】
-• Vesikalık fotoğraf, internet hız testi, filigranlı kamera
-• Dilek duvarı, zaman kum saati, Apk.1 yükleyici
-• Ekran ve medya araçları, boş zamanlara mini oyunlar: Mayın Tarlası, 30 Saniye Hayatta Kal ve dahası
-• Reklam İzle: isteğe bağlı ödüllü reklamlar izleyerek AI puanı kazanın — tercih sizin, asla zorunlu değil
+【DSH istemcisi: bilgisayarınızdaki AI ajanı, telefonunuzdan】
+Bilgisayarınızda DeepSeek Harness (DSH) mi çalışıyor? QR kodu tarayıp eşleştirin; sonra her yerden onaylayın, devam ettirin veya kesintiye uğratın — LAN üzerinden ya da uçtan uca şifreli bir aktarımla. Açık kaynaklı onebox-dsh-bridge eklentisiyle çalışır.
 
-【Yapay Zeka Asistanı: Sadece Çok Özellik Değil】
-Çok özellik olsaydı, bunu birçok araç kutusu uygulaması zaten yapıyor. OneBox'ta yerleşik bir yapay zeka asistanı var; araçları aramanıza veya adımları ezberlemenize gerek yok, sadece söyleyin:
-• "Görseli PDF'e dönüştür."
-• "Fatura ekran görüntüsünü bütçe defterine kaydet."
-• "Bir yapılacaklar listesi oluştur."
-• "Borsa fiyatlarına bak."
-AI anlar, uygular ve sonucu bildirir — tek seferde.
-• Tek bir sohbetten önde gelen birçok yapay zeka modeline erişin, artık sesli girişle
-• AI Agent, görevlerinizi tamamlamak için uygulama içi araçları kullanabilir
-• Agent hafızası ve becerileri: profilinizi hatırlar, çalışma tarzınızı öğrenir
-• AI içerik dedektörü: metin veya görselin yapay zekayla üretilip üretilmediğini kontrol edin
-• Yazma, yeniden yazma, özetleme ve çeviri yardımcıları
-• Özel AI motorları ve prompt yönetimi
-
-【DSH istemcisi: bilgisayarınızdaki AI ajanını telefondan yönetin】
-Bilgisayarınızda DeepSeek Harness (DSH) mi çalışıyor? QR kodu taratarak eşleştirin ve her yerden yönetin:
-• Görevleri onaylayın, soruları sıraya alın veya yarıda kesin — yolda ya da kanepede
-• LAN doğrudan bağlantı veya uçtan uca şifreli bulut aktarımı — sunucu konuşmalarınızı göremez
-• Her adım şeffaf: akıl yürütme, komutlar, çıktılar, süre ve token istatistikleri
-Bilgisayarınızdaki açık kaynaklı onebox-dsh-bridge eklentisiyle çalışır.
-
-【Kendi Kendine Evrilen Uygulama】
-OneBox statik değil; bir "AI kendi kendine evrim sistemi"ne sahip:
-Kullanıcılar öneri bırakır → AI bunları bir ürün yöneticisi gibi analiz eder → kod otomatik oluşturulur → test edilir ve yayınlanır.
-Bildirdiğiniz hatalar, istediğiniz özellikler ve önerileriniz AI tarafından değerlendirilip hayata geçirilebilir. Yani OneBox kullandıkça ihtiyaçlarınıza daha çok uyum sağlar.
+【Kendi kendine evrilen bir uygulama】
+Geri bildiriminiz → AI bunları bir ürün yöneticisi gibi okur → kod üretilir, test edilir ve yayınlanır. Hata bildirimleri, özellik istekleri, küçük iyileştirmeler — herhangi biri bu şekilde hayata geçebilir; OneBox'ı kullandıkça size daha iyi uyar.
 
 【Neden OneBox】
-• Ücretsiz kullanım, zorunlu reklam yok — ödüllü reklamlar isteğe bağlı, AI puanı kazandırır
-• Önce gizlilik: görseller ve belgeler cihazda yerel olarak işlenir
+• Ücretsiz, zorunlu reklam yok — ödüllü reklamlar isteğe bağlı, AI puanı kazandırır
+• Önce gizlilik: görseller ve belgeler cihazda işlenir
 • Sade ve modern Material Design arayüzü
-• Sürekli güncellenir, yeni araçlar eklenir
+• Yeni araçlar ve AI özellikleri sürekli ekleniyor
 
-"Son araç uygulamanız" olmak büyük bir hedef, ama OneBox şimdiden üç kritik adım attı: sık kullanılan araçları tek girişte toplamak, yapay zekayla kullanımı kolaylaştırmak ve kullanıcı geri bildiriminin ürünün evrimini yönlendirmesini sağlamak.
-
-Onlarca araç uygulaması arasında geçiş yapmaktan yorulduysanız, bir deneyin — belki son uygulamanız olur.
+Onlarca araç uygulaması arasında geçiş yapmaktan yorulduysanız, bir deneyin — belki gerçekten son uygulamanız olur.
 
 Bize ulaşın: support@oneboxable.com

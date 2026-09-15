@@ -1,66 +1,45 @@
-O OneBox é uma caixa de ferramentas completa e gratuita: mais de 90 ferramentas em um único app — imagens, documentos, assistente de IA e produtividade do dia a dia.
+O OneBox é uma caixa de ferramentas tudo-em-um e gratuita: 90+ ferramentas para imagens, PDF, arquivos e o dia a dia — e um assistente de IA de verdade que não só responde: ele usa as ferramentas por você.
 
-【Por que o nome "OneBox"?】
-• One: todas as ferramentas do dia a dia em um único app
-• Box: uma caixa que comporta tudo
-O objetivo não é "ter muita coisa", mas nunca mais trocar de app de ferramentas.
-
-【Ferramentas de produtividade】
-• Teleprompter, notas, tarefas, roleta de decisões
-• Calendário, controle de gastos, nuvem, registro de hábitos
-• Central de registros: saúde (pressão arterial, peso e mais), itens e validades, ciclo menstrual — tudo com insights de IA
-
-【Arquivos e PDF】
-• Ferramentas de PDF: mesclar, dividir, extrair imagens e texto
-• Editor Markdown com pré-visualização em tempo real
-• Criptografia de arquivos, capas de áudio, edição de EXIF
-• Navegador de arquivos e transferência entre dispositivos
-
-【Ferramentas de imagem】
-• Recortar, girar, redimensionar e converter formatos (HEIC / WebP / AVIF e mais)
-• Filtros, colagens, costura de imagens longas e ferramentas de GIF
-• Leitura e geração de QR codes, ferramentas de cores
-• Compressão e conversão de imagens, tudo local, sem upload
-
-【Utilidades do dia a dia】
-• Fotos para documentos, teste de velocidade, câmera com marca d'água
-• Mural de bênçãos, ampulheta do tempo, instalador de Apk.1
-• Ferramentas de tela e mídia, minijogos para o tempo livre: Caça-minas, Sobreviva 30s e mais
-• Ad Watch: anúncios recompensados opcionais para ganhar pontos de IA — você decide, nunca forçado
-
-【Assistente de IA: muito mais do que quantidade】
-Muitos apps de ferramentas têm muitas funções. O OneBox vai além, com um assistente de IA integrado — sem caçar a ferramenta certa nem decorar passos, basta falar:
-• "Converta esta imagem em PDF."
-• "Anote esta captura da fatura no controle de gastos."
-• "Crie uma lista de tarefas."
-• "Consulte as cotações da bolsa."
-A IA entende, executa e responde, tudo em sequência.
-• Um único acesso para conversar com vários modelos de IA líderes, agora com entrada de voz
-• O AI Agent pode usar as ferramentas do app para concluir tarefas por você
-• Memória e habilidades do agente: o assistente lembra do seu perfil e aprende como você trabalha
-• Detector de conteúdo de IA: verifique se um texto ou imagem foi gerado por IA
+【Chat de IA, com os modelos que você escolher】
+• Uma única entrada para os principais modelos: OpenAI GPT, Claude, Gemini, Grok, DeepSeek, Qwen, OpenRouter
+• Aberto: conecte qualquer API compatível com OpenAI, Anthropic ou Responses com sua API Key, ou um modelo local no seu computador
+• Entrada de voz, anexos de imagem e arquivo, respostas em streaming, biblioteca de prompts
 • Assistentes de escrita, reescrita, resumo e tradução
-• Mecanismos de IA personalizados e gerenciamento de prompts
+• Detector de conteúdo de IA: veja se um texto ou imagem foi gerado por IA
 
-【Cliente DSH: comande o agente de IA do seu computador pelo celular】
-Está rodando o DeepSeek Harness (DSH) no seu computador? Escaneie um QR code para parear e comande de qualquer lugar:
-• Aprove tarefas, enfileire perguntas ou interrompa — no trajeto ou no sofá
-• Conexão LAN direta ou retransmissão em nuvem com criptografia de ponta a ponta — o servidor não vê suas conversas
-• Cada etapa transparente: raciocínio, comandos, resultados, tempo e tokens
-Funciona com o plugin de código aberto onebox-dsh-bridge no seu computador.
+【Um agente que realmente faz o trabalho】
+• O assistente chama 70+ ferramentas: compressão e conversão de imagens, mesclar e dividir PDF, OCR e códigos de barras, edição de EXIF, marcas d'água, controle de gastos, tarefas, notas, nuvens, busca na web e leitura de páginas
+• Ele também mexe no seu celular: vê a tela, toca, desliza e digita para concluir tarefas em outros apps
+• Um navegador integrado que ele controla: abre páginas, lê conteúdo, executa scripts
+• Memória e habilidades do agente: ele lembra seu perfil e como você gosta que as coisas sejam feitas
+
+【Descreva — o app constrói】
+Pare de caçar menus. Diga o que você quer e o OneBox transforma em ferramenta ou app que funciona:
+• "Me dê 8 opções do que comer hoje." — a criação com IA da roleta de decisões preenche as opções
+• "Planejador de viagens." "Conversor de estilo de artigo." — a IA constrói o app inteiro, com telas e ferramentas; refine conversando: "deixa o botão azul, adiciona um seletor de data"
+• As respostas chegam como controles de verdade — formulários, sliders e seletores de data, hora, cor e arquivo, nativos no chat, não uma parede de texto
+• Gere imagens a partir de um texto e edite, comprima ou converta com a mesma caixa de ferramentas
+• Toda ferramenta com dados de entrada tem criação com IA: descreva e a IA escreve para você
+
+【A caixa de ferramentas, se você preferir tocar】
+• Imagens: recortar, filtros, colagem, unir imagens longas, GIF, Image Studio com camadas, pincéis e texto, conversão (HEIC / WebP / AVIF) e compressão — tudo local
+• Arquivos e PDF: mesclar, dividir, extrair texto e imagens, editor Markdown com pré-visualização, criptografia, edição de EXIF, transferência entre dispositivos
+• Produtividade: teleprompter, notas, tarefas, controle de gastos, hábitos, calendário, roleta de decisões, central de registros com IA (saúde, itens e validades, ciclo menstrual)
+• Dia a dia: fotos para documentos, ler e gerar QR, teste de velocidade, câmera com marca d'água, conversor de unidades, Cartão de texto, adivinhação do I Ching, minijogos
+• Ad Watch: assista a um anúncio recompensado e ganhe pontos de IA — você decide, nunca obrigatório
+
+【Cliente DSH: o agente de IA do seu computador, pelo celular】
+Roda o DeepSeek Harness (DSH)? Escaneie um QR para parear e aprove, dê seguimento ou interrompa de onde quiser, por LAN ou por retransmissão com criptografia de ponta a ponta. Funciona com o plugin de código aberto onebox-dsh-bridge.
 
 【Um app que evolui sozinho】
-O OneBox não é estático: ele tem um "sistema de autoevolução com IA" — você deixa sugestões → a IA analisa como gerente de produto → o código é gerado, testado e publicado.
-Bugs reportados, recursos desejados, sugestões de melhoria: tudo pode ser avaliado e implementado pela IA. Ou seja, o OneBox se adapta cada vez mais a você com o uso.
+Seu feedback → uma IA lê como gerente de produto → o código é gerado, testado e publicado. Bugs, recursos que você quer, melhorias pequenas: qualquer um pode sair assim, e o OneBox se encaixa melhor em você quanto mais você usa.
 
-【Por que escolher o OneBox】
-• Gratuito, sem anúncios forçados — anúncios recompensados são opcionais e rendem pontos de IA
-• Privacidade em primeiro lugar: imagens e documentos são processados localmente
+【Por que OneBox】
+• Gratuito e sem anúncios forçados — os anúncios recompensados são opcionais e rendem pontos de IA
+• Privacidade em primeiro lugar: imagens e documentos são processados localmente no seu celular
 • Interface limpa e moderna em Material Design
-• Atualizações constantes, sempre com novas ferramentas
+• Novas ferramentas e recursos de IA não param de chegar
 
-"Ser o último app de ferramentas" é uma meta ambiciosa, mas o OneBox já deu três passos: reunir as ferramentas em um só lugar, simplificar o uso com IA e deixar o feedback guiar a evolução.
-
-Cansado de alternar entre uma dezena de apps de ferramentas? Experimente o OneBox — talvez ele se torne o último.
+Cansado de alternar entre uma dezena de apps? Experimente: pode ser que seja o último que você precisa.
 
 Fale conosco: support@oneboxable.com

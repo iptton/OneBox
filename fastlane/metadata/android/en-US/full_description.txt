@@ -1,66 +1,44 @@
-OneBox is a free all-in-one toolbox that packs 90+ carefully crafted tools into a single app, covering image processing, document work, AI assistance and everyday productivity.
+OneBox is a free all-in-one toolbox: 90+ tools for images, PDFs, files and everyday life — plus a real AI assistant that doesn't just answer questions, it uses the toolbox for you.
 
-【Why the name "OneBox"】
-• One: all your everyday tools, in just one app
-• Box: one box that holds them all
-What it really aims for is not just "packing a lot in" — it's making sure you never have to switch to another tool app again.
-
-【Productivity tools】
-• Teleprompter, notepad, to-do lists, decision wheel
-• Perpetual calendar, bookkeeping, cloud drive tools, habit tracker
-• Record center: health metrics (blood pressure, weight and more), item & expiry tracking, period tracker — all with AI insights
-
-【Files & PDF】
-• PDF tools: merge, split, extract images and text
-• Markdown editor with live preview
-• File encryption, audio cover art extraction, image EXIF editing
-• File browser and file transfer between devices
-
-【Image tools】
-• Crop, rotate, resize and convert formats (HEIC / WebP / AVIF and more)
-• Filters, collage maker, long-image stitching, GIF tools
-• QR code scanning and generation, color tools
-• Image compression and format conversion — all processed locally, never uploaded
-
-【Everyday gadgets】
-• ID photos, network speed test, watermark camera
-• Wish wall, time hourglass, Apk.1 installer
-• Screen and media tools, plus mini-games for your spare time: Minesweeper, Survive 30s and more
-• Ad Watch: optionally watch rewarded ads to earn AI points — your call, never forced
-
-【AI assistant: more than just a long feature list】
-Plenty of toolbox apps can claim a long feature list. OneBox goes further with a built-in AI assistant — no more hunting for the right tool or memorizing steps. Just say what you need:
-• "Turn this image into a PDF."
-• "Add this bill screenshot to my ledger."
-• "Make me a to-do list."
-• "Check the stock market for me."
-The AI understands, acts and reports back — all in one go.
-• Chat with multiple leading AI models from a single entry point, now with voice input
-• An AI Agent that can call the app's tools to get tasks done for you
-• Agent memory & skills: the assistant remembers your profile and learns how you work
+【AI chat, with the models you choose】
+• One entry point for mainstream models: OpenAI GPT, Claude, Gemini, Grok, DeepSeek, Qwen, OpenRouter
+• Third-party friendly: plug in any OpenAI-, Anthropic- or Responses-compatible API with your own key — even a local model running on your own computer
+• Voice input, image and file attachments, streaming replies, prompt library
+• Writing, rewriting, summarizing and translation help
 • AI content detector: check whether a piece of text or an image was AI-generated
-• Writing, rewriting, summarizing and translation helpers
-• Custom AI engines and prompt management
 
-【DSH client: command your computer's AI agent from your phone】
-Running DeepSeek Harness (DSH) on your computer? Scan a QR code to pair, then command it from anywhere:
-• Approve tasks, queue follow-ups or interrupt — from your commute or your couch
-• LAN direct connection, or an end-to-end encrypted cloud relay — the server can't see your conversations
-• Every step stays transparent: reasoning, commands, outputs, timing and token stats
-Works with the open-source onebox-dsh-bridge plugin on your computer.
+【An agent that actually does the work】
+• The assistant calls 70+ tools inside the app: image compression and format conversion, PDF merge and split, OCR and barcode reading, EXIF editing, watermarks, bookkeeping, to-dos, notes, cloud drives, web search and page reading
+• It can work your phone too: see the screen, tap, swipe and type to finish a task in another app
+• A built-in browser it can drive: open pages, read content, run scripts
+• Agent memory and skills: it remembers your profile and how you like things done
+
+【Describe it — the app builds it】
+Stop hunting through menus. Say what you want and OneBox turns it into a working tool or app:
+• "Give me 8 candidates for what to eat today." — AI create on the decision wheel fills in the options for you
+• "Travel planner." "Article style converter." — AI builds the whole app, screens and tools included; refine it by chatting: "change the button to blue, add a date picker"
+• Answers arrive as real controls — forms, sliders, date, time, color and file pickers rendered natively in the chat, not a wall of text
+• Generate images from a text prompt, then edit, compress or convert them with the same toolbox
+• Every tool that needs input has an AI create entry: describe it, and the AI writes it for you
+
+【The toolbox, for when you'd rather tap】
+• Images: crop, filters, collage, long-image stitching, GIF, Image Studio with layers, brushes and text, format conversion (HEIC / WebP / AVIF), compression — all local
+• Files & PDF: merge, split, extract text and images, Markdown editor with live preview, file encryption, EXIF editing, device-to-device transfer
+• Productivity: teleprompter, notepad, to-dos, bookkeeping, habit tracker, calendar, decision wheel, record center with AI insights (health, items and expiry, period)
+• Everyday: ID photos, QR scan and generate, speed test, watermark camera, unit converter, Text Card, I Ching divination, mini-games
+• Ad Watch: watch a rewarded ad to earn AI points — your call, never forced
+
+【DSH client: your computer's AI agent, from your phone】
+Running DeepSeek Harness (DSH)? Scan a QR code to pair, then approve, follow up or interrupt from anywhere, over LAN or an end-to-end encrypted relay. Works with the open-source onebox-dsh-bridge plugin.
 
 【An app that evolves on its own】
-OneBox is not static. It runs an "AI self-evolution system":
-You leave feedback → an AI analyzes it as a product manager → code is generated automatically → tested and shipped.
-The bugs you report, the features you want, the polish you suggest — any of it may be evaluated and built by AI. In other words, OneBox fits your needs better the more you use it.
+Your feedback → an AI reads it as a product manager → code is generated, tested and shipped. Bug reports, feature requests, small polish ideas — any of it may be built this way, so OneBox fits you better the more you use it.
 
 【Why OneBox】
-• Free to use, no forced ads — rewarded ads are optional and earn you AI points
+• Free to use, no forced ads — rewarded ads are optional and earn AI points
 • Privacy first: images and documents are processed locally on your device
 • Clean, modern Material Design interface
-• Constantly updated with new tools
-
-"The last tool app you'll ever need" is an ambitious goal, but OneBox has already taken three key steps: bringing everyday tools into one place, making them effortless to use with AI, and letting real user feedback drive how the product evolves.
+• New tools and AI features keep landing
 
 If you're tired of hopping between a dozen tool apps, give it a try — it might really become the last one you need.
 

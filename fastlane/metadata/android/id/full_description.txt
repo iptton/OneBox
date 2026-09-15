@@ -1,67 +1,45 @@
-OneBox adalah kotak peralatan serbaguna gratis, mengemas 90+ alat pilihan dalam satu aplikasi, mencakup pemrosesan gambar, dokumen, asisten AI, dan alat efisiensi sehari-hari.
+OneBox adalah kotak peralatan serbaguna gratis: 90+ alat untuk gambar, PDF, file, dan kebutuhan sehari-hari — plus asisten AI sungguhan yang bukan cuma menjawab, tapi memakai kotak peralatan itu untuk Anda.
 
-【Mengapa disebut "OneBox"】
-• One: semua alat sehari-hari, satu aplikasi saja cukup
-• Box: satu kotak yang memuat semuanya
-Tujuannya bukan sekadar "memuat banyak", melainkan memastikan Anda tak perlu berganti aplikasi alat lain.
-
-【Alat Efisiensi】
-• Teleprompter, catatan, daftar tugas, roda pengambil keputusan
-• Kalender abadi, pembukuan, alat cloud drive, pelacak kebiasaan
-• Pusat catatan: kesehatan (tekanan darah, berat badan, dll.), barang & kedaluwarsa, siklus — semua dengan wawasan AI
-
-【File & PDF】
-• Alat PDF: gabungkan, pisahkan, ekstrak gambar dan teks
-• Editor Markdown dengan pratinjau langsung
-• Enkripsi file, ekstraksi sampul audio, pengeditan EXIF gambar
-• Penjelajah file dan transfer file antar perangkat
-
-【Alat Gambar】
-• Pangkas, putar, ubah ukuran, konversi format (HEIC / WebP / AVIF, dll.)
-• Filter, kolase, penggabungan gambar panjang, alat GIF
-• Pemindaian dan pembuatan kode QR, alat warna
-• Kompresi dan konversi format gambar, semuanya diproses lokal, tidak diunggah
-
-【Alat Kehidupan Sehari-hari】
-• Foto dokumen, uji kecepatan jaringan, kamera watermark
-• Dinding harapan, jam pasir waktu, penginstal Apk.1
-• Alat layar dan media, plus mini-game untuk waktu luang: Minesweeper, Survive 30s, dll.
-• Ad Watch: tonton iklan berhadiah sukarela untuk poin AI — pilihan Anda, tanpa paksaan
-
-【Asisten AI: Lebih dari Sekadar Banyak Fitur】
-Soal banyak fitur, banyak aplikasi kotak peralatan bisa melakukannya. OneBox memiliki asisten AI bawaan — tak perlu mencari alat satu per satu atau mengingat langkahnya, cukup ucapkan saja:
-• "Ubah gambar menjadi PDF."
-• "Catat tangkapan layar tagihan ini ke pembukuan."
-• "Buatkan daftar tugas."
-• "Cek harga saham."
-AI memahami, mengeksekusi, dan memberi umpan balik dalam satu alur.
-• Satu pintu mengobrol dengan berbagai model AI utama, kini dengan input suara
-• AI Agent dapat memanggil alat dalam aplikasi untuk menyelesaikan tugas Anda
-• Memori & keterampilan Agent: asisten mengingat profil dan mempelajari cara kerja Anda
-• Detektor konten AI: periksa apakah teks atau gambar dihasilkan oleh AI
+【Obrolan AI dengan model pilihan Anda】
+• Satu pintu masuk untuk model-model utama: OpenAI GPT, Claude, Gemini, Grok, DeepSeek, Qwen, OpenRouter
+• Ramah pihak ketiga: sambungkan API apa pun yang kompatibel dengan OpenAI, Anthropic, atau Responses memakai API Key Anda — bahkan model lokal yang berjalan di komputer Anda
+• Input suara, lampiran gambar dan file, balasan streaming, pustaka prompt
 • Asisten menulis, menulis ulang, meringkas, dan menerjemahkan
-• Mesin AI kustom dan manajemen prompt
+• Detektor konten AI: periksa apakah teks atau gambar buatan AI
 
-【Klien DSH: kendalikan agen AI di komputermu dari ponsel】
-Menjalankan DeepSeek Harness (DSH) di komputer? Pindai kode QR untuk memasangkan, lalu kendalikan dari mana saja:
-• Setujui tugas, antrekan pertanyaan lanjutan, atau menyela — di perjalanan atau di sofa
-• Koneksi langsung LAN, atau relai cloud terenkripsi end-to-end — server tak bisa melihat percakapanmu
-• Setiap langkah transparan: penalaran, perintah, hasil, durasi, dan statistik token
-Bekerja dengan plugin open-source onebox-dsh-bridge di komputermu.
+【Agent yang benar-benar mengerjakan tugasnya】
+• Asisten memanggil 70+ alat di dalam App: kompresi gambar, konversi format, gabung dan pisah PDF, OCR dan barcode, pengeditan EXIF, watermark, pembukuan, to-do, catatan, cloud drive, pencarian web, baca halaman
+• Ia juga bisa mengoperasikan ponsel Anda: melihat layar, mengetuk, menggeser, dan mengetik untuk menuntaskan tugas di App lain
+• Browser bawaan yang bisa ia kendalikan: buka halaman, baca konten, jalankan skrip
+• Memori dan keterampilan Agent: ia mengingat profil dan cara Anda ingin sesuatu dikerjakan
 
-【Aplikasi yang Berevolusi Sendiri】
-OneBox bukan aplikasi statis — ia memiliki "Sistem Evolusi Mandiri AI":
-Saran pengguna → AI menganalisis sebagai product manager → kode dibuat otomatis → diuji dan dirilis.
-Bug yang Anda laporkan, fitur yang Anda inginkan, dan saran peningkatan pengalaman, semuanya berpeluang dievaluasi dan diwujudkan oleh AI. Artinya, OneBox makin sesuai dengan kebutuhan Anda seiring pemakaian.
+【Deskripsikan — App yang membangunnya】
+Tak perlu cari di menu. Katakan yang Anda mau dan OneBox mengubahnya jadi alat atau App yang berfungsi:
+• "Beri aku 8 pilihan untuk makan hari ini." — AI create di roda pengambil keputusan mengisi opsinya untuk Anda
+• "Perencana perjalanan." "Pengubah gaya artikel." — AI membangun seluruh App, layar dan alatnya; sempurnakan lewat obrolan: "ubah tombolnya jadi biru, tambahkan pemilih tanggal"
+• Jawaban datang sebagai kontrol nyata — formulir, slider, pemilih tanggal, waktu, warna, dan file, dirender langsung di obrolan, bukan dinding teks
+• Buat gambar dari deskripsi teks, lalu edit, kompres, atau konversi dengan kotak peralatan yang sama
+• Setiap alat yang butuh masukan punya pintu AI create: deskripsikan, dan AI menuliskannya untuk Anda
 
-【Mengapa Memilih OneBox】
-• Gratis digunakan, tanpa iklan paksa — iklan berhadiah sukarela dan menghasilkan poin AI
+【Kotak peralatan, saat Anda lebih suka mengetuk sendiri】
+• Gambar: pangkas, filter, kolase, gabung gambar panjang, GIF, Image Studio dengan lapisan, kuas, dan teks, konversi format (HEIC / WebP / AVIF), kompresi — semuanya lokal
+• File & PDF: gabung, pisah, ekstrak teks dan gambar, editor Markdown dengan pratinjau langsung, enkripsi file, pengeditan EXIF, transfer antarperangkat
+• Produktivitas: teleprompter, notepad, to-do, pembukuan, pelacak kebiasaan, kalender, roda pengambil keputusan, pusat catatan dengan wawasan AI (kesehatan, barang dan kedaluwarsa, siklus)
+• Sehari-hari: foto dokumen, pindai dan buat QR, uji kecepatan, kamera watermark, konverter satuan, Text Card, ramalan I Ching, mini-game
+• Ad Watch: tonton iklan berhadiah untuk mendapat poin AI — pilihan Anda, tidak pernah dipaksa
+
+【Klien DSH: agen AI komputer Anda, dari ponsel】
+Menjalankan DeepSeek Harness (DSH)? Pindai kode QR untuk memasangkan, lalu setujui, antrekan lanjutan, atau hentikan dari mana saja — lewat LAN atau relai terenkripsi end-to-end. Bekerja dengan plugin open-source onebox-dsh-bridge.
+
+【App yang berevolusi sendiri】
+Umpan balik Anda → AI membacanya sebagai product manager → kode dibuat, diuji, dan dirilis. Laporan bug, permintaan fitur, ide penyempurnaan kecil — semuanya bisa dibangun begitu, jadi OneBox makin cocok untuk Anda makin sering Anda pakai.
+
+【Mengapa OneBox】
+• Gratis dipakai, tanpa iklan paksa — iklan berhadiah opsional dan memberi poin AI
 • Privasi utama: gambar dan dokumen diproses lokal di perangkat Anda
 • Antarmuka Material Design yang bersih dan modern
-• Terus diperbarui dengan alat-alat baru
+• Alat dan fitur AI baru terus hadir
 
-"Aplikasi alat terakhir" adalah tujuan besar, tetapi OneBox telah mengambil tiga langkah penting: mengumpulkan alat yang sering dipakai dalam satu pintu, mempermudah penggunaan dengan AI, dan menjadikan umpan balik pengguna sebagai penggerak evolusi produk.
-
-Jika Anda lelah berpindah-pindah di antara belasan aplikasi alat, cobalah yang satu ini — mungkin ia benar-benar menjadi yang terakhir untuk Anda.
+Jika Anda lelah berpindah di antara belasan App alat, coba OneBox — mungkin ia benar-benar yang terakhir Anda butuhkan.
 
 Hubungi kami: support@oneboxable.com
