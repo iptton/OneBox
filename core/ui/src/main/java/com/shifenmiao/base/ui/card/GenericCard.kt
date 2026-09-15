@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.MarqueeSpacing
+import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -77,8 +78,8 @@ private const val ACTION_GRID_COLUMNS = 3
 
 /**
  * 铺满整张卡片的动作面板:动作按网格排列,每个动作是 icon + 文字同在一个
- * 玻璃容器内的可点击区块,右上角为关闭按钮,点击空白区域也可收起。
- * 遮罩与操作块统一用最不透明的 GlassStyle.Darker,遮罩固定 surfaceContainer 色。
+ * 带底色容器内的可点击区块,右上角为关闭按钮,点击空白区域也可收起。
+ * 遮罩与操作块均为 0.97 近实底,遮罩固定 surfaceContainer 色。
  */
 @Composable
 private fun ActionGridOverlay(
@@ -110,12 +111,8 @@ private fun ActionGridOverlay(
             modifier = Modifier
                 .fillMaxSize()
                 .clip(shape)
-                // 整片遮罩固定 surfaceContainer, 用玻璃体系最不透明的一档
-                .glassBackground(
-                    style = GlassStyle.Darker,
-                    color = MaterialTheme.colorScheme.surfaceContainer,
-                    shape = shape,
-                )
+                // 整片遮罩固定 surfaceContainer, 0.97 近实底(玻璃管线会二次衰减 alpha, 达不到不透)
+                .background(MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.97f), shape)
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
@@ -173,18 +170,14 @@ private fun ActionGridOverlay(
                                 )
 
                                 val tileShape = RoundedCornerShape(16.dp)
-                                // icon 与文字收进同一个玻璃容器, 整块都是点击热区
+                                // icon 与文字收进同一个带底色容器, 0.97 近实底, 整块都是点击热区
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.Center,
                                     modifier = Modifier
                                         .weight(1f)
                                         .scale(scale)
-                                        .glassBackground(
-                                            style = GlassStyle.Darker,
-                                            color = buttonContainerColor,
-                                            shape = tileShape,
-                                        )
+                                        .background(buttonContainerColor.copy(alpha = 0.97f), tileShape)
                                         .clip(tileShape)
                                         .clickable { handleActionClick(index, action) }
                                         .padding(horizontal = 4.dp, vertical = 10.dp)
