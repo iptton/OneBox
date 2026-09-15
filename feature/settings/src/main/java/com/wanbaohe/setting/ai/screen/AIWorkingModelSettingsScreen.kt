@@ -162,8 +162,15 @@ private fun WorkingEngineSummaryCard(
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
+                    // 代理中转链路按模型倍率扣积分,模型名后追加倍率
+                    val modelText = stringResource(
+                        R.string.ai_working_model_current_model,
+                        engine.model.title.ifBlank { engine.model.name }
+                    )
                     Text(
-                        text = stringResource(R.string.ai_working_model_current_model, engine.model.title.ifBlank { engine.model.name }),
+                        text = if (engine.usesProxyRoute()) {
+                            "$modelText · ${engine.model.pointsMultiplierText()}"
+                        } else modelText,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

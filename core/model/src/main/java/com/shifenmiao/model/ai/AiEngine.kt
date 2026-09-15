@@ -92,6 +92,14 @@ data class AiEngine(
         return proxyUrl.isNotBlank() && proxyPath.isNotBlank()
     }
 
+    /**
+     * 当前实际走 App 中转代理链路：无法直连官方 API,但代理路由已配置。
+     * 该链路下聊天按模型 basePoints 倍率扣积分。
+     */
+    fun usesProxyRoute(): Boolean {
+        return !canChatDirectly() && hasProxyRouteConfigured()
+    }
+
     fun hasAvailableChatRoute(): Boolean {
         return requestProtocol == AiRequestProtocol.LOCAL_ON_DEVICE ||
             canChatDirectly() ||

@@ -458,6 +458,18 @@ private fun ModelCard(
                         modifier = Modifier.weight(1f)
                     )
                     ProviderBadge(engine = engine, model = model, isSelected = isSelected)
+                    // 代理中转链路按模型倍率扣积分,展示倍率
+                    if (engine.usesProxyRoute()) {
+                        Text(
+                            text = model.pointsMultiplierText(),
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 10.sp,
+                            ),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                        )
+                    }
                 }
 
                 if (model.description.isNotBlank()) {
@@ -717,6 +729,17 @@ fun ModelGridItem(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
+
+            // 代理中转链路按模型倍率扣积分,展示倍率
+            if (engine.usesProxyRoute()) {
+                Text(
+                    text = model.pointsMultiplierText(),
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    textAlign = TextAlign.Center,
+                )
+            }
 
             if (isSelected) {
                 Surface(

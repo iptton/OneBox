@@ -6,6 +6,8 @@ import com.shifenmiao.interfaces.singleton.AppContext
 import com.shifenmiao.model.ai.AiProvider.Default
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.Date
 
 
@@ -57,6 +59,18 @@ data class AiModel(
     fun effectiveContextWindow(): Int {
         if (contextWindowTokens > 0) return contextWindowTokens
         return resolveContextWindow(name)
+    }
+
+    /**
+     * 积分倍率展示文本(去尾零、最多两位小数),如 "1x"、"0.65x"、"0x"。
+     * 代理中转链路下按 totalTokens × basePoints 结算积分。
+     */
+    fun pointsMultiplierText(): String {
+        val value = BigDecimal(basePoints.toDouble())
+            .setScale(2, RoundingMode.HALF_UP)
+            .stripTrailingZeros()
+            .toPlainString()
+        return "${value}x"
     }
 
     companion object {

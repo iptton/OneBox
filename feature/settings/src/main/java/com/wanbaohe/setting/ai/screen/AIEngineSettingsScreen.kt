@@ -333,6 +333,10 @@ private fun EngineListCard(
                     if (engine.hasDirectConnectionReady()) {
                         EngineBadge(text = stringResource(R.string.ai_engine_role_verified))
                     }
+                    // 代理中转链路按模型倍率扣积分,展示当前选中模型的倍率
+                    if (engine.usesProxyRoute()) {
+                        EngineBadge(text = engine.model.pointsMultiplierText())
+                    }
                     Spacer(modifier = Modifier.size(4.dp))
                     EngineBadge(
                         text = stringResource(

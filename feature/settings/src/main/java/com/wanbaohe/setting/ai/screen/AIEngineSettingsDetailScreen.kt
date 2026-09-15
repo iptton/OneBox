@@ -2,6 +2,7 @@ package com.wanbaohe.setting.ai.screen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,9 +35,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -89,6 +92,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineModelTraining
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineHeat
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineDatasetLinked
 import com.t8rin.imagetoolbox.core.resources.icons.line.LineHighQuality
+import com.t8rin.imagetoolbox.core.resources.icons.line.LineKeyboardArrowDown
 
 @Composable
 fun AIEngineSettingsDetailScreen(
@@ -956,12 +960,17 @@ private fun ModelSelectionCard(
                 )
             }
         } else {
+            // 代理中转链路下按模型倍率扣积分,在模型后展示倍率
+            val showPointsMultiplier = engine.usesProxyRoute()
             LazyRow(horizontalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.compactSpacing)) {
                 items(models, key = { it.id }) { model ->
                     EngineFilterChip(
                         text = model.title.ifBlank { model.name },
                         isSelected = model.id == engine.model.id,
                         onClick = { onModelSelected(model) },
+                        trailingText = if (showPointsMultiplier) {
+                            model.pointsMultiplierText()
+                        } else null,
                     )
                 }
             }
@@ -1053,6 +1062,7 @@ private fun ParameterCard(
         icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTune,
         title = stringResource(R.string.ai_engine_parameters_title),
         description = stringResource(R.string.ai_engine_parameters_desc),
+        collapsible = true,
     ) {
         ParameterSliderRow(
             icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineHeat,
@@ -1337,19 +1347,30 @@ private fun SettingCard(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     title: String,
     description: String,
+    collapsible: Boolean = false,
     content: @Composable () -> Unit,
 ) {
+    var expanded by rememberSaveable { mutableStateOf(!collapsible) }
+    val arrowRotation by animateFloatAsState(if (expanded) 180f else 0f)
     OneBoxSectionCard {
         Column(
             verticalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.itemSpacing),
         ) {
             Row(
+                modifier = if (collapsible) {
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable { expanded = !expanded }
+                } else Modifier,
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.compactSpacing),
             ) {
                 OneBoxLeadingIconBadge(icon = icon)
 
-                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
                     Text(
                         text = title,
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold),
@@ -1361,8 +1382,27 @@ private fun SettingCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
+
+                if (collapsible) {
+                    Icon(
+                        imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineKeyboardArrowDown,
+                        contentDescription = null,
+                        modifier = Modifier.rotate(arrowRotation),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
-            content()
+            if (collapsible) {
+                AnimatedVisibility(visible = expanded) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(OneBoxDesignSystem.itemSpacing),
+                    ) {
+                        content()
+                    }
+                }
+            } else {
+                content()
+            }
         }
     }
 }

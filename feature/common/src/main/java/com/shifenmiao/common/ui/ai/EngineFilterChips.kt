@@ -3,6 +3,7 @@ package com.shifenmiao.common.ui.ai
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,6 +14,7 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -65,19 +67,36 @@ fun EngineFilterChip(
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    trailingText: String? = null,
 ) {
     GlassFilterChip(
         modifier = modifier,
         selected = isSelected,
         onClick = onClick,
         label = {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.titleSmall.copy(
-                    fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium
-                ),
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)
-            )
+            ) {
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium
+                    )
+                )
+                if (trailingText != null) {
+                    Text(
+                        text = trailingText,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = if (isSelected) {
+                            MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                        }
+                    )
+                }
+            }
         },
         shape = RoundedCornerShape(50),
         colors = FilterChipDefaults.filterChipColors(
