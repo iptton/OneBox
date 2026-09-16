@@ -20,13 +20,6 @@
     <td><img src=".github/readme/zh/01.webp" width="180" alt="工具" /></td>
     <td><img src=".github/readme/zh/02.webp" width="180" alt="AI 助手" /></td>
     <td><img src=".github/readme/zh/03.webp" width="180" alt="隐私" /></td>
-    <td><img src=".github/readme/zh/04.webp" width="180" alt="决策转盘" /></td>
-  </tr>
-  <tr>
-    <td><img src=".github/readme/zh/05.webp" width="180" alt="Markdown 编辑器" /></td>
-    <td><img src=".github/readme/zh/06.webp" width="180" alt="木鱼祈福" /></td>
-    <td><img src=".github/readme/zh/07.webp" width="180" alt="测速" /></td>
-    <td><img src=".github/readme/zh/08.webp" width="180" alt="待办清单" /></td>
   </tr>
 </table>
 
@@ -252,3 +245,40 @@ AI 理解、执行、反馈,一气呵成。
 ## 许可证
 
 Apache-2.0，详见 `LICENSE`。本项目基于 [ImageToolbox](https://github.com/T8RIN/ImageToolbox)（T8RIN，Apache-2.0）二次开发，源文件中保留上游版权声明。
+
+## 功能图鉴
+
+万能宝盒，万事万物皆可 AI。全量开源、免费使用、数据在本地——18 张图看懂万宝盒能做什么：
+
+<table>
+  <tr>
+    <td><img src=".github/readme/cards/zh/01.webp" width="240" alt="AI 语音记账" /></td>
+    <td><img src=".github/readme/cards/zh/02.webp" width="240" alt="物品管理查重" /></td>
+    <td><img src=".github/readme/cards/zh/03.webp" width="240" alt="经期记录" /></td>
+  </tr>
+  <tr>
+    <td><img src=".github/readme/cards/zh/04.webp" width="240" alt="健康记录" /></td>
+    <td><img src=".github/readme/cards/zh/05.webp" width="240" alt="习惯打卡" /></td>
+    <td><img src=".github/readme/cards/zh/06.webp" width="240" alt="提词器" /></td>
+  </tr>
+  <tr>
+    <td><img src=".github/readme/cards/zh/07.webp" width="240" alt="笔记" /></td>
+    <td><img src=".github/readme/cards/zh/08.webp" width="240" alt="AI 操作记录" /></td>
+    <td><img src=".github/readme/cards/zh/09.webp" width="240" alt="搜索与格式转换" /></td>
+  </tr>
+  <tr>
+    <td><img src=".github/readme/cards/zh/10.webp" width="240" alt="功能自己做主" /></td>
+    <td><img src=".github/readme/cards/zh/11.webp" width="240" alt="AI 干活你可以先走" /></td>
+    <td><img src=".github/readme/cards/zh/12.webp" width="240" alt="先授权再执行" /></td>
+  </tr>
+  <tr>
+    <td><img src=".github/readme/cards/zh/13.webp" width="240" alt="生活工具" /></td>
+    <td><img src=".github/readme/cards/zh/14.webp" width="240" alt="手持弹幕" /></td>
+    <td><img src=".github/readme/cards/zh/15.webp" width="240" alt="休闲小游戏" /></td>
+  </tr>
+  <tr>
+    <td><img src=".github/readme/cards/zh/16.webp" width="240" alt="技术工具" /></td>
+    <td><img src=".github/readme/cards/zh/17.webp" width="240" alt="实用工具" /></td>
+    <td><img src=".github/readme/cards/zh/18.webp" width="240" alt="智能体与提示词" /></td>
+  </tr>
+</table>
