@@ -1,0 +1,57 @@
+name: PR check
+
+# 背景: 在此之前仓库只在 tag 推送和手动触发时构建, 没有任何工作流会构建 PR,
+# 于是每个 dependabot 依赖升级都只能靠本地手工验证, PR 就一直堆着没人敢合。
+# 这个工作流只做一件事: 把 PR 编译一遍。不签名, 不发 Release。
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pr-check-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  assemble_foss_debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # 免费 runner 只有 16G 物理内存, 大堆构建峰值超内存会被杀进程
+      # (日志表现为 The operation was canceled); 加 10G swap 兜底
+      - name: Set Swap Space
+        shell: bash
+        run: |
+          set -euo pipefail
+          SWAP=/mnt/ghswap.img
+          if swapon --show=NAME --noheadings | grep -qx "$SWAP"; then
+            echo "swap already active"
+          else
+            sudo dd if=/dev/zero of="$SWAP" bs=1M count=10240 status=none
+            sudo chmod 600 "$SWAP"
+            sudo mkswap "$SWAP" >/dev/null
+            sudo swapon "$SWAP"
+          fi
+          free -h
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # 选 foss: 不含 GMS / Firebase / 微信 / 支付宝 SDK, 也不需要 keystore,
+      # 但仍然会编译全部 127 个模块, 是最便宜又不缺覆盖的变体。
+      - name: Assemble foss universal debug
+        run: ./gradlew :app:assembleFossUniversalDebug --stacktrace

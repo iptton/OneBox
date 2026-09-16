@@ -116,11 +116,19 @@ Paths beginning with `com.t8rin.*` are inherited from upstream ImageToolbox and 
 
 ### Requirements
 
-- Use the bundled **Gradle Wrapper 9.5.1**
+- Use the bundled **Gradle Wrapper 9.7.0**
 - **JDK 17** (build-logic and CI target it)
 - Android targets: **Compile SDK 37 / Target SDK 37 / Min SDK 24**
-- Toolchain: **Kotlin 2.4.0 / AGP 9.3.0**
+- Toolchain: **Kotlin 2.4.0 / AGP 9.3.1**
 - When in doubt, `gradle/libs.versions.toml` and `gradle/wrapper/gradle-wrapper.properties` are the source of truth
+
+### Clone
+
+The repository carries a lot of binary assets, so a full clone is large. For building, a shallow clone is enough:
+
+```bash
+git clone --depth=1 https://github.com/wangzhishou/OneBox.git
+```
 
 ### Common Commands
 
@@ -134,7 +142,8 @@ Paths beginning with `com.t8rin.*` are inherited from upstream ImageToolbox and 
 
 The `app` module uses two flavor dimensions:
 
-- `app`: `xiaomi` / `yyb` / `oppo` / `vivo` / `huawei` / `onebox` / `google`
+- `app`: `xiaomi` / `yyb` / `oppo` / `vivo` / `huawei` / `onebox` / `google` / `foss`
+  (`foss` is the fully-FOSS build: no GMS, Firebase, WeChat or Alipay SDKs; this is the variant CI verifies)
 - `abi`: `arm64` / `universal` (64-bit only)
 
 Task names combine them, e.g.:
@@ -198,7 +207,9 @@ The tool-calling chain is built on `ToolCallTaskManager`, `AgentLoopExecutor` an
 
 - `run.md`: build / install / lint commands
 - `docs/modules.md`: module catalog (Chinese)
-- `CONTRIBUTING.md`: contribution guidelines
+- `CONTRIBUTING.md`: setup, conventions, and what will not be merged
+- `SECURITY.md`: how to report a vulnerability privately, and what is deliberately public
+- `docs/database-migrations.en.md`: database migration rules ([中文](docs/database-migrations.md))
 
 ## Support the Project
 
@@ -213,7 +224,21 @@ Every bit of support turns directly into better features and a more stable servi
 
 - **Bug reports & feature requests**: [GitHub Issues](https://github.com/wangzhishou/OneBox/issues)
 - **Questions, ideas, show & tell**: [GitHub Discussions](https://github.com/wangzhishou/OneBox/discussions)
+- **Security problems**: report them privately, see [SECURITY.md](SECURITY.md) — please do not open a public issue
 - **中文用户**:QQ 群 / 微信群见[中文版 README](README.zh-CN.md#交流与反馈)
+
+## Contributors Wanted
+
+OneBox is a one-person project and its surface area is now much larger than one person can cover. Help here is genuinely welcome, not a polite formality.
+
+The most useful contributions right now, roughly in order:
+
+1. **Translations.** The app and the Play listing ship in 13 locales. If your language reads wrong, only you can tell us. See `fastlane/metadata/android/<locale>/`.
+2. **Device testing.** Confirm a build actually works on your OEM ROM, and report what broke.
+3. **The open `good first issue` and `help wanted` list** — [start here](https://github.com/wangzhishou/OneBox/contribute).
+4. **The agent's tool choices.** 90+ tools are exposed to the agent; telling us which tool it picks badly, and what it should have picked instead, is real feedback.
+
+Start with [CONTRIBUTING.md](CONTRIBUTING.md). No keystores, API keys or backend access are needed to build.
 
 ## License
 

@@ -1,11 +1,45 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+# Dependabot 配置
+# 合并前请先读 CONTRIBUTING.md 的 "What we do not merge" 一节:
+# 依赖升级必须本地构建过才允许合并, bot 开的 PR 也不例外。
 
 version: 2
 updates:
-  - package-ecosystem: "gradle" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "gradle"
+    directory: "/"
     schedule:
-      interval: "daily"
+      # 原来是 daily: 一周内堆出 5 个 PR, 单个 PR 又没人构建验证过, 全卡住了。
+      # 改成每周一次 + 分组, 一个 PR 里放完当周所有 minor/patch 升级。
+      interval: "weekly"
+      day: "monday"
+      time: "22:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "build(deps)"
+    groups:
+      gradle-minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    ignore:
+      # OpenCV 5.x 是破坏性大版本: 需要同步迁移 libs/opencv-tools 与 NDK 原生构建,
+      # 不能由 bot 的 PR 决定。要升级请单独开 issue 讨论。
+      - dependency-name: "org.opencv:opencv"
+        update-types: ["version-update:semver-major"]
+      # material-kolor 5.x 改了主题 API 面。
+      - dependency-name: "com.materialkolor:material-kolor"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "22:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "ci(deps)"
