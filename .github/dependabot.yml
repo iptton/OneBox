@@ -30,6 +30,12 @@ updates:
       # material-kolor 5.x 改了主题 API 面。
       - dependency-name: "com.materialkolor:material-kolor"
         update-types: ["version-update:semver-major"]
+      # pdfviewer 1.0.0-beta01 起依赖 androidx.pdf:pdf-core:1.0.0-beta01, 后者声明
+      # minSdk 28, 而本项目是 minSdk 24 —— 合进去会让 Android 8.x 及以下直接装不上。
+      # 要升就得先决定砍不砍 minSdk, 那是产品决策, 不是一次依赖升级。
+      # PR #15 的 CI 日志(processFossUniversalDebugMainManifest)是证据。
+      - dependency-name: "pdfviewer"
+        versions: [">= 1.0.0-beta01"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -43,3 +49,7 @@ updates:
       - "dependencies"
     commit-message:
       prefix: "ci(deps)"
+    # 不分组的话每个 action 各开一个 PR, 一次能开三个。
+    groups:
+      github-actions:
+        patterns: ["*"]
