@@ -214,14 +214,14 @@ fun BrowserSettingsPage(component: BrowserComponent) {
                             Text(
                                 text = engine.name,
                                 style = MaterialTheme.typography.bodyLarge,
-                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                                color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.weight(1f)
                             )
                             if (isSelected) {
                                 Icon(
                                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LinePublic,
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
@@ -271,7 +271,7 @@ fun BrowserSettingsPage(component: BrowserComponent) {
                                 Text(
                                     text = preset.displayName,
                                     style = MaterialTheme.typography.bodyLarge,
-                                    color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
                                 )
                                 if (preset.userAgent.isNotEmpty()) {
                                     Text(
@@ -286,7 +286,7 @@ fun BrowserSettingsPage(component: BrowserComponent) {
                                 Icon(
                                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Check,
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
@@ -308,7 +308,7 @@ fun BrowserSettingsPage(component: BrowserComponent) {
                             Text(
                                 text = stringResource(R.string.browser_custom),
                                 style = MaterialTheme.typography.bodyLarge,
-                                color = if (isCustomSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                color = if (isCustomSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
                             )
                             if (isCustomSelected && settings.customUserAgent.isNotEmpty()) {
                                 Text(
@@ -323,7 +323,7 @@ fun BrowserSettingsPage(component: BrowserComponent) {
                             Icon(
                                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Check,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier.size(20.dp)
                             )
                         }
@@ -365,7 +365,7 @@ fun BrowserSettingsPage(component: BrowserComponent) {
             confirmButton = {
                 Text(
                     text = stringResource(R.string.browser_confirm),
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier
                         .clip(RoundedCornerShape(8.dp))
                         .clickable {
@@ -428,7 +428,7 @@ private fun SettingsItem(
                 imageVector = icon,
                 contentDescription = null,
                 modifier = Modifier.size(22.dp),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         Spacer(modifier = Modifier.width(12.dp))
@@ -479,7 +479,7 @@ private fun SettingsItemWithSwitch(
                 imageVector = icon,
                 contentDescription = null,
                 modifier = Modifier.size(22.dp),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         Spacer(modifier = Modifier.width(12.dp))

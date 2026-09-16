@@ -250,7 +250,7 @@ fun PresetSelector(
                                 EnhancedChip(
                                     selected = selected,
                                     onClick = { onValueChange(Preset.Telegram) },
-                                    selectedColor = MaterialTheme.colorScheme.primary,
+                                    selectedColor = MaterialTheme.colorScheme.primaryContainer,
                                     shape = MaterialTheme.shapes.medium
                                 ) {
                                     Icon(
@@ -273,7 +273,7 @@ fun PresetSelector(
                                             )
                                         )
                                     },
-                                    selectedColor = MaterialTheme.colorScheme.primary,
+                                    selectedColor = MaterialTheme.colorScheme.primaryContainer,
                                     shape = MaterialTheme.shapes.medium
                                 ) {
                                     Icon(
@@ -291,7 +291,7 @@ fun PresetSelector(
                             EnhancedChip(
                                 selected = selected,
                                 onClick = { onValueChange(Preset.Percentage(it)) },
-                                selectedColor = MaterialTheme.colorScheme.primary,
+                                selectedColor = MaterialTheme.colorScheme.primaryContainer,
                                 shape = MaterialTheme.shapes.medium
                             ) {
                                 AutoSizeText(it.toString())

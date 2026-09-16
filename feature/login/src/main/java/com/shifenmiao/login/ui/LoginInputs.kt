@@ -108,7 +108,7 @@ fun LoginInputs(
                         onNavigateToRegistration.invoke()
                     },
                 text = stringResource(id = R.string.register),
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
 

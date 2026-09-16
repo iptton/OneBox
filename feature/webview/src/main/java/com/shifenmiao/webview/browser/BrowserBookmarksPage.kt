@@ -256,7 +256,7 @@ private fun BookmarkItemRow(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LinePublic,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))

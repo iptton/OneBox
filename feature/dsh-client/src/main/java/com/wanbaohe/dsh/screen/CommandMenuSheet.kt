@@ -224,7 +224,7 @@ private fun GroupHeader(title: String) {
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 4.dp),
         fontSize = 12.sp,
         fontWeight = FontWeight.SemiBold,
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.onPrimaryContainer
     )
 }
 
@@ -246,7 +246,7 @@ private fun CommandMenuRow(item: CommandMenuItem, onPick: (CommandMenuItem) -> U
             },
             contentDescription = null,
             modifier = Modifier.size(18.dp),
-            tint = MaterialTheme.colorScheme.primary
+            tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
         Spacer(Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {

@@ -83,7 +83,7 @@ fun ReasoningCollapseSection(
                 Icon(
                     imageVector = Icons.Outlined.LineSwitchAccess,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(16.dp),
                 )
                 Text(

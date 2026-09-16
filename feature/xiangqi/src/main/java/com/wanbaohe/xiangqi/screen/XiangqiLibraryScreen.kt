@@ -209,11 +209,11 @@ private fun GameCard(
                     Box(
                         modifier = Modifier
                             .size(40.dp)
-                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), CircleShape)
+                            .background(MaterialTheme.colorScheme.primaryContainer, CircleShape)
                             .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.2f), CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(stringResource(R.string.xiangqi_side_black), color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.xiangqi_side_black), color = MaterialTheme.colorScheme.onPrimaryContainer, fontWeight = FontWeight.Bold)
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(blackName, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelSmall)
@@ -273,8 +273,8 @@ private fun GameCard(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(stringResource(R.string.xiangqi_library_open_analysis), color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.labelMedium)
-                    Icon(com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineArrowForwardIos, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
+                    Text(stringResource(R.string.xiangqi_library_open_analysis), color = MaterialTheme.colorScheme.onPrimaryContainer, style = MaterialTheme.typography.labelMedium)
+                    Icon(com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineArrowForwardIos, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimaryContainer, modifier = Modifier.size(16.dp))
                 }
             }
         }

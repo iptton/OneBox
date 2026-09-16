@@ -173,7 +173,7 @@ fun XiangqiBoard(
                                     modifier = Modifier
                                         .size(pieceSize * 0.4f)
                                         .clip(CircleShape)
-                                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.5f))
+                                        .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f))
                                 )
                             }
                         }

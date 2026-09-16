@@ -486,7 +486,7 @@ private fun CreateRoomPanel(
                 Text(
                     stringResource(R.string.xiangqi_opponent_ready),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
 
@@ -710,7 +710,7 @@ private fun RoomItem(
             Icon(
                 com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineVideogame,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Column(modifier = Modifier.weight(1f)) {
                 Text(

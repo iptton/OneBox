@@ -258,7 +258,7 @@ fun CloudStorageScreen(
                             Icon(
                                 imageVector = if (isGridMode) Icons.AutoMirrored.Outlined.ViewList else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFeatures,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier.size(20.dp)
                             )
                         }
@@ -272,7 +272,7 @@ fun CloudStorageScreen(
                             Icon(
                                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Refresh,
                                 contentDescription = stringResource(R.string.cloud_storage_refresh_action),
-                                tint = MaterialTheme.colorScheme.primary,
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier.size(20.dp)
                             )
                         }
@@ -532,7 +532,7 @@ private fun FilesContent(
             modifier = modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimaryContainer)
         }
 
         is CloudBrowserState.Empty -> CloudStatePlaceholder(
@@ -585,13 +585,13 @@ private fun CloudStatePlaceholder(
         Surface(
             modifier = Modifier.size(80.dp),
             shape = RoundedCornerShape(20.dp),
-            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)
+            color = MaterialTheme.colorScheme.primaryContainer
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(40.dp)
                 )
             }
@@ -617,7 +617,7 @@ private fun CloudStatePlaceholder(
             Button(
                 onClick = onActionClick,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
                 )
             ) {
                 Text(text = actionText)

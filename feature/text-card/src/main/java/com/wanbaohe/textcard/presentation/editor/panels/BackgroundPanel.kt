@@ -350,7 +350,7 @@ private fun SelectableCell(
             Icon(
                 imageVector = MaterialIcons.Outlined.CheckCircle,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(4.dp)

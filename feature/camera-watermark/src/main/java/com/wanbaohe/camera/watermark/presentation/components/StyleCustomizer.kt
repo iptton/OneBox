@@ -319,7 +319,7 @@ private fun TemplateListItem(
 ) {
     val backgroundColor = when {
         isSelectedForDelete -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f)
-        isSelected -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+        isSelected -> MaterialTheme.colorScheme.primaryContainer
         else -> Color.Transparent
     }
 
@@ -386,7 +386,7 @@ private fun TemplateListItem(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Check,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))

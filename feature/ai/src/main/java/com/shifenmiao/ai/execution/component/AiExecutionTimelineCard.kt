@@ -150,7 +150,7 @@ fun AiExecutionTimelineCard(
                             Text(
                                 text = it,
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.primary,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 fontWeight = FontWeight.Medium
                             )
                         }
@@ -224,7 +224,7 @@ private fun HeaderStatusIcon(phase: AiExecutionPhase) {
             CircularProgressIndicator(
                 modifier = Modifier.size(18.dp),
                 strokeWidth = 2.dp,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
 
@@ -251,7 +251,7 @@ private fun HeaderStatusIcon(phase: AiExecutionPhase) {
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineHourglass,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(18.dp)
             )
         }
@@ -391,7 +391,7 @@ private fun DeepLinkActionCard(item: DeepLinkItemUiModel) {
             .clip(RoundedCornerShape(12.dp))
             .glassBackground(
                 color = if (primary) {
-                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f)
+                    MaterialTheme.colorScheme.primaryContainer
                 } else {
                     MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.4f)
                 },
@@ -486,7 +486,7 @@ private fun ToolCallDetailPanel(
                 modifier = Modifier
                     .size(6.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
+                    .background(MaterialTheme.colorScheme.primaryContainer)
             )
             Text(
                 text = stringResource(R.string.ai_execution_detail_collapsed),
@@ -515,7 +515,7 @@ private fun ToolCallDetailPanel(
                 if (hasArguments) Spacer(modifier = Modifier.height(8.dp))
                 ToolCallDetailBlock(
                     label = stringResource(R.string.ai_execution_output_label),
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     text = result.orEmpty(),
                 )
             }
@@ -617,13 +617,13 @@ private fun StepStatusNode(status: ExecutionStepStatus) {
         ExecutionStepStatus.RUNNING -> CircularProgressIndicator(
             modifier = Modifier.size(18.dp),
             strokeWidth = 2.dp,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
         ExecutionStepStatus.WAITING_USER -> Icon(
             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineHourglass,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
             modifier = Modifier.size(18.dp)
         )
 

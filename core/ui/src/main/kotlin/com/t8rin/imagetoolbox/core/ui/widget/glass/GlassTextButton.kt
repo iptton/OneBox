@@ -38,8 +38,8 @@ fun GlassTextButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(8.dp),
-    color: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f),
-    contentColor: Color = MaterialTheme.colorScheme.primary,
+    color: Color = MaterialTheme.colorScheme.primaryContainer,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     style: GlassStyle = GlassStyle.Thin,
     borderWidth: Dp = 0.dp,
     @Suppress("UNUSED_PARAMETER")

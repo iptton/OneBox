@@ -193,7 +193,7 @@ fun CreateHtmlScreen(
                                     Icon(
                                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDownloadForOffline,
                                         contentDescription = stringResource(R.string.download_successful),
-                                        tint = MaterialTheme.colorScheme.primary,
+                                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                     )
                                 }
                             }

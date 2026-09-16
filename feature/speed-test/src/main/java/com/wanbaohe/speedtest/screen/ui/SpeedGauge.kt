@@ -242,7 +242,7 @@ fun SpeedGauge(
                                 Icons.Filled.PlayArrow,
                                 stringResource(R.string.speed_test_start),
                                 Modifier.size(36.dp),
-                                tint = MaterialTheme.colorScheme.onPrimary
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
                         Spacer(Modifier.height(10.dp))

@@ -255,7 +255,7 @@ private fun DeeplinkExampleCard(
             Text(
                 text = url,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primaryContainer
             )
         }
         Row(

@@ -275,7 +275,7 @@ private fun SystemPromptFriendlyReminder(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineInfo,
                 contentDescription = null,
                 modifier = Modifier.size(16.dp),
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Column(
                 modifier = Modifier.weight(1f),

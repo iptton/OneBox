@@ -121,7 +121,7 @@ fun BlogHeader(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineStar,
                 contentDescription = "Fixed",
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }

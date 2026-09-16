@@ -195,7 +195,7 @@ private fun CountdownHeroCard(status: CountdownStatus) {
             Text(
                 text = countdownStatusLabel(status),
                 style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             if (status.nextOccurrence != null) {
                 val next = status.nextOccurrence

@@ -403,7 +403,7 @@ private fun DownloadableFontRow(
                     FontDownloadUiState.Downloaded -> Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCloudDone,
                         contentDescription = stringResource(R.string.font_downloaded),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.size(20.dp)
                     )
 

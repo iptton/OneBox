@@ -716,7 +716,7 @@ private fun NumericKeypad(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineFingerprint,
                         contentDescription = null,
                         modifier = Modifier.size(metrics.keySize * 0.42f),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
             }
@@ -831,7 +831,7 @@ private fun FooterAction(
             Box(
                 modifier = Modifier
                     .size(8.dp)
-                    .background(MaterialTheme.colorScheme.primary, CircleShape),
+                    .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
             )
             if (!label.isNullOrBlank()) {
                 Text(

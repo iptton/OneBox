@@ -144,8 +144,8 @@ internal fun LegacyPdfViewer(
         LazyColumnScrollbar(
             state = listState,
             settings = ScrollbarSettings(
-                thumbUnselectedColor = MaterialTheme.colorScheme.primary,
-                thumbSelectedColor = MaterialTheme.colorScheme.primary,
+                thumbUnselectedColor = MaterialTheme.colorScheme.primaryContainer,
+                thumbSelectedColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 scrollbarPadding = 0.dp,
                 thumbThickness = 10.dp,
                 selectionMode = ScrollbarSelectionMode.Full,

@@ -471,7 +471,7 @@ private fun SelectedSystemPromptChip(
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
                 .glassBackground(
-                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                    color = MaterialTheme.colorScheme.primaryContainer,
                     shape = RoundedCornerShape(16.dp)
                 )
                 .padding(horizontal = 12.dp, vertical = 8.dp),

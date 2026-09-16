@@ -103,7 +103,7 @@ internal fun CheckInTab(
                         else R.string.habit_edit_mode
                     ),
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier
                         .clip(RoundedCornerShape(50))
@@ -160,7 +160,7 @@ private fun SummaryCard(
 ) {
     val rate = if (dueCount > 0) doneCount.toFloat() / dueCount.toFloat() else 0f
     val percentText = "${(rate * 100).toInt()}%"
-    val ringColor = MaterialTheme.colorScheme.primary
+    val ringColor = MaterialTheme.colorScheme.onPrimaryContainer
     val trackColor = MaterialTheme.colorScheme.surfaceVariant
 
     val slices = remember(doneCount, dueCount, ringColor, trackColor) {

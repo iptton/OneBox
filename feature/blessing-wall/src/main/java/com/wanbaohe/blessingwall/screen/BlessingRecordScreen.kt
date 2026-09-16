@@ -217,7 +217,7 @@ private fun CalendarCard(
                         .padding(2.dp)
                         .clip(CircleShape)
                         .background(
-                            if (day.isSelected) MaterialTheme.colorScheme.primary
+                            if (day.isSelected) MaterialTheme.colorScheme.primaryContainer
                             else Color.Transparent
                         ),
                     contentAlignment = Alignment.Center,
@@ -227,8 +227,8 @@ private fun CalendarCard(
                             text = day.date.dayOfMonth.toString(),
                             fontSize = 13.sp,
                             color = when {
-                                day.isSelected -> MaterialTheme.colorScheme.onPrimary
-                                day.isToday -> MaterialTheme.colorScheme.primary
+                                day.isSelected -> MaterialTheme.colorScheme.onPrimaryContainer
+                                day.isToday -> MaterialTheme.colorScheme.onPrimaryContainer
                                 !day.isCurrentMonth -> {
                                     MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
                                 }
@@ -240,7 +240,7 @@ private fun CalendarCard(
                             text = dayLabel?.text.orEmpty(),
                             fontSize = 9.sp,
                             color = when {
-                                day.isSelected -> MaterialTheme.colorScheme.onPrimary
+                                day.isSelected -> MaterialTheme.colorScheme.onPrimaryContainer
                                 !day.isCurrentMonth -> {
                                     MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
                                 }
@@ -256,7 +256,7 @@ private fun CalendarCard(
                                 modifier = Modifier
                                     .size(4.dp)
                                     .clip(CircleShape)
-                                    .background(MaterialTheme.colorScheme.primary)
+                                    .background(MaterialTheme.colorScheme.onPrimaryContainer)
                             )
                         }
                     }
@@ -314,7 +314,7 @@ private fun DailyRecordItem(
                 Text(
                     text = stringResource(R.string.blessing_total_count, record.total),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.SemiBold,
                 )
             }
@@ -364,7 +364,7 @@ private fun DailyRecordItem(
                                 record.counts[type] ?: 0,
                             ),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
                     if (wish.isNotBlank()) {

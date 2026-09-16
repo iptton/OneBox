@@ -203,7 +203,7 @@ internal fun PdfPage(
                 if (selected) {
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.CheckCircle,
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         contentDescription = null,
                         modifier = Modifier
                             .padding(4.dp)

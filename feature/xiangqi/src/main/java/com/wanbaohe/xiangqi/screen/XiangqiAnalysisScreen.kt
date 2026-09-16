@@ -217,13 +217,13 @@ private fun XiangqiAnalysisContent(
                                 Text(
                                     text = redMove?.moveCn?.ifBlank { redMove.moveUcci } ?: "...",
                                     modifier = Modifier.weight(0.425f),
-                                    color = if (isRedActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                                    color = if (isRedActive) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.error,
                                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = if (isRedActive) FontWeight.Bold else FontWeight.Normal),
                                 )
                                 Text(
                                     text = blackMove?.moveCn?.ifBlank { blackMove.moveUcci } ?: "...",
                                     modifier = Modifier.weight(0.425f),
-                                    color = if (isBlackActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                                    color = if (isBlackActive) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
                                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = if (isBlackActive) FontWeight.Bold else FontWeight.Normal),
                                 )
                             }

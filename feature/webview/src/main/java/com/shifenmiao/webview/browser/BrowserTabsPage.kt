@@ -131,7 +131,7 @@ private fun TabCardItem(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Language,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {

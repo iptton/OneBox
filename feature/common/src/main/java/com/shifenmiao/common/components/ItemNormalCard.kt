@@ -84,13 +84,13 @@ fun LoadingNextPageErrorMessage(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Refresh,
                 modifier = Modifier.size(12.dp),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
 
             Text(
                 text = stringResource(id = R.string.button_retry),
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }

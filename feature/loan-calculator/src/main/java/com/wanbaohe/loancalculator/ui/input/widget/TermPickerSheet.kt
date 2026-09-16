@@ -123,7 +123,7 @@ private fun TermItem(
             textAlign = TextAlign.Center,
             modifier = Modifier.weight(1f),
             color = if (isSelected)
-                MaterialTheme.colorScheme.primary
+                MaterialTheme.colorScheme.onPrimaryContainer
             else
                 MaterialTheme.colorScheme.onSurface,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,

@@ -127,7 +127,7 @@ private fun AIQuestionItem(
             Text(
                 text = question.header,
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontWeight = FontWeight.SemiBold
             )
         }

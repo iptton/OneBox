@@ -67,7 +67,7 @@ fun HandleDot(inverseScale: Float = 1f) {
             }
             .size(16.dp)
             .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.primary)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .border(2.dp, Color.White, CircleShape)
     )
 }

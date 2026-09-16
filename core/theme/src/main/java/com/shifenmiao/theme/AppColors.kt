@@ -25,8 +25,8 @@ class AppColors {
 
     @Composable
     fun assistChipColors() = AssistChipDefaults.assistChipColors().copy(
-        containerColor = MaterialTheme.colorScheme.primary.copy(0.15f),
-        labelColor = MaterialTheme.colorScheme.primary
+        containerColor = MaterialTheme.colorScheme.primaryContainer.copy(0.15f),
+        labelColor = MaterialTheme.colorScheme.onPrimaryContainer
     )
 
     @Composable
@@ -56,8 +56,8 @@ class AppColors {
 
     @Composable
     fun sliderColors() = SliderDefaults.colors(
-        thumbColor = MaterialTheme.colorScheme.primaryContainer,
-        activeTickColor = MaterialTheme.colorScheme.primaryContainer,
+        thumbColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        activeTickColor = MaterialTheme.colorScheme.onPrimaryContainer,
         activeTrackColor = MaterialTheme.colorScheme.primaryContainer,
         inactiveTrackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
         inactiveTickColor = MaterialTheme.colorScheme.surfaceContainerHighest
@@ -65,7 +65,7 @@ class AppColors {
 
     @Composable
     fun getPrimaryColor(): Color {
-        return MaterialTheme.colorScheme.primary
+        return MaterialTheme.colorScheme.onPrimaryContainer
     }
 
     @Composable
@@ -185,17 +185,17 @@ class AppColors {
     fun getDatePickerColors(): DatePickerColors {
         return DatePickerDefaults.colors().copy(
             selectedDayContentColor = AppTheme.colors.getOnPrimaryColor(),
-            selectedDayContainerColor = AppTheme.colors.getPrimaryColor(),
+            selectedDayContainerColor = MaterialTheme.colorScheme.primaryContainer,
         )
     }
 
     @Composable
     fun getTimePickerColors(): TimePickerColors {
         return TimePickerDefaults.colors().copy(
-            periodSelectorSelectedContainerColor = AppTheme.colors.getPrimaryColor(),
-            timeSelectorSelectedContainerColor = AppTheme.colors.getPrimaryColor(),
+            periodSelectorSelectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
             timeSelectorSelectedContentColor = AppTheme.colors.getOnPrimaryColor(),
-            selectorColor = AppTheme.colors.getPrimaryColor(),
+            selectorColor = MaterialTheme.colorScheme.primaryContainer,
         )
 
     }

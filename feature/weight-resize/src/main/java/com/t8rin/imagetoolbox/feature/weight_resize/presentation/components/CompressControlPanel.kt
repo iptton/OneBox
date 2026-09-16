@@ -127,7 +127,7 @@ fun CompressControlPanel(
                     EnhancedChip(
                         selected = isSelected,
                         onClick = { onPresetChange(Preset.Percentage(pct)) },
-                        selectedColor = MaterialTheme.colorScheme.primary,
+                        selectedColor = MaterialTheme.colorScheme.primaryContainer,
                         shape = MaterialTheme.shapes.medium,
                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
                     ) {

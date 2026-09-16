@@ -37,7 +37,7 @@ fun UserAgreement(
             enableAutoLinkify = false,
             hyperlinkStyle = MaterialTheme.typography.labelSmall.copy(
                 textDecoration = TextDecoration.None,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             ),
         ) { uri ->
             onNavigate(
@@ -63,8 +63,8 @@ fun UserAgreementCheckbox(
         },
         colors = CheckboxDefaults.colors(
             uncheckedColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-            checkedColor = MaterialTheme.colorScheme.primary,
-            checkmarkColor = MaterialTheme.colorScheme.onPrimary,
+            checkedColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            checkmarkColor = MaterialTheme.colorScheme.onPrimaryContainer,
         )
     )
 }

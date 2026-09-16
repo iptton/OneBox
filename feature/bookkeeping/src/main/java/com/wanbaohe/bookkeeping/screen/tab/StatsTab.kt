@@ -256,7 +256,7 @@ internal fun StatsTab(
                 ) {
                     CompareBarChart(
                         entries  = uiState.dailyBars,
-                        barColor = MaterialTheme.colorScheme.primary,
+                        barColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.fillMaxWidth(),
                     )
                 }
@@ -437,7 +437,7 @@ private fun StatsSectionCard(
                 verticalAlignment    = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                Icon(icon, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
+                Icon(icon, null, tint = MaterialTheme.colorScheme.onPrimaryContainer, modifier = Modifier.size(18.dp))
                 Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             }
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
@@ -500,7 +500,7 @@ private fun RankRow(
 
     // 奖牌颜色全部来自主题，不再写死
     val (medalBg, medalFg) = when (rank) {
-        1    -> MaterialTheme.colorScheme.primary        to MaterialTheme.colorScheme.onPrimary
+        1    -> MaterialTheme.colorScheme.primaryContainer        to MaterialTheme.colorScheme.onPrimaryContainer
         2    -> MaterialTheme.colorScheme.secondary      to MaterialTheme.colorScheme.onSecondary
         3    -> MaterialTheme.colorScheme.tertiary       to MaterialTheme.colorScheme.onTertiary
         else -> MaterialTheme.colorScheme.surfaceVariant to MaterialTheme.colorScheme.onSurfaceVariant

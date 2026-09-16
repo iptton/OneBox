@@ -79,7 +79,7 @@ fun BindPhoneSheet(
                     ),
                     hyperlinkStyle = MaterialTheme.typography.labelMedium.copy(
                         textDecoration = TextDecoration.None,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     ),
                     enableAutoLinkify = false
                 ) { uriString ->

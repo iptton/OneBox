@@ -452,7 +452,7 @@ private fun BottomTab(
             .clip(ShapeDefaults.default)
             .background(
                 if (active) {
-                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
+                    MaterialTheme.colorScheme.primaryContainer
                 } else Color.Transparent
             )
             .clickable(onClick = onClick)

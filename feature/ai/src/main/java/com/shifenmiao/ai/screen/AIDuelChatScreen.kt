@@ -1446,7 +1446,7 @@ private fun DuelMessagesList(
                                 codeBlockClickListener = listener,
                                 backgroundColor = MaterialTheme.colorScheme.primaryContainer,
                                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                leftLine = MaterialTheme.colorScheme.primary.copy(alpha = 0.48f)
+                                leftLine = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.48f)
                             )
                         },
                         onUserReasoningHeader = { reasoningHeader ->
@@ -1462,7 +1462,7 @@ private fun DuelMessagesList(
                                 codeBlockClickListener = listener,
                                 backgroundColor = MaterialTheme.colorScheme.primaryContainer,
                                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                leftLine = MaterialTheme.colorScheme.primary.copy(alpha = 0.48f)
+                                leftLine = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.48f)
                             )
                         },
                         onRobotContainerHeader = {

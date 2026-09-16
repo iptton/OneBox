@@ -209,7 +209,7 @@ private fun MarkTodoScreenActions(
             Icon(
                 imageVector = if (isEditMode) Icons.Outlined.Cancel else com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Edit,
                 contentDescription = if (isEditMode) stringResource(R.string.cd_edit_mode_done) else stringResource(R.string.action_edit),
-                tint = if (isEditMode) MaterialTheme.colorScheme.primary else LocalContentColor.current
+                tint = if (isEditMode) MaterialTheme.colorScheme.onPrimaryContainer else LocalContentColor.current
             )
         }
 

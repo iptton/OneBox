@@ -342,7 +342,7 @@ private fun SummaryChip(
         SummaryMetricPill(
             label = stringResource(R.string.bookkeeping_income_short),
             value = incomeText,
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.72f),
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         )
     }
@@ -488,12 +488,12 @@ private fun RecordItemRow(
                     modifier = Modifier
                         .size(44.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.16f)),
+                        .background(MaterialTheme.colorScheme.primaryContainer),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = record.categoryName.take(1),
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         fontWeight = FontWeight.Bold,
                     )
                 }
@@ -533,7 +533,7 @@ private fun RecordItemRow(
                         Icon(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Edit,
                             contentDescription = stringResource(R.string.bookkeeping_edit_action),
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier.size(18.dp),
                         )
                     }

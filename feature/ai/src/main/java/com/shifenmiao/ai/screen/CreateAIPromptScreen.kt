@@ -939,14 +939,14 @@ private fun PromptPreviewSection(
                     enabled = !isSaving,
                     modifier = Modifier.weight(1f),
                     contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
-                    color = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 ) {
                     if (isSaving) {
                         CircularProgressIndicator(
                             modifier = Modifier.size(18.dp),
                             strokeWidth = 2.dp,
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     } else {
                         Icon(

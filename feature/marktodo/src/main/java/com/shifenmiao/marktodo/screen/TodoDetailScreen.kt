@@ -129,7 +129,7 @@ fun TodoDetailScreen(
                     Icon(
                         imageVector = if (uiState.task!!.isStarred) com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineStar else Icons.Outlined.StarBorder,
                         contentDescription = stringResource(R.string.action_star),
-                        tint = if (uiState.task!!.isStarred) MaterialTheme.colorScheme.primary
+                        tint = if (uiState.task!!.isStarred) MaterialTheme.colorScheme.onPrimaryContainer
                         else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -369,7 +369,7 @@ private fun StatusChip(
     Text(
         text = label,
         style = MaterialTheme.typography.labelMedium,
-        color = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+        color = if (isActive) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = modifier
             .glassBackground(
                 style = if (isActive) GlassStyle.Dense else GlassStyle.Regular

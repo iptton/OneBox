@@ -205,7 +205,7 @@ fun BlogList(
             text = {
                 VerticalText(
                     text = stringResource(id = R.string.feedback_create),
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = MaterialTheme.typography.titleSmall
                 )
             },
@@ -214,7 +214,7 @@ fun BlogList(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.NoteAdd,
                     contentDescription = stringResource(id = R.string.feedback_create),
                     modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             },
             onClick = {
@@ -228,8 +228,8 @@ fun BlogList(
                     bottom = 64.dp,
                     end = 16.dp
                 ),
-            containerColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-            contentColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(0.2f),
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             expanded = lazyListState.lastScrolledBackward ||
                     !lazyListState.canScrollBackward
         )

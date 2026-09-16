@@ -326,7 +326,7 @@ private fun ItemChip(
         else -> MaterialTheme.colorScheme.surfaceContainerHigh
     }
     val contentColor = when {
-        isSelected -> MaterialTheme.colorScheme.onPrimary
+        isSelected-> MaterialTheme.colorScheme.onPrimaryContainer
         else -> MaterialTheme.colorScheme.onSurface
     }
 
@@ -485,7 +485,7 @@ private fun AuspiciousDayCard(
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCheckCircleOutline,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier
                         .size(16.dp)
                         .padding(top = 2.dp)
@@ -512,7 +512,7 @@ private fun AuspiciousDayCard(
                                 style = MaterialTheme.typography.labelSmall.copy(
                                     fontWeight = if (isMatched) FontWeight.Bold else FontWeight.Normal
                                 ),
-                                color = if (isMatched) MaterialTheme.colorScheme.primary
+                                color = if (isMatched) MaterialTheme.colorScheme.onPrimaryContainer
                                 else MaterialTheme.colorScheme.onSurfaceVariant,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
@@ -580,14 +580,14 @@ private fun AuspiciousDayCard(
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCalendar,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
                     modifier = Modifier.size(14.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = stringResource(R.string.view_calendar),
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
+                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
                 )
             }
         }

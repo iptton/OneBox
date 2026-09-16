@@ -382,7 +382,7 @@ private fun CommentsList(
         ) {
             CircularProgressIndicator(
                 modifier = Modifier.size(24.dp),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 strokeWidth = 2.dp,
             )
         }
@@ -408,7 +408,7 @@ private fun EmptyFeedbackState(
                 .clip(RoundedCornerShape(24.dp))
                 .glassBackground(
                     style = GlassStyle.Thin,
-                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.28f),
+                    color = MaterialTheme.colorScheme.primaryContainer,
                     shape = RoundedCornerShape(24.dp),
                 )
                 .padding(horizontal = 24.dp, vertical = 28.dp),
@@ -418,21 +418,21 @@ private fun EmptyFeedbackState(
                 modifier = Modifier
                     .size(52.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.Outlined.AutoAwesome,
                     contentDescription = null,
                     modifier = Modifier.size(26.dp),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = context.getString(com.shifenmiao.core.R.string.comment_empty_eyebrow),
                 style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.height(6.dp))
@@ -467,7 +467,7 @@ private fun EmptyFeedbackState(
                     },
                 ),
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 textAlign = TextAlign.Center,
             )
         }
@@ -569,7 +569,7 @@ private fun CommentRow(
                 modifier = Modifier
                     .glassBackground(
                         shape = MaterialTheme.shapes.medium,
-                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f),
+                        color = MaterialTheme.colorScheme.primaryContainer,
                         style = GlassStyle.Thin,
                         borderWidth = 0.dp
                     )
@@ -652,7 +652,7 @@ private fun ReplyPreview(
                     AppContext.getString(com.shifenmiao.core.R.string.comment_anonymous)
                 },
                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Medium),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             if (reply.content.isNotEmpty()) {
                 Text(
@@ -911,7 +911,7 @@ private fun PendingImageChip(
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(20.dp),
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     strokeWidth = 2.dp,
                 )
             }

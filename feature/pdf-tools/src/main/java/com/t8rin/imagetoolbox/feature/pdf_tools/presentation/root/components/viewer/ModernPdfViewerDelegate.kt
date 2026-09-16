@@ -118,7 +118,7 @@ internal class ModernPdfViewerDelegate : PdfViewerFragment() {
         pdfSearchView.searchQueryBox.apply {
             setTextColor(colorScheme.onSurface.toArgb())
             setHintTextColor(colorScheme.onSurfaceVariant.toArgb())
-            highlightColor = colorScheme.primary.copy(alpha = 0.3f).toArgb()
+            highlightColor = colorScheme.onPrimaryContainer.copy(alpha = 0.3f).toArgb()
             invalidate()
         }
 

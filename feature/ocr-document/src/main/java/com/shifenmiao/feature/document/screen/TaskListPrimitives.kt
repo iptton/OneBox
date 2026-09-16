@@ -113,7 +113,7 @@ internal fun AddTaskCard(
                             Icon(
                                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineImage,
                                 contentDescription = stringResource(R.string.image),
-                                tint = MaterialTheme.colorScheme.primary,
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier.size(iconSize)
                             )
                             Spacer(modifier = Modifier.height(4.dp))
@@ -124,7 +124,7 @@ internal fun AddTaskCard(
                                 } else {
                                     MaterialTheme.typography.titleMedium
                                 },
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
                     }
@@ -151,7 +151,7 @@ internal fun AddTaskCard(
                         Icon(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LinePdf,
                             contentDescription = stringResource(R.string.pdf),
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier.size(iconSize)
                         )
                         Spacer(modifier = Modifier.height(4.dp))
@@ -162,7 +162,7 @@ internal fun AddTaskCard(
                             } else {
                                 MaterialTheme.typography.titleMedium
                             },
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
                 }

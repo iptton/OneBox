@@ -238,7 +238,7 @@ private fun PresentationModeCard(
                     imageVector = modeInfo.icon,
                     contentDescription = modeInfo.label,
                     tint = if (isSelected)
-                        MaterialTheme.colorScheme.primary
+                        MaterialTheme.colorScheme.onPrimaryContainer
                     else
                         contentColor,
                     modifier = Modifier.size(22.dp)

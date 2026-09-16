@@ -92,7 +92,7 @@ fun LoanInputPanel(
                 Text(
                     text = "（%）▾",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier
                         .padding(start = 4.dp)
                         .clickable { showRateDropdown = true },
@@ -136,7 +136,7 @@ fun LoanInputPanel(
             modifier = Modifier.fillMaxWidth(),
             onClick = { viewModel.calculate() },
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
             ),
             shape = MaterialTheme.shapes.extraLarge,
         ) {

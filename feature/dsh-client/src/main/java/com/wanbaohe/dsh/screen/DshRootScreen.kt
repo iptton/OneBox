@@ -223,7 +223,7 @@ private fun ConnectScreen(component: DshRootComponent, uiState: DshUiState) {
                         onClick = component::enterChat,
                         modifier = Modifier.fillMaxWidth(),
                         color = AppTheme.colors.getPrimaryColor(),
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         containerAlpha = 0.7f
                     ) {
                         Text(

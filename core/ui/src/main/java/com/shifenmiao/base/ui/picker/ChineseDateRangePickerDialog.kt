@@ -499,7 +499,7 @@ private fun RangeDayCell(
     onClick: () -> Unit
 ) {
     val backgroundModifier = when {
-        isStart || isEnd -> Modifier.background(MaterialTheme.colorScheme.primary, CircleShape)
+        isStart || isEnd -> Modifier.background(MaterialTheme.colorScheme.primaryContainer, CircleShape)
         isInRange -> Modifier.background(MaterialTheme.colorScheme.primaryContainer)
         else -> Modifier
     }
@@ -519,7 +519,7 @@ private fun RangeDayCell(
                 style = MaterialTheme.typography.bodyMedium,
                 color = when {
                     isDisabled -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                    isStart || isEnd -> MaterialTheme.colorScheme.onPrimary
+                    isStart || isEnd-> MaterialTheme.colorScheme.onPrimaryContainer
                     isInRange -> MaterialTheme.colorScheme.onPrimaryContainer
                     isToday -> MaterialTheme.colorScheme.primary
                     else -> MaterialTheme.colorScheme.onSurface

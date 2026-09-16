@@ -43,7 +43,7 @@ fun MaterialYouPaletteGroup(
             modifier = Modifier.height(IntrinsicSize.Max)
         ) {
             MaterialYouPaletteItem(
-                color = colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 colorScheme = colorScheme,
                 name = "Primary",
                 onCopy = onCopy,

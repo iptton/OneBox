@@ -290,7 +290,7 @@ fun AIEngineSettingsDetailScreen(
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Add,
                     contentDescription = stringResource(R.string.ai_engine_add_model),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
         },
@@ -728,7 +728,7 @@ private fun RemoteModelPickerDialog(
                                             Icon(
                                                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Check,
                                                 contentDescription = null,
-                                                tint = MaterialTheme.colorScheme.primary,
+                                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                                 modifier = Modifier.size(20.dp)
                                             )
                                         }
@@ -1011,7 +1011,7 @@ private fun ModelSelectionCard(
                                 Icon(
                                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Edit,
                                     contentDescription = stringResource(R.string.ai_engine_edit_action),
-                                    tint = MaterialTheme.colorScheme.primary,
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                 )
                             }
                             IconButton(onClick = { onModelDelete(selectedModel) }) {
@@ -1296,7 +1296,7 @@ private fun ParameterSliderRow(
                 imageVector = icon,
                 contentDescription = null,
                 modifier = Modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
@@ -1309,7 +1309,7 @@ private fun ParameterSliderRow(
                 modifier = Modifier
                     .glassBackground(
                         style = GlassStyle.Thin,
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.12f),
                         shape = OneBoxDesignSystem.pillShape,
                         borderWidth = 0.dp,
                     )
@@ -1322,7 +1322,7 @@ private fun ParameterSliderRow(
                         value
                     ),
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
         }

@@ -185,8 +185,8 @@ private fun BottomIconButton(
             BadgedBox(
                 badge = {
                     Badge(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                     ) {
                         Text(text = badgeCount.toString(), style = MaterialTheme.typography.labelSmall)
                     }

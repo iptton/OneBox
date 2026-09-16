@@ -225,7 +225,7 @@ private fun PoemFilterChipItem(
         label = { Text(text = text) },
         colors = FilterChipDefaults.filterChipColors(
             selectedContainerColor = MaterialTheme.colorScheme.primary,
-            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
         ),
         glassSelectedContainerColor = MaterialTheme.colorScheme.primary,
     )

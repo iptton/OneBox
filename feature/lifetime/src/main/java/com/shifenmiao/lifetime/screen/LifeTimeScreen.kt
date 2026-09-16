@@ -240,7 +240,7 @@ private fun DemoBanner(
                 style = MaterialTheme.typography.labelMedium.copy(
                     fontWeight = FontWeight.Bold
                 ),
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }
@@ -352,7 +352,7 @@ private fun BoxScope.LifetimeFabMenu(
                 scaleY = fabScale
             },
             onClick = { expanded = !expanded },
-            containerColor = AppTheme.colors.getPrimaryColor(),
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = Color.White,
             elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 6.dp),
         ) {
@@ -481,7 +481,7 @@ private fun EmptyMilestoneCard(onClick: () -> Unit) {
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.NoteAdd,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(24.dp),
             )
             Column(

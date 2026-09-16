@@ -168,7 +168,7 @@ private fun VipCurrentLevelCard(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineWorkspacePremium,
                     contentDescription = null,
                     modifier = Modifier.size(36.dp),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
 
@@ -211,7 +211,7 @@ private fun VipCurrentLevelCard(
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.SemiBold,
                 ),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
     }
@@ -280,7 +280,7 @@ private fun VipProgressCard(
                     .fillMaxWidth()
                     .height(10.dp)
                     .clip(RoundedCornerShape(5.dp)),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 trackColor = MaterialTheme.colorScheme.surfaceVariant,
                 strokeCap = StrokeCap.Round,
             )
@@ -334,7 +334,7 @@ private fun VipLevelItem(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.CheckCircle,
                         contentDescription = null,
                         modifier = Modifier.size(22.dp),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 } else {
                     Text(
@@ -342,7 +342,7 @@ private fun VipLevelItem(
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold,
                         ),
-                        color = if (isUnlocked) MaterialTheme.colorScheme.primary
+                        color = if (isUnlocked) MaterialTheme.colorScheme.onPrimaryContainer
                         else MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
@@ -360,7 +360,7 @@ private fun VipLevelItem(
                         style = MaterialTheme.typography.titleSmall.copy(
                             fontWeight = FontWeight.Bold,
                         ),
-                        color = if (isCurrentLevel) MaterialTheme.colorScheme.primary
+                        color = if (isCurrentLevel) MaterialTheme.colorScheme.onPrimaryContainer
                         else MaterialTheme.colorScheme.onSurface,
                     )
                     if (isCurrentLevel) {
@@ -369,10 +369,10 @@ private fun VipLevelItem(
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
                             ),
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier
                                 .background(
-                                    MaterialTheme.colorScheme.primary,
+                                    MaterialTheme.colorScheme.primaryContainer,
                                     RoundedCornerShape(4.dp)
                                 )
                                 .padding(horizontal = 6.dp, vertical = 2.dp),
@@ -397,7 +397,7 @@ private fun VipLevelItem(
                 style = MaterialTheme.typography.labelMedium.copy(
                     fontWeight = FontWeight.SemiBold,
                 ),
-                color = if (isUnlocked) MaterialTheme.colorScheme.primary
+                color = if (isUnlocked) MaterialTheme.colorScheme.onPrimaryContainer
                 else MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }

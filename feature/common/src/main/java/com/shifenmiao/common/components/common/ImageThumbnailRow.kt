@@ -104,7 +104,7 @@ private fun ThumbnailItem(
         if (isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.size(24.dp),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 strokeWidth = 2.dp
             )
         }

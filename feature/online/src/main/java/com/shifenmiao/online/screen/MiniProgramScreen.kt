@@ -83,7 +83,7 @@ fun MiniProgramScreen(
                         Text(
                             text = stringResource(com.shifenmiao.online.R.string.mini_program_jump_confirm),
                             style =  MaterialTheme.typography.bodyLarge.copy(
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         )
                         Spacer(modifier = Modifier.padding(AppTheme.dimens.paddingNormal))
@@ -120,8 +120,8 @@ fun MiniProgramScreen(
                                     uncheckedColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(
                                         alpha = 0.5f
                                     ),
-                                    checkedColor = MaterialTheme.colorScheme.primary,
-                                    checkmarkColor = MaterialTheme.colorScheme.onPrimary,
+                                    checkedColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    checkmarkColor = MaterialTheme.colorScheme.onPrimaryContainer,
                                 )
                             )
                             Text(

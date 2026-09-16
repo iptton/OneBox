@@ -287,7 +287,7 @@ private fun SearchBar(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Search,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f),
             )
         },
         singleLine = true,
@@ -330,14 +330,14 @@ private fun ImportDocumentCard(
                 modifier = Modifier
                     .size(56.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineDescription,
                     contentDescription = null,
                     modifier = Modifier.size(28.dp),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
             Column {
@@ -402,7 +402,7 @@ private fun RecentPdfChip(
             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LinePdf,
             contentDescription = null,
             modifier = Modifier.size(18.dp),
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         Text(
             text = name,
@@ -438,14 +438,14 @@ private fun ToolCard(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)),
+                .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
                 modifier = Modifier.size(28.dp),
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
         Spacer(Modifier.height(12.dp))
@@ -508,7 +508,7 @@ private fun RecentDocCard(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LinePdf,
                     contentDescription = null,
                     modifier = Modifier.size(18.dp),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
         }

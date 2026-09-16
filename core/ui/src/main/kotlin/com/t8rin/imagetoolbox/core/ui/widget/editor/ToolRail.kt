@@ -130,7 +130,7 @@ private fun EditorToolRailItem(
             .clip(ShapeDefaults.default)
             .background(
                 if (isActive) {
-                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
+                    MaterialTheme.colorScheme.primaryContainer
                 } else Color.Transparent
             )
             .clickable(enabled = tool.enabled, onClick = onClick)

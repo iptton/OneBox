@@ -140,8 +140,8 @@ internal fun CompareScreenContent(
                         onClick = {
                             openTuneMenu = true
                         },
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                        containerColor = MaterialTheme.colorScheme.primary.copy(0.85f),
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        containerColor = MaterialTheme.colorScheme.primaryContainer.copy(0.85f),
                         modifier = Modifier.padding(8.dp)
                     ) {
                         Icon(

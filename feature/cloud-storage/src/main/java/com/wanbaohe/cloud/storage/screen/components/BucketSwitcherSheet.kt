@@ -97,7 +97,7 @@ fun BucketSwitcherSheet(
                             },
                             shape = RoundedCornerShape(12.dp),
                             color = if (isCurrent) {
-                                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
+                                MaterialTheme.colorScheme.primaryContainer
                             } else {
                                 MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f)
                             },
@@ -130,7 +130,7 @@ fun BucketSwitcherSheet(
                                     Icon(
                                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Check,
                                         contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary,
+                                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                         modifier = Modifier
                                             .padding(start = 8.dp)
                                             .size(18.dp),

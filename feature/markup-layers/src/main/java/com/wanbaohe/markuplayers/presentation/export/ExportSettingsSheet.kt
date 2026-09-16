@@ -348,7 +348,7 @@ private fun SelectableCard(
                 if (selected) {
                     Modifier.border(
                         width = 1.dp,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         shape = ShapeDefaults.large
                     )
                 } else Modifier

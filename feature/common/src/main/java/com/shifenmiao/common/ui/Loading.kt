@@ -75,7 +75,7 @@ fun LoadingOverlay(
                     Spacer(modifier = Modifier.height(24.dp))
                     CircularProgressIndicator(
                         modifier = Modifier.size(48.dp),
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     if (canCancel) {
                         Spacer(modifier = Modifier.height(24.dp))

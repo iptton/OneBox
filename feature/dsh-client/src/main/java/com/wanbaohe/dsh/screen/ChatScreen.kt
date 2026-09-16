@@ -1244,7 +1244,7 @@ private fun SessionDrawer(
                                 modifier = Modifier.padding(start = 8.dp, top = 10.dp, bottom = 4.dp),
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
                         items(ungrouped, key = { it.sessionId }) { summary ->
@@ -1285,7 +1285,7 @@ private fun WorkspaceHeader(
                 text = workspace.title,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

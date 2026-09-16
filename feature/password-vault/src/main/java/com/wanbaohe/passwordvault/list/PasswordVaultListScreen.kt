@@ -270,7 +270,7 @@ private fun EmptyPlaceholder(
                 modifier = Modifier
                     .padding(bottom = OneBoxDesignSystem.blockSpacing)
                     .size(56.dp),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(
                 text = stringResource(R.string.password_vault_empty_title),

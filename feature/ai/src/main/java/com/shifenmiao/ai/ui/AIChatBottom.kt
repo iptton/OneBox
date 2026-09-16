@@ -71,8 +71,8 @@ fun BoxScope.AnimatedGoToTopIcon(
                 .align(Alignment.BottomEnd)
                 .size(40.dp),
             colors = IconButtonDefaults.filledTonalIconButtonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             ),
         ) {
             Icon(

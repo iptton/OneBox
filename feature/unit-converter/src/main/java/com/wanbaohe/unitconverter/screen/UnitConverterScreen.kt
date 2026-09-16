@@ -284,7 +284,7 @@ private fun CalculatorTab(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineHistory,
                         contentDescription = stringResource(R.string.unit_converter_calculator_history),
                         modifier = Modifier.size(22.dp),
-                        tint = if (showHistory) MaterialTheme.colorScheme.primary
+                        tint = if (showHistory) MaterialTheme.colorScheme.onPrimaryContainer
                         else MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
@@ -298,7 +298,7 @@ private fun CalculatorTab(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCalculate,
                     contentDescription = stringResource(R.string.unit_converter_equals),
                     modifier = Modifier.size(22.dp),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
             // 退格图标
@@ -604,7 +604,7 @@ private fun RelativeTab(
                 Text(
                     text = stringResource(R.string.unit_converter_relative_result_label),
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 val kinshipTitle = rememberKinshipTitle(state)
                 val kinshipDescription = rememberKinshipDescription(state)
@@ -692,7 +692,7 @@ private fun CalculatorHistoryCard(
                 text = item.result,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
     }
@@ -842,7 +842,7 @@ private fun ConverterDisplayCards(
                         ),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
             }
@@ -898,7 +898,7 @@ private fun ConverterDisplayCards(
                 .size(48.dp)
                 .align(Alignment.Center),
             shape = CircleShape,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             borderWidth = 0.dp,
         ) {
             Box(
@@ -908,7 +908,7 @@ private fun ConverterDisplayCards(
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSwapVert,
                     contentDescription = stringResource(R.string.unit_converter_swap),
-                    tint = MaterialTheme.colorScheme.onPrimary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
         }
@@ -1101,7 +1101,7 @@ private fun ConverterInputBar(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineKeyboard,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
     }
@@ -1168,7 +1168,7 @@ private fun ReferenceCard(
             Text(
                 text = value,
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -1417,7 +1417,7 @@ private fun RelationButton(
                         color = if (action.isClear) {
                             MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.2f)
                         } else {
-                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.15f)
+                            MaterialTheme.colorScheme.primaryContainer
                         },
                         shape = CircleShape
                     ),

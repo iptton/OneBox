@@ -333,7 +333,7 @@ private fun ProfileUserSection(
                 Text(
                     text = "VIP ${loginState.vipLevel} · ${stringResource(levelInfo.nameRes)}",
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.clickable { onNavigateToVipLevel() },
                 )
             }

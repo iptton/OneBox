@@ -114,7 +114,7 @@ fun ImageUploadGallery(
                             CircularProgressIndicator(
                                 progress = { animatedProgress },
                                 modifier = Modifier.size(32.dp),
-                                color = MaterialTheme.colorScheme.primary,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 trackColor = MaterialTheme.colorScheme.surfaceVariant
                             )
                         }

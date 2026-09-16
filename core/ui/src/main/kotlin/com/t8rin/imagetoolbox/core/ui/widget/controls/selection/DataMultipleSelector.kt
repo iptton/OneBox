@@ -134,12 +134,12 @@ fun <T : Any> DataMultipleSelector(
                         modifier = Modifier.size(12.dp),
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineNewLabel,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Text(
                         text = stringResource(com.t8rin.imagetoolbox.core.resources.R.string.create_new),
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
@@ -159,7 +159,7 @@ fun <T : Any> DataMultipleSelector(
                             com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineNote
                         },
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Text(
                         text = if (showManageIcon) {
@@ -168,7 +168,7 @@ fun <T : Any> DataMultipleSelector(
                             stringResource(com.shifenmiao.core.R.string.manage)
                         },
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }

@@ -86,7 +86,7 @@ fun UrisPreview(
             modifier = Modifier
                 .size(width / 3f)
                 .align(Alignment.Center),
-            tint = MaterialTheme.colorScheme.primary
+            tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
     },
     showTransparencyChecker: Boolean = true,

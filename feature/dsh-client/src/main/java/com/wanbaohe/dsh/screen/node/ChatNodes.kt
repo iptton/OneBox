@@ -138,8 +138,8 @@ private fun UserBubble(node: ChatNode.UserMessage) {
             modifier = Modifier.widthIn(max = 300.dp),
             shape = RoundedCornerShape(16.dp, 16.dp, 4.dp, 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = AppTheme.colors.getPrimaryColor(),
-                contentColor = MaterialTheme.colorScheme.onPrimary
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
             ),
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
             containerAlpha = 0.85f
@@ -149,7 +149,7 @@ private fun UserBubble(node: ChatNode.UserMessage) {
                     Text(
                         text = node.text,
                         fontSize = 15.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
                 if (node.images.isNotEmpty()) {
@@ -166,14 +166,14 @@ private fun UserBubble(node: ChatNode.UserMessage) {
                         Text(
                             text = formatNodeTime(time),
                             fontSize = 10.sp,
-                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.75f)
+                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.75f)
                         )
                         Spacer(Modifier.width(3.dp))
                         Icon(
                             imageVector = Icons.Outlined.DoneAll,
                             contentDescription = stringResource(R.string.dsh_message_delivered),
                             modifier = Modifier.size(13.dp),
-                            tint = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.75f)
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.75f)
                         )
                     }
                 }

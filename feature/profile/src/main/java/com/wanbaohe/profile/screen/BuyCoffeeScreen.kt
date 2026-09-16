@@ -237,7 +237,7 @@ fun ColumnScope.BuyCoffeeBody(
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronRight,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.size(18.dp),
                     )
                 }
@@ -314,7 +314,7 @@ fun ColumnScope.BuyCoffeeBody(
                         .requiredHeight(AppTheme.dimens.normalButtonHeight)
                         .padding(horizontal = 16.dp),
                     color = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 ) {
                     if (isLoading) {
                         CircularProgressIndicator(modifier = Modifier.size(16.dp))
@@ -447,12 +447,12 @@ fun VipLevelBadge(
             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineWorkspacePremium,
             contentDescription = null,
             modifier = Modifier.size(18.dp),
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         Text(
             text = "VIP $vipLevel · ${stringResource(levelInfo.nameRes)}",
             style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
     }
 }

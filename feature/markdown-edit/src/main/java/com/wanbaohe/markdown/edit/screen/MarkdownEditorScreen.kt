@@ -169,7 +169,7 @@ fun MarkdownEditorScreen(
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSave,
                     contentDescription = stringResource(R.string.save_file),
-                    tint = if (uiState.isDirty) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                    tint = if (uiState.isDirty) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -286,7 +286,7 @@ fun MarkdownEditorScreen(
                                 Text(
                                     text = stringResource(R.string.recent_files),
                                     style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.primary
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer
                                 )
                             },
                             onClick = { },

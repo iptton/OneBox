@@ -85,13 +85,13 @@ fun NoteCategoryDialog(
                                 modifier = Modifier.size(18.dp),
                                 imageVector = Icons.Outlined.LineSettings,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
                                 text = stringResource(R.string.manage),
                                 style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
                     }
@@ -143,7 +143,7 @@ fun NoteCategoryDialog(
                                     modifier = Modifier.size(18.dp),
                                     imageVector = Icons.Outlined.Check,
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                                 )
                             }
                         }

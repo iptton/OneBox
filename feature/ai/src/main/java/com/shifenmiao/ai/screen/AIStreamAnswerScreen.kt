@@ -384,7 +384,7 @@ private fun TypewriterMarkdownBlock(
                     append(targetText.take(displayedLength))
                     withStyle(
                         SpanStyle(
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = cursorAlpha),
+                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = cursorAlpha),
                         )
                     ) {
                         append("▎")

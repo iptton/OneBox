@@ -94,7 +94,7 @@ internal fun StatsTab(
                     }
                     CompareBarChart(
                         entries = entries,
-                        barColor = MaterialTheme.colorScheme.primary,
+                        barColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.fillMaxWidth(),
                     )
                 }
@@ -156,14 +156,14 @@ internal fun StatsTab(
                         EnhancedChip(
                             selected = stats.trendDays == 7,
                             onClick = { component.setTrendDays(7) },
-                            selectedColor = MaterialTheme.colorScheme.primary,
+                            selectedColor = MaterialTheme.colorScheme.primaryContainer,
                         ) {
                             Text(stringResource(R.string.habit_last_7_days))
                         }
                         EnhancedChip(
                             selected = stats.trendDays == 30,
                             onClick = { component.setTrendDays(30) },
-                            selectedColor = MaterialTheme.colorScheme.primary,
+                            selectedColor = MaterialTheme.colorScheme.primaryContainer,
                         ) {
                             Text(stringResource(R.string.habit_last_30_days))
                         }
@@ -216,7 +216,7 @@ private fun StatsSectionCard(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(18.dp),
                 )
                 Text(

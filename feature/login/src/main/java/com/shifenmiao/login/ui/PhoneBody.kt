@@ -77,7 +77,7 @@ fun PhoneBody(
             }
         },
         leadingIcon = {
-            Text(text = "+86", color = MaterialTheme.colorScheme.primary)
+            Text(text = "+86", color = MaterialTheme.colorScheme.onPrimaryContainer)
         },
         placeholder = {
             Text(text = stringResource(R.string.phone_placeholder))

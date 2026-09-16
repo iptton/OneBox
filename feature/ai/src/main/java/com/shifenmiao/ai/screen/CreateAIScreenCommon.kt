@@ -62,7 +62,7 @@ internal fun AIModelSelectorChip(
         Icon(
             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineEnergyLeaf,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
             modifier = Modifier.size(16.dp)
         )
         Text(
@@ -70,7 +70,7 @@ internal fun AIModelSelectorChip(
             style = MaterialTheme.typography.labelMedium.copy(
                 fontWeight = FontWeight.SemiBold
             ),
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f, fill = false),

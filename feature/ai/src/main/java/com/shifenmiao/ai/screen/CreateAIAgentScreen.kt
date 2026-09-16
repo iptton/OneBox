@@ -489,7 +489,7 @@ private fun PlaceholderSection(contentCardHeight: androidx.compose.ui.unit.Dp) {
                 modifier = Modifier
                     .size(64.dp)
                     .glassBackground(
-                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                        color = MaterialTheme.colorScheme.primaryContainer,
                         shape = MaterialTheme.shapes.medium,
                     ),
                 contentAlignment = Alignment.Center,
@@ -498,7 +498,7 @@ private fun PlaceholderSection(contentCardHeight: androidx.compose.ui.unit.Dp) {
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineBuild,
                     contentDescription = null,
                     modifier = Modifier.size(32.dp),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
 
@@ -670,12 +670,12 @@ private fun StreamingSection(
                 CircularProgressIndicator(
                     modifier = Modifier.size(14.dp),
                     strokeWidth = 2.dp,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Text(
                     text = stageLabel,
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 // 技术详情切换按钮
@@ -713,7 +713,7 @@ private fun StreamingSection(
                         modifier = Modifier
                             .size(56.dp)
                             .glassBackground(
-                                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f),
+                                color = MaterialTheme.colorScheme.primaryContainer,
                                 shape = MaterialTheme.shapes.large,
                             ),
                         contentAlignment = Alignment.Center,
@@ -722,7 +722,7 @@ private fun StreamingSection(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic,
                             contentDescription = null,
                             modifier = Modifier.size(28.dp),
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
                     Text(
@@ -744,7 +744,7 @@ private fun StreamingSection(
                             .fillMaxWidth()
                             .heightIn(max = 120.dp)
                             .glassBackground(
-                                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.22f),
+                                color = MaterialTheme.colorScheme.primaryContainer,
                                 shape = MaterialTheme.shapes.medium,
                             )
                             .padding(12.dp)
@@ -752,7 +752,7 @@ private fun StreamingSection(
                         Text(
                             text = stringResource(R.string.create_ai_stream_reasoning_title),
                             style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Column(
@@ -849,7 +849,7 @@ private fun AgentPreviewSection(
                     title = agent.title,
                     description = agent.description,
                     defaultTitle = stringResource(R.string.create_ai_agent_preview_default_title),
-                    accentColor = MaterialTheme.colorScheme.primary,
+                    accentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     isEditing = isMetaEditing,
                     onToggleEditing = { isMetaEditing = !isMetaEditing },
                     onTitleChange = onTitleChange,
@@ -883,7 +883,7 @@ private fun AgentPreviewSection(
                     .clip(MaterialTheme.shapes.medium)
                     .clickable { onPreviewClick() }
                     .glassBackground(
-                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.18f),
+                        color = MaterialTheme.colorScheme.primaryContainer,
                         shape = MaterialTheme.shapes.medium,
                     ),
                 contentAlignment = Alignment.Center,
@@ -897,7 +897,7 @@ private fun AgentPreviewSection(
                         modifier = Modifier
                             .size(56.dp)
                             .glassBackground(
-                                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f),
+                                color = MaterialTheme.colorScheme.primaryContainer,
                                 shape = MaterialTheme.shapes.large,
                             ),
                         contentAlignment = Alignment.Center,
@@ -906,7 +906,7 @@ private fun AgentPreviewSection(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic,
                             contentDescription = null,
                             modifier = Modifier.size(28.dp),
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
                     Text(
@@ -942,14 +942,14 @@ private fun AgentPreviewSection(
                     enabled = !isSaving,
                     modifier = Modifier.weight(1f),
                     contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
-                    color = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 ) {
                     if (isSaving) {
                         CircularProgressIndicator(
                             modifier = Modifier.size(18.dp),
                             strokeWidth = 2.dp,
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     } else {
                         Icon(
@@ -1020,7 +1020,7 @@ private fun AgentPreviewSection(
                     Text(
                         text = stringResource(R.string.create_ai_common_category_label),
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Text(
                         text = selectedCategoryNames.joinToString(" · ")

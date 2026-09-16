@@ -157,7 +157,7 @@ private fun HeroSummaryCard(summary: TokenUsageSummary) {
         shape = OneBoxDesignSystem.sectionCardShape,
         containerAlpha = 0.28f,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.15f)
+            containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
     ) {
         Column(
@@ -171,7 +171,7 @@ private fun HeroSummaryCard(summary: TokenUsageSummary) {
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineInsights,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(20.dp)
                 )
                 Text(
@@ -321,14 +321,14 @@ private fun ModelDistributionItem(
             Text(
                 text = StringUtils.formatNumber(stat.totalTokens),
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
 
         LinearProgressIndicator(
             progress = { progress.coerceIn(0f, 1f) },
             modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f),
             trackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
         )
 
@@ -419,7 +419,7 @@ private fun TopQueryItem(
             Text(
                 text = "${StringUtils.formatNumber(query.totalTokens)} ${stringResource(R.string.token_usage_tokens_label)}",
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     )

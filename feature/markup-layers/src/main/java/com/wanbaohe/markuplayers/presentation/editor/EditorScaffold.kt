@@ -1411,7 +1411,7 @@ private fun EditorToolItem(
             .clip(ShapeDefaults.default)
             .background(
                 if (isActive) {
-                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
+                    MaterialTheme.colorScheme.primaryContainer
                 } else androidx.compose.ui.graphics.Color.Transparent
             )
             .clickable(onClick = onClick)

@@ -70,7 +70,7 @@ object TonalCardPaletteDefaults {
                         titleColor = colorScheme.onSurface,
                         descriptionColor = colorScheme.onSurfaceVariant,
                         supportingContentColor = colorScheme.outline,
-                        accentColor = colorScheme.primary,
+                        accentColor = colorScheme.onPrimaryContainer,
                     )
                 }
 

@@ -83,7 +83,7 @@ fun PlaygroundCard(
                     if (isLoading) {
                         CircularProgressIndicator(
                             modifier = Modifier.size(28.dp),
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             strokeWidth = 2.dp
                         )
                     }
@@ -99,7 +99,7 @@ fun PlaygroundCard(
                             Icon(
                                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineStar,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier
                                     .size(28.dp)
                                     .padding(4.dp)

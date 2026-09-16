@@ -293,7 +293,7 @@ private fun StatRow(
                 Icon(
                     imageVector = Icons.Outlined.LineTimer,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(20.dp)
                 )
             },
@@ -427,7 +427,7 @@ private fun BottomBar(
             contentDescription = stringResource(
                 if (immersive) R.string.minesweeper_exit_fullscreen else R.string.minesweeper_fullscreen
             ),
-            tint = if (immersive) MaterialTheme.colorScheme.primary else Color.Unspecified
+            tint = if (immersive) MaterialTheme.colorScheme.onPrimaryContainer else Color.Unspecified
         )
         BarIconButton(
             onClick = onShare,
@@ -615,7 +615,7 @@ private fun ImmersiveStats(
     ) {
         ImmersiveStatValue(
             icon = Icons.Outlined.LineTimer,
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
             value = timer.toString()
         )
         ImmersiveStatValue(
@@ -691,7 +691,7 @@ private fun ResultOverlay(
             Icon(
                 imageVector = if (isWon) Icons.Outlined.LineFlag else Icons.Outlined.LineMinesweeper,
                 contentDescription = null,
-                tint = if (isWon) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                tint = if (isWon) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.error,
                 modifier = Modifier.size(40.dp)
             )
             Text(

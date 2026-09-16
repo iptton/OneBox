@@ -100,14 +100,14 @@ fun EngineFilterChip(
         },
         shape = RoundedCornerShape(50),
         colors = FilterChipDefaults.filterChipColors(
-            selectedContainerColor = MaterialTheme.colorScheme.primary,
-            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
             containerColor = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.5f),
             labelColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
-        selectedColor = MaterialTheme.colorScheme.primary,
+        selectedColor = MaterialTheme.colorScheme.primaryContainer,
         glassContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.5f),
-        glassSelectedContainerColor = MaterialTheme.colorScheme.primary,
+        glassSelectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
         border = if (!isSelected) {
             BorderStroke(
                 0.5.dp,

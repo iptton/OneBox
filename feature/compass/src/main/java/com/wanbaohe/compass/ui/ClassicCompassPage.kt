@@ -146,7 +146,7 @@ private fun HeadingReadout(
             text = directionNames[directionIndex.coerceIn(directionNames.indices)],
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
 }

@@ -43,7 +43,7 @@ fun PanModeButton(
             else Color.Transparent
         ).value,
         contentColor = animateColorAsState(
-            if (selected) MaterialTheme.colorScheme.onPrimary
+            if (selected) MaterialTheme.colorScheme.onPrimaryContainer
             else MaterialTheme.colorScheme.onSurface
         ).value,
         borderColor = MaterialTheme.colorScheme.outlineVariant(

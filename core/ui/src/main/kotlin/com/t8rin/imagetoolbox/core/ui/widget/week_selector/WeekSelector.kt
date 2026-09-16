@@ -168,7 +168,7 @@ private fun RowScope.WeekDayCell(
                     if (isToday && !isSelected) {
                         Modifier.border(
                             width = 1.dp,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             shape = RoundedCornerShape(10.dp),
                         )
                     } else {

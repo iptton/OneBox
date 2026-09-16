@@ -129,7 +129,7 @@ fun BaZiTab(
                     Icon(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCalendar,
                         contentDescription = stringResource(R.string.select_bazi_date),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
@@ -284,7 +284,7 @@ private fun NatalChartCard(
                     Text(
                         text = stringResource(R.string.natal_chart_label),
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Text(
                         text = stringResource(R.string.natal_chart),
@@ -298,7 +298,7 @@ private fun NatalChartCard(
                     Text(
                         text = "${stringResource(R.string.day_master)}：${baZi.dayMaster}${getWuXingForGan(baZi.dayMaster)}",
                         style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
@@ -320,7 +320,7 @@ private fun NatalChartCard(
                     Text(
                         text = it.shiShen,
                         style = MaterialTheme.typography.labelSmall,
-                        color = if (it.shiShen == "日主") MaterialTheme.colorScheme.primary
+                        color = if (it.shiShen == "日主") MaterialTheme.colorScheme.onPrimaryContainer
                         else MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.width(60.dp)
@@ -389,7 +389,7 @@ private fun PillarBox(text: String, isHighlight: Boolean) {
             .size(60.dp)
             .glassBackground(
                 shape = RoundedCornerShape(8.dp),
-                color = if (isHighlight) MaterialTheme.colorScheme.primary
+                color = if (isHighlight) MaterialTheme.colorScheme.onPrimaryContainer
                 else MaterialTheme.colorScheme.surfaceContainerHighest
             )
             .then(
@@ -407,7 +407,7 @@ private fun PillarBox(text: String, isHighlight: Boolean) {
                 fontWeight = FontWeight.Bold,
                 fontSize = 28.sp
             ),
-            color = if (isHighlight) MaterialTheme.colorScheme.onPrimary
+            color = if (isHighlight) MaterialTheme.colorScheme.onPrimaryContainer
             else MaterialTheme.colorScheme.onSurface
         )
     }
@@ -428,7 +428,7 @@ private fun DaYunCard(daYunList: List<DaYunItem>) {
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -634,7 +634,7 @@ private fun FortuneCard(fortune: com.wanbaohe.calendar.data.FortuneData) {
                     modifier = Modifier
                         .glassBackground(
                             shape = RoundedCornerShape(8.dp),
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         .padding(horizontal = 12.dp, vertical = 16.dp),
                     contentAlignment = Alignment.Center
@@ -645,20 +645,20 @@ private fun FortuneCard(fortune: com.wanbaohe.calendar.data.FortuneData) {
                             style = MaterialTheme.typography.headlineMedium.copy(
                                 fontWeight = FontWeight.Bold
                             ),
-                            color = MaterialTheme.colorScheme.onPrimary
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         Text(
                             text = fortune.ganZhiYear.substring(1, 2),
                             style = MaterialTheme.typography.headlineMedium.copy(
                                 fontWeight = FontWeight.Bold
                             ),
-                            color = MaterialTheme.colorScheme.onPrimary
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "${fortune.year}",
                             style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f)
+                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
                         )
                     }
                 }
@@ -670,7 +670,7 @@ private fun FortuneCard(fortune: com.wanbaohe.calendar.data.FortuneData) {
                     Text(
                         text = fortune.title,
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
@@ -686,7 +686,7 @@ private fun FortuneCard(fortune: com.wanbaohe.calendar.data.FortuneData) {
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         FortuneTag(
                             text = "FORTUNE:${fortune.fortuneScore}%",
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         FortuneTag(
                             text = "CAREER:${fortune.careerLevel}",
@@ -788,7 +788,7 @@ private fun WisdomCard() {
             Text(
                 text = stringResource(R.string.wisdom_cycles),
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -825,14 +825,14 @@ private fun AiBaZiCard(onClick: () -> Unit) {
                     .size(48.dp)
                     .glassBackground(
                         shape = RoundedCornerShape(12.dp),
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.15f)
                     ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineMagic,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(26.dp)
                 )
             }
@@ -854,8 +854,8 @@ private fun AiBaZiCard(onClick: () -> Unit) {
             FilledTonalButton(
                 onClick = onClick,
                 colors = ButtonDefaults.filledTonalButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             ) {
                 Text(

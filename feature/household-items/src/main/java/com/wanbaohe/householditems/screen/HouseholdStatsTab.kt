@@ -251,10 +251,10 @@ fun HouseholdStatsTab(
                 } else {
                     ActivityGroup(
                         title = stringResource(R.string.household_stats_recent_added),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     ) {
                         stats.recentAdded.forEach { item ->
-                            RecentAddedRow(item = item, tint = MaterialTheme.colorScheme.primary)
+                            RecentAddedRow(item = item, tint = MaterialTheme.colorScheme.onPrimaryContainer)
                         }
                     }
                     if (stats.upcomingExpiry.isNotEmpty()) {
@@ -308,7 +308,7 @@ private fun StatsMetricCard(
                         if (highlight) {
                             MaterialTheme.colorScheme.tertiary.copy(alpha = 0.16f)
                         } else {
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.14f)
+                            MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.14f)
                         }
                     )
                     .padding(8.dp),
@@ -321,7 +321,7 @@ private fun StatsMetricCard(
                     tint = if (highlight) {
                         MaterialTheme.colorScheme.tertiary
                     } else {
-                        MaterialTheme.colorScheme.primary
+                        MaterialTheme.colorScheme.onPrimaryContainer
                     },
                 )
             }
@@ -348,7 +348,7 @@ private fun StatsMetricCard(
             Text(
                 text = trend.orEmpty(),
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 minLines = 1,
             )
         }
@@ -383,7 +383,7 @@ private fun StatsSectionCard(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(18.dp),
                 )
                 Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)

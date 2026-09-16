@@ -267,10 +267,10 @@ fun CalendarTab(
                     title = stringResource(R.string.yi),
                     items = state.yiJi.yi,
                     icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCheckCircleOutline,
-                    accentColor = MaterialTheme.colorScheme.primary,
+                    accentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     chipContainerColor = MaterialTheme.colorScheme.surface,
-                    chipContentColor = MaterialTheme.colorScheme.primary,
+                    chipContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
@@ -453,7 +453,7 @@ private fun TimeSlotItem(
                 Text(
                     text = "${stringResource(R.string.yi)} ${slot.yi.joinToString("、")}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             if (slot.ji.isNotEmpty()) {
@@ -977,21 +977,21 @@ private fun DetailInfoCard(lunar: LunarDate) {
                     direction = lunar.xiShen,
                     icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineEmojiFace,
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    iconColor = MaterialTheme.colorScheme.primary
+                    iconColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 DirectionChip(
                     label = stringResource(R.string.cai_shen),
                     direction = lunar.caiShen,
                     icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSunny,
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    iconColor = MaterialTheme.colorScheme.primary
+                    iconColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 DirectionChip(
                     label = stringResource(R.string.fu_shen),
                     direction = lunar.fuShen,
                     icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Compass,
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    iconColor = MaterialTheme.colorScheme.primary
+                    iconColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         }
@@ -1289,7 +1289,7 @@ private fun MonthNavigator(
                                 text = {
                                     Text(
                                         text = stringResource(R.string.year_value_format, y),
-                                        color = if (y == year) MaterialTheme.colorScheme.primary
+                                        color = if (y == year) MaterialTheme.colorScheme.onPrimaryContainer
                                         else MaterialTheme.colorScheme.onSurface
                                     )
                                 },
@@ -1396,7 +1396,7 @@ private fun MiniInfoItem(label: String, value: String) {
         Text(
             text = value,
             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
 }
@@ -1496,14 +1496,14 @@ private fun CalendarDayCell(
     modifier: Modifier = Modifier,
 ) {
     val textColor = when {
-        isSelected -> MaterialTheme.colorScheme.onPrimary
+        isSelected-> MaterialTheme.colorScheme.onPrimaryContainer
         dayInfo.isToday -> MaterialTheme.colorScheme.primary
         !dayInfo.isCurrentMonth -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
         else -> MaterialTheme.colorScheme.onSurface
     }
 
     val subTextColor = when {
-        isSelected -> MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.85f)
+        isSelected-> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f)
         dayInfo.solarTerm != null -> MaterialTheme.colorScheme.primary
         dayInfo.lunarFestival != null -> MaterialTheme.colorScheme.primary
         dayInfo.solarFestival != null -> MaterialTheme.colorScheme.tertiary
@@ -1516,7 +1516,7 @@ private fun CalendarDayCell(
         modifier = modifier
             .clip(CircleShape)
             .then(
-                if (isSelected) Modifier.glassBackground(shape = CircleShape, color = MaterialTheme.colorScheme.primary)
+                if (isSelected) Modifier.glassBackground(shape = CircleShape, color = MaterialTheme.colorScheme.onPrimaryContainer)
                 else if (dayInfo.isLegalHoliday) Modifier.glassBackground(
                     shape = CircleShape,
                     color = MaterialTheme.colorScheme.errorContainer.copy(
@@ -1525,7 +1525,7 @@ private fun CalendarDayCell(
                 )
                 else if (dayInfo.isToday) Modifier.glassBackground(
                     shape = CircleShape,
-                    color = MaterialTheme.colorScheme.primary.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                         alpha = 0.12f
                     )
                 )
@@ -1562,7 +1562,7 @@ private fun CalendarDayCell(
                             .padding(end = 2.dp, top = 2.dp)
                             .glassBackground(
                                 shape = RoundedCornerShape(4.dp),
-                                color = if (isSelected) MaterialTheme.colorScheme.onPrimary
+                                color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
                                 else MaterialTheme.colorScheme.error
                             )
                             .padding(horizontal = 3.dp, vertical = 1.dp)
@@ -1570,7 +1570,7 @@ private fun CalendarDayCell(
                     Text(
                         text = dayInfo.holidayBadge,
                         style = MaterialTheme.typography.labelSmall,
-                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onError
+                        color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onError
                     )
                 }
             }
@@ -1640,7 +1640,7 @@ private fun SelectedDayCard(
                     style = MaterialTheme.typography.displayLarge.copy(
                         fontWeight = FontWeight.Bold
                     ),
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))

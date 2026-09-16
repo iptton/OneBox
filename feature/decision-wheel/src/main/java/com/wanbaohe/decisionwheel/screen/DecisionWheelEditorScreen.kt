@@ -95,7 +95,7 @@ fun DecisionWheelEditorScreen(
                 Icon(
                     imageVector = Icons.Outlined.LineSave,
                     contentDescription = stringResource(R.string.save),
-                    tint = if (uiState.canSave) MaterialTheme.colorScheme.primary
+                    tint = if (uiState.canSave) MaterialTheme.colorScheme.onPrimaryContainer
                     else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -475,7 +475,7 @@ private fun UndoBar(
             Text(
                 text = stringResource(R.string.undo),
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.clickable(
                     onClick = onUndo,

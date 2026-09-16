@@ -273,7 +273,7 @@ fun GenericTonalCard(
             titleColor = colorScheme.onSurface,
             descriptionColor = colorScheme.onSurfaceVariant,
             supportingContentColor = supportingContentColor,
-            accentColor = colorScheme.primary,
+            accentColor = colorScheme.onPrimaryContainer,
         )
     }
     val settingsState = LocalSettingsState.current
@@ -473,7 +473,7 @@ fun PlaceholderCard(
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Add,
                     contentDescription = "Add",
-                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f),
                     modifier = Modifier.size(32.dp),
                 )
                 Spacer(modifier = Modifier.height(12.dp))

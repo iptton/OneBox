@@ -237,7 +237,7 @@ internal fun SettingsTab(
             CategorySectionCard(
                 title = stringResource(R.string.bookkeeping_income),
                 icon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineTrendingUp,
-                accentColor = MaterialTheme.colorScheme.primary,
+                accentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 chipContainerColor = MaterialTheme.colorScheme.primaryContainer,
                 onChipContainerColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 containerColor = MaterialTheme.colorScheme.surface,
@@ -520,7 +520,7 @@ private fun CategorySectionCard(
                         Icon(
                             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Check,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
                 }

@@ -224,7 +224,7 @@ private fun ShapeKindButton(
                 if (selected) {
                     Modifier.border(
                         width = 1.dp,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         shape = ShapeDefaults.default
                     )
                 } else Modifier

@@ -174,7 +174,7 @@ fun HabitEditScreen(component: HabitEditComponent) {
                             EnhancedChip(
                                 selected = false,
                                 onClick = component::onRemindClear,
-                                selectedColor = MaterialTheme.colorScheme.primary,
+                                selectedColor = MaterialTheme.colorScheme.primaryContainer,
                             ) {
                                 Text(stringResource(R.string.habit_edit_reminder_clear))
                             }
@@ -351,7 +351,7 @@ private fun RepeatSection(
                 EnhancedChip(
                     selected = repeatType == type,
                     onClick = { onRepeatTypeChange(type) },
-                    selectedColor = MaterialTheme.colorScheme.primary,
+                    selectedColor = MaterialTheme.colorScheme.primaryContainer,
                     contentPadding = androidx.compose.foundation.layout.PaddingValues(
                         horizontal = 14.dp,
                         vertical = 8.dp,
@@ -403,7 +403,7 @@ private fun RepeatSection(
                         EnhancedChip(
                             selected = HabitRepeat.isWeekdaySet(weekdaysMask, dayOfWeek),
                             onClick = { onWeekdayToggle(dayOfWeek) },
-                            selectedColor = MaterialTheme.colorScheme.primary,
+                            selectedColor = MaterialTheme.colorScheme.primaryContainer,
                         ) {
                             Text(labels[dayOfWeek - 1])
                         }

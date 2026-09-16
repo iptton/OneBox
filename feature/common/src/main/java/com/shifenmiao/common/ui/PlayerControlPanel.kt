@@ -192,7 +192,7 @@ fun PlayerControlPanel(
                         shape = RoundedCornerShape(20.dp),
                         colors = IconButtonDefaults.filledIconButtonColors(
                             containerColor = primary.copy(alpha = 0.85f),
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         ),
                     ) {
                         Icon(

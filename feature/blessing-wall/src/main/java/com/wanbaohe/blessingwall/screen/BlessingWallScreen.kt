@@ -246,9 +246,9 @@ fun BlessingWallScreen(component: BlessingWallComponent) {
     val colorScheme = MaterialTheme.colorScheme
     val basePalettes = listOf(
         BlessingPalette(
-            buttonContainer = colorScheme.primaryContainer,
-            buttonContent = colorScheme.onPrimaryContainer,
-            accent = colorScheme.primary,
+            buttonContainer = MaterialTheme.colorScheme.primaryContainer,
+            buttonContent = MaterialTheme.colorScheme.onPrimaryContainer,
+            accent = MaterialTheme.colorScheme.onPrimaryContainer,
         ),
         BlessingPalette(
             buttonContainer = colorScheme.secondaryContainer,

@@ -179,7 +179,7 @@ private fun ConfigItem(
                 Text(
                     text = stringResource(R.string.image_settings_active_badge),
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
         }
@@ -209,7 +209,7 @@ private fun ConfigEditor(
                 if (descriptor.supportsEditing) add(stringResource(R.string.image_settings_capability_editing))
             }.joinToString(" · "),
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         GlassOutlinedTextField(
             value = draft.displayName,
@@ -323,7 +323,7 @@ private fun SettingsSection(
         Text(
             text = title,
             style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         GlassSurface(
             modifier = Modifier.fillMaxWidth(),

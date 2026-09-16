@@ -360,7 +360,7 @@ private fun AboutHero(
                 modifier = Modifier.padding(horizontal = 18.dp, vertical = 8.dp),
                 text = "V${BuildConfig.VERSION_NAME}",
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
     }

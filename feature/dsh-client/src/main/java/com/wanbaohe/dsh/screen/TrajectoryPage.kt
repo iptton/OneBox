@@ -264,7 +264,7 @@ private fun BetweenHeaderRow(count: Int) {
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         fontSize = 12.sp,
         fontWeight = FontWeight.SemiBold,
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.onPrimaryContainer
     )
 }
 

@@ -256,7 +256,7 @@ private fun TotalDisplay(total: Int, diceType: DiceType) {
             text = total.toString(),
             style = MaterialTheme.typography.displayMedium,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             textAlign = TextAlign.Center
         )
     }

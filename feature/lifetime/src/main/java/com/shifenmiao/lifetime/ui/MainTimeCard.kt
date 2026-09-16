@@ -164,7 +164,7 @@ private fun TimeDimensionRow(
                 fontWeight = FontWeight.ExtraBold,
                 letterSpacing = (-1).sp
             ),
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             textAlign = TextAlign.Center
         )
         Text(

@@ -82,7 +82,7 @@ fun EmptyStateGuide(
                 imageVector = icon,
                 contentDescription = null,
                 modifier = Modifier.size(52.dp),
-                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.78f),
+                tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.78f),
             )
         }
         Spacer(Modifier.height(24.dp))
@@ -159,7 +159,7 @@ private fun EmptyStateActionCard(
                 imageVector = action.icon,
                 contentDescription = null,
                 modifier = Modifier.size(26.dp),
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
         Spacer(Modifier.width(14.dp))

@@ -38,7 +38,7 @@ fun CloudStorageTopBar(
                 Text(
                     text = connection?.displayName ?: stringResource(R.string.cloud_storage_no_connection),
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -57,7 +57,7 @@ fun CloudStorageTopBar(
                 )
             },
             leadingContent = {
-                Icon(imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCloudStorage, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                Icon(imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCloudStorage, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimaryContainer)
             },
             trailingContent = {
                 Icon(imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineExpandMore, contentDescription = null)

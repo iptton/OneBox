@@ -406,7 +406,7 @@ private fun WatchCta(
     val ctaColors = ButtonDefaults.buttonColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-        disabledContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f),
+        disabledContainerColor = MaterialTheme.colorScheme.primaryContainer,
         disabledContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
     )
     when {
@@ -478,7 +478,7 @@ private fun WatchCta(
                         modifier = Modifier
                             .size(26.dp)
                             .background(
-                                color = MaterialTheme.colorScheme.primary,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 shape = CircleShape,
                             ),
                         contentAlignment = Alignment.Center,
@@ -486,7 +486,7 @@ private fun WatchCta(
                         Icon(
                             imageVector = Icons.Rounded.PlayArrow,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier.size(18.dp),
                         )
                     }

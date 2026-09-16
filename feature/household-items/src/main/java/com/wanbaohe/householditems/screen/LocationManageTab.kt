@@ -204,7 +204,7 @@ fun LocationManageTab(
                                 imageVector = locationIcon(nameInputIconKey, ""),
                                 contentDescription = stringResource(R.string.household_location_pick_icon),
                                 modifier = Modifier.size(20.dp),
-                                tint = MaterialTheme.colorScheme.primary,
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                             )
                         }
                     },
@@ -344,8 +344,8 @@ private fun LocationTreeRow(
                 modifier = Modifier
                     .padding(start = 4.dp)
                     .size(iconSize),
-                tint = if (isTop) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.primary.copy(alpha = 0.85f),
+                tint = if (isTop) MaterialTheme.colorScheme.onPrimaryContainer
+                else MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f),
             )
             Text(
                 text = node.location.name,

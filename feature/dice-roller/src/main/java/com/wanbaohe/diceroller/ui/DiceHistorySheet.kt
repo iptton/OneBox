@@ -201,7 +201,7 @@ private fun HistoryRecordItem(record: RollRecord) {
                 Text(
                     text = countLabel,
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(

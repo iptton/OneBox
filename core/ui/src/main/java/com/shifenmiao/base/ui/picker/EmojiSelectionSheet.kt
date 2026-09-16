@@ -72,7 +72,7 @@ fun EmojiSelectionSheet(
                 selectedTabIndex = pagerState.currentPage,
                 edgePadding = 16.dp,
                 containerColor = Color.Transparent,
-                contentColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 divider = {}
             ) {
                 categories.forEachIndexed { index, category ->

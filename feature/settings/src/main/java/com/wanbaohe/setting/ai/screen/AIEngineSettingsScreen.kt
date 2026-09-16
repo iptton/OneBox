@@ -131,7 +131,7 @@ fun AIEngineSettingsScreen(
                         Text(
                             text = stringResource(R.string.ai_engine_auto_refreshing),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     } else if (!lastRefreshError.isNullOrBlank()) {
                         Text(
@@ -349,13 +349,13 @@ private fun EngineListCard(
                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Edit,
                         contentDescription = null,
                         modifier = Modifier.size(14.dp),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Spacer(modifier = Modifier.size(4.dp))
                     Text(
                         text = stringResource(R.string.ai_engine_edit_action),
                         style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
             }
@@ -392,7 +392,7 @@ private fun EngineBadge(
             .then(if (onClick != null) Modifier.combinedClickable(onClick = onClick) else Modifier)
             .glassBackground(
                 style = if (selected) GlassStyle.Thin else GlassStyle.Regular,
-                color = if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
+                color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.12f)
                 else MaterialTheme.colorScheme.surfaceVariant,
                 shape = RoundedCornerShape(50),
                 borderWidth = 0.dp,
@@ -403,7 +403,7 @@ private fun EngineBadge(
         Text(
             text = text,
             style = MaterialTheme.typography.labelSmall,
-            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+            color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

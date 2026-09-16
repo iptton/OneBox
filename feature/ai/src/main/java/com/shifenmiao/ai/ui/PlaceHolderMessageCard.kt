@@ -248,7 +248,7 @@ private fun PromptWorkCard(
                     Text(
                         text = promptBadgeLabel,
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
                 if (updatedAtText != null) {
@@ -564,7 +564,7 @@ private fun StatusCapsule(
     GlassSurface(
         modifier = modifier,
         color = if (highlighted) {
-            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.78f)
+            MaterialTheme.colorScheme.primaryContainer
         } else {
             MaterialTheme.colorScheme.surfaceContainerHigh
         },

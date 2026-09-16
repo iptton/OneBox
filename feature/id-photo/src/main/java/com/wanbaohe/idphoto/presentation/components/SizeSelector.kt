@@ -178,7 +178,7 @@ private fun SizePresetItem(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
-                        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                        MaterialTheme.colorScheme.primaryContainer,
                         shape = shape
                     ),
                 contentAlignment = Alignment.Center
@@ -187,8 +187,8 @@ private fun SizePresetItem(
                     onClick = onEdit,
                     modifier = Modifier.size(20.dp),
                     colors = IconButtonDefaults.filledTonalIconButtonColors().copy(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 ) {
                     Icon(

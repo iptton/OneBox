@@ -183,7 +183,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                         badge = {
                             if (selectedMedia.isNotEmpty() && allowMultiple) {
                                 Badge(
-                                    containerColor = MaterialTheme.colorScheme.primary
+                                    containerColor = MaterialTheme.colorScheme.primaryContainer
                                 ) {
                                     Text(selectedMedia.size.toString())
                                 }

@@ -127,13 +127,13 @@ fun TextStylePanel(
                 Text(
                     text = stringResource(R.string.textcard_editing_selection),
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.weight(1f)
                 )
                 Text(
                     text = stringResource(R.string.textcard_clear_selection_style),
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier
                         .clip(ShapeDefaults.default)
                         .clickable { clearSelectionStyles(selectionCtx.first, onEditingSync) }

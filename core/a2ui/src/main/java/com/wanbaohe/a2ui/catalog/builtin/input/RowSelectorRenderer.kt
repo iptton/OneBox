@@ -58,7 +58,7 @@ class RowSelectorRenderer @Inject constructor() : A2uiComponentRenderer {
         val selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
         val containerColor = MaterialTheme.colorScheme.surfaceContainer
         val selectedContainerColor = MaterialTheme.colorScheme.primaryContainer
-        val iconColor = MaterialTheme.colorScheme.primary
+        val iconColor = MaterialTheme.colorScheme.onPrimaryContainer
 
         if (!label.isNullOrBlank()) {
             Text(

@@ -538,7 +538,7 @@ private fun BreadcrumbSegment(
     Text(
         text = text,
         style = MaterialTheme.typography.labelLarge,
-        color = if (isLast) MaterialTheme.colorScheme.primary
+        color = if (isLast) MaterialTheme.colorScheme.onPrimaryContainer
         else MaterialTheme.colorScheme.onSurfaceVariant,
         fontWeight = if (isLast) FontWeight.SemiBold else FontWeight.Normal,
         modifier = Modifier
@@ -686,12 +686,12 @@ private fun LocationTag(
     Text(
         text = item.locationPath,
         style = MaterialTheme.typography.labelSmall,
-        color = MaterialTheme.colorScheme.primary,
+        color = MaterialTheme.colorScheme.onPrimaryContainer,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         modifier = modifier
             .clip(RoundedCornerShape(6.dp))
-            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.10f))
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .clickable { onClick(locationId) }
             .padding(horizontal = 6.dp, vertical = 2.dp),
     )
@@ -706,7 +706,7 @@ private fun CategoryNoteLine(item: HouseholdItemUi) {
             modifier = Modifier
                 .size(8.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primary),
+                .background(MaterialTheme.colorScheme.primaryContainer),
         )
         Text(
             text = listOf(item.category, item.note)
@@ -821,13 +821,13 @@ private fun ItemCardCover(item: HouseholdItemUi) {
                             imageVector = categoryIcon,
                             contentDescription = item.category,
                             modifier = Modifier.size(56.dp),
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     } else {
                         Text(
                             text = (item.category.ifBlank { item.name }).take(1),
                             style = MaterialTheme.typography.headlineMedium,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             textAlign = TextAlign.Center,
                         )
                     }

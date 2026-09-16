@@ -270,7 +270,7 @@ private fun CreationIcon(
     Box(
         modifier = modifier.glassThin(
             shape = CircleShape,
-            color = if (emphasized) MaterialTheme.colorScheme.primary.copy(alpha = 0.14f)
+            color = if (emphasized) MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.14f)
             else MaterialTheme.colorScheme.surfaceContainerHighest,
         ),
         contentAlignment = Alignment.Center,
@@ -279,7 +279,7 @@ private fun CreationIcon(
             imageVector = icon,
             contentDescription = null,
             modifier = Modifier.size(26.dp),
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
         )
     }
 }

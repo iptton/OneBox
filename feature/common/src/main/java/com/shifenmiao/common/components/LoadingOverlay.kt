@@ -46,7 +46,7 @@ fun LoadingOverlay(
     ) {
         CircularProgressIndicator(
             modifier = Modifier.size(48.dp),
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             trackColor = MaterialTheme.colorScheme.surfaceVariant
         )
     }

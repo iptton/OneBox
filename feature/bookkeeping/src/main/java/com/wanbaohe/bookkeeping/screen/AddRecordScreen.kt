@@ -399,7 +399,7 @@ fun AddRecordScreen(component: BookkeepingComponent) {
                                             .height(132.dp),
                                         shape = RoundedCornerShape(12.dp),
                                         borderWidth = 0.dp,
-                                        colors = CardDefaults.cardColors(containerColor = AppTheme.colors.getPrimaryColor()),
+                                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
                                         onClick = submit
                                     ) {
                                         Box(

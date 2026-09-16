@@ -183,7 +183,7 @@ private fun RowScope.WallpaperItem(
                         MediaCheckBox(
                             isChecked = isSelected,
                             uncheckedColor = White.copy(0.8f),
-                            checkedColor = MaterialTheme.colorScheme.primary,
+                            checkedColor = MaterialTheme.colorScheme.onPrimaryContainer,
                             checkedIcon = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.CheckCircle,
                             modifier = Modifier
                                 .clip(CircleShape)

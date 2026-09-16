@@ -158,7 +158,7 @@ fun LifeTimeMilestoneDetailScreen(
                             Text(
                                 text = daysText,
                                 style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
                         Text(
@@ -353,7 +353,7 @@ private fun InsightHistoryItem(
             modifier = Modifier
                 .padding(top = 6.dp)
                 .size(6.dp)
-                .background(MaterialTheme.colorScheme.primary)
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
         Column(
             modifier = Modifier.weight(1f),

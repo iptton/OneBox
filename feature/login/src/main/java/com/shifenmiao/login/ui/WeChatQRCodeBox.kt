@@ -39,7 +39,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.line.LineShare
 @Composable
 fun WeChatQRCodeBox() {
     var showIcon by remember { mutableStateOf(false) }
-    val contentColor = MaterialTheme.colorScheme.primary
+    val contentColor = MaterialTheme.colorScheme.onPrimaryContainer
     Column {
         Box(
             modifier = Modifier

@@ -174,7 +174,7 @@ fun AIPromptsPickerBottomSheet(
                             Icon(
                                 imageVector = Icons.Outlined.Edit,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         },
                         title = stringResource(R.string.ai_prompt_picker_create_manual),
@@ -188,7 +188,7 @@ fun AIPromptsPickerBottomSheet(
                         Icon(
                             imageVector = Icons.Outlined.LineMagic,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     },
                     title = stringResource(R.string.ai_prompt_picker_create_ai),

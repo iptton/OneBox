@@ -463,7 +463,7 @@ private fun OfferCard(
                             Text(
                                 text = stringResource(R.string.dsh_pair_matched),
                                 fontSize = 11.sp,
-                                color = MaterialTheme.colorScheme.onPrimary,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                             )
                         }

@@ -106,7 +106,7 @@ private fun DrawBarButton(
             .clip(ShapeDefaults.default)
             .background(
                 if (active) {
-                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
+                    MaterialTheme.colorScheme.primaryContainer
                 } else Color.Transparent
             )
             .clickable(enabled = enabled, onClick = onClick)

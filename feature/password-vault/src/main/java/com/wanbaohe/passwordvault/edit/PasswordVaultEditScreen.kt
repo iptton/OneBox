@@ -114,7 +114,7 @@ private fun LockedPlaceholder(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLock,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(48.dp)
             )
             Text(
@@ -363,12 +363,12 @@ private fun PasswordGeneratorButton(
             imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineCasino,
             contentDescription = null,
             modifier = Modifier.size(18.dp),
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         Spacer(modifier = Modifier.size(6.dp))
         Text(
             text = stringResource(R.string.password_vault_generate_password),
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
     }
 }

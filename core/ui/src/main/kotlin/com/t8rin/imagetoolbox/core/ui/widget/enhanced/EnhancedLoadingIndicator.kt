@@ -97,7 +97,7 @@ fun BoxScope.EnhancedLoadingIndicator(
                 EnhancedCircularProgressIndicator(
                     modifier = Modifier.size(maxWidth),
                     progress = { progressAnimated },
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     trackColor = Color.Transparent
                 )
                 additionalContent(maxWidth)

@@ -290,7 +290,7 @@ private fun computeRichTextString(
         Box(
           modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary.copy(alpha = alpha))
+            .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = alpha))
         )
       }
     )

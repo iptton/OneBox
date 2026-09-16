@@ -123,13 +123,13 @@ private fun SearchResultsHeader(
             Icon(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Rounded.Language,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(18.dp)
             )
             Text(
                 text = stringResource(R.string.ai_search_sources, citationCount),
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             if (query.isNotBlank()) {
                 Text(
@@ -215,7 +215,7 @@ private fun SearchCitationChip(
         Text(
             text = "[${citation.index}]",
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
         // 标题或域名
@@ -234,14 +234,14 @@ private fun MoreCitationsChip(count: Int) {
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f))
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .padding(horizontal = 10.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = "+$count",
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
 }
@@ -299,7 +299,7 @@ private fun SearchCitationCard(
                     Text(
                         text = "[${citation.index}]",
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
 
                     // Favicon

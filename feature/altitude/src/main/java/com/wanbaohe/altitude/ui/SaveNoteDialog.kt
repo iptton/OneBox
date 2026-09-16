@@ -54,7 +54,7 @@ internal fun SaveNoteDialog(
                 Text(
                     text = "$currentDisplay $unit",
                     style = MaterialTheme.typography.displaySmall.copy(
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primaryContainer
                     ),
                     modifier = Modifier.fillMaxWidth()
                 )

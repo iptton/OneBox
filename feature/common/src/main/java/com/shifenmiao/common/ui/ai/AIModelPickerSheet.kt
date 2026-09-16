@@ -759,7 +759,7 @@ fun ModelGridItem(
     isSelected: Boolean = false,
 ) {
     val containerColor = if (isSelected) {
-        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.15f)
+        MaterialTheme.colorScheme.primaryContainer
     } else {
         MaterialTheme.colorScheme.surfaceContainerLow
     }

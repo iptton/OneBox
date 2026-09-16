@@ -577,7 +577,7 @@ private fun ProviderSelector(
                     if (selected == type) {
                         Text(
                             text = "✓",
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             fontWeight = FontWeight.Bold,
                         )
                     }

@@ -429,7 +429,7 @@ private fun CurrentTTSConfigCard(
                         modifier = Modifier
                             .padding(10.dp)
                             .size(20.dp),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
 
@@ -523,7 +523,7 @@ private fun TTSConfigSummaryItem(
                     modifier = Modifier
                         .padding(8.dp)
                         .size(18.dp),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
 
@@ -595,7 +595,7 @@ private fun AiSlotRow(
                 Text(
                     text = modelName,
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
         }

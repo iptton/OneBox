@@ -204,7 +204,7 @@ fun UserAttachmentsContent(
                     Row(
                         modifier = Modifier
                             .clip(RoundedCornerShape(12.dp, 12.dp, 0.dp, 12.dp))
-                            .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f))
+                            .background(MaterialTheme.colorScheme.primaryContainer)
                             .padding(horizontal = 10.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -655,7 +655,7 @@ fun RobotReasoningHeader(
                 Icon(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSwitchAccess,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.size(18.dp)
                 )
                 Column(modifier = Modifier.weight(1f)) {
@@ -1072,12 +1072,12 @@ fun ErrorStateContent(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSettings,
                 modifier = Modifier.size(12.dp),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(
                 text = stringResource(id = R.string.settings_title),
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         Spacer(modifier = Modifier.width(8.dp))
@@ -1090,12 +1090,12 @@ fun ErrorStateContent(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineSwitchAccess,
                 modifier = Modifier.size(12.dp),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(
                 text = stringResource(id = R.string.select),
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         Spacer(modifier = Modifier.width(8.dp))
@@ -1106,12 +1106,12 @@ fun ErrorStateContent(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.Refresh,
                 modifier = Modifier.size(12.dp),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(
                 text = stringResource(id = R.string.button_retry),
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         Spacer(modifier = Modifier.width(8.dp))
@@ -1122,12 +1122,12 @@ fun ErrorStateContent(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineLiveHelp,
                 modifier = Modifier.size(12.dp),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(
                 text = stringResource(id = R.string.button_help),
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         Spacer(modifier = Modifier.weight(1f))

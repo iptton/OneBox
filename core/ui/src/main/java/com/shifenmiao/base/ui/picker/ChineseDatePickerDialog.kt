@@ -599,7 +599,7 @@ private fun DayCell(
             .then(
                 when {
                     isSelected && !isDisabled -> Modifier.background(MaterialTheme.colorScheme.primaryContainer)
-                    isToday && !isDisabled -> Modifier.background(MaterialTheme.colorScheme.primary)
+                    isToday && !isDisabled -> Modifier.background(MaterialTheme.colorScheme.primaryContainer)
                     else -> Modifier
                 }
             )
@@ -613,7 +613,7 @@ private fun DayCell(
                 color = when {
                     isDisabled -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                     isSelected -> MaterialTheme.colorScheme.onPrimaryContainer
-                    isToday -> MaterialTheme.colorScheme.onPrimary
+                    isToday-> MaterialTheme.colorScheme.onPrimaryContainer
                     else -> MaterialTheme.colorScheme.onSurface
                 },
                 fontWeight = if ((isSelected || isToday) && !isDisabled) FontWeight.Bold else FontWeight.Normal

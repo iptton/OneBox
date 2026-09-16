@@ -67,7 +67,7 @@ private fun SelectBaseTypeHead(
         Text(
             text = text,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         HorizontalDivider(
             modifier = Modifier.padding(

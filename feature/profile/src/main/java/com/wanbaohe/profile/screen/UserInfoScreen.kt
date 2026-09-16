@@ -330,7 +330,7 @@ fun UserInfoScreen(
                                     Text(
                                         text = "VIP ${loginState.vipLevel} · ${stringResource(levelInfo.nameRes)}",
                                         style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.primary,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                                     )
                                     Icon(
                                         imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.LineChevronRight,

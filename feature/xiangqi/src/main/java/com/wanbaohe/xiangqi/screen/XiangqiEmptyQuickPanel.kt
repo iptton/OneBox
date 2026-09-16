@@ -226,7 +226,7 @@ private fun QuickActionCard(
             Icon(
                 imageVector = action.icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Text(
                 text = action.label,

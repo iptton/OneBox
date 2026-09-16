@@ -175,7 +175,7 @@ internal fun SpeedTestDashboard(
                                 shape = CircleShape,
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color.Transparent,
-                                    contentColor = MaterialTheme.colorScheme.onPrimary
+                                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                                 )
                             ) {
                                 Text(stringResource(R.string.speed_test_restart), fontSize = 16.sp)

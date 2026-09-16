@@ -182,7 +182,7 @@ fun TeleprompterPlayerScreen(
                 .fillMaxWidth()
                 .align(Alignment.TopCenter)
                 .padding(top = 180.dp),
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
 
         // ── 操作提示（进入播放后短暂展示，点击任意处呼出控制面板） ───────

@@ -127,7 +127,7 @@ fun MemoryManagementScreen(
                     Icon(
                         imageVector = Icons.Outlined.Add,
                         contentDescription = stringResource(SettingsR.string.memory_add_entry),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
             }
@@ -167,7 +167,7 @@ fun MemoryManagementScreen(
                     Icon(
                         imageVector = Icons.Outlined.Add,
                         contentDescription = stringResource(SettingsR.string.memory_add_entry),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
                 IconButton(
@@ -192,7 +192,7 @@ fun MemoryManagementScreen(
                 Text(
                     text = date,
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 entries.forEach { entry ->
                     MemoryEntryCard(

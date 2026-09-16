@@ -313,7 +313,7 @@ internal fun QrParamsSelector(
                     },
                     title = stringResource(R.string.pixel_shape),
                     inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
-                    activeButtonColor = MaterialTheme.colorScheme.primary
+                    activeButtonColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 val frameShape = value.frameShape
 
@@ -350,7 +350,7 @@ internal fun QrParamsSelector(
                     },
                     title = stringResource(R.string.frame_shape),
                     inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
-                    activeButtonColor = MaterialTheme.colorScheme.primary
+                    activeButtonColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
 
                 AnimatedVisibility(
@@ -410,7 +410,7 @@ internal fun QrParamsSelector(
                     },
                     title = stringResource(R.string.ball_shape),
                     inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
-                    activeButtonColor = MaterialTheme.colorScheme.primary
+                    activeButtonColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 EnhancedButtonGroup(
                     modifier = Modifier

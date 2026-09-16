@@ -98,7 +98,7 @@ fun ItemEditScreen(
                 Icon(
                     imageVector = Icons.Outlined.Check,
                     contentDescription = stringResource(R.string.household_save),
-                    tint = if (uiState.editorName.isNotBlank()) MaterialTheme.colorScheme.primary
+                    tint = if (uiState.editorName.isNotBlank()) MaterialTheme.colorScheme.onPrimaryContainer
                     else MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -244,7 +244,7 @@ private fun CategoryField(
                     shape = RoundedCornerShape(12.dp),
                     containerAlpha = GlassStyle.Medium.backgroundAlpha,
                     border = if (selected) {
-                        BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+                        BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimaryContainer)
                     } else {
                         null
                     },
@@ -261,7 +261,7 @@ private fun CategoryField(
                             contentDescription = null,
                             modifier = Modifier.size(22.dp),
                             tint = if (selected) {
-                                MaterialTheme.colorScheme.primary
+                                MaterialTheme.colorScheme.onPrimaryContainer
                             } else {
                                 MaterialTheme.colorScheme.onSurfaceVariant
                             },
@@ -270,7 +270,7 @@ private fun CategoryField(
                             text = name,
                             style = MaterialTheme.typography.labelSmall,
                             color = if (selected) {
-                                MaterialTheme.colorScheme.primary
+                                MaterialTheme.colorScheme.onPrimaryContainer
                             } else {
                                 MaterialTheme.colorScheme.onSurfaceVariant
                             },
@@ -320,7 +320,7 @@ private fun LocationField(
                 Icon(
                     imageVector = locationIcon(selectedIconKey, selectedLocationId ?: ""),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 Text(
                     text = locationPath.ifBlank { stringResource(R.string.household_editor_location_none) },
@@ -373,7 +373,7 @@ private fun ExpireField(
                 Icon(
                     imageVector = Icons.Outlined.LineCalendar,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 Text(
                     text = expireDate?.format(formatter)
@@ -560,14 +560,14 @@ private fun LocationPickerRow(
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = if (selected) MaterialTheme.colorScheme.primary
+            tint = if (selected) MaterialTheme.colorScheme.onPrimaryContainer
             else MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Text(
             text = name,
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
-            color = if (selected) MaterialTheme.colorScheme.primary
+            color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer
             else MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .weight(1f)

@@ -736,7 +736,7 @@ private fun CreationToolSelectionSection(
                             } else {
                                 null
                             },
-                            accentColor = MaterialTheme.colorScheme.primary,
+                            accentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
                     items(selectedFilteredTools, key = { "selected_${it.name}" }) { tool ->
@@ -891,7 +891,7 @@ private fun ToolSelectionOptionItem(
         onClick = onClick,
         shape = MaterialTheme.shapes.medium,
         color = if (selected) {
-            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)
+            MaterialTheme.colorScheme.primaryContainer
         } else {
             MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)
         }

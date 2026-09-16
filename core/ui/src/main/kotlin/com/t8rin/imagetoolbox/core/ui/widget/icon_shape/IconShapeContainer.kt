@@ -72,7 +72,7 @@ object IconShapeDefaults {
                         )
                     } else {
                         Color.White.blend(
-                            color = colorScheme.primary,
+                            color = colorScheme.onPrimaryContainer,
                             fraction = 0.35f
                         )
                     }

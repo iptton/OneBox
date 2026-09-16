@@ -40,7 +40,7 @@ fun GlassOutlinedButton(
     enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(12.dp),
     color: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     style: GlassStyle = GlassStyle.Regular,
     borderWidth: Dp = 1.dp,
     @Suppress("UNUSED_PARAMETER")

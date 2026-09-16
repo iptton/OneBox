@@ -331,7 +331,7 @@ private fun FullScreenSendButton(
                 imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.ArrowUpward,
                 contentDescription = stringResource(R.string.ai_chat_send),
                 tint = if (textEmpty) MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
-                else MaterialTheme.colorScheme.onPrimary,
+                else MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(iconSize)
             )
         }

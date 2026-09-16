@@ -74,7 +74,7 @@ fun ImageResizeDialog(
                     Text(
                         text = "${sliderValue.roundToInt()} px",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
 

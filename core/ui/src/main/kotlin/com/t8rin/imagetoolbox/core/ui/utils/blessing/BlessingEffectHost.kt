@@ -157,7 +157,7 @@ fun BlessingEffectHost(
                 -> WealthGodEffect()
                 BlessingEffectType.Guanyin -> GuanyinEffect()
                 BlessingEffectType.Incense -> IncenseEffect()
-                BlessingEffectType.Hamsa -> RingGlowEffect(color = MaterialTheme.colorScheme.primary)
+                BlessingEffectType.Hamsa -> RingGlowEffect(color = MaterialTheme.colorScheme.onPrimaryContainer)
                 BlessingEffectType.Angel -> RingGlowEffect(color = MaterialTheme.colorScheme.tertiary)
                 BlessingEffectType.Cupid -> FloatingShapeEffect(
                     color = MaterialTheme.colorScheme.error,
@@ -172,7 +172,7 @@ fun BlessingEffectHost(
                     shape = FloatingShape.Star,
                 )
                 BlessingEffectType.Wishbone -> SparkleBurstEffect(
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 BlessingEffectType.WoodenFish -> Unit
             }
@@ -230,7 +230,7 @@ private fun FloatingMeritBubble(
         Box(contentAlignment = androidx.compose.ui.Alignment.Center) {
             Surface(
                 shape = RoundedCornerShape(50),
-                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.82f),
+                color = MaterialTheme.colorScheme.primaryContainer,
             ) {
                 Text(
                     text = message,

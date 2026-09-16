@@ -356,12 +356,12 @@ fun GradientBackgroundStyleSettingItem(
                     imageVector = com.t8rin.imagetoolbox.core.resources.Icons.Outlined.ImageSync,
                     contentDescription = null,
                     modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Text(
                     text = stringResource(R.string.custom_background_pick),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         }

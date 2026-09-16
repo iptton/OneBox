@@ -263,7 +263,7 @@ private fun TossingContent(completed: Int) {
                     .width(220.dp)
                     .height(32.dp)
                     .alpha(0.35f)
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.35f), CircleShape)
+                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f), CircleShape)
             )
             Text(
                 text = stringResource(R.string.iching_casting_progress, completed),
@@ -779,7 +779,7 @@ private fun PrimaryButton(
         modifier = Modifier.fillMaxWidth().height(54.dp),
         shape = RoundedCornerShape(18.dp),
         color = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         containerAlpha = 0.58f,
         borderWidth = 0.8.dp,
     ) {

@@ -186,7 +186,7 @@ fun SkillManagementScreen(
                     Icon(
                         imageVector = Icons.Outlined.Add,
                         contentDescription = stringResource(SettingsR.string.skill_new),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
                 Box {

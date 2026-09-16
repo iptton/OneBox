@@ -129,7 +129,7 @@ fun AISpecializedQuestionField(
                     Icon(
                         imageVector = icon,
                         contentDescription = type.name,
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.size(20.dp),
                     )
                 }

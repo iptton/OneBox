@@ -20,6 +20,7 @@
     <td><img src=".github/readme/zh/01.webp" width="180" alt="工具" /></td>
     <td><img src=".github/readme/zh/02.webp" width="180" alt="AI 助手" /></td>
     <td><img src=".github/readme/zh/03.webp" width="180" alt="隐私" /></td>
+    <td><a href="https://youtube.com/shorts/3hM2e1LspoY"><img src=".github/readme/intro-zh.jpg" width="180" alt="视频介绍(YouTube Shorts)" /></a></td>
   </tr>
 </table>
 
@@ -27,16 +28,6 @@
 
 - **中国**: [万宝盒官网](https://www.wanbaohe.com) · 小米 / 应用宝 / OPPO / vivo / 华为应用商店搜索「万宝盒」
 - **海外**: [Google Play](https://play.google.com/store/apps/details?id=com.shifenmiao.app) · [国际版官网](https://www.oneboxable.com)
-
-## 视频介绍
-
-<div align="center">
-  <a href="https://youtube.com/shorts/3hM2e1LspoY">
-    <img src=".github/readme/intro-zh.jpg" width="220" alt="万宝盒视频介绍" />
-  </a>
-  <br/>
-  ▶ <a href="https://youtube.com/shorts/3hM2e1LspoY">观看介绍视频(YouTube Shorts)</a>
-</div>
 
 ## AI 助手:不只是功能多
 

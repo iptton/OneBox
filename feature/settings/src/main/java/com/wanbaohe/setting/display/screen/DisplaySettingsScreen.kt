@@ -696,7 +696,7 @@ private fun FontFamilySettingSection(settingsComponent: SettingsComponent) {
         Text(
             text = stringResource(R.string.edit),
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             modifier = Modifier.clickable { showFontSheet.value = true }
         )
     }

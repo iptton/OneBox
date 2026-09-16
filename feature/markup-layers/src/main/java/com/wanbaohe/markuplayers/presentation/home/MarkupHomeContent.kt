@@ -187,7 +187,7 @@ private fun ImportCard(
     onImportClick: () -> Unit,
     entries: @Composable () -> Unit,
 ) {
-    val dashColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+    val dashColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.5f)
     val cornerRadius = 24.dp
     // 玻璃卡片打底;虚线描边由内层 drawBehind 叠加(绘制在玻璃背景之后,不被盖住),
     // 保留设计稿「虚线导入框」语义
@@ -220,7 +220,7 @@ private fun ImportCard(
             Icon(
                 imageVector = Icons.Outlined.Image,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(56.dp)
             )
             Spacer(Modifier.height(16.dp))
