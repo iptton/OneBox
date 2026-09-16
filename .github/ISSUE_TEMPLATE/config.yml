@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question, idea, or show & tell
+    url: https://github.com/wangzhishou/OneBox/discussions
+    about: For anything that is not a concrete bug or a feature request.
+  - name: Security problem
+    url: https://github.com/wangzhishou/OneBox/security/advisories/new
+    about: Report it privately. Please do not open a public issue for security problems.
+  - name: Contributing guide
+    url: https://github.com/wangzhishou/OneBox/blob/main/CONTRIBUTING.md
+    about: Build setup, conventions, and what will not be merged.
