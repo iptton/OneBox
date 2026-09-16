@@ -23,13 +23,7 @@
     <td><img src=".github/readme/en/01.webp" width="180" alt="Tools" /></td>
     <td><img src=".github/readme/en/02.webp" width="180" alt="AI Assistant" /></td>
     <td><img src=".github/readme/en/03.webp" width="180" alt="Privacy" /></td>
-    <td><img src=".github/readme/en/04.webp" width="180" alt="Decision Turnboard" /></td>
-  </tr>
-  <tr>
-    <td><img src=".github/readme/en/05.webp" width="180" alt="Markdown Editor" /></td>
-    <td><img src=".github/readme/en/06.webp" width="180" alt="Peace & Joy" /></td>
-    <td><img src=".github/readme/en/07.webp" width="180" alt="Speed Test" /></td>
-    <td><img src=".github/readme/en/08.webp" width="180" alt="To-Do List" /></td>
+    <td><a href="https://youtube.com/shorts/dD9qCHK-hP4"><img src=".github/readme/intro-en.jpg" width="180" alt="Intro video (YouTube Shorts)" /></a></td>
   </tr>
 </table>
 
@@ -37,16 +31,6 @@
 
 - **International**: [Google Play](https://play.google.com/store/apps/details?id=com.shifenmiao.app) · [Official site](https://www.oneboxable.com)
 - **中国**: [万宝盒官网](https://www.wanbaohe.com) · 小米 / 应用宝 / OPPO / vivo / 华为应用商店搜索「万宝盒」
-
-## Intro Video
-
-<div align="center">
-  <a href="https://youtube.com/shorts/dD9qCHK-hP4">
-    <img src=".github/readme/intro-en.jpg" width="220" alt="OneBox intro video" />
-  </a>
-  <br/>
-  ▶ <a href="https://youtube.com/shorts/dD9qCHK-hP4">Watch the intro (YouTube Shorts)</a>
-</div>
 
 ## AI Assistant: More Than Just Feature Count
 
@@ -243,3 +227,40 @@ Start with [CONTRIBUTING.md](CONTRIBUTING.md). No keystores, API keys or backend
 ## License
 
 Apache-2.0, see `LICENSE`. Upstream ImageToolbox code (T8RIN, Apache-2.0) keeps its original copyright notices in the files it appears in — see the note at the top of this README.
+
+## Feature Gallery
+
+One box, everything AI. Fully open source, free to use, and your data stays on-device — 18 cards to see what OneBox can do:
+
+<table>
+  <tr>
+    <td><img src=".github/readme/cards/en/01.webp" width="240" alt="AI bookkeeping" /></td>
+    <td><img src=".github/readme/cards/en/02.webp" width="240" alt="Item tracker with dedupe" /></td>
+    <td><img src=".github/readme/cards/en/03.webp" width="240" alt="Period tracker" /></td>
+  </tr>
+  <tr>
+    <td><img src=".github/readme/cards/en/04.webp" width="240" alt="Health records" /></td>
+    <td><img src=".github/readme/cards/en/05.webp" width="240" alt="Habit tracker" /></td>
+    <td><img src=".github/readme/cards/en/06.webp" width="240" alt="Teleprompter" /></td>
+  </tr>
+  <tr>
+    <td><img src=".github/readme/cards/en/07.webp" width="240" alt="Notes" /></td>
+    <td><img src=".github/readme/cards/en/08.webp" width="240" alt="AI activity log" /></td>
+    <td><img src=".github/readme/cards/en/09.webp" width="240" alt="Search and format conversion" /></td>
+  </tr>
+  <tr>
+    <td><img src=".github/readme/cards/en/10.webp" width="240" alt="Customize your home" /></td>
+    <td><img src=".github/readme/cards/en/11.webp" width="240" alt="Picture-in-picture agent" /></td>
+    <td><img src=".github/readme/cards/en/12.webp" width="240" alt="Permission before execution" /></td>
+  </tr>
+  <tr>
+    <td><img src=".github/readme/cards/en/13.webp" width="240" alt="Life tools" /></td>
+    <td><img src=".github/readme/cards/en/14.webp" width="240" alt="Scrolling marquee" /></td>
+    <td><img src=".github/readme/cards/en/15.webp" width="240" alt="Mini games" /></td>
+  </tr>
+  <tr>
+    <td><img src=".github/readme/cards/en/16.webp" width="240" alt="Dev tools" /></td>
+    <td><img src=".github/readme/cards/en/17.webp" width="240" alt="Handy tools" /></td>
+    <td><img src=".github/readme/cards/en/18.webp" width="240" alt="Agents, prompts and sites" /></td>
+  </tr>
+</table>
